@@ -1,0 +1,126 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Nethermind.Core
+    #1 Path: D:\a\1\s\src\Nethermind\Nethermind.Core\Extensions\TypeExtensions.cs, Line: 26, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Nethermind.HashLib
+    #2 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 11, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #3 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #4 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #5 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #6 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #7 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #8 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #9 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #10 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #11 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #12 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #13 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #14 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 31, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #15 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Extensions\Converters.cs, Line: 7, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #16 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 11, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #17 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 11, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #18 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 267, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #19 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #20 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #21 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #22 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #23 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #24 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #25 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #26 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #27 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #28 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #29 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #30 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #31 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #32 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #33 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #34 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #35 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #36 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #37 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #38 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #39 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #40 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #41 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #42 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #43 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 7, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #44 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 7, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #45 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\Hash.cs, Line: 70, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #46 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\HashBuffer.cs, Line: 169, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\HashFactory.cs, Line: 166, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #48 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\HMACBuildInAdapter.cs, Line: 92, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #49 Path: D:\a\1\s\src\Nethermind\Nethermind.HashLib\HMACNotBuildInAdapter.cs, Line: 108, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Nethermind.Network
+    #50 Path: D:\a\1\s\src\Nethermind\Nethermind.Network\P2P\Session.cs, Line: 198, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Nethermind.Network.Test
+    #51 Path: D:\a\1\s\src\Nethermind\Nethermind.Network.Test\Discovery\NodeLifecycleManagerTests.cs, Line: 184, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #52 Path: D:\a\1\s\src\Nethermind\Nethermind.Network.Test\Discovery\NodeLifecycleManagerTests.cs, Line: 185, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #53 Path: D:\a\1\s\src\Nethermind\Nethermind.Network.Test\Discovery\NodeLifecycleManagerTests.cs, Line: 186, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #54 Path: D:\a\1\s\src\Nethermind\Nethermind.Network.Test\Discovery\NodeLifecycleManagerTests.cs, Line: 213, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #55 Path: D:\a\1\s\src\Nethermind\Nethermind.Network.Test\Discovery\NodeLifecycleManagerTests.cs, Line: 273, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: Nethermind.KeyStore.Test
+    #56 Path: D:\a\1\s\src\Nethermind\Nethermind.KeyStore.Test\KeyStoreTests.cs, Line: 162, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Nethermind.PubSub.Kafka
+    #57 Path: D:\a\1\s\src\Nethermind\Nethermind.PubSub.Kafka\Avro\AvroTypeProducer.cs, Line: 100, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #58 Path: D:\a\1\s\src\Nethermind\Nethermind.PubSub.Kafka\Avro\AvroTypeProducer.cs, Line: 92, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Nethermind.Grpc
+    #59 Path: D:\a\1\s\src\Nethermind\Nethermind.Grpc\Nethermind.cs, Line: 148, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #60 Path: D:\a\1\s\src\Nethermind\Nethermind.Grpc\Nethermind.cs, Line: 301, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #61 Path: D:\a\1\s\src\Nethermind\Nethermind.Grpc\Nethermind.cs, Line: 454, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #62 Path: D:\a\1\s\src\Nethermind\Nethermind.Grpc\Nethermind.cs, Line: 607, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Nethermind.Runner.Test
+    #63 Path: D:\a\1\s\src\Nethermind\Nethermind.Runner.Test\ConfigFilesTests.cs, Line: 138, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Nethermind.Trie
+    #64 Path: D:\a\1\s\src\Nethermind\Nethermind.Trie\TrieNode.Visitor.cs, Line: 140, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Nethermind.Synchronization
+    #65 Path: D:\a\1\s\src\Nethermind\Nethermind.Synchronization\FastSync\StateSyncFeed.cs, Line: 222, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+--- Rules Summary ---
+R5: 46
+R6: 5
+R7: 5
+R8: 4
+R9: 3
+R4: 2
+
+--- Summary ---
+Fixed ReSharper issues: 65
+Fixed SonarQube issues: 53
+Total fixed issues: 65
+
+Finished in: 32 s
+
+No errors reported.
+

@@ -1,0 +1,239 @@
+diff --git a/Src/Newtonsoft.Json.Tests/Issues/Issue1576.cs b/Src/Newtonsoft.Json.Tests/Issues/Issue1576.cs
+index 3c7b48cc..7a0fc317 100644
+--- a/Src/Newtonsoft.Json.Tests/Issues/Issue1576.cs
++++ b/Src/Newtonsoft.Json.Tests/Issues/Issue1576.cs
+@@ -114,10 +114,7 @@ public override object ReadJson(JsonReader reader, Type objectType, object exist
+                 var array = new JArray();
+                 array.Add(token);
+ 
+-                var list = array.ToObject(objectType, serializer) as IEnumerable;
+-                var existing = existingValue as IList;
+-
+-                if (list != null && existing != null)
++                if (array.ToObject(objectType, serializer) is IEnumerable list && existingValue is IList existing)
+                 {
+                     foreach (var item in list)
+                     {
+diff --git a/Src/Newtonsoft.Json.Tests/Serialization/SerializationEventAttributeTests.cs b/Src/Newtonsoft.Json.Tests/Serialization/SerializationEventAttributeTests.cs
+index b0ffd712..e6dbc8d3 100644
+--- a/Src/Newtonsoft.Json.Tests/Serialization/SerializationEventAttributeTests.cs
++++ b/Src/Newtonsoft.Json.Tests/Serialization/SerializationEventAttributeTests.cs
+@@ -79,7 +79,7 @@ public void ObjectEvents()
+                 Assert.AreEqual("This is a nonserialized value", obj.Member3);
+                 Assert.AreEqual(null, obj.Member4);
+ 
+-                string expectedError = String.Format("Error message for member Member6 = Error getting value from 'Member6' on '{0}'.", obj.GetType().FullName);
++                string expectedError = $"Error message for member Member6 = Error getting value from 'Member6' on '{obj.GetType().FullName}'.";
+                 Assert.AreEqual(expectedError, obj.Member5);
+ 
+                 JObject o = JObject.Parse(@"{
+@@ -96,11 +96,10 @@ public void ObjectEvents()
+                 Assert.AreEqual("This value was set during deserialization", obj.Member3);
+                 Assert.AreEqual("This value was set after deserialization.", obj.Member4);
+ 
+-                expectedError = String.Format("Error message for member Member6 = Error setting value to 'Member6' on '{0}'.", obj.GetType());
++                expectedError = $"Error message for member Member6 = Error setting value to 'Member6' on '{obj.GetType()}'.";
+                 Assert.AreEqual(expectedError, obj.Member5);
+ 
+-                DerivedSerializationEventTestObject derivedObj = obj as DerivedSerializationEventTestObject;
+-                if (derivedObj != null)
++                if (obj is DerivedSerializationEventTestObject derivedObj)
+                 {
+                     Assert.AreEqual("This value was set after deserialization.", derivedObj.Member7);
+                 }
+diff --git a/Src/Newtonsoft.Json.Tests/Serialization/TypeNameHandlingTests.cs b/Src/Newtonsoft.Json.Tests/Serialization/TypeNameHandlingTests.cs
+index 2b65d0aa..8d3ca0bf 100644
+--- a/Src/Newtonsoft.Json.Tests/Serialization/TypeNameHandlingTests.cs
++++ b/Src/Newtonsoft.Json.Tests/Serialization/TypeNameHandlingTests.cs
+@@ -2437,9 +2437,9 @@ public override bool Equals(object obj)
+             {
+                 return true;
+             }
+-            if (obj is IExample)
++            if (obj is IExample iExample)
+             {
+-                return Name.Equals(((IExample)obj).Name);
++                return Name.Equals(iExample.Name);
+             }
+             else
+             {
+diff --git a/Src/Newtonsoft.Json.Tests/TestObjects/NameContainerConverter.cs b/Src/Newtonsoft.Json.Tests/TestObjects/NameContainerConverter.cs
+index 4c20b9c8..99aeee54 100644
+--- a/Src/Newtonsoft.Json.Tests/TestObjects/NameContainerConverter.cs
++++ b/Src/Newtonsoft.Json.Tests/TestObjects/NameContainerConverter.cs
+@@ -31,9 +31,7 @@ public class NameContainerConverter : JsonConverter
+     {
+         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+         {
+-            NameContainer nameContainer = value as NameContainer;
+-
+-            if (nameContainer != null)
++            if (value is NameContainer nameContainer)
+             {
+                 writer.WriteValue(nameContainer.Value);
+             }
+diff --git a/Src/Newtonsoft.Json.Tests/TestObjects/PosConverter.cs b/Src/Newtonsoft.Json.Tests/TestObjects/PosConverter.cs
+index 92e4022c..0182dde3 100644
+--- a/Src/Newtonsoft.Json.Tests/TestObjects/PosConverter.cs
++++ b/Src/Newtonsoft.Json.Tests/TestObjects/PosConverter.cs
+@@ -35,7 +35,7 @@ public override void WriteJson(JsonWriter writer, object value, JsonSerializer s
+ 
+             if (p != null)
+             {
+-                writer.WriteRawValue(String.Format("new Pos({0},{1})", p.X, p.Y));
++                writer.WriteRawValue($"new Pos({p.X},{p.Y})");
+             }
+             else
+             {
+diff --git a/Src/Newtonsoft.Json.Tests/TestObjects/Product.cs b/Src/Newtonsoft.Json.Tests/TestObjects/Product.cs
+index 3e6a382d..e5d8bff2 100644
+--- a/Src/Newtonsoft.Json.Tests/TestObjects/Product.cs
++++ b/Src/Newtonsoft.Json.Tests/TestObjects/Product.cs
+@@ -36,10 +36,8 @@ public class Product
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is Product)
++            if (obj is Product p)
+             {
+-                Product p = (Product)obj;
+-
+                 return (p.Name == Name && p.ExpiryDate == ExpiryDate && p.Price == Price);
+             }
+ 
+diff --git a/Src/Newtonsoft.Json.Tests/TestObjects/TypeConverterSizeConverter.cs b/Src/Newtonsoft.Json.Tests/TestObjects/TypeConverterSizeConverter.cs
+index 8ace5da7..198ebdee 100644
+--- a/Src/Newtonsoft.Json.Tests/TestObjects/TypeConverterSizeConverter.cs
++++ b/Src/Newtonsoft.Json.Tests/TestObjects/TypeConverterSizeConverter.cs
+@@ -78,11 +78,10 @@ public override object ConvertTo(ITypeDescriptorContext context, CultureInfo cul
+             {
+                 throw new ArgumentNullException("destinationType");
+             }
+-            if (value is TypeConverterSize)
++            if (value is TypeConverterSize size)
+             {
+                 if (destinationType == typeof(string))
+                 {
+-                    TypeConverterSize size = (TypeConverterSize)value;
+                     if (culture == null)
+                     {
+                         culture = CultureInfo.CurrentCulture;
+diff --git a/Src/Newtonsoft.Json.sln.DotSettings b/Src/Newtonsoft.Json.sln.DotSettings
+index 72cfc364..6c5e8228 100644
+--- a/Src/Newtonsoft.Json.sln.DotSettings
++++ b/Src/Newtonsoft.Json.sln.DotSettings
+@@ -15,6 +15,7 @@
+ 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpKeepExistingMigration/@EntryIndexedValue">True</s:Boolean>
+ 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpPlaceEmbeddedOnSameLineMigration/@EntryIndexedValue">True</s:Boolean>
+ 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpRenamePlacementToArrangementMigration/@EntryIndexedValue">True</s:Boolean>
++	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpUseContinuousIndentInsideBracesMigration/@EntryIndexedValue">True</s:Boolean>
+ 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ESettingsUpgrade_002EAddAccessorOwnerDeclarationBracesMigration/@EntryIndexedValue">True</s:Boolean>
+ 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ESettingsUpgrade_002ECSharpPlaceAttributeOnSameLineMigration/@EntryIndexedValue">True</s:Boolean>
+ 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ESettingsUpgrade_002EMigrateBlankLinesAroundFieldToBlankLinesAroundProperty/@EntryIndexedValue">True</s:Boolean>
+diff --git a/Src/Newtonsoft.Json/Utilities/LinqBridge.cs b/Src/Newtonsoft.Json/Utilities/LinqBridge.cs
+index e1dba08a..9ae39011 100644
+--- a/Src/Newtonsoft.Json/Utilities/LinqBridge.cs
++++ b/Src/Newtonsoft.Json/Utilities/LinqBridge.cs
+@@ -74,8 +74,7 @@ public static IEnumerable<TResult> Empty<TResult>()
+     {
+       CheckNotNull(source, "source");
+ 
+-        var servesItself = source as IEnumerable<TResult>;
+-        if (servesItself != null
++        if (source is IEnumerable<TResult> servesItself
+             && (!(servesItself is TResult[]) || servesItself.GetType().GetElementType() == typeof(TResult)))
+         {
+             return servesItself;
+@@ -379,8 +378,8 @@ private static class Futures<T>
+       CheckNotNull(source, "source");
+       MiscellaneousUtils.Assert(empty != null);
+ 
+-      var list = source as IList<TSource>; // optimized case for lists
+-      if (list != null)
++ // optimized case for lists
++      if (source is IList<TSource> list)
+         return list.Count > 0 ? list[0] : empty();
+ 
+       using (var e = source.GetEnumerator()) // fallback for enumeration
+@@ -441,8 +440,8 @@ private static class Futures<T>
+     {
+       CheckNotNull(source, "source");
+ 
+-      var list = source as IList<TSource>; // optimized case for lists
+-      if (list != null)
++ // optimized case for lists
++      if (source is IList<TSource> list)
+         return list.Count > 0 ? list[list.Count - 1] : empty();
+ 
+       using (var e = source.GetEnumerator())
+@@ -590,8 +589,7 @@ private static class Futures<T>
+       if (index < 0)
+         throw new ArgumentOutOfRangeException("index", index, null);
+ 
+-      var list = source as IList<TSource>;
+-      if (list != null)
++      if (source is IList<TSource> list)
+         return list[index];
+ 
+       try
+@@ -618,8 +616,7 @@ private static class Futures<T>
+       if (index < 0)
+         return default(TSource);
+ 
+-      var list = source as IList<TSource>;
+-      if (list != null)
++      if (source is IList<TSource> list)
+         return index < list.Count ? list[index] : default(TSource);
+ 
+       return source.SkipWhile((item, i) => i < index).FirstOrDefault();
+@@ -730,8 +727,7 @@ private static IEnumerable<TSource> ReverseYield<TSource>(IEnumerable<TSource> s
+     {
+       CheckNotNull(source, "source");
+ 
+-      var collection = source as ICollection;
+-      if (collection != null)
++      if (source is ICollection collection)
+       {
+         return collection.Count;
+       }
+@@ -769,9 +765,7 @@ private static IEnumerable<TSource> ReverseYield<TSource>(IEnumerable<TSource> s
+       this IEnumerable<TSource> source)
+     {
+       CheckNotNull(source, "source");
+-
+-      var array = source as Array;
+-      return array != null
++      return source is Array array
+                ? array.LongLength
+                : source.Aggregate(0L, (count, item) => count + 1);
+     }
+@@ -832,8 +826,7 @@ private static IEnumerable<TSource> ReverseYield<TSource>(IEnumerable<TSource> s
+       public static TSource[] ToArray<TSource>(
+         this IEnumerable<TSource> source)
+       {
+-          IList<TSource> ilist = source as IList<TSource>;
+-          if (ilist != null)
++          if (source is IList<TSource> ilist)
+           {
+               TSource[] array = new TSource[ilist.Count];
+               ilist.CopyTo(array, 0);
+@@ -1303,8 +1296,7 @@ private static IEnumerable<TSource> ReverseYield<TSource>(IEnumerable<TSource> s
+ 
+       if (comparer == null)
+       {
+-        var collection = source as ICollection<TSource>;
+-        if (collection != null)
++        if (source is ICollection<TSource> collection)
+           return collection.Contains(value);
+       }
+ 
+@@ -3007,8 +2999,7 @@ public Tuple(TFirst first, TSecond second)
+ 
+     public override bool Equals(object obj)
+     {
+-      return obj != null
+-             && obj is Tuple<TFirst, TSecond>
++      return obj is Tuple<TFirst, TSecond>
+              && base.Equals((Tuple<TFirst, TSecond>) obj);
+     }
+ 

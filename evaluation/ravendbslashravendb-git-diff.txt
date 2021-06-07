@@ -1,0 +1,2685 @@
+diff --git a/bench/Indexing.Benchmark/ProgressBar.cs b/bench/Indexing.Benchmark/ProgressBar.cs
+index ab502a8c37..66be46a6ae 100644
+--- a/bench/Indexing.Benchmark/ProgressBar.cs
++++ b/bench/Indexing.Benchmark/ProgressBar.cs
+@@ -48,10 +48,7 @@ private void TimerHandler(object state)
+ 
+                 int progressBlockCount = (int)(currentProgress * blockCount);
+                 int percent = (int)(currentProgress * 100);
+-                string text = string.Format("[{0}{1}] {2,3}% {3}",
+-                    new string('#', progressBlockCount), new string('-', blockCount - progressBlockCount),
+-                    percent,
+-                    animation[animationIndex++ % animation.Length]);
++                string text = $"[{new string ('#', progressBlockCount)}{new string ('-', blockCount - progressBlockCount)}] {percent, 3}% {animation[animationIndex++ % animation.Length]}";
+                 UpdateText(text);
+ 
+                 ResetTimer();
+diff --git a/src/Raven.Client/Documents/Conventions/DocumentConventions.cs b/src/Raven.Client/Documents/Conventions/DocumentConventions.cs
+index fa04116e78..ffb1f57131 100644
+--- a/src/Raven.Client/Documents/Conventions/DocumentConventions.cs
++++ b/src/Raven.Client/Documents/Conventions/DocumentConventions.cs
+@@ -1171,12 +1171,10 @@ internal LinqPathProvider.Result TranslateCustomQueryExpression(LinqPathProvider
+ 
+         private static MemberInfo GetMemberInfoFromExpression(Expression expression)
+         {
+-            var callExpression = expression as MethodCallExpression;
+-            if (callExpression != null)
++            if (expression is MethodCallExpression callExpression)
+                 return callExpression.Method;
+ 
+-            var memberExpression = expression as MemberExpression;
+-            if (memberExpression != null)
++            if (expression is MemberExpression memberExpression)
+                 return memberExpression.Member;
+ 
+             throw new NotSupportedException("A custom query translator can only be used to evaluate a simple member access or method call.");
+diff --git a/src/Raven.Client/Documents/Indexes/ExpressionStringBuilder.cs b/src/Raven.Client/Documents/Indexes/ExpressionStringBuilder.cs
+index 4d2b93a88a..7587d78a95 100644
+--- a/src/Raven.Client/Documents/Indexes/ExpressionStringBuilder.cs
++++ b/src/Raven.Client/Documents/Indexes/ExpressionStringBuilder.cs
+@@ -313,8 +313,7 @@ private string GetPropertyName(string name, Type exprType)
+ 
+         private static Type GetMemberType(MemberInfo member)
+         {
+-            var prop = member as PropertyInfo;
+-            if (prop != null)
++            if (member is PropertyInfo prop)
+                 return prop.PropertyType;
+             return ((FieldInfo)member).FieldType;
+         }
+@@ -1330,8 +1329,8 @@ protected override MemberAssignment VisitMemberAssignment(MemberAssignment assig
+         {
+             Out(assignment.Member.Name);
+             Out(" = ");
+-            var constantExpression = assignment.Expression as ConstantExpression;
+-            if (constantExpression != null && constantExpression.Value == null)
++
++            if (assignment.Expression is ConstantExpression constantExpression && constantExpression.Value == null)
+             {
+                 var memberType = GetMemberType(assignment.Member);
+                 if (_insideWellKnownType || ShouldConvert(memberType))
+@@ -1453,11 +1452,9 @@ protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBind
+         /// </returns>
+         protected override Expression VisitMethodCall(MethodCallExpression node)
+         {
+-            var constantExpression = node.Object as ConstantExpression;
+-            if (constantExpression != null && node.Type == typeof(Delegate))
++            if (node.Object is ConstantExpression constantExpression && node.Type == typeof(Delegate))
+             {
+-                var methodInfo = constantExpression.Value as MethodInfo;
+-                if (methodInfo != null && methodInfo.DeclaringType == typeof(AbstractCommonApiForIndexes))// a delegate call
++                if (constantExpression.Value is MethodInfo methodInfo && methodInfo.DeclaringType == typeof(AbstractCommonApiForIndexes))// a delegate call
+                 {
+                     Out("((Func<");
+                     for (int i = 0; i < methodInfo.GetParameters().Length; i++)
+diff --git a/src/Raven.Client/Documents/Linq/LinqPathProvider.cs b/src/Raven.Client/Documents/Linq/LinqPathProvider.cs
+index aa19552df0..6d6190df51 100644
+--- a/src/Raven.Client/Documents/Linq/LinqPathProvider.cs
++++ b/src/Raven.Client/Documents/Linq/LinqPathProvider.cs
+@@ -462,9 +462,8 @@ private static object GetMemberValue(MemberExpression memberExpression)
+             }
+             // Get value
+             var memberInfo = memberExpression.Member;
+-            if (memberInfo is PropertyInfo)
++            if (memberInfo is PropertyInfo property)
+             {
+-                var property = (PropertyInfo)memberInfo;
+                 return property.GetValue(obj, null);
+             }
+             if (memberInfo is FieldInfo)
+diff --git a/src/Raven.Client/Documents/Linq/RavenQueryProviderProcessor.cs b/src/Raven.Client/Documents/Linq/RavenQueryProviderProcessor.cs
+index 64bc7ee7b0..f7ca7d7b36 100644
+--- a/src/Raven.Client/Documents/Linq/RavenQueryProviderProcessor.cs
++++ b/src/Raven.Client/Documents/Linq/RavenQueryProviderProcessor.cs
+@@ -155,9 +155,9 @@ internal class RavenQueryProviderProcessor<T>
+         /// <param name="expression">The expression.</param>
+         protected void VisitExpression(Expression expression)
+         {
+-            if (expression is BinaryExpression)
++            if (expression is BinaryExpression binaryExpression)
+             {
+-                VisitBinaryExpression((BinaryExpression)expression);
++                VisitBinaryExpression(binaryExpression);
+             }
+             else
+             {
+@@ -200,9 +200,9 @@ protected void VisitExpression(Expression expression)
+                         VisitExpression(((UnaryExpression)expression).Operand);
+                         break;
+                     default:
+-                        if (expression is MethodCallExpression)
++                        if (expression is MethodCallExpression methodCallExpression)
+                         {
+-                            VisitMethodCall((MethodCallExpression)expression);
++                            VisitMethodCall(methodCallExpression);
+                         }
+                         else if (expression is LambdaExpression lambdaExpression)
+                         {
+@@ -427,14 +427,13 @@ private void VisitOrElse(BinaryExpression orElse)
+ 
+         private void VisitEquals(BinaryExpression expression)
+         {
+-            var constantExpression = expression.Right as ConstantExpression;
+-            if (constantExpression != null && true.Equals(constantExpression.Value))
++            if (expression.Right is ConstantExpression constantExpression && true.Equals(constantExpression.Value))
+             {
+                 VisitExpression(expression.Left);
+                 return;
+             }
+ 
+-            if (constantExpression != null && false.Equals(constantExpression.Value) &&
++            if (expression.Right is ConstantExpression constantExpression && false.Equals(constantExpression.Value) &&
+                 expression.Left.NodeType != ExpressionType.MemberAccess)
+             {
+                 DocumentQuery.OpenSubclause();
+@@ -451,10 +450,8 @@ private void VisitEquals(BinaryExpression expression)
+                 DocumentQuery.CloseSubclause();
+                 return;
+             }
+-
+-            var methodCallExpression = expression.Left as MethodCallExpression;
+             // checking for VB.NET string equality
+-            if (methodCallExpression != null && methodCallExpression.Method.Name == "CompareString" &&
++            if (expression.Left is MethodCallExpression methodCallExpression && methodCallExpression.Method.Name == "CompareString" &&
+                 expression.Right.NodeType == ExpressionType.Constant &&
+                 Equals(((ConstantExpression)expression.Right).Value, 0))
+             {
+@@ -508,9 +505,8 @@ private bool IsMemberAccessForQuerySource(Expression node)
+ 
+         private void VisitNotEquals(BinaryExpression expression)
+         {
+-            var methodCallExpression = expression.Left as MethodCallExpression;
+             // checking for VB.NET string equality
+-            if (methodCallExpression != null && methodCallExpression.Method.Name == "CompareString" &&
++            if (expression.Left is MethodCallExpression methodCallExpression && methodCallExpression.Method.Name == "CompareString" &&
+                 expression.Right.NodeType == ExpressionType.Constant &&
+                 Equals(((ConstantExpression)expression.Right).Value, 0))
+             {
+@@ -642,8 +638,7 @@ private string AddAliasToPathIfNeeded(string alias, string prop)
+ 
+         private static ParameterExpression GetParameterExpressionIncludingConversions(Expression expression)
+         {
+-            var paramExpr = expression as ParameterExpression;
+-            if (paramExpr != null)
++            if (expression is ParameterExpression paramExpr)
+                 return paramExpr;
+             switch (expression.NodeType)
+             {
+@@ -1263,14 +1258,14 @@ private void VisitMethodCall(MethodCallExpression expression)
+             }
+ 
+             var method = declaringType.Name + "." + expression.Method.Name;
+-            throw new NotSupportedException(string.Format("Method not supported: {0}. Expression: {1}.", method, expression));
++            throw new NotSupportedException($"Method not supported: {method}. Expression: {expression}.");
+         }
+ 
+         private void VisitRegexMethodCall(MethodCallExpression expression)
+         {
+             if (expression.Method.Name != "IsMatch")
+             {
+-                throw new NotSupportedException(string.Format("Method not supported: Regex.{0}. Expression: {1}.", expression.Method.Name, expression));
++                throw new NotSupportedException($"Method not supported: Regex.{expression.Method.Name}. Expression: {expression}.");
+             }
+ 
+             if (expression.Arguments.Count != 2)
+@@ -1458,10 +1453,9 @@ private void VisitOrderByDistance(ReadOnlyCollection<Expression> arguments, bool
+             LinqPathProvider.GetValueFromExpressionWithoutConversion(arguments[1], out var distanceFieldName);
+             LinqPathProvider.GetValueFromExpressionWithoutConversion(arguments[2], out var sndArgObj);
+ 
+-            if (sndArgObj is double) // can only be lat here
++            if (sndArgObj is double distanceLatitude) // can only be lat here
+             {
+                 // lat / lng
+-                var distanceLatitude = (double)sndArgObj;
+                 LinqPathProvider.GetValueFromExpressionWithoutConversion(arguments[3], out var distanceLongitude);
+ 
+                 if (distanceFieldName is string fieldName)
+@@ -3206,12 +3200,10 @@ private void AddMapReduceField(MethodCallExpression mapReduceOperationCall, Memb
+                 if (lambdaExpression == null)
+                     throw new NotSupportedException("Expected lambda expression in Select statement of a dynamic map-reduce query");
+ 
+-                var member = lambdaExpression.Body as MemberExpression;
+-
+                 if (member == null)
+                     member = elementSelectorPath as MemberExpression;
+ 
+-                if (member != null)
++                if (lambdaExpression.Body is MemberExpression member)
+                 {
+                     mapReduceField = GetSelectPath(member);
+                 }
+diff --git a/src/Raven.Client/Documents/Session/AbstractDocumentQuery.cs b/src/Raven.Client/Documents/Session/AbstractDocumentQuery.cs
+index 673ea18db5..1f6f4cacb3 100644
+--- a/src/Raven.Client/Documents/Session/AbstractDocumentQuery.cs
++++ b/src/Raven.Client/Documents/Session/AbstractDocumentQuery.cs
+@@ -1167,7 +1167,7 @@ private string ToString(bool compatibilityMode)
+                 return QueryRaw;
+ 
+             if (_currentClauseDepth != 0)
+-                throw new InvalidOperationException(string.Format("A clause was not closed correctly within this query, current clause depth = {0}", _currentClauseDepth));
++                throw new InvalidOperationException($"A clause was not closed correctly within this query, current clause depth = {_currentClauseDepth}");
+ 
+             var queryText = new StringBuilder();
+ 
+@@ -1558,8 +1558,7 @@ private IEnumerable<object> TransformEnumerable(string fieldName, IEnumerable<ob
+         {
+             foreach (var value in values)
+             {
+-                var enumerable = value as IEnumerable;
+-                if (enumerable != null && value is string == false)
++                if (value is IEnumerable enumerable && value is string == false)
+                 {
+                     foreach (var transformedValue in TransformEnumerable(fieldName, enumerable.Cast<object>()))
+                         yield return transformedValue;
+@@ -1602,8 +1601,7 @@ private static IEnumerable<object> UnpackEnumerable(IEnumerable items)
+         {
+             foreach (var item in items)
+             {
+-                var enumerable = item as IEnumerable;
+-                if (enumerable != null && item is string == false)
++                if (item is IEnumerable enumerable && item is string == false)
+                 {
+                     foreach (var nested in UnpackEnumerable(enumerable))
+                     {
+diff --git a/src/Raven.Client/Documents/Session/IncludesUtil.cs b/src/Raven.Client/Documents/Session/IncludesUtil.cs
+index 09705b97aa..ca5f9dc51b 100644
+--- a/src/Raven.Client/Documents/Session/IncludesUtil.cs
++++ b/src/Raven.Client/Documents/Session/IncludesUtil.cs
+@@ -93,10 +93,8 @@ private static void ExecuteInternal(object token, string addition, Action<string
+                     ExecuteInternal(i, addition, loadId);
+                 }
+             }
+-            else if (token is string)
++            else if (token is string value)
+             {
+-                var value = (string)token;
+-
+                 // we need to check on both of them, with id & without id
+                 // because people will do products/1 and details/products/1 and want to be able
+                 // to include on that
+@@ -117,10 +115,8 @@ private static void ExecuteInternal(object token, string addition, Action<string
+                 if (addition != null)
+                     loadId(value, null);
+             }
+-            else if (token is long)
++            else if (token is long value)
+             {
+-                var value = (long)token;
+-
+                 try
+                 {
+                     loadId(value.ToString(CultureInfo.InvariantCulture), addition);
+diff --git a/src/Raven.Client/Documents/Subscriptions/SubscriptionWorker.cs b/src/Raven.Client/Documents/Subscriptions/SubscriptionWorker.cs
+index 20cdf5be97..8a384e5377 100644
+--- a/src/Raven.Client/Documents/Subscriptions/SubscriptionWorker.cs
++++ b/src/Raven.Client/Documents/Subscriptions/SubscriptionWorker.cs
+@@ -366,7 +366,7 @@ private void AssertConnectionState(SubscriptionConnectionServerMessage connectio
+                     var currentNode = connectionStatus.Data?[nameof(SubscriptionConnectionServerMessage.SubscriptionRedirectData.CurrentTag)]?.ToString();
+                     var rawReasons = connectionStatus.Data?[nameof(SubscriptionConnectionServerMessage.SubscriptionRedirectData.Reasons)];
+                     Dictionary<string, string> reasonsDictionary = new Dictionary<string, string>();
+-                    if (rawReasons != null && rawReasons is BlittableJsonReaderArray rawReasonsArray)
++                    if (rawReasons is BlittableJsonReaderArray rawReasonsArray)
+                     {
+                         foreach (var item in rawReasonsArray)
+                         {
+diff --git a/src/Raven.Client/Extensions/ExpressionExtensions.cs b/src/Raven.Client/Extensions/ExpressionExtensions.cs
+index afcc2f8180..b378d288df 100644
+--- a/src/Raven.Client/Extensions/ExpressionExtensions.cs
++++ b/src/Raven.Client/Extensions/ExpressionExtensions.cs
+@@ -48,8 +48,7 @@ public static MemberInfo ToProperty(this LambdaExpression expr)
+         {
+             var expression = expr.Body;
+ 
+-            var unaryExpression = expression as UnaryExpression;
+-            if (unaryExpression != null)
++            if (expression is UnaryExpression unaryExpression)
+             {
+                 switch (unaryExpression.NodeType)
+                 {
+diff --git a/src/Raven.Client/Extensions/ReflectionExtensions.cs b/src/Raven.Client/Extensions/ReflectionExtensions.cs
+index 00139a1c70..87a9ea8abb 100644
+--- a/src/Raven.Client/Extensions/ReflectionExtensions.cs
++++ b/src/Raven.Client/Extensions/ReflectionExtensions.cs
+@@ -15,12 +15,10 @@ internal static class ReflectionExtensions
+     {
+         public static Type GetMemberType(this MemberInfo member)
+         {
+-            var propertyInfo = member as PropertyInfo;
+-            if (propertyInfo != null)
++            if (member is PropertyInfo propertyInfo)
+                 return propertyInfo.PropertyType;
+ 
+-            var fieldInfo = member as FieldInfo;
+-            if (fieldInfo != null)
++            if (member is FieldInfo fieldInfo)
+                 return fieldInfo.FieldType;
+ 
+             throw new NotSupportedException(member.GetType().ToString());
+diff --git a/src/Raven.Client/Http/HttpCache.cs b/src/Raven.Client/Http/HttpCache.cs
+index c0cab511ba..b2d3a94fc3 100644
+--- a/src/Raven.Client/Http/HttpCache.cs
++++ b/src/Raven.Client/Http/HttpCache.cs
+@@ -310,10 +310,7 @@ public unsafe ReleaseCacheItem Get(JsonOperationContext context, string url, out
+ 
+                     obj = item.Ptr != null ? new BlittableJsonReaderObject(item.Ptr, item.Size, context) : null;
+ #if DEBUG
+-                    if (obj != null)
+-                    {
+-                        obj.BlittableValidation();
+-                    }
++                    obj?.BlittableValidation();
+ #endif
+                     if (Logger.IsInfoEnabled)
+                         Logger.Info($"Url returned from the cache with etag: {changeVector}. {url}.");
+diff --git a/src/Raven.Client/Json/BlittableOperation.cs b/src/Raven.Client/Json/BlittableOperation.cs
+index d1b8dba1a1..039e76ffdc 100644
+--- a/src/Raven.Client/Json/BlittableOperation.cs
++++ b/src/Raven.Client/Json/BlittableOperation.cs
+@@ -137,8 +137,7 @@ public static bool EntityChanged(BlittableJsonReaderObject newObj, DocumentInfo
+ 
+                         break;
+                     case BlittableJsonToken.StartObject:
+-                        if (oldProp.Value == null || 
+-                            !(oldProp.Value is BlittableJsonReaderObject oldObj))
++                        if (                            !(oldProp.Value is BlittableJsonReaderObject oldObj))
+                         {
+                             if (changes == null)
+                                 return true;
+diff --git a/src/Raven.Client/Json/BlittablePath.cs b/src/Raven.Client/Json/BlittablePath.cs
+index d41b60300f..ba10e3f969 100644
+--- a/src/Raven.Client/Json/BlittablePath.cs
++++ b/src/Raven.Client/Json/BlittablePath.cs
+@@ -41,10 +41,7 @@ public static string EscapeString(string str)
+                     sb.Append('\\');                    
+                 }
+ 
+-                if (sb != null)
+-                {
+-                    sb.Append(c);
+-                }
++                sb?.Append(c);
+             }
+ 
+             return sb == null ? str : sb.ToString();
+@@ -203,11 +200,9 @@ internal object Evaluate(BlittableJsonReaderBase root)
+ 
+             foreach (var part in Parts)
+             {
+-                var propertyName = part as string;
+-                if (propertyName != null)
++                if (part is string propertyName)
+                 {
+-                    var o = current as BlittableJsonReaderObject;
+-                    if (o != null)
++                    if (current is BlittableJsonReaderObject o)
+                     {
+                         if (o.TryGet(propertyName, out current) == false)
+                             current = null;
+@@ -217,8 +212,7 @@ internal object Evaluate(BlittableJsonReaderBase root)
+                     }
+                     else
+                     {
+-                        var array = current as BlittableJsonReaderArray;
+-                        if (array != null)
++                        if (current is BlittableJsonReaderArray array)
+                         {
+                             switch (propertyName)
+                             {
+@@ -241,10 +235,7 @@ internal object Evaluate(BlittableJsonReaderBase root)
+                 {
+                     var index = (int)part;
+ 
+-
+-                    var a = current as BlittableJsonReaderArray;
+-
+-                    if (a != null)
++                    if (current is BlittableJsonReaderArray a)
+                     {
+                         if (a.Length <= index)
+                         {
+diff --git a/src/Raven.Client/Json/Serialization/NewtonsoftJson/DefaultRavenContractResolver.cs b/src/Raven.Client/Json/Serialization/NewtonsoftJson/DefaultRavenContractResolver.cs
+index 4012c2b5b1..0edae261e8 100644
+--- a/src/Raven.Client/Json/Serialization/NewtonsoftJson/DefaultRavenContractResolver.cs
++++ b/src/Raven.Client/Json/Serialization/NewtonsoftJson/DefaultRavenContractResolver.cs
+@@ -193,8 +193,8 @@ private bool MembersToFilterOut(MemberInfo info, bool isRecord)
+         {
+             if (info is EventInfo)
+                 return true;
+-            var fieldInfo = info as FieldInfo;
+-            if (fieldInfo != null)
++
++            if (info is FieldInfo fieldInfo)
+             {
+                 if (fieldInfo.IsPublic == false)
+                     return true;
+@@ -218,8 +218,7 @@ private bool MembersToFilterOut(MemberInfo info, bool isRecord)
+                 }
+             }
+ 
+-            var propertyInfo = info as PropertyInfo;
+-            if (propertyInfo != null)
++            if (info is PropertyInfo propertyInfo)
+             {
+                 if (isRecord && propertyInfo.Name == Sparrow.Extensions.TypeExtensions.RecordEqualityContractPropertyName)
+                     return true;
+diff --git a/src/Raven.Client/Json/Serialization/NewtonsoftJson/Internal/Converters/JsonDictionaryDateTimeKeysConverter.cs b/src/Raven.Client/Json/Serialization/NewtonsoftJson/Internal/Converters/JsonDictionaryDateTimeKeysConverter.cs
+index 5226f611fe..2a949ce68e 100644
+--- a/src/Raven.Client/Json/Serialization/NewtonsoftJson/Internal/Converters/JsonDictionaryDateTimeKeysConverter.cs
++++ b/src/Raven.Client/Json/Serialization/NewtonsoftJson/Internal/Converters/JsonDictionaryDateTimeKeysConverter.cs
+@@ -37,16 +37,14 @@ public override void WriteJson(JsonWriter writer, object value, JsonSerializer s
+             foreach (var kvp in value)
+             {
+                 object key = kvp.Key;
+-                if (key is DateTime)
++                if (key is DateTime dateTime)
+                 {
+-                    var dateTime = (DateTime)key;
+                     if (dateTime.Kind == DateTimeKind.Unspecified)
+                         dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
+                     writer.WritePropertyName(dateTime.GetDefaultRavenFormat());
+                 }
+-                else if (key is DateTimeOffset)
++                else if (key is DateTimeOffset dateTimeOffset)
+                 {
+-                    var dateTimeOffset = (DateTimeOffset)key;
+                     writer.WritePropertyName(dateTimeOffset.Offset == TimeSpan.Zero
+                         ? dateTimeOffset.UtcDateTime.GetDefaultRavenFormat(true)
+                         : dateTimeOffset.ToString(DefaultFormat.DateTimeOffsetFormatsToWrite, CultureInfo.InvariantCulture));
+diff --git a/src/Raven.Server/Documents/BlittableMetadataModifier.cs b/src/Raven.Server/Documents/BlittableMetadataModifier.cs
+index c0c991d969..8c7580c1b5 100644
+--- a/src/Raven.Server/Documents/BlittableMetadataModifier.cs
++++ b/src/Raven.Server/Documents/BlittableMetadataModifier.cs
+@@ -151,10 +151,10 @@ public void EndObject()
+         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+         public bool AboutToReadPropertyName(IJsonParser reader, JsonParserState state)
+         {
+-            if (reader is UnmanagedJsonParser)
+-                return AboutToReadPropertyNameInternal((UnmanagedJsonParser)reader, state);
+-            if (reader is ObjectJsonParser)
+-                return AboutToReadPropertyNameInternal((ObjectJsonParser)reader, state);
++            if (reader is UnmanagedJsonParser unmanagedJsonParser)
++                return AboutToReadPropertyNameInternal(unmanagedJsonParser, state);
++            if (reader is ObjectJsonParser objectJsonParser)
++                return AboutToReadPropertyNameInternal(objectJsonParser, state);
+ 
+             return AboutToReadPropertyNameInternal(reader, state);
+         }
+diff --git a/src/Raven.Server/Documents/Indexes/Debugging/IndexDebugExtensions.cs b/src/Raven.Server/Documents/Indexes/Debugging/IndexDebugExtensions.cs
+index b87ca42810..e45f4ff84a 100644
+--- a/src/Raven.Server/Documents/Indexes/Debugging/IndexDebugExtensions.cs
++++ b/src/Raven.Server/Documents/Indexes/Debugging/IndexDebugExtensions.cs
+@@ -324,10 +324,10 @@ private static string GetTreeName(BlittableJsonReaderObject reduceEntry, IndexDe
+         {
+             Dictionary<string, CompiledIndexField> groupByFields;
+ 
+-            if (indexDefinition is MapReduceIndexDefinition)
+-                groupByFields = ((MapReduceIndexDefinition)indexDefinition).GroupByFields;
+-            else if (indexDefinition is AutoMapReduceIndexDefinition)
+-                groupByFields = ((AutoMapReduceIndexDefinition)indexDefinition).GroupByFields
++            if (indexDefinition is MapReduceIndexDefinition mapReduceIndexDefinition)
++                groupByFields = mapReduceIndexDefinition.GroupByFields;
++            else if (indexDefinition is AutoMapReduceIndexDefinition autoMapReduceIndexDefinition)
++                groupByFields = autoMapReduceIndexDefinition.GroupByFields
+                     .ToDictionary(x => x.Key, x => (CompiledIndexField)new SimpleField(x.Key));
+             else
+                 throw new InvalidOperationException("Invalid map reduce index definition: " + indexDefinition.GetType());
+diff --git a/src/Raven.Server/Documents/Indexes/IndexMerging/IndexMerger.cs b/src/Raven.Server/Documents/Indexes/IndexMerging/IndexMerger.cs
+index d699945ae2..c2e50754b1 100644
+--- a/src/Raven.Server/Documents/Indexes/IndexMerging/IndexMerger.cs
++++ b/src/Raven.Server/Documents/Indexes/IndexMerging/IndexMerger.cs
+@@ -147,10 +147,7 @@ private bool CanMergeIndexes(IndexData other, IndexData current)
+             if (current.HasLet)
+                 return false;
+ 
+-            var currentFromExpression = current.FromExpression as MemberAccessExpressionSyntax;
+-            var otherFromExpression = other.FromExpression as MemberAccessExpressionSyntax;
+-
+-            if (currentFromExpression != null || otherFromExpression != null)
++            if (current.FromExpression is MemberAccessExpressionSyntax currentFromExpression || other.FromExpression is MemberAccessExpressionSyntax otherFromExpression)
+             {
+                 if (currentFromExpression == null || otherFromExpression == null)
+                     return false;
+diff --git a/src/Raven.Server/Documents/Indexes/IndexStore.cs b/src/Raven.Server/Documents/Indexes/IndexStore.cs
+index 51cc482128..daa5fa9719 100644
+--- a/src/Raven.Server/Documents/Indexes/IndexStore.cs
++++ b/src/Raven.Server/Documents/Indexes/IndexStore.cs
+@@ -264,10 +264,10 @@ private Index HandleAutoIndexChange(string name, AutoIndexDefinitionBase definit
+ 
+                 Index index;
+ 
+-                if (definition is AutoMapIndexDefinition)
+-                    index = AutoMapIndex.CreateNew((AutoMapIndexDefinition)definition, _documentDatabase);
+-                else if (definition is AutoMapReduceIndexDefinition)
+-                    index = AutoMapReduceIndex.CreateNew((AutoMapReduceIndexDefinition)definition, _documentDatabase);
++                if (definition is AutoMapIndexDefinition autoMapIndexDefinition)
++                    index = AutoMapIndex.CreateNew(autoMapIndexDefinition, _documentDatabase);
++                else if (definition is AutoMapReduceIndexDefinition autoMapReduceIndexDefinition)
++                    index = AutoMapReduceIndex.CreateNew(autoMapReduceIndexDefinition, _documentDatabase);
+                 else
+                     throw new NotImplementedException($"Unknown index definition type: {definition.GetType().FullName}");
+ 
+@@ -721,8 +721,8 @@ public async Task<Index> CreateIndex(IndexDefinitionBase definition, string raft
+             if (definition == null)
+                 throw new ArgumentNullException(nameof(definition));
+ 
+-            if (definition is MapIndexDefinition)
+-                return await CreateIndex(((MapIndexDefinition)definition).IndexDefinition, raftRequestId);
++            if (definition is MapIndexDefinition mapIndexDefinition)
++                return await CreateIndex(mapIndexDefinition.IndexDefinition, raftRequestId);
+ 
+             ValidateAutoIndex(definition);
+ 
+@@ -913,8 +913,7 @@ internal IndexCreationOptions GetIndexCreationOptions(object indexDefinition, In
+ 
+             differences = IndexDefinitionCompareDifferences.None;
+ 
+-            var indexDef = indexDefinition as IndexDefinition;
+-            if (indexDef != null)
++            if (indexDefinition is IndexDefinition indexDef)
+             {
+                 differences = existingIndex.Definition.Compare(indexDef);
+                 //We need to check differences between old and new definition
+@@ -924,8 +923,7 @@ internal IndexCreationOptions GetIndexCreationOptions(object indexDefinition, In
+                     differences |= IndexDefinitionCompareDifferences.State;
+             }
+ 
+-            var indexDefBase = indexDefinition as IndexDefinitionBase;
+-            if (indexDefBase != null)
++            if (indexDefinition is IndexDefinitionBase indexDefBase)
+                 differences = existingIndex.Definition.Compare(indexDefBase);
+ 
+             if (differences == IndexDefinitionCompareDifferences.All)
+@@ -1328,10 +1326,10 @@ private Index ResetIndexInternal(Index index)
+                     if (definitionBase is FaultyAutoIndexDefinition faultyAutoIndexDefinition)
+                         definitionBase = faultyAutoIndexDefinition.Definition;
+ 
+-                    if (definitionBase is AutoMapIndexDefinition)
+-                        index = AutoMapIndex.CreateNew((AutoMapIndexDefinition)definitionBase, _documentDatabase);
+-                    else if (definitionBase is AutoMapReduceIndexDefinition)
+-                        index = AutoMapReduceIndex.CreateNew((AutoMapReduceIndexDefinition)definitionBase, _documentDatabase);
++                    if (definitionBase is AutoMapIndexDefinition autoMapIndexDefinition)
++                        index = AutoMapIndex.CreateNew(autoMapIndexDefinition, _documentDatabase);
++                    else if (definitionBase is AutoMapReduceIndexDefinition autoMapReduceIndexDefinition)
++                        index = AutoMapReduceIndex.CreateNew(autoMapReduceIndexDefinition, _documentDatabase);
+                     else
+                     {
+                         var staticIndexDefinition = index.Definition.GetOrCreateIndexDefinitionInternal();
+@@ -2044,8 +2042,7 @@ public async Task SetPriority(string name, IndexPriority priority, string raftRe
+             if (index == null)
+                 IndexDoesNotExistException.ThrowFor(name);
+ 
+-            var faultyInMemoryIndex = index as FaultyInMemoryIndex;
+-            if (faultyInMemoryIndex != null)
++            if (index is FaultyInMemoryIndex faultyInMemoryIndex)
+             {
+                 faultyInMemoryIndex.SetPriority(priority); // this will throw proper exception
+                 return;
+@@ -2064,8 +2061,7 @@ public async Task SetState(string name, IndexState state, string raftRequestId)
+             if (index == null)
+                 IndexDoesNotExistException.ThrowFor(name);
+ 
+-            var faultyInMemoryIndex = index as FaultyInMemoryIndex;
+-            if (faultyInMemoryIndex != null)
++            if (index is FaultyInMemoryIndex faultyInMemoryIndex)
+             {
+                 faultyInMemoryIndex.SetState(state); // this will throw proper exception
+                 return;
+diff --git a/src/Raven.Server/Documents/Indexes/MapReduce/ReduceKeyProcessor.cs b/src/Raven.Server/Documents/Indexes/MapReduce/ReduceKeyProcessor.cs
+index 391dd5d672..7e86928a1e 100644
+--- a/src/Raven.Server/Documents/Indexes/MapReduce/ReduceKeyProcessor.cs
++++ b/src/Raven.Server/Documents/Indexes/MapReduce/ReduceKeyProcessor.cs
+@@ -99,8 +99,7 @@ public void Process(ByteStringContext context,object value, bool internalCall =
+ 
+             _hadAnyNotNullValue = true;
+ 
+-            var lsv = value as LazyStringValue;
+-            if (lsv != null)
++            if (value is LazyStringValue lsv)
+             {
+                 switch (_mode)
+                 {
+@@ -115,8 +114,7 @@ public void Process(ByteStringContext context,object value, bool internalCall =
+                 return;
+             }
+ 
+-            var s = value as string;
+-            if (s != null)
++            if (value is string s)
+             {
+                 using (Slice.From(context, s, out Slice str))
+                 {
+@@ -134,8 +132,7 @@ public void Process(ByteStringContext context,object value, bool internalCall =
+                 return;
+             }
+ 
+-            var lcsv = value as LazyCompressedStringValue;
+-            if (lcsv != null)
++            if (value is LazyCompressedStringValue lcsv)
+             {
+                 switch (_mode)
+                 {
+@@ -235,12 +232,12 @@ public void Process(ByteStringContext context,object value, bool internalCall =
+             }
+ 
+             long? ticks = null;
+-            if (value is DateTime)
+-                ticks = ((DateTime)value).Ticks;
+-            if (value is DateTimeOffset)
+-                ticks = ((DateTimeOffset)value).Ticks;
+-            if (value is TimeSpan)
+-                ticks = ((TimeSpan)value).Ticks;
++            if (value is DateTime dateTime)
++                ticks = dateTime.Ticks;
++            if (value is DateTimeOffset dateTimeOffset)
++                ticks = dateTimeOffset.Ticks;
++            if (value is TimeSpan timeSpan)
++                ticks = timeSpan.Ticks;
+ 
+             if (ticks.HasValue)
+             {
+diff --git a/src/Raven.Server/Documents/Indexes/Persistence/Lucene/Documents/LuceneDocumentConverterBase.cs b/src/Raven.Server/Documents/Indexes/Persistence/Lucene/Documents/LuceneDocumentConverterBase.cs
+index 75c2012d87..a3ec0c7e15 100644
+--- a/src/Raven.Server/Documents/Indexes/Persistence/Lucene/Documents/LuceneDocumentConverterBase.cs
++++ b/src/Raven.Server/Documents/Indexes/Persistence/Lucene/Documents/LuceneDocumentConverterBase.cs
+@@ -460,8 +460,7 @@ int HandleObject(BlittableJsonReaderObject val)
+ 
+             if (valueType == ValueType.Double)
+             {
+-                var ldv = value as LazyNumberValue;
+-                if (ldv != null)
++                if (value is LazyNumberValue ldv)
+                 {
+                     if (TryToTrimTrailingZeros(ldv, indexContext, out var doubleAsString) == false)
+                         doubleAsString = ldv.Inner;
+@@ -556,16 +555,13 @@ private static ValueType GetValueType(object value)
+             if (value is DynamicNullObject)
+                 return ValueType.DynamicNull;
+ 
+-            var lazyStringValue = value as LazyStringValue;
+-            if (lazyStringValue != null)
++            if (value is LazyStringValue lazyStringValue)
+                 return lazyStringValue.Size == 0 ? ValueType.EmptyString : ValueType.LazyString;
+ 
+-            var lazyCompressedStringValue = value as LazyCompressedStringValue;
+-            if (lazyCompressedStringValue != null)
++            if (value is LazyCompressedStringValue lazyCompressedStringValue)
+                 return lazyCompressedStringValue.UncompressedSize == 0 ? ValueType.EmptyString : ValueType.LazyCompressedString;
+ 
+-            var valueString = value as string;
+-            if (valueString != null)
++            if (value is string valueString)
+                 return valueString.Length == 0 ? ValueType.EmptyString : ValueType.String;
+ 
+             if (value is Enum)
+diff --git a/src/Raven.Server/Documents/Indexes/Persistence/Lucene/Highlightings/FastVectorHightlighter/FieldQuery.cs b/src/Raven.Server/Documents/Indexes/Persistence/Lucene/Highlightings/FastVectorHightlighter/FieldQuery.cs
+index 6bd53cd0fc..770ce71f71 100644
+--- a/src/Raven.Server/Documents/Indexes/Persistence/Lucene/Highlightings/FastVectorHightlighter/FieldQuery.cs
++++ b/src/Raven.Server/Documents/Indexes/Persistence/Lucene/Highlightings/FastVectorHightlighter/FieldQuery.cs
+@@ -63,9 +63,8 @@ public FieldQuery(Query query, bool phraseHighlight, bool fieldMatch)
+ 
+         public void flatten(Query sourceQuery, Dictionary<Query, Query> flatQueries)
+         {
+-            if (sourceQuery is BooleanQuery)
++            if (sourceQuery is BooleanQuery bq)
+             {
+-                BooleanQuery bq = (BooleanQuery)sourceQuery;
+                 foreach (BooleanClause clause in bq.GetClauses())
+                 {
+                     if (!clause.IsProhibited)
+@@ -77,9 +76,8 @@ public void flatten(Query sourceQuery, Dictionary<Query, Query> flatQueries)
+                 if (!flatQueries.ContainsKey(sourceQuery))
+                     flatQueries.Add(sourceQuery, sourceQuery);
+             }
+-            else if (sourceQuery is DisjunctionMaxQuery)
++            else if (sourceQuery is DisjunctionMaxQuery dmq)
+             {
+-                DisjunctionMaxQuery dmq = (DisjunctionMaxQuery)sourceQuery;
+                 foreach (Query query in dmq)
+                 {
+                     flatten(query, flatQueries);
+@@ -90,11 +88,10 @@ public void flatten(Query sourceQuery, Dictionary<Query, Query> flatQueries)
+                 if (!flatQueries.ContainsKey(sourceQuery))
+                     flatQueries.Add(sourceQuery, sourceQuery);
+             }
+-            else if (sourceQuery is PhraseQuery)
++            else if (sourceQuery is PhraseQuery pq)
+             {
+                 if (!flatQueries.ContainsKey(sourceQuery))
+                 {
+-                    PhraseQuery pq = (PhraseQuery)sourceQuery;
+                     if (pq.GetTerms().Length > 1)
+                         flatQueries.Add(pq, pq);
+                     else if (pq.GetTerms().Length == 1)
+@@ -239,15 +236,14 @@ private String GetKey(Query query)
+         {
+             if (!fieldMatch)
+                 return null;
+-            if (query is TermQuery)
+-                return ((TermQuery)query).Term.Field;
++            if (query is TermQuery termQuery)
++                return termQuery.Term.Field;
+ 
+-            if (query is PrefixQuery)
+-                return ((PrefixQuery)query).Prefix.Field;
++            if (query is PrefixQuery prefixQuery)
++                return prefixQuery.Prefix.Field;
+ 
+-            if (query is PhraseQuery)
++            if (query is PhraseQuery pq)
+             {
+-                PhraseQuery pq = (PhraseQuery)query;
+                 Term[] terms = pq.GetTerms();
+                 return terms[0].Field;
+             }
+@@ -282,13 +278,13 @@ void SaveTerms(Dictionary<Query, Query> flatQueries)
+             foreach (Query query in flatQueries.Keys)
+             {
+                 List<String> termSet = GetTermSet(query);
+-                if (query is TermQuery)
+-                    termSet.Add(((TermQuery)query).Term.Text);
+-                else if (query is PrefixQuery)
+-                    termSet.Add(((PrefixQuery)query).Prefix.Text + "*");
+-                else if (query is PhraseQuery)
++                if (query is TermQuery termQuery)
++                    termSet.Add(termQuery.Term.Text);
++                else if (query is PrefixQuery prefixQuery)
++                    termSet.Add(prefixQuery.Prefix.Text + "*");
++                else if (query is PhraseQuery phraseQuery)
+                 {
+-                    foreach (Term term in ((PhraseQuery)query).GetTerms())
++                    foreach (Term term in phraseQuery.GetTerms())
+                         termSet.Add(term.Text);
+                 }
+                 else
+@@ -393,17 +389,16 @@ private QueryPhraseMap GetOrNewMap(HashMap<String, QueryPhraseMap> subMap, Strin
+ 
+             public void Add(Query query)
+             {
+-                if (query is TermQuery)
++                if (query is TermQuery termQuery)
+                 {
+-                    AddTerm(((TermQuery)query).Term.Text, query.Boost);
++                    AddTerm(termQuery.Term.Text, query.Boost);
+                 }
+-                else if (query is PrefixQuery)
++                else if (query is PrefixQuery prefixQuery)
+                 {
+-                    AddTerm(((PrefixQuery)query).Prefix.Text + "*", query.Boost);
++                    AddTerm(prefixQuery.Prefix.Text + "*", query.Boost);
+                 }
+-                else if (query is PhraseQuery)
++                else if (query is PhraseQuery pq)
+                 {
+-                    PhraseQuery pq = (PhraseQuery)query;
+                     Term[] terms = pq.GetTerms();
+                     HashMap<String, QueryPhraseMap> map = subMap;
+                     QueryPhraseMap qpm = null;
+diff --git a/src/Raven.Server/Documents/Indexes/Static/IndexCompiler.cs b/src/Raven.Server/Documents/Indexes/Static/IndexCompiler.cs
+index f705f9e363..9578108023 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/IndexCompiler.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/IndexCompiler.cs
+@@ -576,8 +576,7 @@ private static List<CompiledIndexField> GetIndexedFields(IndexDefinition definit
+                 fieldNamesValidator.Validate(map, expression);
+                 methodsDetector.Visit(expression);
+ 
+-                var queryExpression = expression as QueryExpressionSyntax;
+-                if (queryExpression != null)
++                if (expression is QueryExpressionSyntax queryExpression)
+                 {
+                     switch (type)
+                     {
+@@ -595,8 +594,7 @@ private static List<CompiledIndexField> GetIndexedFields(IndexDefinition definit
+                     }
+                 }
+ 
+-                var invocationExpression = expression as InvocationExpressionSyntax;
+-                if (invocationExpression != null)
++                if (expression is InvocationExpressionSyntax invocationExpression)
+                 {
+                     switch (type)
+                     {
+diff --git a/src/Raven.Server/Documents/Indexes/Static/JavaScript/RecursiveJsFunction.cs b/src/Raven.Server/Documents/Indexes/Static/JavaScript/RecursiveJsFunction.cs
+index ff92cb5d8d..e1dbc45bd1 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/JavaScript/RecursiveJsFunction.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/JavaScript/RecursiveJsFunction.cs
+@@ -40,8 +40,7 @@ public JsValue Execute()
+             {
+                 current = _queue.Dequeue();
+ 
+-                var list = current as IEnumerable<JsValue>;
+-                if (list != null)
++                if (current is IEnumerable<JsValue> list)
+                 {
+                     foreach (var o in list)
+                         AddItem(o);
+diff --git a/src/Raven.Server/Documents/Indexes/Static/RecursiveFunction.cs b/src/Raven.Server/Documents/Indexes/Static/RecursiveFunction.cs
+index ee6aa9f3a7..4172a5d9c1 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/RecursiveFunction.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/RecursiveFunction.cs
+@@ -39,8 +39,7 @@ public IEnumerable<object> Execute()
+             {
+                 current = _queue.Dequeue();
+ 
+-                var list = current as IEnumerable<object>;
+-                if (list != null && TypeConverter.ShouldTreatAsEnumerable(current))
++                if (current is IEnumerable<object> list && TypeConverter.ShouldTreatAsEnumerable(current))
+                 {
+                     foreach (var o in list)
+                         AddItem(o);
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/CaptureDictionaryFieldsNamesVisitor.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/CaptureDictionaryFieldsNamesVisitor.cs
+index d5d4561689..22aebc9f0b 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/CaptureDictionaryFieldsNamesVisitor.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/CaptureDictionaryFieldsNamesVisitor.cs
+@@ -32,7 +32,7 @@ private void CaptureFieldNames(SyntaxNode node)
+             if (Fields != null)
+                 return;
+ 
+-            var lastObjectCreation = node.DescendantNodes(descendIntoChildren: syntaxNode =>
++            if (node.DescendantNodes(descendIntoChildren: syntaxNode =>
+                 {
+                     if (syntaxNode is ObjectCreationExpressionSyntax)
+                     {
+@@ -40,9 +40,7 @@ private void CaptureFieldNames(SyntaxNode node)
+                     }
+                     return true;
+                 })
+-                .LastOrDefault(x => x.IsKind(SyntaxKind.ObjectCreationExpression)) as ObjectCreationExpressionSyntax;
+-
+-            if (lastObjectCreation != null && IsDictionaryObjectCreationExpression(lastObjectCreation))
++                .LastOrDefault(x => x.IsKind(SyntaxKind.ObjectCreationExpression)) is ObjectCreationExpressionSyntax lastObjectCreation && IsDictionaryObjectCreationExpression(lastObjectCreation))
+             {
+                 VisitObjectCreationExpression(lastObjectCreation);
+             }
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/CollectionNameRetriever.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/CollectionNameRetriever.cs
+index 4184a24b50..df79be8f5f 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/CollectionNameRetriever.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/CollectionNameRetriever.cs
+@@ -177,8 +177,7 @@ public override SyntaxNode VisitFromClause(FromClauseSyntax node)
+                     return node.WithExpression(indexer.Expression);
+                 }
+ 
+-                var invocationExpression = node.Expression as InvocationExpressionSyntax;
+-                if (invocationExpression != null)
++                if (node.Expression is InvocationExpressionSyntax invocationExpression)
+                 {
+                     var methodSyntax = MethodSyntax;
+                     var newExpression = (ExpressionSyntax)methodSyntax.VisitInvocationExpression(invocationExpression);
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/DynamicInvocationExpressionsRewriter.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/DynamicInvocationExpressionsRewriter.cs
+index c448c511bd..c333147b81 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/DynamicInvocationExpressionsRewriter.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/DynamicInvocationExpressionsRewriter.cs
+@@ -47,8 +47,7 @@ private SyntaxNode HandleEnumerableRange(InvocationExpressionSyntax node)
+ 
+         private static string GetParentMethod(InvocationExpressionSyntax currentInvocation)
+         {
+-            var member = currentInvocation.Parent as MemberAccessExpressionSyntax;
+-            if (member != null)
++            if (currentInvocation.Parent is MemberAccessExpressionSyntax member)
+                 return member.Name.Identifier.Text;
+ 
+             var argument = GetArgument(currentInvocation);
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/DynamicLambdaExpressionsRewriter.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/DynamicLambdaExpressionsRewriter.cs
+index 21431f8561..3663f89426 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/DynamicLambdaExpressionsRewriter.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/DynamicLambdaExpressionsRewriter.cs
+@@ -211,11 +211,10 @@ private static SyntaxNode ModifyLambdaForTakeSkipWhile(LambdaExpressionSyntax no
+ 
+         private static CastExpressionSyntax GetAsCastExpression(CSharpSyntaxNode expressionBody)
+         {
+-            var castExpression = expressionBody as CastExpressionSyntax;
+-            if (castExpression != null)
++            if (expressionBody is CastExpressionSyntax castExpression)
+                 return castExpression;
+-            var parametrizedNode = expressionBody as ParenthesizedExpressionSyntax;
+-            if (parametrizedNode != null)
++
++            if (expressionBody is ParenthesizedExpressionSyntax parametrizedNode)
+                 return GetAsCastExpression(parametrizedNode.Expression);
+             return null;
+         }
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/MethodDetectorRewriter.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/MethodDetectorRewriter.cs
+index 5b79614a33..c39a47e1ce 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/MethodDetectorRewriter.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/MethodDetectorRewriter.cs
+@@ -35,9 +35,7 @@ public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax
+                     break;
+             }
+ 
+-            var memberAccessExpression = node.Expression as MemberAccessExpressionSyntax;
+-
+-            if (memberAccessExpression != null)
++            if (node.Expression is MemberAccessExpressionSyntax memberAccessExpression)
+             {
+                 switch (memberAccessExpression.Name.Identifier.Text)
+                 {
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/RavenLinqOptimizer.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/RavenLinqOptimizer.cs
+index 445ebe040e..c20d41e61d 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/RavenLinqOptimizer.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/RavenLinqOptimizer.cs
+@@ -40,8 +40,8 @@ public override SyntaxNode VisitQueryExpression(QueryExpressionSyntax node)
+                 return node;
+ 
+             ForEachStatementSyntax parent = null;
+-            var queryExpressionSyntax = StripExpressionParenthesis(node.FromClause.Expression) as QueryExpressionSyntax;
+-            if (queryExpressionSyntax != null &&
++
++            if (StripExpressionParenthesis(node.FromClause.Expression) is QueryExpressionSyntax queryExpressionSyntax &&
+                 StripExpressionParentParenthesis(queryExpressionSyntax) is QueryExpressionSyntax)
+             {
+                 using (RecursiveCall())
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/RavenLinqPrettifier.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/RavenLinqPrettifier.cs
+index 797eda1d8f..3d1048038d 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/RavenLinqPrettifier.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/RavenLinqPrettifier.cs
+@@ -35,9 +35,9 @@ public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax
+                         }));
+ 
+                     var sourceExpBody = GetBodyAndRemoveCastingIfNeeded(sourceExp);
+-                    var selectManyInvocExp = memberAccess.Expression as InvocationExpressionSyntax;
+                     MemberAccessExpressionSyntax selectManyInnerMemberAccess = null;
+-                    if (selectManyInvocExp != null)
++
++                    if (memberAccess.Expression is InvocationExpressionSyntax selectManyInvocExp)
+                         selectManyInnerMemberAccess = selectManyInvocExp.Expression as MemberAccessExpressionSyntax;
+ 
+                     if (selectManyInnerMemberAccess == null)
+@@ -84,17 +84,15 @@ public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax
+                     var expressionSyntax = GetSimpleLambdaExpressionSyntax(node);
+                     if (expressionSyntax == null)
+                         return base.VisitInvocationExpression(node);
+-
+-                    var invocExp = memberAccess.Expression as InvocationExpressionSyntax;
+                     MemberAccessExpressionSyntax innerMemberAccess = null;
+-                    if (invocExp != null)
++
++                    if (memberAccess.Expression is InvocationExpressionSyntax invocExp)
+                         innerMemberAccess = invocExp.Expression as MemberAccessExpressionSyntax;
+ 
+                     var name = innerMemberAccess?.Name.Identifier.ValueText;
+-
+-                    var innerInvocExp = innerMemberAccess?.Expression as InvocationExpressionSyntax;
+                     MemberAccessExpressionSyntax innerInnerMemberAccess = null;
+-                    if (innerInvocExp != null)
++
++                    if (innerMemberAccess?.Expression is InvocationExpressionSyntax innerInvocExp)
+                         innerInnerMemberAccess = innerInvocExp.Expression as MemberAccessExpressionSyntax;
+ 
+                     if (innerMemberAccess == null || name == "Select" && innerInnerMemberAccess == null)
+@@ -164,9 +162,8 @@ public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax
+         private static CSharpSyntaxNode GetBodyAndRemoveCastingIfNeeded(SimpleLambdaExpressionSyntax sourceExp)
+         {
+             var sourceExpBody = sourceExp.Body;
+-            var castExpressionSyntax = sourceExpBody as CastExpressionSyntax;
+ 
+-            if (castExpressionSyntax != null)
++            if (sourceExpBody is CastExpressionSyntax castExpressionSyntax)
+                 sourceExpBody = RavenLinqOptimizer.StripExpressionParenthesis(castExpressionSyntax.Expression);
+             return sourceExpBody;
+         }
+@@ -177,9 +174,8 @@ private static ParenthesizedLambdaExpressionSyntax GetSelectorLambdaFromSelectMa
+                 return null;
+ 
+             ParenthesizedLambdaExpressionSyntax expressionSyntax;
+-            var castExpressionSyntax = node.ArgumentList.Arguments[1].Expression as CastExpressionSyntax;
+ 
+-            if (castExpressionSyntax != null)
++            if (node.ArgumentList.Arguments[1].Expression is CastExpressionSyntax castExpressionSyntax)
+                 expressionSyntax = RavenLinqOptimizer.StripExpressionParenthesis(castExpressionSyntax.Expression) as ParenthesizedLambdaExpressionSyntax;
+             else
+                 expressionSyntax = node.ArgumentList.Arguments[1].Expression as ParenthesizedLambdaExpressionSyntax;
+@@ -189,9 +185,8 @@ private static ParenthesizedLambdaExpressionSyntax GetSelectorLambdaFromSelectMa
+         private static SimpleLambdaExpressionSyntax GetSimpleLambdaExpressionSyntax(InvocationExpressionSyntax node)
+         {
+             SimpleLambdaExpressionSyntax expressionSyntax;
+-            var castExpressionSyntax = node.ArgumentList.Arguments[0].Expression as CastExpressionSyntax;
+ 
+-            if (castExpressionSyntax != null)
++            if (node.ArgumentList.Arguments[0].Expression is CastExpressionSyntax castExpressionSyntax)
+                 expressionSyntax = RavenLinqOptimizer.StripExpressionParenthesis(castExpressionSyntax.Expression) as SimpleLambdaExpressionSyntax;
+             else
+                 expressionSyntax = node.ArgumentList.Arguments[0].Expression as SimpleLambdaExpressionSyntax;
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/ReduceIndex/GroupByFieldsRetriever.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/ReduceIndex/GroupByFieldsRetriever.cs
+index 0eb1a61e92..56a3a559d9 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/ReduceIndex/GroupByFieldsRetriever.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/ReduceIndex/GroupByFieldsRetriever.cs
+@@ -211,19 +211,15 @@ public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax
+                 if (arguments.Arguments.Count != 1)
+                     throw new InvalidOperationException("Incorrect number of arguments in group by expression");
+ 
+-                var singleGroupByField = groupByLambda.Body as MemberAccessExpressionSyntax;
+-                var multipleGroupByFields = groupByLambda.Body as AnonymousObjectCreationExpressionSyntax;
+-                var literalGroupByField = groupByLambda.Body as LiteralExpressionSyntax;
+-
+-                if (singleGroupByField != null)
++                if (groupByLambda.Body is MemberAccessExpressionSyntax singleGroupByField)
+                 {
+                     GroupByFields = new[] { RewritersHelper.ExtractField(singleGroupByField) };
+                 }
+-                else if (multipleGroupByFields != null)
++                else if (groupByLambda.Body is AnonymousObjectCreationExpressionSyntax multipleGroupByFields)
+                 {
+                     GroupByFields = RewritersHelper.ExtractFields(multipleGroupByFields, retrieveOriginal: true, nestFields: true).ToArray();
+                 }
+-                else if (literalGroupByField != null)
++                else if (groupByLambda.Body is LiteralExpressionSyntax literalGroupByField)
+                 {
+                     GroupByFields = new CompiledIndexField[0];
+                 }
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/SpatialFieldRewriter.cs b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/SpatialFieldRewriter.cs
+index fb15633f26..193b08e93d 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/SpatialFieldRewriter.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Roslyn/Rewriters/SpatialFieldRewriter.cs
+@@ -39,8 +39,7 @@ private static AnonymousObjectMemberDeclaratorSyntax GetAnonymousObjectMemberDec
+ 
+             while (node.Parent != null)
+             {
+-                var anonymousObjectMemberDeclaratorSyntax = node.Parent as AnonymousObjectMemberDeclaratorSyntax;
+-                if (anonymousObjectMemberDeclaratorSyntax != null)
++                if (node.Parent is AnonymousObjectMemberDeclaratorSyntax anonymousObjectMemberDeclaratorSyntax)
+                     return anonymousObjectMemberDeclaratorSyntax;
+ 
+                 node = node.Parent;
+diff --git a/src/Raven.Server/Documents/Indexes/Static/Spatial/SpatialField.cs b/src/Raven.Server/Documents/Indexes/Static/Spatial/SpatialField.cs
+index 6e6d53bb7a..74be5c2a01 100644
+--- a/src/Raven.Server/Documents/Indexes/Static/Spatial/SpatialField.cs
++++ b/src/Raven.Server/Documents/Indexes/Static/Spatial/SpatialField.cs
+@@ -73,8 +73,7 @@ private static SpatialStrategy CreateStrategy(string fieldName, SpatialOptions o
+ 
+         public AbstractField[] CreateIndexableFields(object value)
+         {
+-            var shape = value as IShape;
+-            if (shape != null || TryReadShape(value, out shape))
++            if (value is IShape shape || TryReadShape(value, out shape))
+             {
+                 var fields = Strategy.CreateIndexableFields(shape);
+                 Array.Resize(ref fields, fields.Length + 1);
+diff --git a/src/Raven.Server/Documents/Queries/AST/IndexVertexExpression.cs b/src/Raven.Server/Documents/Queries/AST/IndexVertexExpression.cs
+index 95b881cda7..146373bf1f 100644
+--- a/src/Raven.Server/Documents/Queries/AST/IndexVertexExpression.cs
++++ b/src/Raven.Server/Documents/Queries/AST/IndexVertexExpression.cs
+@@ -25,7 +25,7 @@ public override string ToString()
+ 
+         public override bool Equals(QueryExpression other)
+         {
+-            if (other == null || !(other is IndexVertexExpression indexVertexExpression))
++            if (!(other is IndexVertexExpression indexVertexExpression))
+                 return false;
+ 
+             if (!(indexVertexExpression.Filter?.Equals(Filter) ?? true))
+diff --git a/src/Raven.Server/Documents/Queries/HasSpecialMethodVisitor.cs b/src/Raven.Server/Documents/Queries/HasSpecialMethodVisitor.cs
+index 999ed484e9..410c2d1d46 100644
+--- a/src/Raven.Server/Documents/Queries/HasSpecialMethodVisitor.cs
++++ b/src/Raven.Server/Documents/Queries/HasSpecialMethodVisitor.cs
+@@ -45,9 +45,7 @@ public override void VisitCallExpression(CallExpression callExpression)
+ 
+             if (callExpression.Callee is StaticMemberExpression @static)
+             {
+-                var staticId = @static.Object as Identifier;
+-                var staticCallId = @static.Property as Identifier;
+-                if (staticId != null && staticCallId != null)
++                if (@static.Object is Identifier staticId && @static.Property is Identifier staticCallId)
+                 {
+                     switch (staticId.Name)
+                     {
+diff --git a/src/Raven.Server/Documents/Queries/QueryBuilder.cs b/src/Raven.Server/Documents/Queries/QueryBuilder.cs
+index 37c651b3e0..6e0cd615cd 100644
+--- a/src/Raven.Server/Documents/Queries/QueryBuilder.cs
++++ b/src/Raven.Server/Documents/Queries/QueryBuilder.cs
+@@ -1399,8 +1399,7 @@ private static object UnwrapParameter(object parameterValue, ValueTokenType para
+                     if (parameterValue == null)
+                         return null;
+ 
+-                    var lsv = parameterValue as LazyStringValue;
+-                    if (lsv != null)
++                    if (parameterValue is LazyStringValue lsv)
+                         return lsv.ToString();
+ 
+                     if (parameterValue is LazyCompressedStringValue lcsv)
+diff --git a/src/Raven.Server/Extensions/ExpressionExtensions.cs b/src/Raven.Server/Extensions/ExpressionExtensions.cs
+index 0fb3443ae7..5d9f2e0971 100644
+--- a/src/Raven.Server/Extensions/ExpressionExtensions.cs
++++ b/src/Raven.Server/Extensions/ExpressionExtensions.cs
+@@ -88,8 +88,7 @@ public static MemberInfo ToProperty(this LambdaExpression expr)
+         {
+             var expression = expr.Body;
+ 
+-            var unaryExpression = expression as UnaryExpression;
+-            if (unaryExpression != null)
++            if (expression is UnaryExpression unaryExpression)
+             {
+                 switch (unaryExpression.NodeType)
+                 {
+diff --git a/src/Raven.Server/Json/BlittableJsonTextWriterExtensions.cs b/src/Raven.Server/Json/BlittableJsonTextWriterExtensions.cs
+index 19bd5ca8bd..d0bf164fe5 100644
+--- a/src/Raven.Server/Json/BlittableJsonTextWriterExtensions.cs
++++ b/src/Raven.Server/Json/BlittableJsonTextWriterExtensions.cs
+@@ -836,8 +836,7 @@ public static void WriteEtlPerformanceStats(this AbstractBlittableJsonTextWriter
+ 
+         public static void WriteIndexQuery(this AbstractBlittableJsonTextWriter writer, JsonOperationContext context, IIndexQuery query)
+         {
+-            var indexQuery = query as IndexQueryServerSide;
+-            if (indexQuery != null)
++            if (query is IndexQueryServerSide indexQuery)
+             {
+                 writer.WriteIndexQuery(context, indexQuery);
+                 return;
+diff --git a/src/Raven.Server/Json/BlittableJsonTraverserHelper.cs b/src/Raven.Server/Json/BlittableJsonTraverserHelper.cs
+index ed42a9b639..123c007e54 100644
+--- a/src/Raven.Server/Json/BlittableJsonTraverserHelper.cs
++++ b/src/Raven.Server/Json/BlittableJsonTraverserHelper.cs
+@@ -83,8 +83,7 @@ public static bool TryReadComputedProperties(BlittableJsonTraverser blittableJso
+                     return true;
+                 }
+ 
+-                var array = value as BlittableJsonReaderArray;
+-                if (array != null)
++                if (value is BlittableJsonReaderArray array)
+                 {
+                     value = array.Length;
+                     return true;
+diff --git a/src/Raven.Server/Routing/RequestRouter.cs b/src/Raven.Server/Routing/RequestRouter.cs
+index 19727b8d6a..9ad16c01a0 100644
+--- a/src/Raven.Server/Routing/RequestRouter.cs
++++ b/src/Raven.Server/Routing/RequestRouter.cs
+@@ -240,11 +240,7 @@ public async ValueTask HandlePath(RequestHandlerContext reqCtx)
+                 {
+                     var auditLog = LoggingSource.AuditLog.IsInfoEnabled ? LoggingSource.AuditLog.GetLogger("RequestRouter", "Audit") : null;
+ 
+-                    if (auditLog != null)
+-                    {
+-                        auditLog.Info($"Invalid request {context.Request.Method} {context.Request.Path} by " +
+-                            $"(Cert: {context.Connection.ClientCertificate?.Subject} ({context.Connection.ClientCertificate?.Thumbprint}) {context.Connection.RemoteIpAddress}:{context.Connection.RemotePort})");
+-                    }
++                    auditLog?.Info($"Invalid request {context.Request.Method} {context.Request.Path} by " + $"(Cert: {context.Connection.ClientCertificate?.Subject} ({context.Connection.ClientCertificate?.Thumbprint}) {context.Connection.RemoteIpAddress}:{context.Connection.RemotePort})");
+ 
+                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                     using (var ctx = JsonOperationContext.ShortTermSingleUse())
+diff --git a/src/Raven.Server/ServerWide/Commands/PutServerWideExternalReplicationCommand.cs b/src/Raven.Server/ServerWide/Commands/PutServerWideExternalReplicationCommand.cs
+index 132b1cc571..8b12210e70 100644
+--- a/src/Raven.Server/ServerWide/Commands/PutServerWideExternalReplicationCommand.cs
++++ b/src/Raven.Server/ServerWide/Commands/PutServerWideExternalReplicationCommand.cs
+@@ -49,8 +49,7 @@ public override BlittableJsonReaderObject GetUpdatedValue(JsonOperationContext c
+                     //The name have might modified so we search by index/TaskId
+                     foreach (var propertyName in previousValue.GetPropertyNames())
+                     {
+-                        var value = previousValue[propertyName] as BlittableJsonReaderObject;
+-                        Debug.Assert(value != null);
++                        Debug.Assert(previousValue[propertyName] is BlittableJsonReaderObject value);
+                         if (value.TryGet(nameof(ServerWideExternalReplication.TaskId), out long taskId) && taskId == originTaskId)
+                         {
+                             previousValue.Modifications = new DynamicJsonValue(previousValue);
+diff --git a/src/Raven.Server/Utils/ConflictResolverAdvisor.cs b/src/Raven.Server/Utils/ConflictResolverAdvisor.cs
+index 7d232129a2..47b92ccd3a 100644
+--- a/src/Raven.Server/Utils/ConflictResolverAdvisor.cs
++++ b/src/Raven.Server/Utils/ConflictResolverAdvisor.cs
+@@ -210,15 +210,13 @@ public class MergeResult
+         private static void WriteToken(ManualBlittableJsonDocumentBuilder<UnmanagedWriteBuffer> writer, string propertyName, object propertyValue)
+         {
+             writer.WritePropertyName(propertyName);
+-            if (propertyValue is BlittableJsonReaderObject.PropertyDetails)
++            if (propertyValue is BlittableJsonReaderObject.PropertyDetails prop)
+             {
+-                var prop = (BlittableJsonReaderObject.PropertyDetails)propertyValue;
+                 writer.WriteValue(prop.Token & BlittableJsonReaderBase.TypesMask, prop.Value);
+                 return;
+             }
+ 
+-            var conflicted = propertyValue as Conflicted;
+-            if (conflicted != null)
++            if (propertyValue is Conflicted conflicted)
+             {
+                 writer.StartWriteArray();
+                 writer.WriteValue(">>>> conflict start");
+@@ -231,8 +229,7 @@ private static void WriteToken(ManualBlittableJsonDocumentBuilder<UnmanagedWrite
+                 return;
+             }
+ 
+-            var arrayWithWarning = propertyValue as ArrayWithWarning;
+-            if (arrayWithWarning != null)
++            if (propertyValue is ArrayWithWarning arrayWithWarning)
+             {
+                 writer.StartWriteArray();
+                 writer.WriteValue(">>>> auto merged array start");
+@@ -242,8 +239,7 @@ private static void WriteToken(ManualBlittableJsonDocumentBuilder<UnmanagedWrite
+                 return;
+             }
+ 
+-            var array = propertyValue as BlittableJsonReaderArray;
+-            if (array != null)
++            if (propertyValue is BlittableJsonReaderArray array)
+             {
+                 writer.StartWriteArray();
+                 array.AddItemsToStream(writer);
+@@ -294,8 +290,7 @@ private MergeResult GenerateOutput(Dictionary<string, object> result, int indent
+ 
+                 foreach (var o in result)
+                 {
+-                    var resolver = o.Value as ConflictResolverAdvisor;
+-                    if (resolver != null)
++                    if (o.Value is ConflictResolverAdvisor resolver)
+                     {
+                         WriteConflictResolver(o.Key, documentWriter, metadataWriter, resolver,
+                             o.Key == Constants.Documents.Metadata.Key ? 0 : indent + 1);
+diff --git a/src/Raven.Server/Utils/IncludeUtil.cs b/src/Raven.Server/Utils/IncludeUtil.cs
+index 2b9f852d19..31f427a0a9 100644
+--- a/src/Raven.Server/Utils/IncludeUtil.cs
++++ b/src/Raven.Server/Utils/IncludeUtil.cs
+@@ -76,8 +76,7 @@ public static void GetDocIdFromInclude<TIncludeOp>(BlittableJsonReaderObject doc
+ 
+             if (BlittableJsonTraverser.Default.TryRead(docReader, pathSegment, out object value, out StringSegment leftPath) == false)
+             {
+-                var json = value as BlittableJsonReaderObject;
+-                if (json != null)
++                if (value is BlittableJsonReaderObject json)
+                 {
+                     // include on dictionary.Keys or dictionary.Values
+                     var isKey = leftPath == "$Keys" || leftPath == "$Key";
+@@ -108,9 +107,7 @@ public static void GetDocIdFromInclude<TIncludeOp>(BlittableJsonReaderObject doc
+                 return;
+             }
+ 
+-            var collectionOfIds = value as IEnumerable;
+-
+-            if (collectionOfIds != null && value is LazyStringValue == false)
++            if (value is IEnumerable collectionOfIds && value is LazyStringValue == false)
+             {
+                 foreach (var item in collectionOfIds)
+                 {
+@@ -161,8 +158,7 @@ private static bool HasSuffixSeparator(StringSegment includePath, out int indexO
+ 
+         private static string HandleSuffixValue(object val, StringSegment suffixSegment, char identityPartsSeparator)
+         {
+-            var doubleVal = val as LazyNumberValue;
+-            if (doubleVal != null)
++            if (val is LazyNumberValue doubleVal)
+                 val = doubleVal.Inner;
+             var res = string.Format(suffixSegment.Value, val).TrimEnd(']');
+             return res == string.Empty ? null : res;
+@@ -170,8 +166,7 @@ private static string HandleSuffixValue(object val, StringSegment suffixSegment,
+ 
+         private static string HandlePrefixValue(object val, StringSegment prefixSegment, char identityPartsSeparator)
+         {
+-            var doubleVal = val as LazyNumberValue;
+-            if (doubleVal != null)
++            if (val is LazyNumberValue doubleVal)
+                 val = doubleVal.Inner;
+ 
+             return ValueWithPrefix(val, prefixSegment, identityPartsSeparator);
+@@ -185,16 +180,13 @@ private static string ValueWithPrefix(object val, StringSegment prefixSegment, c
+ 
+         private static string BlittableValueToString(object value)
+         {
+-            var lazyStringVal = value as LazyStringValue;
+-            if (lazyStringVal != null)
++            if (value is LazyStringValue lazyStringVal)
+                 return lazyStringVal.ToString();
+ 
+-            var lazyCompressedStringValue = value as LazyCompressedStringValue;
+-            if (lazyCompressedStringValue != null)
++            if (value is LazyCompressedStringValue lazyCompressedStringValue)
+                 return lazyCompressedStringValue.ToString();
+ 
+-            var lazyDoubleVal = value as LazyNumberValue;
+-            if (lazyDoubleVal != null)
++            if (value is LazyNumberValue lazyDoubleVal)
+                 return lazyDoubleVal.Inner.ToString();
+ 
+             var convertible = value as IConvertible;
+diff --git a/src/Sparrow.Server/Collections/AsyncQueue.cs b/src/Sparrow.Server/Collections/AsyncQueue.cs
+index 19b11325e7..25d87a7d06 100644
+--- a/src/Sparrow.Server/Collections/AsyncQueue.cs
++++ b/src/Sparrow.Server/Collections/AsyncQueue.cs
+@@ -58,8 +58,8 @@ public async Task<T> DequeueAsync()
+                     _event.Reset();
+                 }
+ 
+-                if (result is TValue)
+-                    return Tuple.Create(true, (TValue)result);
++                if (result is TValue tValue)
++                    return Tuple.Create(true, tValue);
+             }
+         }
+     }
+diff --git a/src/Sparrow.Server/Collections/LockFree/DictionaryImpl`3.cs b/src/Sparrow.Server/Collections/LockFree/DictionaryImpl`3.cs
+index 27a0c82417..20b7d2f99e 100644
+--- a/src/Sparrow.Server/Collections/LockFree/DictionaryImpl`3.cs
++++ b/src/Sparrow.Server/Collections/LockFree/DictionaryImpl`3.cs
+@@ -966,8 +966,7 @@ private static bool CopySlot(ref Entry oldEntry, DictionaryImpl<TKey, TKeyStore,
+             object oldval = oldEntry.value;
+ 
+             // already boxed?
+-            Prime box = oldval as Prime;
+-            if (box != null)
++            if (oldval is Prime box)
+             {
+                 // volatile read here since we need to make sure 
+                 // that the key read below happens after we have read oldval above
+diff --git a/src/Sparrow/Json/BlittableJsonReaderArray.cs b/src/Sparrow/Json/BlittableJsonReaderArray.cs
+index ddc019efff..4216dd02d6 100644
+--- a/src/Sparrow/Json/BlittableJsonReaderArray.cs
++++ b/src/Sparrow/Json/BlittableJsonReaderArray.cs
+@@ -265,9 +265,7 @@ public override bool Equals(object obj)
+             if (ReferenceEquals(this, obj))
+                 return true;
+ 
+-            var array = obj as BlittableJsonReaderArray;
+-
+-            if (array != null)
++            if (obj is BlittableJsonReaderArray array)
+                 return Equals(array);
+ 
+             return false;
+diff --git a/src/Sparrow/Json/BlittableJsonReaderObject.cs b/src/Sparrow/Json/BlittableJsonReaderObject.cs
+index 6d996b904c..22c847d336 100644
+--- a/src/Sparrow/Json/BlittableJsonReaderObject.cs
++++ b/src/Sparrow/Json/BlittableJsonReaderObject.cs
+@@ -327,9 +327,9 @@ internal static bool TryConvertType<T>(object result, out T obj)
+             if (result == null)
+                 return true;
+ 
+-            if (result is T)
++            if (result is T t)
+             {
+-                obj = (T)result;
++                obj = t;
+             }
+             //just in case -> have better exception in this use-case
+             else if (typeof(T) == typeof(BlittableJsonReaderObject) && result.GetType() == typeof(BlittableJsonReaderArray))
+@@ -423,9 +423,9 @@ internal static void ConvertType<T>(object result, out T obj)
+             {
+                 obj = default(T);
+             }
+-            else if (result is T)
++            else if (result is T t)
+             {
+-                obj = (T)result;
++                obj = t;
+             }
+             //just in case -> have better exception in this use-case
+             else if (typeof(T) == typeof(BlittableJsonReaderObject) &&
+@@ -1472,8 +1472,8 @@ public static void AssertNoModifications(BlittableJsonReaderObject data, string
+             foreach (var propertyName in data.GetPropertyNames())
+             {
+                 var property = data[propertyName];
+-                var inner = property as BlittableJsonReaderObject;
+-                if (inner != null)
++
++                if (property is BlittableJsonReaderObject inner)
+                 {
+                     AssertNoModifications(inner, id, assertChildren: true);
+                     continue;
+diff --git a/src/Voron/Util/ImmutableAppendOnlyList.cs b/src/Voron/Util/ImmutableAppendOnlyList.cs
+index 0109130ae2..44766c2b01 100644
+--- a/src/Voron/Util/ImmutableAppendOnlyList.cs
++++ b/src/Voron/Util/ImmutableAppendOnlyList.cs
+@@ -132,9 +132,9 @@ public ImmutableAppendOnlyList<T> AppendRange(IEnumerable<T> items)
+                     nToAdd = ((T[])items).Length;
+                     copier = CopyArray;
+                 }
+-                else if (items is ICollection)
++                else if (items is ICollection iCollection)
+                 {
+-                    nToAdd = ((ICollection) items).Count;
++                    nToAdd = iCollection.Count;
+                     if (items is List<T>)
+                         copier = CopyList;
+                 }
+diff --git a/test/FastTests/Client/Events.cs b/test/FastTests/Client/Events.cs
+index 66b87577b3..f68428002f 100644
+--- a/test/FastTests/Client/Events.cs
++++ b/test/FastTests/Client/Events.cs
+@@ -20,8 +20,7 @@ public void Before_Store_Listener()
+             {
+                 store.OnBeforeStore += (object sender, BeforeStoreEventArgs e) =>
+                 {
+-                    var user = e.Entity as User;
+-                    if (user != null)
++                    if (e.Entity is User user)
+                     {
+                         user.Count = 1000;
+                     }
+@@ -40,8 +39,7 @@ public void Before_Store_Listener()
+ 
+                     newSession.Advanced.OnBeforeStore += (object sender, BeforeStoreEventArgs e) =>
+                     {
+-                        var user = e.Entity as User;
+-                        if (user != null)
++                        if (e.Entity is User user)
+                         {
+                             user.LastName = "ravendb";
+                         }
+diff --git a/test/FastTests/Voron/Backups/IncrementalBackupTestUtils.cs b/test/FastTests/Voron/Backups/IncrementalBackupTestUtils.cs
+index 06b84b8f01..58926ef7d8 100644
+--- a/test/FastTests/Voron/Backups/IncrementalBackupTestUtils.cs
++++ b/test/FastTests/Voron/Backups/IncrementalBackupTestUtils.cs
+@@ -12,7 +12,7 @@ namespace FastTests.Voron.Backups
+ {
+     public class IncrementalBackupTestUtils : IDisposable
+     {
+-        public string IncrementalBackupFile(int n) => Path.Combine(_dataDir, string.Format("voron-test.{0}-incremental-backup.zip", n));
++        public string IncrementalBackupFile(int n) => Path.Combine(_dataDir, $"voron-test.{n}-incremental-backup.zip");
+ 
+         public string RestoredStoragePath => Path.Combine(_dataDir, "incremental-backup-test.data");
+ 
+diff --git a/test/FastTests/Voron/Tables/TableStorageTest.cs b/test/FastTests/Voron/Tables/TableStorageTest.cs
+index 20f1f5549e..fbc2721700 100644
+--- a/test/FastTests/Voron/Tables/TableStorageTest.cs
++++ b/test/FastTests/Voron/Tables/TableStorageTest.cs
+@@ -64,8 +64,7 @@ public unsafe void SetHelper(Table table, params object[] args)
+                 byte[] buffer;
+                 GCHandle gcHandle;
+ 
+-                var s = o as string;
+-                if (s != null)
++                if (o is string s)
+                 {
+                     buffer = Encoding.UTF8.GetBytes(s);
+                     gcHandle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+@@ -74,16 +73,14 @@ public unsafe void SetHelper(Table table, params object[] args)
+                     continue;
+                 }
+ 
+-                if (o is Slice)
++                if (o is Slice slice)
+                 {
+-                    var slice = (Slice)o;
+                     builder.Add(slice.Content.Ptr, slice.Content.Length);
+ 
+                     continue;
+                 }
+ 
+-                var stream = o as MemoryStream;
+-                if (stream != null)
++                if (o is MemoryStream stream)
+                 {
+                     buffer = stream.ToArray();
+                     gcHandle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+diff --git a/test/FastTests/Voron/Trees/CanDefrag.cs b/test/FastTests/Voron/Trees/CanDefrag.cs
+index 0d20533358..36119c9565 100644
+--- a/test/FastTests/Voron/Trees/CanDefrag.cs
++++ b/test/FastTests/Voron/Trees/CanDefrag.cs
+@@ -19,7 +19,7 @@ public void CanDeleteAtRoot()
+                 var tree = tx.CreateTree("foo");
+                 for (int i = 0; i < size; i++)
+                 {
+-                    tree.Add(string.Format("{0,5}", i * 2), StreamFor("abcdefg"));
++                    tree.Add($"{i * 2, 5}", StreamFor("abcdefg"));
+                 }
+                 tx.Commit();
+             }
+@@ -28,7 +28,7 @@ public void CanDeleteAtRoot()
+                 var tree = tx.CreateTree("foo");
+                 for (int i = 0; i < size / 2; i++)
+                 {
+-                    tree.Delete(string.Format("{0,5}", i * 2));
++                    tree.Delete($"{i * 2, 5}");
+                 }
+                 tx.Commit();
+             }
+diff --git a/test/FastTests/Voron/Trees/Deletes.cs b/test/FastTests/Voron/Trees/Deletes.cs
+index 28045c72f8..5238efc606 100644
+--- a/test/FastTests/Voron/Trees/Deletes.cs
++++ b/test/FastTests/Voron/Trees/Deletes.cs
+@@ -74,7 +74,7 @@ public void CanDeleteAtRoot()
+                 var tree = tx.CreateTree("foo");
+                 for (int i = 0; i < 1000; i++)
+                 {
+-                    tree.Add(string.Format("{0,5}", i), StreamFor("abcdefg"));
++                    tree.Add($"{i, 5}", StreamFor("abcdefg"));
+                 }
+                 tx.Commit();
+             }
+@@ -82,7 +82,7 @@ public void CanDeleteAtRoot()
+             var expected = new List<string>();
+             for (int i = 15; i < 1000; i++)
+             {
+-                expected.Add(string.Format("{0,5}", i));
++                expected.Add($"{i, 5}");
+             }
+ 
+             using (var tx = Env.WriteTransaction())
+@@ -90,7 +90,7 @@ public void CanDeleteAtRoot()
+                 var tree = tx.ReadTree("foo");
+                 for (int i = 0; i < 15; i++)
+                 {
+-                    tree.Delete(string.Format("{0,5}", i));
++                    tree.Delete($"{i, 5}");
+                 }
+                 tx.Commit();
+             }
+diff --git a/test/FastTests/Voron/Trees/ItemsCount.cs b/test/FastTests/Voron/Trees/ItemsCount.cs
+index 4ce21bdc59..4221808dd6 100644
+--- a/test/FastTests/Voron/Trees/ItemsCount.cs
++++ b/test/FastTests/Voron/Trees/ItemsCount.cs
+@@ -18,15 +18,15 @@ public void ItemCountIsConsistentWithAdditionsAndRemovals()
+                 var tree = tx.CreateTree("foo");
+                 for (int i = 0; i < 80; ++i)
+                 {
+-                    tree.Add(string.Format("{0}1", i), new MemoryStream(new byte[1472]));
+-                    tree.Add(string.Format("{0}2", i), new MemoryStream(new byte[992]));
+-                    tree.Add(string.Format("{0}3", i), new MemoryStream(new byte[1632]));
+-                    tree.Add(string.Format("{0}4", i), new MemoryStream(new byte[632]));
+-                    tree.Add(string.Format("{0}5", i), new MemoryStream(new byte[824]));
+-                    tree.Add(string.Format("{0}6", i), new MemoryStream(new byte[1096]));
+-                    tree.Add(string.Format("{0}7", i), new MemoryStream(new byte[2048]));
+-                    tree.Add(string.Format("{0}8", i), new MemoryStream(new byte[1228]));
+-                    tree.Add(string.Format("{0}9", i), new MemoryStream(new byte[8192]));
++                    tree.Add($"{i}1", new MemoryStream(new byte[1472]));
++                    tree.Add($"{i}2", new MemoryStream(new byte[992]));
++                    tree.Add($"{i}3", new MemoryStream(new byte[1632]));
++                    tree.Add($"{i}4", new MemoryStream(new byte[632]));
++                    tree.Add($"{i}5", new MemoryStream(new byte[824]));
++                    tree.Add($"{i}6", new MemoryStream(new byte[1096]));
++                    tree.Add($"{i}7", new MemoryStream(new byte[2048]));
++                    tree.Add($"{i}8", new MemoryStream(new byte[1228]));
++                    tree.Add($"{i}9", new MemoryStream(new byte[8192]));
+ 
+                     Assert.Equal(tree.State.NumberOfEntries, 9 * (i + 1));
+                 }
+@@ -34,15 +34,15 @@ public void ItemCountIsConsistentWithAdditionsAndRemovals()
+ 
+                 for (int i = 79; i >= 0; --i)
+                 {
+-                    tree.Delete(string.Format("{0}1", i));
+-                    tree.Delete(string.Format("{0}2", i));
+-                    tree.Delete(string.Format("{0}3", i));
+-                    tree.Delete(string.Format("{0}4", i));
+-                    tree.Delete(string.Format("{0}5", i));
+-                    tree.Delete(string.Format("{0}6", i));
+-                    tree.Delete(string.Format("{0}7", i));
+-                    tree.Delete(string.Format("{0}8", i));
+-                    tree.Delete(string.Format("{0}9", i));
++                    tree.Delete($"{i}1");
++                    tree.Delete($"{i}2");
++                    tree.Delete($"{i}3");
++                    tree.Delete($"{i}4");
++                    tree.Delete($"{i}5");
++                    tree.Delete($"{i}6");
++                    tree.Delete($"{i}7");
++                    tree.Delete($"{i}8");
++                    tree.Delete($"{i}9");
+ 
+                     Assert.Equal(tree.State.NumberOfEntries, 9 * i);
+                 }
+@@ -59,15 +59,15 @@ public void ItemCountIsConsistentWithUpdates()
+                 var tree = tx.CreateTree("foo");
+                 for (int i = 0; i < 80; ++i)
+                 {
+-                    tree.Add(string.Format("{0}1", i), new MemoryStream(new byte[1472]));
+-                    tree.Add(string.Format("{0}2", i), new MemoryStream(new byte[992]));
+-                    tree.Add(string.Format("{0}3", i), new MemoryStream(new byte[1632]));
+-                    tree.Add(string.Format("{0}4", i), new MemoryStream(new byte[632]));
+-                    tree.Add(string.Format("{0}5", i), new MemoryStream(new byte[824]));
+-                    tree.Add(string.Format("{0}6", i), new MemoryStream(new byte[1096]));
+-                    tree.Add(string.Format("{0}7", i), new MemoryStream(new byte[2048]));
+-                    tree.Add(string.Format("{0}8", i), new MemoryStream(new byte[1228]));
+-                    tree.Add(string.Format("{0}9", i), new MemoryStream(new byte[8192]));
++                    tree.Add($"{i}1", new MemoryStream(new byte[1472]));
++                    tree.Add($"{i}2", new MemoryStream(new byte[992]));
++                    tree.Add($"{i}3", new MemoryStream(new byte[1632]));
++                    tree.Add($"{i}4", new MemoryStream(new byte[632]));
++                    tree.Add($"{i}5", new MemoryStream(new byte[824]));
++                    tree.Add($"{i}6", new MemoryStream(new byte[1096]));
++                    tree.Add($"{i}7", new MemoryStream(new byte[2048]));
++                    tree.Add($"{i}8", new MemoryStream(new byte[1228]));
++                    tree.Add($"{i}9", new MemoryStream(new byte[8192]));
+ 
+                     Assert.Equal(tree.State.NumberOfEntries, 9 * (i + 1));
+                 }
+@@ -76,15 +76,15 @@ public void ItemCountIsConsistentWithUpdates()
+ 
+                 for (int i = 0; i < 80; ++i)
+                 {
+-                    tree.Add(string.Format("{0}9", i), new MemoryStream(new byte[1472]));
+-                    tree.Add(string.Format("{0}8", i), new MemoryStream(new byte[992]));
+-                    tree.Add(string.Format("{0}7", i), new MemoryStream(new byte[1632]));
+-                    tree.Add(string.Format("{0}6", i), new MemoryStream(new byte[632]));
+-                    tree.Add(string.Format("{0}5", i), new MemoryStream(new byte[824]));
+-                    tree.Add(string.Format("{0}4", i), new MemoryStream(new byte[1096]));
+-                    tree.Add(string.Format("{0}3", i), new MemoryStream(new byte[2048]));
+-                    tree.Add(string.Format("{0}2", i), new MemoryStream(new byte[1228]));
+-                    tree.Add(string.Format("{0}1", i), new MemoryStream(new byte[8192]));
++                    tree.Add($"{i}9", new MemoryStream(new byte[1472]));
++                    tree.Add($"{i}8", new MemoryStream(new byte[992]));
++                    tree.Add($"{i}7", new MemoryStream(new byte[1632]));
++                    tree.Add($"{i}6", new MemoryStream(new byte[632]));
++                    tree.Add($"{i}5", new MemoryStream(new byte[824]));
++                    tree.Add($"{i}4", new MemoryStream(new byte[1096]));
++                    tree.Add($"{i}3", new MemoryStream(new byte[2048]));
++                    tree.Add($"{i}2", new MemoryStream(new byte[1228]));
++                    tree.Add($"{i}1", new MemoryStream(new byte[8192]));
+ 
+                     Assert.Equal(tree.State.NumberOfEntries, 9 * 80);
+                 }
+diff --git a/test/FastTests/Voron/Trees/Rebalance.cs b/test/FastTests/Voron/Trees/Rebalance.cs
+index e1e2b6126d..cd62ad1ff7 100644
+--- a/test/FastTests/Voron/Trees/Rebalance.cs
++++ b/test/FastTests/Voron/Trees/Rebalance.cs
+@@ -57,29 +57,29 @@ public void StressTest()
+                 var tree = tx.CreateTree("foo");
+                 for (int i = 0; i < 80; ++i)
+                 {
+-                    tree.Add(string.Format("{0}1", i), new MemoryStream(new byte[1472]));
+-                    tree.Add(string.Format("{0}2", i), new MemoryStream(new byte[992]));
+-                    tree.Add(string.Format("{0}3", i), new MemoryStream(new byte[1632]));
+-                    tree.Add(string.Format("{0}4", i), new MemoryStream(new byte[632]));
+-                    tree.Add(string.Format("{0}5", i), new MemoryStream(new byte[824]));
+-                    tree.Add(string.Format("{0}6", i), new MemoryStream(new byte[1096]));
+-                    tree.Add(string.Format("{0}7", i), new MemoryStream(new byte[2048]));
+-                    tree.Add(string.Format("{0}8", i), new MemoryStream(new byte[1228]));
+-                    tree.Add(string.Format("{0}9", i), new MemoryStream(new byte[8192]));
++                    tree.Add($"{i}1", new MemoryStream(new byte[1472]));
++                    tree.Add($"{i}2", new MemoryStream(new byte[992]));
++                    tree.Add($"{i}3", new MemoryStream(new byte[1632]));
++                    tree.Add($"{i}4", new MemoryStream(new byte[632]));
++                    tree.Add($"{i}5", new MemoryStream(new byte[824]));
++                    tree.Add($"{i}6", new MemoryStream(new byte[1096]));
++                    tree.Add($"{i}7", new MemoryStream(new byte[2048]));
++                    tree.Add($"{i}8", new MemoryStream(new byte[1228]));
++                    tree.Add($"{i}9", new MemoryStream(new byte[8192]));
+                 }
+ 
+ 
+                 for (int i = 79; i >= 0; --i)
+                 {
+-                    tree.Delete(string.Format("{0}1", i));
+-                    tree.Delete(string.Format("{0}2", i));
+-                    tree.Delete(string.Format("{0}3", i));
+-                    tree.Delete(string.Format("{0}4", i));
+-                    tree.Delete(string.Format("{0}5", i));
+-                    tree.Delete(string.Format("{0}6", i));
+-                    tree.Delete(string.Format("{0}7", i));
+-                    tree.Delete(string.Format("{0}8", i));
+-                    tree.Delete(string.Format("{0}9", i));
++                    tree.Delete($"{i}1");
++                    tree.Delete($"{i}2");
++                    tree.Delete($"{i}3");
++                    tree.Delete($"{i}4");
++                    tree.Delete($"{i}5");
++                    tree.Delete($"{i}6");
++                    tree.Delete($"{i}7");
++                    tree.Delete($"{i}8");
++                    tree.Delete($"{i}9");
+                 }
+ 
+                 tx.Commit();
+diff --git a/test/RachisTests/SubscriptionFailoverWIthWaitingChains.cs b/test/RachisTests/SubscriptionFailoverWIthWaitingChains.cs
+index fb01b5779d..3ca5de8180 100644
+--- a/test/RachisTests/SubscriptionFailoverWIthWaitingChains.cs
++++ b/test/RachisTests/SubscriptionFailoverWIthWaitingChains.cs
+@@ -408,7 +408,7 @@ private Task GenerateSubscriptionThatSignalsToCDEUponCompletion(CountdownEvent m
+                          return;
+                      }
+                      _testInfo.Add((subsWorker, res.Exception));
+-                     if (res.Exception != null && res.Exception is AggregateException agg && agg.InnerException is SubscriptionClosedException sce &&
++                     if (res.Exception is AggregateException agg && agg.InnerException is SubscriptionClosedException sce &&
+                          sce.Message.Contains("Dropped by Test"))
+                          return;
+                      throw res.Exception;
+diff --git a/test/SlowTests/Bugs/MapRedue/MapReduceIndex.cs b/test/SlowTests/Bugs/MapRedue/MapReduceIndex.cs
+index d3e8076b20..85b53601ce 100644
+--- a/test/SlowTests/Bugs/MapRedue/MapReduceIndex.cs
++++ b/test/SlowTests/Bugs/MapRedue/MapReduceIndex.cs
+@@ -174,7 +174,7 @@ private void InserDocumentIntoDb(IDocumentSession aSession, String aDocumentId,
+                 {
+                     Id = aDocumentId,
+                     Version = Convert.ToUInt32(index+ 1),
+-                    Data = String.Format("Data for version {0}", index + 1)
++                    Data = $"Data for version {index + 1}"
+                 });
+             }
+ 
+@@ -198,7 +198,7 @@ private int NumberOfDocumentsInDbByIndex(IDocumentStore aStore)
+ 
+                 foreach (DocumentView document in query)
+                 {
+-                    Debug.WriteLine(String.Format("Document {0} v.{1}", document.Id, document.Version));
++                    Debug.WriteLine($"Document {document.Id} v.{document.Version}");
+                 }
+ 
+                 return query.Count();
+diff --git a/test/SlowTests/Bugs/MultiMapSearch/MultiMapWildCardSearch.cs b/test/SlowTests/Bugs/MultiMapSearch/MultiMapWildCardSearch.cs
+index c1314c486c..225f19a6a0 100644
+--- a/test/SlowTests/Bugs/MultiMapSearch/MultiMapWildCardSearch.cs
++++ b/test/SlowTests/Bugs/MultiMapSearch/MultiMapWildCardSearch.cs
+@@ -96,11 +96,11 @@ select new
+                                                 SortField = c.LastName,
+                                                 Query = new object[]
+                                                 {
+-                                                string.Format("{0} {1} {2}", c.FirstName, c.MiddleName, c.LastName),
++                                                $"{c.FirstName} {c.MiddleName} {c.LastName}",
+                                                 },
+                                                 QueryBoosted = new object[]
+                                                 {
+-                                                string.Format("{0} {1} {2}", c.FirstName, c.MiddleName, c.LastName)
++                                                $"{c.FirstName} {c.MiddleName} {c.LastName}"
+                                                 }.Boost(3),
+                                             });
+ 
+diff --git a/test/SlowTests/Cluster/ClusterMaintenanceTest.cs b/test/SlowTests/Cluster/ClusterMaintenanceTest.cs
+index e4163bfe6a..b244b36002 100644
+--- a/test/SlowTests/Cluster/ClusterMaintenanceTest.cs
++++ b/test/SlowTests/Cluster/ClusterMaintenanceTest.cs
+@@ -52,7 +52,7 @@ public async Task RavenDB_14044()
+                 Server = cluster.Leader,
+             }))
+             {
+-                var str = string.Format("{0}/admin/logs/watch", store.Urls.First().Replace("http", "ws"));
++                var str = $"{store.Urls.First().Replace("http", "ws")}/admin/logs/watch";
+                 var sb = new StringBuilder();
+ 
+                 await client.ConnectAsync(new Uri(str), CancellationToken.None);
+diff --git a/test/SlowTests/Issues/RavenDB-11089.cs b/test/SlowTests/Issues/RavenDB-11089.cs
+index 330448fcf7..4ce71f58d9 100644
+--- a/test/SlowTests/Issues/RavenDB-11089.cs
++++ b/test/SlowTests/Issues/RavenDB-11089.cs
+@@ -972,12 +972,12 @@ public Person2()
+ 
+             public string Id
+             {
+-                get { return string.Format("people/{0}", Name); }
++                get { return $"people/{Name}"; }
+             }
+ 
+             public string IdCopy
+             {
+-                get { return string.Format("people/{0}", Name); }
++                get { return $"people/{Name}"; }
+             }
+         }
+ 
+diff --git a/test/SlowTests/Issues/RavenDB-11750.cs b/test/SlowTests/Issues/RavenDB-11750.cs
+index 2ef95ccf0b..d15851cded 100644
+--- a/test/SlowTests/Issues/RavenDB-11750.cs
++++ b/test/SlowTests/Issues/RavenDB-11750.cs
+@@ -125,7 +125,7 @@ private static async Task CreateUserAsync(IDocumentStore store, string userName)
+         {
+             using (IAsyncDocumentSession session = store.OpenAsyncSession())
+             {
+-                string key = String.Format("users/{0}", userName);
++                string key = $"users/{userName}";
+                 Boolean userExists = await session.Advanced.ExistsAsync(key);
+                 if (!userExists)
+                 {
+diff --git a/test/SlowTests/Issues/RavenDB-3818.cs b/test/SlowTests/Issues/RavenDB-3818.cs
+index 0176842d96..188c9bf463 100644
+--- a/test/SlowTests/Issues/RavenDB-3818.cs
++++ b/test/SlowTests/Issues/RavenDB-3818.cs
+@@ -50,9 +50,7 @@ public string WKT
+             {
+                 get
+                 {
+-                    return string.Format("POINT({0} {1})",
+-                        Lon.ToString(CultureInfo.InvariantCulture),
+-                        Lat.ToString(CultureInfo.InvariantCulture));
++                    return $"POINT({Lon.ToString(CultureInfo.InvariantCulture)} {Lat.ToString(CultureInfo.InvariantCulture)})";
+                 }
+             }
+         }
+diff --git a/test/SlowTests/Issues/RavenDB_1251_2.cs b/test/SlowTests/Issues/RavenDB_1251_2.cs
+index 80ba753d73..628088d9c4 100644
+--- a/test/SlowTests/Issues/RavenDB_1251_2.cs
++++ b/test/SlowTests/Issues/RavenDB_1251_2.cs
+@@ -197,7 +197,7 @@ public override object ReadJson(JsonReader reader, Type objectType, object exist
+                 if (reader.TokenType == JsonToken.Null)
+                 {
+                     if (objectType != typeof(Duration?))
+-                        throw new InvalidDataException(string.Format("Cannot convert null value to {0}.", objectType));
++                        throw new InvalidDataException($"Cannot convert null value to {objectType}.");
+                     return null;
+                 }
+ 
+@@ -207,7 +207,7 @@ public override object ReadJson(JsonReader reader, Type objectType, object exist
+                     if (value == "")
+                     {
+                         if (objectType != typeof(Duration?))
+-                            throw new InvalidDataException(string.Format("Cannot convert null value to {0}.", objectType));
++                            throw new InvalidDataException($"Cannot convert null value to {objectType}.");
+                         return null;
+                     }
+                 }
+@@ -222,8 +222,7 @@ public override void WriteJson(JsonWriter writer, object value, JsonSerializer s
+                     throw new ArgumentNullException("value");
+ 
+                 if (!(value is Duration))
+-                    throw new ArgumentException(string.Format("Unexpected value when converting. Expected {0}, got {1}.", typeof(Duration).FullName,
+-                        value.GetType().FullName));
++                    throw new ArgumentException($"Unexpected value when converting. Expected {typeof(Duration).FullName}, got {value.GetType().FullName}.");
+ 
+                 var timeSpan = new TimeSpan(((Duration)value).Ticks);
+                 serializer.Serialize(writer, timeSpan);
+diff --git a/test/SlowTests/Issues/RavenDB_3222.cs b/test/SlowTests/Issues/RavenDB_3222.cs
+index d570f7edcd..6803183338 100644
+--- a/test/SlowTests/Issues/RavenDB_3222.cs
++++ b/test/SlowTests/Issues/RavenDB_3222.cs
+@@ -49,7 +49,7 @@ public void TDSQ()
+                         bulkInsert.Store(new MySpatialEntity()
+                         {
+                             Name = (i % 4).ToString(),
+-                            WKT = string.Format("Point ({0} {1})", 99 + i % 10 + 1, 99 + i % 10 + 1)
++                            WKT = $"Point ({99 + i % 10 + 1} {99 + i % 10 + 1})"
+                         });
+                     }
+                 }
+diff --git a/test/SlowTests/Issues/RavenDB_3462.cs b/test/SlowTests/Issues/RavenDB_3462.cs
+index c55ccc2ba1..d53f9e3bc3 100644
+--- a/test/SlowTests/Issues/RavenDB_3462.cs
++++ b/test/SlowTests/Issues/RavenDB_3462.cs
+@@ -91,9 +91,7 @@ public string WKT
+             {
+                 get
+                 {
+-                    return string.Format("POINT({0} {1})",
+-                        Lon.ToString(CultureInfo.InvariantCulture),
+-                        Lat.ToString(CultureInfo.InvariantCulture));
++                    return $"POINT({Lon.ToString(CultureInfo.InvariantCulture)} {Lat.ToString(CultureInfo.InvariantCulture)})";
+                 }
+             }
+         }
+diff --git a/test/SlowTests/Issues/RavenDB_6596.cs b/test/SlowTests/Issues/RavenDB_6596.cs
+index 1721a16e9d..8123c72fb3 100644
+--- a/test/SlowTests/Issues/RavenDB_6596.cs
++++ b/test/SlowTests/Issues/RavenDB_6596.cs
+@@ -112,8 +112,7 @@ public async Task Run(string c)
+                     }
+                     catch (Exception e)
+                     {
+-                        var tie = e as TargetInvocationException;
+-                        if (tie != null)
++                        if (e is TargetInvocationException tie)
+                             e = tie.InnerException;
+ 
+                         builder.AppendLine($"Culture: {culture.Name}. Test: {test.Name}. Message: {e.Message}. StackTrace: {e.StackTrace}");
+diff --git a/test/SlowTests/Issues/RavenDB_7322.cs b/test/SlowTests/Issues/RavenDB_7322.cs
+index ea30d53cbb..40fa126846 100644
+--- a/test/SlowTests/Issues/RavenDB_7322.cs
++++ b/test/SlowTests/Issues/RavenDB_7322.cs
+@@ -23,7 +23,7 @@ public void TestClassesShouldNotInheritFromOtherTestClassesToNotMultiplyTests()
+         {
+             var classes = from assembly in GetAssemblies(typeof(RavenDB_7322).Assembly)
+                           from test in GetAssemblyTypes(assembly)
+-                          where test.GetMethods().Any(x => x.GetCustomAttributes(typeof(FactAttribute), true).Count() != 0 || x.GetCustomAttributes(typeof(TheoryAttribute), true).Count() != 0)
++                          where test.GetMethods().Any(x => x.GetCustomAttributes(typeof(FactAttribute), true).Any() || x.GetCustomAttributes(typeof(TheoryAttribute), true).Any())
+                           select test;
+ 
+             var dictionary = classes.ToDictionary(x => x, x => x.BaseType);
+diff --git a/test/SlowTests/MailingList/CanHaveNullableDoubleProperty.cs b/test/SlowTests/MailingList/CanHaveNullableDoubleProperty.cs
+index 977b71584a..cd36630a6a 100644
+--- a/test/SlowTests/MailingList/CanHaveNullableDoubleProperty.cs
++++ b/test/SlowTests/MailingList/CanHaveNullableDoubleProperty.cs
+@@ -260,7 +260,7 @@ public override int GetHashCode()
+ 
+             public override string ToString()
+             {
+-                return string.Format("[Source: {0}, Id: {1}]", Source, Id);
++                return $"[Source: {Source}, Id: {Id}]";
+             }
+         }
+ 
+diff --git a/test/SlowTests/MailingList/Dmitry.cs b/test/SlowTests/MailingList/Dmitry.cs
+index 86a630b79d..fe44b086e4 100644
+--- a/test/SlowTests/MailingList/Dmitry.cs
++++ b/test/SlowTests/MailingList/Dmitry.cs
+@@ -21,8 +21,8 @@ public void DeepEqualsWorksWithTimeSpan()
+         {
+             var content = new MusicContent
+             {
+-                Title = string.Format("Song # {0}", 1),
+-                Album = string.Format("Album # {0}", 1)
++                Title = $"Song # {1}",
++                Album = $"Album # {1}"
+             };
+             content.Keywords.Add("new");
+ 
+@@ -46,8 +46,8 @@ public void TimeSpanWontTriggerPut()
+                     {
+                         var content = new MusicContent
+                         {
+-                            Title = string.Format("Song # {0}", i + 1),
+-                            Album = string.Format("Album # {0}", (i % 8) + 1)
++                            Title = $"Song # {i + 1}",
++                            Album = $"Album # {(i % 8) + 1}"
+                         };
+ 
+                         if (i > 0 && i % 10 == 0)
+diff --git a/test/SlowTests/MailingList/DynamicFieldSorting.cs b/test/SlowTests/MailingList/DynamicFieldSorting.cs
+index c9aa920abf..ce9574a0f0 100644
+--- a/test/SlowTests/MailingList/DynamicFieldSorting.cs
++++ b/test/SlowTests/MailingList/DynamicFieldSorting.cs
+@@ -57,8 +57,7 @@ public class ProjectionItem
+ 
+                 public override string ToString()
+                 {
+-                    return string.Format("SongId: {0}, N1: {1}", SongId,
+-                        NumericAttributes.First(x => x.Name == "N1").Value);
++                    return $"SongId: {SongId}, N1: {NumericAttributes.First(x => x.Name == "N1").Value}";
+                 }
+             }
+ 
+diff --git a/test/SlowTests/MailingList/Groenewoud.cs b/test/SlowTests/MailingList/Groenewoud.cs
+index 020d753d47..9914fb6a37 100644
+--- a/test/SlowTests/MailingList/Groenewoud.cs
++++ b/test/SlowTests/MailingList/Groenewoud.cs
+@@ -36,7 +36,7 @@ private struct ZipCityStateCountry
+ 
+             public override string ToString()
+             {
+-                return string.Format("{0} {1} {2} {3}", CountryCode, StateCode, ZipCode, City);
++                return $"{CountryCode} {StateCode} {ZipCode} {City}";
+             }
+         }
+ 
+diff --git a/test/SlowTests/MailingList/HierarchicalInheritanceIndexing.cs b/test/SlowTests/MailingList/HierarchicalInheritanceIndexing.cs
+index 17fa627f6f..598ae5d6e0 100644
+--- a/test/SlowTests/MailingList/HierarchicalInheritanceIndexing.cs
++++ b/test/SlowTests/MailingList/HierarchicalInheritanceIndexing.cs
+@@ -31,7 +31,7 @@ public void CanCreateIndex()
+                         var ex = new Example
+                         {
+                             OwnerId = rootId,
+-                            Name = string.Format("Example_{0}", i),
++                            Name = $"Example_{i}",
+                             Description = "Ex Description"
+                         };
+ 
+@@ -40,7 +40,7 @@ public void CanCreateIndex()
+                             OwnerId = childId,
+                             OverriddenValues = new Dictionary<string, object>
+                             {
+-                                {"Name", string.Format("Child_{0}", i)}
++                                {"Name", $"Child_{i}"}
+                             }
+                         };
+ 
+@@ -51,7 +51,7 @@ public void CanCreateIndex()
+                             OwnerId = grandChildId,
+                             OverriddenValues = new Dictionary<string, object>
+                             {
+-                                {"Name", string.Format("GrandChild_{0}", i)}
++                                {"Name", $"GrandChild_{i}"}
+                             }
+                         };
+ 
+diff --git a/test/SlowTests/MailingList/RavenDeserializationBug.cs b/test/SlowTests/MailingList/RavenDeserializationBug.cs
+index 7097bdc99a..dc7fdff35f 100644
+--- a/test/SlowTests/MailingList/RavenDeserializationBug.cs
++++ b/test/SlowTests/MailingList/RavenDeserializationBug.cs
+@@ -117,7 +117,7 @@ public override int GetHashCode()
+ 
+             public override string ToString()
+             {
+-                return string.Format("[{0}] {1} = {2}", Id, Name, Address);
++                return $"[{Id}] {Name} = {Address}";
+             }
+         }
+ 
+diff --git a/test/SlowTests/MailingList/RavenDynamicTests.cs b/test/SlowTests/MailingList/RavenDynamicTests.cs
+index f46e212986..260218134c 100644
+--- a/test/SlowTests/MailingList/RavenDynamicTests.cs
++++ b/test/SlowTests/MailingList/RavenDynamicTests.cs
+@@ -261,12 +261,12 @@ public Person()
+ 
+             public string Id
+             {
+-                get { return string.Format("people/{0}", Name); }
++                get { return $"people/{Name}"; }
+             }
+ 
+             public string IdCopy
+             {
+-                get { return string.Format("people/{0}", Name); }
++                get { return $"people/{Name}"; }
+             }
+         }
+     }
+diff --git a/test/SlowTests/MailingList/Scott.cs b/test/SlowTests/MailingList/Scott.cs
+index 19e054ec62..8a49cdf3bf 100644
+--- a/test/SlowTests/MailingList/Scott.cs
++++ b/test/SlowTests/MailingList/Scott.cs
+@@ -90,7 +90,7 @@ private class TagAndCount
+ 
+             public override string ToString()
+             {
+-                return string.Format("Tag: {0}, Count: {1}", Tag, Count);
++                return $"Tag: {Tag}, Count: {Count}";
+             }
+         }
+     }
+diff --git a/test/SlowTests/MailingList/Stif.cs b/test/SlowTests/MailingList/Stif.cs
+index da2e9716fd..94680f3a53 100644
+--- a/test/SlowTests/MailingList/Stif.cs
++++ b/test/SlowTests/MailingList/Stif.cs
+@@ -96,12 +96,12 @@ public void GetDummyDoc()
+                 using (IDocumentSession documentSession = store.OpenSession())
+                 {
+                     MyDoc docFetched = documentSession.Load<MyDoc>(new Guid(0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0).ToString()); //returns an object
+-                    Debug.WriteLine(string.Format("found {0}", docFetched.Id));
++                    Debug.WriteLine($"found {docFetched.Id}");
+ 
+                     Assert.NotNull(docFetched);
+ 
+                     List<MyDoc> docs = documentSession.Query<MyDoc>().Customize(x => x.WaitForNonStaleResults()).ToList(); //returns an empty list
+-                    Debug.WriteLine(string.Format("found {0} docs", docs.Count));
++                    Debug.WriteLine($"found {docs.Count} docs");
+ 
+                     Assert.Equal(1, docs.Count);
+ 
+diff --git a/test/SlowTests/MailingList/Tamir.cs b/test/SlowTests/MailingList/Tamir.cs
+index 8b39d4b3fb..3a2d10a5d9 100644
+--- a/test/SlowTests/MailingList/Tamir.cs
++++ b/test/SlowTests/MailingList/Tamir.cs
+@@ -51,7 +51,7 @@ public void InOnObjects()
+                     IEnumerable<Developer> developers = from name in new[] { "VisualStudio", "Vim", "Eclipse", "PyCharm" }
+                                                         select new Developer
+                                                         {
+-                                                            Name = string.Format("Fan of {0}", name),
++                                                            Name = $"Fan of {name}",
+                                                             PreferredIDE = new IDE
+                                                             {
+                                                                 Name = name
+diff --git a/test/SlowTests/MailingList/TestRavenIncludes.cs b/test/SlowTests/MailingList/TestRavenIncludes.cs
+index 28db3fe962..8c526a805c 100644
+--- a/test/SlowTests/MailingList/TestRavenIncludes.cs
++++ b/test/SlowTests/MailingList/TestRavenIncludes.cs
+@@ -92,7 +92,7 @@ public string IncludedIdWithEntityName
+             {
+                 get
+                 {
+-                    return string.Format("IncludedDatas/{0}", Id);
++                    return $"IncludedDatas/{Id}";
+                 }
+             }
+         }
+diff --git a/test/SlowTests/MailingList/Vlad.cs b/test/SlowTests/MailingList/Vlad.cs
+index c0ce8e389e..85d1b87f41 100644
+--- a/test/SlowTests/MailingList/Vlad.cs
++++ b/test/SlowTests/MailingList/Vlad.cs
+@@ -196,7 +196,7 @@ private class Post
+ 
+             public override string ToString()
+             {
+-                return string.Format("Title: {0}", Title);
++                return $"Title: {Title}";
+             }
+         }
+ 
+diff --git a/test/SlowTests/MailingList/Wallace.cs b/test/SlowTests/MailingList/Wallace.cs
+index d9fdc1e9b1..adfd1b902b 100644
+--- a/test/SlowTests/MailingList/Wallace.cs
++++ b/test/SlowTests/MailingList/Wallace.cs
+@@ -95,7 +95,7 @@ private void VerifyOrderLine(OrderLine orderLine)
+                 if (string.IsNullOrEmpty(orderLine.Product.Id))
+                     throw new ArgumentException("Product with empty Id", "orderLine");
+                 if (string.IsNullOrEmpty(orderLine.Product.CategoryId))
+-                    throw new ArgumentException(string.Format("Product {0} with empty CategoryId", orderLine.Product.Id), "orderLine");
++                    throw new ArgumentException($"Product {orderLine.Product.Id} with empty CategoryId", "orderLine");
+             }
+         }
+ 
+diff --git a/test/SlowTests/MailingList/WallaceTurner.cs b/test/SlowTests/MailingList/WallaceTurner.cs
+index abc7165637..4b0ea7ba55 100644
+--- a/test/SlowTests/MailingList/WallaceTurner.cs
++++ b/test/SlowTests/MailingList/WallaceTurner.cs
+@@ -37,7 +37,7 @@ public DataResult()
+ 
+             public override string ToString()
+             {
+-                return string.Format("Address: {0}, Id: {1}, SiteId: {2}", Address, Id, SiteId);
++                return $"Address: {Address}, Id: {Id}, SiteId: {SiteId}";
+             }
+ 
+             public DataResult Clone()
+diff --git a/test/SlowTests/MailingList/Willem.cs b/test/SlowTests/MailingList/Willem.cs
+index 8343810940..c3074556d8 100644
+--- a/test/SlowTests/MailingList/Willem.cs
++++ b/test/SlowTests/MailingList/Willem.cs
+@@ -171,7 +171,7 @@ protected override void SetItem(int index, Course item)
+             {
+                 for (int i = 0; i < Count; i++)
+                     if (i != index && Items[i].Id == item.Id)
+-                        throw new ArgumentException(string.Format("Course with id {0} already exists", item.Id));
++                        throw new ArgumentException($"Course with id {item.Id} already exists");
+                 base.SetItem(index, item);
+             }
+ 
+@@ -200,7 +200,7 @@ private class GuestCollection : Collection<Guest>
+             protected override void InsertItem(int index, Guest item)
+             {
+                 if (Items.Any(g => g.Id == item.Id))
+-                    throw new ArgumentException(string.Format("Guest with id {0} already exists", item.Id));
++                    throw new ArgumentException($"Guest with id {item.Id} already exists");
+                 base.InsertItem(index, item);
+             }
+ 
+@@ -208,7 +208,7 @@ protected override void SetItem(int index, Guest item)
+             {
+                 for (int i = 0; i < Count; i++)
+                     if (i != index && Items[i].Id == item.Id)
+-                        throw new ArgumentException(string.Format("Guest with id {0} already exists", item.Id));
++                        throw new ArgumentException($"Guest with id {item.Id} already exists");
+ 
+                 base.SetItem(index, item);
+             }
+@@ -271,7 +271,7 @@ private void VerifyOrderLine(OrderLine orderLine)
+                 if (string.IsNullOrEmpty(orderLine.Product.Id))
+                     throw new ArgumentException("Product with empty Id", "orderLine");
+                 if (string.IsNullOrEmpty(orderLine.Product.CategoryId))
+-                    throw new ArgumentException(string.Format("Product {0} with empty CategoryId", orderLine.Product.Id), "orderLine");
++                    throw new ArgumentException($"Product {orderLine.Product.Id} with empty CategoryId", "orderLine");
+             }
+         }
+ 
+diff --git a/test/SlowTests/MailingList/ZNS.cs b/test/SlowTests/MailingList/ZNS.cs
+index 9c3e8e5ce0..452cc372c1 100644
+--- a/test/SlowTests/MailingList/ZNS.cs
++++ b/test/SlowTests/MailingList/ZNS.cs
+@@ -40,8 +40,8 @@ public override int GetHashCode()
+ 
+             public override bool Equals(object obj)
+             {
+-                if (obj != null && obj is TestItem)
+-                    return ((TestItem)obj).Id == this.Id;
++                if (obj is TestItem testItem)
++                    return testItem.Id == this.Id;
+                 return false;
+             }
+         }
+diff --git a/test/SlowTests/MailingList/ZNS2.cs b/test/SlowTests/MailingList/ZNS2.cs
+index 9bdf9c6722..ce9cb437b3 100644
+--- a/test/SlowTests/MailingList/ZNS2.cs
++++ b/test/SlowTests/MailingList/ZNS2.cs
+@@ -36,8 +36,8 @@ public override int GetHashCode()
+ 
+             public override bool Equals(object obj)
+             {
+-                if (obj != null && obj is TestItem)
+-                    return ((TestItem)obj).Id == this.Id;
++                if (obj is TestItem testItem)
++                    return testItem.Id == this.Id;
+                 return false;
+             }
+         }
+diff --git a/test/SlowTests/Server/Documents/ETL/SQL/SqlEtlTests.cs b/test/SlowTests/Server/Documents/ETL/SQL/SqlEtlTests.cs
+index 832e18e943..c0e2b2293e 100644
+--- a/test/SlowTests/Server/Documents/ETL/SQL/SqlEtlTests.cs
++++ b/test/SlowTests/Server/Documents/ETL/SQL/SqlEtlTests.cs
+@@ -530,7 +530,7 @@ public async Task WillLog()
+                     await session.SaveChangesAsync();
+                 }
+ 
+-                var str = string.Format("{0}/admin/logs/watch", store.Urls.First().Replace("http", "ws"));
++                var str = $"{store.Urls.First().Replace("http", "ws")}/admin/logs/watch";
+                 var sb = new StringBuilder();
+ 
+                 var mre = new AsyncManualResetEvent();
+diff --git a/test/SlowTests/SlowTests/Faceted/FacetPaging.cs b/test/SlowTests/SlowTests/Faceted/FacetPaging.cs
+index 812405b06e..28420925c9 100644
+--- a/test/SlowTests/SlowTests/Faceted/FacetPaging.cs
++++ b/test/SlowTests/SlowTests/Faceted/FacetPaging.cs
+@@ -64,7 +64,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -119,7 +119,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -175,7 +175,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -231,7 +231,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -287,7 +287,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -343,7 +343,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -399,7 +399,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -455,7 +455,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -511,7 +511,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -567,7 +567,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -623,7 +623,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -679,7 +679,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+diff --git a/test/SlowTests/SparrowTests/LoggingSourceTests.cs b/test/SlowTests/SparrowTests/LoggingSourceTests.cs
+index 3d552a6cba..df57fb31cd 100644
+--- a/test/SlowTests/SparrowTests/LoggingSourceTests.cs
++++ b/test/SlowTests/SparrowTests/LoggingSourceTests.cs
+@@ -362,8 +362,7 @@ private static string TempInfoToInvestigate(LoggingSource loggingSource)
+         {
+             if (loggingSource.Compressing)
+             {
+-                var compressLoggingThread = loggingSource.GetType().GetField("_compressLoggingThread", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(loggingSource) as Thread;
+-                if(compressLoggingThread != null)
++                if(loggingSource.GetType().GetField("_compressLoggingThread", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(loggingSource)is Thread compressLoggingThread)
+                     return $"compressLoggingThread.IsAlive {compressLoggingThread.IsAlive}";
+             }
+ 
+diff --git a/test/SlowTests/Tests/Faceted/FacetedIndex.cs b/test/SlowTests/Tests/Faceted/FacetedIndex.cs
+index 615142187f..85f77a396c 100644
+--- a/test/SlowTests/Tests/Faceted/FacetedIndex.cs
++++ b/test/SlowTests/Tests/Faceted/FacetedIndex.cs
+@@ -307,13 +307,13 @@ private void Setup(IDocumentStore store, List<Facet> facets,  List<RangeFacet> r
+ 
+             //Test the Megapixels_Range facets using the same method
+             var megapixelsFacets = facetResults["Megapixels"].Values;
+-            CheckFacetCount(filteredData.Where(x => x.Megapixels <= 3.0m).Count(),
++            CheckFacetCount(filteredData.Count(x => x.Megapixels <= 3.0m),
+                             megapixelsFacets.FirstOrDefault(x => x.Range == "Megapixels <= 3"));
+-            CheckFacetCount(filteredData.Where(x => x.Megapixels >= 3.0m && x.Megapixels <= 7.0m).Count(),
++            CheckFacetCount(filteredData.Count(x => x.Megapixels >= 3.0m && x.Megapixels <= 7.0m),
+                             megapixelsFacets.FirstOrDefault(x => x.Range == "Megapixels between 3 and 7"));
+-            CheckFacetCount(filteredData.Where(x => x.Megapixels >= 7.0m && x.Megapixels <= 10.0m).Count(),
++            CheckFacetCount(filteredData.Count(x => x.Megapixels >= 7.0m && x.Megapixels <= 10.0m),
+                             megapixelsFacets.FirstOrDefault(x => x.Range == "Megapixels between 7 and 10"));
+-            CheckFacetCount(filteredData.Where(x => x.Megapixels >= 10.0m).Count(),
++            CheckFacetCount(filteredData.Count(x => x.Megapixels >= 10.0m),
+                             megapixelsFacets.FirstOrDefault(x => x.Range == "Megapixels >= 10"));
+         }
+ 
+diff --git a/test/SlowTests/Tests/Faceted/FacetedIndexLimit.cs b/test/SlowTests/Tests/Faceted/FacetedIndexLimit.cs
+index 2cf88ad1ff..85dc8f2eca 100644
+--- a/test/SlowTests/Tests/Faceted/FacetedIndexLimit.cs
++++ b/test/SlowTests/Tests/Faceted/FacetedIndexLimit.cs
+@@ -53,7 +53,7 @@ public void CanPerformSearchWithTwoDefaultFacets()
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -70,7 +70,7 @@ public void CanPerformSearchWithTwoDefaultFacets()
+ 
+                     foreach (var facet in facetResults["Model"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Model.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Model.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -238,7 +238,7 @@ into result
+ 
+                     foreach (var facet in manufacturer.Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -252,7 +252,7 @@ into result
+                     Assert.Equal(camerasByHits[3], manufacturer.RemainingTerms[1]);
+                     Assert.Equal(camerasByHits[4], manufacturer.RemainingTerms[2]);
+ 
+-                    Assert.Equal(_data.Count(),
++                    Assert.Equal(_data.Count,
+                         manufacturer.Values[0].Count +
+                         manufacturer.Values[1].Count +
+                         manufacturer.RemainingHits);
+@@ -309,7 +309,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -347,7 +347,7 @@ public void CanPerformSearchWithTwoDefaultFacets_LuceneQuery()
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -364,7 +364,7 @@ public void CanPerformSearchWithTwoDefaultFacets_LuceneQuery()
+ 
+                     foreach (var facet in facetResults["Model"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Model.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Model.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -532,7 +532,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+@@ -542,7 +542,7 @@ into result
+                     Assert.Equal(camerasByHits[3], facetResults["Manufacturer"].RemainingTerms[1]);
+                     Assert.Equal(camerasByHits[4], facetResults["Manufacturer"].RemainingTerms[2]);
+ 
+-                    Assert.Equal(_data.Count(),
++                    Assert.Equal(_data.Count,
+                         facetResults["Manufacturer"].Values[0].Count +
+                         facetResults["Manufacturer"].Values[1].Count +
+                         facetResults["Manufacturer"].RemainingHits);
+@@ -599,7 +599,7 @@ into result
+ 
+                     foreach (var facet in facetResults["Manufacturer"].Values)
+                     {
+-                        var inMemoryCount = _data.Where(x => x.Manufacturer.ToLower() == facet.Range).Count();
++                        var inMemoryCount = _data.Count(x => x.Manufacturer.ToLower() == facet.Range);
+                         Assert.Equal(inMemoryCount, facet.Count);
+                     }
+ 
+diff --git a/test/SlowTests/Tests/Linq/OrderBy.cs b/test/SlowTests/Tests/Linq/OrderBy.cs
+index 49de5df155..782d61df44 100644
+--- a/test/SlowTests/Tests/Linq/OrderBy.cs
++++ b/test/SlowTests/Tests/Linq/OrderBy.cs
+@@ -20,7 +20,7 @@ private class Section
+             public Section(int position)
+             {
+                 Position = position;
+-                Name = string.Format("Position: {0}", position);
++                Name = $"Position: {position}";
+             }
+         }
+ 
+diff --git a/test/SlowTests/Tests/NoNonDisposableTests.cs b/test/SlowTests/Tests/NoNonDisposableTests.cs
+index 26f016cd67..de0bb60267 100644
+--- a/test/SlowTests/Tests/NoNonDisposableTests.cs
++++ b/test/SlowTests/Tests/NoNonDisposableTests.cs
+@@ -28,7 +28,7 @@ public void ShouldExist()
+         {
+             var types = from assembly in GetAssemblies(typeof(NoNonDisposableTests).Assembly)
+                         from test in GetAssemblyTypes(assembly)
+-                        where test.GetMethods().Any(x => x.GetCustomAttributes(typeof(FactAttribute), true).Count() != 0 || x.GetCustomAttributes(typeof(TheoryAttribute), true).Count() != 0)
++                        where test.GetMethods().Any(x => x.GetCustomAttributes(typeof(FactAttribute), true).Any() || x.GetCustomAttributes(typeof(TheoryAttribute), true).Any())
+                         where typeof(IDisposable).IsAssignableFrom(test) == false
+                         select test;
+ 
+diff --git a/test/SlowTests/Tests/Track/RavenDB053.cs b/test/SlowTests/Tests/Track/RavenDB053.cs
+index e0ab2396f8..39c33bebcb 100644
+--- a/test/SlowTests/Tests/Track/RavenDB053.cs
++++ b/test/SlowTests/Tests/Track/RavenDB053.cs
+@@ -22,7 +22,7 @@ private class JoinedChildTransport
+ 
+             public override string ToString()
+             {
+-                return string.Format("ChildId: {0}, TransportId: {1}, Name: {2}", ChildId, TransportId, Name);
++                return $"ChildId: {ChildId}, TransportId: {TransportId}, Name: {Name}";
+             }
+         }
+ 
+diff --git a/test/SlowTests/Verifications/ReduceAndProject.cs b/test/SlowTests/Verifications/ReduceAndProject.cs
+index e57a625432..24ee401ec1 100644
+--- a/test/SlowTests/Verifications/ReduceAndProject.cs
++++ b/test/SlowTests/Verifications/ReduceAndProject.cs
+@@ -92,7 +92,7 @@ public void WillTransform()
+ 
+                         foreach (var role in roles)
+                         {
+-                            var roleToStore = new PersonnelRole() { PersonnelId = personnel.Id, RoleId = string.Format("Roles/{0}", role) };
++                            var roleToStore = new PersonnelRole() { PersonnelId = personnel.Id, RoleId = $"Roles/{role}" };
+                             session.Store(roleToStore);
+                         }
+                         session.SaveChanges();
+diff --git a/test/SlowTests/Voron/Bugs/DataInconsistencyRepro.cs b/test/SlowTests/Voron/Bugs/DataInconsistencyRepro.cs
+index bf1497fdf1..ccb7151648 100644
+--- a/test/SlowTests/Voron/Bugs/DataInconsistencyRepro.cs
++++ b/test/SlowTests/Voron/Bugs/DataInconsistencyRepro.cs
+@@ -159,7 +159,7 @@ private void put_doc(Random r, Guid etag, Dictionary<Guid, string> inMemoryKeysB
+ 
+         private string get_id(Guid etag, Random r)
+         {
+-            return string.Format("trackings/{0}/{1}/2016-02", etag, get_ip_address(r));
++            return $"trackings/{etag}/{get_ip_address(r)}/2016-02";
+         }
+ 
+         private string get_doc_data(Random r)
+@@ -185,7 +185,7 @@ private string get_doc_data(Random r)
+ 
+         private string get_ip_address(Random r)
+         {
+-            return string.Format("{0}.{1}.{2}.{3}", r.Next(0, 255), r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
++            return $"{r.Next(0, 255)}.{r.Next(0, 255)}.{r.Next(0, 255)}.{r.Next(0, 255)}";
+         }
+ 
+         public class UuidGenerator
+diff --git a/test/SlowTests/Voron/Bugs/FlushingToDataFile.cs b/test/SlowTests/Voron/Bugs/FlushingToDataFile.cs
+index 45c4ae2d9b..d525b5368c 100644
+--- a/test/SlowTests/Voron/Bugs/FlushingToDataFile.cs
++++ b/test/SlowTests/Voron/Bugs/FlushingToDataFile.cs
+@@ -171,7 +171,7 @@ public void OldestActiveTransactionShouldBeCalculatedProperly()
+                             {
+                                 foreach (var tree in trees)
+                                 {
+-                                    tx.CreateTree(tree).Add(string.Format("key/{0}/{1}", a, i), new MemoryStream(buffer));
++                                    tx.CreateTree(tree).Add($"key/{a}/{i}", new MemoryStream(buffer));
+                                 }
+ 
+                             }
+diff --git a/test/SlowTests/Voron/Bugs/Isolation.cs b/test/SlowTests/Voron/Bugs/Isolation.cs
+index 3deac5acbd..62016980cb 100644
+--- a/test/SlowTests/Voron/Bugs/Isolation.cs
++++ b/test/SlowTests/Voron/Bugs/Isolation.cs
+@@ -39,7 +39,7 @@ public void MultiTreeIteratorShouldBeIsolated1()
+ 
+                         do
+                         {
+-                            Assert.True(iterator.CurrentKey.ToString() != key, string.Format("Key '{0}' should not be present in multi-iterator", key));
++                            Assert.True(iterator.CurrentKey.ToString() != key, $"Key '{key}' should not be present in multi-iterator");
+ 
+                             count++;
+                         }
+@@ -127,8 +127,8 @@ public void ScratchPagesShouldNotBeReleasedUntilNotUsed()
+                 {
+                     using (var tx = env.WriteTransaction())
+                     {
+-                        tx.CreateTree(  "tree0").Add(string.Format("key/{0}/{1}/1", new string('0', 1000), a), new MemoryStream());
+-                        tx.CreateTree(  "tree0").Add(string.Format("key/{0}/{1}/2", new string('0', 1000), a), new MemoryStream());
++                        tx.CreateTree(  "tree0").Add($"key/{new string ('0', 1000)}/{a}/1", new MemoryStream());
++                        tx.CreateTree(  "tree0").Add($"key/{new string ('0', 1000)}/{a}/2", new MemoryStream());
+ 
+                         tx.Commit();
+                     }
+@@ -154,7 +154,7 @@ public void ScratchPagesShouldNotBeReleasedUntilNotUsed()
+                         using (var txw = env.WriteTransaction())
+                         {
+                             var tree = txw.CreateTree("tree1");
+-                            tree.Add(string.Format("yek/{0}/0/0", new string('0', 1000)), new MemoryStream()); // allocates new page from scratch (position 11)
++                            tree.Add($"yek/{new string ('0', 1000)}/0/0", new MemoryStream()); // allocates new page from scratch (position 11)
+ 
+                             txw.Commit();
+                         }
+diff --git a/test/SlowTests/Voron/Bugs/MemoryAccess.cs b/test/SlowTests/Voron/Bugs/MemoryAccess.cs
+index 985973de29..8bb1d7cf0c 100644
+--- a/test/SlowTests/Voron/Bugs/MemoryAccess.cs
++++ b/test/SlowTests/Voron/Bugs/MemoryAccess.cs
+@@ -29,8 +29,8 @@ public void ShouldNotThrowAccessViolation()
+                 {
+                     foreach (var tree in trees)
+                     {
+-                        tx.ReadTree(tree).Add(string.Format("key/{0}/{1}/1", new string('0', 1000), a), new MemoryStream());
+-                        tx.ReadTree(tree).Add(string.Format("key/{0}/{1}/2", new string('0', 1000), a), new MemoryStream());
++                        tx.ReadTree(tree).Add($"key/{new string ('0', 1000)}/{a}/1", new MemoryStream());
++                        tx.ReadTree(tree).Add($"key/{new string ('0', 1000)}/{a}/2", new MemoryStream());
+                     }
+ 
+                     tx.Commit();
+@@ -50,7 +50,7 @@ public void ShouldNotThrowAccessViolation()
+ 
+                         using (var txw = Env.WriteTransaction())
+                         {
+-                            txw.ReadTree(tree).Add(string.Format("key/{0}/0/0", new string('0', 1000)), new MemoryStream());
++                            txw.ReadTree(tree).Add($"key/{new string ('0', 1000)}/0/0", new MemoryStream());
+ 
+                             txw.Commit();
+                         }
+diff --git a/test/SlowTests/Voron/Bugs/MultiAdds.cs b/test/SlowTests/Voron/Bugs/MultiAdds.cs
+index 9090df1814..52c69b14f3 100644
+--- a/test/SlowTests/Voron/Bugs/MultiAdds.cs
++++ b/test/SlowTests/Voron/Bugs/MultiAdds.cs
+@@ -204,7 +204,7 @@ private void AddMultiRecords(StorageEnvironment env, IList<string> trees, int do
+                 {
+                     foreach (var tree in trees)
+                     {
+-                        var value = sequential ? string.Format("tree_{0}_record_{1}_key_{2}", tree, i, key) : Guid.NewGuid().ToString();
++                        var value = sequential ? $"tree_{tree}_record_{i}_key_{key}" : Guid.NewGuid().ToString();
+ 
+                         tx.CreateTree(tree).MultiAdd((i % 10).ToString(), value);
+                     }
+diff --git a/test/SlowTests/Voron/Checksum.cs b/test/SlowTests/Voron/Checksum.cs
+index 7c92b29ba6..150e5d1d27 100644
+--- a/test/SlowTests/Voron/Checksum.cs
++++ b/test/SlowTests/Voron/Checksum.cs
+@@ -55,7 +55,7 @@ public unsafe void ValidatePageChecksumShouldDetectDataCorruption()
+ 
+                         for (int j = 0; j < recordCount; j++)
+                         {
+-                            tree.Add(string.Format("{0}/items/{1}", name, j), j % 2 == 0 ? value1 : value2);
++                            tree.Add($"{name}/items/{j}", j % 2 == 0 ? value1 : value2);
+                         }
+ 
+                         tx.Commit();
+@@ -90,7 +90,7 @@ public unsafe void ValidatePageChecksumShouldDetectDataCorruption()
+ 
+                             for (int i = 0; i < recordCount; i++)
+                             {
+-                                var readResult = tree.Read(string.Format("{0}/items/{1}", treeName, i));
++                                var readResult = tree.Read($"{treeName}/items/{i}");
+ 
+                                 Assert.NotNull(readResult);
+ 
+diff --git a/test/SlowTests/Voron/Compaction/StorageCompactionTestsSlow.cs b/test/SlowTests/Voron/Compaction/StorageCompactionTestsSlow.cs
+index 4bb005e00d..eebe9f30e6 100644
+--- a/test/SlowTests/Voron/Compaction/StorageCompactionTestsSlow.cs
++++ b/test/SlowTests/Voron/Compaction/StorageCompactionTestsSlow.cs
+@@ -73,7 +73,7 @@ public void ShouldOccupyLessSpace(int seed)
+ 
+             var newSize = GetDirSize(new DirectoryInfo(compactedData));
+ 
+-            Assert.True(newSize < oldSize, string.Format("Old size: {0:#,#;;0} MB, new size {1:#,#;;0} MB", oldSize / 1024 / 1024, newSize / 1024 / 1024));
++            Assert.True(newSize < oldSize, $"Old size: {oldSize / 1024 / 1024:#,#;;0} MB, new size {newSize / 1024 / 1024:#,#;;0} MB");
+         }
+ 
+         [Theory]
+@@ -110,7 +110,7 @@ public void CompactionMustNotLooseAnyData(int seed)
+ 
+                         for (int j = 0; j < recordCount; j++)
+                         {
+-                            tree.Add(string.Format("{0}/items/{1}", name, j), j % 2 == 0 ? value1 : value2);
++                            tree.Add($"{name}/items/{j}", j % 2 == 0 ? value1 : value2);
+                         }
+ 
+                         tx.Commit();
+@@ -153,7 +153,7 @@ public void CompactionMustNotLooseAnyData(int seed)
+ 
+                         for (int i = 0; i < recordCount; i++)
+                         {
+-                            var readResult = tree.Read(string.Format("{0}/items/{1}", treeName, i));
++                            var readResult = tree.Read($"{treeName}/items/{i}");
+ 
+                             Assert.NotNull(readResult);
+ 
+diff --git a/test/SlowTests/Voron/Storage/VeryBig.cs b/test/SlowTests/Voron/Storage/VeryBig.cs
+index f5020216dd..b65ed4d759 100644
+--- a/test/SlowTests/Voron/Storage/VeryBig.cs
++++ b/test/SlowTests/Voron/Storage/VeryBig.cs
+@@ -30,7 +30,7 @@ public void CanGrowBeyondInitialSize()
+                     var tree = tx.CreateTree("test");
+                     for (int j = 0; j < 12; j++)
+                     {
+-                        tree.Add(string.Format("{0:000}-{1:000}", j, i), new MemoryStream(buffer));
++                        tree.Add($"{j:000}-{i:000}", new MemoryStream(buffer));
+                     }
+                     tx.Commit();
+                 }
+@@ -50,7 +50,7 @@ public void CanGrowBeyondInitialSize_Root()
+                     var tree = tx.CreateTree("test");
+                     for (int j = 0; j < 12; j++)
+                     {
+-                        tree.Add(string.Format("{0:000}-{1:000}", j, i), new MemoryStream(buffer));
++                        tree.Add($"{j:000}-{i:000}", new MemoryStream(buffer));
+                     }
+                     tx.Commit();
+                 }
+@@ -75,7 +75,7 @@ public void CanGrowBeyondInitialSize_WithAnotherTree()
+                     var tree = tx.CreateTree("test");
+                     for (int j = 0; j < 12; j++)
+                     {
+-                        tree.Add(string.Format("{0:000}-{1:000}", j, i), new MemoryStream(buffer));
++                        tree.Add($"{j:000}-{i:000}", new MemoryStream(buffer));
+                     }
+                     tx.Commit();
+                 }
+diff --git a/test/StressTests/Issues/RavenDB_12151.cs b/test/StressTests/Issues/RavenDB_12151.cs
+index 0182099d65..2a3b7a0868 100644
+--- a/test/StressTests/Issues/RavenDB_12151.cs
++++ b/test/StressTests/Issues/RavenDB_12151.cs
+@@ -210,7 +210,7 @@ private void RunTest(DocumentStore store, string endOfPatchReason)
+                 {
+                     foreach (var error in errors)
+                     {
+-                        if (error != null && error.Errors != null && error.Errors.Length > 0)
++                        if (error?.Errors != null && error.Errors.Length > 0)
+                         {
+                             sb.AppendLine($"Indexing errors for: '{error.Name}'");
+                             foreach (var er in error.Errors)
+diff --git a/test/StressTests/Voron/InvalidReleasesOfScratchPages.cs b/test/StressTests/Voron/InvalidReleasesOfScratchPages.cs
+index 872ac706c2..fe983f7222 100644
+--- a/test/StressTests/Voron/InvalidReleasesOfScratchPages.cs
++++ b/test/StressTests/Voron/InvalidReleasesOfScratchPages.cs
+@@ -110,9 +110,7 @@ public void ParallelWritesInBatchesAndReadsByUsingTreeIterator()
+             }
+             catch (Exception ex)
+             {
+-                var aggregate = ex as AggregateException;
+-
+-                if (aggregate != null)
++                if (ex is AggregateException aggregate)
+                 {
+                     foreach (var innerEx in aggregate.InnerExceptions)
+                     {

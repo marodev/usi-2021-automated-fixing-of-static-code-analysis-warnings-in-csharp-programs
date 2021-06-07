@@ -1,0 +1,1515 @@
+diff --git a/MimeKit/ContentType.cs b/MimeKit/ContentType.cs
+index 0c0ab73e..3d86c526 100644
+--- a/MimeKit/ContentType.cs
++++ b/MimeKit/ContentType.cs
+@@ -232,7 +232,7 @@ namespace MimeKit {
+ 		/// </remarks>
+ 		/// <value>The mime-type.</value>
+ 		public string MimeType {
+-			get { return string.Format ("{0}/{1}", MediaType, MediaSubtype); }
++			get { return $"{MediaType}/{MediaSubtype}"; }
+ 		}
+ 
+ 		/// <summary>
+diff --git a/MimeKit/Cryptography/ArcSigner.cs b/MimeKit/Cryptography/ArcSigner.cs
+index d7c3485d..5810e4d7 100644
+--- a/MimeKit/Cryptography/ArcSigner.cs
++++ b/MimeKit/Cryptography/ArcSigner.cs
+@@ -413,7 +413,7 @@ namespace MimeKit.Cryptography {
+ 				fields[i] = headers[i].ToLowerInvariant ();
+ 
+ 				if (ArcShouldNotInclude.Contains (fields[i]))
+-					throw new ArgumentException (string.Format ("The list of headers to sign SHOULD NOT include the '{0}' header.", headers[i]), nameof (headers));
++					throw new ArgumentException ($"The list of headers to sign SHOULD NOT include the '{headers[i]}' header.", nameof (headers));
+ 
+ 				if (fields[i] == "from")
+ 					containsFrom = true;
+@@ -446,7 +446,7 @@ namespace MimeKit.Cryptography {
+ 				fields[i] = headers[i].ToHeaderName ().ToLowerInvariant ();
+ 
+ 				if (ArcShouldNotInclude.Contains (fields[i]))
+-					throw new ArgumentException (string.Format ("The list of headers to sign SHOULD NOT include the '{0}' header.", headers[i].ToHeaderName ()), nameof (headers));
++					throw new ArgumentException ($"The list of headers to sign SHOULD NOT include the '{headers[i].ToHeaderName()}' header.", nameof (headers));
+ 
+ 				if (headers[i] == HeaderId.From)
+ 					containsFrom = true;
+diff --git a/MimeKit/Cryptography/AsymmetricAlgorithmExtensions.cs b/MimeKit/Cryptography/AsymmetricAlgorithmExtensions.cs
+index 1e2f1551..8def3872 100644
+--- a/MimeKit/Cryptography/AsymmetricAlgorithmExtensions.cs
++++ b/MimeKit/Cryptography/AsymmetricAlgorithmExtensions.cs
+@@ -170,7 +170,7 @@ namespace MimeKit.Cryptography
+ 
+ 			// TODO: support ECDiffieHellman and ECDsa?
+ 
+-			throw new NotSupportedException (string.Format ("'{0}' is currently not supported.", key.GetType ().Name));
++			throw new NotSupportedException ($"'{key.GetType().Name}' is currently not supported.");
+ 		}
+ 
+ 		/// <summary>
+@@ -210,7 +210,7 @@ namespace MimeKit.Cryptography
+ 
+ 			// TODO: support ECDiffieHellman and ECDsa?
+ 
+-			throw new NotSupportedException (string.Format ("'{0}' is currently not supported.", key.GetType ().Name));
++			throw new NotSupportedException ($"'{key.GetType().Name}' is currently not supported.");
+ 		}
+ 
+ 		static byte[] GetPaddedByteArray (BigInteger big, int length)
+@@ -338,7 +338,7 @@ namespace MimeKit.Cryptography
+ 					return GetAsymmetricAlgorithm (dsaPublicKey);
+ 			}
+ 
+-			throw new NotSupportedException (string.Format ("{0} is currently not supported.", key.GetType ().Name));
++			throw new NotSupportedException ($"{key.GetType().Name} is currently not supported.");
+ 		}
+ 
+ 		/// <summary>
+@@ -367,7 +367,7 @@ namespace MimeKit.Cryptography
+ 			if (key.Private is DsaPrivateKeyParameters dsaPrivateKey)
+ 				return GetAsymmetricAlgorithm (dsaPrivateKey, (DsaPublicKeyParameters) key.Public);
+ 
+-			throw new NotSupportedException (string.Format ("{0} is currently not supported.", key.GetType ().Name));
++			throw new NotSupportedException ($"{key.GetType().Name} is currently not supported.");
+ 		}
+ 	}
+ }
+diff --git a/MimeKit/Cryptography/BouncyCastleSecureMimeContext.cs b/MimeKit/Cryptography/BouncyCastleSecureMimeContext.cs
+index 616060f3..f048fd80 100644
+--- a/MimeKit/Cryptography/BouncyCastleSecureMimeContext.cs
++++ b/MimeKit/Cryptography/BouncyCastleSecureMimeContext.cs
+@@ -1119,7 +1119,7 @@ namespace MimeKit.Cryptography
+ 			//	envelopedData = cms.Generate (input, Twofish.Id);
+ 			//	break;
+ 			default:
+-				throw new NotSupportedException (string.Format ("The {0} encryption algorithm is not supported by the {1}.", algorithm, GetType ().Name));
++				throw new NotSupportedException ($"The {algorithm} encryption algorithm is not supported by the {GetType().Name}.");
+ 			}
+ 
+ 			return new MemoryStream (envelopedData.GetEncoded (), false);
+diff --git a/MimeKit/Cryptography/DkimSigner.cs b/MimeKit/Cryptography/DkimSigner.cs
+index 8b86833d..26ece7ef 100644
+--- a/MimeKit/Cryptography/DkimSigner.cs
++++ b/MimeKit/Cryptography/DkimSigner.cs
+@@ -356,7 +356,7 @@ namespace MimeKit.Cryptography {
+ 				fields[i] = headers[i].ToLowerInvariant ();
+ 
+ 				if (DkimShouldNotInclude.Contains (fields[i]))
+-					throw new ArgumentException (string.Format ("The list of headers to sign SHOULD NOT include the '{0}' header.", headers[i]), nameof (headers));
++					throw new ArgumentException ($"The list of headers to sign SHOULD NOT include the '{headers[i]}' header.", nameof (headers));
+ 
+ 				if (fields[i] == "from")
+ 					containsFrom = true;
+@@ -441,7 +441,7 @@ namespace MimeKit.Cryptography {
+ 				fields[i] = headers[i].ToHeaderName ().ToLowerInvariant ();
+ 
+ 				if (DkimShouldNotInclude.Contains (fields[i]))
+-					throw new ArgumentException (string.Format ("The list of headers to sign SHOULD NOT include the '{0}' header.", headers[i].ToHeaderName ()), nameof (headers));
++					throw new ArgumentException ($"The list of headers to sign SHOULD NOT include the '{headers[i].ToHeaderName()}' header.", nameof (headers));
+ 
+ 				if (headers[i] == HeaderId.From)
+ 					containsFrom = true;
+diff --git a/MimeKit/Cryptography/DkimSignerBase.cs b/MimeKit/Cryptography/DkimSignerBase.cs
+index a7f52578..72a8ba90 100644
+--- a/MimeKit/Cryptography/DkimSignerBase.cs
++++ b/MimeKit/Cryptography/DkimSignerBase.cs
+@@ -172,8 +172,8 @@ namespace MimeKit.Cryptography {
+ 
+ 				if (keyObject is AsymmetricCipherKeyPair pair) {
+ 					key = pair.Private;
+-				} else if (keyObject is AsymmetricKeyParameter) {
+-					key = (AsymmetricKeyParameter) keyObject;
++				} else if (keyObject is AsymmetricKeyParameter asymmetricKeyParameter) {
++					key = asymmetricKeyParameter;
+ 				}
+ 			}
+ 
+@@ -211,7 +211,7 @@ namespace MimeKit.Cryptography {
+ 				signer = new Ed25519DigestSigner (new Sha256Digest ());
+ 				break;
+ 			default:
+-				throw new NotSupportedException (string.Format ("{0} is not supported.", SignatureAlgorithm));
++				throw new NotSupportedException ($"{SignatureAlgorithm} is not supported.");
+ 			}
+ 
+ 			signer.Init (true, PrivateKey);
+diff --git a/MimeKit/Cryptography/DkimVerifier.cs b/MimeKit/Cryptography/DkimVerifier.cs
+index e836101e..8664a7c1 100644
+--- a/MimeKit/Cryptography/DkimVerifier.cs
++++ b/MimeKit/Cryptography/DkimVerifier.cs
+@@ -70,7 +70,7 @@ namespace MimeKit.Cryptography {
+ 				throw new FormatException ("Malformed DKIM-Signature header: no version parameter detected.");
+ 
+ 			if (v != "1")
+-				throw new FormatException (string.Format ("Unrecognized DKIM-Signature version: v={0}", v));
++				throw new FormatException ($"Unrecognized DKIM-Signature version: v={v}");
+ 
+ 			ValidateCommonSignatureParameters ("DKIM-Signature", parameters, out algorithm, out headerAlgorithm, out bodyAlgorithm, out d, out s, out q, out headers, out bh, out b, out maxLength);
+ 
+diff --git a/MimeKit/Cryptography/DkimVerifierBase.cs b/MimeKit/Cryptography/DkimVerifierBase.cs
+index fdaca3fa..2f1d3d9f 100644
+--- a/MimeKit/Cryptography/DkimVerifierBase.cs
++++ b/MimeKit/Cryptography/DkimVerifierBase.cs
+@@ -173,7 +173,7 @@ namespace MimeKit.Cryptography {
+ 					break;
+ 
+ 				if (signature[index] == ';' || !IsAlpha (signature[index]))
+-					throw new FormatException (string.Format ("Malformed {0} value.", header.ToHeaderName ()));
++					throw new FormatException ($"Malformed {header.ToHeaderName()} value.");
+ 
+ 				int startIndex = index++;
+ 
+@@ -196,7 +196,7 @@ namespace MimeKit.Cryptography {
+ 				}
+ 
+ 				if (parameters.ContainsKey (name))
+-					throw new FormatException (string.Format ("Malformed {0} value: duplicate parameter '{1}'.", header.ToHeaderName (), name));
++					throw new FormatException ($"Malformed {header.ToHeaderName()} value: duplicate parameter '{name}'.");
+ 
+ 				parameters.Add (name, value.ToString ());
+ 
+@@ -211,39 +211,39 @@ namespace MimeKit.Cryptography {
+ 			out string d, out string s, out string q, out string b)
+ 		{
+ 			if (!parameters.TryGetValue ("a", out string a))
+-				throw new FormatException (string.Format ("Malformed {0} header: no signature algorithm parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: no signature algorithm parameter detected.");
+ 
+ 			switch (a.ToLowerInvariant ()) {
+ 			case "ed25519-sha256": algorithm = DkimSignatureAlgorithm.Ed25519Sha256; break;
+ 			case "rsa-sha256": algorithm = DkimSignatureAlgorithm.RsaSha256; break;
+ 			case "rsa-sha1": algorithm = DkimSignatureAlgorithm.RsaSha1; break;
+-			default: throw new FormatException (string.Format ("Unrecognized {0} algorithm parameter: a={1}", header, a));
++			default: throw new FormatException ($"Unrecognized {header} algorithm parameter: a={a}");
+ 			}
+ 
+ 			if (!parameters.TryGetValue ("d", out d))
+-				throw new FormatException (string.Format ("Malformed {0} header: no domain parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: no domain parameter detected.");
+ 
+ 			if (d.Length == 0)
+-				throw new FormatException (string.Format ("Malformed {0} header: empty domain parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: empty domain parameter detected.");
+ 
+ 			if (!parameters.TryGetValue ("s", out s))
+-				throw new FormatException (string.Format ("Malformed {0} header: no selector parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: no selector parameter detected.");
+ 
+ 			if (s.Length == 0)
+-				throw new FormatException (string.Format ("Malformed {0} header: empty selector parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: empty selector parameter detected.");
+ 
+ 			if (!parameters.TryGetValue ("q", out q))
+ 				q = "dns/txt";
+ 
+ 			if (!parameters.TryGetValue ("b", out b))
+-				throw new FormatException (string.Format ("Malformed {0} header: no signature parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: no signature parameter detected.");
+ 
+ 			if (b.Length == 0)
+-				throw new FormatException (string.Format ("Malformed {0} header: empty signature parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: empty signature parameter detected.");
+ 
+ 			if (parameters.TryGetValue ("t", out string t)) {
+ 				if (!int.TryParse (t, NumberStyles.Integer, CultureInfo.InvariantCulture, out int timestamp) || timestamp < 0)
+-					throw new FormatException (string.Format ("Malformed {0} header: invalid timestamp parameter: t={1}.", header, t));
++					throw new FormatException ($"Malformed {header} header: invalid timestamp parameter: t={t}.");
+ 			}
+ 		}
+ 
+@@ -254,7 +254,7 @@ namespace MimeKit.Cryptography {
+ 
+ 			if (parameters.TryGetValue ("l", out string l)) {
+ 				if (!int.TryParse (l, NumberStyles.Integer, CultureInfo.InvariantCulture, out maxLength) || maxLength < 0)
+-					throw new FormatException (string.Format ("Malformed {0} header: invalid length parameter: l={1}", header, l));
++					throw new FormatException ($"Malformed {header} header: invalid length parameter: l={l}");
+ 			} else {
+ 				maxLength = -1;
+ 			}
+@@ -263,19 +263,19 @@ namespace MimeKit.Cryptography {
+ 				var tokens = c.ToLowerInvariant ().Split ('/');
+ 
+ 				if (tokens.Length == 0 || tokens.Length > 2)
+-					throw new FormatException (string.Format ("Malformed {0} header: invalid canonicalization parameter: c={1}", header, c));
++					throw new FormatException ($"Malformed {header} header: invalid canonicalization parameter: c={c}");
+ 
+ 				switch (tokens[0]) {
+ 				case "relaxed": headerAlgorithm = DkimCanonicalizationAlgorithm.Relaxed; break;
+ 				case "simple": headerAlgorithm = DkimCanonicalizationAlgorithm.Simple; break;
+-				default: throw new FormatException (string.Format ("Malformed {0} header: invalid canonicalization parameter: c={1}", header, c));
++				default: throw new FormatException ($"Malformed {header} header: invalid canonicalization parameter: c={c}");
+ 				}
+ 
+ 				if (tokens.Length == 2) {
+ 					switch (tokens[1]) {
+ 					case "relaxed": bodyAlgorithm = DkimCanonicalizationAlgorithm.Relaxed; break;
+ 					case "simple": bodyAlgorithm = DkimCanonicalizationAlgorithm.Simple; break;
+-					default: throw new FormatException (string.Format ("Malformed {0} header: invalid canonicalization parameter: c={1}", header, c));
++					default: throw new FormatException ($"Malformed {header} header: invalid canonicalization parameter: c={c}");
+ 					}
+ 				} else {
+ 					bodyAlgorithm = DkimCanonicalizationAlgorithm.Simple;
+@@ -286,12 +286,12 @@ namespace MimeKit.Cryptography {
+ 			}
+ 
+ 			if (!parameters.TryGetValue ("h", out string h))
+-				throw new FormatException (string.Format ("Malformed {0} header: no signed header parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: no signed header parameter detected.");
+ 
+ 			headers = h.Split (':');
+ 
+ 			if (!parameters.TryGetValue ("bh", out bh))
+-				throw new FormatException (string.Format ("Malformed {0} header: no body hash parameter detected.", header));
++				throw new FormatException ($"Malformed {header} header: no body hash parameter detected.");
+ 		}
+ 
+ 		internal static void WriteHeaderRelaxed (FormatOptions options, Stream stream, Header header, bool isDkimSignature)
+@@ -389,7 +389,7 @@ namespace MimeKit.Cryptography {
+ 				signer = new Ed25519DigestSigner (new Sha256Digest ());
+ 				break;
+ 			default:
+-				throw new NotSupportedException (string.Format ("{0} is not supported.", algorithm));
++				throw new NotSupportedException ($"{algorithm} is not supported.");
+ 			}
+ 
+ 			signer.Init (key.IsPrivate, key);
+@@ -483,7 +483,7 @@ namespace MimeKit.Cryptography {
+ 			} while (index < rawValue.Length);
+ 
+ 			if (index == rawValue.Length)
+-				throw new FormatException (string.Format ("Malformed {0} header: missing signature parameter.", header.Id.ToHeaderName ()));
++				throw new FormatException ($"Malformed {header.Id.ToHeaderName()} header: missing signature parameter.");
+ 
+ 			while (index < rawValue.Length)
+ 				rawValue[length++] = rawValue[index++];
+diff --git a/MimeKit/Cryptography/MultipartEncrypted.cs b/MimeKit/Cryptography/MultipartEncrypted.cs
+index d6a69fc9..0f649a45 100644
+--- a/MimeKit/Cryptography/MultipartEncrypted.cs
++++ b/MimeKit/Cryptography/MultipartEncrypted.cs
+@@ -1044,7 +1044,7 @@ namespace MimeKit.Cryptography {
+ 				throw new FormatException ();
+ 
+ 			var ctype = version.ContentType;
+-			var value = string.Format ("{0}/{1}", ctype.MediaType, ctype.MediaSubtype);
++			var value = $"{ctype.MediaType}/{ctype.MediaSubtype}";
+ 			if (!value.Equals (protocol, StringComparison.OrdinalIgnoreCase))
+ 				throw new FormatException ();
+ 
+@@ -1143,7 +1143,7 @@ namespace MimeKit.Cryptography {
+ 				throw new FormatException ();
+ 
+ 			var ctype = version.ContentType;
+-			var value = string.Format ("{0}/{1}", ctype.MediaType, ctype.MediaSubtype);
++			var value = $"{ctype.MediaType}/{ctype.MediaSubtype}";
+ 			if (!value.Equals (protocol, StringComparison.OrdinalIgnoreCase))
+ 				throw new FormatException ();
+ 
+@@ -1156,12 +1156,11 @@ namespace MimeKit.Cryptography {
+ 
+ 			using (var ctx = CryptographyContext.Create (protocol)) {
+ 				using (var memory = new MemoryBlockStream ()) {
+-					var pgp = ctx as OpenPgpContext;
+ 
+ 					encrypted.Content.DecodeTo (memory, cancellationToken);
+ 					memory.Position = 0;
+ 
+-					if (pgp != null)
++					if (ctx is OpenPgpContext pgp)
+ 						return pgp.Decrypt (memory, out signatures, cancellationToken);
+ 
+ 					signatures = null;
+diff --git a/MimeKit/Cryptography/MultipartSigned.cs b/MimeKit/Cryptography/MultipartSigned.cs
+index 04b30c01..987c710e 100644
+--- a/MimeKit/Cryptography/MultipartSigned.cs
++++ b/MimeKit/Cryptography/MultipartSigned.cs
+@@ -424,9 +424,9 @@ namespace MimeKit.Cryptography {
+ 				throw new FormatException ("The signature part could not be found.");
+ 
+ 			var ctype = signature.ContentType;
+-			var value = string.Format ("{0}/{1}", ctype.MediaType, ctype.MediaSubtype);
++			var value = $"{ctype.MediaType}/{ctype.MediaSubtype}";
+ 			if (!ctx.Supports (value))
+-				throw new NotSupportedException (string.Format ("The specified cryptography context does not support '{0}'.", value));
++				throw new NotSupportedException ($"The specified cryptography context does not support '{value}'.");
+ 
+ 			using (var signatureData = new MemoryBlockStream ()) {
+ 				signature.Content.DecodeTo (signatureData, cancellationToken);
+@@ -490,9 +490,9 @@ namespace MimeKit.Cryptography {
+ 				throw new FormatException ("The signature part could not be found.");
+ 
+ 			var ctype = signature.ContentType;
+-			var value = string.Format ("{0}/{1}", ctype.MediaType, ctype.MediaSubtype);
++			var value = $"{ctype.MediaType}/{ctype.MediaSubtype}";
+ 			if (!ctx.Supports (value))
+-				throw new NotSupportedException (string.Format ("The specified cryptography context does not support '{0}'.", value));
++				throw new NotSupportedException ($"The specified cryptography context does not support '{value}'.");
+ 
+ 			using (var signatureData = new MemoryBlockStream ()) {
+ 				await signature.Content.DecodeToAsync (signatureData, cancellationToken).ConfigureAwait (false);
+diff --git a/MimeKit/Cryptography/OpenPgpContextBase.cs b/MimeKit/Cryptography/OpenPgpContextBase.cs
+index 32bd421b..170568eb 100644
+--- a/MimeKit/Cryptography/OpenPgpContextBase.cs
++++ b/MimeKit/Cryptography/OpenPgpContextBase.cs
+@@ -694,7 +694,7 @@ namespace MimeKit.Cryptography {
+ 					return privateKey;
+ 				} catch (Exception ex) {
+ #if DEBUG
+-					Debug.WriteLine (string.Format ("Failed to extract secret key: {0}", ex));
++					Debug.WriteLine ($"Failed to extract secret key: {ex}");
+ #endif
+ 				}
+ 
+@@ -1000,8 +1000,7 @@ namespace MimeKit.Cryptography {
+ 				var data = factory.NextPgpObject ();
+ 				PgpSignatureList signatureList;
+ 
+-				var compressed = data as PgpCompressedData;
+-				if (compressed != null) {
++				if (data is PgpCompressedData compressed) {
+ 					factory = new PgpObjectFactory (compressed.GetDataStream ());
+ 					data = factory.NextPgpObject ();
+ 				}
+@@ -1143,7 +1142,7 @@ namespace MimeKit.Cryptography {
+ 			case EncryptionAlgorithm.Idea:        return SymmetricKeyAlgorithmTag.Idea;
+ 			case EncryptionAlgorithm.Blowfish:    return SymmetricKeyAlgorithmTag.Blowfish;
+ 			case EncryptionAlgorithm.Twofish:     return SymmetricKeyAlgorithmTag.Twofish;
+-			default: throw new NotSupportedException (string.Format ("{0} is not supported.", algorithm));
++			default: throw new NotSupportedException ($"{algorithm} is not supported.");
+ 			}
+ 		}
+ 
+@@ -1650,15 +1649,14 @@ namespace MimeKit.Cryptography {
+ 
+ 				obj = factory.NextPgpObject ();
+ 				while (obj != null) {
+-					if (obj is PgpCompressedData) {
++					if (obj is PgpCompressedData pgpCompressedData) {
+ 						if (compressed != null)
+ 							throw new PgpException ("Recursive compression packets are not supported.");
+ 
+-						compressed = (PgpCompressedData) obj;
++						compressed = pgpCompressedData;
+ 						factory = new PgpObjectFactory (compressed.GetDataStream ());
+-					} else if (obj is PgpOnePassSignatureList) {
++					} else if (obj is PgpOnePassSignatureList onepasses) {
+ 						if (nwritten == 0) {
+-							var onepasses = (PgpOnePassSignatureList) obj;
+ 
+ 							onepassList = new List<IDigitalSignature> ();
+ 
+@@ -1687,11 +1685,9 @@ namespace MimeKit.Cryptography {
+ 								onepassList.Add (signature);
+ 							}
+ 						}
+-					} else if (obj is PgpSignatureList) {
+-						signatureList = (PgpSignatureList) obj;
+-					} else if (obj is PgpLiteralData) {
+-						var literal = (PgpLiteralData) obj;
+-
++					} else if (obj is PgpSignatureList pgpSignatureList) {
++						signatureList = pgpSignatureList;
++					} else if (obj is PgpLiteralData literal) {
+ 						using (var stream = literal.GetDataStream ()) {
+ 							var buf = ArrayPool<byte>.Shared.Rent (BufferLength);
+ 							int nread;
+diff --git a/MimeKit/Cryptography/OpenPgpDigitalSignature.cs b/MimeKit/Cryptography/OpenPgpDigitalSignature.cs
+index f74e079a..9ec5239e 100644
+--- a/MimeKit/Cryptography/OpenPgpDigitalSignature.cs
++++ b/MimeKit/Cryptography/OpenPgpDigitalSignature.cs
+@@ -138,7 +138,7 @@ namespace MimeKit.Cryptography {
+ 					valid = Signature.Verify ();
+ 				return valid.Value;
+ 			} catch (Exception ex) {
+-				var message = string.Format ("Failed to verify digital signature: {0}", ex.Message);
++				var message = $"Failed to verify digital signature: {ex.Message}";
+ 				vex = new DigitalSignatureVerifyException (Signature.KeyId, message, ex);
+ 				throw vex;
+ 			}
+diff --git a/MimeKit/Cryptography/SQLServerCertificateDatabase.cs b/MimeKit/Cryptography/SQLServerCertificateDatabase.cs
+index 806c9428..24053ad5 100644
+--- a/MimeKit/Cryptography/SQLServerCertificateDatabase.cs
++++ b/MimeKit/Cryptography/SQLServerCertificateDatabase.cs
+@@ -142,7 +142,7 @@ namespace MimeKit.Cryptography {
+ 				throw new NotImplementedException ();
+ 			}
+ 
+-			if (table != null && table.PrimaryKey != null && primaryKeys < table.PrimaryKey.Length) {
++			if (table?.PrimaryKey != null && primaryKeys < table.PrimaryKey.Length) {
+ 				for (int i = 0; i < table.PrimaryKey.Length; i++) {
+ 					if (column == table.PrimaryKey[i]) {
+ 						statement.Append (" PRIMARY KEY Clustered");
+diff --git a/MimeKit/Cryptography/SecureMimeContext.cs b/MimeKit/Cryptography/SecureMimeContext.cs
+index 2aa2978f..8397449d 100644
+--- a/MimeKit/Cryptography/SecureMimeContext.cs
++++ b/MimeKit/Cryptography/SecureMimeContext.cs
+@@ -223,9 +223,9 @@ namespace MimeKit.Cryptography {
+ 			case DigestAlgorithm.Sha224:     return "sha-224";
+ 			case DigestAlgorithm.MD4:        return "md4";
+ 			case DigestAlgorithm.DoubleSha:
+-				throw new NotSupportedException (string.Format ("{0} is not supported.", micalg));
++				throw new NotSupportedException ($"{micalg} is not supported.");
+ 			default:
+-				throw new ArgumentOutOfRangeException (nameof (micalg), micalg, string.Format ("Unknown DigestAlgorithm: {0}", micalg));
++				throw new ArgumentOutOfRangeException (nameof (micalg), micalg, $"Unknown DigestAlgorithm: {micalg}");
+ 			}
+ 		}
+ 
+@@ -305,9 +305,9 @@ namespace MimeKit.Cryptography {
+ 			case DigestAlgorithm.DoubleSha:
+ 			case DigestAlgorithm.Tiger192:
+ 			case DigestAlgorithm.Haval5160:
+-				throw new NotSupportedException (string.Format ("{0} is not supported.", digestAlgo));
++				throw new NotSupportedException ($"{digestAlgo} is not supported.");
+ 			default:
+-				throw new ArgumentOutOfRangeException (nameof (digestAlgo), digestAlgo, string.Format ("Unknown DigestAlgorithm: {0}", digestAlgo));
++				throw new ArgumentOutOfRangeException (nameof (digestAlgo), digestAlgo, $"Unknown DigestAlgorithm: {digestAlgo}");
+ 			}
+ 		}
+ 
+diff --git a/MimeKit/Cryptography/SecureMimeDigitalSignature.cs b/MimeKit/Cryptography/SecureMimeDigitalSignature.cs
+index 9739810f..f562caaa 100644
+--- a/MimeKit/Cryptography/SecureMimeDigitalSignature.cs
++++ b/MimeKit/Cryptography/SecureMimeDigitalSignature.cs
+@@ -245,14 +245,14 @@ namespace MimeKit.Cryptography {
+ 					var certificate = ((SecureMimeDigitalCertificate) SignerCertificate).Certificate;
+ 					valid = SignerInfo.Verify (certificate);
+ 				} catch (Exception ex) {
+-					var message = string.Format ("Failed to verify digital signature: {0}", ex.Message);
++					var message = $"Failed to verify digital signature: {ex.Message}";
+ 					vex = new DigitalSignatureVerifyException (message, ex);
+ 					throw vex;
+ 				}
+ 			}
+ 
+ 			if (!verifySignatureOnly && ChainException != null) {
+-				var message = string.Format ("Failed to verify digital signature chain: {0}", ChainException.Message);
++				var message = $"Failed to verify digital signature chain: {ChainException.Message}";
+ 
+ 				throw new DigitalSignatureVerifyException (message, ChainException);
+ 			}
+diff --git a/MimeKit/Cryptography/SqlCertificateDatabase.cs b/MimeKit/Cryptography/SqlCertificateDatabase.cs
+index bffa3863..8b23692c 100644
+--- a/MimeKit/Cryptography/SqlCertificateDatabase.cs
++++ b/MimeKit/Cryptography/SqlCertificateDatabase.cs
+@@ -271,7 +271,7 @@ namespace MimeKit.Cryptography {
+ 		/// <returns></returns>
+ 		protected string GetIndexName (string tableName, string[] columnNames)
+ 		{
+-			return string.Format ("{0}_{1}_INDEX", tableName, string.Join ("_", columnNames));
++			return $"{tableName}_{string.Join("_", columnNames)}_INDEX";
+ 		}
+ 
+ 		/// <summary>
+@@ -286,7 +286,7 @@ namespace MimeKit.Cryptography {
+ 		protected virtual void CreateIndex (DbConnection connection, string tableName, string[] columnNames)
+ 		{
+ 			var indexName = GetIndexName (tableName, columnNames);
+-			var query = string.Format ("CREATE INDEX IF NOT EXISTS {0} ON {1}({2})", indexName, tableName, string.Join (", ", columnNames));
++			var query = $"CREATE INDEX IF NOT EXISTS {indexName} ON {tableName}({string.Join(", ", columnNames)})";
+ 
+ 			using (var command = connection.CreateCommand ()) {
+ 				command.CommandText = query;
+@@ -306,7 +306,7 @@ namespace MimeKit.Cryptography {
+ 		protected virtual void RemoveIndex (DbConnection connection, string tableName, string[] columnNames)
+ 		{
+ 			var indexName = GetIndexName (tableName, columnNames);
+-			var query = string.Format ("DROP INDEX IF EXISTS {0}", indexName);
++			var query = $"DROP INDEX IF EXISTS {indexName}";
+ 
+ 			using (var command = connection.CreateCommand ()) {
+ 				command.CommandText = query;
+@@ -460,14 +460,13 @@ namespace MimeKit.Cryptography {
+ 		/// <param name="fields">The fields to return.</param>
+ 		protected override DbCommand GetSelectCommand (MailboxAddress mailbox, DateTime now, bool requirePrivateKey, X509CertificateRecordFields fields)
+ 		{
+-			var secure = mailbox as SecureMailboxAddress;
+ 			var command = Connection.CreateCommand ();
+ 			var query = CreateSelectQuery (fields);
+ 
+ 			query = query.Append (" WHERE BASICCONSTRAINTS = @BASICCONSTRAINTS ");
+ 			command.AddParameterWithValue ("@BASICCONSTRAINTS", -1);
+ 
+-			if (secure != null && !string.IsNullOrEmpty (secure.Fingerprint)) {
++			if (mailbox is SecureMailboxAddress secure && !string.IsNullOrEmpty (secure.Fingerprint)) {
+ 				if (secure.Fingerprint.Length < 40) {
+ 					command.AddParameterWithValue ("@FINGERPRINT", secure.Fingerprint.ToLowerInvariant () + "%");
+ 					query = query.Append ("AND FINGERPRINT LIKE @FINGERPRINT ");
+@@ -505,7 +504,6 @@ namespace MimeKit.Cryptography {
+ 		/// <param name="fields">The fields to return.</param>
+ 		protected override DbCommand GetSelectCommand (IX509Selector selector, bool trustedAnchorsOnly, bool requirePrivateKey, X509CertificateRecordFields fields)
+ 		{
+-			var match = selector as X509CertStoreSelector;
+ 			var command = Connection.CreateCommand ();
+ 			var query = CreateSelectQuery (fields);
+ 			int baseQueryLength = query.Length;
+@@ -521,7 +519,7 @@ namespace MimeKit.Cryptography {
+ 				command.AddParameterWithValue ("@ANCHOR", true);
+ 			}
+ 
+-			if (match != null) {
++			if (selector is X509CertStoreSelector match) {
+ 				if (match.BasicConstraints >= 0 || match.BasicConstraints == -2) {
+ 					if (command.Parameters.Count > 0)
+ 						query = query.Append (" AND ");
+diff --git a/MimeKit/Cryptography/SqliteCertificateDatabase.cs b/MimeKit/Cryptography/SqliteCertificateDatabase.cs
+index 50f430da..3e715cd3 100644
+--- a/MimeKit/Cryptography/SqliteCertificateDatabase.cs
++++ b/MimeKit/Cryptography/SqliteCertificateDatabase.cs
+@@ -311,7 +311,7 @@ namespace MimeKit.Cryptography {
+ 			}
+ 
+ 			bool isPrimaryKey = false;
+-			if (table != null && table.PrimaryKey != null && primaryKeys < table.PrimaryKey.Length) {
++			if (table?.PrimaryKey != null && primaryKeys < table.PrimaryKey.Length) {
+ 				for (int i = 0; i < table.PrimaryKey.Length; i++) {
+ 					if (column == table.PrimaryKey[i]) {
+ 						statement.Append (" PRIMARY KEY");
+diff --git a/MimeKit/Cryptography/TemporarySecureMimeContext.cs b/MimeKit/Cryptography/TemporarySecureMimeContext.cs
+index 74008474..ea228f48 100644
+--- a/MimeKit/Cryptography/TemporarySecureMimeContext.cs
++++ b/MimeKit/Cryptography/TemporarySecureMimeContext.cs
+@@ -239,7 +239,6 @@ namespace MimeKit.Cryptography {
+ 
+ 		X509Certificate GetCmsRecipientCertificate (MailboxAddress mailbox)
+ 		{
+-			var secure = mailbox as SecureMailboxAddress;
+ 			var now = DateTime.UtcNow;
+ 
+ 			foreach (var certificate in certificates) {
+@@ -250,7 +249,7 @@ namespace MimeKit.Cryptography {
+ 				if (keyUsage != 0 && (keyUsage & X509KeyUsageFlags.KeyEncipherment) == 0)
+ 					continue;
+ 
+-				if (secure != null) {
++				if (mailbox is SecureMailboxAddress secure) {
+ 					var fingerprint = certificate.GetFingerprint ();
+ 
+ 					if (!fingerprint.Equals (secure.Fingerprint, StringComparison.OrdinalIgnoreCase))
+@@ -301,7 +300,6 @@ namespace MimeKit.Cryptography {
+ 
+ 		X509Certificate GetCmsSignerCertificate (MailboxAddress mailbox, out AsymmetricKeyParameter key)
+ 		{
+-			var secure = mailbox as SecureMailboxAddress;
+ 			var now = DateTime.UtcNow;
+ 
+ 			foreach (var certificate in certificates) {
+@@ -317,7 +315,7 @@ namespace MimeKit.Cryptography {
+ 				if (!keys.TryGetValue (fingerprint, out key))
+ 					continue;
+ 
+-				if (secure != null) {
++				if (mailbox is SecureMailboxAddress secure) {
+ 					if (!fingerprint.Equals (secure.Fingerprint, StringComparison.OrdinalIgnoreCase))
+ 						continue;
+ 				} else {
+diff --git a/MimeKit/Cryptography/WindowsSecureMimeContext.cs b/MimeKit/Cryptography/WindowsSecureMimeContext.cs
+index ac3eface..3393855f 100644
+--- a/MimeKit/Cryptography/WindowsSecureMimeContext.cs
++++ b/MimeKit/Cryptography/WindowsSecureMimeContext.cs
+@@ -164,7 +164,6 @@ namespace MimeKit.Cryptography {
+ 		protected virtual X509Certificate2 GetRecipientCertificate (MailboxAddress mailbox)
+ 		{
+ 			var storeNames = new [] { StoreName.AddressBook, StoreName.My, StoreName.TrustedPeople };
+-			var secure = mailbox as SecureMailboxAddress;
+ 			var now = DateTime.UtcNow;
+ 
+ 			foreach (var storeName in storeNames) {
+@@ -177,11 +176,10 @@ namespace MimeKit.Cryptography {
+ 						if (certificate.NotBefore > now || certificate.NotAfter < now)
+ 							continue;
+ 
+-						var usage = certificate.Extensions[X509Extensions.KeyUsage.Id] as X509KeyUsageExtension;
+-						if (usage != null && (usage.KeyUsages & RealX509KeyUsageFlags.KeyEncipherment) == 0)
++						if (certificate.Extensions[X509Extensions.KeyUsage.Id] is X509KeyUsageExtension usage && (usage.KeyUsages & RealX509KeyUsageFlags.KeyEncipherment) == 0)
+ 							continue;
+ 
+-						if (secure != null) {
++						if (mailbox is SecureMailboxAddress secure) {
+ 							if (!certificate.Thumbprint.Equals (secure.Fingerprint, StringComparison.OrdinalIgnoreCase))
+ 								continue;
+ 						} else {
+@@ -301,7 +299,6 @@ namespace MimeKit.Cryptography {
+ 		protected virtual X509Certificate2 GetSignerCertificate (MailboxAddress mailbox)
+ 		{
+ 			var store = new X509Store (StoreName.My, StoreLocation);
+-			var secure = mailbox as SecureMailboxAddress;
+ 			var now = DateTime.UtcNow;
+ 
+ 			store.Open (OpenFlags.ReadOnly);
+@@ -311,14 +308,13 @@ namespace MimeKit.Cryptography {
+ 					if (certificate.NotBefore > now || certificate.NotAfter < now)
+ 						continue;
+ 
+-					var usage = certificate.Extensions[X509Extensions.KeyUsage.Id] as X509KeyUsageExtension;
+-					if (usage != null && (usage.KeyUsages & (RealX509KeyUsageFlags.DigitalSignature | RealX509KeyUsageFlags.NonRepudiation)) == 0)
++					if (certificate.Extensions[X509Extensions.KeyUsage.Id] is X509KeyUsageExtension usage && (usage.KeyUsages & (RealX509KeyUsageFlags.DigitalSignature | RealX509KeyUsageFlags.NonRepudiation)) == 0)
+ 						continue;
+ 
+ 					if (!certificate.HasPrivateKey)
+ 						continue;
+ 
+-					if (secure != null) {
++					if (mailbox is SecureMailboxAddress secure) {
+ 						if (!certificate.Thumbprint.Equals (secure.Fingerprint, StringComparison.OrdinalIgnoreCase))
+ 							continue;
+ 					} else {
+@@ -417,11 +413,11 @@ namespace MimeKit.Cryptography {
+ 
+ 		static byte[] ReadAllBytes (Stream stream)
+ 		{
+-			if (stream is MemoryBlockStream)
+-				return ((MemoryBlockStream) stream).ToArray ();
++			if (stream is MemoryBlockStream memoryBlockStream)
++				return memoryBlockStream.ToArray ();
+ 
+-			if (stream is MemoryStream)
+-				return ((MemoryStream) stream).ToArray ();
++			if (stream is MemoryStream memoryStream)
++				return memoryStream.ToArray ();
+ 
+ 			using (var memory = new MemoryBlockStream ()) {
+ 				stream.CopyTo (memory, 4096);
+@@ -431,11 +427,11 @@ namespace MimeKit.Cryptography {
+ 
+ 		static async Task<byte[]> ReadAllBytesAsync (Stream stream, CancellationToken cancellationToken)
+ 		{
+-			if (stream is MemoryBlockStream)
+-				return ((MemoryBlockStream) stream).ToArray ();
++			if (stream is MemoryBlockStream memoryBlockStream)
++				return memoryBlockStream.ToArray ();
+ 
+-			if (stream is MemoryStream)
+-				return ((MemoryStream) stream).ToArray ();
++			if (stream is MemoryStream memoryStream)
++				return memoryStream.ToArray ();
+ 
+ 			using (var memory = new MemoryBlockStream ()) {
+ 				await stream.CopyToAsync (memory, 4096, cancellationToken).ConfigureAwait (false);
+@@ -875,7 +871,7 @@ namespace MimeKit.Cryptography {
+ 			case EncryptionAlgorithm.RC240:
+ 				return new RealAlgorithmIdentifier (new Oid (CmsEnvelopedGenerator.RC2Cbc), 40);
+ 			default:
+-				throw new NotSupportedException (string.Format ("The {0} encryption algorithm is not supported by the {1}.", algorithm, GetType ().Name));
++				throw new NotSupportedException ($"The {algorithm} encryption algorithm is not supported by the {GetType().Name}.");
+ 			}
+ 		}
+ 
+diff --git a/MimeKit/Cryptography/WindowsSecureMimeDigitalSignature.cs b/MimeKit/Cryptography/WindowsSecureMimeDigitalSignature.cs
+index 7754ab34..93641a7a 100644
+--- a/MimeKit/Cryptography/WindowsSecureMimeDigitalSignature.cs
++++ b/MimeKit/Cryptography/WindowsSecureMimeDigitalSignature.cs
+@@ -201,7 +201,7 @@ namespace MimeKit.Cryptography
+ 				SignerInfo.CheckSignature (verifySignatureOnly);
+ 				return true;
+ 			} catch (Exception ex) {
+-				var message = string.Format ("Failed to verify digital signature: {0}", ex.Message);
++				var message = $"Failed to verify digital signature: {ex.Message}";
+ 				vex = new DigitalSignatureVerifyException (message, ex);
+ 				throw vex;
+ 			}
+diff --git a/MimeKit/Cryptography/X509CertificateDatabase.cs b/MimeKit/Cryptography/X509CertificateDatabase.cs
+index 2a64837a..2462c925 100644
+--- a/MimeKit/Cryptography/X509CertificateDatabase.cs
++++ b/MimeKit/Cryptography/X509CertificateDatabase.cs
+@@ -501,7 +501,7 @@ namespace MimeKit.Cryptography {
+ 			case "ALGORITHMSUPDATED": return record.AlgorithmsUpdated;
+ 			case "CERTIFICATE": return record.Certificate.GetEncoded ();
+ 			case "PRIVATEKEY": return EncodePrivateKey (record.PrivateKey);
+-			default: throw new ArgumentException (string.Format ("Unknown column name: {0}", columnName), nameof (columnName));
++			default: throw new ArgumentException ($"Unknown column name: {columnName}", nameof (columnName));
+ 			}
+ 		}
+ 
+@@ -526,7 +526,7 @@ namespace MimeKit.Cryptography {
+ 			case "THISUPDATE": return record.ThisUpdate;
+ 			case "NEXTUPDATE": return record.NextUpdate;
+ 			case "CRL": return record.Crl.GetEncoded ();
+-			default: throw new ArgumentException (string.Format ("Unknown column name: {0}", columnName), nameof (columnName));
++			default: throw new ArgumentException ($"Unknown column name: {columnName}", nameof (columnName));
+ 			}
+ 		}
+ 
+diff --git a/MimeKit/HeaderList.cs b/MimeKit/HeaderList.cs
+index 0317d412..913f466e 100644
+--- a/MimeKit/HeaderList.cs
++++ b/MimeKit/HeaderList.cs
+@@ -708,9 +708,7 @@ namespace MimeKit {
+ 				filtered.Flush (cancellationToken);
+ 			}
+ 
+-			var cancellable = stream as ICancellableStream;
+-
+-			if (cancellable != null) {
++			if (stream is ICancellableStream cancellable) {
+ 				cancellable.Write (options.NewLineBytes, 0, options.NewLineBytes.Length, cancellationToken);
+ 			} else {
+ 				cancellationToken.ThrowIfCancellationRequested ();
+diff --git a/MimeKit/IO/FilteredStream.cs b/MimeKit/IO/FilteredStream.cs
+index 604bc8fe..a5da5fbd 100644
+--- a/MimeKit/IO/FilteredStream.cs
++++ b/MimeKit/IO/FilteredStream.cs
+@@ -331,9 +331,7 @@ namespace MimeKit.IO {
+ 			int nread;
+ 
+ 			if (filteredLength == 0) {
+-				var cancellable = Source as ICancellableStream;
+-
+-				if (cancellable != null) {
++				if (Source is ICancellableStream cancellable) {
+ 					if ((nread = cancellable.Read (readbuf, 0, ReadBufferSize, cancellationToken)) <= 0)
+ 						return nread;
+ 				} else {
+@@ -525,9 +523,7 @@ namespace MimeKit.IO {
+ 			if (filteredLength == 0)
+ 				return;
+ 
+-			var cancellable = Source as ICancellableStream;
+-
+-			if (cancellable != null) {
++			if (Source is ICancellableStream cancellable) {
+ 				cancellable.Write (filtered, filteredIndex, filteredLength, cancellationToken);
+ 			} else {
+ 				cancellationToken.ThrowIfCancellationRequested ();
+@@ -680,10 +676,8 @@ namespace MimeKit.IO {
+ 				flushed = true;
+ 			}
+ 
+-			var cancellable = Source as ICancellableStream;
+-
+ 			if (filteredLength > 0) {
+-				if (cancellable != null) {
++				if (Source is ICancellableStream cancellable) {
+ 					cancellable.Write (filtered, filteredIndex, filteredLength, cancellationToken);
+ 				} else {
+ 					cancellationToken.ThrowIfCancellationRequested ();
+diff --git a/MimeKit/MessagePart.cs b/MimeKit/MessagePart.cs
+index 763ad3fa..f25d2c14 100644
+--- a/MimeKit/MessagePart.cs
++++ b/MimeKit/MessagePart.cs
+@@ -224,9 +224,7 @@ namespace MimeKit {
+ 				return;
+ 
+ 			if (Message.MboxMarker != null && Message.MboxMarker.Length != 0) {
+-				var cancellable = stream as ICancellableStream;
+-
+-				if (cancellable != null) {
++				if (stream is ICancellableStream cancellable) {
+ 					cancellable.Write (Message.MboxMarker, 0, Message.MboxMarker.Length, cancellationToken);
+ 					cancellable.Write (options.NewLineBytes, 0, options.NewLineBytes.Length, cancellationToken);
+ 				} else {
+diff --git a/MimeKit/MimeContent.cs b/MimeKit/MimeContent.cs
+index fffb6f8f..35b479e9 100644
+--- a/MimeKit/MimeContent.cs
++++ b/MimeKit/MimeContent.cs
+@@ -196,13 +196,11 @@ namespace MimeKit {
+ 			Stream.Seek (0, SeekOrigin.Begin);
+ 
+ 			var buf = ArrayPool<byte>.Shared.Rent (BufferLength);
+-			var readable = Stream as ICancellableStream;
+-			var writable = stream as ICancellableStream;
+ 			int nread;
+ 
+ 			try {
+ 				do {
+-					if (readable != null) {
++					if (Stream is ICancellableStream readable) {
+ 						if ((nread = readable.Read (buf, 0, BufferLength, cancellationToken)) <= 0)
+ 							break;
+ 					} else {
+@@ -211,7 +209,7 @@ namespace MimeKit {
+ 							break;
+ 					}
+ 
+-					if (writable != null) {
++					if (stream is ICancellableStream writable) {
+ 						writable.Write (buf, 0, nread, cancellationToken);
+ 					} else {
+ 						cancellationToken.ThrowIfCancellationRequested ();
+diff --git a/MimeKit/MimeEntity.cs b/MimeKit/MimeEntity.cs
+index de1aef61..b8f6a008 100644
+--- a/MimeKit/MimeEntity.cs
++++ b/MimeKit/MimeEntity.cs
+@@ -1610,7 +1610,7 @@ namespace MimeKit {
+ 			format.NewLineFormat = NewLineFormat.Dos;
+ 
+ 			var encoded = contentType.Encode (format, Encoding.UTF8);
+-			var header = string.Format ("Content-Type:{0}\r\n", encoded);
++			var header = $"Content-Type:{encoded}\r\n";
+ 			var chained = new ChainedStream ();
+ 
+ 			chained.Add (new MemoryStream (Encoding.UTF8.GetBytes (header), false));
+@@ -1662,7 +1662,7 @@ namespace MimeKit {
+ 			format.NewLineFormat = NewLineFormat.Dos;
+ 
+ 			var encoded = contentType.Encode (format, Encoding.UTF8);
+-			var header = string.Format ("Content-Type:{0}\r\n", encoded);
++			var header = $"Content-Type:{encoded}\r\n";
+ 			var chained = new ChainedStream ();
+ 
+ 			chained.Add (new MemoryStream (Encoding.UTF8.GetBytes (header), false));
+diff --git a/MimeKit/MimeMessage.cs b/MimeKit/MimeMessage.cs
+index 419f8b56..2b056682 100644
+--- a/MimeKit/MimeMessage.cs
++++ b/MimeKit/MimeMessage.cs
+@@ -814,9 +814,7 @@ namespace MimeKit {
+ 
+ 		static bool TryGetMultipartBody (Multipart multipart, TextFormat format, out string body)
+ 		{
+-			var alternative = multipart as MultipartAlternative;
+-
+-			if (alternative != null) {
++			if (multipart is MultipartAlternative alternative) {
+ 				body = alternative.GetTextBody (format);
+ 				return body != null;
+ 			}
+@@ -910,17 +908,14 @@ namespace MimeKit {
+ 		/// <param name="format">The desired text format.</param>
+ 		public string GetTextBody (TextFormat format)
+ 		{
+-			var multipart = Body as Multipart;
+-
+-			if (multipart != null) {
++			if (Body is Multipart multipart) {
+ 				string text;
+ 
+ 				if (TryGetMultipartBody (multipart, format, out text))
+ 					return text;
+ 			} else {
+-				var body = Body as TextPart;
+ 
+-				if (body != null && body.IsFormat (format) && !body.IsAttachment)
++				if (Body is TextPart body && body.IsFormat (format) && !body.IsAttachment)
+ 					return body.Text;
+ 			}
+ 
+@@ -932,9 +927,7 @@ namespace MimeKit {
+ 			if (entity == null)
+ 				yield break;
+ 
+-			var multipart = entity as Multipart;
+-
+-			if (multipart != null) {
++			if (entity is Multipart multipart) {
+ 				foreach (var subpart in multipart) {
+ 					foreach (var part in EnumerateMimeParts (subpart))
+ 						yield return part;
+@@ -1110,9 +1103,7 @@ namespace MimeKit {
+ 					filtered.Flush (cancellationToken);
+ 				}
+ 
+-				var cancellable = stream as ICancellableStream;
+-
+-				if (cancellable != null) {
++				if (stream is ICancellableStream cancellable) {
+ 					cancellable.Write (options.NewLineBytes, 0, options.NewLineBytes.Length, cancellationToken);
+ 				} else {
+ 					cancellationToken.ThrowIfCancellationRequested ();
+@@ -2021,10 +2012,10 @@ namespace MimeKit {
+ 			if (recipients.Count == 0)
+ 				throw new InvalidOperationException ("No recipients have been set.");
+ 
+-			if (ctx is SecureMimeContext) {
+-				Body = ApplicationPkcs7Mime.Encrypt ((SecureMimeContext) ctx, recipients, Body);
+-			} else if (ctx is OpenPgpContext) {
+-				Body = MultipartEncrypted.Encrypt ((OpenPgpContext) ctx, recipients, Body);
++			if (ctx is SecureMimeContext secureMimeContext) {
++				Body = ApplicationPkcs7Mime.Encrypt (secureMimeContext, recipients, Body);
++			} else if (ctx is OpenPgpContext openPgpContext) {
++				Body = MultipartEncrypted.Encrypt (openPgpContext, recipients, Body);
+ 			} else {
+ 				throw new ArgumentException ("Unknown type of cryptography context.", nameof (ctx));
+ 			}
+@@ -2089,10 +2080,10 @@ namespace MimeKit {
+ 
+ 			var recipients = GetMessageRecipients (true);
+ 
+-			if (ctx is SecureMimeContext) {
+-				Body = ApplicationPkcs7Mime.SignAndEncrypt ((SecureMimeContext) ctx, signer, digestAlgo, recipients, Body);
+-			} else if (ctx is OpenPgpContext) {
+-				Body = MultipartEncrypted.SignAndEncrypt ((OpenPgpContext) ctx, signer, digestAlgo, recipients, Body);
++			if (ctx is SecureMimeContext secureMimeContext) {
++				Body = ApplicationPkcs7Mime.SignAndEncrypt (secureMimeContext, signer, digestAlgo, recipients, Body);
++			} else if (ctx is OpenPgpContext openPgpContext) {
++				Body = MultipartEncrypted.SignAndEncrypt (openPgpContext, signer, digestAlgo, recipients, Body);
+ 			} else {
+ 				throw new ArgumentException ("Unknown type of cryptography context.", nameof (ctx));
+ 			}
+@@ -2985,7 +2976,6 @@ namespace MimeKit {
+ 		{
+ 			var mimeType = item.ContentType.ToString ();
+ 			var contentType = ContentType.Parse (mimeType);
+-			var attachment = item as Attachment;
+ 			MimePart part;
+ 
+ 			if (contentType.MediaType.Equals ("text", StringComparison.OrdinalIgnoreCase))
+@@ -2993,7 +2983,7 @@ namespace MimeKit {
+ 			else
+ 				part = new MimePart (contentType);
+ 
+-			if (attachment != null) {
++			if (item is Attachment attachment) {
+ 				var disposition = attachment.ContentDisposition.ToString ();
+ 				part.ContentDisposition = ContentDisposition.Parse (disposition);
+ 			}
+diff --git a/MimeKit/MimeParser.cs b/MimeKit/MimeParser.cs
+index 53374aa7..da5307b3 100644
+--- a/MimeKit/MimeParser.cs
++++ b/MimeKit/MimeParser.cs
+@@ -579,8 +579,7 @@ namespace MimeKit {
+ 				return left;
+ 
+ 			// use the cancellable stream interface if available...
+-			var cancellable = stream as ICancellableStream;
+-			if (cancellable != null) {
++			if (stream is ICancellableStream cancellable) {
+ 				nread = cancellable.Read (input, start, end - start, cancellationToken);
+ 			} else {
+ 				cancellationToken.ThrowIfCancellationRequested ();
+diff --git a/MimeKit/MimePart.cs b/MimeKit/MimePart.cs
+index a8a9450b..eb70660b 100644
+--- a/MimeKit/MimePart.cs
++++ b/MimeKit/MimePart.cs
+@@ -569,14 +569,12 @@ namespace MimeKit {
+ 			if (Content == null)
+ 				return;
+ 
+-			var cancellable = stream as ICancellableStream;
+-
+ 			if (Content.Encoding != encoding) {
+ 				if (encoding == ContentEncoding.UUEncode) {
+-					var begin = string.Format ("begin 0644 {0}", FileName ?? "unknown");
++					var begin = $"begin 0644 {FileName ?? "unknown"}";
+ 					var buffer = Encoding.UTF8.GetBytes (begin);
+ 
+-					if (cancellable != null) {
++					if (stream is ICancellableStream cancellable) {
+ 						cancellable.Write (buffer, 0, buffer.Length, cancellationToken);
+ 						cancellable.Write (options.NewLineBytes, 0, options.NewLineBytes.Length, cancellationToken);
+ 					} else {
+@@ -600,7 +598,7 @@ namespace MimeKit {
+ 				if (encoding == ContentEncoding.UUEncode) {
+ 					var buffer = Encoding.ASCII.GetBytes ("end");
+ 
+-					if (cancellable != null) {
++					if (stream is ICancellableStream cancellable) {
+ 						cancellable.Write (buffer, 0, buffer.Length, cancellationToken);
+ 						cancellable.Write (options.NewLineBytes, 0, options.NewLineBytes.Length, cancellationToken);
+ 					} else {
+@@ -662,7 +660,7 @@ namespace MimeKit {
+ 
+ 			if (Content.Encoding != encoding) {
+ 				if (encoding == ContentEncoding.UUEncode) {
+-					var begin = string.Format ("begin 0644 {0}", FileName ?? "unknown");
++					var begin = $"begin 0644 {FileName ?? "unknown"}";
+ 					var buffer = Encoding.UTF8.GetBytes (begin);
+ 
+ 					await stream.WriteAsync (buffer, 0, buffer.Length, cancellationToken).ConfigureAwait (false);
+diff --git a/MimeKit/Multipart.cs b/MimeKit/Multipart.cs
+index 3a8f7db2..0e0e079b 100644
+--- a/MimeKit/Multipart.cs
++++ b/MimeKit/Multipart.cs
+@@ -450,7 +450,7 @@ namespace MimeKit {
+ 					cancellable.Write (options.NewLineBytes, 0, options.NewLineBytes.Length, cancellationToken);
+ 					children[i].WriteTo (options, stream, false, cancellationToken);
+ 
+-					if (msg != null && msg.Message != null && msg.Message.Body != null) {
++					if (msg?.Message != null && msg.Message.Body != null) {
+ 						multi = msg.Message.Body as Multipart;
+ 						part = msg.Message.Body as MimePart;
+ 					}
+@@ -480,7 +480,7 @@ namespace MimeKit {
+ 					stream.Write (options.NewLineBytes, 0, options.NewLineBytes.Length);
+ 					children[i].WriteTo (options, stream, false, cancellationToken);
+ 
+-					if (rfc822 != null && rfc822.Message != null && rfc822.Message.Body != null) {
++					if (rfc822?.Message != null && rfc822.Message.Body != null) {
+ 						multi = rfc822.Message.Body as Multipart;
+ 						part = rfc822.Message.Body as MimePart;
+ 					}
+@@ -558,7 +558,7 @@ namespace MimeKit {
+ 				await stream.WriteAsync (options.NewLineBytes, 0, options.NewLineBytes.Length, cancellationToken).ConfigureAwait (false);
+ 				await children[i].WriteToAsync (options, stream, false, cancellationToken).ConfigureAwait (false);
+ 
+-				if (msg != null && msg.Message != null && msg.Message.Body != null) {
++				if (msg?.Message != null && msg.Message.Body != null) {
+ 					multi = msg.Message.Body as Multipart;
+ 					part = msg.Message.Body as MimePart;
+ 				}
+diff --git a/MimeKit/MultipartRelated.cs b/MimeKit/MultipartRelated.cs
+index cefed064..8147a372 100644
+--- a/MimeKit/MultipartRelated.cs
++++ b/MimeKit/MultipartRelated.cs
+@@ -94,7 +94,7 @@ namespace MimeKit {
+ 				if ((contentId = MimeUtils.EnumerateReferences (start).FirstOrDefault ()) == null)
+ 					contentId = start;
+ 
+-				var cid = new Uri (string.Format ("cid:{0}", contentId));
++				var cid = new Uri ($"cid:{contentId}");
+ 
+ 				return IndexOf (cid);
+ 			}
+diff --git a/MimeKit/ParserOptions.cs b/MimeKit/ParserOptions.cs
+index e851f11f..7b21e33d 100644
+--- a/MimeKit/ParserOptions.cs
++++ b/MimeKit/ParserOptions.cs
+@@ -306,7 +306,7 @@ namespace MimeKit {
+ 			var type = contentType.MediaType.ToLowerInvariant ();
+ 
+ 			if (mimeTypes.Count > 0) {
+-				var mimeType = string.Format ("{0}/{1}", type, subtype);
++				var mimeType = $"{type}/{subtype}";
+ 				ConstructorInfo ctor;
+ 
+ 				if (mimeTypes.TryGetValue (mimeType, out ctor))
+diff --git a/MimeKit/Text/HtmlWriter.cs b/MimeKit/Text/HtmlWriter.cs
+index d3061f64..ef040e03 100644
+--- a/MimeKit/Text/HtmlWriter.cs
++++ b/MimeKit/Text/HtmlWriter.cs
+@@ -527,7 +527,7 @@ namespace MimeKit.Text {
+ 				html.Write (empty ? "/>" : ">");
+ 			}
+ 
+-			html.Write (string.Format ("<{0}", id.ToHtmlTagName ()));
++			html.Write ($"<{id.ToHtmlTagName()}");
+ 			WriterState = HtmlWriterState.Tag;
+ 			empty = true;
+ 		}
+@@ -558,7 +558,7 @@ namespace MimeKit.Text {
+ 				html.Write (empty ? "/>" : ">");
+ 			}
+ 
+-			html.Write (string.Format ("<{0}", name));
++			html.Write ($"<{name}");
+ 			WriterState = HtmlWriterState.Tag;
+ 			empty = true;
+ 		}
+@@ -592,7 +592,7 @@ namespace MimeKit.Text {
+ 				empty = false;
+ 			}
+ 
+-			html.Write (string.Format ("</{0}>", id.ToHtmlTagName ()));
++			html.Write ($"</{id.ToHtmlTagName()}>");
+ 		}
+ 
+ 		/// <summary>
+@@ -622,7 +622,7 @@ namespace MimeKit.Text {
+ 				empty = false;
+ 			}
+ 
+-			html.Write (string.Format ("</{0}>", name));
++			html.Write ($"</{name}>");
+ 		}
+ 
+ 		/// <summary>
+@@ -718,7 +718,7 @@ namespace MimeKit.Text {
+ 				empty = false;
+ 			}
+ 
+-			html.Write (string.Format ("<{0}", id.ToHtmlTagName ()));
++			html.Write ($"<{id.ToHtmlTagName()}");
+ 			WriterState = HtmlWriterState.Tag;
+ 		}
+ 
+@@ -748,7 +748,7 @@ namespace MimeKit.Text {
+ 				empty = false;
+ 			}
+ 
+-			html.Write (string.Format ("<{0}", name));
++			html.Write ($"<{name}");
+ 			WriterState = HtmlWriterState.Tag;
+ 		}
+ 
+diff --git a/MimeKit/Tnef/TnefPropertyReader.cs b/MimeKit/Tnef/TnefPropertyReader.cs
+index ee7d10a4..73db792e 100644
+--- a/MimeKit/Tnef/TnefPropertyReader.cs
++++ b/MimeKit/Tnef/TnefPropertyReader.cs
+@@ -1559,9 +1559,8 @@ namespace MimeKit.Tnef {
+ 		/// <see cref="TnefPropertyReader"/>; otherwise, <c>false</c>.</returns>
+ 		public override bool Equals (object obj)
+ 		{
+-			var prop = obj as TnefPropertyReader;
+ 
+-			return prop != null && prop.reader == reader;
++			return obj is TnefPropertyReader prop && prop.reader == reader;
+ 		}
+ 
+ 		void LoadPropertyCount ()
+diff --git a/MimeKit/Tnef/TnefPropertyTag.cs b/MimeKit/Tnef/TnefPropertyTag.cs
+index a72d50cb..57d6f211 100644
+--- a/MimeKit/Tnef/TnefPropertyTag.cs
++++ b/MimeKit/Tnef/TnefPropertyTag.cs
+@@ -5721,7 +5721,7 @@ namespace MimeKit.Tnef {
+ 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="TnefPropertyTag"/>.</returns>
+ 		public override string ToString ()
+ 		{
+-			return string.Format ("{0} ({1})", Id, ValueTnefType);
++			return $"{Id} ({ValueTnefType})";
+ 		}
+ 
+ 		/// <summary>
+diff --git a/MimeKit/Utils/CharsetUtils.cs b/MimeKit/Utils/CharsetUtils.cs
+index 3db64457..faff2be2 100644
+--- a/MimeKit/Utils/CharsetUtils.cs
++++ b/MimeKit/Utils/CharsetUtils.cs
+@@ -332,7 +332,7 @@ namespace MimeKit.Utils {
+ 				throw new ArgumentNullException (nameof (fallback));
+ 
+ 			if ((codepage = GetCodePage (charset)) == -1)
+-				throw new NotSupportedException (string.Format ("The '{0}' encoding is not supported.", charset));
++				throw new NotSupportedException ($"The '{charset}' encoding is not supported.");
+ 
+ 			var encoderFallback = new EncoderReplacementFallback (fallback);
+ 			var decoderFallback = new DecoderReplacementFallback (fallback);
+@@ -345,12 +345,12 @@ namespace MimeKit.Utils {
+ 			int codepage;
+ 
+ 			if ((codepage = GetCodePage (charset)) == -1)
+-				throw new NotSupportedException (string.Format ("The '{0}' encoding is not supported.", charset));
++				throw new NotSupportedException ($"The '{charset}' encoding is not supported.");
+ 
+ 			try {
+ 				return Encoding.GetEncoding (codepage);
+ 			} catch (Exception ex) {
+-				throw new NotSupportedException (string.Format ("The '{0}' encoding is not supported.", charset), ex);
++				throw new NotSupportedException ($"The '{charset}' encoding is not supported.", ex);
+ 			}
+ 		}
+ 
+diff --git a/Mono.Data.Sqlite/SQLite3.cs b/Mono.Data.Sqlite/SQLite3.cs
+index edf3ca24..9ebd4c9e 100644
+--- a/Mono.Data.Sqlite/SQLite3.cs
++++ b/Mono.Data.Sqlite/SQLite3.cs
+@@ -301,9 +301,7 @@ namespace Mono.Data.Sqlite
+               _buildingSchema = true;
+               try
+               {
+-                ISQLiteSchemaExtensions ext = ((IServiceProvider)SqliteFactory.Instance).GetService(typeof(ISQLiteSchemaExtensions)) as ISQLiteSchemaExtensions;
+-
+-                if (ext != null)
++                if (((IServiceProvider)SqliteFactory.Instance).GetService(typeof(ISQLiteSchemaExtensions)) is ISQLiteSchemaExtensions ext)
+                   ext.BuildTempSchema(cnn);
+ 
+                 while (cmd == null && strSql.Length > 0)
+diff --git a/Mono.Data.Sqlite/SQLiteCommand.cs b/Mono.Data.Sqlite/SQLiteCommand.cs
+index fccb81b0..105a128d 100644
+--- a/Mono.Data.Sqlite/SQLiteCommand.cs
++++ b/Mono.Data.Sqlite/SQLiteCommand.cs
+@@ -283,8 +283,7 @@ namespace Mono.Data.Sqlite
+     {
+       if (_activeReader != null)
+       {
+-        SqliteDataReader reader = _activeReader.Target as SqliteDataReader;
+-        if (reader != null)
++        if (_activeReader.Target is SqliteDataReader reader)
+           reader.Cancel();
+       }
+     }
+diff --git a/Mono.Data.Sqlite/SQLiteConnection.cs b/Mono.Data.Sqlite/SQLiteConnection.cs
+index 959a2fc2..5ea5e473 100644
+--- a/Mono.Data.Sqlite/SQLiteConnection.cs
++++ b/Mono.Data.Sqlite/SQLiteConnection.cs
+@@ -472,10 +472,7 @@ namespace Mono.Data.Sqlite
+           _enlistment = null;
+         }
+ #endif
+-        if (_sql != null)
+-        {
+-          _sql.Close();
+-        }
++        _sql?.Close();
+         _sql = null;
+         _transactionLevel = 0;
+       }
+diff --git a/Mono.Data.Sqlite/SQLiteConnectionPool.cs b/Mono.Data.Sqlite/SQLiteConnectionPool.cs
+index 1612fb27..8f25d9a6 100644
+--- a/Mono.Data.Sqlite/SQLiteConnectionPool.cs
++++ b/Mono.Data.Sqlite/SQLiteConnectionPool.cs
+@@ -76,8 +76,8 @@ namespace Mono.Data.Sqlite
+         while (queue.Queue.Count > 0)
+         {
+           WeakReference cnn = queue.Queue.Dequeue();
+-          SqliteConnectionHandle hdl = cnn.Target as SqliteConnectionHandle;
+-          if (hdl != null)
++
++          if (cnn.Target is SqliteConnectionHandle hdl)
+           {
+             return hdl;
+           }
+@@ -100,10 +100,7 @@ namespace Mono.Data.Sqlite
+           {
+             WeakReference cnn = pair.Value.Queue.Dequeue();
+             SqliteConnectionHandle hdl = cnn.Target as SqliteConnectionHandle;
+-            if (hdl != null)
+-            {
+-              hdl.Dispose();
+-            }
++            hdl?.Dispose();
+           }
+           
+           // Keep track of the highest revision so we can go one higher when we're finished
+@@ -135,10 +132,7 @@ namespace Mono.Data.Sqlite
+           {
+             WeakReference cnn = queue.Queue.Dequeue();
+             SqliteConnectionHandle hdl = cnn.Target as SqliteConnectionHandle;
+-            if (hdl != null)
+-            {
+-              hdl.Dispose();
+-            }
++            hdl?.Dispose();
+           }
+         }
+       }
+@@ -182,10 +176,7 @@ namespace Mono.Data.Sqlite
+       {
+         WeakReference cnn = queue.Queue.Dequeue();
+         SqliteConnectionHandle hdl = cnn.Target as SqliteConnectionHandle;
+-        if (hdl != null)
+-        {
+-          hdl.Dispose();
+-        }
++        hdl?.Dispose();
+       }
+     }
+   }
+diff --git a/Mono.Data.Sqlite/SQLiteConnectionStringBuilder.cs b/Mono.Data.Sqlite/SQLiteConnectionStringBuilder.cs
+index eced19aa..95d7edd3 100644
+--- a/Mono.Data.Sqlite/SQLiteConnectionStringBuilder.cs
++++ b/Mono.Data.Sqlite/SQLiteConnectionStringBuilder.cs
+@@ -485,8 +485,7 @@ namespace Mono.Data.Sqlite
+       }
+       else
+       {
+-        DefaultValueAttribute att = pd.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+-        if (att != null)
++        if (pd.Attributes[typeof(DefaultValueAttribute)] is DefaultValueAttribute att)
+         {
+           value = att.Value;
+           b = true;
+diff --git a/Mono.Data.Sqlite/SQLiteDataAdapter.cs b/Mono.Data.Sqlite/SQLiteDataAdapter.cs
+index fbaaba93..06bf260a 100644
+--- a/Mono.Data.Sqlite/SQLiteDataAdapter.cs
++++ b/Mono.Data.Sqlite/SQLiteDataAdapter.cs
+@@ -121,9 +121,7 @@ namespace Mono.Data.Sqlite
+     /// <param name="value">The event's specifics</param>
+     protected override void OnRowUpdating(RowUpdatingEventArgs value)
+     {
+-      EventHandler<RowUpdatingEventArgs> handler = base.Events[_updatingEventPH] as EventHandler<RowUpdatingEventArgs>;
+-
+-      if (handler != null)
++      if (base.Events[_updatingEventPH] is EventHandler<RowUpdatingEventArgs> handler)
+         handler(this, value);
+     }
+ 
+@@ -133,9 +131,7 @@ namespace Mono.Data.Sqlite
+     /// <param name="value">The event's specifics</param>
+     protected override void OnRowUpdated(RowUpdatedEventArgs value)
+     {
+-      EventHandler<RowUpdatedEventArgs> handler = base.Events[_updatedEventPH] as EventHandler<RowUpdatedEventArgs>;
+-
+-      if (handler != null)
++      if (base.Events[_updatedEventPH] is EventHandler<RowUpdatedEventArgs> handler)
+         handler(this, value);
+     }
+ 
+diff --git a/Mono.Data.Sqlite/SQLiteFunction.cs b/Mono.Data.Sqlite/SQLiteFunction.cs
+index ff339dc1..bf97a263 100644
+--- a/Mono.Data.Sqlite/SQLiteFunction.cs
++++ b/Mono.Data.Sqlite/SQLiteFunction.cs
+@@ -235,9 +235,7 @@ namespace Mono.Data.Sqlite
+       }
+       else
+       {
+-        Exception r = returnValue as Exception;
+-
+-        if (r != null)
++        if (returnValue is Exception r)
+         {
+           _base.ReturnError(context, r.Message);
+           return;
+@@ -348,8 +346,7 @@ namespace Mono.Data.Sqlite
+       _context = context;
+       SetReturnValue(context, Final(obj));
+ 
+-      IDisposable disp = obj as IDisposable;
+-      if (disp != null) disp.Dispose();
++      if (obj is IDisposable disp) disp.Dispose();
+     }
+ 
+     /// <summary>
+diff --git a/Mono.Data.Sqlite/SQLiteKeyReader.cs b/Mono.Data.Sqlite/SQLiteKeyReader.cs
+index d9fed76d..03454c63 100644
+--- a/Mono.Data.Sqlite/SQLiteKeyReader.cs
++++ b/Mono.Data.Sqlite/SQLiteKeyReader.cs
+@@ -57,7 +57,7 @@ namespace Mono.Data.Sqlite
+             columns[n] = builder.QuoteIdentifier(columns[n]);
+           }
+         }
+-        _command.CommandText = String.Format("SELECT {0} FROM [{1}].[{2}] WHERE ROWID = ?", String.Join(",", columns), database, table);
++        _command.CommandText = $"SELECT {String.Join(",", columns)} FROM [{database}].[{table}] WHERE ROWID = ?";
+         _command.Parameters.AddWithValue(null, (long)0);
+       }
+ 
+@@ -290,10 +290,7 @@ namespace Mono.Data.Sqlite
+         {
+           last = _keyInfo[n].query;
+ 
+-          if (last != null)
+-          {
+-            last.Sync(_stmt._sql.GetRowIdForCursor(_stmt, _keyInfo[n].cursor));
+-          }
++          last?.Sync(_stmt._sql.GetRowIdForCursor(_stmt, _keyInfo[n].cursor));
+         }
+       }
+       _isValid = true;
+diff --git a/Mono.Data.Sqlite/SQLiteStatement.cs b/Mono.Data.Sqlite/SQLiteStatement.cs
+index ef18d2bf..071c59f9 100644
+--- a/Mono.Data.Sqlite/SQLiteStatement.cs
++++ b/Mono.Data.Sqlite/SQLiteStatement.cs
+@@ -125,10 +125,7 @@ namespace Mono.Data.Sqlite
+     /// </summary>
+     public void Dispose()
+     {
+-      if (_sqlite_stmt != null)
+-      {
+-        _sqlite_stmt.Dispose();
+-      }
++      _sqlite_stmt?.Dispose();
+       _sqlite_stmt = null;
+       
+       _paramNames = null;
+diff --git a/UnitTests/Cryptography/DkimPublicKeyLocator.cs b/UnitTests/Cryptography/DkimPublicKeyLocator.cs
+index f59d8999..28355ea0 100644
+--- a/UnitTests/Cryptography/DkimPublicKeyLocator.cs
++++ b/UnitTests/Cryptography/DkimPublicKeyLocator.cs
+@@ -56,7 +56,7 @@ namespace UnitTests.Cryptography
+ 			if (keys.TryGetValue (query, out string txt))
+ 				return GetPublicKey (txt);
+ 
+-			throw new Exception (string.Format ("Failed to look up public key for: {0}", domain));
++			throw new Exception ($"Failed to look up public key for: {domain}");
+ 		}
+ 
+ 		public override Task<AsymmetricKeyParameter> LocatePublicKeyAsync (string methods, string domain, string selector, CancellationToken cancellationToken = default (CancellationToken))
+diff --git a/UnitTests/Cryptography/SecureMimeDigitalCertificateTests.cs b/UnitTests/Cryptography/SecureMimeDigitalCertificateTests.cs
+index 6a41b55f..ad2a8b41 100644
+--- a/UnitTests/Cryptography/SecureMimeDigitalCertificateTests.cs
++++ b/UnitTests/Cryptography/SecureMimeDigitalCertificateTests.cs
+@@ -59,9 +59,7 @@ namespace UnitTests.Cryptography {
+ 				object item;
+ 
+ 				while ((item = reader.ReadObject ()) != null) {
+-					var certificate = item as X509Certificate;
+-
+-					if (certificate != null)
++					if (item is X509Certificate certificate)
+ 						return certificate;
+ 				}
+ 			}
+diff --git a/UnitTests/Cryptography/SecureMimeTests.cs b/UnitTests/Cryptography/SecureMimeTests.cs
+index 6949198d..455afc8e 100644
+--- a/UnitTests/Cryptography/SecureMimeTests.cs
++++ b/UnitTests/Cryptography/SecureMimeTests.cs
+@@ -81,8 +81,7 @@ namespace UnitTests.Cryptography {
+ 				var chain = LoadPkcs12CertificateChain (Path.Combine (dataDir, "smime.pfx"), "no.secret");
+ 				MimeKitCertificate = chain[0];
+ 
+-				if (ctx is WindowsSecureMimeContext) {
+-					var windows = (WindowsSecureMimeContext) ctx;
++				if (ctx is WindowsSecureMimeContext windows) {
+ 					var parser = new X509CertificateParser ();
+ 
+ 					using (var stream = File.OpenRead (Path.Combine (dataDir, "StartComCertificationAuthority.crt"))) {
+@@ -105,8 +104,8 @@ namespace UnitTests.Cryptography {
+ 					foreach (var filename in StartComCertificates) {
+ 						path = Path.Combine (dataDir, filename);
+ 						using (var stream = File.OpenRead (path)) {
+-							if (ctx is DefaultSecureMimeContext) {
+-								((DefaultSecureMimeContext) ctx).Import (stream, true);
++							if (ctx is DefaultSecureMimeContext defaultSecureMimeContext) {
++								defaultSecureMimeContext.Import (stream, true);
+ 							} else {
+ 								var parser = new X509CertificateParser ();
+ 								foreach (X509Certificate certificate in parser.ReadCertificates (stream))
+@@ -117,8 +116,8 @@ namespace UnitTests.Cryptography {
+ 
+ 					// import the root & intermediate certificates from the smime.pfx file
+ 					for (int i = chain.Length - 1; i > 0; i--) {
+-						if (ctx is DefaultSecureMimeContext) {
+-							((DefaultSecureMimeContext) ctx).Import (chain[i], true);
++						if (ctx is DefaultSecureMimeContext defaultSecureMimeContext) {
++							defaultSecureMimeContext.Import (chain[i], true);
+ 						} else {
+ 							ctx.Import (chain[i]);
+ 						}
+diff --git a/UnitTests/HeaderTests.cs b/UnitTests/HeaderTests.cs
+index 7d010848..08ac5529 100644
+--- a/UnitTests/HeaderTests.cs
++++ b/UnitTests/HeaderTests.cs
+@@ -165,7 +165,7 @@ namespace UnitTests {
+ 		[Test]
+ 		public void TestMessageIdHeaderFolding ()
+ 		{
+-			var header = new Header ("Message-Id", string.Format ("<{0}@princeton-plainsboro-hospital.com>", Guid.NewGuid ()));
++			var header = new Header ("Message-Id", $"<{Guid.NewGuid()}@princeton-plainsboro-hospital.com>");
+ 			var expected = " " + header.Value + FormatOptions.Default.NewLine;
+ 			var raw = ByteArrayToString (header.RawValue);
+ 
+diff --git a/UnitTests/HtmlPreviewVisitor.cs b/UnitTests/HtmlPreviewVisitor.cs
+index 55020dfb..7b6d549b 100644
+--- a/UnitTests/HtmlPreviewVisitor.cs
++++ b/UnitTests/HtmlPreviewVisitor.cs
+@@ -129,8 +129,7 @@ namespace UnitTests
+ //				return string.Format ("data:{0};base64,{1}", image.ContentType.MimeType,
+ //					Convert.ToBase64String (buffer, 0, length, Base64FormattingOptions.None));
+ //			}
+-			return string.Format ("data:{0};base64,[base64 data for {1}]",
+-				image.ContentType.MimeType, image.ContentId);
++			return $"data:{image.ContentType.MimeType};base64,[base64 data for {image.ContentId}]";
+ 		}
+ 
+ 		// Replaces <img src=...> urls that refer to images embedded within the message with
+diff --git a/UnitTests/MimeParserTests.cs b/UnitTests/MimeParserTests.cs
+index 698c41ad..c12d46eb 100644
+--- a/UnitTests/MimeParserTests.cs
++++ b/UnitTests/MimeParserTests.cs
+@@ -531,12 +531,11 @@ namespace UnitTests {
+ 
+ 			builder.AppendFormat ("Content-Type: {0}/{1}", entity.ContentType.MediaType, entity.ContentType.MediaSubtype).Append ('\n');
+ 
+-			if (entity is Multipart) {
+-				var multipart = (Multipart) entity;
++			if (entity is Multipart multipart) {
+ 				foreach (var part in multipart)
+ 					DumpMimeTree (builder, part, depth + 1);
+-			} else if (entity is MessagePart) {
+-				DumpMimeTree (builder, ((MessagePart) entity).Message.Body, depth + 1);
++			} else if (entity is MessagePart messagePart) {
++				DumpMimeTree (builder, messagePart.Message.Body, depth + 1);
+ 			}
+ 		}
+ 
+diff --git a/UnitTests/MimePartTests.cs b/UnitTests/MimePartTests.cs
+index 9e88c979..38507451 100644
+--- a/UnitTests/MimePartTests.cs
++++ b/UnitTests/MimePartTests.cs
+@@ -264,7 +264,7 @@ namespace UnitTests
+ 			Assert.IsNull (part.ContentId, "Expected ContentId to be null again");
+ 			Assert.IsFalse (part.Headers.Contains (HeaderId.ContentId), "Expected header to be removed");
+ 
+-			part.Headers.Add (HeaderId.ContentId, string.Format ("<{0}>", id));
++			part.Headers.Add (HeaderId.ContentId, $"<{id}>");
+ 			Assert.AreEqual (id, part.ContentId, "Expected ContentId to be set again");
+ 
+ 			part.Headers.Remove (HeaderId.ContentId);
+diff --git a/UnitTests/MultipartRelatedTests.cs b/UnitTests/MultipartRelatedTests.cs
+index 2c176e17..e1710323 100644
+--- a/UnitTests/MultipartRelatedTests.cs
++++ b/UnitTests/MultipartRelatedTests.cs
+@@ -145,7 +145,7 @@ namespace UnitTests {
+ 			Assert.IsNull (related.ContentType.Parameters["start"], "The start parameter should be null.");
+ 
+ 			for (int i = 1; i < related.Count; i++) {
+-				var cid = new Uri (string.Format ("cid:{0}", related[i].ContentId));
++				var cid = new Uri ($"cid:{related[i].ContentId}");
+ 				string mimeType, charset;
+ 
+ 				Assert.IsTrue (related.Contains (cid), "Contains failed.");

@@ -1,0 +1,2352 @@
+diff --git a/Microsoft.Azure.Cosmos.Encryption/src/Custom/AeadAes256CbcHmac256Algorithm.cs b/Microsoft.Azure.Cosmos.Encryption/src/Custom/AeadAes256CbcHmac256Algorithm.cs
+index 596e272d..df416c3e 100644
+--- a/Microsoft.Azure.Cosmos.Encryption/src/Custom/AeadAes256CbcHmac256Algorithm.cs
++++ b/Microsoft.Azure.Cosmos.Encryption/src/Custom/AeadAes256CbcHmac256Algorithm.cs
+@@ -198,10 +198,7 @@ namespace Microsoft.Azure.Cosmos.Encryption.Custom
+                 }
+                 catch (Exception)
+                 {
+-                    if (aesAlg != null)
+-                    {
+-                        aesAlg.Dispose();
+-                    }
++                    aesAlg?.Dispose();
+ 
+                     throw;
+                 }
+@@ -352,10 +349,7 @@ namespace Microsoft.Azure.Cosmos.Encryption.Custom
+                 }
+                 catch (Exception)
+                 {
+-                    if (aesAlg != null)
+-                    {
+-                        aesAlg.Dispose();
+-                    }
++                    aesAlg?.Dispose();
+ 
+                     throw;
+                 }
+diff --git a/Microsoft.Azure.Cosmos.Encryption/src/Custom/DataEncryptionKeyContainerCore.cs b/Microsoft.Azure.Cosmos.Encryption/src/Custom/DataEncryptionKeyContainerCore.cs
+index 90db9e53..b7a4511a 100644
+--- a/Microsoft.Azure.Cosmos.Encryption/src/Custom/DataEncryptionKeyContainerCore.cs
++++ b/Microsoft.Azure.Cosmos.Encryption/src/Custom/DataEncryptionKeyContainerCore.cs
+@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Cosmos.Encryption.Custom
+ 
+             if (!CosmosEncryptionAlgorithm.VerifyIfSupportedAlgorithm(encryptionAlgorithm))
+             {
+-                throw new ArgumentException(string.Format("Unsupported Encryption Algorithm {0}", encryptionAlgorithm), nameof(encryptionAlgorithm));
++                throw new ArgumentException($"Unsupported Encryption Algorithm {encryptionAlgorithm}", nameof(encryptionAlgorithm));
+             }
+ 
+             if (encryptionKeyWrapMetadata == null)
+diff --git a/Microsoft.Azure.Cosmos.Encryption/src/Custom/EncryptionProcessor.cs b/Microsoft.Azure.Cosmos.Encryption/src/Custom/EncryptionProcessor.cs
+index 236246fa..ba703720 100644
+--- a/Microsoft.Azure.Cosmos.Encryption/src/Custom/EncryptionProcessor.cs
++++ b/Microsoft.Azure.Cosmos.Encryption/src/Custom/EncryptionProcessor.cs
+@@ -478,7 +478,7 @@ namespace Microsoft.Azure.Cosmos.Encryption.Custom
+         {
+             JProperty encryptionPropertiesJProp = item.Property(Constants.EncryptedInfo);
+             JObject encryptionPropertiesJObj = null;
+-            if (encryptionPropertiesJProp != null && encryptionPropertiesJProp.Value != null && encryptionPropertiesJProp.Value.Type == JTokenType.Object)
++            if (encryptionPropertiesJProp?.Value != null && encryptionPropertiesJProp.Value.Type == JTokenType.Object)
+             {
+                 encryptionPropertiesJObj = (JObject)encryptionPropertiesJProp.Value;
+             }
+@@ -550,7 +550,7 @@ namespace Microsoft.Azure.Cosmos.Encryption.Custom
+                     jObject.Add(key, JsonConvert.DeserializeObject<JObject>(sqlVarCharSerializer.Deserialize(serializedBytes)));
+                     break;
+                 default:
+-                    Debug.Fail(string.Format("Unexpected type marker {0}", typeMarker));
++                    Debug.Fail($"Unexpected type marker {typeMarker}");
+                     break;
+             }
+         }
+diff --git a/Microsoft.Azure.Cosmos.Encryption/src/Custom/KeyVault/AzureKeyVaultKeyWrapProvider.cs b/Microsoft.Azure.Cosmos.Encryption/src/Custom/KeyVault/AzureKeyVaultKeyWrapProvider.cs
+index f2e64431..e250e843 100644
+--- a/Microsoft.Azure.Cosmos.Encryption/src/Custom/KeyVault/AzureKeyVaultKeyWrapProvider.cs
++++ b/Microsoft.Azure.Cosmos.Encryption/src/Custom/KeyVault/AzureKeyVaultKeyWrapProvider.cs
+@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Cosmos.Encryption.Custom
+             if (metadata.Algorithm != KeyVaultConstants.RsaOaep256)
+             {
+                 throw new ArgumentException(
+-                    string.Format("Unknown encryption key wrap algorithm {0}", metadata.Algorithm),
++                    $"Unknown encryption key wrap algorithm {metadata.Algorithm}",
+                     nameof(metadata));
+             }
+ 
+@@ -85,7 +85,7 @@ namespace Microsoft.Azure.Cosmos.Encryption.Custom
+ 
+             if (!await this.keyVaultAccessClient.ValidatePurgeProtectionAndSoftDeleteSettingsAsync(keyVaultUriProperties, cancellationToken))
+             {
+-                throw new ArgumentException(string.Format("Key Vault {0} provided must have soft delete and purge protection enabled.", keyVaultUriProperties.KeyUri));
++                throw new ArgumentException($"Key Vault {keyVaultUriProperties.KeyUri} provided must have soft delete and purge protection enabled.");
+             }
+ 
+             byte[] result = await this.keyVaultAccessClient.WrapKeyAsync(key, keyVaultUriProperties, cancellationToken);
+diff --git a/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/LegacyEncryptionTests.cs b/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/LegacyEncryptionTests.cs
+index e5a61be1..a779e3df 100644
+--- a/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/LegacyEncryptionTests.cs
++++ b/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/LegacyEncryptionTests.cs
+@@ -593,16 +593,12 @@ namespace Microsoft.Azure.Cosmos.Encryption.EmulatorTests
+ 
+             await LegacyEncryptionTests.ValidateQueryResultsAsync(
+                 LegacyEncryptionTests.encryptionContainer,
+-                string.Format(
+-                    "SELECT * FROM c where c.PK = '{0}' and c.id = '{1}' and c.NonSensitive = '{2}'",
+-                    expectedDoc.PK,
+-                    expectedDoc.Id,
+-                    expectedDoc.NonSensitive),
++                $"SELECT * FROM c where c.PK = '{expectedDoc.PK}' and c.id = '{expectedDoc.Id}' and c.NonSensitive = '{expectedDoc.NonSensitive}'",
+                 expectedDoc);
+ 
+             await LegacyEncryptionTests.ValidateQueryResultsAsync(
+                 LegacyEncryptionTests.encryptionContainer,
+-                string.Format("SELECT * FROM c where c.Sensitive = '{0}'", testDoc.Sensitive),
++                $"SELECT * FROM c where c.Sensitive = '{testDoc.Sensitive}'",
+                 expectedDoc: null);
+ 
+             await LegacyEncryptionTests.ValidateQueryResultsAsync(
+diff --git a/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/MdeCustomEncryptionTests.cs b/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/MdeCustomEncryptionTests.cs
+index 0a85e47c..e54fa6c6 100644
+--- a/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/MdeCustomEncryptionTests.cs
++++ b/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/MdeCustomEncryptionTests.cs
+@@ -516,17 +516,13 @@ namespace Microsoft.Azure.Cosmos.Encryption.EmulatorTests
+ 
+             await MdeCustomEncryptionTests.ValidateQueryResultsAsync(
+                 MdeCustomEncryptionTests.encryptionContainer,
+-                string.Format(
+-                    "SELECT * FROM c where c.PK = '{0}' and c.id = '{1}' and c.NonSensitive = '{2}'",
+-                    expectedDoc.PK,
+-                    expectedDoc.Id,
+-                    expectedDoc.NonSensitive),
++                $"SELECT * FROM c where c.PK = '{expectedDoc.PK}' and c.id = '{expectedDoc.Id}' and c.NonSensitive = '{expectedDoc.NonSensitive}'",
+                 expectedDoc,
+                 legacyAlgo: true);
+ 
+             await MdeCustomEncryptionTests.ValidateQueryResultsAsync(
+                 MdeCustomEncryptionTests.encryptionContainer,
+-                string.Format("SELECT * FROM c where c.Sensitive_IntFormat = '{0}'", testDoc.Sensitive_StringFormat),
++                $"SELECT * FROM c where c.Sensitive_IntFormat = '{testDoc.Sensitive_StringFormat}'",
+                 expectedDoc: null,
+                 legacyAlgo: true);
+ 
+@@ -653,16 +649,12 @@ namespace Microsoft.Azure.Cosmos.Encryption.EmulatorTests
+ 
+             await MdeCustomEncryptionTests.ValidateQueryResultsAsync(
+                 MdeCustomEncryptionTests.encryptionContainer,
+-                string.Format(
+-                    "SELECT * FROM c where c.PK = '{0}' and c.id = '{1}' and c.NonSensitive = '{2}'",
+-                    expectedDoc.PK,
+-                    expectedDoc.Id,
+-                    expectedDoc.NonSensitive),
++                $"SELECT * FROM c where c.PK = '{expectedDoc.PK}' and c.id = '{expectedDoc.Id}' and c.NonSensitive = '{expectedDoc.NonSensitive}'",
+                 expectedDoc);
+ 
+             await MdeCustomEncryptionTests.ValidateQueryResultsAsync(
+                 MdeCustomEncryptionTests.encryptionContainer,
+-                string.Format("SELECT * FROM c where c.Sensitive_IntFormat = '{0}'", testDoc.Sensitive_IntFormat),
++                $"SELECT * FROM c where c.Sensitive_IntFormat = '{testDoc.Sensitive_IntFormat}'",
+                 expectedDoc: null);
+ 
+             await MdeCustomEncryptionTests.ValidateQueryResultsAsync(
+diff --git a/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/MdeEncryptionTests.cs b/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/MdeEncryptionTests.cs
+index bc0f6ac6..8a6e0619 100644
+--- a/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/MdeEncryptionTests.cs
++++ b/Microsoft.Azure.Cosmos.Encryption/tests/EmulatorTests/MdeEncryptionTests.cs
+@@ -444,16 +444,12 @@ namespace Microsoft.Azure.Cosmos.Encryption.EmulatorTests
+ 
+             await MdeEncryptionTests.ValidateQueryResultsAsync(
+                 MdeEncryptionTests.encryptionContainer,
+-                string.Format(
+-                    "SELECT * FROM c where c.PK = '{0}' and c.id = '{1}' and c.NonSensitive = '{2}'",
+-                    expectedDoc.PK,
+-                    expectedDoc.Id,
+-                    expectedDoc.NonSensitive),
++                $"SELECT * FROM c where c.PK = '{expectedDoc.PK}' and c.id = '{expectedDoc.Id}' and c.NonSensitive = '{expectedDoc.NonSensitive}'",
+                 expectedDoc);
+ 
+             await MdeEncryptionTests.ValidateQueryResultsAsync(
+                 MdeEncryptionTests.encryptionContainer,
+-                string.Format("SELECT * FROM c where c.Sensitive_IntFormat = '{0}'", testDoc.Sensitive_IntFormat),
++                $"SELECT * FROM c where c.Sensitive_IntFormat = '{testDoc.Sensitive_IntFormat}'",
+                 expectedDoc: null);
+ 
+             await MdeEncryptionTests.ValidateQueryResultsAsync(
+diff --git a/Microsoft.Azure.Cosmos/src/ChangeFeedProcessor/Bootstrapping/PartitionSynchronizerCore.cs b/Microsoft.Azure.Cosmos/src/ChangeFeedProcessor/Bootstrapping/PartitionSynchronizerCore.cs
+index d89d5886..692a69e4 100644
+--- a/Microsoft.Azure.Cosmos/src/ChangeFeedProcessor/Bootstrapping/PartitionSynchronizerCore.cs
++++ b/Microsoft.Azure.Cosmos/src/ChangeFeedProcessor/Bootstrapping/PartitionSynchronizerCore.cs
+@@ -216,9 +216,9 @@ namespace Microsoft.Azure.Cosmos.ChangeFeed.Bootstrapping
+                     // If there is at least one, we assume there are others that cover the rest of the full partition range 
+                     // based on the fact that the lease store was always initialized for the full collection
+                     Documents.Routing.Range<string> partitionRange = partitionKeyRange.ToRange();
+-                    if (leases.Where(lease => lease is DocumentServiceLeaseCoreEpk
++                    if (leases.Any(lease => lease is DocumentServiceLeaseCoreEpk
+                         && lease.FeedRange is FeedRangeEpk feedRangeEpk
+-                        && (partitionRange.Min == feedRangeEpk.Range.Min || partitionRange.Max == feedRangeEpk.Range.Max)).Any())
++                        && (partitionRange.Min == feedRangeEpk.Range.Min || partitionRange.Max == feedRangeEpk.Range.Max)))
+                     {
+                         continue;
+                     }
+diff --git a/Microsoft.Azure.Cosmos/src/DocumentClient.cs b/Microsoft.Azure.Cosmos/src/DocumentClient.cs
+index 638c347e..d813b41d 100644
+--- a/Microsoft.Azure.Cosmos/src/DocumentClient.cs
++++ b/Microsoft.Azure.Cosmos/src/DocumentClient.cs
+@@ -1321,10 +1321,7 @@ namespace Microsoft.Azure.Cosmos
+         {
+             await this.EnsureValidClientAsync();
+ 
+-            if (retryPolicyInstance != null)
+-            {
+-                retryPolicyInstance.OnBeforeSendRequest(request);
+-            }
++            retryPolicyInstance?.OnBeforeSendRequest(request);
+ 
+             using (new ActivityScope(Guid.NewGuid()))
+             {
+@@ -5440,10 +5437,7 @@ namespace Microsoft.Azure.Cosmos
+                                 options);
+                         }
+ 
+-                        if (retryPolicyInstance != null)
+-                        {
+-                            retryPolicyInstance.OnBeforeSendRequest(request);
+-                        }
++                        retryPolicyInstance?.OnBeforeSendRequest(request);
+ 
+                         request.SerializerSettings = this.GetSerializerSettingsForRequest(options);
+                         return new StoredProcedureResponse<TValue>(await this.ExecuteProcedureAsync(
+@@ -6596,11 +6590,11 @@ namespace Microsoft.Azure.Cosmos
+             PartitionKeyDefinition partitionKeyDefinition = collection.PartitionKey;
+ 
+             PartitionKeyInternal partitionKey;
+-            if (options != null && options.PartitionKey != null && options.PartitionKey.Equals(Documents.PartitionKey.None))
++            if (options?.PartitionKey != null && options.PartitionKey.Equals(Documents.PartitionKey.None))
+             {
+                 partitionKey = collection.GetNoneValue();
+             }
+-            else if (options != null && options.PartitionKey != null)
++            else if (options?.PartitionKey != null)
+             {
+                 partitionKey = options.PartitionKey.InternalKey;
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/GatewayStoreModel.cs b/Microsoft.Azure.Cosmos/src/GatewayStoreModel.cs
+index f6c34d10..8f6616e1 100644
+--- a/Microsoft.Azure.Cosmos/src/GatewayStoreModel.cs
++++ b/Microsoft.Azure.Cosmos/src/GatewayStoreModel.cs
+@@ -1,3 +1,4 @@
++using System.Linq;
+ //------------------------------------------------------------
+ // Copyright (c) Microsoft Corporation.  All rights reserved.
+ //------------------------------------------------------------
+@@ -95,7 +96,7 @@ namespace Microsoft.Azure.Cosmos
+                 long longValue;
+                 IEnumerable<string> headerValues;
+                 if (responseMessage.Headers.TryGetValues(HttpConstants.HttpHeaders.MaxMediaStorageUsageInMB, out headerValues) &&
+-                    (headerValues.Count() != 0))
++                    (headerValues.Any()))
+                 {
+                     if (long.TryParse(headerValues.First(), out longValue))
+                     {
+@@ -104,7 +105,7 @@ namespace Microsoft.Azure.Cosmos
+                 }
+ 
+                 if (responseMessage.Headers.TryGetValues(HttpConstants.HttpHeaders.CurrentMediaStorageUsageInMB, out headerValues) &&
+-                    (headerValues.Count() != 0))
++                    (headerValues.Any()))
+                 {
+                     if (long.TryParse(headerValues.First(), out longValue))
+                     {
+@@ -113,7 +114,7 @@ namespace Microsoft.Azure.Cosmos
+                 }
+ 
+                 if (responseMessage.Headers.TryGetValues(HttpConstants.HttpHeaders.DatabaseAccountConsumedDocumentStorageInMB, out headerValues) &&
+-                   (headerValues.Count() != 0))
++                   (headerValues.Any()))
+                 {
+                     if (long.TryParse(headerValues.First(), out longValue))
+                     {
+@@ -122,7 +123,7 @@ namespace Microsoft.Azure.Cosmos
+                 }
+ 
+                 if (responseMessage.Headers.TryGetValues(HttpConstants.HttpHeaders.DatabaseAccountProvisionedDocumentStorageInMB, out headerValues) &&
+-                   (headerValues.Count() != 0))
++                   (headerValues.Any()))
+                 {
+                     if (long.TryParse(headerValues.First(), out longValue))
+                     {
+@@ -131,7 +132,7 @@ namespace Microsoft.Azure.Cosmos
+                 }
+ 
+                 if (responseMessage.Headers.TryGetValues(HttpConstants.HttpHeaders.DatabaseAccountReservedDocumentStorageInMB, out headerValues) &&
+-                   (headerValues.Count() != 0))
++                   (headerValues.Any()))
+                 {
+                     if (long.TryParse(headerValues.First(), out longValue))
+                     {
+diff --git a/Microsoft.Azure.Cosmos/src/Handler/RequestInvokerHandler.cs b/Microsoft.Azure.Cosmos/src/Handler/RequestInvokerHandler.cs
+index f14ccb64..8c28e246 100644
+--- a/Microsoft.Azure.Cosmos/src/Handler/RequestInvokerHandler.cs
++++ b/Microsoft.Azure.Cosmos/src/Handler/RequestInvokerHandler.cs
+@@ -53,11 +53,7 @@ namespace Microsoft.Azure.Cosmos.Handlers
+                 request.Trace = childTrace;
+ 
+                 RequestOptions promotedRequestOptions = request.RequestOptions;
+-                if (promotedRequestOptions != null)
+-                {
+-                    // Fill request options
+-                    promotedRequestOptions.PopulateRequestOptions(request);
+-                }
++                promotedRequestOptions?.PopulateRequestOptions(request);
+ 
+                 // Adds the NoContent header if not already added based on Client Level flag
+                 if (RequestInvokerHandler.ShouldSetNoContentResponseHeaders(
+diff --git a/Microsoft.Azure.Cosmos/src/Handler/ResponseMessage.cs b/Microsoft.Azure.Cosmos/src/Handler/ResponseMessage.cs
+index 8890dd6b..1529b46b 100644
+--- a/Microsoft.Azure.Cosmos/src/Handler/ResponseMessage.cs
++++ b/Microsoft.Azure.Cosmos/src/Handler/ResponseMessage.cs
+@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Cosmos
+             this.RequestMessage = requestMessage;
+             this.CosmosException = cosmosException;
+             this.Headers = headers ?? new Headers();
+-            if (requestMessage != null && requestMessage.Trace != null)
++            if (requestMessage?.Trace != null)
+             {
+                 this.Trace = requestMessage.Trace;
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/Linq/ConstantEvaluator.cs b/Microsoft.Azure.Cosmos/src/Linq/ConstantEvaluator.cs
+index 50b22bb1..675a58eb 100644
+--- a/Microsoft.Azure.Cosmos/src/Linq/ConstantEvaluator.cs
++++ b/Microsoft.Azure.Cosmos/src/Linq/ConstantEvaluator.cs
+@@ -36,8 +36,7 @@ namespace Microsoft.Azure.Cosmos.Linq
+ 
+         private static bool CanBeEvaluated(Expression expression)
+         {
+-            ConstantExpression constantExpression = expression as ConstantExpression;
+-            if (constantExpression != null)
++            if (expression is ConstantExpression constantExpression)
+             {
+                 if (constantExpression.Value is IQueryable)
+                 {
+@@ -45,8 +44,7 @@ namespace Microsoft.Azure.Cosmos.Linq
+                 }
+             }
+ 
+-            MethodCallExpression methodCallExpression = expression as MethodCallExpression;
+-            if (methodCallExpression != null)
++            if (expression is MethodCallExpression methodCallExpression)
+             {
+                 Type type = methodCallExpression.Method.DeclaringType;
+                 if (type == typeof(Enumerable) || type == typeof(Queryable) || type == typeof(CosmosLinq))
+diff --git a/Microsoft.Azure.Cosmos/src/Linq/ExpressionToSQL.cs b/Microsoft.Azure.Cosmos/src/Linq/ExpressionToSQL.cs
+index ee35fe4e..0aa5515c 100644
+--- a/Microsoft.Azure.Cosmos/src/Linq/ExpressionToSQL.cs
++++ b/Microsoft.Azure.Cosmos/src/Linq/ExpressionToSQL.cs
+@@ -520,8 +520,8 @@ namespace Microsoft.Azure.Cosmos.Linq
+                 // so we check both attributes and apply the same precedence rules
+                 // JsonConverterAttribute doesn't allow duplicates so it's safe to
+                 // use FirstOrDefault()
+-                CustomAttributeData memberAttribute = memberExpression.Member.CustomAttributes.Where(ca => ca.AttributeType == typeof(JsonConverterAttribute)).FirstOrDefault();
+-                CustomAttributeData typeAttribute = memberType.GetsCustomAttributes().Where(ca => ca.AttributeType == typeof(JsonConverterAttribute)).FirstOrDefault();
++                CustomAttributeData memberAttribute = memberExpression.Member.CustomAttributes.FirstOrDefault(ca => ca.AttributeType == typeof(JsonConverterAttribute));
++                CustomAttributeData typeAttribute = memberType.GetsCustomAttributes().FirstOrDefault(ca => ca.AttributeType == typeof(JsonConverterAttribute));
+ 
+                 CustomAttributeData converterAttribute = memberAttribute ?? typeAttribute;
+                 if (converterAttribute != null)
+@@ -1649,8 +1649,8 @@ namespace Microsoft.Azure.Cosmos.Linq
+             out SqlParameter sqlParameter)
+         {
+             sqlParameter = default(SqlParameter);
+-            SqlParameterRefScalarExpression parameterRefScalarExpression = scalarExpression as SqlParameterRefScalarExpression;
+-            if (parameterRefScalarExpression != null)
++
++            if (scalarExpression is SqlParameterRefScalarExpression parameterRefScalarExpression)
+             {
+                 sqlParameter = parameterRefScalarExpression.Parameter;
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/Linq/QueryUnderConstruction.cs b/Microsoft.Azure.Cosmos/src/Linq/QueryUnderConstruction.cs
+index 13f7d249..9b190dc2 100644
+--- a/Microsoft.Azure.Cosmos/src/Linq/QueryUnderConstruction.cs
++++ b/Microsoft.Azure.Cosmos/src/Linq/QueryUnderConstruction.cs
+@@ -360,18 +360,15 @@ namespace Microsoft.Azure.Cosmos.Linq
+             {
+                 return SqlSelectClause.Create(selectSpec, topSpec, inputSelectClause.HasDistinct);
+             }
+-
+-            SqlSelectValueSpec selValue = selectSpec as SqlSelectValueSpec;
+-            if (selValue != null)
++
++            if (selectSpec is SqlSelectValueSpec selValue)
+             {
+                 SqlSelectSpec intoSpec = selectClause.SelectSpec;
+                 if (intoSpec is SqlSelectStarSpec)
+                 {
+                     return SqlSelectClause.Create(selectSpec, topSpec, selectClause.HasDistinct || inputSelectClause.HasDistinct);
+                 }
+-
+-                SqlSelectValueSpec intoSelValue = intoSpec as SqlSelectValueSpec;
+-                if (intoSelValue != null)
++                if (intoSpec is SqlSelectValueSpec intoSelValue)
+                 {
+                     SqlScalarExpression replacement = SqlExpressionManipulation.Substitute(selValue.Expression, inputParam, intoSelValue.Expression);
+                     SqlSelectValueSpec selValueReplacement = SqlSelectValueSpec.Create(replacement);
+@@ -397,8 +394,7 @@ namespace Microsoft.Azure.Cosmos.Linq
+             }
+             else
+             {
+-                SqlSelectValueSpec selValue = spec as SqlSelectValueSpec;
+-                if (selValue != null)
++                if (spec is SqlSelectValueSpec selValue)
+                 {
+                     SqlScalarExpression replaced = selValue.Expression;
+                     SqlScalarExpression original = whereClause.FilterExpression;
+@@ -422,9 +418,8 @@ namespace Microsoft.Azure.Cosmos.Linq
+             {
+                 return orderByClause;
+             }
+-
+-            SqlSelectValueSpec selValue = spec as SqlSelectValueSpec;
+-            if (selValue != null)
++
++            if (spec is SqlSelectValueSpec selValue)
+             {
+                 SqlScalarExpression replaced = selValue.Expression;
+                 SqlOrderByItem[] substitutedItems = new SqlOrderByItem[orderByClause.OrderByItems.Length];
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/ATNDeserializer.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/ATNDeserializer.cs
+index 0f00ba41..cc01bff6 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/ATNDeserializer.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/ATNDeserializer.cs
+@@ -754,20 +754,14 @@ namespace Antlr4.Runtime.Atn
+                     Transition transition = state.GetOptimizedTransition(i_1);
+                     if (!(transition is RuleTransition))
+                     {
+-                        if (optimizedTransitions != null)
+-                        {
+-                            optimizedTransitions.Add(transition);
+-                        }
++                        optimizedTransitions?.Add(transition);
+                         continue;
+                     }
+                     RuleTransition ruleTransition = (RuleTransition)transition;
+                     Transition effective = ruleToInlineTransition[ruleTransition.target.ruleIndex];
+                     if (effective == null)
+                     {
+-                        if (optimizedTransitions != null)
+-                        {
+-                            optimizedTransitions.Add(transition);
+-                        }
++                        optimizedTransitions?.Add(transition);
+                         continue;
+                     }
+                     if (optimizedTransitions == null)
+@@ -844,20 +838,14 @@ namespace Antlr4.Runtime.Atn
+                     ATNState intermediate = transition.target;
+                     if (transition.TransitionType != TransitionType.EPSILON || ((EpsilonTransition)transition).OutermostPrecedenceReturn != -1 || intermediate.StateType != StateType.Basic || !intermediate.OnlyHasEpsilonTransitions)
+                     {
+-                        if (optimizedTransitions != null)
+-                        {
+-                            optimizedTransitions.Add(transition);
+-                        }
++                        optimizedTransitions?.Add(transition);
+                         goto nextTransition_continue;
+                     }
+                     for (int j = 0; j < intermediate.NumberOfOptimizedTransitions; j++)
+                     {
+                         if (intermediate.GetOptimizedTransition(j).TransitionType != TransitionType.EPSILON || ((EpsilonTransition)intermediate.GetOptimizedTransition(j)).OutermostPrecedenceReturn != -1)
+                         {
+-                            if (optimizedTransitions != null)
+-                            {
+-                                optimizedTransitions.Add(transition);
+-                            }
++                            optimizedTransitions?.Add(transition);
+                             goto nextTransition_continue;
+                         }
+                     }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LL1Analyzer.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LL1Analyzer.cs
+index 6893ab6e..db85b3d6 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LL1Analyzer.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LL1Analyzer.cs
+@@ -314,9 +314,8 @@ namespace Antlr4.Runtime.Atn
+             for (int i_1 = 0; i_1 < n; i_1++)
+             {
+                 Transition t = s.Transition(i_1);
+-                if (t is RuleTransition)
++                if (t is RuleTransition ruleTransition)
+                 {
+-                    RuleTransition ruleTransition = (RuleTransition)t;
+                     if (calledRuleStack.Get(ruleTransition.ruleIndex))
+                     {
+                         continue;
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerActionExecutor.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerActionExecutor.cs
+index b4855223..2430c7e4 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerActionExecutor.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerActionExecutor.cs
+@@ -223,9 +223,9 @@ namespace Antlr4.Runtime.Atn
+                 foreach (ILexerAction lexerAction in lexerActions)
+                 {
+                     ILexerAction action = lexerAction;
+-                    if (action is LexerIndexedCustomAction)
++                    if (action is LexerIndexedCustomAction lexerIndexedCustomAction)
+                     {
+-                        int offset = ((LexerIndexedCustomAction)action).Offset;
++                        int offset = lexerIndexedCustomAction.Offset;
+                         input.Seek(startIndex + offset);
+                         action = ((LexerIndexedCustomAction)action).Action;
+                         requiresSeek = (startIndex + offset) != stopIndex;
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerChannelAction.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerChannelAction.cs
+index 695ddae3..39dc7815 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerChannelAction.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerChannelAction.cs
+@@ -126,7 +126,7 @@ namespace Antlr4.Runtime.Atn
+ 
+         public override string ToString()
+         {
+-            return string.Format("channel({0})", channel);
++            return $"channel({channel})";
+         }
+     }
+ }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerModeAction.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerModeAction.cs
+index 8734b9a2..aeb3982b 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerModeAction.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerModeAction.cs
+@@ -124,7 +124,7 @@ namespace Antlr4.Runtime.Atn
+ 
+         public override string ToString()
+         {
+-            return string.Format("mode({0})", mode);
++            return $"mode({mode})";
+         }
+     }
+ }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerPushModeAction.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerPushModeAction.cs
+index 3f6d7648..8a8bc5c6 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerPushModeAction.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerPushModeAction.cs
+@@ -123,7 +123,7 @@ namespace Antlr4.Runtime.Atn
+ 
+         public override string ToString()
+         {
+-            return string.Format("pushMode({0})", mode);
++            return $"pushMode({mode})";
+         }
+     }
+ }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerTypeAction.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerTypeAction.cs
+index 999bf9c0..f80e4a92 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerTypeAction.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/LexerTypeAction.cs
+@@ -119,7 +119,7 @@ namespace Antlr4.Runtime.Atn
+ 
+         public override string ToString()
+         {
+-            return string.Format("type({0})", type);
++            return $"type({type})";
+         }
+     }
+ }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/ParserATNSimulator.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/ParserATNSimulator.cs
+index 59eabbff..e5f46c69 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/ParserATNSimulator.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Atn/ParserATNSimulator.cs
+@@ -2124,14 +2124,12 @@ namespace Antlr4.Runtime.Atn
+ 				if (c.state.NumberOfTransitions > 0)
+ 				{
+ 					Transition t = c.state.Transition(0);
+-					if (t is AtomTransition)
++					if (t is AtomTransition at)
+ 					{
+-						AtomTransition at = (AtomTransition)t;
+ 						trans = "Atom " + GetTokenName(at.token);
+ 					}
+-					else if (t is SetTransition)
++					else if (t is SetTransition st)
+ 					{
+-						SetTransition st = (SetTransition)t;
+ 						bool not = st is NotSetTransition;
+ 						trans = (not ? "~" : "") + "Set " + st.set.ToString();
+ 					}
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/BufferedTokenStream.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/BufferedTokenStream.cs
+index a3215b3d..a63e85a5 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/BufferedTokenStream.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/BufferedTokenStream.cs
+@@ -241,9 +241,9 @@ namespace Antlr4.Runtime
+             for (int i = 0; i < n; i++)
+             {
+                 IToken t = _tokenSource.NextToken();
+-                if (t is IWritableToken)
++                if (t is IWritableToken iWritableToken)
+                 {
+-                    ((IWritableToken)t).TokenIndex = tokens.Count;
++                    iWritableToken.TokenIndex = tokens.Count;
+                 }
+                 tokens.Add(t);
+                 if (t.Type == TokenConstants.EOF)
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/CommonToken.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/CommonToken.cs
+index 749a9470..af819cea 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/CommonToken.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/CommonToken.cs
+@@ -171,9 +171,9 @@ namespace Antlr4.Runtime
+             _channel = oldToken.Channel;
+             start = oldToken.StartIndex;
+             stop = oldToken.StopIndex;
+-            if (oldToken is Antlr4.Runtime.CommonToken)
++            if (oldToken is Antlr4.Runtime.CommonToken commonToken)
+             {
+-                _text = ((Antlr4.Runtime.CommonToken)oldToken)._text;
++                _text = commonToken._text;
+                 source = ((Antlr4.Runtime.CommonToken)oldToken).source;
+             }
+             else
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/DefaultErrorStrategy.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/DefaultErrorStrategy.cs
+index 0e18ca4b..8c6f88a9 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/DefaultErrorStrategy.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/DefaultErrorStrategy.cs
+@@ -145,21 +145,21 @@ namespace Antlr4.Runtime
+             }
+             // don't report spurious errors
+             BeginErrorCondition(recognizer);
+-            if (e is NoViableAltException)
++            if (e is NoViableAltException noViableAltException)
+             {
+-                ReportNoViableAlternative(recognizer, (NoViableAltException)e);
++                ReportNoViableAlternative(recognizer, noViableAltException);
+             }
+             else
+             {
+-                if (e is InputMismatchException)
++                if (e is InputMismatchException inputMismatchException)
+                 {
+-                    ReportInputMismatch(recognizer, (InputMismatchException)e);
++                    ReportInputMismatch(recognizer, inputMismatchException);
+                 }
+                 else
+                 {
+-                    if (e is FailedPredicateException)
++                    if (e is FailedPredicateException failedPredicateException)
+                     {
+-                        ReportFailedPredicate(recognizer, (FailedPredicateException)e);
++                        ReportFailedPredicate(recognizer, failedPredicateException);
+                     }
+                     else
+                     {
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Dfa/ArrayEdgeMap.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Dfa/ArrayEdgeMap.cs
+index 0f85d6b0..d7f9be98 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Dfa/ArrayEdgeMap.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Dfa/ArrayEdgeMap.cs
+@@ -148,7 +148,7 @@ namespace Antlr4.Runtime.Dfa
+                     }
+                     else
+                     {
+-                        throw new NotSupportedException(string.Format("EdgeMap of type {0} is supported yet.", m.GetType().FullName));
++                        throw new NotSupportedException($"EdgeMap of type {m.GetType().FullName} is supported yet.");
+                     }
+                 }
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/DiagnosticErrorListener.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/DiagnosticErrorListener.cs
+index e6c90d4a..e337d438 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/DiagnosticErrorListener.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/DiagnosticErrorListener.cs
+@@ -120,7 +120,7 @@ namespace Antlr4.Runtime
+             {
+                 return decision.ToString();
+             }
+-            return string.Format("{0} ({1})", decision, ruleName);
++            return $"{decision} ({ruleName})";
+         }
+ 
+         /// <summary>
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/FailedPredicateException.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/FailedPredicateException.cs
+index f9c81976..2dc71c68 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/FailedPredicateException.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/FailedPredicateException.cs
+@@ -46,9 +46,9 @@ namespace Antlr4.Runtime
+         {
+             ATNState s = recognizer.Interpreter.atn.states[recognizer.State];
+             AbstractPredicateTransition trans = (AbstractPredicateTransition)s.Transition(0);
+-            if (trans is PredicateTransition)
++            if (trans is PredicateTransition predicateTransition)
+             {
+-                this.ruleIndex = ((PredicateTransition)trans).ruleIndex;
++                this.ruleIndex = predicateTransition.ruleIndex;
+                 this.predicateIndex = ((PredicateTransition)trans).predIndex;
+             }
+             else
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Lexer.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Lexer.cs
+index 3bdfedb5..15bbed8e 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Lexer.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Lexer.cs
+@@ -115,10 +115,7 @@ namespace Antlr4.Runtime
+         public virtual void Reset()
+         {
+             // wack Lexer state variables
+-            if (_input != null)
+-            {
+-                _input.Seek(0);
+-            }
++            _input?.Seek(0);
+             // rewind the input
+             _token = null;
+             _type = TokenConstants.InvalidType;
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/IntervalSet.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/IntervalSet.cs
+index dd520a27..040988f8 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/IntervalSet.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/IntervalSet.cs
+@@ -206,9 +206,8 @@ namespace Antlr4.Runtime.Misc
+             {
+                 return this;
+             }
+-            if (set is Antlr4.Runtime.Misc.IntervalSet)
++            if (set is Antlr4.Runtime.Misc.IntervalSet other)
+             {
+-                Antlr4.Runtime.Misc.IntervalSet other = (Antlr4.Runtime.Misc.IntervalSet)set;
+                 // walk set and add each interval
+                 int n = other.intervals.Count;
+                 for (int i = 0; i < n; i++)
+@@ -244,9 +243,9 @@ namespace Antlr4.Runtime.Misc
+             }
+             // nothing in common with null set
+             Antlr4.Runtime.Misc.IntervalSet vocabularyIS;
+-            if (vocabulary is Antlr4.Runtime.Misc.IntervalSet)
++            if (vocabulary is Antlr4.Runtime.Misc.IntervalSet intervalSet)
+             {
+-                vocabularyIS = (Antlr4.Runtime.Misc.IntervalSet)vocabulary;
++                vocabularyIS = intervalSet;
+             }
+             else
+             {
+@@ -262,9 +261,9 @@ namespace Antlr4.Runtime.Misc
+             {
+                 return new Antlr4.Runtime.Misc.IntervalSet(this);
+             }
+-            if (a is Antlr4.Runtime.Misc.IntervalSet)
++            if (a is Antlr4.Runtime.Misc.IntervalSet intervalSet)
+             {
+-                return Subtract(this, (Antlr4.Runtime.Misc.IntervalSet)a);
++                return Subtract(this, intervalSet);
+             }
+             Antlr4.Runtime.Misc.IntervalSet other = new Antlr4.Runtime.Misc.IntervalSet();
+             other.AddAll(a);
+@@ -603,7 +602,7 @@ namespace Antlr4.Runtime.Misc
+         /// </remarks>
+         public override bool Equals(object obj)
+         {
+-            if (obj == null || !(obj is Antlr4.Runtime.Misc.IntervalSet))
++            if (!(obj is Antlr4.Runtime.Misc.IntervalSet))
+             {
+                 return false;
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/Pair.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/Pair.cs
+index e13ab7cf..1cb9eb0a 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/Pair.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/Pair.cs
+@@ -46,7 +46,7 @@ namespace Antlr4.Runtime.Misc
+ 
+ 		public override String ToString()
+ 		{
+-			return String.Format("({0}, {1})", a, b);
++			return $"({a}, {b})";
+ 		}
+ 	}
+ }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/RuleDependencyChecker.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/RuleDependencyChecker.cs
+index 254e8955..9c43506f 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/RuleDependencyChecker.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Misc/RuleDependencyChecker.cs
+@@ -661,7 +661,7 @@ namespace Antlr4.Runtime.Misc
+                 int effectiveRule = dependency.Item1.Rule;
+                 if (effectiveRule < 0 || effectiveRule >= ruleVersions.Length)
+                 {
+-                    string message = string.Format("Rule dependency on unknown rule {0}@{1} in {2}", dependency.Item1.Rule, dependency.Item1.Version, dependency.Item1.Recognizer.ToString());
++                    string message = $"Rule dependency on unknown rule {dependency.Item1.Rule}@{dependency.Item1.Version} in {dependency.Item1.Recognizer.ToString()}";
+                     errors.AppendLine(dependency.Item2.ToString());
+                     errors.AppendLine(message);
+                     continue;
+@@ -729,7 +729,7 @@ namespace Antlr4.Runtime.Misc
+                 int declaredVersion = dependency.Item1.Version;
+                 if (declaredVersion > highestRequiredDependency)
+                 {
+-                    string message = string.Format("Rule dependency version mismatch: {0} has maximum dependency version {1} (expected {2}) in {3}", ruleNames[dependency.Item1.Rule], highestRequiredDependency, declaredVersion, dependency.Item1.Recognizer.ToString());
++                    string message = $"Rule dependency version mismatch: {ruleNames[dependency.Item1.Rule]} has maximum dependency version {highestRequiredDependency} (expected {declaredVersion}) in {dependency.Item1.Recognizer.ToString()}";
+                     errors.AppendLine(dependency.Item2.ToString());
+                     errors.AppendLine(message);
+                 }
+@@ -748,7 +748,7 @@ namespace Antlr4.Runtime.Misc
+             unimplemented &= ~ImplementedDependents;
+             if (unimplemented != Dependents.None)
+             {
+-                string message = string.Format("Cannot validate the following dependents of rule {0}: {1}", dependency.Item1.Rule, unimplemented);
++                string message = $"Cannot validate the following dependents of rule {dependency.Item1.Rule}: {unimplemented}";
+                 errors.AppendLine(message);
+             }
+         }
+@@ -764,13 +764,13 @@ namespace Antlr4.Runtime.Misc
+             else
+             {
+                 string mismatchedRuleName = ruleNames[relatedRule];
+-                path = string.Format("rule {0} ({1} of {2})", mismatchedRuleName, relation, ruleName);
++                path = $"rule {mismatchedRuleName} ({relation} of {ruleName})";
+             }
+             int declaredVersion = dependency.Item1.Version;
+             int actualVersion = ruleVersions[relatedRule];
+             if (actualVersion > declaredVersion)
+             {
+-                string message = string.Format("Rule dependency version mismatch: {0} has version {1} (expected <= {2}) in {3}", path, actualVersion, declaredVersion, dependency.Item1.Recognizer.ToString());
++                string message = $"Rule dependency version mismatch: {path} has version {actualVersion} (expected <= {declaredVersion}) in {dependency.Item1.Recognizer.ToString()}";
+                 errors.AppendLine(dependency.Item2.ToString());
+                 errors.AppendLine(message);
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Parser.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Parser.cs
+index 7fafedfb..2c8169d2 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Parser.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Parser.cs
+@@ -199,10 +199,7 @@ namespace Antlr4.Runtime
+             _precedenceStack.Clear();
+             _precedenceStack.Add(0);
+             ATNSimulator interpreter = Interpreter;
+-            if (interpreter != null)
+-            {
+-                interpreter.Reset();
+-            }
++            interpreter?.Reset();
+         }
+ 
+         /// <summary>
+@@ -604,9 +601,8 @@ namespace Antlr4.Runtime
+             if (((ITokenStream)InputStream) != null)
+             {
+                 ITokenSource tokenSource = ((ITokenStream)InputStream).TokenSource;
+-                if (tokenSource is Lexer)
++                if (tokenSource is Lexer lexer)
+                 {
+-                    Lexer lexer = (Lexer)tokenSource;
+                     return CompileParseTreePattern(pattern, patternRuleIndex, lexer);
+                 }
+             }
+@@ -769,10 +765,7 @@ namespace Antlr4.Runtime
+         {
+             ParserRuleContext parent = (ParserRuleContext)_ctx.Parent;
+             // add current context to parent if we have a parent
+-            if (parent != null)
+-            {
+-                parent.AddChild(_ctx);
+-            }
++            parent?.AddChild(_ctx);
+         }
+ 
+         /// <summary>Always called by generated parsers upon entry to a rule.</summary>
+@@ -1183,9 +1176,9 @@ namespace Antlr4.Runtime
+             get
+             {
+                 ParserATNSimulator interp = Interpreter;
+-                if (interp is ProfilingATNSimulator)
++                if (interp is ProfilingATNSimulator profilingATNSimulator)
+                 {
+-                    return new ParseInfo((ProfilingATNSimulator)interp);
++                    return new ParseInfo(profilingATNSimulator);
+                 }
+                 return null;
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/ParserInterpreter.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/ParserInterpreter.cs
+index 3ea7a237..7aea4c26 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/ParserInterpreter.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/ParserInterpreter.cs
+@@ -270,7 +270,7 @@ namespace Antlr4.Runtime
+                 {
+ 					if (!Precpred(RuleContext, ((PrecedencePredicateTransition)transition).precedence))
+                     {
+-                        throw new FailedPredicateException(this, string.Format("precpred(_ctx, {0})", ((PrecedencePredicateTransition)transition).precedence));
++                        throw new FailedPredicateException(this, $"precpred(_ctx, {((PrecedencePredicateTransition)transition).precedence})");
+                     }
+                     break;
+                 }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/ParserRuleContext.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/ParserRuleContext.cs
+index 5606464a..9bf71810 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/ParserRuleContext.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/ParserRuleContext.cs
+@@ -146,8 +146,7 @@ namespace Antlr4.Runtime
+                 // reset parent pointer for any error nodes
+                 foreach (var child in ctx.children)
+                 {
+-                    var errorChildNode = child as ErrorNodeImpl;
+-                    if (errorChildNode != null)
++                    if (child is ErrorNodeImpl errorChildNode)
+                     {
+                         children.Add(errorChildNode);
+                         errorChildNode.Parent = this;
+@@ -200,10 +199,7 @@ namespace Antlr4.Runtime
+         /// </remarks>
+         public virtual void RemoveLastChild()
+         {
+-            if (children != null)
+-            {
+-                children.RemoveAt(children.Count - 1);
+-            }
++            children?.RemoveAt(children.Count - 1);
+         }
+ 
+         //	public void trace(int s) {
+@@ -265,9 +261,8 @@ namespace Antlr4.Runtime
+             // what token with ttype have we found?
+             foreach (IParseTree o in children)
+             {
+-                if (o is ITerminalNode)
++                if (o is ITerminalNode tnode)
+                 {
+-                    ITerminalNode tnode = (ITerminalNode)o;
+                     IToken symbol = tnode.Symbol;
+                     if (symbol.Type == ttype)
+                     {
+@@ -295,9 +290,8 @@ namespace Antlr4.Runtime
+             List<ITerminalNode> tokens = null;
+             foreach (IParseTree o in children)
+             {
+-                if (o is ITerminalNode)
++                if (o is ITerminalNode tnode)
+                 {
+-                    ITerminalNode tnode = (ITerminalNode)o;
+                     IToken symbol = tnode.Symbol;
+                     if (symbol.Type == ttype)
+                     {
+@@ -341,13 +335,13 @@ namespace Antlr4.Runtime
+             List<T> contexts = null;
+             foreach (IParseTree o in children)
+             {
+-                if (o is T)
++                if (o is T t)
+                 {
+                     if (contexts == null)
+                     {
+                         contexts = new List<T>();
+                     }
+-                    contexts.Add((T)o);
++                    contexts.Add(t);
+                 }
+             }
+             if (contexts == null)
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/ParseTreeWalker.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/ParseTreeWalker.cs
+index 8aa3938a..56f8afff 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/ParseTreeWalker.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/ParseTreeWalker.cs
+@@ -24,16 +24,16 @@ namespace Antlr4.Runtime.Tree
+         /// <param name="t">The parse tree to be walked on</param>
+         public virtual void Walk(IParseTreeListener listener, IParseTree t)
+         {
+-            if (t is IErrorNode)
++            if (t is IErrorNode iErrorNode)
+             {
+-                listener.VisitErrorNode((IErrorNode)t);
++                listener.VisitErrorNode(iErrorNode);
+                 return;
+             }
+             else
+             {
+-                if (t is ITerminalNode)
++                if (t is ITerminalNode iTerminalNode)
+                 {
+-                    listener.VisitTerminal((ITerminalNode)t);
++                    listener.VisitTerminal(iTerminalNode);
+                     return;
+                 }
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Pattern/ParseTreeMatch.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Pattern/ParseTreeMatch.cs
+index bdb441c9..05d5bb06 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Pattern/ParseTreeMatch.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Pattern/ParseTreeMatch.cs
+@@ -291,7 +291,7 @@ namespace Antlr4.Runtime.Tree.Pattern
+         /// <summary><inheritDoc/></summary>
+         public override string ToString()
+         {
+-            return string.Format("Match {0}; found {1} labels", Succeeded ? "succeeded" : "failed", Labels.Count);
++            return $"Match {(Succeeded ? "succeeded" : "failed")}; found {Labels.Count} labels";
+         }
+     }
+ }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Pattern/ParseTreePatternMatcher.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Pattern/ParseTreePatternMatcher.cs
+index 591a9917..a3c9c6e0 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Pattern/ParseTreePatternMatcher.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Pattern/ParseTreePatternMatcher.cs
+@@ -503,9 +503,8 @@ namespace Antlr4.Runtime.Tree.Pattern
+         /// </summary>
+         protected internal virtual RuleTagToken GetRuleTagToken(IParseTree t)
+         {
+-            if (t is IRuleNode)
++            if (t is IRuleNode r)
+             {
+-                IRuleNode r = (IRuleNode)t;
+                 if (r.ChildCount == 1 && r.GetChild(0) is ITerminalNode)
+                 {
+                     ITerminalNode c = (ITerminalNode)r.GetChild(0);
+@@ -527,9 +526,8 @@ namespace Antlr4.Runtime.Tree.Pattern
+             IList<IToken> tokens = new List<IToken>();
+             foreach (Chunk chunk in chunks)
+             {
+-                if (chunk is TagChunk)
++                if (chunk is TagChunk tagChunk)
+                 {
+-                    TagChunk tagChunk = (TagChunk)chunk;
+                     // add special rule token or conjure up new token from name
+                     if (System.Char.IsUpper(tagChunk.Tag[0]))
+                     {
+@@ -690,9 +688,8 @@ namespace Antlr4.Runtime.Tree.Pattern
+             for (int i_2 = 0; i_2 < chunks.Count; i_2++)
+             {
+                 Chunk c = chunks[i_2];
+-                if (c is TextChunk)
++                if (c is TextChunk tc)
+                 {
+-                    TextChunk tc = (TextChunk)c;
+                     string unescaped = tc.Text.Replace(escape, string.Empty);
+                     if (unescaped.Length < tc.Text.Length)
+                     {
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Trees.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Trees.cs
+index 829cb552..5a2a8b33 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Trees.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Trees.cs
+@@ -87,9 +87,9 @@ namespace Antlr4.Runtime.Tree
+         {
+             if (ruleNames != null)
+             {
+-                if (t is RuleContext)
++                if (t is RuleContext ruleContext)
+                 {
+-                    int ruleIndex = ((RuleContext)t).RuleIndex;
++                    int ruleIndex = ruleContext.RuleIndex;
+                     string ruleName = ruleNames[ruleIndex];
+ 					int altNumber = ((RuleContext)t).getAltNumber();
+ 					if ( altNumber!=Atn.ATN.INVALID_ALT_NUMBER ) {
+@@ -105,9 +105,9 @@ namespace Antlr4.Runtime.Tree
+                     }
+                     else
+                     {
+-                        if (t is ITerminalNode)
++                        if (t is ITerminalNode iTerminalNode)
+                         {
+-                            IToken symbol = ((ITerminalNode)t).Symbol;
++                            IToken symbol = iTerminalNode.Symbol;
+                             if (symbol != null)
+                             {
+                                 string s = symbol.Text;
+@@ -119,9 +119,9 @@ namespace Antlr4.Runtime.Tree
+             }
+             // no recog for rule names
+             object payload = t.Payload;
+-            if (payload is IToken)
++            if (payload is IToken iToken)
+             {
+-                return ((IToken)payload).Text;
++                return iToken.Text;
+             }
+             return t.Payload.ToString();
+         }
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Xpath/XPathRuleElement.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Xpath/XPathRuleElement.cs
+index bbea5f38..b6da16a3 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Xpath/XPathRuleElement.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Xpath/XPathRuleElement.cs
+@@ -29,9 +29,8 @@ namespace Antlr4.Runtime.Tree.Xpath
+             IList<IParseTree> nodes = new List<IParseTree>();
+             foreach (ITree c in Trees.GetChildren(t))
+             {
+-                if (c is ParserRuleContext)
++                if (c is ParserRuleContext ctx)
+                 {
+-                    ParserRuleContext ctx = (ParserRuleContext)c;
+                     if ((ctx.RuleIndex == ruleIndex && !invert) || (ctx.RuleIndex != ruleIndex && invert))
+                     {
+                         nodes.Add(ctx);
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Xpath/XPathTokenElement.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Xpath/XPathTokenElement.cs
+index 7da9e97a..f892a1b5 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Xpath/XPathTokenElement.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/Tree/Xpath/XPathTokenElement.cs
+@@ -28,9 +28,8 @@ namespace Antlr4.Runtime.Tree.Xpath
+             IList<IParseTree> nodes = new List<IParseTree>();
+             foreach (ITree c in Trees.GetChildren(t))
+             {
+-                if (c is ITerminalNode)
++                if (c is ITerminalNode tnode)
+                 {
+-                    ITerminalNode tnode = (ITerminalNode)c;
+                     if ((tnode.Symbol.Type == tokenType && !invert) || (tnode.Symbol.Type != tokenType && invert))
+                     {
+                         nodes.Add(tnode);
+diff --git a/Microsoft.Azure.Cosmos/src/OSS/Antlr/UnbufferedTokenStream.cs b/Microsoft.Azure.Cosmos/src/OSS/Antlr/UnbufferedTokenStream.cs
+index 136082ae..17734a29 100644
+--- a/Microsoft.Azure.Cosmos/src/OSS/Antlr/UnbufferedTokenStream.cs
++++ b/Microsoft.Azure.Cosmos/src/OSS/Antlr/UnbufferedTokenStream.cs
+@@ -265,9 +265,9 @@ namespace Antlr4.Runtime
+             {
+                 tokens = Arrays.CopyOf(tokens, tokens.Length * 2);
+             }
+-            if (t is IWritableToken)
++            if (t is IWritableToken iWritableToken)
+             {
+-                ((IWritableToken)t).TokenIndex = GetBufferStartIndex() + n;
++                iWritableToken.TokenIndex = GetBufferStartIndex() + n;
+             }
+             tokens[n++] = t;
+         }
+diff --git a/Microsoft.Azure.Cosmos/src/Pagination/CrossPartitionRangePageAsyncEnumerator.cs b/Microsoft.Azure.Cosmos/src/Pagination/CrossPartitionRangePageAsyncEnumerator.cs
+index 3a137f4d..c9bae8f5 100644
+--- a/Microsoft.Azure.Cosmos/src/Pagination/CrossPartitionRangePageAsyncEnumerator.cs
++++ b/Microsoft.Azure.Cosmos/src/Pagination/CrossPartitionRangePageAsyncEnumerator.cs
+@@ -164,7 +164,7 @@ namespace Microsoft.Azure.Cosmos.Pagination
+                                 this.cancellationToken);
+                         }
+ 
+-                        if (childRanges.Count() <= 1)
++                        if (childRanges.Count <= 1)
+                         {
+                             throw new InvalidOperationException("Expected more than 1 child");
+                         }
+diff --git a/Microsoft.Azure.Cosmos/src/Query/Core/Metrics/SchedulingTimeSpan.cs b/Microsoft.Azure.Cosmos/src/Query/Core/Metrics/SchedulingTimeSpan.cs
+index eea25b95..b5ab7095 100644
+--- a/Microsoft.Azure.Cosmos/src/Query/Core/Metrics/SchedulingTimeSpan.cs
++++ b/Microsoft.Azure.Cosmos/src/Query/Core/Metrics/SchedulingTimeSpan.cs
+@@ -1,4 +1,5 @@
+-﻿//------------------------------------------------------------
++﻿using System.Linq;
++//------------------------------------------------------------
+ // Copyright (c) Microsoft Corporation.  All rights reserved.
+ //------------------------------------------------------------
+ namespace Microsoft.Azure.Cosmos.Query.Core.Metrics
+@@ -184,7 +185,7 @@ namespace Microsoft.Azure.Cosmos.Query.Core.Metrics
+                 throw new ArgumentNullException("schedulingTimeSpans");
+             }
+ 
+-            if (schedulingTimeSpans.Count() == 0)
++            if (!schedulingTimeSpans.Any())
+             {
+                 throw new ArgumentException("schedulingMetricsResults has no items.");
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/Query/Core/Parser/LASets.cs b/Microsoft.Azure.Cosmos/src/Query/Core/Parser/LASets.cs
+index 3b3dccb9..1bd22086 100644
+--- a/Microsoft.Azure.Cosmos/src/Query/Core/Parser/LASets.cs
++++ b/Microsoft.Azure.Cosmos/src/Query/Core/Parser/LASets.cs
+@@ -448,7 +448,7 @@ namespace Microsoft.Azure.Cosmos.Query.Core.Parser
+                                 RuleTransition rule = (RuleTransition)transition;
+                                 ATNState sub_state = rule.target;
+                                 HashSet<ATNState> cl = this.closure(sub_state);
+-                                if (cl.Where(s => this.stopStates.Contains(s) && s.atn == sub_state.atn).Any())
++                                if (cl.Any(s => this.stopStates.Contains(s) && s.atn == sub_state.atn))
+                                 {
+                                     HashSet<ATNState> cl2 = this.closure(rule.followState);
+                                     cl.UnionWith(cl2);
+diff --git a/Microsoft.Azure.Cosmos/src/Query/Core/Pipeline/CrossPartition/OrderBy/OrderByCrossPartitionQueryPipelineStage.cs b/Microsoft.Azure.Cosmos/src/Query/Core/Pipeline/CrossPartition/OrderBy/OrderByCrossPartitionQueryPipelineStage.cs
+index 7d9973b1..52f36d83 100644
+--- a/Microsoft.Azure.Cosmos/src/Query/Core/Pipeline/CrossPartition/OrderBy/OrderByCrossPartitionQueryPipelineStage.cs
++++ b/Microsoft.Azure.Cosmos/src/Query/Core/Pipeline/CrossPartition/OrderBy/OrderByCrossPartitionQueryPipelineStage.cs
+@@ -311,7 +311,7 @@ namespace Microsoft.Azure.Cosmos.Query.Core.Pipeline.CrossPartition.OrderBy
+                     this.cancellationToken);
+             }
+ 
+-            if (childRanges.Count() <= 1)
++            if (childRanges.Count <= 1)
+             {
+                 throw new InvalidOperationException("Expected more than 1 child");
+             }
+@@ -423,7 +423,7 @@ namespace Microsoft.Azure.Cosmos.Query.Core.Pipeline.CrossPartition.OrderBy
+             // It is possible that we emit multiple documents with the same rid due to JOIN queries.
+             // This means it is not enough to serialize the rid that we left on to resume the query.
+             // We need to also serialize the number of documents with that rid, so we can skip it when resuming
+-            int skipCount = results.Where(result => string.Equals(result.Rid, orderByQueryResult.Rid)).Count();
++            int skipCount = results.Count(result => string.Equals(result.Rid, orderByQueryResult.Rid));
+ 
+             // Create the continuation token.
+             CosmosElement state;
+@@ -629,7 +629,7 @@ namespace Microsoft.Azure.Cosmos.Query.Core.Pipeline.CrossPartition.OrderBy
+                     return TryCatch<IQueryPipelineStage>.FromException(
+                         new MalformedContinuationTokenException(
+                             $"Order By Items from continuation token did not match the query text. " +
+-                            $"Order by item count: {orderByItems.Count()} did not match column count {orderByColumns.Count()}. " +
++                            $"Order by item count: {orderByItems.Count} did not match column count {orderByColumns.Count}. " +
+                             $"Continuation token: {continuationToken}"));
+                 }
+ 
+diff --git a/Microsoft.Azure.Cosmos/src/Query/Core/Pipeline/Skip/SkipQueryPipelineStage.Compute.cs b/Microsoft.Azure.Cosmos/src/Query/Core/Pipeline/Skip/SkipQueryPipelineStage.Compute.cs
+index 29412a1b..6b88c4a9 100644
+--- a/Microsoft.Azure.Cosmos/src/Query/Core/Pipeline/Skip/SkipQueryPipelineStage.Compute.cs
++++ b/Microsoft.Azure.Cosmos/src/Query/Core/Pipeline/Skip/SkipQueryPipelineStage.Compute.cs
+@@ -102,7 +102,7 @@ namespace Microsoft.Azure.Cosmos.Query.Core.Pipeline.Skip
+                 // Skip the documents but keep all the other headers
+                 IReadOnlyList<CosmosElement> documentsAfterSkip = sourcePage.Documents.Skip(this.skipCount).ToList();
+ 
+-                int numberOfDocumentsSkipped = sourcePage.Documents.Count() - documentsAfterSkip.Count();
++                int numberOfDocumentsSkipped = sourcePage.Documents.Count() - documentsAfterSkip.Count;
+                 this.skipCount -= numberOfDocumentsSkipped;
+ 
+                 QueryState state;
+diff --git a/Microsoft.Azure.Cosmos/src/Query/Core/QueryPlan/QueryPlanHandler.cs b/Microsoft.Azure.Cosmos/src/Query/Core/QueryPlan/QueryPlanHandler.cs
+index d55c8861..ab874eae 100644
+--- a/Microsoft.Azure.Cosmos/src/Query/Core/QueryPlan/QueryPlanHandler.cs
++++ b/Microsoft.Azure.Cosmos/src/Query/Core/QueryPlan/QueryPlanHandler.cs
+@@ -143,7 +143,7 @@ namespace Microsoft.Azure.Cosmos.Query.Core.QueryPlan
+                 if (queryInfo.HasAggregates)
+                 {
+                     bool isSingleAggregate = (queryInfo.Aggregates.Count == 1)
+-                        || (queryInfo.GroupByAliasToAggregateType.Values.Where(aggregateOperator => aggregateOperator.HasValue).Count() == 1);
++                        || (queryInfo.GroupByAliasToAggregateType.Values.Count(aggregateOperator => aggregateOperator.HasValue)== 1);
+                     if (isSingleAggregate)
+                     {
+                         if (queryInfo.HasSelectValue)
+diff --git a/Microsoft.Azure.Cosmos/src/Query/v2Query/DocumentQueryExecutionContextFactory.cs b/Microsoft.Azure.Cosmos/src/Query/v2Query/DocumentQueryExecutionContextFactory.cs
+index 77e14a0b..e7ad1485 100644
+--- a/Microsoft.Azure.Cosmos/src/Query/v2Query/DocumentQueryExecutionContextFactory.cs
++++ b/Microsoft.Azure.Cosmos/src/Query/v2Query/DocumentQueryExecutionContextFactory.cs
+@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Cosmos.Query
+                     collection = await collectionCache.ResolveCollectionAsync(request, token);
+                 }
+ 
+-                if (feedOptions != null && feedOptions.PartitionKey != null && feedOptions.PartitionKey.Equals(Documents.PartitionKey.None))
++                if (feedOptions?.PartitionKey != null && feedOptions.PartitionKey.Equals(Documents.PartitionKey.None))
+                 {
+                     feedOptions.PartitionKey = Documents.PartitionKey.FromInternalKey(collection.GetNoneValue());
+                 }
+diff --git a/Microsoft.Azure.Cosmos/src/Resource/Settings/IndexingDirective.cs b/Microsoft.Azure.Cosmos/src/Resource/Settings/IndexingDirective.cs
+index afeafb8a..1ccf9d84 100644
+--- a/Microsoft.Azure.Cosmos/src/Resource/Settings/IndexingDirective.cs
++++ b/Microsoft.Azure.Cosmos/src/Resource/Settings/IndexingDirective.cs
+@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Cosmos
+                 case IndexingDirective.Include:
+                     return IndexingDirectiveStrings.Include;
+                 default:
+-                    throw new ArgumentException(string.Format("Missing indexing directive string for {0}", directive));
++                    throw new ArgumentException($"Missing indexing directive string for {directive}");
+             }
+         }
+     }
+diff --git a/Microsoft.Azure.Cosmos/src/ResourceThrottleRetryPolicy.cs b/Microsoft.Azure.Cosmos/src/ResourceThrottleRetryPolicy.cs
+index aecef0ee..6d35bedd 100644
+--- a/Microsoft.Azure.Cosmos/src/ResourceThrottleRetryPolicy.cs
++++ b/Microsoft.Azure.Cosmos/src/ResourceThrottleRetryPolicy.cs
+@@ -49,9 +49,8 @@ namespace Microsoft.Azure.Cosmos
+             CancellationToken cancellationToken)
+         {
+             cancellationToken.ThrowIfCancellationRequested();
+-            if (exception is DocumentClientException)
++            if (exception is DocumentClientException dce)
+             {
+-                DocumentClientException dce = (DocumentClientException)exception;
+                 if (!this.IsValidThrottleStatusCode(dce.StatusCode))
+                 {
+                     DefaultTrace.TraceError(
+diff --git a/Microsoft.Azure.Cosmos/src/Routing/ClientCollectionCache.cs b/Microsoft.Azure.Cosmos/src/Routing/ClientCollectionCache.cs
+index c375beaf..19666ba4 100644
+--- a/Microsoft.Azure.Cosmos/src/Routing/ClientCollectionCache.cs
++++ b/Microsoft.Azure.Cosmos/src/Routing/ClientCollectionCache.cs
+@@ -78,10 +78,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+ 
+                 using (new ActivityScope(Guid.NewGuid()))
+                 {
+-                    if (retryPolicyInstance != null)
+-                    {
+-                        retryPolicyInstance.OnBeforeSendRequest(request);
+-                    }
++                    retryPolicyInstance?.OnBeforeSendRequest(request);
+ 
+                     using (DocumentServiceResponse response = await this.storeModel.ProcessMessageAsync(request))
+                     {
+diff --git a/Microsoft.Azure.Cosmos/src/Routing/CollectionCache.cs b/Microsoft.Azure.Cosmos/src/Routing/CollectionCache.cs
+index 260881e3..f0632940 100644
+--- a/Microsoft.Azure.Cosmos/src/Routing/CollectionCache.cs
++++ b/Microsoft.Azure.Cosmos/src/Routing/CollectionCache.cs
+@@ -198,7 +198,7 @@ namespace Microsoft.Azure.Cosmos.Common
+         {
+             // if request is targeted at specific partition using x-ms-documentd-partitionkeyrangeid header,
+             // which contains value "<collectionrid>,<partitionkeyrangeid>", then resolve to collection rid in this header.
+-            if (partitionKeyRangeIdentity != null && partitionKeyRangeIdentity.CollectionRid != null)
++            if (partitionKeyRangeIdentity?.CollectionRid != null)
+             {
+                 try
+                 {
+diff --git a/Microsoft.Azure.Cosmos/src/Routing/GatewayAddressCache.cs b/Microsoft.Azure.Cosmos/src/Routing/GatewayAddressCache.cs
+index 68c444b7..7f715846 100644
+--- a/Microsoft.Azure.Cosmos/src/Routing/GatewayAddressCache.cs
++++ b/Microsoft.Azure.Cosmos/src/Routing/GatewayAddressCache.cs
+@@ -309,9 +309,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+             int targetReplicaSetSize = this.serviceConfigReader.SystemReplicationPolicy.MaxReplicaSetSize;
+ 
+             forceRefresh = forceRefresh ||
+-                (masterAddressAndRange != null &&
+-                masterAddressAndRange.Item2.AllAddresses.Count() < targetReplicaSetSize &&
+-                DateTime.UtcNow.Subtract(this.suboptimalMasterPartitionTimestamp) > TimeSpan.FromSeconds(this.suboptimalPartitionForceRefreshIntervalInSeconds));
++                (masterAddressAndRange != null && masterAddressAndRange.Item2.AllAddresses.Count() < targetReplicaSetSize && DateTime.UtcNow.Subtract(this.suboptimalMasterPartitionTimestamp) > TimeSpan.FromSeconds(this.suboptimalPartitionForceRefreshIntervalInSeconds));
+ 
+             if (forceRefresh || request.ForceCollectionRoutingMapRefresh || this.masterPartitionAddressCache == null)
+             {
+diff --git a/Microsoft.Azure.Cosmos/src/Routing/GlobalEndpointManager.cs b/Microsoft.Azure.Cosmos/src/Routing/GlobalEndpointManager.cs
+index ad8de1bb..066a0e51 100644
+--- a/Microsoft.Azure.Cosmos/src/Routing/GlobalEndpointManager.cs
++++ b/Microsoft.Azure.Cosmos/src/Routing/GlobalEndpointManager.cs
+@@ -143,10 +143,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+                         // The reason for rethrowing the first exception is that the locations list might contain invalid regions,
+                         // so the last exception would be some generic exception ("The remote name could not be resolved") instead of the real exception.
+                         // Location list containing invalid regions is quite common when SetCurrentLocation is used since it will add all Azure regions to the list
+-                        if (capturedException != null)
+-                        {
+-                            capturedException.Throw();
+-                        }
++                        capturedException?.Throw();
+ 
+                         throw;
+                     }
+@@ -323,8 +320,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+ 
+         private static bool IsNonRetriableException(Exception exception)
+         {
+-            DocumentClientException dce = exception as DocumentClientException;
+-            if (dce != null && dce.StatusCode == HttpStatusCode.Unauthorized)
++            if (exception is DocumentClientException dce && dce.StatusCode == HttpStatusCode.Unauthorized)
+             {
+                 return true;
+             }
+diff --git a/Microsoft.Azure.Cosmos/src/Routing/PartitionKeyHashRanges.cs b/Microsoft.Azure.Cosmos/src/Routing/PartitionKeyHashRanges.cs
+index a927fcba..390649e5 100644
+--- a/Microsoft.Azure.Cosmos/src/Routing/PartitionKeyHashRanges.cs
++++ b/Microsoft.Azure.Cosmos/src/Routing/PartitionKeyHashRanges.cs
+@@ -1,4 +1,5 @@
+-﻿// ------------------------------------------------------------
++﻿using System.Linq;
++// ------------------------------------------------------------
+ // Copyright (c) Microsoft Corporation.  All rights reserved.
+ // ------------------------------------------------------------
+ 
+@@ -95,7 +96,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+                 return CreateOutcome.NullPartitionKeyRanges;
+             }
+ 
+-            if (partitionKeyHashRanges.Count() == 0)
++            if (!partitionKeyHashRanges.Any())
+             {
+                 partitionedSortedEffectiveRanges = default;
+                 return CreateOutcome.NoPartitionKeyRanges;
+diff --git a/Microsoft.Azure.Cosmos/src/Routing/PartitionKeyRangeCache.cs b/Microsoft.Azure.Cosmos/src/Routing/PartitionKeyRangeCache.cs
+index a4f8817f..f06450e5 100644
+--- a/Microsoft.Azure.Cosmos/src/Routing/PartitionKeyRangeCache.cs
++++ b/Microsoft.Azure.Cosmos/src/Routing/PartitionKeyRangeCache.cs
+@@ -60,7 +60,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+ 
+                 if (routingMap == null)
+                 {
+-                    DefaultTrace.TraceWarning(string.Format("Routing Map Null for collection: {0} for range: {1}, forceRefresh:{2}", collectionRid, range.ToString(), forceRefresh));
++                    DefaultTrace.TraceWarning($"Routing Map Null for collection: {collectionRid} for range: {range.ToString()}, forceRefresh:{forceRefresh}");
+                     return null;
+                 }
+ 
+@@ -86,7 +86,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+ 
+             if (routingMap == null)
+             {
+-                DefaultTrace.TraceInformation(string.Format("Routing Map Null for collection: {0}, PartitionKeyRangeId: {1}, forceRefresh:{2}", collectionResourceId, partitionKeyRangeId, forceRefresh));
++                DefaultTrace.TraceInformation($"Routing Map Null for collection: {collectionResourceId}, PartitionKeyRangeId: {partitionKeyRangeId}, forceRefresh:{forceRefresh}");
+                 return null;
+             }
+ 
+@@ -117,7 +117,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+                         rangesString.Append(range.ToRange().ToString());
+                         rangesString.Append(", ");
+                     }
+-                    DefaultTrace.TraceInformation(string.Format("DocumentClientException in TryLookupAsync Collection: {0}, previousValue: {1} Exception: {2}", collectionRid, rangesString.ToString(), ex.ToString()));
++                    DefaultTrace.TraceInformation($"DocumentClientException in TryLookupAsync Collection: {collectionRid}, previousValue: {rangesString.ToString()} Exception: {ex.ToString()}");
+                 }
+ 
+                 if (ex.StatusCode == HttpStatusCode.NotFound)
+diff --git a/Microsoft.Azure.Cosmos/src/Routing/PartitionRoutingHelper.cs b/Microsoft.Azure.Cosmos/src/Routing/PartitionRoutingHelper.cs
+index dbc10787..6682ec07 100644
+--- a/Microsoft.Azure.Cosmos/src/Routing/PartitionRoutingHelper.cs
++++ b/Microsoft.Azure.Cosmos/src/Routing/PartitionRoutingHelper.cs
+@@ -426,7 +426,7 @@ namespace Microsoft.Azure.Cosmos.Routing
+                         }
+                     }
+ 
+-                    if (initialContinuationToken != null && initialContinuationToken.Range != null)
++                    if (initialContinuationToken?.Range != null)
+                     {
+                         range = initialContinuationToken.Range;
+                     }
+diff --git a/Microsoft.Azure.Cosmos/src/SerializableNameValueCollection.cs b/Microsoft.Azure.Cosmos/src/SerializableNameValueCollection.cs
+index c5514d97..800aec19 100644
+--- a/Microsoft.Azure.Cosmos/src/SerializableNameValueCollection.cs
++++ b/Microsoft.Azure.Cosmos/src/SerializableNameValueCollection.cs
+@@ -89,8 +89,7 @@ namespace Microsoft.Azure.Cosmos
+             {
+                 foreach (KeyValuePair<string, JToken> pair in this.propertyBag)
+                 {
+-                    JValue value = pair.Value as JValue;
+-                    if (value != null)
++                    if (pair.Value is JValue value)
+                     {
+                         collection.Add(pair.Key, value.ToString());
+                     }
+diff --git a/Microsoft.Azure.Cosmos/src/SessionContainer.cs b/Microsoft.Azure.Cosmos/src/SessionContainer.cs
+index 93f1de9f..429be2fb 100644
+--- a/Microsoft.Azure.Cosmos/src/SessionContainer.cs
++++ b/Microsoft.Azure.Cosmos/src/SessionContainer.cs
+@@ -480,7 +480,7 @@ namespace Microsoft.Azure.Cosmos.Common
+ 
+             public override bool Equals(object obj)
+             {
+-                if (obj == null || !(obj is SessionContainerSnapshot sibling))
++                if (!(obj is SessionContainerSnapshot sibling))
+                 {
+                     return false;
+                 }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/BaselineTest/BaselineTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/BaselineTest/BaselineTests.cs
+index e2e7a7eb..94795e6f 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/BaselineTest/BaselineTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/BaselineTest/BaselineTests.cs
+@@ -1,4 +1,5 @@
+-﻿//-----------------------------------------------------------------------
++﻿using System.Linq;
++//-----------------------------------------------------------------------
+ // <copyright file="BaselineTests.cs" company="Microsoft Corporation">
+ //     Copyright (c) Microsoft Corporation.  All rights reserved.
+ // </copyright>
+@@ -48,7 +49,7 @@ namespace Microsoft.Azure.Cosmos.Services.Management.Tests.BaselineTest
+         public void ExecuteTestSuite(IEnumerable<TInput> inputs, [CallerMemberName] string testSuiteName = "")
+         {
+             // Preconditions.
+-            if (inputs == null || inputs.Count() == 0)
++            if (inputs == null || !inputs.Any())
+             {
+                 throw new ArgumentException($"{nameof(inputs)} must not be null or empty.");
+             }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Batch/BatchSinglePartitionKeyTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Batch/BatchSinglePartitionKeyTests.cs
+index 8441dc18..cf9dde37 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Batch/BatchSinglePartitionKeyTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Batch/BatchSinglePartitionKeyTests.cs
+@@ -1018,10 +1018,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             Assert.AreEqual(
+                 expectedStatusCode, 
+                 batchResponse.StatusCode,
+-                string.Format("Batch server response had StatusCode {0} instead of {1} expected and had ErrorMessage {2}",
+-                        batchResponse.StatusCode,
+-                        expectedStatusCode,
+-                        batchResponse.ErrorMessage));
++                $"Batch server response had StatusCode {batchResponse.StatusCode} instead of {expectedStatusCode} expected and had ErrorMessage {batchResponse.ErrorMessage}");
+ 
+             Assert.AreEqual(numberOfOperations, batchResponse.Count);
+ 
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Batch/BatchTestBase.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Batch/BatchTestBase.cs
+index 74724769..52300f3f 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Batch/BatchTestBase.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Batch/BatchTestBase.cs
+@@ -145,7 +145,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+         private static void InitializeSharedThroughputContainer()
+         {
+             CosmosClient client = TestCommon.CreateCosmosClient();
+-            Cosmos.Database db = client.CreateDatabaseAsync(string.Format("Shared_{0}", Guid.NewGuid().ToString("N")), throughput: 20000).GetAwaiter().GetResult().Database;
++            Cosmos.Database db = client.CreateDatabaseAsync($"Shared_{Guid.NewGuid().ToString("N")}", throughput: 20000).GetAwaiter().GetResult().Database;
+ 
+             for (int index = 0; index < 5; index++)
+             {
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ChangeFeed/DynamicTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ChangeFeed/DynamicTests.cs
+index 701f41a9..b9520f4f 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ChangeFeed/DynamicTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ChangeFeed/DynamicTests.cs
+@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.ChangeFeed
+             ChangeFeedProcessor processor = this.Container
+                 .GetChangeFeedProcessorBuilder("test", (IReadOnlyCollection<dynamic> docs, CancellationToken token) =>
+                 {
+-                    processedDocCount += docs.Count();
++                    processedDocCount += docs.Count;
+                     foreach (dynamic doc in docs)
+                     {
+                         accumulator += doc.id.ToString() + ".";
+@@ -98,7 +98,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.ChangeFeed
+                 ChangeFeedProcessor processor = this.Container
+                     .GetChangeFeedProcessorBuilder("test", (IReadOnlyCollection<dynamic> docs, CancellationToken token) =>
+                     {
+-                        processedDocCount += docs.Count();
++                        processedDocCount += docs.Count;
+                         foreach (dynamic doc in docs)
+                         {
+                             accumulator += doc.id.ToString() + ".";
+@@ -158,7 +158,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.ChangeFeed
+             ChangeFeedProcessor processor = this.Container
+                 .GetChangeFeedProcessorBuilder("test", (IReadOnlyCollection<dynamic> docs, CancellationToken token) =>
+                 {
+-                    processedDocCount += docs.Count();
++                    processedDocCount += docs.Count;
+                     foreach (dynamic doc in docs)
+                     {
+                         accumulator += doc.id.ToString() + ".";
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ChangeFeed/SmokeTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ChangeFeed/SmokeTests.cs
+index 1d1d1eff..22e9a190 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ChangeFeed/SmokeTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ChangeFeed/SmokeTests.cs
+@@ -325,7 +325,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.ChangeFeed
+             ChangeFeedProcessor processor = cosmosClient.GetContainer(this.database.Id, this.Container.Id)
+                 .GetChangeFeedProcessorBuilder("test", (IReadOnlyCollection<TestClass> docs, CancellationToken token) =>
+                 {
+-                    processedDocCount += docs.Count();
++                    processedDocCount += docs.Count;
+                     foreach (TestClass doc in docs)
+                     {
+                         accumulator += doc.id.ToString() + ".";
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ClientTestsUtils.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ClientTestsUtils.cs
+index 3ae131c0..f5e0e949 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ClientTestsUtils.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ClientTestsUtils.cs
+@@ -268,7 +268,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                 throw new ArgumentException("Shared throughput collections are not supported without shared offer");
+             }
+ 
+-            string uniqDatabaseName = string.Format("SmokeTest_{0}", Guid.NewGuid().ToString("N"));
++            string uniqDatabaseName = $"SmokeTest_{Guid.NewGuid().ToString("N")}";
+             RequestOptions options = new RequestOptions { OfferThroughput = 50000 };
+             Database  database = sharedOffer ? await client.CreateDatabaseAsync(new Database  { Id = uniqDatabaseName }, options) : await client.CreateDatabaseAsync(new Database  { Id = uniqDatabaseName });
+             Assert.AreEqual(database.AltLink, ClientTestsUtils.GenerateAltLink(uniqDatabaseName));
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosDatabaseAccountSettingsTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosDatabaseAccountSettingsTests.cs
+index a664688f..61c226f6 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosDatabaseAccountSettingsTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosDatabaseAccountSettingsTests.cs
+@@ -1,4 +1,5 @@
+-﻿//------------------------------------------------------------
++﻿using System.Linq;
++//------------------------------------------------------------
+ // Copyright (c) Microsoft Corporation.  All rights reserved.
+ //------------------------------------------------------------
+ 
+@@ -43,9 +44,9 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             Assert.IsNotNull(accountProperties);
+             Assert.IsNotNull(accountProperties.Id);
+             Assert.IsNotNull(accountProperties.ReadableRegions);
+-            Assert.IsTrue(accountProperties.ReadableRegions.Count() > 0);
++            Assert.IsTrue(accountProperties.ReadableRegions.Any());
+             Assert.IsNotNull(accountProperties.WritableRegions);
+-            Assert.IsTrue(accountProperties.WritableRegions.Count() > 0);
++            Assert.IsTrue(accountProperties.WritableRegions.Any());
+         }
+     }
+ }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosItemLinqTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosItemLinqTests.cs
+index 5d72595e..d87b85b9 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosItemLinqTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosItemLinqTests.cs
+@@ -222,7 +222,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                 randomPartitionKey: true);
+ 
+             IList<ToDoActivity> filteredList = itemList.Where(item => item.taskNum < 100).ToList();
+-            int filteredDocumentCount = filteredList.Count();
++            int filteredDocumentCount = filteredList.Count;
+ 
+             Console.WriteLine($"Filtered List: {JsonConvert.SerializeObject(filteredList)}.");
+ 
+@@ -274,7 +274,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                 requestOptions: queryRequestOptions);
+             List<ToDoActivity> secondSyncPage = linqQueryable.Where(item => item.taskNum < 100).ToList();
+             Console.WriteLine($"Second Sync page: {JsonConvert.SerializeObject(secondSyncPage)}.");
+-            int linqExecutionItemCount = secondSyncPage.Count();
++            int linqExecutionItemCount = secondSyncPage.Count;
+             Assert.AreEqual(
+                 filteredDocumentCount - firstItemSet,
+                 linqExecutionItemCount,
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosItemTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosItemTests.cs
+index 57d49109..bec447cd 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosItemTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosItemTests.cs
+@@ -1051,7 +1051,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                     Assert.IsTrue(totalRequstCharge > 0);
+ 
+                     List<ToDoActivity> verifiedOrderBy = deleteList.OrderBy(x => x.taskNum).ToList();
+-                    for (int i = 0; i < verifiedOrderBy.Count(); i++)
++                    for (int i = 0; i < verifiedOrderBy.Count; i++)
+                     {
+                         Assert.AreEqual(verifiedOrderBy[i].taskNum, resultList[i].taskNum);
+                         Assert.AreEqual(verifiedOrderBy[i].id, resultList[i].id);
+@@ -1098,7 +1098,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+ 
+             List<ToDoActivity> verifiedOrderBy = deleteList.OrderBy(x => x.taskNum).ToList();
+             resultList = resultList.OrderBy(x => x.taskNum).ToList();
+-            for (int i = 0; i < verifiedOrderBy.Count(); i++)
++            for (int i = 0; i < verifiedOrderBy.Count; i++)
+             {
+                 Assert.AreEqual(verifiedOrderBy[i].taskNum, resultList[i].taskNum);
+                 Assert.AreEqual(verifiedOrderBy[i].id, resultList[i].id);
+@@ -1313,7 +1313,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             Assert.IsTrue(totalRequstCharge > 0);
+ 
+             List<ToDoActivity> verifiedOrderBy = deleteList.OrderBy(x => x.taskNum).ToList();
+-            for (int i = 0; i < verifiedOrderBy.Count(); i++)
++            for (int i = 0; i < verifiedOrderBy.Count; i++)
+             {
+                 Assert.AreEqual(verifiedOrderBy[i].taskNum, resultList[i].taskNum);
+                 Assert.AreEqual(verifiedOrderBy[i].id, resultList[i].id);
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosReadFeedTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosReadFeedTests.cs
+index 08c65ea0..713d9ac2 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosReadFeedTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CosmosReadFeedTests.cs
+@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             Assert.IsNull(lastKnownContinuationToken);
+             Assert.IsNotNull(forwardOrder);
+             Assert.AreEqual(total, count);
+-            Assert.IsFalse(forwardOrder.Where(x => string.IsNullOrEmpty(x)).Any());
++            Assert.IsFalse(forwardOrder.Any(x => string.IsNullOrEmpty(x)));
+ 
+             requestOptions.Properties = new Dictionary<string, object>()
+             {
+@@ -159,7 +159,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             forwardOrder.Reverse();
+ 
+             CollectionAssert.AreEqual(forwardOrder, reverseOrder);
+-            Assert.IsFalse(reverseOrder.Where(x => string.IsNullOrEmpty(x)).Any());
++            Assert.IsFalse(reverseOrder.Any(x => string.IsNullOrEmpty(x)));
+         }
+ 
+         private static Stream GenerateStreamFromString(string s)
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CustomSerializationTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CustomSerializationTests.cs
+index f956f51c..f6ddefca 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CustomSerializationTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/CustomSerializationTests.cs
+@@ -768,7 +768,7 @@ function bulkImport(docs) {
+                     }
+                 }
+ 
+-                return Type.GetType(string.Format("{0}, {1}", typeName, assemblyName), true);
++                return Type.GetType($"{typeName}, {assemblyName}", true);
+             }
+ 
+             public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/FeedToken/ReadFeedTokenTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/FeedToken/ReadFeedTokenTests.cs
+index 054887b4..d1de544f 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/FeedToken/ReadFeedTokenTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/FeedToken/ReadFeedTokenTests.cs
+@@ -462,7 +462,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.FeedRanges
+ 
+                 Assert.IsNotNull(forwardOrder);
+                 Assert.AreEqual(total, count);
+-                Assert.IsFalse(forwardOrder.Where(x => string.IsNullOrEmpty(x)).Any());
++                Assert.IsFalse(forwardOrder.Any(x => string.IsNullOrEmpty(x)));
+ 
+                 requestOptions.Properties = requestOptions.Properties = new Dictionary<string, object>()
+                 {
+@@ -506,7 +506,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.FeedRanges
+                 forwardOrder.Reverse();
+ 
+                 CollectionAssert.AreEqual(forwardOrder, reverseOrder);
+-                Assert.IsFalse(reverseOrder.Where(x => string.IsNullOrEmpty(x)).Any());
++                Assert.IsFalse(reverseOrder.Any(x => string.IsNullOrEmpty(x)));
+             }
+             finally
+             {
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/GatewayTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/GatewayTests.cs
+index 527cb035..1e5ba46a 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/GatewayTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/GatewayTests.cs
+@@ -2850,7 +2850,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                 UriFactory.CreateDocumentCollectionUri(databaseId, collectionId));
+             List<string> maxExclusiveBoundaries = pkRanges.Select(pkRange => pkRange.MaxExclusive).ToList();
+ 
+-            string effectivePK1 = PartitionKeyInternal.FromJsonString(string.Format("['{0}']", pkValue)).GetEffectivePartitionKeyString(pkDefinition);
++            string effectivePK1 = PartitionKeyInternal.FromJsonString($"['{pkValue}']").GetEffectivePartitionKeyString(pkDefinition);
+             int pkIndex = 0;
+             while (pkIndex < maxExclusiveBoundaries.Count && string.Compare(effectivePK1, maxExclusiveBoundaries[pkIndex]) >= 0)
+             {
+@@ -3413,7 +3413,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             while (e != null)
+             {
+                 DocumentClientException docException = e as DocumentClientException;
+-                if (docException != null && docException.Error != null)
++                if (docException?.Error != null)
+                 {
+                     exceptionMessage.Append("Code : " + docException.Error.Code);
+                     if (docException.Error.ErrorDetails != null)
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/HeadersValidationTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/HeadersValidationTests.cs
+index ee0f0e14..a47d588d 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/HeadersValidationTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/HeadersValidationTests.cs
+@@ -637,8 +637,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                 }
+                 catch (AggregateException exception)
+                 {
+-                    var dce = exception.InnerException as DocumentClientException;
+-                    if (dce != null)
++                    if (exception.InnerException is DocumentClientException dce)
+                     {
+                         Assert.AreEqual(dce.StatusCode, HttpStatusCode.BadRequest);
+                     }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqAggregateFunctionsBaselineTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqAggregateFunctionsBaselineTests.cs
+index b731ec47..08982e0c 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqAggregateFunctionsBaselineTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqAggregateFunctionsBaselineTests.cs
+@@ -1,4 +1,5 @@
+-﻿//-----------------------------------------------------------------------
++﻿using System.Linq;
++//-----------------------------------------------------------------------
+ // <copyright file="LinqAttributeContractTests.cs" company="Microsoft Corporation">
+ //     Copyright (c) Microsoft Corporation.  All rights reserved.
+ // </copyright>
+@@ -399,7 +400,7 @@ namespace Microsoft.Azure.Cosmos.Services.Management.Tests.LinqProviderTests
+ 
+             inputs.Add(new LinqAggregateInput(
+                 "Select(Where) -> Any(Sum(map))", b => getQueryFamily(b)
+-                .Select(f => f.Children.Where(c => c.Pets.Count() > 0)).Any(children => children.Sum(c => c.Grade) > 150)));
++                .Select(f => f.Children.Where(c => c.Pets.Any())).Any(children => children.Sum(c => c.Grade) > 150)));
+ 
+             inputs.Add(new LinqAggregateInput(
+                 "Skip -> Take -> Any", b => getQueryFamily(b)
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqGeneralBaselineTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqGeneralBaselineTests.cs
+index 417460dd..3b6fbc28 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqGeneralBaselineTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqGeneralBaselineTests.cs
+@@ -2145,7 +2145,7 @@ namespace Microsoft.Azure.Cosmos.Services.Management.Tests.LinqProviderTests
+         private async Task ValidateBasicQueryAsync()
+         {
+             DocumentClient client = TestCommon.CreateClient(true);
+-            Documents.Database database = await client.ReadDatabaseAsync(string.Format("dbs/{0}", testDb.Id));
++            Documents.Database database = await client.ReadDatabaseAsync($"dbs/{testDb.Id}");
+ 
+             string databaseName = database.Id;
+ 
+@@ -2207,7 +2207,7 @@ namespace Microsoft.Azure.Cosmos.Services.Management.Tests.LinqProviderTests
+                 PartitionKey = partitionKeyDefinition
+             };
+             collection.IndexingPolicy.IndexingMode = IndexingMode.Consistent;
+-            Database database = await cosmosClient.DocumentClient.ReadDatabaseAsync(string.Format("dbs/{0}", testDb.Id));
++            Database database = await cosmosClient.DocumentClient.ReadDatabaseAsync($"dbs/{testDb.Id}");
+             collection = cosmosClient.DocumentClient.Create<DocumentCollection>(database.ResourceId, collection);
+             int documentsToCreate = 100;
+             for (int i = 0; i < documentsToCreate; i++)
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqTestsCommon.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqTestsCommon.cs
+index 38f6a949..b1488f98 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqTestsCommon.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/LinqTestsCommon.cs
+@@ -1,4 +1,5 @@
+-﻿//-----------------------------------------------------------------------
++﻿using System.Linq;
++//-----------------------------------------------------------------------
+ // <copyright file="LinqAttributeContractTests.cs" company="Microsoft Corporation">
+ //     Copyright (c) Microsoft Corporation.  All rights reserved.
+ // </copyright>
+@@ -148,7 +149,7 @@ namespace Microsoft.Azure.Cosmos.Services.Management.Tests
+ 
+         public static Boolean IsAnonymousType(Type type)
+         {
+-            Boolean hasCompilerGeneratedAttribute = type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() > 0;
++            Boolean hasCompilerGeneratedAttribute = type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Any();
+             Boolean nameContainsAnonymousType = type.FullName.Contains("AnonymousType");
+             Boolean isAnonymousType = hasCompilerGeneratedAttribute && nameContainsAnonymousType;
+ 
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/OfferTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/OfferTests.cs
+index 7e456f87..fdeae09e 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/OfferTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/OfferTests.cs
+@@ -1051,7 +1051,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                         offerTypes.Add(offerType);
+                     }
+ 
+-                    if (offerTypes.Count() != 1)
++                    if (offerTypes.Count != 1)
+                     {
+                         StringBuilder exceptionString = new StringBuilder();
+                         foreach (string offerType in offerTypes)
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/AggregateQueryTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/AggregateQueryTests.cs
+index 1a239037..95104398 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/AggregateQueryTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/AggregateQueryTests.cs
+@@ -87,7 +87,7 @@
+ 
+                         return Number64.ToDouble(number.Value);
+                     });
+-                double count = documentsWherePkIsANumber.Count();
++                double count = documentsWherePkIsANumber.Count;
+                 AggregateQueryArguments[] aggregateQueryArgumentsList = new AggregateQueryArguments[]
+                 {
+                     new AggregateQueryArguments(
+@@ -100,7 +100,7 @@
+                         predicate: "true"),
+                     new AggregateQueryArguments(
+                         aggregateOperator: "COUNT",
+-                        expectedValue: CosmosNumber64.Create(documents.Count()),
++                        expectedValue: CosmosNumber64.Create(documents.Count),
+                         predicate: "true"),
+                     new AggregateQueryArguments(
+                         aggregateOperator: "MAX",
+@@ -626,7 +626,7 @@
+                             {
+                                 "$1",
+                                 CosmosNumber64.Create(
+-                                    documents.Where(document => document.TryGetValue("age", out _)).Count())
++                                    documents.Count(document => document.TryGetValue("age", out _)))
+                             }
+                         })
+                 ),
+@@ -695,7 +695,7 @@
+                             {
+                                 "count_age",
+                                 CosmosNumber64.Create(
+-                                    documents.Where(document => document.TryGetValue("age", out _)).Count())
++                                    documents.Count(document => document.TryGetValue("age", out _)))
+                             }
+                         })
+                 ),
+@@ -839,7 +839,7 @@
+                             MaxItemCount = maxItemCount,
+                         });
+ 
+-                    Assert.AreEqual(expected: 1, actual: actualAggregationQuery.Count());
++                    Assert.AreEqual(expected: 1, actual: actualAggregationQuery.Count);
+                     Assert.AreEqual(
+                         expected: expectedAggregation,
+                         actual: actualAggregationQuery.First(),
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/DistinctQueryTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/DistinctQueryTests.cs
+index 5345b2ad..18e04530 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/DistinctQueryTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/DistinctQueryTests.cs
+@@ -109,7 +109,7 @@
+                             documentsFromWithDistinct.AddRange(cosmosQueryResponse);
+                         }
+ 
+-                        Assert.AreEqual(documentsFromWithDistinct.Count, documentsFromWithoutDistinct.Count());
++                        Assert.AreEqual(documentsFromWithDistinct.Count, documentsFromWithoutDistinct.Count);
+                         for (int i = 0; i < documentsFromWithDistinct.Count; i++)
+                         {
+                             CosmosElement documentFromWithDistinct = documentsFromWithDistinct.ElementAt(i);
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/OrderByQueryTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/OrderByQueryTests.cs
+index 32651943..42917ba1 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/OrderByQueryTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/OrderByQueryTests.cs
+@@ -1,4 +1,5 @@
+-﻿namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
++﻿using System.Linq;
++namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
+ {
+     using System;
+     using System.Collections.Generic;
+@@ -230,10 +231,10 @@
+                                     IEnumerable<CosmosObject> actualDocuments;
+ 
+                                     int maxDegreeOfParallelism = hasTop ? rand.Next(4) : (rand.Next(2) == 0 ? -1 : (1 + rand.Next(0, 10)));
+-                                    int? maxItemCount = rand.Next(2) == 0 ? -1 : rand.Next(1, documents.Count());
++                                    int? maxItemCount = rand.Next(2) == 0 ? -1 : rand.Next(1, documents.Count);
+                                     QueryRequestOptions feedOptions = new QueryRequestOptions
+                                     {
+-                                        MaxBufferedItemCount = rand.Next(2) == 0 ? -1 : rand.Next(Math.Min(100, documents.Count()), documents.Count() + 1),
++                                        MaxBufferedItemCount = rand.Next(2) == 0 ? -1 : rand.Next(Math.Min(100, documents.Count), documents.Count + 1),
+                                         MaxConcurrency = maxDegreeOfParallelism
+                                     };
+ 
+@@ -951,7 +952,7 @@
+                         });
+ 
+                     Assert.AreEqual(
+-                        documents.Count(),
++                        documents.Count,
+                         queryResults.Count);
+ 
+                     IEnumerable<CosmosElement> actual = queryResults
+@@ -1014,7 +1015,7 @@
+                                 });
+ 
+                             Assert.AreEqual(
+-                                documents.Count(),
++                                documents.Count,
+                                 queryResults.Count);
+ 
+                             IEnumerable<CosmosElement> actual = queryResults;
+@@ -1285,7 +1286,7 @@
+                         mixedTypeFilters.Add($"not IS_DEFINED(c.{nameof(MixedTypedDocument.MixedTypeField)})");
+                     }
+ 
+-                    string filter = mixedTypeFilters.Count() == 0 ? "true" : string.Join(" OR ", mixedTypeFilters);
++                    string filter = !mixedTypeFilters.Any()? "true" : string.Join(" OR ", mixedTypeFilters);
+ 
+                     string query = $@"
+                             SELECT c.{nameof(MixedTypedDocument.MixedTypeField)}
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/QueryTestsBase.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/QueryTestsBase.cs
+index 143aa165..4bcad271 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/QueryTestsBase.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/QueryTestsBase.cs
+@@ -113,7 +113,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
+ 
+             IReadOnlyList<PartitionKeyRange> ranges = await this.GetPartitionKeyRanges(containerResponse);
+             Assert.IsTrue(
+-                ranges.Count() > 1,
++                ranges.Count > 1,
+                 $"{nameof(CreateMultiPartitionContainer)} failed to create a container with more than 1 physical partition.");
+ 
+             return containerResponse;
+@@ -134,7 +134,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
+             Assert.IsNotNull(containerResponse.Resource.ResourceId);
+ 
+             IReadOnlyList<PartitionKeyRange> ranges = await this.GetPartitionKeyRanges(containerResponse);
+-            Assert.AreEqual(1, ranges.Count());
++            Assert.AreEqual(1, ranges.Count);
+ 
+             return containerResponse;
+         }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/SanityQueryTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/SanityQueryTests.cs
+index 312e4962..aa49887a 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/SanityQueryTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/SanityQueryTests.cs
+@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
+                     "SELECT * FROM c");
+ 
+                 Assert.AreEqual(
+-                    documents.Count(),
++                    documents.Count,
+                     queryResults.Count);
+             }
+         }
+@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
+                                 feedOptions);
+ 
+                             Assert.AreEqual(
+-                                documents.Count(),
++                                documents.Count,
+                                 queryResults.Count,
+                                 $"query: {query} failed with {nameof(maxDegreeOfParallelism)}: {maxDegreeOfParallelism}, {nameof(maxItemCount)}: {maxItemCount}");
+                         }
+@@ -392,7 +392,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
+                             feedOptions);
+ 
+                         Assert.AreEqual(
+-                            documents.Count(),
++                            documents.Count,
+                             queryResults.Count,
+                             $"query: {query} failed with {nameof(maxItemCount)}: {maxItemCount}");
+                     }
+@@ -434,7 +434,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
+                             feedOptions);
+ 
+                         Assert.AreEqual(
+-                            documents.Count(),
++                            documents.Count,
+                             queryResults.Count,
+                             $"query: {query} failed with {nameof(maxItemCount)}: {maxItemCount}");
+                     }
+@@ -491,7 +491,7 @@ namespace Microsoft.Azure.Cosmos.EmulatorTests.Query
+                                 "SELECT * FROM c ORDER BY c._ts",
+                                 feedOptions);
+ 
+-                            Assert.AreEqual(documents.Count(), queryResults.Count);
++                            Assert.AreEqual(documents.Count, queryResults.Count);
+                         }
+                     }
+ 
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/QueryTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/QueryTests.cs
+index d0fda318..50301a88 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/QueryTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/QueryTests.cs
+@@ -938,7 +938,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             IRoutingMapProvider routingMapProvider = await client.GetPartitionKeyRangeCacheAsync();
+             IReadOnlyList<PartitionKeyRange> ranges =
+                 await routingMapProvider.TryGetOverlappingRangesAsync(coll.ResourceId, fullRange, NoOpTrace.Singleton);
+-            Assert.IsTrue(ranges.Count() > 1);
++            Assert.IsTrue(ranges.Count > 1);
+ 
+             Document document = new Document { Id = "id1" };
+             document.SetPropertyValue("key", "hello");
+@@ -1002,7 +1002,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             IRoutingMapProvider routingMapProvider = await client.GetPartitionKeyRangeCacheAsync();
+             IReadOnlyList<PartitionKeyRange> ranges =
+                 await routingMapProvider.TryGetOverlappingRangesAsync(coll.ResourceId, fullRange, NoOpTrace.Singleton);
+-            Assert.IsTrue(ranges.Count() > 1);
++            Assert.IsTrue(ranges.Count > 1);
+ 
+             DateTime startTime = DateTime.Now;
+             IEnumerable<string> documents = util.GetDocuments(numberOfDocuments);
+@@ -1379,8 +1379,8 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                 seed);
+ 
+             DocumentClient client = TestCommon.CreateClient(useGateway, protocol);
+-            Database database = await client.ReadDatabaseAsync(string.Format("dbs/{0}", inputDatabaseId));
+-            DocumentCollection coll = await client.ReadDocumentCollectionAsync(string.Format("dbs/{0}/colls/{1}", inputDatabaseId, inputCollectionId));
++            Database database = await client.ReadDatabaseAsync($"dbs/{inputDatabaseId}");
++            DocumentCollection coll = await client.ReadDocumentCollectionAsync($"dbs/{inputDatabaseId}/colls/{inputCollectionId}");
+ 
+             Range<string> fullRange = new Range<string>(
+                         PartitionKeyInternal.MinimumInclusiveEffectivePartitionKey,
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ScriptSampleTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ScriptSampleTests.cs
+index 66b5dee0..09901a8c 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ScriptSampleTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/ScriptSampleTests.cs
+@@ -132,7 +132,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             }
+             catch (Exception ex)
+             {
+-                while (ex != null && ex is AggregateException)
++                while (ex is AggregateException)
+                 {
+                     ex = ex.InnerException;
+                 }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/NonPartitionedContainerHelper.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/NonPartitionedContainerHelper.cs
+index 8eff3258..9dd71fa3 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/NonPartitionedContainerHelper.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/NonPartitionedContainerHelper.cs
+@@ -50,8 +50,8 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+ 
+             string verb = "POST";
+             string resourceType = "colls";
+-            string resourceId = string.Format("dbs/{0}", database.Id);
+-            string resourceLink = string.Format("dbs/{0}/colls", database.Id);
++            string resourceId = $"dbs/{database.Id}";
++            string resourceLink = $"dbs/{database.Id}/colls";
+             client.DefaultRequestHeaders.Add("x-ms-date", dateTimeUtc);
+             client.DefaultRequestHeaders.Add("x-ms-version", NonPartitionedContainerHelper.PreNonPartitionedMigrationApiVersion);
+ 
+@@ -98,7 +98,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             string verb = "POST";
+             string resourceType = "docs";
+             string resourceId = container.LinkUri;
+-            string resourceLink = string.Format("dbs/{0}/colls/{1}/docs", container.Database.Id, container.Id);
++            string resourceLink = $"dbs/{container.Database.Id}/colls/{container.Id}/docs";
+             string authHeader = NonPartitionedContainerHelper.GenerateMasterKeyAuthorizationSignature(
+                 verb,
+                 resourceId,
+@@ -129,7 +129,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+             string dateTimeUtc = NonPartitionedContainerHelper.GetUtcDateTime();
+             string verb = "POST";
+             string resourceType = "docs";
+-            string resourceLink = string.Format("dbs/{0}/colls/{1}/docs", container.Database.Id, container.Id);
++            string resourceLink = $"dbs/{container.Database.Id}/colls/{container.Id}/docs";
+             string authHeader = NonPartitionedContainerHelper.GenerateMasterKeyAuthorizationSignature(
+                 verb, container.LinkUri,
+                 resourceType,
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/QueryOracle.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/QueryOracle.cs
+index 59c78872..049d7ff3 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/QueryOracle.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/QueryOracle.cs
+@@ -162,7 +162,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.QueryOracle
+             }
+             else
+             {
+-                string errorMessage = String.Format("Unknown type: {0}, token: {1}", token.Type, token.ToString());
++                string errorMessage = $"Unknown type: {token.Type}, token: {token.ToString()}";
+                 Debug.Assert(false, errorMessage);
+                 throw new NotSupportedException(errorMessage);
+             }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/QueryOracleUtil.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/QueryOracleUtil.cs
+index 7f69e8f0..b32b7909 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/QueryOracleUtil.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/QueryOracleUtil.cs
+@@ -1,4 +1,5 @@
+-﻿//------------------------------------------------------------
++﻿using System.Linq;
++//------------------------------------------------------------
+ // Copyright (c) Microsoft Corporation.  All rights reserved.
+ //------------------------------------------------------------
+ 
+@@ -463,7 +464,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.QueryOracle
+             if (filterBuffer.Length > 0)
+                 this.query += " WHERE " + filterBuffer.ToString();
+ 
+-            if (comparer != null && comparer.field != null && comparer.order != 0)
++            if (comparer?.field != null && comparer.order != 0)
+             {
+                 this.query += " ORDER BY r." + comparer.field.Name + (comparer.order > 0 ? " ASC" : " DESC");
+                 this.Comparer = comparer;
+@@ -547,7 +548,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.QueryOracle
+             StringBuilder builder = new StringBuilder();
+             IFieldQueryBuilder[] fieldQueryBuilderArray = fieldQueryBuilders.ToArray();
+ 
+-            for (int i = 0; i < Math.Min(fieldQueryBuilders.Count(), maxFilters); ++i)
++            for (int i = 0; i < Math.Min(fieldQueryBuilders.Count, maxFilters); ++i)
+             {
+                 IFieldQueryBuilder fieldQueryBuilder = fieldQueryBuilderArray[this.rand.Next(fieldQueryBuilderArray.Count())];
+                 // Random OR/AND
+@@ -570,7 +571,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.QueryOracle
+         {
+             for (int i = 0; i < numberOfQueries; ++i)
+             {
+-                yield return new Query(this.GetFilterString(fieldQueryBuilders, maxFilters), "r", fields != null ? new FieldComparer(fields[this.rand.Next(fields.Count())], this.rand.Next(3) - 1) : null);
++                yield return new Query(this.GetFilterString(fieldQueryBuilders, maxFilters), "r", fields != null ? new FieldComparer(fields[this.rand.Next(fields.Count)], this.rand.Next(3) - 1) : null);
+             }
+         }
+ 
+@@ -665,7 +666,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.QueryOracle
+                 if (numberOfQueries > 0 && numberOfQueries % 100 == 0)
+                 {
+                     System.Diagnostics.Trace.TraceInformation(DateTime.Now.ToString("HH:mm:ss.ffff") + @": Executing query {0} of {1}",
+-                                           numberOfQueries + 1, query_list.Count());
++                                           numberOfQueries + 1, query_list.Count);
+                     System.Diagnostics.Trace.TraceInformation(@"    Query latency per query (avg ms) {0} after {1} queries",
+                                            totalQueryLatencyAllPages.TotalMilliseconds / numberOfQueries, numberOfQueries);
+                 }
+@@ -709,7 +710,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests.QueryOracle
+                 }
+             }
+ 
+-            if (failedQueries.Count() == 0)
++            if (!failedQueries.Any())
+             {
+                 System.Diagnostics.Trace.TraceInformation(@"*** TEST PASSED ***");
+                 return 0;
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/Util.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/Util.cs
+index 822df85b..b17a5752 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/Util.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Utils/Util.cs
+@@ -120,10 +120,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                 }
+             }
+ 
+-            if (requestChargeHelper != null)
+-            {
+-                requestChargeHelper.CompareRequestCharge(testName);
+-            }
++            requestChargeHelper?.CompareRequestCharge(testName);
+         }
+ 
+         /// <summary>
+@@ -162,10 +159,7 @@ namespace Microsoft.Azure.Cosmos.SDK.EmulatorTests
+                 client.Dispose();
+             }
+ 
+-            if (requestChargeHelper != null)
+-            {
+-                requestChargeHelper.CompareRequestCharge(testName);
+-            }
++            requestChargeHelper?.CompareRequestCharge(testName);
+         }
+ 
+         private static void RunTestForClient(
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Performance.Tests/Benchmarks/MockedItemOfTBenchmark.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Performance.Tests/Benchmarks/MockedItemOfTBenchmark.cs
+index 705c42b7..e0935a57 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Performance.Tests/Benchmarks/MockedItemOfTBenchmark.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Performance.Tests/Benchmarks/MockedItemOfTBenchmark.cs
+@@ -1,4 +1,5 @@
+-﻿// ----------------------------------------------------------------
++﻿using System.Linq;
++// ----------------------------------------------------------------
+ // Copyright (c) Microsoft Corporation.  All rights reserved.
+ // ----------------------------------------------------------------
+ 
+@@ -120,7 +121,7 @@ namespace Microsoft.Azure.Cosmos.Performance.Tests.Benchmarks
+             while (resultIterator.HasMoreResults)
+             {
+                 FeedResponse<ToDoActivity> response = await resultIterator.ReadNextAsync();
+-                if (response.StatusCode != HttpStatusCode.OK || response.Resource.Count() == 0)
++                if (response.StatusCode != HttpStatusCode.OK || !response.Resource.Any())
+                 {
+                     throw new Exception();
+                 }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Performance.Tests/Json/Utils.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Performance.Tests/Json/Utils.cs
+index 68ecf03b..7833446f 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Performance.Tests/Json/Utils.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Performance.Tests/Json/Utils.cs
+@@ -175,7 +175,7 @@ namespace Microsoft.Azure.Cosmos.Performance.Tests
+                     switch (jsonReader.CurrentTokenType)
+                     {
+                         case JsonTokenType.NotStarted:
+-                            throw new ArgumentException(string.Format("Got an unexpected JsonTokenType: {0} as an expected token type", jsonReader.CurrentTokenType));
++                            throw new ArgumentException($"Got an unexpected JsonTokenType: {jsonReader.CurrentTokenType} as an expected token type");
+                         case JsonTokenType.BeginArray:
+                             tokenList.Add(JsonToken.ArrayStart());
+                             break;
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/BaselineTest/BaselineTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/BaselineTest/BaselineTests.cs
+index 6e2162ee..4466d93d 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/BaselineTest/BaselineTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/BaselineTest/BaselineTests.cs
+@@ -1,4 +1,5 @@
+-﻿//-----------------------------------------------------------------------
++﻿using System.Linq;
++//-----------------------------------------------------------------------
+ // <copyright file="BaselineTests.cs" company="Microsoft Corporation">
+ //     Copyright (c) Microsoft Corporation.  All rights reserved.
+ // </copyright>
+@@ -46,7 +47,7 @@ namespace Microsoft.Azure.Cosmos.Test.BaselineTest
+         public void ExecuteTestSuite(IEnumerable<TInput> inputs, [CallerMemberName] string testSuiteName = "")
+         {
+             // Preconditions.
+-            if (inputs == null || inputs.Count() == 0)
++            if (inputs == null || !inputs.Any())
+             {
+                 throw new ArgumentException($"{nameof(inputs)} must not be null or empty.");
+             }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Batch/BatchUnitTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Batch/BatchUnitTests.cs
+index e6375b4a..426ebbba 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Batch/BatchUnitTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Batch/BatchUnitTests.cs
+@@ -557,10 +557,7 @@ namespace Microsoft.Azure.Cosmos.Tests
+                 Assert.AreEqual(HttpConstants.HttpMethods.Post, request.Method.ToString());
+ 
+                 Uri expectedRequestUri = new Uri(
+-                    string.Format(
+-                        "dbs/{0}/colls/{1}",
+-                        BatchUnitTests.DatabaseId,
+-                        BatchUnitTests.ContainerId),
++                    $"dbs/{BatchUnitTests.DatabaseId}/colls/{BatchUnitTests.ContainerId}",
+                     UriKind.Relative);
+                 Assert.AreEqual(expectedRequestUri, request.RequestUri);
+             }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/BinaryEncodingOverTheWireTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/BinaryEncodingOverTheWireTests.cs
+index 6f626db7..12b108e3 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/BinaryEncodingOverTheWireTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/BinaryEncodingOverTheWireTests.cs
+@@ -271,7 +271,7 @@ namespace Microsoft.Azure.Cosmos.Tests
+ 
+         private static IEnumerable<object> GetDocumentsFromCurratedDoc(string path)
+         {
+-            path = string.Format("TestJsons/{0}", path);
++            path = $"TestJsons/{path}";
+             string json = TextFileConcatenation.ReadMultipartFile(path);
+             List<object> documents;
+             try
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/ChangeFeed/EqualPartitionsBalancingStrategyTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/ChangeFeed/EqualPartitionsBalancingStrategyTests.cs
+index 8fab2129..3319103d 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/ChangeFeed/EqualPartitionsBalancingStrategyTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/ChangeFeed/EqualPartitionsBalancingStrategyTests.cs
+@@ -1,4 +1,5 @@
+-﻿//------------------------------------------------------------
++﻿using System.Linq;
++//------------------------------------------------------------
+ // Copyright (c) Microsoft Corporation.  All rights reserved.
+ //------------------------------------------------------------
+ 
+@@ -27,7 +28,7 @@ namespace Microsoft.Azure.Cosmos.ChangeFeed.Tests
+         {
+             EqualPartitionsBalancingStrategy strategy = this.CreateStrategy();
+             IEnumerable<DocumentServiceLease> leasesToTake = strategy.SelectLeasesToTake(Enumerable.Empty<DocumentServiceLease>());
+-            Assert.IsTrue(leasesToTake.Count() == 0);
++            Assert.IsTrue(!leasesToTake.Any());
+         }
+ 
+         [TestMethod]
+@@ -35,7 +36,7 @@ namespace Microsoft.Azure.Cosmos.ChangeFeed.Tests
+         {
+             EqualPartitionsBalancingStrategy strategy = this.CreateStrategy();
+             IEnumerable<DocumentServiceLease> leasesToTake = strategy.SelectLeasesToTake(new[] { this.CreateLease(ownerSelf, "1"), this.CreateLease(ownerSelf, "2") });
+-            Assert.IsTrue(leasesToTake.Count() == 0);
++            Assert.IsTrue(!leasesToTake.Any());
+         }
+ 
+         [TestMethod]
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/CosmosElements/LazyCosmosElementTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/CosmosElements/LazyCosmosElementTests.cs
+index e8518798..01a57c70 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/CosmosElements/LazyCosmosElementTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/CosmosElements/LazyCosmosElementTests.cs
+@@ -463,7 +463,7 @@ namespace Microsoft.Azure.Cosmos.NetFramework.Tests.CosmosElements
+ 
+         private static string SampleJsonFromFile(string filename)
+         {
+-            string path = string.Format("TestJsons/{0}", filename);
++            string path = $"TestJsons/{filename}";
+             string json = TextFileConcatenation.ReadMultipartFile(path);
+ 
+             IEnumerable<object> documents = null;
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonNavigatorTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonNavigatorTests.cs
+index 265f4b6d..32175172 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonNavigatorTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonNavigatorTests.cs
+@@ -481,7 +481,7 @@ namespace Microsoft.Azure.Cosmos.Tests.Json
+ 
+         private static void VerifyNavigatorWithCurratedDoc(string path, bool performExtraChecks = true)
+         {
+-            path = string.Format("TestJsons/{0}", path);
++            path = $"TestJsons/{path}";
+             string json = TextFileConcatenation.ReadMultipartFile(path);
+ #if true
+             json = JsonTestUtils.RandomSampleJson(json, maxNumberOfItems: 10);
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonReaderTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonReaderTests.cs
+index 2f31613d..8b6f07b3 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonReaderTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonReaderTests.cs
+@@ -3265,7 +3265,7 @@ namespace Microsoft.Azure.Cosmos.Tests.Json
+                         try
+                         {
+                             jsonReader.Read();
+-                            Assert.Fail(string.Format("Expected to receive {0} but didn't", expectedException.Message));
++                            Assert.Fail($"Expected to receive {expectedException.Message} but didn't");
+                         }
+                         catch (Exception exception)
+                         {
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonRoundtripTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonRoundtripTests.cs
+index 4c68488a..81b38f9e 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonRoundtripTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonRoundtripTests.cs
+@@ -460,7 +460,7 @@ namespace Microsoft.Azure.Cosmos.Tests.Json
+         // Checks to see if we can go from a JsonReader to a NewtonsoftWriter and get back the original document and visa versa
+         private void RoundTripTestCuratedJson(string path)
+         {
+-            path = string.Format("TestJsons/{0}", path);
++            path = $"TestJsons/{path}";
+             string json = TextFileConcatenation.ReadMultipartFile(path);
+ #if true
+             json = JsonTestUtils.RandomSampleJson(json, seed: 42, maxNumberOfItems: 100);
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonWriterTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonWriterTests.cs
+index 29b488ce..a8d1b89c 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonWriterTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Json/JsonWriterTests.cs
+@@ -2619,7 +2619,7 @@
+ 
+                         case JsonTokenType.NotStarted:
+                         default:
+-                            Assert.Fail(string.Format("Got an unexpected JsonTokenType: {0} as an expected token type", token.JsonTokenType));
++                            Assert.Fail($"Got an unexpected JsonTokenType: {token.JsonTokenType} as an expected token type");
+                             break;
+                     }
+                 }
+@@ -2640,9 +2640,7 @@
+                 else
+                 {
+                     Assert.IsTrue(expectedOutput.SequenceEqual(result),
+-                        string.Format("Expected : {0}, Actual :{1}",
+-                        string.Join(", ", expectedOutput),
+-                        string.Join(", ", result)));
++                        $"Expected : {string.Join(", ", expectedOutput)}, Actual :{string.Join(", ", result)}");
+                 }
+             }
+         }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Pagination/InMemoryContainer.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Pagination/InMemoryContainer.cs
+index e78fdb1b..fa7d4399 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Pagination/InMemoryContainer.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Pagination/InMemoryContainer.cs
+@@ -603,8 +603,8 @@ namespace Microsoft.Azure.Cosmos.Tests.Pagination
+                 {
+                     string currentResourceId = ((CosmosString)lastDocument["_rid"]).Value;
+                     int currentSkipCount = queryPageResultList
+-                        .Where(document => ((CosmosString)((CosmosObject)document)["_rid"]).Value == currentResourceId)
+-                        .Count();
++                        .Count(document => ((CosmosString)((CosmosObject)document)["_rid"]).Value == currentResourceId)
++;
+                     if (currentResourceId == continuationResourceId)
+                     {
+                         currentSkipCount += continuationSkipCount;
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Query/OfflineEngine/AggregateProjectionTransformer.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Query/OfflineEngine/AggregateProjectionTransformer.cs
+index cc443b5a..28b2a862 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Query/OfflineEngine/AggregateProjectionTransformer.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Query/OfflineEngine/AggregateProjectionTransformer.cs
+@@ -1,4 +1,5 @@
+-﻿//-----------------------------------------------------------------------
++﻿using System.Linq;
++//-----------------------------------------------------------------------
+ // <copyright file="AggregateProjectionTransformer.cs" company="Microsoft Corporation">
+ //     Copyright (c) Microsoft Corporation.  All rights reserved.
+ // </copyright>
+@@ -162,7 +163,7 @@ namespace Microsoft.Azure.Cosmos.Tests.Query.OfflineEngine
+                         {
+                             case Aggregate.Min:
+                             case Aggregate.Max:
+-                                if (results.Count() == 0)
++                                if (!results.Any())
+                                 {
+                                     aggregationResult = Undefined;
+                                 }
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Query/Pipeline/DCountQueryPipelineStageTests.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Query/Pipeline/DCountQueryPipelineStageTests.cs
+index 55bccb79..ee0de15a 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Query/Pipeline/DCountQueryPipelineStageTests.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/Query/Pipeline/DCountQueryPipelineStageTests.cs
+@@ -107,7 +107,7 @@ namespace Microsoft.Azure.Cosmos.Tests.Query.Pipeline
+ 
+         private static void Validate(int expectedCount, string dcountAlias, IReadOnlyList<CosmosElement> actual)
+         {
+-            Assert.AreEqual(expected: 1, actual: actual.Count());
++            Assert.AreEqual(expected: 1, actual: actual.Count);
+ 
+             long actualCount = long.MaxValue;
+             if (string.IsNullOrEmpty(dcountAlias))
+diff --git a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/SessionContainerTest.cs b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/SessionContainerTest.cs
+index 9718c27e..85815796 100644
+--- a/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/SessionContainerTest.cs
++++ b/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.Tests/SessionContainerTest.cs
+@@ -803,8 +803,8 @@ namespace Microsoft.Azure.Cosmos
+                 new StoreRequestNameValueCollection() { { HttpConstants.HttpHeaders.SessionToken, "range_0:1#101#4=90#5=1" } }
+             );
+ 
+-            Assert.IsTrue(string.IsNullOrEmpty(sessionContainer.GetSessionToken(string.Format("dbs/{0}/colls/{1}", dbResourceId, oldCollectionResourceId))));
+-            Assert.IsFalse(string.IsNullOrEmpty(sessionContainer.GetSessionToken(string.Format("dbs/{0}/colls/{1}", dbResourceId, newCollectionResourceId))));
++            Assert.IsTrue(string.IsNullOrEmpty(sessionContainer.GetSessionToken($"dbs/{dbResourceId}/colls/{oldCollectionResourceId}")));
++            Assert.IsFalse(string.IsNullOrEmpty(sessionContainer.GetSessionToken($"dbs/{dbResourceId}/colls/{newCollectionResourceId}")));
+         }
+     }
+ }

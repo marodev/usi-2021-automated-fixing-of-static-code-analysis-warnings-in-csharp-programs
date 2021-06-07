@@ -1,0 +1,861 @@
+diff --git a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerConfig.cs b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerConfig.cs
+index cf4f412f9..d28ff870e 100644
+--- a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerConfig.cs
++++ b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerConfig.cs
+@@ -178,7 +178,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Docker
+                 foreach (var (i, chunk) in options)
+                 {
+                     var field = i != 0
+-                        ? string.Format("createOptions{0}", i.ToString("D2"))
++                        ? $"createOptions{i.ToString("D2")}"
+                         : "createOptions";
+                     writer.WritePropertyName(field);
+                     writer.WriteValue(chunk);
+diff --git a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerReportedConfig.cs b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerReportedConfig.cs
+index e1800c756..d61703d96 100644
+--- a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerReportedConfig.cs
++++ b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerReportedConfig.cs
+@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Docker
+                 foreach (var (i, chunk) in options)
+                 {
+                     var field = i != 0
+-                        ? string.Format("createOptions{0}", i.ToString("D2"))
++                        ? $"createOptions{i.ToString("D2")}"
+                         : "createOptions";
+                     writer.WritePropertyName(field);
+                     writer.WriteValue(chunk);
+diff --git a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2018_06_28/generatedCode/EdgeletHttpClient.cs b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2018_06_28/generatedCode/EdgeletHttpClient.cs
+index ab40b7f13..0afcb8df2 100644
+--- a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2018_06_28/generatedCode/EdgeletHttpClient.cs
++++ b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2018_06_28/generatedCode/EdgeletHttpClient.cs
+@@ -1393,18 +1393,16 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2018_06_28.Generate
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value;
+                         }
+                     }
+                 }
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[])value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value.GetType().IsArray)
+             {
+@@ -2300,7 +2298,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2018_06_28.Generate
+ 
+         public override string ToString()
+         {
+-            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
++            return $"HTTP Response: \n\n{Response}\n\n{base.ToString()}";
+         }
+     }
+ 
+diff --git a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_01_30/generatedCode/EdgeletHttpClient.cs b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_01_30/generatedCode/EdgeletHttpClient.cs
+index dd52aaad0..41ac88c8a 100644
+--- a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_01_30/generatedCode/EdgeletHttpClient.cs
++++ b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_01_30/generatedCode/EdgeletHttpClient.cs
+@@ -1614,9 +1614,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_01_30.Generate
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value;
+                         }
+@@ -1627,9 +1625,9 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_01_30.Generate
+             {
+                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[])value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value != null && value.GetType().IsArray)
+             {
+@@ -2005,7 +2003,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_01_30.Generate
+ 
+         public override string ToString()
+         {
+-            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
++            return $"HTTP Response: \n\n{Response}\n\n{base.ToString()}";
+         }
+     }
+ 
+diff --git a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_10_22/generatedCode/EdgeletHttpClient.cs b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_10_22/generatedCode/EdgeletHttpClient.cs
+index 970e588ab..889050f4a 100644
+--- a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_10_22/generatedCode/EdgeletHttpClient.cs
++++ b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_10_22/generatedCode/EdgeletHttpClient.cs
+@@ -1695,9 +1695,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_10_22.Generate
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value;
+                         }
+@@ -1708,9 +1706,9 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_10_22.Generate
+             {
+                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[])value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value != null && value.GetType().IsArray)
+             {
+@@ -2086,7 +2084,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_10_22.Generate
+ 
+         public override string ToString()
+         {
+-            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
++            return $"HTTP Response: \n\n{Response}\n\n{base.ToString()}";
+         }
+     }
+ 
+diff --git a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_11_05/generatedCode/EdgeletHttpClient.cs b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_11_05/generatedCode/EdgeletHttpClient.cs
+index f8cd3739e..b3929114d 100644
+--- a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_11_05/generatedCode/EdgeletHttpClient.cs
++++ b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_11_05/generatedCode/EdgeletHttpClient.cs
+@@ -1524,9 +1524,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_11_05.Generate
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value != null ? attribute.Value : name;
+                         }
+@@ -1537,9 +1535,9 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_11_05.Generate
+             {
+                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[])value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value != null && value.GetType().IsArray)
+             {
+@@ -1835,7 +1833,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2019_11_05.Generate
+ 
+         public override string ToString()
+         {
+-            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
++            return $"HTTP Response: \n\n{Response}\n\n{base.ToString()}";
+         }
+     }
+ 
+diff --git a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2020_07_07/generatedCode/EdgeletHttpClient.cs b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2020_07_07/generatedCode/EdgeletHttpClient.cs
+index 0529b080e..0f7dadb71 100644
+--- a/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2020_07_07/generatedCode/EdgeletHttpClient.cs
++++ b/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2020_07_07/generatedCode/EdgeletHttpClient.cs
+@@ -1618,9 +1618,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2020_07_07.Generate
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value != null ? attribute.Value : name;
+                         }
+@@ -1633,9 +1631,9 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2020_07_07.Generate
+             {
+                 return System.Convert.ToString(value, cultureInfo)?.ToLowerInvariant();
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[])value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value != null && value.GetType().IsArray)
+             {
+@@ -1997,7 +1995,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Version_2020_07_07.Generate
+ 
+         public override string ToString()
+         {
+-            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
++            return $"HTTP Response: \n\n{Response}\n\n{base.ToString()}";
+         }
+     }
+ 
+diff --git a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/OrderedPlanRunnerTest.cs b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/OrderedPlanRunnerTest.cs
+index 7d48d208e..2cb7da3a9 100644
+--- a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/OrderedPlanRunnerTest.cs
++++ b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/OrderedPlanRunnerTest.cs
+@@ -135,21 +135,21 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Core.Test
+ 
+             Assert.True(ex.InnerExceptions.Count == commandList.Count / 2);
+             Assert.True(
+-                commandList.Where(
++                commandList.Count(
+                     command =>
+                     {
+                         var c = command as TestCommand;
+                         Assert.NotNull(c);
+                         return c.CommandExecuted;
+-                    }).Count() == commandList.Count / 2);
++                    })== commandList.Count / 2);
+             Assert.True(
+-                commandList.Where(
++                commandList.Count(
+                     command =>
+                     {
+                         var c = command as TestCommand;
+                         Assert.NotNull(c);
+                         return !c.CommandExecuted;
+-                    }).Count() == commandList.Count / 2);
++                    })== commandList.Count / 2);
+ 
+             factory.Recorder.ForEach(r => Assert.Equal(moduleExecutionList, r.ExecutionList));
+         }
+diff --git a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/planners/HealthRestartPlannerTest.cs b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/planners/HealthRestartPlannerTest.cs
+index cfbbb1d58..657837601 100644
+--- a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/planners/HealthRestartPlannerTest.cs
++++ b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/planners/HealthRestartPlannerTest.cs
+@@ -487,7 +487,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Core.Test.Planners
+             await planRunner.ExecuteAsync(1, plan, CancellationToken.None);
+ 
+             // Assert
+-            factory.Recorder.ForEach(r => Assert.Equal(runningGreatModules.Count(), r.WrappedCommmandList.Count));
++            factory.Recorder.ForEach(r => Assert.Equal(runningGreatModules.Count, r.WrappedCommmandList.Count));
+         }
+ 
+         [Fact]
+diff --git a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/ModuleIdentityLifecycleManagerTest.cs b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/ModuleIdentityLifecycleManagerTest.cs
+index b7f472f35..bcbb26c1c 100644
+--- a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/ModuleIdentityLifecycleManagerTest.cs
++++ b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/ModuleIdentityLifecycleManagerTest.cs
+@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test
+                 ModuleSet.Empty);
+ 
+             // Assert
+-            Assert.True(modulesIdentities.Count() == 1);
++            Assert.True(modulesIdentities.Count == 1);
+             Assert.True(modulesIdentities.TryGetValue(Name, out IModuleIdentity moduleIdentity));
+             Assert.Equal(moduleIdentity.ModuleId, Name);
+             Assert.IsType<IdentityProviderServiceCredentials>(moduleIdentity.Credentials);
+diff --git a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs
+index 69e71e180..e4e67183c 100644
+--- a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs
++++ b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs
+@@ -200,48 +200,48 @@ namespace Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test.Commands
+ 
+             foreach (string key in testData.EnvironmentVariables.Keys)
+             {
+-                Assert.Equal(testData.EnvironmentVariables[key].Value, environmentVariables.Where(v => v.Key.Equals(key)).First().Value);
++                Assert.Equal(testData.EnvironmentVariables[key].Value, environmentVariables.First(v => v.Key.Equals(key)).Value);
+             }
+ 
+-            Assert.Equal(testData.EdgeletWorkloadUri, environmentVariables.Where(v => v.Key.Equals(Constants.EdgeletWorkloadUriVariableName)).First().Value);
+-            Assert.Equal(testData.EdgeletAuthScheme, environmentVariables.Where(v => v.Key.Equals(Constants.EdgeletAuthSchemeVariableName)).First().Value);
+-            Assert.Equal(testData.ModuleGenerationId, environmentVariables.Where(v => v.Key.Equals(Constants.EdgeletModuleGenerationIdVariableName)).First().Value);
+-            Assert.Equal(testData.IoTHubHostname, environmentVariables.Where(v => v.Key.Equals(Constants.IotHubHostnameVariableName)).First().Value);
+-            Assert.Equal(testData.DeviceId, environmentVariables.Where(v => v.Key.Equals(Constants.DeviceIdVariableName)).First().Value);
+-            Assert.Equal(testData.ModuleId, environmentVariables.Where(v => v.Key.Equals(Constants.ModuleIdVariableName)).First().Value);
+-            Assert.Equal(LogEventLevel.Information.ToString(), environmentVariables.Where(v => v.Key.Equals(Logger.RuntimeLogLevelEnvKey)).First().Value);
+-            Assert.Equal(testData.UpstreamProtocol, environmentVariables.Where(v => v.Key.Equals(Constants.UpstreamProtocolKey)).First().Value);
+-            Assert.Equal(testData.EdgeletApiVersion, environmentVariables.Where(v => v.Key.Equals(Constants.EdgeletApiVersionVariableName)).First().Value);
++            Assert.Equal(testData.EdgeletWorkloadUri, environmentVariables.First(v => v.Key.Equals(Constants.EdgeletWorkloadUriVariableName)).Value);
++            Assert.Equal(testData.EdgeletAuthScheme, environmentVariables.First(v => v.Key.Equals(Constants.EdgeletAuthSchemeVariableName)).Value);
++            Assert.Equal(testData.ModuleGenerationId, environmentVariables.First(v => v.Key.Equals(Constants.EdgeletModuleGenerationIdVariableName)).Value);
++            Assert.Equal(testData.IoTHubHostname, environmentVariables.First(v => v.Key.Equals(Constants.IotHubHostnameVariableName)).Value);
++            Assert.Equal(testData.DeviceId, environmentVariables.First(v => v.Key.Equals(Constants.DeviceIdVariableName)).Value);
++            Assert.Equal(testData.ModuleId, environmentVariables.First(v => v.Key.Equals(Constants.ModuleIdVariableName)).Value);
++            Assert.Equal(LogEventLevel.Information.ToString(), environmentVariables.First(v => v.Key.Equals(Logger.RuntimeLogLevelEnvKey)).Value);
++            Assert.Equal(testData.UpstreamProtocol, environmentVariables.First(v => v.Key.Equals(Constants.UpstreamProtocolKey)).Value);
++            Assert.Equal(testData.EdgeletApiVersion, environmentVariables.First(v => v.Key.Equals(Constants.EdgeletApiVersionVariableName)).Value);
+ 
+             if (testData.ModuleId.Equals(Constants.EdgeAgentModuleIdentityName))
+             {
+-                Assert.Equal("iotedged", environmentVariables.Where(v => v.Key.Equals(Constants.ModeKey)).First().Value);
+-                Assert.Equal(testData.EdgeletManagementUri, environmentVariables.Where(v => v.Key.Equals(Constants.EdgeletManagementUriVariableName)).First().Value);
+-                Assert.Equal(testData.NetworkId, environmentVariables.Where(v => v.Key.Equals(Constants.NetworkIdKey)).First().Value);
+-                Assert.Equal(testData.EdgeDeviceHostname, environmentVariables.Where(v => v.Key.Equals(Constants.EdgeDeviceHostNameKey)).First().Value);
++                Assert.Equal("iotedged", environmentVariables.First(v => v.Key.Equals(Constants.ModeKey)).Value);
++                Assert.Equal(testData.EdgeletManagementUri, environmentVariables.First(v => v.Key.Equals(Constants.EdgeletManagementUriVariableName)).Value);
++                Assert.Equal(testData.NetworkId, environmentVariables.First(v => v.Key.Equals(Constants.NetworkIdKey)).Value);
++                Assert.Equal(testData.EdgeDeviceHostname, environmentVariables.First(v => v.Key.Equals(Constants.EdgeDeviceHostNameKey)).Value);
+                 testData.ParentEdgeHostname.ForEach(value =>
+-                    Assert.Equal(value, environmentVariables.Where(v => v.Key.Equals(Constants.GatewayHostnameVariableName)).First().Value));
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.ParentEdgeHostnameVariableName)).FirstOrDefault());
++                    Assert.Equal(value, environmentVariables.First(v => v.Key.Equals(Constants.GatewayHostnameVariableName)).Value));
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.ParentEdgeHostnameVariableName)));
+             }
+             else if (testData.ModuleId.Equals(Constants.EdgeHubModuleIdentityName))
+             {
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.ModeKey)).FirstOrDefault());
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.EdgeletManagementUriVariableName)).FirstOrDefault());
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.NetworkIdKey)).FirstOrDefault());
+-                Assert.Equal(testData.EdgeDeviceHostname, environmentVariables.Where(v => v.Key.Equals(Constants.EdgeDeviceHostNameKey)).First().Value);
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.ModeKey)));
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.EdgeletManagementUriVariableName)));
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.NetworkIdKey)));
++                Assert.Equal(testData.EdgeDeviceHostname, environmentVariables.First(v => v.Key.Equals(Constants.EdgeDeviceHostNameKey)).Value);
+                 testData.ParentEdgeHostname.ForEach(value =>
+-                    Assert.Equal(value, environmentVariables.Where(v => v.Key.Equals(Constants.GatewayHostnameVariableName)).First().Value));
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.ParentEdgeHostnameVariableName)).FirstOrDefault());
++                    Assert.Equal(value, environmentVariables.First(v => v.Key.Equals(Constants.GatewayHostnameVariableName)).Value));
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.ParentEdgeHostnameVariableName)));
+             }
+             else
+             {
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.ModeKey)).FirstOrDefault());
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.EdgeletManagementUriVariableName)).FirstOrDefault());
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.NetworkIdKey)).FirstOrDefault());
+-                Assert.Equal(testData.EdgeDeviceHostname, environmentVariables.Where(v => v.Key.Equals(Constants.GatewayHostnameVariableName)).First().Value);
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.ModeKey)));
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.EdgeletManagementUriVariableName)));
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.NetworkIdKey)));
++                Assert.Equal(testData.EdgeDeviceHostname, environmentVariables.First(v => v.Key.Equals(Constants.GatewayHostnameVariableName)).Value);
+                 testData.ParentEdgeHostname.ForEach(value =>
+-                    Assert.Equal(value, environmentVariables.Where(v => v.Key.Equals(Constants.ParentEdgeHostnameVariableName)).First().Value));
+-                Assert.Null(environmentVariables.Where(v => v.Key.Equals(Constants.EdgeDeviceHostNameKey)).FirstOrDefault());
++                    Assert.Equal(value, environmentVariables.First(v => v.Key.Equals(Constants.ParentEdgeHostnameVariableName)).Value));
++                Assert.Null(environmentVariables.FirstOrDefault(v => v.Key.Equals(Constants.EdgeDeviceHostNameKey)));
+             }
+         }
+ 
+diff --git a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test/ModuleIdentityLifecycleManagerTest.cs b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test/ModuleIdentityLifecycleManagerTest.cs
+index 383860adb..c087b5dd2 100644
+--- a/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test/ModuleIdentityLifecycleManagerTest.cs
++++ b/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test/ModuleIdentityLifecycleManagerTest.cs
+@@ -1,3 +1,4 @@
++using System.Linq;
+ // Copyright (c) Microsoft. All rights reserved.
+ namespace Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test
+ {
+@@ -140,7 +141,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test
+                 .GetModuleIdentitiesAsync(ModuleSet.Create(new IModule[] { module }), ModuleSet.Empty);
+ 
+             serviceClient.Verify(sc => sc.UpdateModules(It.IsAny<IEnumerable<Module>>()), Times.Once());
+-            Assert.True(modulesIdentities.Count() == 1);
++            Assert.True(modulesIdentities.Count == 1);
+             var creds = modulesIdentities.First().Value.Credentials as ConnectionStringCredentials;
+             Assert.NotNull(creds);
+             IotHubConnectionStringBuilder connectionString = IotHubConnectionStringBuilder.Create(creds.ConnectionString);
+@@ -187,7 +188,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test
+                 .GetModuleIdentitiesAsync(ModuleSet.Create(new IModule[] { module }), ModuleSet.Empty);
+ 
+             serviceClient.Verify(sc => sc.UpdateModules(It.IsAny<IEnumerable<Module>>()), Times.Once());
+-            Assert.True(modulesIdentities.Count() == 1);
++            Assert.True(modulesIdentities.Count == 1);
+             var creds = modulesIdentities.First().Value.Credentials as ConnectionStringCredentials;
+             Assert.NotNull(creds);
+             IotHubConnectionStringBuilder connectionString = IotHubConnectionStringBuilder.Create(creds.ConnectionString);
+@@ -326,7 +327,7 @@ namespace Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test
+             await new ModuleIdentityLifecycleManager(serviceClient.Object, hostname, deviceId, gatewayHostName)
+                 .GetModuleIdentitiesAsync(ModuleSet.Empty, ModuleSet.Create(new IModule[] { currentModule }));
+ 
+-            serviceClient.Verify(sc => sc.RemoveModules(It.Is<IEnumerable<string>>(m => m.Count() == 0)), Times.Once);
++            serviceClient.Verify(sc => sc.RemoveModules(It.Is<IEnumerable<string>>(m => !m.Any())), Times.Once);
+         }
+ 
+         [Fact]
+diff --git a/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.Core/ServiceIdentityTree.cs b/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.Core/ServiceIdentityTree.cs
+index c3165b6e7..ff48afaa3 100644
+--- a/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.Core/ServiceIdentityTree.cs
++++ b/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.Core/ServiceIdentityTree.cs
+@@ -1,3 +1,4 @@
++using System.Linq;
+ // Copyright (c) Microsoft. All rights reserved.
+ namespace Microsoft.Azure.Devices.Edge.Hub.Core
+ {
+@@ -245,7 +246,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.Core
+                 List<ServiceIdentityTreeNode> danglingChildren =
+                     this.nodes
+                     .Select(kvp => kvp.Value)
+-                    .Where(s => s.Identity.ParentScopes.Count() > 0 && s.Identity.ParentScopes.Contains(device.DeviceScope.OrDefault()))
++                    .Where(s => s.Identity.ParentScopes.Any()&& s.Identity.ParentScopes.Contains(device.DeviceScope.OrDefault()))
+                     .ToList();
+ 
+                 // Also check for any modules that should be parented to this new device
+@@ -286,7 +287,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.Core
+                 .Where(serviceIdentity => serviceIdentity.Identity.IsEdgeDevice && serviceIdentity.Identity.DeviceScope.Contains(scopeId))
+                 .ToList();
+ 
+-            if (devices.Count() > 0)
++            if (devices.Any())
+             {
+                 return Option.Some(devices.First());
+             }
+diff --git a/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/brokerConnection/MqttBrokerConnector.cs b/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/brokerConnection/MqttBrokerConnector.cs
+index b6ee2f936..0f151060f 100644
+--- a/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/brokerConnection/MqttBrokerConnector.cs
++++ b/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/brokerConnection/MqttBrokerConnector.cs
+@@ -398,7 +398,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter
+ 
+         async Task UpstreamLoop()
+         {
+-            var upstreamDispatcher = this.components.Consumers.Where(c => c is BrokeredCloudProxyDispatcher).FirstOrDefault();
++            var upstreamDispatcher = this.components.Consumers.FirstOrDefault(c => c is BrokeredCloudProxyDispatcher);
+             if (upstreamDispatcher == null)
+             {
+                 throw new InvalidOperationException("There is no BrokeredCloudProxyDispatcher found in message consumer list");
+diff --git a/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/upstream/BrokeredCloudProxyDispatcher.cs b/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/upstream/BrokeredCloudProxyDispatcher.cs
+index 7b74c3698..09af97895 100644
+--- a/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/upstream/BrokeredCloudProxyDispatcher.cs
++++ b/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/upstream/BrokeredCloudProxyDispatcher.cs
+@@ -431,8 +431,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter
+                 var status = default(object);
+                 if (connectivityEvent.TryGetValue("status", out status))
+                 {
+-                    var statusAsString = status as string;
+-                    if (statusAsString != null)
++                    if (status is string statusAsString)
+                     {
+                         switch (statusAsString)
+                         {
+diff --git a/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/Message.cs b/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/Message.cs
+index d3438c03b..a160c28b6 100644
+--- a/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/Message.cs
++++ b/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/Message.cs
+@@ -107,13 +107,9 @@ namespace Microsoft.Azure.Devices.Routing.Core
+                 return true;
+             }
+ 
+-            return this.MessageSource.Equals(other.MessageSource) &&
+-                this.Offset == other.Offset &&
+-                this.Body.SequenceEqual(other.Body) &&
+-                this.Properties.Keys.Count() == other.Properties.Keys.Count() &&
++            return this.MessageSource.Equals(other.MessageSource) && this.Offset == other.Offset && this.Body.SequenceEqual(other.Body) && this.Properties.Keys.Count() == other.Properties.Keys.Count()&&
+                 this.Properties.Keys.All(
+-                    key => other.Properties.ContainsKey(key) && Equals(this.Properties[key], other.Properties[key]) &&
+-                        this.SystemProperties.Keys.Count() == other.SystemProperties.Keys.Count() &&
++                    key => other.Properties.ContainsKey(key) && Equals(this.Properties[key], other.Properties[key]) && this.SystemProperties.Keys.Count() == other.SystemProperties.Keys.Count()&&
+                         this.SystemProperties.Keys.All(skey => other.SystemProperties.ContainsKey(skey) && Equals(this.SystemProperties[skey], other.SystemProperties[skey])));
+         }
+ 
+diff --git a/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/messageSources/MessageSourceExtensions.cs b/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/messageSources/MessageSourceExtensions.cs
+index ff0837120..043603656 100644
+--- a/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/messageSources/MessageSourceExtensions.cs
++++ b/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/messageSources/MessageSourceExtensions.cs
+@@ -3,8 +3,7 @@ namespace Microsoft.Azure.Devices.Routing.Core.MessageSources
+ {
+     public static class MessageSourceExtensions
+     {
+-        public static bool IsTelemetry(this IMessageSource messageSource) => messageSource != null
+-                                                                             && messageSource is BaseMessageSource baseMessageSource
++        public static bool IsTelemetry(this IMessageSource messageSource) => messageSource is BaseMessageSource baseMessageSource
+                                                                              && baseMessageSource.Source.StartsWith("/messages/");
+     }
+ }
+diff --git a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/BackupAndRestoreTest.cs b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/BackupAndRestoreTest.cs
+index 0d28fed79..111f4d222 100644
+--- a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/BackupAndRestoreTest.cs
++++ b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/BackupAndRestoreTest.cs
+@@ -1,3 +1,4 @@
++using System.Linq;
+ // Copyright (c) Microsoft. All rights reserved.
+ namespace Microsoft.Azure.Devices.Edge.Hub.E2E.Test
+ {
+@@ -114,7 +115,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.E2E.Test
+             {
+                 // Corrupt the backup data.
+                 DirectoryInfo[] directories = new DirectoryInfo(this.backupFolder).GetDirectories();
+-                DirectoryInfo newBackupDir = directories.Where(x => x.GetFiles().Count() > 0).ToArray()[0];
++                DirectoryInfo newBackupDir = directories.Where(x => x.GetFiles().Any()).ToArray()[0];
+                 FileInfo someBackupFile = newBackupDir.GetFiles()[0];
+                 using (FileStream file = someBackupFile.OpenWrite())
+                 {
+diff --git a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/EdgeToDeviceMethodTest.cs b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/EdgeToDeviceMethodTest.cs
+index 8378d7510..d4a7517ad 100644
+--- a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/EdgeToDeviceMethodTest.cs
++++ b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/EdgeToDeviceMethodTest.cs
+@@ -115,7 +115,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.E2E.Test
+         public async Task InvokeMethodOnDeviceTest(ITransportSettings[] transportSettings)
+         {
+             // Arrange
+-            string deviceName = string.Format("deviceMethodTest-{0}", transportSettings.First().GetTransportType().ToString("g"));
++            string deviceName = $"deviceMethodTest-{transportSettings.First().GetTransportType().ToString("g")}";
+             string iotHubConnectionString = await SecretsHelper.GetSecretFromConfigKey("iotHubConnStrKey");
+             RegistryManager rm = RegistryManager.CreateFromConnectionString(iotHubConnectionString);
+             DeviceClient receiver = null;
+diff --git a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/DirectMethodHandlerTest.cs b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/DirectMethodHandlerTest.cs
+index ac92e695a..1dd7dce9f 100644
+--- a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/DirectMethodHandlerTest.cs
++++ b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/DirectMethodHandlerTest.cs
+@@ -189,10 +189,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test
+             Task<Option<IDeviceListener>> CreateListenerFromIdentity(IIdentity identity)
+             {
+                 var listener = new TestDeviceListener(identity);
+-                if (listenerCapture != null)
+-                {
+-                    listenerCapture.Capture(listener);
+-                }
++                listenerCapture?.Capture(listener);
+ 
+                 return Task.FromResult(Option.Some(listener as IDeviceListener));
+             }
+diff --git a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/SubscriptionChangeHandlerTest.cs b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/SubscriptionChangeHandlerTest.cs
+index 226967e30..1097f6adc 100644
+--- a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/SubscriptionChangeHandlerTest.cs
++++ b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/SubscriptionChangeHandlerTest.cs
+@@ -370,10 +370,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test
+                         createdListeners[identity] = listener;
+                     }
+                     
+-                    if (listenerCapture != null)
+-                    {
+-                        listenerCapture.Capture(listener);
+-                    }
++                    listenerCapture?.Capture(listener);
+                 }
+ 
+                 return Task.FromResult(listener != null
+diff --git a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TelemetryHandlerTest.cs b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TelemetryHandlerTest.cs
+index 27df7c473..f6545a6a1 100644
+--- a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TelemetryHandlerTest.cs
++++ b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TelemetryHandlerTest.cs
+@@ -218,10 +218,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test
+                 if (shouldFindProxy)
+                 {
+                     listener = new TestDeviceListener(identity);
+-                    if (listenerCapture != null)
+-                    {
+-                        listenerCapture.Capture(listener);
+-                    }
++                    listenerCapture?.Capture(listener);
+                 }
+                 
+                 return Task.FromResult(listener != null
+diff --git a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TwinHandlerTest.cs b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TwinHandlerTest.cs
+index 9d3912f22..ebb0ec341 100644
+--- a/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TwinHandlerTest.cs
++++ b/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TwinHandlerTest.cs
+@@ -325,10 +325,7 @@ namespace Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test
+                 if (shouldFindProxy)
+                 {
+                     listener = new TestDeviceListener(identity, milestone);
+-                    if (listenerCapture != null)
+-                    {
+-                        listenerCapture.Capture(listener);
+-                    }
++                    listenerCapture?.Capture(listener);
+                 }
+ 
+                 return Task.FromResult(listener != null
+diff --git a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/DictionaryComparer.cs b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/DictionaryComparer.cs
+index 750c33f36..326085f1f 100644
+--- a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/DictionaryComparer.cs
++++ b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/DictionaryComparer.cs
+@@ -10,9 +10,7 @@ namespace Microsoft.Azure.Devices.Edge.Util
+     {
+         public bool Equals(IDictionary<TKey, TValue> x, IDictionary<TKey, TValue> y) =>
+             ReferenceEquals(x, y) ||
+-            (x != null &&
+-             y != null &&
+-             x.Keys.Count() == y.Keys.Count() &&
++            (x != null && y != null && x.Keys.Count() == y.Keys.Count()&&
+              x.Keys.All(
+                  key => y.ContainsKey(key) &&
+                         ((x[key] == null && y[key] == null) ||
+@@ -28,9 +26,7 @@ namespace Microsoft.Azure.Devices.Edge.Util
+     {
+         public bool Equals(IReadOnlyDictionary<TKey, TValue> x, IReadOnlyDictionary<TKey, TValue> y) =>
+             ReferenceEquals(x, y) ||
+-            (x != null &&
+-             y != null &&
+-             x.Keys.Count() == y.Keys.Count() &&
++            (x != null && y != null && x.Keys.Count() == y.Keys.Count()&&
+              x.Keys.All(
+                  key => y.ContainsKey(key) &&
+                         ((x[key] == null && y[key] == null) ||
+diff --git a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/ExceptionEx.cs b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/ExceptionEx.cs
+index 01d73b5b9..8cb110611 100644
+--- a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/ExceptionEx.cs
++++ b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/ExceptionEx.cs
+@@ -30,12 +30,12 @@ namespace Microsoft.Azure.Devices.Edge.Util
+                 {
+                     exception = exception.InnerException;
+                 }
+-                else if (exception is AggregateException)
++                else if (exception is AggregateException aggregateException)
+                 {
+                     // AggregateExceptions have a collection of inner exceptions, which may themselves be other
+                     // wrapping exceptions (including nested AggregateExceptions).  Recursively walk this
+                     // hierarchy.  The (singular) InnerException is included in the collection.
+-                    ReadOnlyCollection<Exception> innerExceptions = ((AggregateException)exception).InnerExceptions;
++                    ReadOnlyCollection<Exception> innerExceptions = aggregateException.InnerExceptions;
+                     if (innerExceptions.Any(ex => IsFatal(ex)))
+                     {
+                         return true;
+diff --git a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/JsonEx.cs b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/JsonEx.cs
+index e8eb2ae2c..bf8699520 100644
+--- a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/JsonEx.cs
++++ b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/JsonEx.cs
+@@ -228,8 +228,8 @@ namespace Microsoft.Azure.Devices.Edge.Util
+                     ? StringComparer.OrdinalIgnoreCase
+                     : StringComparer.Ordinal;
+                 var pattern = ignoreCase
+-                    ? string.Format("(?i:{0})(?<num>[0-9]*)", this.name.ToLower())
+-                    : string.Format("{0}(?<num>[0-9]*)", this.name);
++                    ? $"(?i:{this.name.ToLower()})(?<num>[0-9]*)"
++                    : $"{this.name}(?<num>[0-9]*)";
+                 this.regex = new Regex(pattern);
+             }
+ 
+@@ -257,14 +257,14 @@ namespace Microsoft.Azure.Devices.Edge.Util
+                 {
+                     if (strNum != string.Empty)
+                     {
+-                        throw new JsonSerializationException(string.Format("Error while parsing chunked field \"{0}\", expected empty field number but found \"{1}\"", this.name, strNum));
++                        throw new JsonSerializationException($"Error while parsing chunked field \"{this.name}\", expected empty field number but found \"{strNum}\"");
+                     }
+                 }
+                 else
+                 {
+                     if (!int.TryParse(strNum, out int tokenNum))
+                     {
+-                        throw new JsonSerializationException(string.Format("Attempted to parse integer from {0}", strNum));
++                        throw new JsonSerializationException($"Attempted to parse integer from {strNum}");
+                     }
+ 
+                     if (expectedNum != tokenNum)
+diff --git a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/TimeSpanEx.cs b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/TimeSpanEx.cs
+index 6768763d8..8d8c0b94d 100644
+--- a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/TimeSpanEx.cs
++++ b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/TimeSpanEx.cs
+@@ -14,7 +14,7 @@ namespace Microsoft.Azure.Devices.Edge.Util
+             }
+             else
+             {
+-                str = string.Format("{0:D2}s", ts.Seconds);
++                str = $"{ts.Seconds:D2}s";
+             }
+ 
+             return str;
+diff --git a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2018_06_28/generatedCode/HttpWorkloadClient.cs b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2018_06_28/generatedCode/HttpWorkloadClient.cs
+index cf459be96..411999a7e 100644
+--- a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2018_06_28/generatedCode/HttpWorkloadClient.cs
++++ b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2018_06_28/generatedCode/HttpWorkloadClient.cs
+@@ -764,18 +764,16 @@ namespace Microsoft.Azure.Devices.Edge.Util.Edged.Version_2018_06_28.GeneratedCo
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value;
+                         }
+                     }
+                 }
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[])value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value.GetType().IsArray)
+             {
+@@ -1422,7 +1420,7 @@ namespace Microsoft.Azure.Devices.Edge.Util.Edged.Version_2018_06_28.GeneratedCo
+ 
+         public override string ToString()
+         {
+-            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
++            return $"HTTP Response: \n\n{Response}\n\n{base.ToString()}";
+         }
+     }
+ 
+diff --git a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2019_01_30/generatedCode/HttpWorkloadClient.cs b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2019_01_30/generatedCode/HttpWorkloadClient.cs
+index 59fae507a..e181a49c0 100644
+--- a/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2019_01_30/generatedCode/HttpWorkloadClient.cs
++++ b/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2019_01_30/generatedCode/HttpWorkloadClient.cs
+@@ -763,18 +763,16 @@ namespace Microsoft.Azure.Devices.Edge.Util.Edged.Version_2019_01_30.GeneratedCo
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value;
+                         }
+                     }
+                 }
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[])value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value.GetType().IsArray)
+             {
+@@ -1421,7 +1419,7 @@ namespace Microsoft.Azure.Devices.Edge.Util.Edged.Version_2019_01_30.GeneratedCo
+ 
+         public override string ToString()
+         {
+-            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
++            return $"HTTP Response: \n\n{Response}\n\n{base.ToString()}";
+         }
+     }
+ 
+diff --git a/edge-util/src/jsoncanonicalizer/JsonCanonicalizer.cs b/edge-util/src/jsoncanonicalizer/JsonCanonicalizer.cs
+index e1f485397..0f4108ab5 100644
+--- a/edge-util/src/jsoncanonicalizer/JsonCanonicalizer.cs
++++ b/edge-util/src/jsoncanonicalizer/JsonCanonicalizer.cs
+@@ -142,9 +142,9 @@ namespace Org.Webpki.JsonCanonicalizer
+             {
+                 buffer.Append(o.ToString().ToLowerInvariant());
+             }
+-            else if (o is Double)
++            else if (o is Double d)
+             {
+-                buffer.Append(NumberToJson.SerializeNumber((Double)o));
++                buffer.Append(NumberToJson.SerializeNumber(d));
+             }
+             else
+             {
+diff --git a/edge-util/test/Microsoft.Azure.Devices.Edge.Storage.Test/DbStoreProviderWithBackupRestoreTest.cs b/edge-util/test/Microsoft.Azure.Devices.Edge.Storage.Test/DbStoreProviderWithBackupRestoreTest.cs
+index 4aa35f2ce..824a628f6 100644
+--- a/edge-util/test/Microsoft.Azure.Devices.Edge.Storage.Test/DbStoreProviderWithBackupRestoreTest.cs
++++ b/edge-util/test/Microsoft.Azure.Devices.Edge.Storage.Test/DbStoreProviderWithBackupRestoreTest.cs
+@@ -1,3 +1,4 @@
++using System.Linq;
+ // Copyright (c) Microsoft. All rights reserved.
+ namespace Microsoft.Azure.Devices.Edge.Storage.Test
+ {
+@@ -253,7 +254,7 @@ namespace Microsoft.Azure.Devices.Edge.Storage.Test
+         static bool IsDirectoryEmpty(string path)
+         {
+             DirectoryInfo dirInfo = new DirectoryInfo(path);
+-            return dirInfo.GetDirectories().Count() == 0 && dirInfo.GetFiles().Count() == 0;
++            return !dirInfo.GetDirectories().Any() && !dirInfo.GetFiles().Any();
+         }
+ 
+         static void ValidateBackupArtifacts(string path)
+diff --git a/test/modules/ModuleLib/AnalyzerClient.cs b/test/modules/ModuleLib/AnalyzerClient.cs
+index 444b3596f..5e58ccb43 100644
+--- a/test/modules/ModuleLib/AnalyzerClient.cs
++++ b/test/modules/ModuleLib/AnalyzerClient.cs
+@@ -187,9 +187,7 @@ namespace Microsoft.Azure.Devices.Edge.ModuleUtil
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value != null ? attribute.Value : name;
+                         }
+@@ -199,9 +197,9 @@ namespace Microsoft.Azure.Devices.Edge.ModuleUtil
+             else if (value is bool) {
+                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[]) value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value != null && value.GetType().IsArray)
+             {
+diff --git a/test/modules/ModuleLib/TestResultReportingClient.cs b/test/modules/ModuleLib/TestResultReportingClient.cs
+index 01e9c3766..a017351b8 100644
+--- a/test/modules/ModuleLib/TestResultReportingClient.cs
++++ b/test/modules/ModuleLib/TestResultReportingClient.cs
+@@ -188,9 +188,7 @@ namespace Microsoft.Azure.Devices.Edge.ModuleUtil
+                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                     if (field != null)
+                     {
+-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+-                            as System.Runtime.Serialization.EnumMemberAttribute;
+-                        if (attribute != null)
++                        if (System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                         {
+                             return attribute.Value != null ? attribute.Value : name;
+                         }
+@@ -200,9 +198,9 @@ namespace Microsoft.Azure.Devices.Edge.ModuleUtil
+             else if (value is bool) {
+                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
+             }
+-            else if (value is byte[])
++            else if (value is byte[] bytes)
+             {
+-                return System.Convert.ToBase64String((byte[]) value);
++                return System.Convert.ToBase64String(bytes);
+             }
+             else if (value != null && value.GetType().IsArray)
+             {
+@@ -255,7 +253,7 @@ namespace Microsoft.Azure.Devices.Edge.ModuleUtil
+ 
+         public override string ToString()
+         {
+-            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
++            return $"HTTP Response: \n\n{Response}\n\n{base.ToString()}";
+         }
+     }
+ 
+diff --git a/test/modules/TestAnalyzer/AggregateCloudOperationReport.cs b/test/modules/TestAnalyzer/AggregateCloudOperationReport.cs
+index 19fa5cc2e..4cf058fd3 100644
+--- a/test/modules/TestAnalyzer/AggregateCloudOperationReport.cs
++++ b/test/modules/TestAnalyzer/AggregateCloudOperationReport.cs
+@@ -62,7 +62,7 @@ namespace TestAnalyzer
+             // We expect to get this status sometimes because of edgehub restarts, but if we receive too many we should fail the tests.
+             // TODO: When the SDK allows edgehub to de-register from subscriptions and we make the fix in edgehub, then we can fail tests for any status code 0.
+             int allStatusCount = this.StatusCodes.Select(s => s.Count).Sum();
+-            bool statusCodeZeroBelowThreshold = this.StatusCodes.Where(s => s.StatusCode.Equals("0")).Count() < ((double)allStatusCount / 100);
++            bool statusCodeZeroBelowThreshold = this.StatusCodes.Count(s => s.StatusCode.Equals("0"))< ((double)allStatusCount / 100);
+ 
+             return noUnexpectedStatus && statusCodeZeroBelowThreshold;
+         }
+diff --git a/test/modules/TestResultCoordinator/Reports/EdgeHubRestartTest/EdgeHubRestartStatistics.cs b/test/modules/TestResultCoordinator/Reports/EdgeHubRestartTest/EdgeHubRestartStatistics.cs
+index 4dc3193c7..97218559c 100644
+--- a/test/modules/TestResultCoordinator/Reports/EdgeHubRestartTest/EdgeHubRestartStatistics.cs
++++ b/test/modules/TestResultCoordinator/Reports/EdgeHubRestartTest/EdgeHubRestartStatistics.cs
+@@ -65,11 +65,11 @@ namespace TestResultCoordinator.Reports.EdgeHubRestartTest
+                 }
+ 
+                 // Compute Mean : mean = sum(x) / N
+-                this.MeanPeriod = totalSpan / Math.Max(orderedCompletedPeriods.Count(), 1);
++                this.MeanPeriod = totalSpan / Math.Max(orderedCompletedPeriods.Count, 1);
+ 
+                 // Compute Sample Variance: var = sum((x - mean)^2) / (N - 1)
+                 //                              = sum(x^2) / (N - 1) - mean^2
+-                this.VariancePeriodInMilisec = (totalSpanSquareInMilisec / Math.Max(orderedCompletedPeriods.Count() - 1, 1)) - Math.Pow(this.MeanPeriod.TotalMilliseconds, 2);
++                this.VariancePeriodInMilisec = (totalSpanSquareInMilisec / Math.Max(orderedCompletedPeriods.Count - 1, 1)) - Math.Pow(this.MeanPeriod.TotalMilliseconds, 2);
+             }
+         }
+     }
+diff --git a/versionInfo.json b/versionInfo.json
+index cc9e02fbc..9ee78e462 100644
+--- a/versionInfo.json
++++ b/versionInfo.json
+@@ -1,5 +1,5 @@
+ {
+   "version": "1.1.0-dev",
+-  "build": "BUILDNUMBER",
+-  "commit": "COMMITID"
++  "build": "1856",
++  "commit": "53ff15b8ce1c619e2bf32da63ab9eba0c718d00f"
+ }

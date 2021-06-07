@@ -1,0 +1,476 @@
+diff --git a/bitwarden_license/src/Sso/Controllers/AccountController.cs b/bitwarden_license/src/Sso/Controllers/AccountController.cs
+index a2cfeefe..1f5f2e51 100644
+--- a/bitwarden_license/src/Sso/Controllers/AccountController.cs
++++ b/bitwarden_license/src/Sso/Controllers/AccountController.cs
+@@ -121,7 +121,7 @@ namespace Bit.Sso.Controllers
+ 
+                 // Validate Authentication Scheme exists and is loaded (cache)
+                 var scheme = await _schemeProvider.GetSchemeAsync(organization.Id.ToString());
+-                if (scheme == null || !(scheme is IDynamicAuthenticationScheme dynamicScheme))
++                if (!(scheme is IDynamicAuthenticationScheme dynamicScheme))
+                 {
+                     return invalidJson("NoSchemeOrHandlerForSsoConfigurationFoundError");
+                 }
+diff --git a/bitwarden_license/src/Sso/Controllers/MetadataController.cs b/bitwarden_license/src/Sso/Controllers/MetadataController.cs
+index a114f8e8..3636826f 100644
+--- a/bitwarden_license/src/Sso/Controllers/MetadataController.cs
++++ b/bitwarden_license/src/Sso/Controllers/MetadataController.cs
+@@ -28,8 +28,7 @@ namespace Bit.Sso.Controllers
+             }
+ 
+             var authScheme = await _schemeProvider.GetSchemeAsync(scheme);
+-            if (authScheme == null ||
+-                !(authScheme is DynamicAuthenticationScheme dynamicAuthScheme) ||
++            if (                !(authScheme is DynamicAuthenticationScheme dynamicAuthScheme) ||
+                 dynamicAuthScheme?.SsoType != SsoType.Saml2)
+             {
+                 return NotFound();
+diff --git a/src/Api/Controllers/CiphersController.cs b/src/Api/Controllers/CiphersController.cs
+index 27ee078d..0ca98100 100644
+--- a/src/Api/Controllers/CiphersController.cs
++++ b/src/Api/Controllers/CiphersController.cs
+@@ -223,8 +223,7 @@ namespace Bit.Api.Controllers
+         public async Task PostImport([FromBody]ImportCiphersRequestModel model)
+         {
+             if (!_globalSettings.SelfHosted &&
+-                (model.Ciphers.Count() > 6000 || model.FolderRelationships.Count() > 6000 ||
+-                    model.Folders.Count() > 1000))
++                (model.Ciphers.Count() > 6000 || model.FolderRelationships.Count() > 6000 || model.Folders.Count() > 1000))
+             {
+                 throw new BadRequestException("You cannot import this much data at once.");
+             }
+@@ -240,8 +239,7 @@ namespace Bit.Api.Controllers
+             [FromBody]ImportOrganizationCiphersRequestModel model)
+         {
+             if (!_globalSettings.SelfHosted &&
+-                (model.Ciphers.Count() > 6000 || model.CollectionRelationships.Count() > 12000 ||
+-                    model.Collections.Count() > 1000))
++                (model.Ciphers.Count() > 6000 || model.CollectionRelationships.Count() > 12000 || model.Collections.Count() > 1000))
+             {
+                 throw new BadRequestException("You cannot import this much data at once.");
+             }
+diff --git a/src/Api/Controllers/OrganizationsController.cs b/src/Api/Controllers/OrganizationsController.cs
+index 43a484fa..4cf86be7 100644
+--- a/src/Api/Controllers/OrganizationsController.cs
++++ b/src/Api/Controllers/OrganizationsController.cs
+@@ -157,7 +157,7 @@ namespace Bit.Api.Controllers
+             }
+ 
+             var plan = StaticStore.Plans.FirstOrDefault(plan => plan.Type == model.PlanType);
+-            if (plan == null || plan.LegacyYear != null)
++            if (plan?.LegacyYear != null)
+             {
+                 throw new Exception("Invalid plan selected.");
+             }
+diff --git a/src/Billing/Controllers/BitPayController.cs b/src/Billing/Controllers/BitPayController.cs
+index 906f738b..e37598a0 100644
+--- a/src/Billing/Controllers/BitPayController.cs
++++ b/src/Billing/Controllers/BitPayController.cs
+@@ -165,7 +165,7 @@ namespace Bit.Billing.Controllers
+ 
+         private bool IsAccountCredit(BitPayLight.Models.Invoice.Invoice invoice)
+         {
+-            return invoice != null && invoice.PosData != null && invoice.PosData.Contains("accountCredit:1");
++            return invoice?.PosData != null && invoice.PosData.Contains("accountCredit:1");
+         }
+ 
+         private DateTime GetTransactionDate(BitPayLight.Models.Invoice.Invoice invoice)
+diff --git a/src/Billing/Controllers/FreshdeskController.cs b/src/Billing/Controllers/FreshdeskController.cs
+index 2a3ec38e..c4a7dada 100644
+--- a/src/Billing/Controllers/FreshdeskController.cs
++++ b/src/Billing/Controllers/FreshdeskController.cs
+@@ -103,7 +103,7 @@ namespace Bit.Billing.Controllers
+                         var planName = GetAttribute<DisplayAttribute>(org.PlanType).Name.Split(" ").FirstOrDefault();
+                         if (!string.IsNullOrWhiteSpace(planName))
+                         {
+-                            tags.Add(string.Format("Org: {0}", planName));
++                            tags.Add($"Org: {planName}");
+                         }
+                     }
+                     if (tags.Any())
+@@ -120,7 +120,7 @@ namespace Bit.Billing.Controllers
+                         updateBody.Add("tags", tagsToUpdate);
+                     }
+                     var updateRequest = new HttpRequestMessage(HttpMethod.Put,
+-                        string.Format("https://bitwarden.freshdesk.com/api/v2/tickets/{0}", ticketId));
++                        $"https://bitwarden.freshdesk.com/api/v2/tickets/{ticketId}");
+                     updateRequest.Content = new StringContent(JsonConvert.SerializeObject(updateBody),
+                         Encoding.UTF8, "application/json");
+                     await CallFreshdeskApiAsync(updateRequest);
+@@ -132,7 +132,7 @@ namespace Bit.Billing.Controllers
+                         { "private", true }
+                     };
+                     var noteRequest = new HttpRequestMessage(HttpMethod.Post,
+-                        string.Format("https://bitwarden.freshdesk.com/api/v2/tickets/{0}/notes", ticketId));
++                        $"https://bitwarden.freshdesk.com/api/v2/tickets/{ticketId}/notes");
+                     noteRequest.Content = new StringContent(JsonConvert.SerializeObject(noteBody),
+                         Encoding.UTF8, "application/json");
+                     await CallFreshdeskApiAsync(noteRequest);
+diff --git a/src/Billing/Controllers/StripeController.cs b/src/Billing/Controllers/StripeController.cs
+index e90c6c06..416da3ad 100644
+--- a/src/Billing/Controllers/StripeController.cs
++++ b/src/Billing/Controllers/StripeController.cs
+@@ -246,17 +246,17 @@ namespace Bit.Billing.Controllers
+                     GatewayId = charge.Id
+                 };
+ 
+-                if (charge.Source != null && charge.Source is Card card)
++                if (charge.Source is Card card)
+                 {
+                     tx.PaymentMethodType = PaymentMethodType.Card;
+                     tx.Details = $"{card.Brand}, *{card.Last4}";
+                 }
+-                else if (charge.Source != null && charge.Source is BankAccount bankAccount)
++                else if (charge.Source is BankAccount bankAccount)
+                 {
+                     tx.PaymentMethodType = PaymentMethodType.BankAccount;
+                     tx.Details = $"{bankAccount.BankName}, *{bankAccount.Last4}";
+                 }
+-                else if (charge.Source != null && charge.Source is Source source)
++                else if (charge.Source is Source source)
+                 {
+                     if (source.Card != null)
+                     {
+diff --git a/src/Core/IdentityServer/ApiClient.cs b/src/Core/IdentityServer/ApiClient.cs
+index c950d3e5..7ac393fd 100644
+--- a/src/Core/IdentityServer/ApiClient.cs
++++ b/src/Core/IdentityServer/ApiClient.cs
+@@ -43,7 +43,7 @@ namespace Bit.Core.IdentityServer
+                 var connectorUris = new List<string>();
+                 for (var port = 8065; port <= 8070; port++)
+                 {
+-                    connectorUris.Add(string.Format("http://localhost:{0}", port));
++                    connectorUris.Add($"http://localhost:{port}");
+                 }
+                 RedirectUris = connectorUris.Append("bwdc://sso-callback").ToList();
+                 PostLogoutRedirectUris = connectorUris.Append("bwdc://logged-out").ToList();
+@@ -59,7 +59,7 @@ namespace Bit.Core.IdentityServer
+                 var cliUris = new List<string>();
+                 for (var port = 8065; port <= 8070; port++)
+                 {
+-                    cliUris.Add(string.Format("http://localhost:{0}", port));
++                    cliUris.Add($"http://localhost:{port}");
+                 }
+                 RedirectUris = cliUris;
+                 PostLogoutRedirectUris = cliUris;
+diff --git a/src/Core/IdentityServer/BaseRequestValidator.cs b/src/Core/IdentityServer/BaseRequestValidator.cs
+index 4eede6ae..bd8e9abb 100644
+--- a/src/Core/IdentityServer/BaseRequestValidator.cs
++++ b/src/Core/IdentityServer/BaseRequestValidator.cs
+@@ -220,7 +220,7 @@ namespace Bit.Core.IdentityServer
+                     { "TwoFactorProviders2", providers }
+                 });
+ 
+-            if (enabledProviders.Count() == 1 && enabledProviders.First().Key == TwoFactorProviderType.Email)
++            if (enabledProviders.Count == 1 && enabledProviders.First().Key == TwoFactorProviderType.Email)
+             {
+                 // Send email now if this is their only 2FA method
+                 await _userService.SendTwoFactorEmailAsync(user);
+@@ -238,8 +238,7 @@ namespace Bit.Core.IdentityServer
+             if (_globalSettings.SelfHosted)
+             {
+                 _logger.LogWarning(Constants.BypassFiltersEventId,
+-                    string.Format("Failed login attempt{0}{1}", twoFactorRequest ? ", 2FA invalid." : ".",
+-                        $" {_currentContext.IpAddress}"));
++                    $"Failed login attempt{(twoFactorRequest ? ", 2FA invalid." : ".")}{$" {_currentContext.IpAddress}"}");
+             }
+ 
+             await Task.Delay(2000); // Delay for brute force.
+diff --git a/src/Core/Models/Api/Request/Accounts/RegisterRequestModel.cs b/src/Core/Models/Api/Request/Accounts/RegisterRequestModel.cs
+index c93c4c54..d1997c87 100644
+--- a/src/Core/Models/Api/Request/Accounts/RegisterRequestModel.cs
++++ b/src/Core/Models/Api/Request/Accounts/RegisterRequestModel.cs
+@@ -50,10 +50,7 @@ namespace Bit.Core.Models.Api
+                 user.Key = Key;
+             }
+ 
+-            if (Keys != null)
+-            {
+-                Keys.ToUser(user);
+-            }
++            Keys?.ToUser(user);
+ 
+             return user;
+         }
+diff --git a/src/Core/Models/Business/BillingInfo.cs b/src/Core/Models/Business/BillingInfo.cs
+index 46ea79f3..26766fc3 100644
+--- a/src/Core/Models/Business/BillingInfo.cs
++++ b/src/Core/Models/Business/BillingInfo.cs
+@@ -23,10 +23,7 @@ namespace Bit.Core.Models.Business
+                 {
+                     Type = PaymentMethodType.Card;
+                     Description = $"{method.Card.Brand?.ToUpperInvariant()}, *{method.Card.Last4}, " +
+-                        string.Format("{0}/{1}",
+-                            string.Concat(method.Card.ExpMonth < 10 ?
+-                                "0" : string.Empty, method.Card.ExpMonth),
+-                            method.Card.ExpYear);
++                        $"{string.Concat(method.Card.ExpMonth < 10 ? "0" : string.Empty, method.Card.ExpMonth)}/{method.Card.ExpYear}";
+                     CardBrand = method.Card.Brand;
+                 }
+             }
+@@ -46,20 +43,14 @@ namespace Bit.Core.Models.Business
+                 {
+                     Type = PaymentMethodType.Card;
+                     Description = $"{card.Brand}, *{card.Last4}, " +
+-                        string.Format("{0}/{1}",
+-                            string.Concat(card.ExpMonth < 10 ?
+-                                "0" : string.Empty, card.ExpMonth),
+-                            card.ExpYear);
++                        $"{string.Concat(card.ExpMonth < 10 ? "0" : string.Empty, card.ExpMonth)}/{card.ExpYear}";
+                     CardBrand = card.Brand;
+                 }
+                 else if (source is Source src && src.Card != null)
+                 {
+                     Type = PaymentMethodType.Card;
+                     Description = $"{src.Card.Brand}, *{src.Card.Last4}, " +
+-                        string.Format("{0}/{1}",
+-                            string.Concat(src.Card.ExpMonth < 10 ?
+-                                "0" : string.Empty, src.Card.ExpMonth),
+-                            src.Card.ExpYear);
++                        $"{string.Concat(src.Card.ExpMonth < 10 ? "0" : string.Empty, src.Card.ExpMonth)}/{src.Card.ExpYear}";
+                     CardBrand = src.Card.Brand;
+                 }
+             }
+@@ -75,10 +66,7 @@ namespace Bit.Core.Models.Business
+                 {
+                     Type = PaymentMethodType.Card;
+                     Description = $"{card.CardType.ToString()}, *{card.LastFour}, " +
+-                        string.Format("{0}/{1}",
+-                            string.Concat(card.ExpirationMonth.Length == 1 ?
+-                                "0" : string.Empty, card.ExpirationMonth),
+-                            card.ExpirationYear);
++                        $"{string.Concat(card.ExpirationMonth.Length == 1 ? "0" : string.Empty, card.ExpirationMonth)}/{card.ExpirationYear}";
+                     CardBrand = card.CardType.ToString();
+                 }
+                 else if (method is Braintree.UsBankAccount bank)
+diff --git a/src/Core/Models/Data/EventTableEntity.cs b/src/Core/Models/Data/EventTableEntity.cs
+index f881e1cd..22a2db68 100644
+--- a/src/Core/Models/Data/EventTableEntity.cs
++++ b/src/Core/Models/Data/EventTableEntity.cs
+@@ -95,7 +95,7 @@ namespace Bit.Core.Models.Data
+                 new EventTableEntity(e)
+                 {
+                     PartitionKey = pKey,
+-                    RowKey = string.Format("Date={0}__Uniquifier={1}", dateKey, uniquifier)
++                    RowKey = $"Date={dateKey}__Uniquifier={uniquifier}"
+                 }
+             };
+ 
+@@ -104,8 +104,7 @@ namespace Bit.Core.Models.Data
+                 entities.Add(new EventTableEntity(e)
+                 {
+                     PartitionKey = pKey,
+-                    RowKey = string.Format("ActingUserId={0}__Date={1}__Uniquifier={2}",
+-                        e.ActingUserId, dateKey, uniquifier)
++                    RowKey = $"ActingUserId={e.ActingUserId}__Date={dateKey}__Uniquifier={uniquifier}"
+                 });
+             }
+ 
+@@ -114,8 +113,7 @@ namespace Bit.Core.Models.Data
+                 entities.Add(new EventTableEntity(e)
+                 {
+                     PartitionKey = pKey,
+-                    RowKey = string.Format("CipherId={0}__Date={1}__Uniquifier={2}",
+-                        e.CipherId, dateKey, uniquifier)
++                    RowKey = $"CipherId={e.CipherId}__Date={dateKey}__Uniquifier={uniquifier}"
+                 });
+             }
+ 
+diff --git a/src/Core/Models/Mail/VerifyDeleteModel.cs b/src/Core/Models/Mail/VerifyDeleteModel.cs
+index 8d788d2e..c466e47d 100644
+--- a/src/Core/Models/Mail/VerifyDeleteModel.cs
++++ b/src/Core/Models/Mail/VerifyDeleteModel.cs
+@@ -4,11 +4,7 @@ namespace Bit.Core.Models.Mail
+ {
+     public class VerifyDeleteModel : BaseMailModel
+     {
+-        public string Url => string.Format("{0}/verify-recover-delete?userId={1}&token={2}&email={3}",
+-            WebVaultUrl,
+-            UserId,
+-            Token,
+-            EmailEncoded);
++        public string Url => $"{WebVaultUrl}/verify-recover-delete?userId={UserId}&token={Token}&email={EmailEncoded}";
+ 
+         public Guid UserId { get; set; }
+         public string Email { get; set; }
+diff --git a/src/Core/Models/Mail/VerifyEmailModel.cs b/src/Core/Models/Mail/VerifyEmailModel.cs
+index 2f150ae6..52b8ea57 100644
+--- a/src/Core/Models/Mail/VerifyEmailModel.cs
++++ b/src/Core/Models/Mail/VerifyEmailModel.cs
+@@ -4,10 +4,7 @@ namespace Bit.Core.Models.Mail
+ {
+     public class VerifyEmailModel : BaseMailModel
+     {
+-        public string Url => string.Format("{0}/verify-email?userId={1}&token={2}",
+-            WebVaultUrl,
+-            UserId,
+-            Token);
++        public string Url => $"{WebVaultUrl}/verify-email?userId={UserId}&token={Token}";
+ 
+         public Guid UserId { get; set; }
+         public string Token { get; set; }
+diff --git a/src/Core/Repositories/TableStorage/EventRepository.cs b/src/Core/Repositories/TableStorage/EventRepository.cs
+index f7c168a3..b65a47ee 100644
+--- a/src/Core/Repositories/TableStorage/EventRepository.cs
++++ b/src/Core/Repositories/TableStorage/EventRepository.cs
+@@ -75,7 +75,7 @@ namespace Bit.Core.Repositories.TableStorage
+                 return;
+             }
+ 
+-            var entities = e.Where(ev => ev is EventTableEntity).Select(ev => ev as EventTableEntity);
++            var entities = e.OfType<EventTableEntity>();
+             var entityGroups = entities.GroupBy(ent => ent.PartitionKey);
+             foreach (var group in entityGroups)
+             {
+@@ -150,8 +150,7 @@ namespace Bit.Core.Repositories.TableStorage
+                 return null;
+             }
+ 
+-            return string.Format("{0}__{1}__{2}__{3}", (int)token.TargetLocation, token.NextTableName,
+-                token.NextPartitionKey, token.NextRowKey);
++            return $"{(int)token.TargetLocation}__{token.NextTableName}__{token.NextPartitionKey}__{token.NextRowKey}";
+         }
+ 
+         private TableContinuationToken DeserializeContinuationToken(string token)
+diff --git a/src/Core/Services/Implementations/AppleIapService.cs b/src/Core/Services/Implementations/AppleIapService.cs
+index 23a3dc0c..5952949b 100644
+--- a/src/Core/Services/Implementations/AppleIapService.cs
++++ b/src/Core/Services/Implementations/AppleIapService.cs
+@@ -96,7 +96,7 @@ namespace Bit.Core.Services
+                         lastReceiptStatus?.Status ?? "null");
+                 }
+ 
+-                var url = string.Format("https://{0}.itunes.apple.com/verifyReceipt", prod ? "buy" : "sandbox");
++                var url = $"https://{(prod ? "buy" : "sandbox")}.itunes.apple.com/verifyReceipt";
+                 var json = new JObject(new JProperty("receipt-data", receiptData),
+                    new JProperty("password", _globalSettings.AppleIap.Password)).ToString();
+ 
+diff --git a/src/Core/Utilities/CoreHelpers.cs b/src/Core/Utilities/CoreHelpers.cs
+index 17cfd377..d451a734 100644
+--- a/src/Core/Utilities/CoreHelpers.cs
++++ b/src/Core/Utilities/CoreHelpers.cs
+@@ -265,7 +265,7 @@ namespace Bit.Core.Utilities
+             if (byteSize < characters.Length)
+             {
+                 throw new ArgumentException(
+-                    string.Format("{0} may contain no more than {1} characters.", nameof(characters), byteSize),
++                    $"{nameof(characters)} may contain no more than {byteSize} characters.",
+                     nameof(characters));
+             }
+ 
+@@ -547,7 +547,7 @@ namespace Bit.Core.Utilities
+             {
+                 return new Uri(baseUri, uriKind);
+             }
+-            return new Uri(string.Format("{0}?{1}", baseUri, queryCollection), uriKind);
++            return new Uri($"{baseUri}?{queryCollection}", uriKind);
+         }
+ 
+         public static string CustomProviderName(TwoFactorProviderType type)
+diff --git a/src/Core/Utilities/DuoApi.cs b/src/Core/Utilities/DuoApi.cs
+index 75584eb7..f6b03464 100644
+--- a/src/Core/Utilities/DuoApi.cs
++++ b/src/Core/Utilities/DuoApi.cs
+@@ -42,7 +42,7 @@ namespace Bit.Core.Utilities.Duo
+             var ret = new List<string>();
+             foreach (var pair in parameters)
+             {
+-                var p = string.Format("{0}={1}", HttpUtility.UrlEncode(pair.Key), HttpUtility.UrlEncode(pair.Value));
++                var p = $"{HttpUtility.UrlEncode(pair.Key)}={HttpUtility.UrlEncode(pair.Value)}";
+                 // Signatures require upper-case hex digits.
+                 p = Regex.Replace(p, "(%[0-9A-Fa-f][0-9A-Fa-f])", c => c.Value.ToUpperInvariant());
+                 // Escape only the expected characters.
+@@ -108,7 +108,7 @@ namespace Bit.Core.Utilities.Duo
+                     query = "?" + canonParams;
+                 }
+             }
+-            var url = string.Format("{0}://{1}{2}{3}", UrlScheme, _host, path, query);
++            var url = $"{UrlScheme}://{_host}{path}{query}";
+ 
+             var dateString = RFC822UtcNow();
+             var auth = Sign(method, path, canonParams, dateString);
+@@ -260,7 +260,7 @@ namespace Bit.Core.Utilities.Duo
+ 
+         private static string FormatMessage(int code, string apiMessage, string apiMessageDetail)
+         {
+-            return string.Format("Duo API Error {0}: '{1}' ('{2}')", code, apiMessage, apiMessageDetail);
++            return $"Duo API Error {code}: '{apiMessage}' ('{apiMessageDetail}')";
+         }
+     }
+ 
+@@ -275,9 +275,9 @@ namespace Bit.Core.Utilities.Duo
+             var innerMessage = "(null)";
+             if (inner != null)
+             {
+-                innerMessage = string.Format("'{0}'", inner.Message);
++                innerMessage = $"'{inner.Message}'";
+             }
+-            return string.Format("Got error {0} with HTTP Status {1}", innerMessage, httpStatus);
++            return $"Got error {innerMessage} with HTTP Status {httpStatus}";
+         }
+     }
+ }
+diff --git a/src/Core/Utilities/EncryptedStringLengthAttribute.cs b/src/Core/Utilities/EncryptedStringLengthAttribute.cs
+index 46170487..924bb50d 100644
+--- a/src/Core/Utilities/EncryptedStringLengthAttribute.cs
++++ b/src/Core/Utilities/EncryptedStringLengthAttribute.cs
+@@ -10,8 +10,7 @@ namespace Bit.Core.Utilities
+ 
+         public override string FormatErrorMessage(string name)
+         {
+-            return string.Format("The field {0} exceeds the maximum encrypted value length of {1} characters.",
+-                name, MaximumLength);
++            return $"The field {name} exceeds the maximum encrypted value length of {MaximumLength} characters.";
+         }
+     }
+ }
+diff --git a/src/Icons/Models/DomainName.cs b/src/Icons/Models/DomainName.cs
+index 62aec630..accbb7e1 100644
+--- a/src/Icons/Models/DomainName.cs
++++ b/src/Icons/Models/DomainName.cs
+@@ -172,7 +172,7 @@ namespace Bit.Icons.Models
+             foreach (string domainPart in lstDomainParts)
+             {
+                 //  Add on our next domain part:
+-                checkAgainst = string.Format("{0}.{1}", domainPart, checkAgainst);
++                checkAgainst = $"{domainPart}.{checkAgainst}";
+ 
+                 //  If we end in a period, strip it off:
+                 if (checkAgainst.EndsWith("."))
+@@ -308,8 +308,7 @@ namespace Bit.Icons.Models
+                 }
+ 
+                 //  Return our results:
+-                Debug.WriteLine(string.Format("Loaded {0} rules into cache.",
+-                    results.Values.Sum(r => r.Values.Count)));
++                Debug.WriteLine($"Loaded {results.Values.Sum(r => r.Values.Count)} rules into cache.");
+                 return results;
+             }
+ 
+diff --git a/util/Setup/Helpers.cs b/util/Setup/Helpers.cs
+index 66ec1927..d5a81eae 100644
+--- a/util/Setup/Helpers.cs
++++ b/util/Setup/Helpers.cs
+@@ -34,7 +34,7 @@ namespace Bit.Setup
+             if (byteSize < characters.Length)
+             {
+                 throw new ArgumentException(
+-                    string.Format("{0} may contain no more than {1} characters.", nameof(characters), byteSize),
++                    $"{nameof(characters)} may contain no more than {byteSize} characters.",
+                     nameof(characters));
+             }
+ 
+diff --git a/util/Setup/Program.cs b/util/Setup/Program.cs
+index 0cfccf49..7a3af15f 100644
+--- a/util/Setup/Program.cs
++++ b/util/Setup/Program.cs
+@@ -90,8 +90,7 @@ namespace Bit.Setup
+             certBuilder.BuildForInstall();
+ 
+             // Set the URL
+-            _context.Config.Url = string.Format("http{0}://{1}",
+-                _context.Config.Ssl ? "s" : string.Empty, _context.Install.Domain);
++            _context.Config.Url = $"http{(_context.Config.Ssl ? "s" : string.Empty)}://{_context.Install.Domain}";
+ 
+             var nginxBuilder = new NginxConfigBuilder(_context);
+             nginxBuilder.BuildForInstaller();

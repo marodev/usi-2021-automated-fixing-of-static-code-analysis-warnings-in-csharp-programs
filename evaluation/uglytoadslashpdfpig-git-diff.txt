@@ -1,0 +1,116 @@
+diff --git a/src/UglyToad.PdfPig.DocumentLayoutAnalysis/Export/HOcrTextExporter.cs b/src/UglyToad.PdfPig.DocumentLayoutAnalysis/Export/HOcrTextExporter.cs
+index 4f77dfc..ddbfc33 100644
+--- a/src/UglyToad.PdfPig.DocumentLayoutAnalysis/Export/HOcrTextExporter.cs
++++ b/src/UglyToad.PdfPig.DocumentLayoutAnalysis/Export/HOcrTextExporter.cs
+@@ -1,4 +1,5 @@
+-﻿namespace UglyToad.PdfPig.DocumentLayoutAnalysis.Export
++﻿using System.Linq;
++namespace UglyToad.PdfPig.DocumentLayoutAnalysis.Export
+ {
+     using Content;
+     using Core;
+@@ -156,7 +157,7 @@
+ 
+             var words = page.GetWords(wordExtractor);
+ 
+-            if (words.Count() > 0)
++            if (words.Any())
+             {
+                 var blocks = pageSegmenter.GetBlocks(words);
+                 foreach (var block in blocks)
+diff --git a/src/UglyToad.PdfPig.DocumentLayoutAnalysis/Export/PageXmlTextExporter.cs b/src/UglyToad.PdfPig.DocumentLayoutAnalysis/Export/PageXmlTextExporter.cs
+index 3b71c2e..981c58c 100644
+--- a/src/UglyToad.PdfPig.DocumentLayoutAnalysis/Export/PageXmlTextExporter.cs
++++ b/src/UglyToad.PdfPig.DocumentLayoutAnalysis/Export/PageXmlTextExporter.cs
+@@ -1,4 +1,5 @@
+-﻿namespace UglyToad.PdfPig.DocumentLayoutAnalysis.Export
++﻿using System.Linq;
++namespace UglyToad.PdfPig.DocumentLayoutAnalysis.Export
+ {
+     using Content;
+     using Core;
+@@ -190,7 +191,7 @@
+             if (includePaths)
+             {
+                 var graphicalElements = page.ExperimentalAccess.Paths.Select(p => ToPageXmlLineDrawingRegion(p, page.Height));
+-                if (graphicalElements.Where(g => g != null).Count() > 0)
++                if (graphicalElements.Any(g => g != null))
+                 {
+                     regions.AddRange(graphicalElements.Where(g => g != null));
+                 }
+diff --git a/src/UglyToad.PdfPig.DocumentLayoutAnalysis/PageSegmenter/XYNode.cs b/src/UglyToad.PdfPig.DocumentLayoutAnalysis/PageSegmenter/XYNode.cs
+index 4303acc..6b34612 100644
+--- a/src/UglyToad.PdfPig.DocumentLayoutAnalysis/PageSegmenter/XYNode.cs
++++ b/src/UglyToad.PdfPig.DocumentLayoutAnalysis/PageSegmenter/XYNode.cs
+@@ -1,4 +1,5 @@
+-﻿namespace UglyToad.PdfPig.DocumentLayoutAnalysis.PageSegmenter
++﻿using System.Linq;
++namespace UglyToad.PdfPig.DocumentLayoutAnalysis.PageSegmenter
+ {
+     using Core;
+     using System.Collections.Generic;
+@@ -40,7 +41,7 @@
+         /// <param name="children">The node's children.</param>
+         public XYNode(IEnumerable<XYNode> children)
+         {
+-            if (children != null && children.Count() != 0)
++            if (children != null && children.Any())
+             {
+                 Children = children.ToArray();
+                 BoundingBox = new PdfRectangle(children.Min(b => b.BoundingBox.Left), 
+@@ -87,7 +88,7 @@
+ 
+         private void RecursiveCount(IEnumerable<XYNode> children, ref int count)
+         {
+-            if (children.Count() == 0) return;
++            if (!children.Any()) return;
+             foreach (XYNode node in children.Where(x => x.IsLeaf))
+             {
+                 count += node.CountWords();
+@@ -101,7 +102,7 @@
+ 
+         private void RecursiveGetLeaves(IEnumerable<XYNode> children, ref List<XYLeaf> leaves, int level)
+         {
+-            if (children.Count() == 0) return;
++            if (!children.Any()) return;
+             bool isVerticalCut = level % 2 == 0;
+ 
+             foreach (XYLeaf node in children.Where(x => x.IsLeaf))
+diff --git a/src/UglyToad.PdfPig.sln.DotSettings b/src/UglyToad.PdfPig.sln.DotSettings
+index 274f9a4..9ae00f9 100644
+--- a/src/UglyToad.PdfPig.sln.DotSettings
++++ b/src/UglyToad.PdfPig.sln.DotSettings
+@@ -9,4 +9,8 @@
+ 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=RGB/@EntryIndexedValue">RGB</s:String>
+ 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=XY/@EntryIndexedValue">XY</s:String>
+ 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateInstanceFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+-	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateStaticFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String></wpf:ResourceDictionary>
+\ No newline at end of file
++	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateStaticFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
++	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpKeepExistingMigration/@EntryIndexedValue">True</s:Boolean>
++	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpPlaceEmbeddedOnSameLineMigration/@EntryIndexedValue">True</s:Boolean>
++	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpUseContinuousIndentInsideBracesMigration/@EntryIndexedValue">True</s:Boolean>
++	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ESettingsUpgrade_002EMigrateBlankLinesAroundFieldToBlankLinesAroundProperty/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+\ No newline at end of file
+diff --git a/src/UglyToad.PdfPig/Geometry/ClippingExtensions.cs b/src/UglyToad.PdfPig/Geometry/ClippingExtensions.cs
+index 564e994..0de31ea 100644
+--- a/src/UglyToad.PdfPig/Geometry/ClippingExtensions.cs
++++ b/src/UglyToad.PdfPig/Geometry/ClippingExtensions.cs
+@@ -1,4 +1,5 @@
+-﻿namespace UglyToad.PdfPig.Geometry
++﻿using System.Linq;
++namespace UglyToad.PdfPig.Geometry
+ {
+     using System;
+     using System.Collections.Generic;
+@@ -78,9 +79,7 @@
+                     continue;
+                 }
+ 
+-                if (subjectClose && !subPathSubject.IsClosed()
+-                    && subPathSubject.Commands.Count(sp => sp is Line) < 2
+-                    && subPathSubject.Commands.Count(sp => sp is BezierCurve) == 0)
++                if (subjectClose && !subPathSubject.IsClosed() && subPathSubject.Commands.Count(sp => sp is Line) < 2 && !subPathSubject.Commands.Any(sp => sp is BezierCurve))
+                 {
+                     // strange here:
+                     // the subpath contains maximum 1 line and no curves

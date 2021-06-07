@@ -1,0 +1,191 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: MissionPlanner
+    #1 Path: D:\a\1\s\Controls\ConnectionStats.cs, Line: 158, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: D:\a\1\s\Controls\ConnectionStats.cs, Line: 160, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\Controls\fftui.cs, Line: 535, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\Controls\MAVLinkInspector.cs, Line: 401, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #5 Path: D:\a\1\s\Controls\MAVLinkInspector.cs, Line: 415, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #6 Path: D:\a\1\s\Controls\OpenGLtest.cs, Line: 152, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #7 Path: D:\a\1\s\Controls\OpenGLtest2.cs, Line: 1482, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\Controls\RAW_Sensor.cs, Line: 152, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\Controls\SB.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\Controls\SerialOutputMD.cs, Line: 125, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: D:\a\1\s\Controls\SerialOutputMD.cs, Line: 134, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: D:\a\1\s\Controls\SerialOutputMD.cs, Line: 137, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: D:\a\1\s\Controls\SerialOutputMD.cs, Line: 142, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: D:\a\1\s\Controls\SerialOutputMD.cs, Line: 145, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\Controls\SerialOutputMD.cs, Line: 148, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #16 Path: D:\a\1\s\Controls\UAVCANInspector.cs, Line: 411, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #17 Path: D:\a\1\s\Controls\UAVCANInspector.cs, Line: 458, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #18 Path: D:\a\1\s\Controls\UAVCANInspector.cs, Line: 473, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #19 Path: D:\a\1\s\Controls\Video.cs, Line: 50, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigADSB.cs, Line: 605, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigArducopter.cs, Line: 181, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #22 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigArducopter.cs, Line: 189, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #23 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigArduplane.cs, Line: 108, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #24 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigArduplane.cs, Line: 115, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #25 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigArdurover.cs, Line: 91, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #26 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigArdurover.cs, Line: 98, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #27 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigFrameClassType.cs, Line: 74, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #28 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigFriendlyParams.cs, Line: 611, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigHWBT.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigHWBT.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigHWBT.cs, Line: 50, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigHWBT.cs, Line: 51, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigHWBT.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigHWBT.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigHWBT.cs, Line: 54, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #36 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigPlanner.cs, Line: 899, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigPlanner.cs, Line: 913, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #38 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigRadioOutput.cs, Line: 28, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigRawParamsTree.cs, Line: 531, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigRawParamsTree.cs, Line: 682, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #41 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigRawParamsTree.cs, Line: 694, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #42 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigSerialInjectGPS.cs, Line: 1045, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigSerialInjectGPS.cs, Line: 1046, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigSerialInjectGPS.cs, Line: 1143, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #45 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigSerialInjectGPS.cs, Line: 1184, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigSerialInjectGPS.cs, Line: 951, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigSerialInjectGPS.cs, Line: 972, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigTerminal.cs, Line: 561, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #49 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigTradHeli4.cs, Line: 168, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #50 Path: D:\a\1\s\GCSViews\ConfigurationView\ConfigUAVCAN.cs, Line: 217, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #51 Path: D:\a\1\s\GCSViews\FlightData.cs, Line: 2061, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #52 Path: D:\a\1\s\GCSViews\FlightData.cs, Line: 2592, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #53 Path: D:\a\1\s\GCSViews\FlightData.cs, Line: 3202, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #54 Path: D:\a\1\s\GCSViews\FlightData.cs, Line: 3253, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #55 Path: D:\a\1\s\GCSViews\FlightData.cs, Line: 5174, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #56 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 1422, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #57 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 2025, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #58 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 2026, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #59 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 2027, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #60 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4625, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #61 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4696, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #62 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4704, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #63 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4712, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #64 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4715, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #65 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4729, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #66 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4742, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #67 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4769, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #68 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4777, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #69 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4785, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #70 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4793, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #71 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 4796, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #72 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 6284, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #73 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 6408, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #74 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 6412, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #75 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 6845, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #76 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 6859, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #77 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 6893, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #78 Path: D:\a\1\s\GCSViews\FlightPlanner.cs, Line: 7256, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #79 Path: D:\a\1\s\GCSViews\SITL.cs, Line: 220, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #80 Path: D:\a\1\s\GCSViews\SITL.cs, Line: 484, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #81 Path: D:\a\1\s\GCSViews\SITL.cs, Line: 655, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #82 Path: D:\a\1\s\GCSViews\SITL.cs, Line: 661, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #83 Path: D:\a\1\s\GCSViews\SITL.cs, Line: 773, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #84 Path: D:\a\1\s\GCSViews\SITL.cs, Line: 779, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #85 Path: D:\a\1\s\Grid\GridUI.cs, Line: 368, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #86 Path: D:\a\1\s\Grid\GridUI.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #87 Path: D:\a\1\s\Grid\GridUI.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #88 Path: D:\a\1\s\Grid\GridUI.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #89 Path: D:\a\1\s\Log\LogBrowse.cs, Line: 3024, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #90 Path: D:\a\1\s\Log\LogIndex.cs, Line: 338, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #91 Path: D:\a\1\s\Log\LogIndex.cs, Line: 361, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #92 Path: D:\a\1\s\Log\LogIndex.cs, Line: 392, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #93 Path: D:\a\1\s\Log\MavlinkLog.cs, Line: 406, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #94 Path: D:\a\1\s\Log\MavlinkLog.cs, Line: 603, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #95 Path: D:\a\1\s\MainV2.cs, Line: 1253, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #96 Path: D:\a\1\s\MainV2.cs, Line: 2453, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #97 Path: D:\a\1\s\NoFly\NoFly.cs, Line: 105, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #98 Path: D:\a\1\s\NoFly\NoFly.cs, Line: 113, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #99 Path: D:\a\1\s\NoFly\NoFly.cs, Line: 121, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #100 Path: D:\a\1\s\NoFly\NoFly.cs, Line: 124, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #101 Path: D:\a\1\s\NoFly\NoFly.cs, Line: 139, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #102 Path: D:\a\1\s\NoFly\NoFly.cs, Line: 152, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #103 Path: D:\a\1\s\plugins\example4-herelink.cs, Line: 188, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #104 Path: D:\a\1\s\plugins\example4-herelink.cs, Line: 220, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #105 Path: D:\a\1\s\Program.cs, Line: 702, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #106 Path: D:\a\1\s\Radio\IHex.cs, Line: 37, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #107 Path: D:\a\1\s\Radio\IHex.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #108 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 137, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #109 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 1638, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #110 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 1644, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #111 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 1651, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #112 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 1657, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #113 Path: D:\a\1\s\Radio\Uploader.cs, Line: 119, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #114 Path: D:\a\1\s\Radio\Uploader.cs, Line: 208, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #115 Path: D:\a\1\s\Radio\Uploader.cs, Line: 231, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #116 Path: D:\a\1\s\SikRadio\RFD900.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #117 Path: D:\a\1\s\Swarm\FollowPathControl.cs, Line: 104, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #118 Path: D:\a\1\s\Swarm\FollowPathControl.cs, Line: 112, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #119 Path: D:\a\1\s\Swarm\FollowPathControl.cs, Line: 88, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #120 Path: D:\a\1\s\Swarm\FollowPathControl.cs, Line: 96, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #121 Path: D:\a\1\s\Swarm\FormationControl.cs, Line: 146, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #122 Path: D:\a\1\s\Swarm\FormationControl.cs, Line: 154, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #123 Path: D:\a\1\s\Swarm\FormationControl.cs, Line: 162, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #124 Path: D:\a\1\s\Swarm\FormationControl.cs, Line: 170, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #125 Path: D:\a\1\s\Swarm\FormationControl.cs, Line: 360, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #126 Path: D:\a\1\s\Swarm\Sequence\LayoutEditor.cs, Line: 445, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #127 Path: D:\a\1\s\Swarm\WaypointLeader\WPControl.cs, Line: 210, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #128 Path: D:\a\1\s\Swarm\WaypointLeader\WPControl.cs, Line: 218, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #129 Path: D:\a\1\s\Swarm\WaypointLeader\WPControl.cs, Line: 221, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #130 Path: D:\a\1\s\temp.cs, Line: 319, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #131 Path: D:\a\1\s\test\FirmwareSelection.xaml.cs, Line: 121, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #132 Path: D:\a\1\s\Utilities\AltitudeAngel\MapAdapter.cs, Line: 111, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #133 Path: D:\a\1\s\Utilities\AltitudeAngel\MapAdapter.cs, Line: 136, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #134 Path: D:\a\1\s\Utilities\ExtensionsMP.cs, Line: 84, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #135 Path: D:\a\1\s\Utilities\SSHTerminal.cs, Line: 1024, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #136 Path: D:\a\1\s\Utilities\ThemeManager.cs, Line: 309, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #137 Path: D:\a\1\s\Utilities\ThemeManager.cs, Line: 651, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: SikRadio
+    #138 Path: D:\a\1\s\Radio\IHex.cs, Line: 37, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #139 Path: D:\a\1\s\Radio\IHex.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #140 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 137, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #141 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 1638, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #142 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 1644, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #143 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 1651, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #144 Path: D:\a\1\s\Radio\Sikradio.cs, Line: 1657, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #145 Path: D:\a\1\s\Radio\Uploader.cs, Line: 119, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #146 Path: D:\a\1\s\Radio\Uploader.cs, Line: 208, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #147 Path: D:\a\1\s\Radio\Uploader.cs, Line: 231, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #148 Path: D:\a\1\s\SikRadio\Config.cs, Line: 237, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #149 Path: D:\a\1\s\SikRadio\Config.cs, Line: 255, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #150 Path: D:\a\1\s\SikRadio\Config.cs, Line: 273, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #151 Path: D:\a\1\s\SikRadio\RFD900.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+
+
+
+Project: FaceMap
+    #152 Path: D:\a\1\s\Plugins\FaceMap\FaceMapUI.cs, Line: 393, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #153 Path: D:\a\1\s\Plugins\FaceMap\FaceMapUI.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #154 Path: D:\a\1\s\Plugins\FaceMap\FaceMapUI.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #155 Path: D:\a\1\s\Plugins\FaceMap\FaceMapUI.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+--- Rules Summary ---
+R9: 61
+R5: 35
+R8: 21
+R7: 17
+R6: 12
+R3: 3
+R10: 2
+R4: 2
+R2: 2
+
+--- Summary ---
+Fixed ReSharper issues: 153
+Fixed SonarQube issues: 54
+Total fixed issues: 155
+
+Finished in: 38 s
+
+No errors reported.
+

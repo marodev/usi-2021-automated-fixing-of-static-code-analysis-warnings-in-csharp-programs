@@ -1,0 +1,523 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Nop.Web
+    #1 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\BlogController.cs, Line: 80, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #2 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\CategoryController.cs, Line: 162, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #3 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\CategoryController.cs, Line: 187, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #4 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\CheckoutAttributeController.cs, Line: 125, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #5 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\CountryController.cs, Line: 114, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #6 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\CurrencyController.cs, Line: 91, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #7 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\LanguageController.cs, Line: 86, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #8 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\ManufacturerController.cs, Line: 154, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #9 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\ManufacturerController.cs, Line: 179, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #10 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\MessageTemplateController.cs, Line: 104, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #11 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\NewsController.cs, Line: 80, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #12 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\ProductController.cs, Line: 244, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #13 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\TopicController.cs, Line: 118, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #14 Path: D:\a\1\s\src\Presentation\Nop.Web\Areas\Admin\Controllers\TopicController.cs, Line: 143, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #15 Path: D:\a\1\s\src\Presentation\Nop.Web\Factories\ProductModelFactory.cs, Line: 1024, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Nop.Services
+    #16 Path: D:\a\1\s\src\Libraries\Nop.Services\Catalog\ProductService.cs, Line: 1333, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #17 Path: D:\a\1\s\src\Libraries\Nop.Services\Localization\LocalizedEntityService.cs, Line: 219, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #18 Path: D:\a\1\s\src\Libraries\Nop.Services\Localization\LocalizedEntityService.cs, Line: 227, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Nop.Services.Tests
+    #19 Path: D:\a\1\s\src\Tests\Nop.Services.Tests\Messages\NotificationServiceTests.cs, Line: 62, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #20 Path: D:\a\1\s\src\Tests\Nop.Services.Tests\Messages\NotificationServiceTests.cs, Line: 67, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #21 Path: D:\a\1\s\src\Tests\Nop.Services.Tests\Messages\NotificationServiceTests.cs, Line: 72, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Nop.Web.Framework
+    #22 Path: D:\a\1\s\src\Presentation\Nop.Web.Framework\Extensions\HtmlExtensions.cs, Line: 111, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: D:\a\1\s\src\Presentation\Nop.Web.Framework\Extensions\HtmlExtensions.cs, Line: 74, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\src\Presentation\Nop.Web.Framework\Extensions\HtmlExtensions.cs, Line: 89, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\src\Presentation\Nop.Web.Framework\Extensions\HtmlExtensions.cs, Line: 99, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #26 Path: D:\a\1\s\src\Presentation\Nop.Web.Framework\Infrastructure\DependencyRegistrar.cs, Line: 311, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #27 Path: D:\a\1\s\src\Presentation\Nop.Web.Framework\Mvc\Filters\SaveSelectedTabsAttribute.cs, Line: 125, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #28 Path: D:\a\1\s\src\Presentation\Nop.Web.Framework\TagHelpers\Admin\NopLabelTagHelper.cs, Line: 98, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #29 Path: D:\a\1\s\src\Presentation\Nop.Web.Framework\UI\Paging\Pager.cs, Line: 390, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Nop.Plugin.Shipping.UPS
+    #30 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Shipping.UPS\Connected Services\UPSRate\Reference.cs, Line: 6449, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Shipping.UPS\Connected Services\UPSRate\Reference.cs, Line: 6462, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Shipping.UPS\Connected Services\UPSTrack\Reference.cs, Line: 4230, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Shipping.UPS\Connected Services\UPSTrack\Reference.cs, Line: 4243, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Nop.Plugin.Widgets.GoogleAnalytics
+    #34 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Widgets.GoogleAnalytics\Api\GoogleRequest.cs, Line: 116, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Widgets.GoogleAnalytics\Api\GoogleRequest.cs, Line: 123, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #36 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Widgets.GoogleAnalytics\Api\GoogleRequest.cs, Line: 133, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Widgets.GoogleAnalytics\Api\GoogleRequest.cs, Line: 54, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Widgets.GoogleAnalytics\Api\Transaction.cs, Line: 51, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\src\Plugins\Nop.Plugin.Widgets.GoogleAnalytics\Api\TransactionItem.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 17
+R6: 15
+R4: 4
+R8: 3
+
+--- Summary ---
+Fixed ReSharper issues: 39
+Fixed SonarQube issues: 19
+Total fixed issues: 39
+
+Finished in: 32 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\Libraries\Nop.Services\Plugins\PluginDescriptor.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using Newtonsoft.Json;
+using Nop.Core.Infrastructure;
+
+namespace Nop.Services.Plugins
+{
+    /// <summary>
+    /// Represents a plugin descriptor
+    /// </summary>
+    public partial class PluginDescriptor : PluginDescriptorBaseInfo, IDescriptor, IComparable<PluginDescriptor>
+    {
+        #region Ctor
+
+        public PluginDescriptor()
+        {
+            SupportedVersions = new List<string>();
+            LimitedToStores = new List<int>();
+            LimitedToCustomerRoles = new List<int>();
+            DependsOn = new List<string>();
+        }
+
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="referencedAssembly">Referenced assembly</param>
+        public PluginDescriptor(Assembly referencedAssembly) : this()
+        {
+            ReferencedAssembly = referencedAssembly;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Get plugin descriptor from the description text
+        /// </summary>
+        /// <param name="text">Description text</param>
+        /// <returns>Plugin descriptor</returns>
+        public static PluginDescriptor GetPluginDescriptorFromText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return new PluginDescriptor();
+
+            //get plugin descriptor from the JSON file
+            var descriptor = JsonConvert.DeserializeObject<PluginDescriptor>(text);
+
+            //nopCommerce 2.00 didn't have 'SupportedVersions' parameter, so let's set it to "2.00"
+            if (!descriptor.SupportedVersions.Any())
+                descriptor.SupportedVersions.Add("2.00");
+
+            return descriptor;
+        }
+
+        /// <summary>
+        /// Get the instance of the plugin
+        /// </summary>
+        /// <typeparam name="TPlugin">Type of the plugin</typeparam>
+        /// <returns>Plugin instance</returns>
+        public virtual TPlugin Instance<TPlugin>() where TPlugin : class, IPlugin
+        {
+            //try to resolve plugin as unregistered service
+            var instance = EngineContext.Current.ResolveUnregistered(PluginType);
+
+            //try to get typed instance
+            var typedInstance = instance as TPlugin;
+            if (typedInstance != null)
+                typedInstance.PluginDescriptor = this;
+
+            return typedInstance;
+        }
+
+        /// <summary>
+        /// Compares this instance with a specified PluginDescriptor object
+        /// </summary>
+        /// <param name="other">The PluginDescriptor to compare with this instance</param>
+        /// <returns>An integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the specified parameter</returns>
+        public int CompareTo(PluginDescriptor other)
+        {
+            if (DisplayOrder != other.DisplayOrder)
+                return DisplayOrder.CompareTo(other.DisplayOrder);
+
+            return string.Compare(SystemName, other.SystemName, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>
+        /// Returns the plugin as a string
+        /// </summary>
+        /// <returns>Value of the FriendlyName</returns>
+        public override string ToString()
+        {
+            return FriendlyName;
+        }
+
+        /// <summary>
+        /// Save plugin descriptor to the plugin description file
+        /// </summary>
+        public virtual void Save()
+        {
+            var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
+
+            //get the description file path
+            if (OriginalAssemblyFile == null)
+                throw new Exception($"Cannot load original assembly path for {SystemName} plugin.");
+
+            var filePath = fileProvider.Combine(fileProvider.GetDirectoryName(OriginalAssemblyFile), NopPluginDefaults.DescriptionFileName);
+            if (!fileProvider.FileExists(filePath))
+                throw new Exception($"Description file for {SystemName} plugin does not exist. {filePath}");
+
+            //save the file
+            var text = JsonConvert.SerializeObject(this, Formatting.Indented);
+            fileProvider.WriteAllText(filePath, text, Encoding.UTF8);
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the plugin group
+        /// </summary>
+        [JsonProperty(PropertyName = "Group")]
+        public virtual string Group { get; set; }
+
+        /// <summary>
+        /// Gets or sets the plugin friendly name
+        /// </summary>
+        [JsonProperty(PropertyName = "FriendlyName")]
+        public virtual string FriendlyName { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the supported versions of nopCommerce
+        /// </summary>
+        [JsonProperty(PropertyName = "SupportedVersions")]
+        public virtual IList<string> SupportedVersions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the author
+        /// </summary>
+        [JsonProperty(PropertyName = "Author")]
+        public virtual string Author { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display order
+        /// </summary>
+        [JsonProperty(PropertyName = "DisplayOrder")]
+        public virtual int DisplayOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the assembly file
+        /// </summary>
+        [JsonProperty(PropertyName = "FileName")]
+        public virtual string AssemblyFileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description
+        /// </summary>
+        [JsonProperty(PropertyName = "Description")]
+        public virtual string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of store identifiers in which this plugin is available. If empty, then this plugin is available in all stores
+        /// </summary>
+        [JsonProperty(PropertyName = "LimitedToStores")]
+        public virtual IList<int> LimitedToStores { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of customer role identifiers for which this plugin is available. If empty, then this plugin is available for all ones.
+        /// </summary>
+        [JsonProperty(PropertyName = "LimitedToCustomerRoles")]
+        public virtual IList<int> LimitedToCustomerRoles { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the list of plugins' system name that this plugin depends on
+        /// </summary>
+        [JsonProperty(PropertyName = "DependsOnSystemNames")]
+        public virtual IList<string> DependsOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating whether plugin is installed
+        /// </summary>
+        [JsonIgnore]
+        public virtual bool Installed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the plugin type
+        /// </summary>
+        [JsonIgnore]
+        public virtual Type PluginType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the original assembly file that a shadow copy was made from it
+        /// </summary>
+        [JsonIgnore]
+        public virtual string OriginalAssemblyFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assembly that has been shadow copied that is active in the application
+        /// </summary>
+        [JsonIgnore]
+        public virtual Assembly ReferencedAssembly { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating whether need to show the plugin on plugins page
+        /// </summary>
+        [JsonIgnore]
+        public virtual bool ShowInPluginsList { get; set; } = true;
+
+        #endregion
+    }
+}
+---- Transformed Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using Newtonsoft.Json;
+using Nop.Core.Infrastructure;
+
+namespace Nop.Services.Plugins
+{
+    /// <summary>
+    /// Represents a plugin descriptor
+    /// </summary>
+    public partial class PluginDescriptor : PluginDescriptorBaseInfo, IDescriptor, IComparable<PluginDescriptor>
+    {
+        #region Ctor
+
+        public PluginDescriptor()
+        {
+            SupportedVersions = new List<string>();
+            LimitedToStores = new List<int>();
+            LimitedToCustomerRoles = new List<int>();
+            DependsOn = new List<string>();
+        }
+
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="referencedAssembly">Referenced assembly</param>
+        public PluginDescriptor(Assembly referencedAssembly) : this()
+        {
+            ReferencedAssembly = referencedAssembly;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Get plugin descriptor from the description text
+        /// </summary>
+        /// <param name="text">Description text</param>
+        /// <returns>Plugin descriptor</returns>
+        public static PluginDescriptor GetPluginDescriptorFromText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return new PluginDescriptor();
+
+            //get plugin descriptor from the JSON file
+            var descriptor = JsonConvert.DeserializeObject<PluginDescriptor>(text);
+
+            //nopCommerce 2.00 didn't have 'SupportedVersions' parameter, so let's set it to "2.00"
+            if (!descriptor.SupportedVersions.Any())
+                descriptor.SupportedVersions.Add("2.00");
+
+            return descriptor;
+        }
+
+        /// <summary>
+        /// Get the instance of the plugin
+        /// </summary>
+        /// <typeparam name="TPlugin">Type of the plugin</typeparam>
+        /// <returns>Plugin instance</returns>
+        public virtual TPlugin Instance<TPlugin>() where TPlugin : class, IPlugin
+        {
+            //try to resolve plugin as unregistered service
+            var instance = EngineContext.Current.ResolveUnregistered(PluginType);
+
+            //try to get typed instance
+            if (instance is TPlugin typedInstance)
+                typedInstance.PluginDescriptor = this;
+
+            return typedInstance;
+        }
+
+        /// <summary>
+        /// Compares this instance with a specified PluginDescriptor object
+        /// </summary>
+        /// <param name="other">The PluginDescriptor to compare with this instance</param>
+        /// <returns>An integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the specified parameter</returns>
+        public int CompareTo(PluginDescriptor other)
+        {
+            if (DisplayOrder != other.DisplayOrder)
+                return DisplayOrder.CompareTo(other.DisplayOrder);
+
+            return string.Compare(SystemName, other.SystemName, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>
+        /// Returns the plugin as a string
+        /// </summary>
+        /// <returns>Value of the FriendlyName</returns>
+        public override string ToString()
+        {
+            return FriendlyName;
+        }
+
+        /// <summary>
+        /// Save plugin descriptor to the plugin description file
+        /// </summary>
+        public virtual void Save()
+        {
+            var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
+
+            //get the description file path
+            if (OriginalAssemblyFile == null)
+                throw new Exception($"Cannot load original assembly path for {SystemName} plugin.");
+
+            var filePath = fileProvider.Combine(fileProvider.GetDirectoryName(OriginalAssemblyFile), NopPluginDefaults.DescriptionFileName);
+            if (!fileProvider.FileExists(filePath))
+                throw new Exception($"Description file for {SystemName} plugin does not exist. {filePath}");
+
+            //save the file
+            var text = JsonConvert.SerializeObject(this, Formatting.Indented);
+            fileProvider.WriteAllText(filePath, text, Encoding.UTF8);
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the plugin group
+        /// </summary>
+        [JsonProperty(PropertyName = "Group")]
+        public virtual string Group { get; set; }
+
+        /// <summary>
+        /// Gets or sets the plugin friendly name
+        /// </summary>
+        [JsonProperty(PropertyName = "FriendlyName")]
+        public virtual string FriendlyName { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the supported versions of nopCommerce
+        /// </summary>
+        [JsonProperty(PropertyName = "SupportedVersions")]
+        public virtual IList<string> SupportedVersions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the author
+        /// </summary>
+        [JsonProperty(PropertyName = "Author")]
+        public virtual string Author { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display order
+        /// </summary>
+        [JsonProperty(PropertyName = "DisplayOrder")]
+        public virtual int DisplayOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the assembly file
+        /// </summary>
+        [JsonProperty(PropertyName = "FileName")]
+        public virtual string AssemblyFileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description
+        /// </summary>
+        [JsonProperty(PropertyName = "Description")]
+        public virtual string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of store identifiers in which this plugin is available. If empty, then this plugin is available in all stores
+        /// </summary>
+        [JsonProperty(PropertyName = "LimitedToStores")]
+        public virtual IList<int> LimitedToStores { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of customer role identifiers for which this plugin is available. If empty, then this plugin is available for all ones.
+        /// </summary>
+        [JsonProperty(PropertyName = "LimitedToCustomerRoles")]
+        public virtual IList<int> LimitedToCustomerRoles { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the list of plugins' system name that this plugin depends on
+        /// </summary>
+        [JsonProperty(PropertyName = "DependsOnSystemNames")]
+        public virtual IList<string> DependsOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating whether plugin is installed
+        /// </summary>
+        [JsonIgnore]
+        public virtual bool Installed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the plugin type
+        /// </summary>
+        [JsonIgnore]
+        public virtual Type PluginType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the original assembly file that a shadow copy was made from it
+        /// </summary>
+        [JsonIgnore]
+        public virtual string OriginalAssemblyFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assembly that has been shadow copied that is active in the application
+        /// </summary>
+        [JsonIgnore]
+        public virtual Assembly ReferencedAssembly { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating whether need to show the plugin on plugins page
+        /// </summary>
+        [JsonIgnore]
+        public virtual bool ShowInPluginsList { get; set; } = true;
+
+        #endregion
+    }
+}
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\Libraries\Nop.Services\Plugins\PluginDescriptor.cs(73,20): error CS0165: Use of unassigned local variable 'typedInstance'
+######################################################################
+
+

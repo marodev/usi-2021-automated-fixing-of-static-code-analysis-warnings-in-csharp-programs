@@ -1,0 +1,38 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: NSwag.Core(net45)
+    #1 Path: D:\a\1\s\src\NSwag.Core\OpenApiParameter.cs, Line: 287, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: NSwag.CodeGeneration.CSharp(net451)
+    #2 Path: D:\a\1\s\src\NSwag.CodeGeneration.CSharp\CSharpControllerGenerator.cs, Line: 57, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: NSwag.CodeGeneration.TypeScript(net451)
+    #3 Path: D:\a\1\s\src\NSwag.CodeGeneration.TypeScript\Models\TypeScriptOperationModel.cs, Line: 127, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: NSwag.Generation.WebApi(net45)
+    #4 Path: D:\a\1\s\src\NSwag.Generation.WebApi\Processors\OperationConsumesProcessor.cs, Line: 40, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+--- Rules Summary ---
+R6: 2
+R4: 1
+R2: 1
+
+--- Summary ---
+Fixed ReSharper issues: 3
+Fixed SonarQube issues: 3
+Total fixed issues: 4
+
+Finished in: 23 s
+
+No errors reported.
+

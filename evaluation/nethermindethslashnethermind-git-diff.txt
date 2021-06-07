@@ -1,0 +1,512 @@
+diff --git a/.config/dotnet-tools.json b/.config/dotnet-tools.json
+index ead57e334..69ab51d52 100644
+--- a/.config/dotnet-tools.json
++++ b/.config/dotnet-tools.json
+@@ -7,6 +7,18 @@
+       "commands": [
+         "dotnet-gitversion"
+       ]
++    },
++    "jetbrains.resharper.globaltools": {
++      "version": "2020.3.3",
++      "commands": [
++        "jb"
++      ]
++    },
++    "eaglerepair.cli": {
++      "version": "0.0.26",
++      "commands": [
++        "eaglerepair"
++      ]
+     }
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/src/Nethermind/Nethermind.Core/Extensions/TypeExtensions.cs b/src/Nethermind/Nethermind.Core/Extensions/TypeExtensions.cs
+index 0109c5b1c..1b281946f 100644
+--- a/src/Nethermind/Nethermind.Core/Extensions/TypeExtensions.cs
++++ b/src/Nethermind/Nethermind.Core/Extensions/TypeExtensions.cs
+@@ -23,7 +23,7 @@ namespace Nethermind.Core.Extensions
+ 
+                 interfaces.RemoveAll(i => baseInterfaces.Contains(i));
+ 
+-                if(interfaces.Contains(interfaceType) && interfaces.Count() == 1)
++                if(interfaces.Contains(interfaceType) && interfaces.Count == 1)
+                 {
+                     return implementation;
+                 }
+diff --git a/src/Nethermind/Nethermind.Grpc/Nethermind.cs b/src/Nethermind/Nethermind.Grpc/Nethermind.cs
+index f0338fa5d..babb45db8 100644
+--- a/src/Nethermind/Nethermind.Grpc/Nethermind.cs
++++ b/src/Nethermind/Nethermind.Grpc/Nethermind.cs
+@@ -145,9 +145,7 @@ namespace Nethermind.Grpc {
+         output.WriteString(Client);
+       }
+       args_.WriteTo(output, _repeated_args_codec);
+-      if (_unknownFields != null) {
+-        _unknownFields.WriteTo(output);
+-      }
++      _unknownFields?.WriteTo(output);
+     }
+ 
+     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+@@ -298,9 +296,7 @@ namespace Nethermind.Grpc {
+         output.WriteRawTag(18);
+         output.WriteString(Data);
+       }
+-      if (_unknownFields != null) {
+-        _unknownFields.WriteTo(output);
+-      }
++      _unknownFields?.WriteTo(output);
+     }
+ 
+     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+@@ -451,9 +447,7 @@ namespace Nethermind.Grpc {
+         output.WriteString(Client);
+       }
+       args_.WriteTo(output, _repeated_args_codec);
+-      if (_unknownFields != null) {
+-        _unknownFields.WriteTo(output);
+-      }
++      _unknownFields?.WriteTo(output);
+     }
+ 
+     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+@@ -604,9 +598,7 @@ namespace Nethermind.Grpc {
+         output.WriteRawTag(18);
+         output.WriteString(Data);
+       }
+-      if (_unknownFields != null) {
+-        _unknownFields.WriteTo(output);
+-      }
++      _unknownFields?.WriteTo(output);
+     }
+ 
+     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+diff --git a/src/Nethermind/Nethermind.HashLib/Extensions/Converters.cs b/src/Nethermind/Nethermind.HashLib/Extensions/Converters.cs
+index 0b1617bb1..6887a9780 100644
+--- a/src/Nethermind/Nethermind.HashLib/Extensions/Converters.cs
++++ b/src/Nethermind/Nethermind.HashLib/Extensions/Converters.cs
+@@ -28,34 +28,34 @@ namespace Nethermind.HashLib.Extensions
+         {
+             if (a_in is byte)
+                 return new byte[] {(byte) a_in};
+-            else if (a_in is short)
+-                return BitConverter.GetBytes((short) a_in);
+-            else if (a_in is ushort)
+-                return BitConverter.GetBytes((ushort) a_in);
+-            else if (a_in is char)
+-                return BitConverter.GetBytes((char) a_in);
+-            else if (a_in is int)
+-                return BitConverter.GetBytes((int) a_in);
+-            else if (a_in is uint)
+-                return BitConverter.GetBytes((uint) a_in);
+-            else if (a_in is long)
+-                return BitConverter.GetBytes((long) a_in);
+-            else if (a_in is ulong)
+-                return BitConverter.GetBytes((ulong) a_in);
+-            else if (a_in is float)
+-                return BitConverter.GetBytes((float) a_in);
+-            else if (a_in is double)
+-                return BitConverter.GetBytes((double) a_in);
+-            else if (a_in is string)
+-                return ConvertStringToBytes((string) a_in);
+-            else if (a_in is byte[])
+-                return (byte[]) ((byte[]) a_in).Clone();
++            else if (a_in is short sh)
++                return BitConverter.GetBytes(sh);
++            else if (a_in is ushort us)
++                return BitConverter.GetBytes(us);
++            else if (a_in is char c)
++                return BitConverter.GetBytes(c);
++            else if (a_in is int i)
++                return BitConverter.GetBytes(i);
++            else if (a_in is uint ui)
++                return BitConverter.GetBytes(ui);
++            else if (a_in is long l)
++                return BitConverter.GetBytes(l);
++            else if (a_in is ulong ul)
++                return BitConverter.GetBytes(ul);
++            else if (a_in is float f)
++                return BitConverter.GetBytes(f);
++            else if (a_in is double d)
++                return BitConverter.GetBytes(d);
++            else if (a_in is string s)
++                return ConvertStringToBytes(s);
++            else if (a_in is byte[] bytes)
++                return (byte[]) bytes.Clone();
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(short))
+                 return ConvertShortsToBytes((short[]) a_in);
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(ushort))
+                 return ConvertUShortsToBytes((ushort[]) a_in);
+-            else if (a_in is char[])
+-                return ConvertCharsToBytes((char[]) a_in);
++            else if (a_in is char[] chars)
++                return ConvertCharsToBytes(chars);
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(int))
+                 return ConvertIntsToBytes((int[]) a_in);
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(uint))
+@@ -64,10 +64,10 @@ namespace Nethermind.HashLib.Extensions
+                 return ConvertLongsToBytes((long[]) a_in);
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(ulong))
+                 return ConvertULongsToBytes((ulong[]) a_in);
+-            else if (a_in is float[])
+-                return ConvertFloatsToBytes((float[]) a_in);
+-            else if (a_in is double[])
+-                return ConvertDoublesToBytes((double[]) a_in);
++            else if (a_in is float[] floats)
++                return ConvertFloatsToBytes(floats);
++            else if (a_in is double[] doubles)
++                return ConvertDoublesToBytes(doubles);
+             else
+                 throw new ArgumentException();
+         }
+diff --git a/src/Nethermind/Nethermind.HashLib/HMACBuildInAdapter.cs b/src/Nethermind/Nethermind.HashLib/HMACBuildInAdapter.cs
+index 3ad20cb11..925499cdc 100644
+--- a/src/Nethermind/Nethermind.HashLib/HMACBuildInAdapter.cs
++++ b/src/Nethermind/Nethermind.HashLib/HMACBuildInAdapter.cs
+@@ -89,7 +89,7 @@ namespace Nethermind.HashLib
+         {
+             get
+             {
+-                return String.Format("{0}({1})", GetType().Name, m_hmac.GetType().Name);
++                return $"{GetType().Name}({m_hmac.GetType().Name})";
+             }
+         }
+     }
+diff --git a/src/Nethermind/Nethermind.HashLib/HMACNotBuildInAdapter.cs b/src/Nethermind/Nethermind.HashLib/HMACNotBuildInAdapter.cs
+index b5917c79d..c09e21840 100644
+--- a/src/Nethermind/Nethermind.HashLib/HMACNotBuildInAdapter.cs
++++ b/src/Nethermind/Nethermind.HashLib/HMACNotBuildInAdapter.cs
+@@ -105,7 +105,7 @@ namespace Nethermind.HashLib
+         {
+             get
+             {
+-                return String.Format("{0}({1})", GetType().Name, m_hash.GetType().Name);
++                return $"{GetType().Name}({m_hash.GetType().Name})";
+             }
+         }
+ 
+diff --git a/src/Nethermind/Nethermind.HashLib/Hash.cs b/src/Nethermind/Nethermind.HashLib/Hash.cs
+index 219ddd96f..fcf952df9 100644
+--- a/src/Nethermind/Nethermind.HashLib/Hash.cs
++++ b/src/Nethermind/Nethermind.HashLib/Hash.cs
+@@ -67,36 +67,36 @@ namespace Nethermind.HashLib
+ 
+         public virtual HashResult ComputeObject(object a_data)
+         {
+-            if (a_data is byte)
+-                return ComputeByte((byte)a_data);
+-            else if (a_data is short)
+-                return ComputeShort((short)a_data);
+-            else if (a_data is ushort)
+-                return ComputeUShort((ushort)a_data);
+-            else if (a_data is char)
+-                return ComputeChar((char)a_data);
+-            else if (a_data is int)
+-                return ComputeInt((int)a_data);
+-            else if (a_data is uint)
+-                return ComputeUInt((uint)a_data);
+-            else if (a_data is long)
+-                return ComputeLong((long)a_data);
+-            else if (a_data is ulong)
+-                return ComputeULong((ulong)a_data);
+-            else if (a_data is float)
+-                return ComputeFloat((float)a_data);
+-            else if (a_data is double)
+-                return ComputeDouble((double)a_data);
+-            else if (a_data is string)
+-                return ComputeString((string)a_data);
+-            else if (a_data is byte[])
+-                return ComputeBytes((byte[])a_data);
++            if (a_data is byte b)
++                return ComputeByte(b);
++            else if (a_data is short sh)
++                return ComputeShort(sh);
++            else if (a_data is ushort us)
++                return ComputeUShort(us);
++            else if (a_data is char c)
++                return ComputeChar(c);
++            else if (a_data is int i)
++                return ComputeInt(i);
++            else if (a_data is uint ui)
++                return ComputeUInt(ui);
++            else if (a_data is long l)
++                return ComputeLong(l);
++            else if (a_data is ulong ul)
++                return ComputeULong(ul);
++            else if (a_data is float f)
++                return ComputeFloat(f);
++            else if (a_data is double d)
++                return ComputeDouble(d);
++            else if (a_data is string s)
++                return ComputeString(s);
++            else if (a_data is byte[] bytes)
++                return ComputeBytes(bytes);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(short))
+                 return ComputeShorts((short[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(ushort))
+                 return ComputeUShorts((ushort[])a_data);
+-            else if (a_data is char[])
+-                return ComputeChars((char[])a_data);
++            else if (a_data is char[] chars)
++                return ComputeChars(chars);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(int))
+                 return ComputeInts((int[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(uint))
+@@ -105,10 +105,10 @@ namespace Nethermind.HashLib
+                 return ComputeLongs((long[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(ulong))
+                 return ComputeULongs((ulong[])a_data);
+-            else if (a_data is float[])
+-                return ComputeFloats((float[])a_data);
+-            else if (a_data is double[])
+-                return ComputeDoubles((double[])a_data);
++            else if (a_data is float[] floats)
++                return ComputeFloats(floats);
++            else if (a_data is double[] doubles)
++                return ComputeDoubles(doubles);
+             else
+                 throw new ArgumentException();
+         }
+@@ -264,36 +264,36 @@ namespace Nethermind.HashLib
+ 
+         public void TransformObject(object a_data)
+         {
+-            if (a_data is byte)
+-                TransformByte((byte)a_data);
+-            else if (a_data is short)
+-                TransformShort((short)a_data);
+-            else if (a_data is ushort)
+-                TransformUShort((ushort)a_data);
+-            else if (a_data is char)
+-                TransformChar((char)a_data);
+-            else if (a_data is int)
+-                TransformInt((int)a_data);
+-            else if (a_data is uint)
+-                TransformUInt((uint)a_data);
+-            else if (a_data is long)
+-                TransformLong((long)a_data);
+-            else if (a_data is ulong)
+-                TransformULong((ulong)a_data);
+-            else if (a_data is float)
+-                TransformFloat((float)a_data);
+-            else if (a_data is double)
+-                TransformDouble((double)a_data);
+-            else if (a_data is string)
+-                TransformString((string)a_data);
+-            else if (a_data is byte[])
+-                TransformBytes((byte[])a_data);
++            if (a_data is byte b)
++                TransformByte(b);
++            else if (a_data is short sh)
++                TransformShort(sh);
++            else if (a_data is ushort us)
++                TransformUShort(us);
++            else if (a_data is char c)
++                TransformChar(c);
++            else if (a_data is int i)
++                TransformInt(i);
++            else if (a_data is uint ui)
++                TransformUInt(ui);
++            else if (a_data is long l)
++                TransformLong(l);
++            else if (a_data is ulong ul)
++                TransformULong(ul);
++            else if (a_data is float f)
++                TransformFloat(f);
++            else if (a_data is double d)
++                TransformDouble(d);
++            else if (a_data is string s)
++                TransformString(s);
++            else if (a_data is byte[] bytes)
++                TransformBytes(bytes);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(short))
+                 TransformShorts((short[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(ushort))
+                 TransformUShorts((ushort[])a_data);
+-            else if (a_data is char[])
+-                TransformChars((char[])a_data);
++            else if (a_data is char[] chars)
++                TransformChars(chars);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(int))
+                 TransformInts((int[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(uint))
+@@ -302,10 +302,10 @@ namespace Nethermind.HashLib
+                 TransformLongs((long[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(ulong))
+                 TransformULongs((ulong[])a_data);
+-            else if (a_data is float[])
+-                TransformFloats((float[])a_data);
+-            else if (a_data is double[])
+-                TransformDoubles((double[])a_data);
++            else if (a_data is float[] floats)
++                TransformFloats(floats);
++            else if (a_data is double[] doubles)
++                TransformDoubles(doubles);
+             else
+                 throw new ArgumentException();
+         }
+diff --git a/src/Nethermind/Nethermind.HashLib/HashBuffer.cs b/src/Nethermind/Nethermind.HashLib/HashBuffer.cs
+index 2f3891db2..c980eb04f 100644
+--- a/src/Nethermind/Nethermind.HashLib/HashBuffer.cs
++++ b/src/Nethermind/Nethermind.HashLib/HashBuffer.cs
+@@ -166,7 +166,7 @@ namespace Nethermind.HashLib
+ 
+         public override string ToString()
+         {
+-            return String.Format("HashBuffer, Legth: {0}, Pos: {1}, IsEmpty: {2}", Length, Pos, IsEmpty);
++            return $"HashBuffer, Legth: {Length}, Pos: {Pos}, IsEmpty: {IsEmpty}";
+         }
+     }
+ }
+diff --git a/src/Nethermind/Nethermind.HashLib/HashFactory.cs b/src/Nethermind/Nethermind.HashLib/HashFactory.cs
+index 623f246ad..6a98a6298 100644
+--- a/src/Nethermind/Nethermind.HashLib/HashFactory.cs
++++ b/src/Nethermind/Nethermind.HashLib/HashFactory.cs
+@@ -163,9 +163,8 @@ namespace Nethermind.HashLib
+                 {
+                     return (IHMAC) a_hash;
+                 }
+-                else if (a_hash is IHasHMACBuildIn)
++                else if (a_hash is IHasHMACBuildIn h)
+                 {
+-                    IHasHMACBuildIn h = (IHasHMACBuildIn) a_hash;
+                     return new HMACBuildInAdapter(h.GetBuildHMAC(), h.BlockSize);
+                 }
+                 else
+diff --git a/src/Nethermind/Nethermind.KeyStore.Test/KeyStoreTests.cs b/src/Nethermind/Nethermind.KeyStore.Test/KeyStoreTests.cs
+index 9cd53ba48..f97d9af7e 100644
+--- a/src/Nethermind/Nethermind.KeyStore.Test/KeyStoreTests.cs
++++ b/src/Nethermind/Nethermind.KeyStore.Test/KeyStoreTests.cs
+@@ -159,7 +159,7 @@ namespace Nethermind.KeyStore.Test
+ 
+                 (IReadOnlyCollection<Address> addresses, Result getAllResult) = test.Store.GetKeyAddresses();
+                 Assert.AreEqual(ResultType.Success, getAllResult.ResultType, "get key");
+-                Assert.IsTrue(addresses.Count() >= 2);
++                Assert.IsTrue(addresses.Count >= 2);
+                 Assert.IsNotNull(addresses.FirstOrDefault(x => x.Equals(key1.Address)), "key 1 not null");
+                 Assert.IsNotNull(addresses.FirstOrDefault(x => x.Equals(key2.Address)), "key 2 not null");
+ 
+diff --git a/src/Nethermind/Nethermind.Network.Test/Discovery/NodeLifecycleManagerTests.cs b/src/Nethermind/Nethermind.Network.Test/Discovery/NodeLifecycleManagerTests.cs
+index 03d799097..214f69839 100644
+--- a/src/Nethermind/Nethermind.Network.Test/Discovery/NodeLifecycleManagerTests.cs
++++ b/src/Nethermind/Nethermind.Network.Test/Discovery/NodeLifecycleManagerTests.cs
+@@ -181,9 +181,9 @@ namespace Nethermind.Network.Test.Discovery
+ 
+             //table should contain 3 active nodes
+             var closestNodes = _nodeTable.GetClosestNodes();
+-            Assert.IsTrue(closestNodes.Count(x => x.Host == managers[0].ManagedNode.Host) == 0);
+-            Assert.IsTrue(closestNodes.Count(x => x.Host == managers[1].ManagedNode.Host) == 0);
+-            Assert.IsTrue(closestNodes.Count(x => x.Host == managers[2].ManagedNode.Host) == 0);
++            Assert.IsTrue(!closestNodes.Any(x => x.Host == managers[0].ManagedNode.Host));
++            Assert.IsTrue(!closestNodes.Any(x => x.Host == managers[1].ManagedNode.Host));
++            Assert.IsTrue(!closestNodes.Any(x => x.Host == managers[2].ManagedNode.Host));
+ 
+             //adding 4th node - table can store only 3, eviction process should start
+             var candidateNode = new Node(_nodeIds[3], _host, _port);
+@@ -210,7 +210,7 @@ namespace Nethermind.Network.Test.Discovery
+             Assert.That(() => closestNodes.Count(x => x.Host == managers[0].ManagedNode.Host) == 1, Is.True.After(100, 50));
+             Assert.That(() => closestNodes.Count(x => x.Host == managers[1].ManagedNode.Host) == 1, Is.True.After(100, 50));
+             Assert.That(() => closestNodes.Count(x => x.Host == managers[2].ManagedNode.Host) == 1, Is.True.After(100, 50));
+-            Assert.That(() => closestNodes.Count(x => x.Host == candidateNode.Host) == 0, Is.True.After(100, 50));
++            Assert.That(() => !closestNodes.Any(x => x.Host == candidateNode.Host), Is.True.After(100, 50));
+             
+             //Assert.IsTrue(closestNodes.Count(x => x.Host == managers[0].ManagedNode.Host) == 1);
+             //Assert.IsTrue(closestNodes.Count(x => x.Host == managers[1].ManagedNode.Host) == 1);
+@@ -270,7 +270,7 @@ namespace Nethermind.Network.Test.Discovery
+ 
+             closestNodes = _nodeTable.GetClosestNodes();
+             Assert.That(() => managers.Where(x => x.State == NodeLifecycleState.Active).All(x => closestNodes.Any(y => y.Host == x.ManagedNode.Host)), Is.True.After(300, 50));
+-            Assert.That(() => closestNodes.Count(x => x.Host == evictionCandidate.ManagedNode.Host) == 0, Is.True.After(300, 50));
++            Assert.That(() => !closestNodes.Any(x => x.Host == evictionCandidate.ManagedNode.Host), Is.True.After(300, 50));
+             Assert.That(() => closestNodes.Count(x => x.Host == candidateNode.Host) == 1, Is.True.After(300, 50));
+ 
+             //Assert.IsTrue(managers.Where(x => x.State == NodeLifecycleState.Active).All(x => closestNodes.Any(y => y.Host == x.ManagedNode.Host)));
+diff --git a/src/Nethermind/Nethermind.Network/P2P/Session.cs b/src/Nethermind/Nethermind.Network/P2P/Session.cs
+index 763d30cc6..1e879de73 100644
+--- a/src/Nethermind/Nethermind.Network/P2P/Session.cs
++++ b/src/Nethermind/Nethermind.Network/P2P/Session.cs
+@@ -194,8 +194,8 @@ namespace Nethermind.Network.P2P
+ 
+             zeroPacket.PacketType = (byte) messageId;
+             IProtocolHandler protocolHandler = _protocols[protocol];
+-            IZeroProtocolHandler zeroProtocolHandler = protocolHandler as IZeroProtocolHandler;
+-            if (zeroProtocolHandler != null)
++
++            if (protocolHandler is IZeroProtocolHandler zeroProtocolHandler)
+             {
+                 zeroProtocolHandler.HandleMessage(zeroPacket);
+             }
+diff --git a/src/Nethermind/Nethermind.PubSub.Kafka/Avro/AvroTypeProducer.cs b/src/Nethermind/Nethermind.PubSub.Kafka/Avro/AvroTypeProducer.cs
+index c23fdee8c..bbefa1fdd 100644
+--- a/src/Nethermind/Nethermind.PubSub.Kafka/Avro/AvroTypeProducer.cs
++++ b/src/Nethermind/Nethermind.PubSub.Kafka/Avro/AvroTypeProducer.cs
+@@ -88,16 +88,15 @@ namespace Nethermind.PubSub.Kafka.Avro
+             }
+ 
+             topic = $"{topic}.{Name}";
+-            var block = data as Core.Block;
+-            if (block != null)
++
++            if (data is Core.Block block)
+             {
+                 await ProduceAvroBlockAsync(topic, block);
+ 
+                 return;
+             }
+ 
+-            var transaction = data as Kafka.Models.FullTransaction;
+-            if (transaction != null)
++            if (data is Kafka.Models.FullTransaction transaction)
+             {
+                 await ProduceAvroTransactionAsync(topic, transaction);
+             }
+diff --git a/src/Nethermind/Nethermind.Runner.Test/ConfigFilesTests.cs b/src/Nethermind/Nethermind.Runner.Test/ConfigFilesTests.cs
+index c72b91067..cafd56b61 100644
+--- a/src/Nethermind/Nethermind.Runner.Test/ConfigFilesTests.cs
++++ b/src/Nethermind/Nethermind.Runner.Test/ConfigFilesTests.cs
+@@ -135,10 +135,9 @@ namespace Nethermind.Runner.Test
+             {
+                 actualValue = value.ToString().ToLowerInvariant();
+             }
+-            else if (value is int[])
++            else if (value is int[] items)
+             {
+                 //there is a case when we have default value as [4, 8, 8] and we need to compare this string to int[] so removing brackets and whitespaces
+-                int[] items = (int[]) value;
+                 expectedValue = expectedValue.Trim('[').Trim(']');
+                 expectedValue = expectedValue.Replace(" ", "");
+                 string[] numbers = expectedValue.Split(',');
+diff --git a/src/Nethermind/Nethermind.Synchronization/FastSync/StateSyncFeed.cs b/src/Nethermind/Nethermind.Synchronization/FastSync/StateSyncFeed.cs
+index a9cc95ad0..66f283e4e 100644
+--- a/src/Nethermind/Nethermind.Synchronization/FastSync/StateSyncFeed.cs
++++ b/src/Nethermind/Nethermind.Synchronization/FastSync/StateSyncFeed.cs
+@@ -219,11 +219,7 @@ namespace Nethermind.Synchronization.FastSync
+             {
+                 if (dependentItem.IsAccount) Interlocked.Increment(ref _data.SavedAccounts);
+                 SaveNode(dependentItem.SyncItem, dependentItem.Value);
+-                if (_tempDb != null)
+-                {
+-                    // item is no longer needed in the temp DB since it can be retrieved from the persisted DB
+-                    _tempDb.Remove(dependentItem.SyncItem.Hash.Bytes);
+-                }
++                _tempDb?.Remove(dependentItem.SyncItem.Hash.Bytes);
+             }
+         }
+ 
+diff --git a/src/Nethermind/Nethermind.Trie/TrieNode.Visitor.cs b/src/Nethermind/Nethermind.Trie/TrieNode.Visitor.cs
+index 0b73372b6..c00411ba9 100644
+--- a/src/Nethermind/Nethermind.Trie/TrieNode.Visitor.cs
++++ b/src/Nethermind/Nethermind.Trie/TrieNode.Visitor.cs
+@@ -136,8 +136,7 @@ namespace Nethermind.Trie
+             }
+             else
+             {
+-                TrieNode childNode = _data![i] as TrieNode;
+-                if (childNode != null)
++                if (_data![i] is TrieNode childNode)
+                 {
+                     if (!childNode.IsPersisted)
+                     {

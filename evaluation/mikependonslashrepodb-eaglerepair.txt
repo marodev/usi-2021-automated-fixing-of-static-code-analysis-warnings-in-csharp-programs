@@ -1,0 +1,39 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: RepoDb
+    #1 Path: D:\a\1\s\RepoDb.Core\RepoDb\Expressions\ClassExpression.cs, Line: 30, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #2 Path: D:\a\1\s\RepoDb.Core\RepoDb\Expressions\ClassExpression.cs, Line: 48, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #3 Path: D:\a\1\s\RepoDb.Core\RepoDb\Expressions\ClassExpression.cs, Line: 66, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #4 Path: D:\a\1\s\RepoDb.Core\RepoDb\MemoryCache.cs, Line: 78, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: D:\a\1\s\RepoDb.Core\RepoDb\QueryGroup.cs, Line: 551, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #6 Path: D:\a\1\s\RepoDb.Core\RepoDb\Resolvers\DbConvertFieldResolver.cs, Line: 48, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: RepoDb.PostgreSql
+    #7 Path: D:\a\1\s\RepoDb.PostgreSql\RepoDb.PostgreSql\Resolvers\PostgreSqlConvertFieldResolver.cs, Line: 41, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: RepoDb.SqlServer
+    #8 Path: D:\a\1\s\RepoDb.SqlServer\RepoDb.SqlServer\Resolvers\SqlServerConvertFieldResolver.cs, Line: 41, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+--- Rules Summary ---
+R4: 3
+R2: 3
+R8: 1
+R9: 1
+
+--- Summary ---
+Fixed ReSharper issues: 5
+Fixed SonarQube issues: 3
+Total fixed issues: 8
+
+Finished in: 15 s
+
+No errors reported.
+

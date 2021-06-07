@@ -1,0 +1,115 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Jackett.Common
+    #1 Path: D:\a\1\s\src\Jackett.Common\Indexers\Abnormal.cs, Line: 221, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #2 Path: D:\a\1\s\src\Jackett.Common\Indexers\AnimeBytes.cs, Line: 168, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #3 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #4 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #5 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #6 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 107, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #7 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 142, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 462, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 580, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 677, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: D:\a\1\s\src\Jackett.Common\Indexers\BaseIndexer.cs, Line: 679, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: D:\a\1\s\src\Jackett.Common\Indexers\BB.cs, Line: 128, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: D:\a\1\s\src\Jackett.Common\Indexers\BB.cs, Line: 155, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #14 Path: D:\a\1\s\src\Jackett.Common\Indexers\BB.cs, Line: 214, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\src\Jackett.Common\Indexers\BroadcasTheNet.cs, Line: 73, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #16 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1053, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #17 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1060, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #18 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1063, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1104, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1127, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1133, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #22 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1289, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1308, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1522, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1552, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #26 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1558, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #27 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1561, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #28 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1605, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1614, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1710, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1716, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1727, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 1728, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 183, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 201, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #36 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #37 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 382, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #38 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 387, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 471, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 524, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #41 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 530, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #42 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 558, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 577, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 595, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #45 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 628, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 644, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 724, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 777, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #49 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 878, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #50 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 896, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #51 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 901, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #52 Path: D:\a\1\s\src\Jackett.Common\Indexers\CardigannIndexer.cs, Line: 908, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #53 Path: D:\a\1\s\src\Jackett.Common\Indexers\DigitalCore.cs, Line: 119, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #54 Path: D:\a\1\s\src\Jackett.Common\Indexers\GazelleGames.cs, Line: 193, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #55 Path: D:\a\1\s\src\Jackett.Common\Indexers\Libble.cs, Line: 185, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #56 Path: D:\a\1\s\src\Jackett.Common\Indexers\Libble.cs, Line: 215, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #57 Path: D:\a\1\s\src\Jackett.Common\Indexers\Libble.cs, Line: 287, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #58 Path: D:\a\1\s\src\Jackett.Common\Indexers\LostFilm.cs, Line: 334, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #59 Path: D:\a\1\s\src\Jackett.Common\Indexers\LostFilm.cs, Line: 338, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #60 Path: D:\a\1\s\src\Jackett.Common\Indexers\LostFilm.cs, Line: 348, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #61 Path: D:\a\1\s\src\Jackett.Common\Indexers\LostFilm.cs, Line: 384, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #62 Path: D:\a\1\s\src\Jackett.Common\Indexers\LostFilm.cs, Line: 386, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #63 Path: D:\a\1\s\src\Jackett.Common\Indexers\LostFilm.cs, Line: 554, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #64 Path: D:\a\1\s\src\Jackett.Common\Indexers\LostFilm.cs, Line: 615, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #65 Path: D:\a\1\s\src\Jackett.Common\Indexers\LostFilm.cs, Line: 773, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #66 Path: D:\a\1\s\src\Jackett.Common\Indexers\MoreThanTV.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #67 Path: D:\a\1\s\src\Jackett.Common\Indexers\Partis.cs, Line: 155, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #68 Path: D:\a\1\s\src\Jackett.Common\Indexers\Partis.cs, Line: 238, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #69 Path: D:\a\1\s\src\Jackett.Common\Indexers\PornoLab.cs, Line: 326, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #70 Path: D:\a\1\s\src\Jackett.Common\Indexers\PornoLab.cs, Line: 350, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #71 Path: D:\a\1\s\src\Jackett.Common\Indexers\PornoLab.cs, Line: 357, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #72 Path: D:\a\1\s\src\Jackett.Common\Indexers\PornoLab.cs, Line: 358, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #73 Path: D:\a\1\s\src\Jackett.Common\Indexers\SuperBits.cs, Line: 105, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #74 Path: D:\a\1\s\src\Jackett.Common\Indexers\Toloka.cs, Line: 330, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #75 Path: D:\a\1\s\src\Jackett.Common\Indexers\TorrenTech.cs, Line: 200, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #76 Path: D:\a\1\s\src\Jackett.Common\Indexers\TorrenTech.cs, Line: 222, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #77 Path: D:\a\1\s\src\Jackett.Common\Indexers\TorrenTech.cs, Line: 228, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #78 Path: D:\a\1\s\src\Jackett.Common\Indexers\TorrenTech.cs, Line: 229, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #79 Path: D:\a\1\s\src\Jackett.Common\Indexers\Xthor.cs, Line: 354, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #80 Path: D:\a\1\s\src\Jackett.Common\Indexers\YTS.cs, Line: 75, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #81 Path: D:\a\1\s\src\Jackett.Common\Models\TorznabQuery.cs, Line: 195, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #82 Path: D:\a\1\s\src\Jackett.Common\Models\TorznabQuery.cs, Line: 198, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #83 Path: D:\a\1\s\src\Jackett.Common\Models\TorznabQuery.cs, Line: 207, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #84 Path: D:\a\1\s\src\Jackett.Common\Utils\Clients\WebClient.cs, Line: 135, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #85 Path: D:\a\1\s\src\Jackett.Common\Utils\StringUtil.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Jackett.Server(net461)
+    #86 Path: D:\a\1\s\src\Jackett.Server\Middleware\CustomExceptionHandler.cs, Line: 40, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #87 Path: D:\a\1\s\src\Jackett.Server\Services\SecuityService.cs, Line: 34, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 64
+R6: 9
+R4: 6
+R5: 4
+R10: 4
+
+--- Summary ---
+Fixed ReSharper issues: 87
+Fixed SonarQube issues: 23
+Total fixed issues: 87
+
+Finished in: 23 s
+
+No errors reported.
+

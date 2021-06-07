@@ -1,0 +1,83 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Core
+    #1 Path: /home/vsts/work/1/s/src/Core/IdentityServer/ApiClient.cs, Line: 46, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: /home/vsts/work/1/s/src/Core/IdentityServer/ApiClient.cs, Line: 62, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: /home/vsts/work/1/s/src/Core/IdentityServer/BaseRequestValidator.cs, Line: 223, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #4 Path: /home/vsts/work/1/s/src/Core/IdentityServer/BaseRequestValidator.cs, Line: 241, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: /home/vsts/work/1/s/src/Core/Models/Api/Request/Accounts/RegisterRequestModel.cs, Line: 53, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #6 Path: /home/vsts/work/1/s/src/Core/Models/Business/BillingInfo.cs, Line: 26, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: /home/vsts/work/1/s/src/Core/Models/Business/BillingInfo.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: /home/vsts/work/1/s/src/Core/Models/Business/BillingInfo.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: /home/vsts/work/1/s/src/Core/Models/Business/BillingInfo.cs, Line: 78, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: /home/vsts/work/1/s/src/Core/Models/Data/EventTableEntity.cs, Line: 107, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: /home/vsts/work/1/s/src/Core/Models/Data/EventTableEntity.cs, Line: 117, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: /home/vsts/work/1/s/src/Core/Models/Data/EventTableEntity.cs, Line: 98, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: /home/vsts/work/1/s/src/Core/Models/Mail/VerifyDeleteModel.cs, Line: 7, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: /home/vsts/work/1/s/src/Core/Models/Mail/VerifyEmailModel.cs, Line: 7, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: /home/vsts/work/1/s/src/Core/Repositories/TableStorage/EventRepository.cs, Line: 153, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #16 Path: /home/vsts/work/1/s/src/Core/Repositories/TableStorage/EventRepository.cs, Line: 78, Message: ReSharper: ReplaceWithOfType.2. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #17 Path: /home/vsts/work/1/s/src/Core/Services/Implementations/AppleIapService.cs, Line: 99, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #18 Path: /home/vsts/work/1/s/src/Core/Utilities/CoreHelpers.cs, Line: 268, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: /home/vsts/work/1/s/src/Core/Utilities/CoreHelpers.cs, Line: 550, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: /home/vsts/work/1/s/src/Core/Utilities/DuoApi.cs, Line: 111, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: /home/vsts/work/1/s/src/Core/Utilities/DuoApi.cs, Line: 263, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #22 Path: /home/vsts/work/1/s/src/Core/Utilities/DuoApi.cs, Line: 278, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: /home/vsts/work/1/s/src/Core/Utilities/DuoApi.cs, Line: 280, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: /home/vsts/work/1/s/src/Core/Utilities/DuoApi.cs, Line: 45, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: /home/vsts/work/1/s/src/Core/Utilities/EncryptedStringLengthAttribute.cs, Line: 13, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Api
+    #26 Path: /home/vsts/work/1/s/src/Api/Controllers/OrganizationsController.cs, Line: 160, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Billing
+    #27 Path: /home/vsts/work/1/s/src/Billing/Controllers/BitPayController.cs, Line: 168, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #28 Path: /home/vsts/work/1/s/src/Billing/Controllers/FreshdeskController.cs, Line: 106, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: /home/vsts/work/1/s/src/Billing/Controllers/FreshdeskController.cs, Line: 123, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: /home/vsts/work/1/s/src/Billing/Controllers/FreshdeskController.cs, Line: 135, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: /home/vsts/work/1/s/src/Billing/Controllers/StripeController.cs, Line: 249, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #32 Path: /home/vsts/work/1/s/src/Billing/Controllers/StripeController.cs, Line: 254, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #33 Path: /home/vsts/work/1/s/src/Billing/Controllers/StripeController.cs, Line: 259, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Setup
+    #34 Path: /home/vsts/work/1/s/util/Setup/Helpers.cs, Line: 37, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: /home/vsts/work/1/s/util/Setup/Program.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Icons
+    #36 Path: /home/vsts/work/1/s/src/Icons/Models/DomainName.cs, Line: 175, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: /home/vsts/work/1/s/src/Icons/Models/DomainName.cs, Line: 311, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Sso
+    #38 Path: /home/vsts/work/1/s/bitwarden_license/src/Sso/Controllers/AccountController.cs, Line: 124, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #39 Path: /home/vsts/work/1/s/bitwarden_license/src/Sso/Controllers/MetadataController.cs, Line: 31, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+--- Rules Summary ---
+R9: 29
+R3: 5
+R4: 2
+R2: 2
+R7: 1
+
+--- Summary ---
+Fixed ReSharper issues: 37
+Fixed SonarQube issues: 7
+Total fixed issues: 39
+
+Finished in: 13 s
+
+No errors reported.
+

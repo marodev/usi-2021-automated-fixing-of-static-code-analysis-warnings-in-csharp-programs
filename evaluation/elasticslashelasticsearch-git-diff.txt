@@ -1,0 +1,290 @@
+diff --git a/src/ApiGenerator/Domain/Specification/UrlInformation.cs b/src/ApiGenerator/Domain/Specification/UrlInformation.cs
+index fda5ce279..e00115b4e 100644
+--- a/src/ApiGenerator/Domain/Specification/UrlInformation.cs
++++ b/src/ApiGenerator/Domain/Specification/UrlInformation.cs
+@@ -102,7 +102,7 @@ namespace ApiGenerator.Domain.Specification
+ 		public bool IsDocumentApi => IsADocumentRoute(Parts);
+ 
+ 		public static bool IsADocumentRoute(IReadOnlyCollection<UrlPart> parts) =>
+-			parts.Count() == DocumentApiParts.Length
++			parts.Count == DocumentApiParts.Length
+ 			&& parts.All(p => DocumentApiParts.Contains(p.Name));
+ 
+ 
+diff --git a/src/DocGenerator/XmlDocs/XmlDocsVisitor.cs b/src/DocGenerator/XmlDocs/XmlDocsVisitor.cs
+index 1385aba28..26583b4e7 100644
+--- a/src/DocGenerator/XmlDocs/XmlDocsVisitor.cs
++++ b/src/DocGenerator/XmlDocs/XmlDocsVisitor.cs
+@@ -42,9 +42,7 @@ namespace DocGenerator.XmlDocs
+ 					_labeledListItem.Add(new Paragraph(content));
+ 				else
+ 				{
+-					var literal = paragraph.Last() as TextLiteral;
+-
+-					if (literal != null && literal.Text == ListItemContinuation)
++					if (paragraph.Last() is TextLiteral literal && literal.Text == ListItemContinuation)
+ 						paragraph.Add(new TextLiteral(content));
+ 					else
+ 						paragraph.Add(new TextLiteral(" " + content));
+@@ -138,9 +136,7 @@ namespace DocGenerator.XmlDocs
+ 				if (member.Info.DeclaringType == _type &&
+ 					member.Info.MemberType.HasFlag(MemberTypes.Method))
+ 				{
+-					var methodInfo = member.Info as MethodInfo;
+-
+-					if (methodInfo != null && methodInfo.IsPublic)
++					if (member.Info is MethodInfo methodInfo && methodInfo.IsPublic)
+ 					{
+ 						if (_labeledListItem != null)
+ 							LabeledListItems.Add(_labeledListItem);
+diff --git a/src/Nest/CommonAbstractions/Infer/TaskId/TaskId.cs b/src/Nest/CommonAbstractions/Infer/TaskId/TaskId.cs
+index 307cb835d..5feb00e78 100644
+--- a/src/Nest/CommonAbstractions/Infer/TaskId/TaskId.cs
++++ b/src/Nest/CommonAbstractions/Infer/TaskId/TaskId.cs
+@@ -55,7 +55,7 @@ namespace Nest
+ 		public static bool operator !=(TaskId left, TaskId right) => !Equals(left, right);
+ 
+ 		public override bool Equals(object obj) =>
+-			obj != null && obj is string s ? EqualsString(s) : obj is TaskId i && EqualsString(i.FullyQualifiedId);
++obj is string s ? EqualsString(s) : obj is TaskId i && EqualsString(i.FullyQualifiedId);
+ 
+ 		private bool EqualsString(string other) => !other.IsNullOrEmpty() && other == FullyQualifiedId;
+ 
+diff --git a/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/InterfaceGenericDictionaryResolver.cs b/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/InterfaceGenericDictionaryResolver.cs
+index 6ab33c3bb..2b35369fc 100644
+--- a/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/InterfaceGenericDictionaryResolver.cs
++++ b/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/InterfaceGenericDictionaryResolver.cs
+@@ -172,13 +172,13 @@ namespace Nest
+ 			if (reader.ReadIsNull()) return null;
+ 
+ 			var keyFormatter = formatterResolver.GetFormatterWithVerify<TKey>();
+-			var objectKeyFormatter = keyFormatter as IObjectPropertyNameFormatter<TKey>;
+ 			var valueFormatter = formatterResolver.GetFormatterWithVerify<TValue>();
+ 			reader.ReadIsBeginObjectWithVerify();
+ 
+ 			var dict = Create();
+ 			var i = 0;
+-			if (objectKeyFormatter != null)
++
++			if (keyFormatter is IObjectPropertyNameFormatter<TKey> objectKeyFormatter)
+ 			{
+ 				while (!reader.ReadIsEndObjectWithSkipValueSeparator(ref i))
+ 				{
+@@ -214,7 +214,6 @@ namespace Nest
+ 			// TODO 7.0 mutator is not used, should it?
+ 			// ReSharper disable once UnusedVariable
+ 			var mutator = formatterResolver.GetConnectionSettings().DefaultFieldNameInferrer;
+-			var keyFormatter = formatterResolver.GetFormatterWithVerify<TKey>() as IObjectPropertyNameFormatter<TKey>;
+ 			var valueFormatter = formatterResolver.GetFormatterWithVerify<TValue>();
+ 
+ 			writer.WriteBeginObject();
+@@ -222,7 +221,7 @@ namespace Nest
+ 			var e = GetSourceEnumerator(value);
+ 			try
+ 			{
+-				if (keyFormatter != null)
++				if (formatterResolver.GetFormatterWithVerify<TKey>() is IObjectPropertyNameFormatter<TKey> keyFormatter)
+ 				{
+ 					if (e.MoveNext())
+ 					{
+diff --git a/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/IsADictionaryFormatterResolver.cs b/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/IsADictionaryFormatterResolver.cs
+index ec4f7ad52..a6e9a0147 100644
+--- a/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/IsADictionaryFormatterResolver.cs
++++ b/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/IsADictionaryFormatterResolver.cs
+@@ -126,7 +126,6 @@ namespace Nest
+             }
+ 
+ 			var mutator = formatterResolver.GetConnectionSettings().DefaultFieldNameInferrer;
+-			var keyFormatter = formatterResolver.GetFormatterWithVerify<TKey>() as IObjectPropertyNameFormatter<TKey>;
+ 			var valueFormatter = formatterResolver.GetFormatterWithVerify<TValue>();
+ 
+ 			writer.WriteBeginObject();
+@@ -134,7 +133,7 @@ namespace Nest
+ 			var e = GetSourceEnumerator(value);
+ 			try
+ 			{
+-				if (keyFormatter != null)
++				if (formatterResolver.GetFormatterWithVerify<TKey>() is IObjectPropertyNameFormatter<TKey> keyFormatter)
+ 				{
+ 					if (e.MoveNext())
+ 					{
+@@ -195,13 +194,13 @@ namespace Nest
+             if (reader.ReadIsNull()) return null;
+ 
+ 			var keyFormatter = formatterResolver.GetFormatterWithVerify<TKey>();
+-			var objectKeyFormatter = keyFormatter as IObjectPropertyNameFormatter<TKey>;
+ 			var valueFormatter = formatterResolver.GetFormatterWithVerify<TValue>();
+ 			reader.ReadIsBeginObjectWithVerify();
+ 
+ 			var dict = Create();
+ 			var i = 0;
+-			if (objectKeyFormatter != null)
++
++			if (keyFormatter is IObjectPropertyNameFormatter<TKey> objectKeyFormatter)
+ 			{
+ 				while (!reader.ReadIsEndObjectWithSkipValueSeparator(ref i))
+ 				{
+diff --git a/src/Nest/Document/Multiple/Bulk/BulkRequest.cs b/src/Nest/Document/Multiple/Bulk/BulkRequest.cs
+index 38b0c6754..8b310b641 100644
+--- a/src/Nest/Document/Multiple/Bulk/BulkRequest.cs
++++ b/src/Nest/Document/Multiple/Bulk/BulkRequest.cs
+@@ -153,7 +153,7 @@ namespace Nest
+ 			if (@objects == null) return this;
+ 
+ 			var objectsList = @objects.ToList();
+-			var operations = new List<TInterface>(objectsList.Count());
++			var operations = new List<TInterface>(objectsList.Count);
+ 			foreach (var o in objectsList)
+ 			{
+ 				var op = bulkIndexSelector.InvokeOrDefault(defaultSelector(o), o);
+diff --git a/src/Nest/QueryDsl/MultiTermQueryRewrite/RewriteMultiTerm.cs b/src/Nest/QueryDsl/MultiTermQueryRewrite/RewriteMultiTerm.cs
+index 5b8e659c5..c7145355d 100644
+--- a/src/Nest/QueryDsl/MultiTermQueryRewrite/RewriteMultiTerm.cs
++++ b/src/Nest/QueryDsl/MultiTermQueryRewrite/RewriteMultiTerm.cs
+@@ -214,8 +214,7 @@ namespace Nest
+ 			if (ReferenceEquals(null, obj)) return false;
+ 			if (ReferenceEquals(this, obj)) return true;
+ 
+-			var value = obj as string;
+-			if (value != null)
++			if (obj is string value)
+ 				return string.Equals(value, _value);
+ 
+ 			return obj.GetType() == GetType() && Equals((MultiTermQueryRewrite)obj);
+diff --git a/src/Nest/Search/MultiSearch/MultiSearchResponse.cs b/src/Nest/Search/MultiSearch/MultiSearchResponse.cs
+index 99480cc00..e6d0d1d12 100644
+--- a/src/Nest/Search/MultiSearch/MultiSearchResponse.cs
++++ b/src/Nest/Search/MultiSearch/MultiSearchResponse.cs
+@@ -23,7 +23,7 @@ namespace Nest
+ 
+ 		public override bool IsValid => base.IsValid && AllResponses.All(b => b.IsValid);
+ 
+-		public int TotalResponses => Responses.HasAny() ? Responses.Count() : 0;
++		public int TotalResponses => Responses.HasAny() ? Responses.Count : 0;
+ 
+ 		[JsonFormatter(typeof(VerbatimDictionaryInterfaceKeysFormatter<string, IResponse>))]
+ 		internal IDictionary<string, IResponse> Responses { get; set; }
+diff --git a/src/Nest/Utf8Json/Formatters/DictionaryFormatter.cs b/src/Nest/Utf8Json/Formatters/DictionaryFormatter.cs
+index ad32c8bbe..a63ad1cca 100644
+--- a/src/Nest/Utf8Json/Formatters/DictionaryFormatter.cs
++++ b/src/Nest/Utf8Json/Formatters/DictionaryFormatter.cs
+@@ -44,7 +44,6 @@ namespace Nest.Utf8Json
+ 				writer.WriteNull();
+ 			else
+ 			{
+-				var keyFormatter = formatterResolver.GetFormatterWithVerify<TKey>() as IObjectPropertyNameFormatter<TKey>;
+ 				var valueFormatter = formatterResolver.GetFormatterWithVerify<TValue>();
+ 
+ 				writer.WriteBeginObject();
+@@ -53,7 +52,8 @@ namespace Nest.Utf8Json
+ 				try
+ 				{
+ 					var written = 0;
+-					if (keyFormatter != null)
++
++					if (formatterResolver.GetFormatterWithVerify<TKey>() is IObjectPropertyNameFormatter<TKey> keyFormatter)
+ 					{
+ 						if (e.MoveNext())
+ 						{
+diff --git a/src/Nest/Utf8Json/Formatters/EnumFormatter.cs b/src/Nest/Utf8Json/Formatters/EnumFormatter.cs
+index 133689a84..0d47f3ba1 100644
+--- a/src/Nest/Utf8Json/Formatters/EnumFormatter.cs
++++ b/src/Nest/Utf8Json/Formatters/EnumFormatter.cs
+@@ -92,8 +92,8 @@ namespace Nest.Utf8Json
+ 
+ 				values.Add(value);
+ 				names.Add(
+-					(enumMember != null && enumMember.Value != null) ? enumMember.Value
+-					: (dataMember != null && dataMember.Name != null) ? dataMember.Name
++					(enumMember?.Value != null) ? enumMember.Value
++					: (dataMember?.Name != null) ? dataMember.Name
+ 					: name);
+ 			}
+ 
+diff --git a/src/Nest/Utf8Json/Internal/Emit/MetaType.cs b/src/Nest/Utf8Json/Internal/Emit/MetaType.cs
+index 99239757b..ff96c220b 100644
+--- a/src/Nest/Utf8Json/Internal/Emit/MetaType.cs
++++ b/src/Nest/Utf8Json/Internal/Emit/MetaType.cs
+@@ -159,7 +159,7 @@ namespace Nest.Utf8Json
+ 					var dm = item.GetCustomAttribute<DataMemberAttribute>(true);
+ 					if (dataContractPresent && dm == null) continue;
+ 
+-					var name = (dm != null && dm.Name != null) ? dm.Name : nameMutator(item.Name);
++					var name = (dm?.Name != null) ? dm.Name : nameMutator(item.Name);
+ 					var allowPrivateMember = allowPrivate;
+ 					object jsonFormatter = null;
+ 
+diff --git a/src/Nest/XPack/Security/RoleMapping/Rules/Role/RoleMappingRuleBase.cs b/src/Nest/XPack/Security/RoleMapping/Rules/Role/RoleMappingRuleBase.cs
+index aa70dcd7a..00765d63e 100644
+--- a/src/Nest/XPack/Security/RoleMapping/Rules/Role/RoleMappingRuleBase.cs
++++ b/src/Nest/XPack/Security/RoleMapping/Rules/Role/RoleMappingRuleBase.cs
+@@ -54,14 +54,12 @@ namespace Nest
+ 
+ 		public static IEnumerable<RoleMappingRuleBase> AllOrSelf(RoleMappingRuleBase rule)
+ 		{
+-			var all = rule as AllRoleMappingRule;
+-			return all != null ? all.AllRules : new[] { rule };
++			return rule is AllRoleMappingRule all ? all.AllRules : new[] { rule };
+ 		}
+ 
+ 		public static IEnumerable<RoleMappingRuleBase> AnyOrSelf(RoleMappingRuleBase rule)
+ 		{
+-			var all = rule as AnyRoleMappingRule;
+-			return all != null ? all.AnyRules : new[] { rule };
++			return rule is AnyRoleMappingRule all ? all.AnyRules : new[] { rule };
+ 		}
+ 
+ 		public static implicit operator RoleMappingRuleBase(UsernameRule rule) => new FieldRoleMappingRule(rule);
+diff --git a/src/Nest/XPack/Watcher/Action/Actions.cs b/src/Nest/XPack/Watcher/Action/Actions.cs
+index e5a04463c..b7b3c8bc7 100644
+--- a/src/Nest/XPack/Watcher/Action/Actions.cs
++++ b/src/Nest/XPack/Watcher/Action/Actions.cs
+@@ -27,8 +27,7 @@ namespace Nest
+ 			var reducedActions = new Dictionary<string, IAction>(actions.Count);
+ 			foreach (var action in actions)
+ 			{
+-				var combinator = action.Value as ActionCombinator;
+-				if (combinator != null)
++				if (action.Value is ActionCombinator combinator)
+ 				{
+ 					foreach (var combinatorAction in combinator.Actions)
+ 					{
+diff --git a/tests/Tests/ClientConcepts/ConnectionPooling/Sniffing/RoleDetection.doc.cs b/tests/Tests/ClientConcepts/ConnectionPooling/Sniffing/RoleDetection.doc.cs
+index e90011f95..6d8e6b525 100644
+--- a/tests/Tests/ClientConcepts/ConnectionPooling/Sniffing/RoleDetection.doc.cs
++++ b/tests/Tests/ClientConcepts/ConnectionPooling/Sniffing/RoleDetection.doc.cs
+@@ -164,7 +164,7 @@ namespace Tests.ClientConcepts.ConnectionPooling.Sniffing
+ 				{
+ 					pool.Should().NotBeNull();
+ 					var nodes = pool.CreateView().ToList();
+-					nodes.Count().Should().Be(20, "Master nodes are included in the registration of nodes since we still favor sniffing on them");
++					nodes.Count.Should().Be(20, "Master nodes are included in the registration of nodes since we still favor sniffing on them");
+ 				}
+ 			};
+ 
+diff --git a/tests/Tests/QueryDsl/BoolDsl/BoolApiTests.cs b/tests/Tests/QueryDsl/BoolDsl/BoolApiTests.cs
+index daaa911c3..8206ea435 100644
+--- a/tests/Tests/QueryDsl/BoolDsl/BoolApiTests.cs
++++ b/tests/Tests/QueryDsl/BoolDsl/BoolApiTests.cs
+@@ -72,7 +72,7 @@ namespace Tests.QueryDsl.BoolDsl
+ 		)
+ 		{
+ 			var documents = BoolCluster.A.Documents.Where(programmatic).ToList();
+-			documents.Count().Should().Be(expectedCount, " filtering the documents in memory did not yield the expected count");
++			documents.Count.Should().Be(expectedCount, " filtering the documents in memory did not yield the expected count");
+ 
+ 			var client = _cluster.Client;
+ 
+diff --git a/tests/Tests/Search/MultiSearch/MultiSearchLowLevelPostDataTests.cs b/tests/Tests/Search/MultiSearch/MultiSearchLowLevelPostDataTests.cs
+index 2b4420fc1..4b1e97900 100644
+--- a/tests/Tests/Search/MultiSearch/MultiSearchLowLevelPostDataTests.cs
++++ b/tests/Tests/Search/MultiSearch/MultiSearchLowLevelPostDataTests.cs
+@@ -87,7 +87,7 @@ namespace Tests.Search.MultiSearch
+ 			dynamic b = response.Body;
+ 			List<object> responses = b.responses;
+ 			response.Should().NotBeNull("{0}", response.DebugInformation);
+-			responses.Count().Should().Be(4, "{0}", response.DebugInformation);
++			responses.Count.Should().Be(4, "{0}", response.DebugInformation);
+ 
+ 			object r = b.responses[0];
+ 			r.Should().NotBeNull();

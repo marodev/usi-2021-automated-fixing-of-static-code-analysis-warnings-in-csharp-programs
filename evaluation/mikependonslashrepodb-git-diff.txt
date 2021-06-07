@@ -1,0 +1,103 @@
+diff --git a/RepoDb.Core/RepoDb/Expressions/ClassExpression.cs b/RepoDb.Core/RepoDb/Expressions/ClassExpression.cs
+index 23124f3f..3031ba8c 100644
+--- a/RepoDb.Core/RepoDb/Expressions/ClassExpression.cs
++++ b/RepoDb.Core/RepoDb/Expressions/ClassExpression.cs
+@@ -28,8 +28,8 @@ namespace RepoDb
+         {
+             var property = ExpressionExtension.GetProperty<TEntity>(expression);
+             var propertyCache = PropertyCache.Get<TEntity>()
+-                .Where(p => p.PropertyInfo == property || string.Equals(p.PropertyInfo.Name, property.Name, StringComparison.OrdinalIgnoreCase))
+-                .FirstOrDefault();
++                .FirstOrDefault(p => p.PropertyInfo == property || string.Equals(p.PropertyInfo.Name, property.Name, StringComparison.OrdinalIgnoreCase))
++;
+             return GetEntitiesPropertyValues<TEntity, TResult>(entities, propertyCache);
+         }
+ 
+@@ -46,8 +46,8 @@ namespace RepoDb
+             where TEntity : class
+         {
+             var classProperty = PropertyCache.Get<TEntity>()
+-                .Where(p => string.Equals(p.PropertyInfo.Name, field.Name, StringComparison.OrdinalIgnoreCase))
+-                .FirstOrDefault();
++                .FirstOrDefault(p => string.Equals(p.PropertyInfo.Name, field.Name, StringComparison.OrdinalIgnoreCase))
++;
+             return GetEntitiesPropertyValues<TEntity, TResult>(entities, classProperty);
+         }
+ 
+@@ -64,8 +64,8 @@ namespace RepoDb
+             where TEntity : class
+         {
+             var classProperty = PropertyCache.Get<TEntity>()
+-                .Where(p => string.Equals(p.PropertyInfo.Name, propertyName, StringComparison.OrdinalIgnoreCase))
+-                .FirstOrDefault();
++                .FirstOrDefault(p => string.Equals(p.PropertyInfo.Name, propertyName, StringComparison.OrdinalIgnoreCase))
++;
+             return GetEntitiesPropertyValues<TEntity, TResult>(entities, classProperty);
+         }
+ 
+diff --git a/RepoDb.Core/RepoDb/MemoryCache.cs b/RepoDb.Core/RepoDb/MemoryCache.cs
+index 78957d13..ee42928f 100644
+--- a/RepoDb.Core/RepoDb/MemoryCache.cs
++++ b/RepoDb.Core/RepoDb/MemoryCache.cs
+@@ -74,8 +74,7 @@ namespace RepoDb
+         {
+             if (cache.TryGetValue(key, out var value) == true)
+             {
+-                var expirable = value as IExpirable;
+-                if (expirable != null)
++                if (value is IExpirable expirable)
+                 {
+                     return expirable.IsExpired() == false;
+                 }
+diff --git a/RepoDb.Core/RepoDb/QueryGroup.cs b/RepoDb.Core/RepoDb/QueryGroup.cs
+index ccec5ab8..fb7412e0 100644
+--- a/RepoDb.Core/RepoDb/QueryGroup.cs
++++ b/RepoDb.Core/RepoDb/QueryGroup.cs
+@@ -548,7 +548,7 @@ namespace RepoDb
+             {
+                 foreach (var field in queryGroups[i].GetFields(true))
+                 {
+-                    field.Parameter.SetName(string.Format("T{0}_{1}", i, field.Parameter.Name));
++                    field.Parameter.SetName($"T{i}_{field.Parameter.Name}");
+                 }
+             }
+         }
+diff --git a/RepoDb.Core/RepoDb/Resolvers/DbConvertFieldResolver.cs b/RepoDb.Core/RepoDb/Resolvers/DbConvertFieldResolver.cs
+index bb633beb..e00157ad 100644
+--- a/RepoDb.Core/RepoDb/Resolvers/DbConvertFieldResolver.cs
++++ b/RepoDb.Core/RepoDb/Resolvers/DbConvertFieldResolver.cs
+@@ -45,7 +45,7 @@ namespace RepoDb.Resolvers
+         public virtual string Resolve(Field field,
+             IDbSetting dbSetting)
+         {
+-            if (field != null && field.Type != null)
++            if (field?.Type != null)
+             {
+                 var dbType = DbTypeResolver.Resolve(field.Type);
+                 if (dbType != null)
+diff --git a/RepoDb.PostgreSql/RepoDb.PostgreSql/Resolvers/PostgreSqlConvertFieldResolver.cs b/RepoDb.PostgreSql/RepoDb.PostgreSql/Resolvers/PostgreSqlConvertFieldResolver.cs
+index e15351f2..cd433414 100644
+--- a/RepoDb.PostgreSql/RepoDb.PostgreSql/Resolvers/PostgreSqlConvertFieldResolver.cs
++++ b/RepoDb.PostgreSql/RepoDb.PostgreSql/Resolvers/PostgreSqlConvertFieldResolver.cs
+@@ -38,7 +38,7 @@ namespace RepoDb.Resolvers
+         public override string Resolve(Field field,
+             IDbSetting dbSetting)
+         {
+-            if (field != null && field.Type != null)
++            if (field?.Type != null)
+             {
+                 var dbType = DbTypeResolver.Resolve(field.Type);
+                 if (dbType != null)
+diff --git a/RepoDb.SqlServer/RepoDb.SqlServer/Resolvers/SqlServerConvertFieldResolver.cs b/RepoDb.SqlServer/RepoDb.SqlServer/Resolvers/SqlServerConvertFieldResolver.cs
+index 55b9cae3..6282cd41 100644
+--- a/RepoDb.SqlServer/RepoDb.SqlServer/Resolvers/SqlServerConvertFieldResolver.cs
++++ b/RepoDb.SqlServer/RepoDb.SqlServer/Resolvers/SqlServerConvertFieldResolver.cs
+@@ -38,7 +38,7 @@ namespace RepoDb.Resolvers
+         public override string Resolve(Field field,
+             IDbSetting dbSetting)
+         {
+-            if (field != null && field.Type != null)
++            if (field?.Type != null)
+             {
+                 var dbType = DbTypeResolver.Resolve(field.Type);
+                 if (dbType != null)

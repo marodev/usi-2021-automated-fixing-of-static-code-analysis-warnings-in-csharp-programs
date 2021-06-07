@@ -1,0 +1,79 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Mosa.Compiler.Framework
+    #1 Path: D:\a\1\s\Source\Mosa.Compiler.Framework\BasicBlock.cs, Line: 220, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Mosa.Korlib
+    #2 Path: D:\a\1\s\Source\Mosa.Korlib\System.Collections.Generic\List.cs, Line: 434, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: D:\a\1\s\Source\Mosa.Korlib\System.Collections\ArrayList.cs, Line: 991, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #4 Path: D:\a\1\s\Source\Mosa.Korlib\System.Collections\CompatibleComparer.cs, Line: 27, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: D:\a\1\s\Source\Mosa.Korlib\System\IntPtr.cs, Line: 43, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #6 Path: D:\a\1\s\Source\Mosa.Korlib\System\UIntPtr.cs, Line: 38, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #7 Path: D:\a\1\s\Source\Mosa.Korlib\System\ValueTuple.cs, Line: 21, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Mosa.Kernel.x86
+    #8 Path: D:\a\1\s\Source\Mosa.Kernel.x86\ConsoleSession.cs, Line: 129, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #9 Path: D:\a\1\s\Source\Mosa.Kernel.x86\ConsoleSession.cs, Line: 203, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #10 Path: D:\a\1\s\Source\Mosa.Kernel.x86\ConsoleSession.cs, Line: 244, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Mosa.Compiler.MosaTypeSystem
+    #11 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\DnlibExtension.cs, Line: 10, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #12 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\DnlibExtension.cs, Line: 42, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #13 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\DnlibExtension.cs, Line: 46, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #14 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\DnlibExtension.cs, Line: 54, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #15 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\DnlibExtension.cs, Line: 58, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #16 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\DnlibExtension.cs, Line: 72, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #17 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataLoader.cs, Line: 251, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #18 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataLoader.cs, Line: 468, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #19 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataLoader.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #20 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataLoader.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #21 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataResolver.cs, Line: 135, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #22 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataResolver.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #23 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataResolver.cs, Line: 519, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #24 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataResolver.cs, Line: 80, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #25 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataResolver.cs, Line: 82, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #26 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataResolver.cs, Line: 84, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #27 Path: D:\a\1\s\Source\Mosa.Compiler.MosaTypeSystem\Metadata\MetadataResolver.cs, Line: 86, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Mosa.Runtime
+    #28 Path: D:\a\1\s\Source\Mosa.Runtime\Pointer.cs, Line: 75, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Mosa.Utility.UnitTests
+    #29 Path: D:\a\1\s\Source\Mosa.Utility.UnitTests\UnitTestSystem.cs, Line: 224, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #30 Path: D:\a\1\s\Source\Mosa.Utility.UnitTests\UnitTestSystem.cs, Line: 245, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Mosa.Workspace.Kernel.Debug
+    #31 Path: D:\a\1\s\Source\Mosa.Workspace.Kernel.Debug\Mod\Mosa.Runtime\Pointer.cs, Line: 74, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+--- Rules Summary ---
+R5: 20
+R8: 6
+R7: 3
+R9: 1
+R3: 1
+
+--- Summary ---
+Fixed ReSharper issues: 31
+Fixed SonarQube issues: 21
+Total fixed issues: 31
+
+Finished in: 36 s
+
+No errors reported.
+

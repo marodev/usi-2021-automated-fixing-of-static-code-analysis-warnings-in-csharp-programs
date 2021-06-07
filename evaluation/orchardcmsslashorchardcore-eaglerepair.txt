@@ -1,0 +1,1688 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: OrchardCore.DisplayManagement(net5.0)
+    #1 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Descriptors\ShapeAttributeStrategy\ShapeAttributeBindingStrategy.cs, Line: 207, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\IShape.cs, Line: 76, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\IShape.cs, Line: 98, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #4 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\ModelBinding\ModelBinderAccessorFilter.cs, Line: 17, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\ModelBinding\ModelBinderAccessorFilter.cs, Line: 32, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #6 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Razor\RazorShapeTemplateViewEngine.cs, Line: 177, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #7 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Razor\RazorShapeTemplateViewEngine.cs, Line: 81, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Shapes\Composite.cs, Line: 73, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #9 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Shapes\Composite.cs, Line: 96, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #10 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Shapes\CoreShapes.cs, Line: 39, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #11 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Shapes\Shape.cs, Line: 6, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #12 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Shapes\Shape.cs, Line: 64, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #13 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Shapes\Shape.cs, Line: 75, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #14 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement\Shapes\ShapeDebugView.cs, Line: 40, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: OrchardCore.Data(net5.0)
+    #15 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Data\Migration\DataMigrationManager.cs, Line: 110, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: OrchardCore.ContentManagement.Display(net5.0)
+    #16 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement.Display\ContentDisplay\ContentItemDisplayCoordinator.cs, Line: 96, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #17 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement.Display\Placement\ContentPlacementNodeFilterProviders.cs, Line: 84, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.ContentManagement(net5.0)
+    #18 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 104, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #19 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 128, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #20 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 152, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #21 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 176, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #22 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 199, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #23 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 223, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #24 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 292, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #25 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 316, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #26 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 340, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #27 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 363, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #28 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 386, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #29 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 409, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #30 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 432, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #31 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 455, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #32 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 478, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #33 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 501, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #34 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 524, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #35 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 547, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #36 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 570, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #37 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 595, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #38 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 595, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #39 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 643, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #40 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 665, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #41 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 687, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #42 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement\Handlers\ContentPartHandlerCoordinator.cs, Line: 80, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.ContentManagement.Abstractions(net5.0)
+    #43 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement.Abstractions\ContentExtensions.cs, Line: 167, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #44 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement.Abstractions\ContentExtensions.cs, Line: 270, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #45 Path: D:\a\1\s\src\OrchardCore\OrchardCore.ContentManagement.Abstractions\Handlers\ContentItemAspectContext.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Data.Abstractions(net5.0)
+    #46 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Data.Abstractions\ServiceCollectionExtensions.cs, Line: 30, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Tenants(net5.0)
+    #47 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Tenants\Controllers\AdminController.cs, Line: 144, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #48 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Tenants\Controllers\AdminController.cs, Line: 216, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #49 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Tenants\Controllers\AdminController.cs, Line: 359, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #50 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Tenants\Controllers\AdminController.cs, Line: 413, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #51 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Tenants\Controllers\AdminController.cs, Line: 478, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #52 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Tenants\Controllers\AdminController.cs, Line: 518, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #53 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Tenants\Controllers\AdminController.cs, Line: 551, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: OrchardCore.Users(net5.0)
+    #54 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Users\Controllers\ControllerExtensions.cs, Line: 74, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #55 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Users\Controllers\RegistrationController.cs, Line: 149, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.ContentFields(net5.0)
+    #56 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.ContentFields\Fields\UserNamesExtensions.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #57 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.ContentFields\GraphQL\Types\TimeSpanGraphType.cs, Line: 32, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Contents(net5.0)
+    #58 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Contents\AdminNodes\ContentTypesAdminNodeNavigationBuilder.cs, Line: 76, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #59 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Contents\Handlers\FullTextAspectContentHandler.cs, Line: 61, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: OrchardCore.ContentTypes(net5.0)
+    #60 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.ContentTypes\Services\ContentDefinitionService.cs, Line: 493, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: OrchardCore.Demo(net5.0)
+    #61 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Demo\Services\TestDependency.cs, Line: 20, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: OrchardCore.Deployment(net5.0)
+    #62 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Deployment\Controllers\ExportFileController.cs, Line: 62, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Deployment.Remote(net5.0)
+    #63 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Deployment.Remote\Controllers\RemoteClientController.cs, Line: 74, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #64 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Deployment.Remote\Controllers\RemoteInstanceController.cs, Line: 69, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: OrchardCore.Feeds(net5.0)
+    #65 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Feeds\Controllers\FeedController.cs, Line: 39, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #66 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Feeds\Controllers\FeedController.cs, Line: 58, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: OrchardCore.Lists(net5.0)
+    #67 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Lists\AdminNodes\ListsAdminNodeNavigationBuilder.cs, Line: 80, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: OrchardCore.Lucene(net5.0)
+    #68 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Lucene\Controllers\AdminController.cs, Line: 469, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: OrchardCore.Menu(net5.0)
+    #69 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Menu\Drivers\MenuPartDisplayDriver.cs, Line: 77, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Media(net5.0)
+    #70 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Media\Fields\MediaFieldAnchorExtensions.cs, Line: 15, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Localization.Core(net5.0)
+    #71 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Localization.Core\PortableObject\PoParser.cs, Line: 88, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: OrchardCore.DisplayManagement.Liquid(net5.0)
+    #72 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement.Liquid\TagHelpers\LiquidTagHelperActivator.cs, Line: 55, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #73 Path: D:\a\1\s\src\OrchardCore\OrchardCore.DisplayManagement.Liquid\TagHelpers\LiquidTagHelperFactory.cs, Line: 79, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: OrchardCore.Forms(net5.0)
+    #74 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Forms\Filters\ExportModelStateAttribute.cs, Line: 16, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #75 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Forms\Filters\ImportModelStateAttribute.cs, Line: 15, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #76 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Forms\Filters\ImportModelStatePageFilter.cs, Line: 16, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore(net5.0)
+    #77 Path: D:\a\1\s\src\OrchardCore\OrchardCore\Extensions\Features\FeatureHash.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #78 Path: D:\a\1\s\src\OrchardCore\OrchardCore\Modules\ModularBackgroundService.cs, Line: 56, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #79 Path: D:\a\1\s\src\OrchardCore\OrchardCore\Shell\ShellSettingsManager.cs, Line: 242, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: OrchardCore.Abstractions(net5.0)
+    #80 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Abstractions\Modules\Module.cs, Line: 35, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #81 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Abstractions\Modules\Module.cs, Line: 36, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: OrchardCore.Infrastructure(net5.0)
+    #82 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Infrastructure\Commands\Parameters\CommandParametersParser.cs, Line: 26, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #83 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Infrastructure\Shells.Database\Configuration\DatabaseShellConfigurationSources.cs, Line: 77, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Infrastructure.Abstractions(net5.0)
+    #84 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Infrastructure.Abstractions\Cache\CacheContext.cs, Line: 71, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #85 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Infrastructure.Abstractions\Cache\CacheContext.cs, Line: 96, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: OrchardCore.Taxonomies(net5.0)
+    #86 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Taxonomies\Drivers\TaxonomyPartDisplayDriver.cs, Line: 105, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #87 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Taxonomies\Drivers\TermPartContentDriver.cs, Line: 100, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #88 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Taxonomies\Drivers\TermPartContentDriver.cs, Line: 127, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #89 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Taxonomies\Drivers\TermPartContentDriver.cs, Line: 70, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #90 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Taxonomies\Fields\TagNamesExtensions.cs, Line: 16, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Apis.GraphQL.Client(net5.0)
+    #91 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Apis.GraphQL.Client\ContentTypeQueryResourceBuilder.cs, Line: 62, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #92 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Apis.GraphQL.Client\ContentTypeQueryResourceBuilder.cs, Line: 91, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: OrchardCore.AdminMenu(net5.0)
+    #93 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.AdminMenu\AdminNodes\LinkAdminNodeNavigationBuilder.cs, Line: 61, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #94 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.AdminMenu\AdminNodes\PlaceholderAdminNodeNavigationBuilder.cs, Line: 57, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #95 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.AdminMenu\Controllers\MenuController.cs, Line: 72, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #96 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.AdminMenu\Services\AdminMenuNavigationProvidersCoordinator.cs, Line: 65, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: OrchardCore.Twitter(net5.0)
+    #97 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Twitter\Services\TwitterClientMessageHandler.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: OrchardCore.ContentLocalization(net5.0)
+    #98 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.ContentLocalization\Handlers\ContentLocalizationPartHandlerCoordinator.cs, Line: 43, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #99 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.ContentLocalization\Handlers\ContentLocalizationPartHandlerCoordinator.cs, Line: 62, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #100 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.ContentLocalization\Security\LocalizeContentAuthorizationHandler.cs, Line: 38, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Sitemaps.Abstractions(net5.0)
+    #101 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Sitemaps.Abstractions\Builders\SitemapSourceBuilderBase.cs, Line: 14, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #102 Path: D:\a\1\s\src\OrchardCore\OrchardCore.Sitemaps.Abstractions\Builders\SitemapTypeBuilderBase.cs, Line: 14, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OrchardCore.Sitemaps(net5.0)
+    #103 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Sitemaps\Services\RazorPagesContentTypeProvider.cs, Line: 31, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: OrchardCore.Redis(net5.0)
+    #104 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Redis\Services\RedisService.cs, Line: 58, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: OrchardCore.Placements(net5.0)
+    #105 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Placements\Controllers\AdminController.cs, Line: 79, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: OrchardCore.AdminDashboard(net5.0)
+    #106 Path: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.AdminDashboard\Controllers\DashboardController.cs, Line: 191, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+--- Rules Summary ---
+R8: 58
+R4: 21
+R9: 6
+R6: 6
+R5: 5
+R7: 5
+R2: 5
+
+--- Summary ---
+Fixed ReSharper issues: 101
+Fixed SonarQube issues: 32
+Total fixed issues: 106
+
+Finished in: 3 min 1 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Navigation\PagerShapes.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
+using OrchardCore.DisplayManagement;
+using OrchardCore.DisplayManagement.Descriptors;
+using OrchardCore.DisplayManagement.Implementation;
+using OrchardCore.DisplayManagement.Shapes;
+
+namespace OrchardCore.Navigation
+{
+    public class PagerShapesTableProvider : IShapeTableProvider
+    {
+        public void Discover(ShapeTableBuilder builder)
+        {
+            builder.Describe("Pager")
+                .OnCreated(created =>
+                {
+                    // Intializes the common properties of a Pager shape
+                    // such that views can safely add values to them.
+                    created.Shape.Properties["ItemClasses"] = new List<string>();
+                    created.Shape.Properties["ItemAttributes"] = new Dictionary<string, string>();
+                })
+                .OnDisplaying(displaying =>
+                {
+                    if (displaying.Shape.Properties.TryGetValue("PagerId", out var value) && value is string pagerId)
+                    {
+                        if (!String.IsNullOrEmpty(pagerId))
+                        {
+                            displaying.Shape.Metadata.Alternates.Add("Pager__" + EncodeAlternateElement(pagerId));
+                        }
+                    };
+                });
+
+            builder.Describe("PagerSlim")
+                .OnCreated(created =>
+                {
+                    // Intializes the common properties of a Pager shape
+                    // such that views can safely add values to them.
+                    created.Shape.Properties["ItemClasses"] = new List<string>();
+                    created.Shape.Properties["ItemAttributes"] = new Dictionary<string, string>();
+                })
+                .OnDisplaying(displaying =>
+                {
+                    if (displaying.Shape.Properties.TryGetValue("PagerId", out var value) && value is string pagerId)
+                    {
+                        if (!String.IsNullOrEmpty(pagerId))
+                        {
+                            displaying.Shape.Metadata.Alternates.Add("Pager__" + EncodeAlternateElement(pagerId));
+                        }
+                    };
+                });
+
+            builder.Describe("Pager_Gap")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Gap__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_First")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_First__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_Previous")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Previous__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_Next")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Next__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_Last")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Last__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_CurrentPage")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_CurrentPage__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_Links")
+                .OnDisplaying(displaying =>
+                {
+                    if (displaying.Shape.Properties.TryGetValue("PagerId", out var value) && value is string pagerId)
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Links__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+        }
+
+        private string EncodeAlternateElement(string alternateElement)
+        {
+            return alternateElement.Replace("-", "__").Replace('.', '_');
+        }
+    }
+
+    public class PagerShapes : IShapeAttributeProvider
+    {
+        private readonly IStringLocalizer S;
+
+        public PagerShapes(IStringLocalizer<PagerShapes> localizer)
+        {
+            S = localizer;
+        }
+
+        [Shape]
+        public async Task<IHtmlContent> Pager_Links(Shape shape, dynamic DisplayAsync, dynamic New, IHtmlHelper Html, DisplayContext DisplayContext,
+            string PagerId,
+            int Page,
+            int PageSize,
+            double TotalItemCount,
+            int? Quantity,
+            object FirstText,
+            object PreviousText,
+            object NextText,
+            object LastText,
+            object GapText,
+            bool ShowNext,
+            string ItemTagName,
+            IDictionary<string, string> ItemAttributes
+            // parameter omitted to workaround an issue where a NullRef is thrown
+            // when an anonymous object is bound to an object shape parameter
+            /*object RouteValues*/)
+        {
+            var noFollow = shape.Attributes.ContainsKey("rel") && shape.Attributes["rel"] == "no-follow";
+            var currentPage = Page;
+            if (currentPage < 1)
+                currentPage = 1;
+
+            var pageSize = PageSize;
+
+            var numberOfPagesToShow = Quantity ?? 0;
+            if (Quantity == null || Quantity < 0)
+                numberOfPagesToShow = 7;
+
+            var totalPageCount = pageSize > 0 ? (int)Math.Ceiling(TotalItemCount / pageSize) : 1;
+
+            // return shape early if pager is not needed.
+            if (totalPageCount < 2)
+            {
+                shape.Metadata.Type = "List";
+                return await DisplayAsync(shape);
+            }
+
+            var firstText = FirstText ?? S["<<"];
+            var previousText = PreviousText ?? S["<"];
+            var nextText = NextText ?? S[">"];
+            var lastText = LastText ?? S[">>"];
+            var gapText = GapText ?? S["..."];
+
+            var httpContextAccessor = DisplayContext.ServiceProvider.GetService<IHttpContextAccessor>();
+            var httpContext = httpContextAccessor.HttpContext;
+
+            var routeData = new RouteValueDictionary(Html.ViewContext.RouteData.Values);
+
+            if (httpContext != null)
+            {
+                var queryString = httpContext.Request.Query;
+                if (queryString != null)
+                {
+                    foreach (var key in from string key in queryString.Keys where key != null && !routeData.ContainsKey(key) let value = queryString[key] select key)
+                    {
+                        routeData[key] = queryString[key];
+                    }
+                }
+            }
+
+            // specific cross-requests route data can be passed to the shape directly (e.g., OrchardCore.Users)
+            var shapeRoute = (object)((dynamic)shape).RouteData;
+
+            if (shapeRoute != null)
+            {
+                var shapeRouteData = shapeRoute as RouteValueDictionary;
+                if (shapeRouteData == null)
+                {
+                    var route = shapeRoute as RouteData;
+                    if (route != null)
+                    {
+                        shapeRouteData = new RouteValueDictionary(route.Values);
+                    }
+                }
+
+                if (shapeRouteData != null)
+                {
+                    foreach (var rd in shapeRouteData)
+                    {
+                        routeData[rd.Key] = rd.Value;
+                    }
+                }
+            }
+
+            var firstPage = Math.Max(1, Page - (numberOfPagesToShow / 2));
+            var lastPage = Math.Min(totalPageCount, Page + (int)(numberOfPagesToShow / 2));
+
+            var pageKey = String.IsNullOrEmpty(PagerId) ? "page" : PagerId;
+
+            shape.Classes.Add("pager");
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "List";
+
+            // first and previous pages
+            if ((Page > 1) && (routeData.ContainsKey(pageKey)))
+            {
+                routeData.Remove(pageKey); // to keep from having "page=1" in the query string
+            }
+
+            // first
+            var firstItem = await New.Pager_First(Value: firstText, RouteValues: new RouteValueDictionary(routeData), Pager: shape, Disabled: Page < 2);
+
+            if (noFollow)
+            {
+                firstItem.Attributes["rel"] = "no-follow";
+            }
+
+            shape.Add(firstItem);
+
+            // previous
+            if ((Page > 1) && (currentPage > 2))
+            { // also to keep from having "page=1" in the query string
+                routeData[pageKey] = currentPage - 1;
+            }
+
+            var previousItem = await New.Pager_Previous(Value: previousText, RouteValues: new RouteValueDictionary(routeData), Pager: shape, Disabled: Page < 2);
+
+            if (noFollow)
+            {
+                previousItem.Attributes["rel"] = "no-follow";
+            }
+
+            shape.Add(previousItem);
+
+            // gap at the beginning of the pager
+            if (firstPage > 1 && numberOfPagesToShow > 0)
+            {
+                shape.Add(await New.Pager_Gap(Value: gapText, Pager: shape));
+            }
+
+            // page numbers
+            if (numberOfPagesToShow > 0 && lastPage > 1)
+            {
+                for (var p = firstPage; p <= lastPage; p++)
+                {
+                    if (p == currentPage)
+                    {
+                        routeData[pageKey] = currentPage;
+                        var currentPageItem = await New.Pager_CurrentPage(Value: p, RouteValues: new RouteValueDictionary(routeData), Pager: shape);
+
+                        if (noFollow)
+                        {
+                            currentPageItem.Attributes["rel"] = "no-follow";
+                        }
+
+                        shape.Add(currentPageItem);
+                    }
+                    else
+                    {
+                        if (p == 1)
+                        {
+                            routeData.Remove(pageKey);
+                        }
+                        else
+                        {
+                            routeData[pageKey] = p;
+                        }
+
+                        var pagerItem = await New.Pager_Link(Value: p, RouteValues: new RouteValueDictionary(routeData), Pager: shape);
+
+                        if (p > currentPage)
+                        {
+                            pagerItem.Attributes["rel"] = noFollow ? "no-follow" : "next";
+                        }
+                        else if (p < currentPage)
+                        {
+                            pagerItem.Attributes["rel"] = noFollow ? "no-follow" : "prev";
+                        }
+
+                        shape.Add(pagerItem);
+                    }
+                }
+            }
+
+            // gap at the end of the pager
+            if (lastPage < totalPageCount && numberOfPagesToShow > 0)
+            {
+                shape.Add(await New.Pager_Gap(Value: gapText, Pager: shape));
+            }
+
+            // Next
+            routeData[pageKey] = Page + 1;
+            var pagerNextItem = await New.Pager_Next(Value: nextText, RouteValues: new RouteValueDictionary(routeData), Pager: shape, Disabled: Page >= totalPageCount && !ShowNext);
+
+            if (noFollow)
+            {
+                pagerNextItem.Attributes["rel"] = "no-follow";
+            }
+
+            shape.Add(pagerNextItem);
+
+            // Last
+            routeData[pageKey] = totalPageCount;
+            var pagerLastItem = await New.Pager_Last(Value: lastText, RouteValues: new RouteValueDictionary(routeData), Pager: shape, Disabled: Page >= totalPageCount);
+
+            if (noFollow)
+            {
+                pagerLastItem.Attributes["rel"] = "no-follow";
+            }
+
+            shape.Add(pagerLastItem);
+
+            return await DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Links";
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public async Task<IHtmlContent> PagerSlim(Shape shape, dynamic DisplayAsync, dynamic New, IHtmlHelper Html, DisplayContext DisplayContext,
+            string PagerId,
+            object PreviousText,
+            object NextText,
+            string PreviousClass,
+            string NextClass,
+            string ItemTagName,
+            IDictionary<string, string> ItemAttributes,
+            Dictionary<string, string> UrlParams)
+        {
+            var noFollow = shape.Attributes.ContainsKey("rel") && shape.Attributes["rel"] == "no-follow";
+            var previousText = PreviousText ?? S["<"];
+            var nextText = NextText ?? S[">"];
+
+            shape.Classes.Add("pager");
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "List";
+
+            var routeData = new RouteValueDictionary(Html.ViewContext.RouteData.Values);
+
+            // Allows to pass custom url params to PagerSlim
+            if (UrlParams != null)
+            {
+                foreach (var item in UrlParams)
+                {
+                    routeData.Add(item.Key, item.Value);
+                }
+            }
+
+            if (shape.Properties.TryGetValue("Before", out var beforeValue) && beforeValue is string before)
+            {
+                var beforeRouteData = new RouteValueDictionary(routeData)
+                {
+                    ["before"] = before
+                };
+
+                var previousItem = await New.Pager_Previous(Value: previousText, RouteValues: beforeRouteData, Pager: shape);
+
+                if (noFollow)
+                {
+                    previousItem.Attributes["rel"] = "no-follow";
+                }
+
+                shape.Add(previousItem);
+                shape.Properties["FirstClass"] = PreviousClass;
+            }
+
+            if (shape.Properties.TryGetValue("After", out var afterValue) && afterValue is string after)
+            {
+                var afterRouteData = new RouteValueDictionary(routeData)
+                {
+                    ["after"] = after
+                };
+
+                var nextItem = await New.Pager_Next(Value: nextText, RouteValues: afterRouteData, Pager: shape);
+
+                if (noFollow)
+                {
+                    nextItem.Attributes["rel"] = "no-follow";
+                }
+
+                shape.Add(nextItem);
+                shape.Properties["LastClass"] = NextClass;
+            }
+
+            return await DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_First(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Previous(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+
+            if (!shape.Attributes.ContainsKey("rel"))
+            {
+                shape.Attributes["rel"] = "prev";
+            }
+
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_CurrentPage(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+            var parentTag = (TagBuilder)shape.Properties["Tag"];
+            parentTag.AddCssClass("active");
+
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Next(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+
+            if (!shape.Attributes.ContainsKey("rel"))
+            {
+                shape.Attributes["rel"] = "next";
+            }
+
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Last(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Link(Shape shape, IHtmlHelper Html, dynamic DisplayAsync, object Value)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "ActionLink";
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public IHtmlContent ActionLink(Shape shape, IUrlHelper Url, object Value, bool Disabled = false)
+        {
+            if (Disabled)
+            {
+                if (shape.Properties.TryGetValue("Tag", out var value) && value is TagBuilder tagBuilder)
+                {
+                    tagBuilder.AddCssClass("disabled");
+                }
+            }
+
+            var RouteValues = (object)((dynamic)shape).RouteValues;
+            RouteValueDictionary rvd;
+            if (RouteValues == null)
+            {
+                rvd = new RouteValueDictionary();
+            }
+            else
+            {
+                rvd = RouteValues as RouteValueDictionary ?? new RouteValueDictionary(RouteValues);
+            }
+
+            if (!Disabled)
+            {
+                shape.Attributes["href"] = Url.Action((string)rvd["action"], (string)rvd["controller"], rvd);
+            }
+            else
+            {
+                shape.Attributes.Remove("href");
+            }
+
+            var tag = Shape.GetTagBuilder("a", null, shape.Classes, shape.Attributes);
+
+            tag.InnerHtml.AppendHtml(CoerceHtmlString(Value));
+            return tag;
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Gap(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+            var parentTag = (TagBuilder)shape.Properties["Tag"];
+            parentTag.AddCssClass("disabled");
+            return DisplayAsync(shape);
+        }
+
+        private IHtmlContent CoerceHtmlString(object value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            if (value is IHtmlContent result)
+            {
+                return result;
+            }
+
+            return new StringHtmlContent(value.ToString());
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
+using OrchardCore.DisplayManagement;
+using OrchardCore.DisplayManagement.Descriptors;
+using OrchardCore.DisplayManagement.Implementation;
+using OrchardCore.DisplayManagement.Shapes;
+
+namespace OrchardCore.Navigation
+{
+    public class PagerShapesTableProvider : IShapeTableProvider
+    {
+        public void Discover(ShapeTableBuilder builder)
+        {
+            builder.Describe("Pager")
+                .OnCreated(created =>
+                {
+                    // Intializes the common properties of a Pager shape
+                    // such that views can safely add values to them.
+                    created.Shape.Properties["ItemClasses"] = new List<string>();
+                    created.Shape.Properties["ItemAttributes"] = new Dictionary<string, string>();
+                })
+                .OnDisplaying(displaying =>
+                {
+                    if (displaying.Shape.Properties.TryGetValue("PagerId", out var value) && value is string pagerId)
+                    {
+                        if (!String.IsNullOrEmpty(pagerId))
+                        {
+                            displaying.Shape.Metadata.Alternates.Add("Pager__" + EncodeAlternateElement(pagerId));
+                        }
+                    };
+                });
+
+            builder.Describe("PagerSlim")
+                .OnCreated(created =>
+                {
+                    // Intializes the common properties of a Pager shape
+                    // such that views can safely add values to them.
+                    created.Shape.Properties["ItemClasses"] = new List<string>();
+                    created.Shape.Properties["ItemAttributes"] = new Dictionary<string, string>();
+                })
+                .OnDisplaying(displaying =>
+                {
+                    if (displaying.Shape.Properties.TryGetValue("PagerId", out var value) && value is string pagerId)
+                    {
+                        if (!String.IsNullOrEmpty(pagerId))
+                        {
+                            displaying.Shape.Metadata.Alternates.Add("Pager__" + EncodeAlternateElement(pagerId));
+                        }
+                    };
+                });
+
+            builder.Describe("Pager_Gap")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Gap__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_First")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_First__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_Previous")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Previous__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_Next")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Next__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_Last")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Last__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_CurrentPage")
+                .OnDisplaying(displaying =>
+                {
+                    dynamic shape = displaying.Shape;
+                    var pager = shape.Pager;
+                    string pagerId = pager.PagerId;
+                    if (!String.IsNullOrEmpty(pagerId))
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_CurrentPage__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+
+            builder.Describe("Pager_Links")
+                .OnDisplaying(displaying =>
+                {
+                    if (displaying.Shape.Properties.TryGetValue("PagerId", out var value) && value is string pagerId)
+                    {
+                        displaying.Shape.Metadata.Alternates.Add("Pager_Links__" + EncodeAlternateElement(pagerId));
+                    }
+                });
+        }
+
+        private string EncodeAlternateElement(string alternateElement)
+        {
+            return alternateElement.Replace("-", "__").Replace('.', '_');
+        }
+    }
+
+    public class PagerShapes : IShapeAttributeProvider
+    {
+        private readonly IStringLocalizer S;
+
+        public PagerShapes(IStringLocalizer<PagerShapes> localizer)
+        {
+            S = localizer;
+        }
+
+        [Shape]
+        public async Task<IHtmlContent> Pager_Links(Shape shape, dynamic DisplayAsync, dynamic New, IHtmlHelper Html, DisplayContext DisplayContext,
+            string PagerId,
+            int Page,
+            int PageSize,
+            double TotalItemCount,
+            int? Quantity,
+            object FirstText,
+            object PreviousText,
+            object NextText,
+            object LastText,
+            object GapText,
+            bool ShowNext,
+            string ItemTagName,
+            IDictionary<string, string> ItemAttributes
+            // parameter omitted to workaround an issue where a NullRef is thrown
+            // when an anonymous object is bound to an object shape parameter
+            /*object RouteValues*/)
+        {
+            var noFollow = shape.Attributes.ContainsKey("rel") && shape.Attributes["rel"] == "no-follow";
+            var currentPage = Page;
+            if (currentPage < 1)
+                currentPage = 1;
+
+            var pageSize = PageSize;
+
+            var numberOfPagesToShow = Quantity ?? 0;
+            if (Quantity == null || Quantity < 0)
+                numberOfPagesToShow = 7;
+
+            var totalPageCount = pageSize > 0 ? (int)Math.Ceiling(TotalItemCount / pageSize) : 1;
+
+            // return shape early if pager is not needed.
+            if (totalPageCount < 2)
+            {
+                shape.Metadata.Type = "List";
+                return await DisplayAsync(shape);
+            }
+
+            var firstText = FirstText ?? S["<<"];
+            var previousText = PreviousText ?? S["<"];
+            var nextText = NextText ?? S[">"];
+            var lastText = LastText ?? S[">>"];
+            var gapText = GapText ?? S["..."];
+
+            var httpContextAccessor = DisplayContext.ServiceProvider.GetService<IHttpContextAccessor>();
+            var httpContext = httpContextAccessor.HttpContext;
+
+            var routeData = new RouteValueDictionary(Html.ViewContext.RouteData.Values);
+
+            if (httpContext != null)
+            {
+                var queryString = httpContext.Request.Query;
+                if (queryString != null)
+                {
+                    foreach (var key in from string key in queryString.Keys where key != null && !routeData.ContainsKey(key) let value = queryString[key] select key)
+                    {
+                        routeData[key] = queryString[key];
+                    }
+                }
+            }
+
+            // specific cross-requests route data can be passed to the shape directly (e.g., OrchardCore.Users)
+            var shapeRoute = (object)((dynamic)shape).RouteData;
+
+            if (shapeRoute != null)
+            {
+                if (shapeRouteData == null)
+                {
+                    if (shapeRoute is RouteData route)
+                    {
+                        shapeRouteData = new RouteValueDictionary(route.Values);
+                    }
+                }
+
+                if (shapeRoute is RouteValueDictionary shapeRouteData)
+                {
+                    foreach (var rd in shapeRouteData)
+                    {
+                        routeData[rd.Key] = rd.Value;
+                    }
+                }
+            }
+
+            var firstPage = Math.Max(1, Page - (numberOfPagesToShow / 2));
+            var lastPage = Math.Min(totalPageCount, Page + (int)(numberOfPagesToShow / 2));
+
+            var pageKey = String.IsNullOrEmpty(PagerId) ? "page" : PagerId;
+
+            shape.Classes.Add("pager");
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "List";
+
+            // first and previous pages
+            if ((Page > 1) && (routeData.ContainsKey(pageKey)))
+            {
+                routeData.Remove(pageKey); // to keep from having "page=1" in the query string
+            }
+
+            // first
+            var firstItem = await New.Pager_First(Value: firstText, RouteValues: new RouteValueDictionary(routeData), Pager: shape, Disabled: Page < 2);
+
+            if (noFollow)
+            {
+                firstItem.Attributes["rel"] = "no-follow";
+            }
+
+            shape.Add(firstItem);
+
+            // previous
+            if ((Page > 1) && (currentPage > 2))
+            { // also to keep from having "page=1" in the query string
+                routeData[pageKey] = currentPage - 1;
+            }
+
+            var previousItem = await New.Pager_Previous(Value: previousText, RouteValues: new RouteValueDictionary(routeData), Pager: shape, Disabled: Page < 2);
+
+            if (noFollow)
+            {
+                previousItem.Attributes["rel"] = "no-follow";
+            }
+
+            shape.Add(previousItem);
+
+            // gap at the beginning of the pager
+            if (firstPage > 1 && numberOfPagesToShow > 0)
+            {
+                shape.Add(await New.Pager_Gap(Value: gapText, Pager: shape));
+            }
+
+            // page numbers
+            if (numberOfPagesToShow > 0 && lastPage > 1)
+            {
+                for (var p = firstPage; p <= lastPage; p++)
+                {
+                    if (p == currentPage)
+                    {
+                        routeData[pageKey] = currentPage;
+                        var currentPageItem = await New.Pager_CurrentPage(Value: p, RouteValues: new RouteValueDictionary(routeData), Pager: shape);
+
+                        if (noFollow)
+                        {
+                            currentPageItem.Attributes["rel"] = "no-follow";
+                        }
+
+                        shape.Add(currentPageItem);
+                    }
+                    else
+                    {
+                        if (p == 1)
+                        {
+                            routeData.Remove(pageKey);
+                        }
+                        else
+                        {
+                            routeData[pageKey] = p;
+                        }
+
+                        var pagerItem = await New.Pager_Link(Value: p, RouteValues: new RouteValueDictionary(routeData), Pager: shape);
+
+                        if (p > currentPage)
+                        {
+                            pagerItem.Attributes["rel"] = noFollow ? "no-follow" : "next";
+                        }
+                        else if (p < currentPage)
+                        {
+                            pagerItem.Attributes["rel"] = noFollow ? "no-follow" : "prev";
+                        }
+
+                        shape.Add(pagerItem);
+                    }
+                }
+            }
+
+            // gap at the end of the pager
+            if (lastPage < totalPageCount && numberOfPagesToShow > 0)
+            {
+                shape.Add(await New.Pager_Gap(Value: gapText, Pager: shape));
+            }
+
+            // Next
+            routeData[pageKey] = Page + 1;
+            var pagerNextItem = await New.Pager_Next(Value: nextText, RouteValues: new RouteValueDictionary(routeData), Pager: shape, Disabled: Page >= totalPageCount && !ShowNext);
+
+            if (noFollow)
+            {
+                pagerNextItem.Attributes["rel"] = "no-follow";
+            }
+
+            shape.Add(pagerNextItem);
+
+            // Last
+            routeData[pageKey] = totalPageCount;
+            var pagerLastItem = await New.Pager_Last(Value: lastText, RouteValues: new RouteValueDictionary(routeData), Pager: shape, Disabled: Page >= totalPageCount);
+
+            if (noFollow)
+            {
+                pagerLastItem.Attributes["rel"] = "no-follow";
+            }
+
+            shape.Add(pagerLastItem);
+
+            return await DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Links";
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public async Task<IHtmlContent> PagerSlim(Shape shape, dynamic DisplayAsync, dynamic New, IHtmlHelper Html, DisplayContext DisplayContext,
+            string PagerId,
+            object PreviousText,
+            object NextText,
+            string PreviousClass,
+            string NextClass,
+            string ItemTagName,
+            IDictionary<string, string> ItemAttributes,
+            Dictionary<string, string> UrlParams)
+        {
+            var noFollow = shape.Attributes.ContainsKey("rel") && shape.Attributes["rel"] == "no-follow";
+            var previousText = PreviousText ?? S["<"];
+            var nextText = NextText ?? S[">"];
+
+            shape.Classes.Add("pager");
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "List";
+
+            var routeData = new RouteValueDictionary(Html.ViewContext.RouteData.Values);
+
+            // Allows to pass custom url params to PagerSlim
+            if (UrlParams != null)
+            {
+                foreach (var item in UrlParams)
+                {
+                    routeData.Add(item.Key, item.Value);
+                }
+            }
+
+            if (shape.Properties.TryGetValue("Before", out var beforeValue) && beforeValue is string before)
+            {
+                var beforeRouteData = new RouteValueDictionary(routeData)
+                {
+                    ["before"] = before
+                };
+
+                var previousItem = await New.Pager_Previous(Value: previousText, RouteValues: beforeRouteData, Pager: shape);
+
+                if (noFollow)
+                {
+                    previousItem.Attributes["rel"] = "no-follow";
+                }
+
+                shape.Add(previousItem);
+                shape.Properties["FirstClass"] = PreviousClass;
+            }
+
+            if (shape.Properties.TryGetValue("After", out var afterValue) && afterValue is string after)
+            {
+                var afterRouteData = new RouteValueDictionary(routeData)
+                {
+                    ["after"] = after
+                };
+
+                var nextItem = await New.Pager_Next(Value: nextText, RouteValues: afterRouteData, Pager: shape);
+
+                if (noFollow)
+                {
+                    nextItem.Attributes["rel"] = "no-follow";
+                }
+
+                shape.Add(nextItem);
+                shape.Properties["LastClass"] = NextClass;
+            }
+
+            return await DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_First(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Previous(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+
+            if (!shape.Attributes.ContainsKey("rel"))
+            {
+                shape.Attributes["rel"] = "prev";
+            }
+
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_CurrentPage(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+            var parentTag = (TagBuilder)shape.Properties["Tag"];
+            parentTag.AddCssClass("active");
+
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Next(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+
+            if (!shape.Attributes.ContainsKey("rel"))
+            {
+                shape.Attributes["rel"] = "next";
+            }
+
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Last(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Link(Shape shape, IHtmlHelper Html, dynamic DisplayAsync, object Value)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "ActionLink";
+            return DisplayAsync(shape);
+        }
+
+        [Shape]
+        public IHtmlContent ActionLink(Shape shape, IUrlHelper Url, object Value, bool Disabled = false)
+        {
+            if (Disabled)
+            {
+                if (shape.Properties.TryGetValue("Tag", out var value) && value is TagBuilder tagBuilder)
+                {
+                    tagBuilder.AddCssClass("disabled");
+                }
+            }
+
+            var RouteValues = (object)((dynamic)shape).RouteValues;
+            RouteValueDictionary rvd;
+            if (RouteValues == null)
+            {
+                rvd = new RouteValueDictionary();
+            }
+            else
+            {
+                rvd = RouteValues as RouteValueDictionary ?? new RouteValueDictionary(RouteValues);
+            }
+
+            if (!Disabled)
+            {
+                shape.Attributes["href"] = Url.Action((string)rvd["action"], (string)rvd["controller"], rvd);
+            }
+            else
+            {
+                shape.Attributes.Remove("href");
+            }
+
+            var tag = Shape.GetTagBuilder("a", null, shape.Classes, shape.Attributes);
+
+            tag.InnerHtml.AppendHtml(CoerceHtmlString(Value));
+            return tag;
+        }
+
+        [Shape]
+        public Task<IHtmlContent> Pager_Gap(Shape shape, dynamic DisplayAsync)
+        {
+            shape.Metadata.Alternates.Clear();
+            shape.Metadata.Type = "Pager_Link";
+            var parentTag = (TagBuilder)shape.Properties["Tag"];
+            parentTag.AddCssClass("disabled");
+            return DisplayAsync(shape);
+        }
+
+        private IHtmlContent CoerceHtmlString(object value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            if (value is IHtmlContent result)
+            {
+                return result;
+            }
+
+            return new StringHtmlContent(value.ToString());
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Navigation\PagerShapes.cs(226,21): error CS0841: Cannot use local variable 'shapeRouteData' before it is declared,D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Navigation\PagerShapes.cs(230,25): error CS0841: Cannot use local variable 'shapeRouteData' before it is declared
+######################################################################
+
+
+######################################################################
+Nr: 2 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Contents\Security\ContentTypeAuthorizationHandler.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+using OrchardCore.ContentManagement;
+using OrchardCore.Security;
+using OrchardCore.Security.Permissions;
+
+namespace OrchardCore.Contents.Security
+{
+    public class ContentTypeAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
+    {
+        private readonly IServiceProvider _serviceProvider;
+
+        public ContentTypeAuthorizationHandler(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
+        {
+            if (context.HasSucceeded)
+            {
+                // This handler is not revoking any pre-existing grants.
+                return;
+            }
+
+            // If we are not evaluating a ContentItem then return.
+            if (context.Resource == null)
+            {
+                return;
+            }
+
+            var contentItem = context.Resource as ContentItem;
+
+            Permission permission = null;
+
+            if (contentItem != null)
+            {
+                if (OwnerVariationExists(requirement.Permission) && HasOwnership(context.User, contentItem))
+                {
+                    permission = GetOwnerVariation(requirement.Permission);
+                }
+            }
+
+            var contentTypePermission = ContentTypePermissionsHelper.ConvertToDynamicPermission(permission ?? requirement.Permission);
+
+            if (contentTypePermission != null)
+            {
+                // The resource can be a content type name
+                var contentType = contentItem != null
+                    ? contentItem.ContentType
+                    : Convert.ToString(context.Resource.ToString())
+                    ;
+
+                if (!String.IsNullOrEmpty(contentType))
+                {
+                    permission = ContentTypePermissionsHelper.CreateDynamicPermission(contentTypePermission, contentType);
+                }
+            }
+
+            if (permission == null)
+            {
+                return;
+            }
+
+            // Lazy load to prevent circular dependencies
+            var authorizationService = _serviceProvider.GetService<IAuthorizationService>();
+
+            if (await authorizationService.AuthorizeAsync(context.User, permission))
+            {
+                context.Succeed(requirement);
+            }
+        }
+
+        private static Permission GetOwnerVariation(Permission permission)
+        {
+            if (permission.Name == CommonPermissions.PublishContent.Name)
+            {
+                return CommonPermissions.PublishOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.EditContent.Name)
+            {
+                return CommonPermissions.EditOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.DeleteContent.Name)
+            {
+                return CommonPermissions.DeleteOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.ViewContent.Name)
+            {
+                return CommonPermissions.ViewOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.PreviewContent.Name)
+            {
+                return CommonPermissions.PreviewOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.CloneContent.Name)
+            {
+                return CommonPermissions.CloneOwnContent;
+            }
+
+            return null;
+        }
+
+        private static bool HasOwnership(ClaimsPrincipal user, ContentItem content)
+        {
+            if (user == null || content == null)
+            {
+                return false;
+            }
+
+            return user.FindFirstValue(ClaimTypes.NameIdentifier) == content.Owner;
+        }
+
+        private static bool OwnerVariationExists(Permission permission)
+        {
+            return GetOwnerVariation(permission) != null;
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+using OrchardCore.ContentManagement;
+using OrchardCore.Security;
+using OrchardCore.Security.Permissions;
+
+namespace OrchardCore.Contents.Security
+{
+    public class ContentTypeAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
+    {
+        private readonly IServiceProvider _serviceProvider;
+
+        public ContentTypeAuthorizationHandler(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
+        {
+            if (context.HasSucceeded)
+            {
+                // This handler is not revoking any pre-existing grants.
+                return;
+            }
+
+            // If we are not evaluating a ContentItem then return.
+            if (context.Resource == null)
+            {
+                return;
+            }
+
+            Permission permission = null;
+
+            if (context.Resource is ContentItem contentItem)
+            {
+                if (OwnerVariationExists(requirement.Permission) && HasOwnership(context.User, contentItem))
+                {
+                    permission = GetOwnerVariation(requirement.Permission);
+                }
+            }
+
+            var contentTypePermission = ContentTypePermissionsHelper.ConvertToDynamicPermission(permission ?? requirement.Permission);
+
+            if (contentTypePermission != null)
+            {
+                // The resource can be a content type name
+                var contentType = context.Resource is ContentItem contentItem
+                    ? contentItem.ContentType
+                    : Convert.ToString(context.Resource.ToString())
+                    ;
+
+                if (!String.IsNullOrEmpty(contentType))
+                {
+                    permission = ContentTypePermissionsHelper.CreateDynamicPermission(contentTypePermission, contentType);
+                }
+            }
+
+            if (permission == null)
+            {
+                return;
+            }
+
+            // Lazy load to prevent circular dependencies
+            var authorizationService = _serviceProvider.GetService<IAuthorizationService>();
+
+            if (await authorizationService.AuthorizeAsync(context.User, permission))
+            {
+                context.Succeed(requirement);
+            }
+        }
+
+        private static Permission GetOwnerVariation(Permission permission)
+        {
+            if (permission.Name == CommonPermissions.PublishContent.Name)
+            {
+                return CommonPermissions.PublishOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.EditContent.Name)
+            {
+                return CommonPermissions.EditOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.DeleteContent.Name)
+            {
+                return CommonPermissions.DeleteOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.ViewContent.Name)
+            {
+                return CommonPermissions.ViewOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.PreviewContent.Name)
+            {
+                return CommonPermissions.PreviewOwnContent;
+            }
+
+            if (permission.Name == CommonPermissions.CloneContent.Name)
+            {
+                return CommonPermissions.CloneOwnContent;
+            }
+
+            return null;
+        }
+
+        private static bool HasOwnership(ClaimsPrincipal user, ContentItem content)
+        {
+            if (user == null || content == null)
+            {
+                return false;
+            }
+
+            return user.FindFirstValue(ClaimTypes.NameIdentifier) == content.Owner;
+        }
+
+        private static bool OwnerVariationExists(Permission permission)
+        {
+            return GetOwnerVariation(permission) != null;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\OrchardCore.Modules\OrchardCore.Contents\Security\ContentTypeAuthorizationHandler.cs(50,67): error CS0136: A local or parameter named 'contentItem' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
+######################################################################
+
+

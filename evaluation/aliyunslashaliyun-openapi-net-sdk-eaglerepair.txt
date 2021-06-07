@@ -1,0 +1,32 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: aliyun-net-sdk-core.vs2017(net5.0)
+    #1 Path: D:\a\1\s\aliyun-net-sdk-core\Auth\CredentialsBackupCompatibilityAdaptor.cs, Line: 57, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\aliyun-net-sdk-core\DefaultAcsClient.cs, Line: 273, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\aliyun-net-sdk-core\Exceptions\ClientException.cs, Line: 27, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\aliyun-net-sdk-core\Http\HttpResponse.cs, Line: 145, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: D:\a\1\s\aliyun-net-sdk-core\Http\HttpResponse.cs, Line: 151, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #6 Path: D:\a\1\s\aliyun-net-sdk-core\Http\HttpResponse.cs, Line: 158, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\aliyun-net-sdk-core\obj\Debug\net5.0\NuGet\7EBBD83CC198F3D5CA030665A6C4CEA1E1E929F3\LogLib.Common\5.1.2\LogProviders\LogProviderBase.cs, Line: 131, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\aliyun-net-sdk-core\Regions\InternalEndpointsParser.cs, Line: 47, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\aliyun-net-sdk-core\Retry\Condition\RetryOnExceptionCondition.cs, Line: 46, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #10 Path: D:\a\1\s\aliyun-net-sdk-core\Utils\CommonLog.cs, Line: 162, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 8
+R8: 1
+R5: 1
+
+--- Summary ---
+Fixed ReSharper issues: 10
+Fixed SonarQube issues: 1
+Total fixed issues: 10
+
+Finished in: 7 s
+
+No errors reported.
+

@@ -1,0 +1,187 @@
+diff --git a/QuickFIXn/DataDictionary/DataDictionary.cs b/QuickFIXn/DataDictionary/DataDictionary.cs
+index 2ffc8d7..0ab4657 100644
+--- a/QuickFIXn/DataDictionary/DataDictionary.cs
++++ b/QuickFIXn/DataDictionary/DataDictionary.cs
+@@ -488,7 +488,7 @@ namespace QuickFix.DataDictionary
+ 
+             if (!type.Equals("FIX") && !type.Equals("FIXT"))
+                 throw new System.ArgumentException("Type must be FIX of FIXT in cofig");
+-            Version = String.Format("{0}.{1}.{2}", type, MajorVersion, MinorVersion);
++            Version = $"{type}.{MajorVersion}.{MinorVersion}";
+         }
+ 
+         private void ParseFields(XmlDocument doc)
+diff --git a/QuickFIXn/Exceptions.cs b/QuickFIXn/Exceptions.cs
+index 78e736b..2c4efa8 100755
+--- a/QuickFIXn/Exceptions.cs
++++ b/QuickFIXn/Exceptions.cs
+@@ -295,14 +295,14 @@ namespace QuickFix
+     public class GroupDelimiterTagException : TagException
+     {
+         public GroupDelimiterTagException(int counterTag, int delimiterTag)
+-            : base(string.Format("Group {0}'s first entry does not start with delimiter {1}", counterTag, delimiterTag), counterTag)
++            : base($"Group {counterTag}'s first entry does not start with delimiter {delimiterTag}", counterTag)
+         { }
+     }
+ 
+     public class RepeatedTagWithoutGroupDelimiterTagException : TagException
+     {
+         public RepeatedTagWithoutGroupDelimiterTagException(int counterTag, int troubleTag)
+-            : base(string.Format("Group {0} contains a repeat occurrence of tag {1} in a single group, which is illegal.", counterTag, troubleTag), troubleTag)
++            : base($"Group {counterTag} contains a repeat occurrence of tag {troubleTag} in a single group, which is illegal.", troubleTag)
+         { }
+     }
+ 
+diff --git a/QuickFIXn/FileLog.cs b/QuickFIXn/FileLog.cs
+index 43401a0..361816f 100755
+--- a/QuickFIXn/FileLog.cs
++++ b/QuickFIXn/FileLog.cs
+@@ -133,8 +133,8 @@ namespace QuickFix
+             if (_disposed) return;
+             if (disposing)
+             {
+-                if (messageLog_ != null) { messageLog_.Dispose(); }
+-                if (eventLog_ != null) { eventLog_.Dispose(); }
++                messageLog_?.Dispose();
++                eventLog_?.Dispose();
+ 
+                 messageLog_ = null;
+                 eventLog_ = null;
+diff --git a/QuickFIXn/Message/Message.cs b/QuickFIXn/Message/Message.cs
+index 0fe5fcd..cba0b6f 100644
+--- a/QuickFIXn/Message/Message.cs
++++ b/QuickFIXn/Message/Message.cs
+@@ -333,7 +333,7 @@ namespace QuickFix
+                 case FixValues.BeginString.FIX50SP2:
+                     return new ApplVerID(ApplVerID.FIX50SP2);
+                 default:
+-                    throw new System.ArgumentException(String.Format("ApplVerID for {0} not supported", beginString));
++                    throw new System.ArgumentException($"ApplVerID for {beginString} not supported");
+             }
+         }
+ 
+diff --git a/QuickFIXn/Session.cs b/QuickFIXn/Session.cs
+index 77fe1a7..7614ab2 100755
+--- a/QuickFIXn/Session.cs
++++ b/QuickFIXn/Session.cs
+@@ -633,7 +633,7 @@ namespace QuickFix
+                 else if (MsgType.LOGOUT.Equals(msgType))
+                     NextLogout(message);
+                 else if (!IsLoggedOn)
+-                    Disconnect(string.Format("Received msg type '{0}' when not logged on", msgType));
++                    Disconnect($"Received msg type '{msgType}' when not logged on");
+                 else if (MsgType.HEARTBEAT.Equals(msgType))
+                     NextHeartbeat(message);
+                 else if (MsgType.TEST_REQUEST.Equals(msgType))
+@@ -1358,7 +1358,7 @@ namespace QuickFix
+         {
+             Message logout = msgFactory_.Create(this.SessionID.BeginString, Fields.MsgType.LOGOUT);
+             InitializeHeader(logout);
+-            if (text != null && text.Length > 0)
++            if (!string.IsNullOrEmpty(text))
+                 logout.SetField(new Fields.Text(text));
+             if (other != null && this.EnableLastMsgSeqNumProcessed)
+             {
+@@ -1705,7 +1705,7 @@ namespace QuickFix
+             if (disposed_) return;
+             if (disposing)
+             {
+-                if (state_ != null) { state_.Dispose(); }
++                state_?.Dispose();
+                 lock (sessions_)
+                 {
+                     sessions_.Remove(this.SessionID);
+diff --git a/QuickFIXn/SessionFactory.cs b/QuickFIXn/SessionFactory.cs
+index d498f80..ca8cfc8 100755
+--- a/QuickFIXn/SessionFactory.cs
++++ b/QuickFIXn/SessionFactory.cs
+@@ -204,7 +204,7 @@ namespace QuickFix
+                     {
+                         int offset = setting.Key.IndexOf(".");
+                         if (offset == -1)
+-                            throw new System.ArgumentException(string.Format("Malformed {0} : {1}", SessionSettings.APP_DATA_DICTIONARY, setting.Key));
++                            throw new System.ArgumentException($"Malformed {SessionSettings.APP_DATA_DICTIONARY} : {setting.Key}");
+ 
+                         string beginStringQualifier = setting.Key.Substring(offset);
+                         DataDictionary.DataDictionary dd = createDataDictionary(sessionID, settings, setting.Key, beginStringQualifier);
+diff --git a/QuickFIXn/SessionState.cs b/QuickFIXn/SessionState.cs
+index 8f44ee5..81768ab 100755
+--- a/QuickFIXn/SessionState.cs
++++ b/QuickFIXn/SessionState.cs
+@@ -441,8 +441,8 @@ namespace QuickFix
+             if (_disposed) return;
+             if (disposing)
+             {
+-                if (log_ != null) { log_.Dispose(); }
+-                if (MessageStore != null) { MessageStore.Dispose(); }
++                log_?.Dispose();
++                MessageStore?.Dispose();
+             }
+             _disposed = true;
+         }
+diff --git a/QuickFIXn/Transport/StreamFactory.cs b/QuickFIXn/Transport/StreamFactory.cs
+index 39a79e7..ec306a7 100644
+--- a/QuickFIXn/Transport/StreamFactory.cs
++++ b/QuickFIXn/Transport/StreamFactory.cs
+@@ -286,7 +286,7 @@ namespace QuickFix.Transport
+                 try
+                 {
+                     if (string.IsNullOrEmpty(socketSettings_.CertificatePath))
+-                        throw new Exception(string.Format("No server certificate specified, the {0} setting must be configured", SessionSettings.SSL_CERTIFICATE));
++                        throw new Exception($"No server certificate specified, the {SessionSettings.SSL_CERTIFICATE} setting must be configured");
+ 
+                     // Setup secure SSL Communication
+                     X509Certificate2 serverCertificate = StreamFactory.LoadCertificate(socketSettings_.CertificatePath, socketSettings_.CertificatePassword);
+@@ -415,9 +415,8 @@ namespace QuickFix.Transport
+ 
+                 foreach (X509Extension extension in cert2.Extensions)
+                 {
+-                    if (extension is X509EnhancedKeyUsageExtension)
++                    if (extension is X509EnhancedKeyUsageExtension keyUsage)
+                     {
+-                        X509EnhancedKeyUsageExtension keyUsage = (X509EnhancedKeyUsageExtension)extension;
+                         foreach (System.Security.Cryptography.Oid oid in keyUsage.EnhancedKeyUsages)
+                         {
+                             if (oid.Value == enhancedKeyOid)
+diff --git a/UnitTests/FileStoreTests.cs b/UnitTests/FileStoreTests.cs
+index 049adee..849cc82 100755
+--- a/UnitTests/FileStoreTests.cs
++++ b/UnitTests/FileStoreTests.cs
+@@ -42,10 +42,7 @@ namespace UnitTests
+ 
+         void rebuildStore()
+         {
+-            if(store != null)
+-            {
+-                store.Dispose();
+-            }
++            store?.Dispose();
+ 
+             store = (QuickFix.FileStore)factory.Create(sessionID);
+         }
+diff --git a/UnitTests/SessionDynamicTest.cs b/UnitTests/SessionDynamicTest.cs
+index ab4cba5..f7f8204 100644
+--- a/UnitTests/SessionDynamicTest.cs
++++ b/UnitTests/SessionDynamicTest.cs
+@@ -257,7 +257,7 @@ namespace UnitTests
+             }
+             catch (Exception ex)
+             {
+-                Assert.Fail(string.Format("Failed to connect: {0}", ex.Message));
++                Assert.Fail($"Failed to connect: {ex.Message}");
+                 return null;
+             }
+         }
+diff --git a/UnitTests/SessionTest.cs b/UnitTests/SessionTest.cs
+index 8f9fefa..a41b42d 100755
+--- a/UnitTests/SessionTest.cs
++++ b/UnitTests/SessionTest.cs
+@@ -57,7 +57,7 @@ namespace UnitTests
+             Console.WriteLine("Responder dump:");
+             foreach (string key in msgLookup.Keys)
+             {
+-                Console.WriteLine(String.Format("  {0}: count {1}", key, msgLookup[key].Count));
++                Console.WriteLine($"  {key}: count {msgLookup[key].Count}");
+                 foreach (QuickFix.Message m in msgLookup[key])
+                 {
+                     Console.WriteLine("  - " + m.ToString());

@@ -1,0 +1,468 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: nunit.framework(net45)
+    #1 Path: D:\a\1\s\src\NUnitFramework\framework\Api\DefaultTestAssemblyBuilder.cs, Line: 134, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\src\NUnitFramework\framework\Api\FrameworkController.cs, Line: 412, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\AuthorAttribute.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\CultureAttribute.cs, Line: 84, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\CultureAttribute.cs, Line: 90, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #6 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\FixtureLifeCycleAttribute.cs, Line: 58, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #7 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\RandomAttribute.cs, Line: 15, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #8 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\RandomAttribute.cs, Line: 319, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #9 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\SetUpFixtureAttribute.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\SetUpFixtureAttribute.cs, Line: 83, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestCaseAttribute.cs, Line: 383, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestCaseAttribute.cs, Line: 450, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestCaseSourceAttribute.cs, Line: 192, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #14 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestCaseSourceAttribute.cs, Line: 254, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #15 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestCaseSourceAttribute.cs, Line: 261, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #16 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestCaseSourceAttribute.cs, Line: 268, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #17 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestFixtureSourceAttribute.cs, Line: 209, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #18 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestFixtureSourceAttribute.cs, Line: 215, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #19 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\TestFixtureSourceAttribute.cs, Line: 221, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #20 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\ValueSourceAttribute.cs, Line: 120, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #21 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\ValueSourceAttribute.cs, Line: 129, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #22 Path: D:\a\1\s\src\NUnitFramework\framework\Attributes\ValueSourceAttribute.cs, Line: 138, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #23 Path: D:\a\1\s\src\NUnitFramework\framework\Compatibility\AttributeHelper.cs, Line: 45, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #24 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\AttributeConstraint.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\AttributeConstraint.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #26 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\AttributeConstraint.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #27 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\AttributeExistsConstraint.cs, Line: 47, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #28 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\CollectionConstraint.cs, Line: 57, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #29 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\Constraint.cs, Line: 164, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\DelayedConstraint.cs, Line: 237, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\DelayedConstraint.cs, Line: 363, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\EqualConstraintResult.cs, Line: 178, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\EqualConstraintResult.cs, Line: 182, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\ExactCountConstraint.cs, Line: 108, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\FileOrDirectoryExistsConstraint.cs, Line: 110, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #36 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\FileOrDirectoryExistsConstraint.cs, Line: 116, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #37 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\FileOrDirectoryExistsConstraint.cs, Line: 122, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #38 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\Interval.cs, Line: 84, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\MsgUtils.cs, Line: 266, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\MsgUtils.cs, Line: 379, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #41 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\MsgUtils.cs, Line: 401, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #42 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\MsgUtils.cs, Line: 458, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\PathConstraint.cs, Line: 65, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\PropertyConstraint.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #45 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\PropertyExistsConstraint.cs, Line: 99, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\RangeConstraint.cs, Line: 57, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\src\NUnitFramework\framework\Constraints\StringConstraint.cs, Line: 70, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\src\NUnitFramework\framework\Interfaces\AssertionResult.cs, Line: 88, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #49 Path: D:\a\1\s\src\NUnitFramework\framework\Interfaces\ResultState.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #50 Path: D:\a\1\s\src\NUnitFramework\framework\Interfaces\TNode.cs, Line: 371, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #51 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\AwaitAdapter.cs, Line: 62, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #52 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\DatapointProvider.cs, Line: 106, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #53 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\DatapointProvider.cs, Line: 112, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #54 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\DatapointProvider.cs, Line: 119, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #55 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\DatapointProvider.cs, Line: 162, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #56 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\DatapointProvider.cs, Line: 166, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #57 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\DatapointProvider.cs, Line: 170, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #58 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\DatapointProvider.cs, Line: 89, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #59 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\NUnitTestCaseBuilder.cs, Line: 214, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #60 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\NUnitTestCaseBuilder.cs, Line: 217, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #61 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\NUnitTestFixtureBuilder.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #62 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Builders\PairwiseStrategy.cs, Line: 597, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #63 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Commands\MaxTimeCommand.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #64 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\CultureDetector.cs, Line: 87, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #65 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\CultureDetector.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #66 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ExceptionHelper.cs, Line: 110, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #67 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Execution\CompositeWorkItem.cs, Line: 330, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #68 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Execution\CompositeWorkItem.cs, Line: 375, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #69 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Execution\CompositeWorkItem.cs, Line: 452, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #70 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Execution\ParallelWorkItemDispatcher.cs, Line: 208, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #71 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Execution\TextCapture.cs, Line: 66, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #72 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Execution\TextCapture.cs, Line: 80, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #73 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Execution\TextCapture.cs, Line: 94, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #74 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Extensions\IPropertyBagDataExtensions.cs, Line: 44, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #75 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\PlatformHelper.cs, Line: 123, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #76 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\PlatformHelper.cs, Line: 129, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #77 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Results\TestResult.cs, Line: 566, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #78 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Results\TestResult.cs, Line: 654, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #79 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\TestNameGenerator.cs, Line: 228, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #80 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\TestNameGenerator.cs, Line: 248, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #81 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\TestNameGenerator.cs, Line: 441, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #82 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\Tests\TestSuite.cs, Line: 149, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #83 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\TypeHelper.cs, Line: 403, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #84 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.ByteValueGenerator.cs, Line: 32, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #85 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.ByteValueGenerator.cs, Line: 41, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #86 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.DecimalValueGenerator.cs, Line: 34, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #87 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.DoubleValueGenerator.cs, Line: 34, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #88 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.Int16ValueGenerator.cs, Line: 32, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #89 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.Int32ValueGenerator.cs, Line: 32, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #90 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.Int64ValueGenerator.cs, Line: 32, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #91 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.SByteValueGenerator.cs, Line: 32, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #92 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.SingleValueGenerator.cs, Line: 34, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #93 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.UInt16ValueGenerator.cs, Line: 32, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #94 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.UInt16ValueGenerator.cs, Line: 38, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #95 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.UInt32ValueGenerator.cs, Line: 32, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #96 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.UInt32ValueGenerator.cs, Line: 38, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #97 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.UInt64ValueGenerator.cs, Line: 32, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #98 Path: D:\a\1\s\src\NUnitFramework\framework\Internal\ValueGenerator.UInt64ValueGenerator.cs, Line: 38, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #99 Path: D:\a\1\s\src\NUnitFramework\framework\ListMapper.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: nunitlite(net45)
+    #100 Path: D:\a\1\s\src\NUnitFramework\nunitlite\CommandLineOptions.cs, Line: 287, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #101 Path: D:\a\1\s\src\NUnitFramework\nunitlite\Options.cs, Line: 317, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #102 Path: D:\a\1\s\src\NUnitFramework\nunitlite\Options.cs, Line: 390, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #103 Path: D:\a\1\s\src\NUnitFramework\nunitlite\Options.cs, Line: 400, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #104 Path: D:\a\1\s\src\NUnitFramework\nunitlite\Options.cs, Line: 422, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #105 Path: D:\a\1\s\src\NUnitFramework\nunitlite\Options.cs, Line: 429, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #106 Path: D:\a\1\s\src\NUnitFramework\nunitlite\Options.cs, Line: 442, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #107 Path: D:\a\1\s\src\NUnitFramework\nunitlite\Options.cs, Line: 804, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #108 Path: D:\a\1\s\src\NUnitFramework\nunitlite\OutputManager.cs, Line: 107, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #109 Path: D:\a\1\s\src\NUnitFramework\nunitlite\OutputManager.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #110 Path: D:\a\1\s\src\NUnitFramework\nunitlite\OutputWriters\NUnit2XmlOutputWriter.cs, Line: 182, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #111 Path: D:\a\1\s\src\NUnitFramework\nunitlite\TestSelectionParser.cs, Line: 248, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #112 Path: D:\a\1\s\src\NUnitFramework\nunitlite\TextUI.cs, Line: 518, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #113 Path: D:\a\1\s\src\NUnitFramework\nunitlite\TextUI.cs, Line: 536, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #114 Path: D:\a\1\s\src\NUnitFramework\nunitlite\TextUI.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #115 Path: D:\a\1\s\src\NUnitFramework\nunitlite\TextUI.cs, Line: 87, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: nunit.testdata(net45)
+    #116 Path: D:\a\1\s\src\NUnitFramework\testdata\ActionAttributeFixture.cs, Line: 170, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #117 Path: D:\a\1\s\src\NUnitFramework\testdata\ActionAttributeFixture.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #118 Path: D:\a\1\s\src\NUnitFramework\testdata\ActionAttributeFixture.cs, Line: 86, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #119 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 126, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #120 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 133, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #121 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 176, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #122 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 183, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #123 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 226, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #124 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 233, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #125 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 276, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #126 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 283, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #127 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 76, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #128 Path: D:\a\1\s\src\NUnitFramework\testdata\WarningFixture.cs, Line: 83, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: nunit.framework.tests(net45)
+    #129 Path: D:\a\1\s\src\NUnitFramework\tests\Api\FrameworkControllerTests.cs, Line: 516, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #130 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssertMultipleTests.cs, Line: 126, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #131 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssertThatTests.cs, Line: 109, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #132 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssertThatTests.cs, Line: 134, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #133 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssertThatTests.cs, Line: 166, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #134 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssertThatTests.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #135 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssertThatTests.cs, Line: 84, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #136 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssumeThatTests.cs, Line: 104, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #137 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssumeThatTests.cs, Line: 129, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #138 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssumeThatTests.cs, Line: 154, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #139 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssumeThatTests.cs, Line: 54, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #140 Path: D:\a\1\s\src\NUnitFramework\tests\Assertions\AssumeThatTests.cs, Line: 79, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #141 Path: D:\a\1\s\src\NUnitFramework\tests\Attributes\CommandWrapperTests.cs, Line: 123, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #142 Path: D:\a\1\s\src\NUnitFramework\tests\Attributes\CommandWrapperTests.cs, Line: 126, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #143 Path: D:\a\1\s\src\NUnitFramework\tests\Attributes\TestCaseAttributeTests.cs, Line: 340, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #144 Path: D:\a\1\s\src\NUnitFramework\tests\Attributes\TestCaseAttributeTests.cs, Line: 353, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #145 Path: D:\a\1\s\src\NUnitFramework\tests\Attributes\TestCaseSourceTests.cs, Line: 279, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #146 Path: D:\a\1\s\src\NUnitFramework\tests\Attributes\TestCaseSourceTests.cs, Line: 292, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #147 Path: D:\a\1\s\src\NUnitFramework\tests\Constraints\AssignableFromConstraintTests.cs, Line: 33, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #148 Path: D:\a\1\s\src\NUnitFramework\tests\Constraints\AssignableFromConstraintTests.cs, Line: 34, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #149 Path: D:\a\1\s\src\NUnitFramework\tests\Constraints\AssignableToConstraintTests.cs, Line: 33, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #150 Path: D:\a\1\s\src\NUnitFramework\tests\Constraints\AssignableToConstraintTests.cs, Line: 34, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #151 Path: D:\a\1\s\src\NUnitFramework\tests\Constraints\ExactTypeConstraintTests.cs, Line: 33, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #152 Path: D:\a\1\s\src\NUnitFramework\tests\Constraints\ExactTypeConstraintTests.cs, Line: 34, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #153 Path: D:\a\1\s\src\NUnitFramework\tests\Constraints\InstanceOfTypeConstraintTests.cs, Line: 33, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #154 Path: D:\a\1\s\src\NUnitFramework\tests\Constraints\InstanceOfTypeConstraintTests.cs, Line: 34, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #155 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\CultureSettingAndDetectionTests.cs, Line: 44, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #156 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\CultureSettingAndDetectionTests.cs, Line: 50, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #157 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\CultureSettingAndDetectionTests.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #158 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\CultureSettingAndDetectionTests.cs, Line: 63, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #159 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\EventQueueTests.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #160 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\Filters\AndFilterTests.cs, Line: 162, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #161 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\Filters\AndFilterTests.cs, Line: 173, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #162 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\Filters\TestFilterXmlTests.cs, Line: 317, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #163 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\PropertyBagTests.cs, Line: 122, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #164 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\RuntimeFrameworkTests.cs, Line: 329, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #165 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\SetUpTearDownTests.cs, Line: 128, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #166 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\SetUpTearDownTests.cs, Line: 147, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #167 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\SetUpTearDownTests.cs, Line: 169, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #168 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\SetUpTearDownTests.cs, Line: 170, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #169 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\TestFixtureTests.cs, Line: 55, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #170 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\TestNamingTests.cs, Line: 55, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #171 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\TestXmlTests.cs, Line: 186, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #172 Path: D:\a\1\s\src\NUnitFramework\tests\Internal\TestXmlTests.cs, Line: 189, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #173 Path: D:\a\1\s\src\NUnitFramework\tests\TestContextTests.cs, Line: 103, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #174 Path: D:\a\1\s\src\NUnitFramework\tests\TestUtilities\Collections\SimpleEnumerable.cs, Line: 74, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #175 Path: D:\a\1\s\src\NUnitFramework\tests\TestUtilities\TestFinder.cs, Line: 44, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: nunitlite.tests(net45)
+    #176 Path: D:\a\1\s\src\NUnitFramework\nunitlite.tests\CommandLineTests.cs, Line: 237, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #177 Path: D:\a\1\s\src\NUnitFramework\nunitlite.tests\CommandLineTests.cs, Line: 245, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #178 Path: D:\a\1\s\src\NUnitFramework\nunitlite.tests\CommandLineTests.cs, Line: 262, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 117
+R8: 35
+R5: 21
+R2: 3
+R10: 2
+
+--- Summary ---
+Fixed ReSharper issues: 175
+Fixed SonarQube issues: 23
+Total fixed issues: 178
+
+Finished in: 19 s
+
+######################################################################
+Nr: 1 - MergeSequentialChecksRewriterR2
+Filepath: D:\a\1\s\src\NUnitFramework\framework\Constraints\Comparers\DateTimeOffsetsComparer.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+
+namespace NUnit.Framework.Constraints.Comparers
+{
+    /// <summary>
+    /// Comparator for two <see cref="DateTimeOffset"/>s.
+    /// </summary>
+    internal sealed class DateTimeOffsetsComparer : IChainComparer
+    {
+        private readonly NUnitEqualityComparer _equalityComparer;
+
+        internal DateTimeOffsetsComparer(NUnitEqualityComparer equalityComparer)
+        {
+            _equalityComparer = equalityComparer;
+        }
+
+        public bool? Equal(object x, object y, ref Tolerance tolerance, ComparisonState state)
+        {
+            if (!(x is DateTimeOffset) || !(y is DateTimeOffset))
+                return null;
+
+            bool result;
+
+            DateTimeOffset xOffset = (DateTimeOffset)x;
+            DateTimeOffset yOffset = (DateTimeOffset)y;
+
+            if (tolerance != null && tolerance.Amount is TimeSpan)
+            {
+                TimeSpan amount = (TimeSpan)tolerance.Amount;
+                result = (xOffset - yOffset).Duration() <= amount;
+            }
+            else
+            {
+                result = xOffset == yOffset;
+            }
+
+            if (result && _equalityComparer.WithSameOffset)
+            {
+                result = xOffset.Offset == yOffset.Offset;
+            }
+
+            return result;
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System;
+
+namespace NUnit.Framework.Constraints.Comparers
+{
+    /// <summary>
+    /// Comparator for two <see cref="DateTimeOffset"/>s.
+    /// </summary>
+    internal sealed class DateTimeOffsetsComparer : IChainComparer
+    {
+        private readonly NUnitEqualityComparer _equalityComparer;
+
+        internal DateTimeOffsetsComparer(NUnitEqualityComparer equalityComparer)
+        {
+            _equalityComparer = equalityComparer;
+        }
+
+        public bool? Equal(object x, object y, ref Tolerance tolerance, ComparisonState state)
+        {
+            if (!(x is DateTimeOffset) || !(y is DateTimeOffset))
+                return null;
+
+            bool result;
+
+            DateTimeOffset xOffset = (DateTimeOffset)x;
+            DateTimeOffset yOffset = (DateTimeOffset)y;
+
+            if (tolerance?.Amount is TimeSpan)
+            {
+                TimeSpan amount = (TimeSpan)tolerance.Amount;
+                result = (xOffset - yOffset).Duration() <= amount;
+            }
+            else
+            {
+                result = xOffset == yOffset;
+            }
+
+            if (result && _equalityComparer.WithSameOffset)
+            {
+                result = xOffset.Offset == yOffset.Offset;
+            }
+
+            return result;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\NUnitFramework\framework\Constraints\Comparers\DateTimeOffsetsComparer.cs(50,38): error CS8400: Feature 'type pattern' is not available in C# 8.0. Please use language version 9.0 or greater.
+######################################################################
+
+
+######################################################################
+Nr: 2 - TypeCheckAndCastRewriterR5
+Filepath: D:\a\1\s\src\NUnitFramework\framework\Constraints\NUnitComparer.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections;
+using System.Linq;
+using System.Reflection;
+using NUnit.Compatibility;
+
+namespace NUnit.Framework.Constraints
+{
+    /// <summary>
+    /// NUnitComparer encapsulates NUnit's default behavior
+    /// in comparing two objects.
+    /// </summary>
+    public sealed class NUnitComparer : IComparer
+    {
+        /// <summary>
+        /// Returns the default NUnitComparer.
+        /// </summary>
+        public static NUnitComparer Default
+        {
+            get { return new NUnitComparer(); }
+        }
+
+        /// <summary>
+        /// Compares two objects
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public int Compare(object x, object y)
+        {
+            if (x == null)
+                return y == null ? 0 : -1;
+            else if (y == null)
+                return +1;
+
+            if (Numerics.IsNumericType(x) && Numerics.IsNumericType(y))
+                return Numerics.Compare(x, y);
+
+            Type xType = x.GetType();
+            Type yType = y.GetType();
+
+            // If we use BindingFlags.ExactBinding it will prevent us finding CompareTo(object)
+            // It however also prevents finding CompareTo(TBase) when called with TDerived
+            // Nor will it find CompareTo(int) when called with a short.
+            // We fallback to explicitly exclude CompareTo(object)
+            bool IsIComparable(MethodInfo method) => method.GetParameters()[0].ParameterType == typeof(object);
+
+            MethodInfo method = xType.GetMethod("CompareTo", new Type[] { yType });
+            if (method != null && !IsIComparable(method))
+                return (int)method.Invoke(x, new object[] { y });
+
+            method = yType.GetMethod("CompareTo", new Type[] { xType });
+            if (method != null && !IsIComparable(method))
+                return -(int)method.Invoke(y, new object[] { x });
+
+            if (x is IComparable)
+                return ((IComparable)x).CompareTo(y);
+
+            if (y is IComparable)
+                return -((IComparable)y).CompareTo(x);
+
+            throw new ArgumentException("Neither value implements IComparable or IComparable<T>");
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Collections;
+using System.Linq;
+using System.Reflection;
+using NUnit.Compatibility;
+
+namespace NUnit.Framework.Constraints
+{
+    /// <summary>
+    /// NUnitComparer encapsulates NUnit's default behavior
+    /// in comparing two objects.
+    /// </summary>
+    public sealed class NUnitComparer : IComparer
+    {
+        /// <summary>
+        /// Returns the default NUnitComparer.
+        /// </summary>
+        public static NUnitComparer Default
+        {
+            get { return new NUnitComparer(); }
+        }
+
+        /// <summary>
+        /// Compares two objects
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public int Compare(object x, object y)
+        {
+            if (x == null)
+                return y == null ? 0 : -1;
+            else if (y == null)
+                return +1;
+
+            if (Numerics.IsNumericType(x) && Numerics.IsNumericType(y))
+                return Numerics.Compare(x, y);
+
+            Type xType = x.GetType();
+            Type yType = y.GetType();
+
+            // If we use BindingFlags.ExactBinding it will prevent us finding CompareTo(object)
+            // It however also prevents finding CompareTo(TBase) when called with TDerived
+            // Nor will it find CompareTo(int) when called with a short.
+            // We fallback to explicitly exclude CompareTo(object)
+            bool IsIComparable(MethodInfo method) => method.GetParameters()[0].ParameterType == typeof(object);
+
+            MethodInfo method = xType.GetMethod("CompareTo", new Type[] { yType });
+            if (method != null && !IsIComparable(method))
+                return (int)method.Invoke(x, new object[] { y });
+
+            method = yType.GetMethod("CompareTo", new Type[] { xType });
+            if (method != null && !IsIComparable(method))
+                return -(int)method.Invoke(y, new object[] { x });
+
+            if (x is IComparable iComparable)
+                return iComparable.CompareTo(y);
+
+            if (y is IComparable iComparable)
+                return -iComparable.CompareTo(x);
+
+            throw new ArgumentException("Neither value implements IComparable or IComparable<T>");
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+D:\a\1\s\src\NUnitFramework\framework\Constraints\NUnitComparer.cs(26,1): hidden CS8019: Unnecessary using directive.,D:\a\1\s\src\NUnitFramework\framework\Constraints\NUnitComparer.cs(28,1): hidden CS8019: Unnecessary using directive.
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\NUnitFramework\framework\Constraints\NUnitComparer.cs(82,34): error CS0128: A local variable or function named 'iComparable' is already defined in this scope,D:\a\1\s\src\NUnitFramework\framework\Constraints\NUnitComparer.cs(83,25): error CS0165: Use of unassigned local variable 'iComparable',D:\a\1\s\src\NUnitFramework\framework\Constraints\NUnitComparer.cs(28,1): hidden CS8019: Unnecessary using directive.,D:\a\1\s\src\NUnitFramework\framework\Constraints\NUnitComparer.cs(26,1): hidden CS8019: Unnecessary using directive.
+######################################################################
+
+

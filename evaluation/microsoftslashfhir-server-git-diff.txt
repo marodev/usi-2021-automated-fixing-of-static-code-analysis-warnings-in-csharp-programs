@@ -1,0 +1,197 @@
+diff --git a/src/Microsoft.Health.Fhir.Api/Features/Throttling/ThrottlingMiddleware.cs b/src/Microsoft.Health.Fhir.Api/Features/Throttling/ThrottlingMiddleware.cs
+index 2d9afac7..a0e7c35f 100644
+--- a/src/Microsoft.Health.Fhir.Api/Features/Throttling/ThrottlingMiddleware.cs
++++ b/src/Microsoft.Health.Fhir.Api/Features/Throttling/ThrottlingMiddleware.cs
+@@ -262,11 +262,7 @@ namespace Microsoft.Health.Fhir.Api.Features.Throttling
+                     }
+                 }
+ 
+-                if (completionSource != null)
+-                {
+-                    // complete the task to let the request proceed.
+-                    completionSource.SetResult(true);
+-                }
++                completionSource?.SetResult(true);
+             }
+         }
+ 
+diff --git a/src/Microsoft.Health.Fhir.Azure/ContainerRegistry/AzureContainerRegistryAccessTokenProvider.cs b/src/Microsoft.Health.Fhir.Azure/ContainerRegistry/AzureContainerRegistryAccessTokenProvider.cs
+index b203648f..dc861a69 100644
+--- a/src/Microsoft.Health.Fhir.Azure/ContainerRegistry/AzureContainerRegistryAccessTokenProvider.cs
++++ b/src/Microsoft.Health.Fhir.Azure/ContainerRegistry/AzureContainerRegistryAccessTokenProvider.cs
+@@ -182,7 +182,7 @@ namespace Microsoft.Health.Fhir.Azure.ContainerRegistry
+             }
+ 
+             _logger.LogInformation("Successfully retrieved ACR access token.");
+-            return string.Format("Bearer {0}", accessToken);
++            return $"Bearer {accessToken}";
+         }
+ 
+         private async Task<HttpResponseMessage> SendRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+diff --git a/src/Microsoft.Health.Fhir.Core/Features/Operations/ConvertData/ContainerRegistryTemplateProvider.cs b/src/Microsoft.Health.Fhir.Core/Features/Operations/ConvertData/ContainerRegistryTemplateProvider.cs
+index 50c4bf50..64b9d891 100644
+--- a/src/Microsoft.Health.Fhir.Core/Features/Operations/ConvertData/ContainerRegistryTemplateProvider.cs
++++ b/src/Microsoft.Health.Fhir.Core/Features/Operations/ConvertData/ContainerRegistryTemplateProvider.cs
+@@ -134,7 +134,7 @@ namespace Microsoft.Health.Fhir.Core.Features.Operations.ConvertData
+ 
+         private static string GetCacheKey(string registryServer)
+         {
+-            return string.Format("registry_{0}", registryServer);
++            return $"registry_{registryServer}";
+         }
+ 
+         public void Dispose()
+diff --git a/src/Microsoft.Health.Fhir.Core/Features/Operations/Reindex/ReindexJobTask.cs b/src/Microsoft.Health.Fhir.Core/Features/Operations/Reindex/ReindexJobTask.cs
+index 8e4c6784..f4079aca 100644
+--- a/src/Microsoft.Health.Fhir.Core/Features/Operations/Reindex/ReindexJobTask.cs
++++ b/src/Microsoft.Health.Fhir.Core/Features/Operations/Reindex/ReindexJobTask.cs
+@@ -150,11 +150,11 @@ namespace Microsoft.Health.Fhir.Core.Features.Operations.Reindex
+                 var queryCancellationTokens = new Dictionary<ReindexJobQueryStatus, CancellationTokenSource>();
+ 
+                 // while not all queries are finished
+-                while (_reindexJobRecord.QueryList.Keys.Where(q =>
++                while (_reindexJobRecord.QueryList.Keys.Any(q =>
+                     q.Status == OperationStatus.Queued ||
+-                    q.Status == OperationStatus.Running).Any())
++                    q.Status == OperationStatus.Running))
+                 {
+-                    if (_reindexJobRecord.QueryList.Keys.Where(q => q.Status == OperationStatus.Queued).Any())
++                    if (_reindexJobRecord.QueryList.Keys.Any(q => q.Status == OperationStatus.Queued))
+                     {
+                         // grab the next query from the list which is labeled as queued and run it
+                         var query = _reindexJobRecord.QueryList.Keys.Where(q => q.Status == OperationStatus.Queued).OrderBy(q => q.LastModified).FirstOrDefault();
+@@ -327,7 +327,7 @@ namespace Microsoft.Health.Fhir.Core.Features.Operations.Reindex
+ 
+                         // Remove oldest completed queryStatus object if count > 10
+                         // to ensure reindex job document doesn't grow too large
+-                        if (_reindexJobRecord.QueryList.Keys.Where(q => q.Status == OperationStatus.Completed).Count() > 10)
++                        if (_reindexJobRecord.QueryList.Keys.Count(q => q.Status == OperationStatus.Completed)> 10)
+                         {
+                             var queryStatusToRemove = _reindexJobRecord.QueryList.Keys.Where(q => q.Status == OperationStatus.Completed).OrderBy(q => q.LastModified).FirstOrDefault();
+                             _reindexJobRecord.QueryList.TryRemove(queryStatusToRemove, out var removedByte);
+@@ -375,9 +375,9 @@ namespace Microsoft.Health.Fhir.Core.Features.Operations.Reindex
+         private async Task CheckJobCompletionStatus(CancellationToken cancellationToken)
+         {
+             // If any query still in progress then we are not done
+-            if (_reindexJobRecord.QueryList.Keys.Where(q =>
++            if (_reindexJobRecord.QueryList.Keys.Any(q =>
+                 q.Status == OperationStatus.Queued ||
+-                q.Status == OperationStatus.Running).Any())
++                q.Status == OperationStatus.Running))
+             {
+                 return;
+             }
+diff --git a/src/Microsoft.Health.Fhir.Core/Features/Search/TypedElementSearchIndexer.cs b/src/Microsoft.Health.Fhir.Core/Features/Search/TypedElementSearchIndexer.cs
+index c6594055..4b79ce74 100644
+--- a/src/Microsoft.Health.Fhir.Core/Features/Search/TypedElementSearchIndexer.cs
++++ b/src/Microsoft.Health.Fhir.Core/Features/Search/TypedElementSearchIndexer.cs
+@@ -222,8 +222,7 @@ namespace Microsoft.Health.Fhir.Core.Features.Search
+                 {
+                     if (ev.InstanceType.Equals("ResourceReference", StringComparison.OrdinalIgnoreCase))
+                     {
+-                        var rr = ev.Scalar("reference") as string;
+-                        return rr != null && targetResourceTypes.Any(trt => rr.Contains(trt, StringComparison.Ordinal));
++                        return ev.Scalar("reference") is string rr && targetResourceTypes.Any(trt => rr.Contains(trt, StringComparison.Ordinal));
+                     }
+ 
+                     return true;
+diff --git a/src/Microsoft.Health.Fhir.Shared.Client/FhirClientExtensions.cs b/src/Microsoft.Health.Fhir.Shared.Client/FhirClientExtensions.cs
+index fe3bf481..f2eed51c 100644
+--- a/src/Microsoft.Health.Fhir.Shared.Client/FhirClientExtensions.cs
++++ b/src/Microsoft.Health.Fhir.Shared.Client/FhirClientExtensions.cs
+@@ -21,7 +21,7 @@ namespace Microsoft.Health.Fhir.Client
+         public static async Task DeleteAllResources(this FhirClient client, ResourceType resourceType, string searchUrl)
+         {
+             Bundle bundle = null;
+-            while (bundle == null || bundle.NextLink != null)
++            while (bundle?.NextLink != null)
+             {
+                 bundle = bundle == null ? await client.SearchAsync(resourceType, searchUrl, count: 100) : await client.SearchAsync(bundle.NextLink.ToString());
+ 
+diff --git a/src/Microsoft.Health.Fhir.Shared.Core.UnitTests/Features/Operations/Reindex/ReindexJobTaskTests.cs b/src/Microsoft.Health.Fhir.Shared.Core.UnitTests/Features/Operations/Reindex/ReindexJobTaskTests.cs
+index 54fb92ea..a9bd94d3 100644
+--- a/src/Microsoft.Health.Fhir.Shared.Core.UnitTests/Features/Operations/Reindex/ReindexJobTaskTests.cs
++++ b/src/Microsoft.Health.Fhir.Shared.Core.UnitTests/Features/Operations/Reindex/ReindexJobTaskTests.cs
+@@ -99,7 +99,7 @@ namespace Microsoft.Health.Fhir.Core.UnitTests.Features.Operations.Reindex
+ 
+             // verify search for results
+             await _searchService.Received().SearchForReindexAsync(
+-                Arg.Is<IReadOnlyList<Tuple<string, string>>>(l => l.Where(t => t.Item1 == "_type" && t.Item2 == expectedResourceType).Any()),
++                Arg.Is<IReadOnlyList<Tuple<string, string>>>(l => l.Any(t => t.Item1 == "_type" && t.Item2 == expectedResourceType)),
+                 Arg.Any<string>(),
+                 false,
+                 Arg.Any<CancellationToken>());
+diff --git a/src/Microsoft.Health.Fhir.Shared.Core.UnitTests/Features/Operations/Reindex/ReindexUtilitiesTests.cs b/src/Microsoft.Health.Fhir.Shared.Core.UnitTests/Features/Operations/Reindex/ReindexUtilitiesTests.cs
+index 2e726e82..10a788aa 100644
+--- a/src/Microsoft.Health.Fhir.Shared.Core.UnitTests/Features/Operations/Reindex/ReindexUtilitiesTests.cs
++++ b/src/Microsoft.Health.Fhir.Shared.Core.UnitTests/Features/Operations/Reindex/ReindexUtilitiesTests.cs
+@@ -73,7 +73,7 @@ namespace Microsoft.Health.Fhir.Core.UnitTests.Features.Operations.Reindex
+             await _reindexUtilities.ProcessSearchResultsAsync(result, _searchParameterHashMap, CancellationToken.None);
+ 
+             await _fhirDataStore.Received().UpdateSearchParameterIndicesBatchAsync(
+-                Arg.Is<IReadOnlyCollection<ResourceWrapper>>(c => c.Count() == 2), Arg.Any<CancellationToken>());
++                Arg.Is<IReadOnlyCollection<ResourceWrapper>>(c => c.Count == 2), Arg.Any<CancellationToken>());
+         }
+ 
+         [Fact]
+diff --git a/src/Microsoft.Health.Fhir.Shared.Core/Features/Search/SearchOptionsFactory.cs b/src/Microsoft.Health.Fhir.Shared.Core/Features/Search/SearchOptionsFactory.cs
+index c0aadb06..12423628 100644
+--- a/src/Microsoft.Health.Fhir.Shared.Core/Features/Search/SearchOptionsFactory.cs
++++ b/src/Microsoft.Health.Fhir.Shared.Core/Features/Search/SearchOptionsFactory.cs
+@@ -435,7 +435,7 @@ namespace Microsoft.Health.Fhir.Core.Features.Search
+             IEnumerable<IncludeExpression> ParseIncludeIterateExpressions(SearchParams searchParams)
+             {
+                 return searchParams.Parameters
+-                .Where(p => p != null && AllIterateModifiers.Where(m => string.Equals(p.Item1, m, StringComparison.OrdinalIgnoreCase)).Any())
++                .Where(p => p != null && AllIterateModifiers.Any(m => string.Equals(p.Item1, m, StringComparison.OrdinalIgnoreCase)))
+                 .Select(p =>
+                 {
+                     var includeResourceType = p.Item2?.Split(':')[0];
+diff --git a/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/CustomSearchParamTests.cs b/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/CustomSearchParamTests.cs
+index fdac1df0..50de4314 100644
+--- a/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/CustomSearchParamTests.cs
++++ b/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/CustomSearchParamTests.cs
+@@ -191,7 +191,7 @@ namespace Microsoft.Health.Fhir.Tests.E2E.Rest.Search
+             }
+             catch (FhirException ex)
+             {
+-                Assert.True(ex.OperationOutcome.Issue.Where(i => i.Diagnostics.Contains(errorMessage)).Any());
++                Assert.True(ex.OperationOutcome.Issue.Any(i => i.Diagnostics.Contains(errorMessage)));
+             }
+         }
+ 
+diff --git a/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/SearchTestsBase.cs b/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/SearchTestsBase.cs
+index 476c0afe..9f81cbfb 100644
+--- a/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/SearchTestsBase.cs
++++ b/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/SearchTestsBase.cs
+@@ -128,7 +128,7 @@ namespace Microsoft.Health.Fhir.Tests.E2E.Rest.Search
+ 
+         protected OperationOutcome GetAndValidateOperationOutcome(Bundle bundle)
+         {
+-            var outcomeEnity = bundle.Entry.Where(x => x.Resource.ResourceType == ResourceType.OperationOutcome).FirstOrDefault();
++            var outcomeEnity = bundle.Entry.FirstOrDefault(x => x.Resource.ResourceType == ResourceType.OperationOutcome);
+             Assert.NotNull(outcomeEnity);
+             var outcome = outcomeEnity.Resource as OperationOutcome;
+             Assert.NotNull(outcome);
+diff --git a/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/StringSearchTests.cs b/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/StringSearchTests.cs
+index 6579b44f..c2a2293b 100644
+--- a/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/StringSearchTests.cs
++++ b/test/Microsoft.Health.Fhir.Shared.Tests.E2E/Rest/Search/StringSearchTests.cs
+@@ -36,7 +36,7 @@ namespace Microsoft.Health.Fhir.Tests.E2E.Rest.Search
+         [InlineData(":contains", "123", false)]
+         public async Task GivenAStringSearchParam_WhenSearched_ThenCorrectBundleShouldBeReturned(string modifier, string valueToSearch, bool shouldMatch)
+         {
+-            string query = string.Format("address-city{0}={1}&_tag={2}", modifier, valueToSearch, Fixture.FixtureTag);
++            string query = $"address-city{modifier}={valueToSearch}&_tag={Fixture.FixtureTag}";
+ 
+             Bundle bundle = await Client.SearchAsync(ResourceType.Patient, query);
+ 
+@@ -71,7 +71,7 @@ namespace Microsoft.Health.Fhir.Tests.E2E.Rest.Search
+         [InlineData(":contains", "NotInString", false)]
+         public async Task GivenAStringSearchParamAndAResourceWithALongSearchParamValue_WhenSearched_ThenCorrectBundleShouldBeReturned(string modifier, string valueToSearch, bool shouldMatch)
+         {
+-            string query = string.Format("address-city{0}={1}&_tag={2}", modifier, valueToSearch, Fixture.FixtureTag);
++            string query = $"address-city{modifier}={valueToSearch}&_tag={Fixture.FixtureTag}";
+ 
+             Bundle bundle = await Client.SearchAsync(ResourceType.Patient, query);
+ 

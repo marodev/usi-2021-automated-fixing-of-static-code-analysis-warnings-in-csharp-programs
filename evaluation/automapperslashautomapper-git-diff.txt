@@ -1,0 +1,74 @@
+diff --git a/src/AutoMapper/AutoMapperConfigurationException.cs b/src/AutoMapper/AutoMapperConfigurationException.cs
+index 87a58519..7b54ac82 100644
+--- a/src/AutoMapper/AutoMapperConfigurationException.cs
++++ b/src/AutoMapper/AutoMapperConfigurationException.cs
+@@ -45,10 +45,7 @@ public override string Message
+                 if (Types != null)
+                 {
+                     var message =
+-                        string.Format(
+-                            "The following member on {0} cannot be mapped: \n\t{2} \nAdd a custom mapping expression, ignore, add a custom resolver, or modify the destination type {1}.",
+-                            Types?.DestinationType.FullName, Types?.DestinationType.FullName,
+-                            MemberMap?.DestinationName);
++                        $"The following member on {Types?.DestinationType.FullName} cannot be mapped: \n\t{Types?.DestinationType.FullName} \nAdd a custom mapping expression, ignore, add a custom resolver, or modify the destination type {MemberMap?.DestinationName}.";
+ 
+                     message += "\nContext:";
+ 
+diff --git a/src/IntegrationTests/CustomMapFrom/MapObjectPropertyFromSubQuery.cs b/src/IntegrationTests/CustomMapFrom/MapObjectPropertyFromSubQuery.cs
+index 8dde9c9e..70c250ac 100644
+--- a/src/IntegrationTests/CustomMapFrom/MapObjectPropertyFromSubQuery.cs
++++ b/src/IntegrationTests/CustomMapFrom/MapObjectPropertyFromSubQuery.cs
+@@ -18,7 +18,7 @@ public class MapObjectPropertyFromSubQueryTypeNameMax : AutoMapperSpecBase
+         protected override MapperConfiguration Configuration => new MapperConfiguration(cfg =>
+         {
+             cfg.CreateMap<Product, ProductModel>()
+-                .ForMember(d => d.Price, o => o.MapFrom(source => source.Articles.Where(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished).FirstOrDefault()));
++                .ForMember(d => d.Price, o => o.MapFrom(source => source.Articles.FirstOrDefault(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished)));
+             cfg.CreateMap<Article, PriceModel>()
+                 .ForMember(d => d.RegionId, o => o.MapFrom(s => s.NationId));
+         });
+@@ -136,7 +136,7 @@ public class MapObjectPropertyFromSubQueryExplicitExpansion : AutoMapperSpecBase
+             cfg.CreateMap<Product, ProductModel>()
+                 .ForMember(d => d.Price, o =>
+                 {
+-                    o.MapFrom(source => source.Articles.Where(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished).FirstOrDefault());
++                    o.MapFrom(source => source.Articles.FirstOrDefault(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished));
+                     o.ExplicitExpansion();
+                 });
+             cfg.CreateMap<Article, PriceModel>()
+@@ -228,7 +228,7 @@ public class MapObjectPropertyFromSubQuery : AutoMapperSpecBase
+         protected override MapperConfiguration Configuration => new MapperConfiguration(cfg=>
+         {
+             cfg.CreateMap<Product, ProductModel>()
+-                .ForMember(d => d.Price, o => o.MapFrom(source => source.Articles.Where(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished).FirstOrDefault()));
++                .ForMember(d => d.Price, o => o.MapFrom(source => source.Articles.FirstOrDefault(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished)));
+             cfg.CreateMap<Article, PriceModel>()
+                 .ForMember(d => d.RegionId, o => o.MapFrom(s => s.NationId));
+         });
+@@ -323,7 +323,7 @@ public class MapObjectPropertyFromSubQueryWithInnerObject : AutoMapperSpecBase
+         {
+             cfg.CreateMap<ProductArticle, ProductArticleModel>();
+             cfg.CreateMap<Product, ProductModel>()
+-                .ForMember(d => d.Price, o => o.MapFrom(source => source.Articles.Where(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished).FirstOrDefault()));
++                .ForMember(d => d.Price, o => o.MapFrom(source => source.Articles.FirstOrDefault(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished)));
+             cfg.CreateMap<Article, PriceModel>()
+                 .ForMember(d => d.RegionId, o => o.MapFrom(s => s.NationId));
+         });
+@@ -423,7 +423,7 @@ public class MapObjectPropertyFromSubQueryWithCollection : AutoMapperSpecBase
+         {
+             cfg.CreateMap<ProductArticle, ProductArticleModel>();
+             cfg.CreateMap<Product, ProductModel>()
+-                .ForMember(d => d.Price, o => o.MapFrom(source => source.Articles.Where(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished).FirstOrDefault()));
++                .ForMember(d => d.Price, o => o.MapFrom(source => source.Articles.FirstOrDefault(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished)));
+             cfg.CreateMap<Article, PriceModel>()
+                 .ForMember(d => d.RegionId, o => o.MapFrom(s => s.NationId));
+         });
+@@ -529,7 +529,7 @@ public class MapObjectPropertyFromSubQueryWithCollectionSameName : NonValidating
+             cfg.CreateMap<ProductArticle, ProductArticleModel>();
+             cfg.CreateMap<Product, ProductModel>()
+                 .ForMember(d=>d.ArticlesModel, o=>o.MapFrom(s=>s))
+-                .ForMember(d => d.Articles, o => o.MapFrom(source => source.Articles.Where(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished).FirstOrDefault()));
++                .ForMember(d => d.Articles, o => o.MapFrom(source => source.Articles.FirstOrDefault(x => x.IsDefault && x.NationId == 1 && source.ECommercePublished)));
+             cfg.CreateMap<Product, ArticlesModel>();
+             cfg.CreateMap<Article, PriceModel>()
+                 .ForMember(d => d.RegionId, o => o.MapFrom(s => s.NationId));

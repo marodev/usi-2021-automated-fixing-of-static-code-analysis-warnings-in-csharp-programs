@@ -1,0 +1,1961 @@
+diff --git a/Source/LinqToDB/AsyncExtensions.generated.cs b/Source/LinqToDB/AsyncExtensions.generated.cs
+index bdeafa51f..29f60a101 100644
+--- a/Source/LinqToDB/AsyncExtensions.generated.cs
++++ b/Source/LinqToDB/AsyncExtensions.generated.cs
+@@ -19,9 +19,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource>(
+ 					Expression.Call(
+@@ -46,9 +44,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,bool>> predicate,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource>(
+ 					Expression.Call(
+@@ -73,9 +69,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource?>(
+ 					Expression.Call(
+@@ -100,9 +94,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,bool>> predicate,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource?>(
+ 					Expression.Call(
+@@ -127,9 +119,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource>(
+ 					Expression.Call(
+@@ -154,9 +144,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,bool>> predicate,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource>(
+ 					Expression.Call(
+@@ -181,9 +169,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource?>(
+ 					Expression.Call(
+@@ -208,9 +194,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,bool>> predicate,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource?>(
+ 					Expression.Call(
+@@ -235,9 +219,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, TSource item,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<bool>(
+ 					Expression.Call(
+@@ -262,9 +244,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<bool>(
+ 					Expression.Call(
+@@ -289,9 +269,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,bool>> predicate,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<bool>(
+ 					Expression.Call(
+@@ -316,9 +294,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,bool>> predicate,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<bool>(
+ 					Expression.Call(
+@@ -343,9 +319,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<int>(
+ 					Expression.Call(
+@@ -370,9 +344,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,bool>> predicate,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<int>(
+ 					Expression.Call(
+@@ -397,9 +369,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<long>(
+ 					Expression.Call(
+@@ -424,9 +394,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,bool>> predicate,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<long>(
+ 					Expression.Call(
+@@ -451,9 +419,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource>(
+ 					Expression.Call(
+@@ -478,9 +444,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,TResult>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TResult>(
+ 					Expression.Call(
+@@ -505,9 +469,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TSource>(
+ 					Expression.Call(
+@@ -532,9 +494,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,TResult>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<TResult>(
+ 					Expression.Call(
+@@ -559,9 +519,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<int> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<int>(
+ 					Expression.Call(
+@@ -586,9 +544,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<int?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<int?>(
+ 					Expression.Call(
+@@ -613,9 +569,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<long> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<long>(
+ 					Expression.Call(
+@@ -640,9 +594,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<long?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<long?>(
+ 					Expression.Call(
+@@ -667,9 +619,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<float> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<float>(
+ 					Expression.Call(
+@@ -694,9 +644,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<float?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<float?>(
+ 					Expression.Call(
+@@ -721,9 +669,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<double> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double>(
+ 					Expression.Call(
+@@ -748,9 +694,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<double?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double?>(
+ 					Expression.Call(
+@@ -775,9 +719,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<decimal> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<decimal>(
+ 					Expression.Call(
+@@ -802,9 +744,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<decimal?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<decimal?>(
+ 					Expression.Call(
+@@ -829,9 +769,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,int>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<int>(
+ 					Expression.Call(
+@@ -856,9 +794,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,int?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<int?>(
+ 					Expression.Call(
+@@ -883,9 +819,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,long>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<long>(
+ 					Expression.Call(
+@@ -910,9 +844,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,long?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<long?>(
+ 					Expression.Call(
+@@ -937,9 +869,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,float>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<float>(
+ 					Expression.Call(
+@@ -964,9 +894,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,float?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<float?>(
+ 					Expression.Call(
+@@ -991,9 +919,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,double>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double>(
+ 					Expression.Call(
+@@ -1018,9 +944,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,double?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double?>(
+ 					Expression.Call(
+@@ -1045,9 +969,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,decimal>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<decimal>(
+ 					Expression.Call(
+@@ -1072,9 +994,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,decimal?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<decimal?>(
+ 					Expression.Call(
+@@ -1099,9 +1019,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<int> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double>(
+ 					Expression.Call(
+@@ -1126,9 +1044,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<int?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double?>(
+ 					Expression.Call(
+@@ -1153,9 +1069,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<long> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double>(
+ 					Expression.Call(
+@@ -1180,9 +1094,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<long?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double?>(
+ 					Expression.Call(
+@@ -1207,9 +1119,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<float> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<float>(
+ 					Expression.Call(
+@@ -1234,9 +1144,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<float?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<float?>(
+ 					Expression.Call(
+@@ -1261,9 +1169,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<double> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double>(
+ 					Expression.Call(
+@@ -1288,9 +1194,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<double?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double?>(
+ 					Expression.Call(
+@@ -1315,9 +1219,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<decimal> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<decimal>(
+ 					Expression.Call(
+@@ -1342,9 +1244,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<decimal?> source,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<decimal?>(
+ 					Expression.Call(
+@@ -1369,9 +1269,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,int>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double>(
+ 					Expression.Call(
+@@ -1396,9 +1294,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,int?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double?>(
+ 					Expression.Call(
+@@ -1423,9 +1319,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,long>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double>(
+ 					Expression.Call(
+@@ -1450,9 +1344,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,long?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double?>(
+ 					Expression.Call(
+@@ -1477,9 +1369,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,float>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<float>(
+ 					Expression.Call(
+@@ -1504,9 +1394,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,float?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<float?>(
+ 					Expression.Call(
+@@ -1531,9 +1419,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,double>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double>(
+ 					Expression.Call(
+@@ -1558,9 +1444,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,double?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<double?>(
+ 					Expression.Call(
+@@ -1585,9 +1469,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,decimal>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<decimal>(
+ 					Expression.Call(
+@@ -1612,9 +1494,7 @@ public static partial class AsyncExtensions
+ 			this IQueryable<TSource> source, Expression<Func<TSource,decimal?>> selector,
+ 			CancellationToken token = default)
+ 		{
+-			var provider = source.Provider as IQueryProviderAsync;
+-
+-			if (provider != null)
++			if (source.Provider is IQueryProviderAsync provider)
+ 			{
+ 				return provider.ExecuteAsync<decimal?>(
+ 					Expression.Call(
+diff --git a/Source/LinqToDB/Common/Internal/Cache/MemoryCache.cs b/Source/LinqToDB/Common/Internal/Cache/MemoryCache.cs
+index 0eb7a1bd8..33e24341c 100644
+--- a/Source/LinqToDB/Common/Internal/Cache/MemoryCache.cs
++++ b/Source/LinqToDB/Common/Internal/Cache/MemoryCache.cs
+@@ -178,10 +178,7 @@ private void SetEntry(CacheEntry entry)
+ 					entry.InvokeEvictionCallbacks();
+ 				}
+ 
+-				if (priorEntry != null)
+-				{
+-					priorEntry.InvokeEvictionCallbacks();
+-				}
++				priorEntry?.InvokeEvictionCallbacks();
+ 			}
+ 			else
+ 			{
+diff --git a/Source/LinqToDB/Data/DataConnectionExtensions.LegacyMerge.cs b/Source/LinqToDB/Data/DataConnectionExtensions.LegacyMerge.cs
+index 3d9be383b..6cd0dcefb 100644
+--- a/Source/LinqToDB/Data/DataConnectionExtensions.LegacyMerge.cs
++++ b/Source/LinqToDB/Data/DataConnectionExtensions.LegacyMerge.cs
+@@ -24,8 +24,8 @@ private static bool MergeWithUpdate<T>(ITable<T> table)
+ 				.MappingSchema
+ 				.GetEntityDescriptor(typeof(T))
+ 				.Columns
+-				.Where(c => !c.IsPrimaryKey && !c.IsIdentity && !c.SkipOnUpdate)
+-				.Any();
++				.Any(c => !c.IsPrimaryKey && !c.IsIdentity && !c.SkipOnUpdate)
++;
+ 		}
+ 
+ 		/// <summary>
+diff --git a/Source/LinqToDB/DataProvider/DB2/DB2LUWSchemaProvider.cs b/Source/LinqToDB/DataProvider/DB2/DB2LUWSchemaProvider.cs
+index 32632b9b3..e2242bd94 100644
+--- a/Source/LinqToDB/DataProvider/DB2/DB2LUWSchemaProvider.cs
++++ b/Source/LinqToDB/DataProvider/DB2/DB2LUWSchemaProvider.cs
+@@ -498,14 +498,14 @@ protected string GetSchemaFilter(string schemaNameField)
+ 
+ 				if (IncludedSchemas.Count != 0)
+ 				{
+-					sql += string.Format(" IN ({0})", string.Join(", ", IncludedSchemas.Select(n => '\'' + n + '\'')));
++					sql += $" IN ({string.Join(", ", IncludedSchemas.Select(n => '\'' + n + '\''))})";
+ 
+ 					if (ExcludedSchemas.Count != 0)
+ 						sql += " AND " + schemaNameField;
+ 				}
+ 
+ 				if (ExcludedSchemas.Count != 0)
+-					sql += string.Format(" NOT IN ({0})", string.Join(", ", ExcludedSchemas.Select(n => '\'' + n + '\'')));
++					sql += $" NOT IN ({string.Join(", ", ExcludedSchemas.Select(n => '\'' + n + '\''))})";
+ 
+ 				return sql;
+ 			}
+diff --git a/Source/LinqToDB/DataProvider/Oracle/OracleXmlTable.cs b/Source/LinqToDB/DataProvider/Oracle/OracleXmlTable.cs
+index 11bb327ee..59017c828 100644
+--- a/Source/LinqToDB/DataProvider/Oracle/OracleXmlTable.cs
++++ b/Source/LinqToDB/DataProvider/Oracle/OracleXmlTable.cs
+@@ -136,19 +136,7 @@ public override void SetTable(ISqlBuilder sqlBuilder, MappingSchema mappingSchem
+ 				}
+ 
+ 				var columns = ed.Columns
+-					.Select((c,i) => string.Format("{0} {1} path 'c{2}'",
+-						sqlBuilder.ConvertInline(c.ColumnName, ConvertType.NameToQueryField),
+-						string.IsNullOrEmpty(c.DbType) ?
+-							GetDataTypeText(
+-								new SqlDataType(
+-									c.DataType == DataType.Undefined ? SqlDataType.GetDataType(c.MemberType).Type.DataType : c.DataType,
+-									c.MemberType,
+-									c.Length,
+-									c.Precision,
+-									c.Scale,
+-									c.DbType)) :
+-							c.DbType,
+-						i))
++					.Select((c,i) => $"{sqlBuilder.ConvertInline(c.ColumnName, ConvertType.NameToQueryField)} {(string.IsNullOrEmpty(c.DbType) ? GetDataTypeText(new SqlDataType(c.DataType == DataType.Undefined ? SqlDataType.GetDataType(c.MemberType).Type.DataType : c.DataType, c.MemberType, c.Length, c.Precision, c.Scale, c.DbType)) : c.DbType)} path 'c{i}'")
+ 					.Aggregate((s1,s2) => s1 + ", " +  s2);
+ 
+ 				table.SqlTableType   = SqlTableType.Expression;
+diff --git a/Source/LinqToDB/DataProvider/SQLite/SQLiteSchemaProvider.cs b/Source/LinqToDB/DataProvider/SQLite/SQLiteSchemaProvider.cs
+index d5142e004..cd8cd0a3d 100644
+--- a/Source/LinqToDB/DataProvider/SQLite/SQLiteSchemaProvider.cs
++++ b/Source/LinqToDB/DataProvider/SQLite/SQLiteSchemaProvider.cs
+@@ -142,10 +142,10 @@ protected override List<ColumnInfo> GetColumns(DataConnection dataConnection, Ge
+ 			// Handle case where Foreign Key reference does not include a column name (Issue #784)
+ 			if (result.Any(fk => string.IsNullOrEmpty(fk.OtherColumn)))
+ 			{
+-				var pks = GetPrimaryKeys(dataConnection, tables, options).ToDictionary(pk => string.Format("{0}:{1}", pk.TableID, pk.Ordinal), pk => pk.ColumnName);
++				var pks = GetPrimaryKeys(dataConnection, tables, options).ToDictionary(pk => $"{pk.TableID}:{pk.Ordinal}", pk => pk.ColumnName);
+ 				foreach (var f in result.Where(fk => string.IsNullOrEmpty(fk.OtherColumn)))
+ 				{
+-					var k = string.Format("{0}:{1}", f.OtherTableID, f.Ordinal);
++					var k = $"{f.OtherTableID}:{f.Ordinal}";
+ 					if (pks.ContainsKey(k))
+ 						f.OtherColumn = pks[k];
+ 				}
+diff --git a/Source/LinqToDB/Linq/Builder/ExpressionTestGenerator.cs b/Source/LinqToDB/Linq/Builder/ExpressionTestGenerator.cs
+index 424ff6b97..3f1f7980c 100644
+--- a/Source/LinqToDB/Linq/Builder/ExpressionTestGenerator.cs
++++ b/Source/LinqToDB/Linq/Builder/ExpressionTestGenerator.cs
+@@ -802,9 +802,7 @@ bool IsUserNamespace(string? @namespace)
+ 				}
+ 				else
+ 				{
+-					name = string.Format("{0}<{1}>",
+-						name,
+-						string.Join(", ", args.Select(GetTypeName)));
++					name = $"{name}<{string.Join(", ", args.Select(GetTypeName))}>";
+ 				}
+ 
+ 				_typeNames[type] = name;
+diff --git a/Source/LinqToDB/Linq/Builder/MergeBuilder.On.cs b/Source/LinqToDB/Linq/Builder/MergeBuilder.On.cs
+index 13f148924..3c0c9c79f 100644
+--- a/Source/LinqToDB/Linq/Builder/MergeBuilder.On.cs
++++ b/Source/LinqToDB/Linq/Builder/MergeBuilder.On.cs
+@@ -77,7 +77,7 @@ protected override IBuildContext BuildMethodCall(ExpressionBuilder builder, Meth
+ 
+ 						for (var i = 0; i < mi1.Bindings.Count; i++)
+ 						{
+-							var binding2 = (MemberAssignment)mi2.Bindings.Where(b => b.Member == mi1.Bindings[i].Member).FirstOrDefault();
++							var binding2 = (MemberAssignment)mi2.Bindings.FirstOrDefault(b => b.Member == mi1.Bindings[i].Member);
+ 							if (binding2 == null)
+ 								throw new LinqException($"List of member inits does not match for entity type '{targetKeySelector.Type}'.");
+ 
+diff --git a/Source/LinqToDB/LinqExtensions.cs b/Source/LinqToDB/LinqExtensions.cs
+index c55b3928b..9abf79f4d 100644
+--- a/Source/LinqToDB/LinqExtensions.cs
++++ b/Source/LinqToDB/LinqExtensions.cs
+@@ -2340,11 +2340,9 @@ public static int Drop<T>( this ITable<T> target, bool throwExceptionIfNotExists
+ 					_dropMethodInfo2.MakeGenericMethod(typeof(T)),
+ 				currentSource.Expression, Expression.Constant(throwExceptionIfNotExists));
+ 
+-			var query = currentSource as IQueryProviderAsync;
+-
+ 			if (throwExceptionIfNotExists)
+ 			{
+-				if (query != null)
++				if (currentSource is IQueryProviderAsync query)
+ 					return await query.ExecuteAsync<int>(expr, token).ConfigureAwait(Common.Configuration.ContinueOnCapturedContext);
+ 
+ 				return await TaskEx.Run(() => currentSource.Provider.Execute<int>(expr), token).ConfigureAwait(Common.Configuration.ContinueOnCapturedContext);
+@@ -2352,7 +2350,7 @@ public static int Drop<T>( this ITable<T> target, bool throwExceptionIfNotExists
+ 
+ 			try
+ 			{
+-				if (query != null)
++				if (currentSource is IQueryProviderAsync query)
+ 					return await query.ExecuteAsync<int>(expr, token).ConfigureAwait(Common.Configuration.ContinueOnCapturedContext);
+ 
+ 				return await TaskEx.Run(() => currentSource.Provider.Execute<int>(expr), token).ConfigureAwait(Common.Configuration.ContinueOnCapturedContext);
+diff --git a/Source/LinqToDB/Mapping/AssociationDescriptor.cs b/Source/LinqToDB/Mapping/AssociationDescriptor.cs
+index d2327ddc7..b7e2498a5 100644
+--- a/Source/LinqToDB/Mapping/AssociationDescriptor.cs
++++ b/Source/LinqToDB/Mapping/AssociationDescriptor.cs
+@@ -204,9 +204,7 @@ public Type GetParentElementType()
+ 				if (members.Length > 1)
+ 					throw new LinqToDBException($"Ambiguous members '{ExpressionPredicate}' for type '{type.Name}' has been found");
+ 
+-				var propInfo = members[0] as PropertyInfo;
+-
+-				if (propInfo != null)
++				if (members[0] is PropertyInfo propInfo)
+ 				{
+ 					var value = propInfo.GetValue(null, null);
+ 					if (value == null)
+@@ -218,8 +216,7 @@ public Type GetParentElementType()
+ 				}
+ 				else
+ 				{
+-					var method = members[0] as MethodInfo;
+-					if (method != null)
++					if (members[0] is MethodInfo method)
+ 					{
+ 						if (method.GetParameters().Length > 0)
+ 							throw new LinqToDBException($"Method '{ExpressionPredicate}' for type '{type.Name}' should have no parameters");
+diff --git a/Source/LinqToDB/Metadata/SystemComponentModelDataAnnotationsSchemaAttributeReader.cs b/Source/LinqToDB/Metadata/SystemComponentModelDataAnnotationsSchemaAttributeReader.cs
+index 4e741fab6..e795c1286 100644
+--- a/Source/LinqToDB/Metadata/SystemComponentModelDataAnnotationsSchemaAttributeReader.cs
++++ b/Source/LinqToDB/Metadata/SystemComponentModelDataAnnotationsSchemaAttributeReader.cs
+@@ -38,9 +38,7 @@ public T[] GetAttributes<T>(Type type, bool inherit)
+ 								attr.Schema = names[1];
+ 								break;
+ 							default :
+-								throw new MetadataException(string.Format(
+-									"Invalid table name '{0}' of type '{1}'",
+-									name, type.FullName));
++								throw new MetadataException($"Invalid table name '{name}' of type '{type.FullName}'");
+ 						}
+ 					}
+ 
+diff --git a/Source/LinqToDB/Metadata/SystemDataLinqAttributeReader.cs b/Source/LinqToDB/Metadata/SystemDataLinqAttributeReader.cs
+index 4287c8476..dafa358c5 100644
+--- a/Source/LinqToDB/Metadata/SystemDataLinqAttributeReader.cs
++++ b/Source/LinqToDB/Metadata/SystemDataLinqAttributeReader.cs
+@@ -44,9 +44,7 @@ public T[] GetAttributes<T>(Type type, bool inherit)
+ 									attr.Schema = names[0];
+ 									break;
+ 								default :
+-									throw new MetadataException(string.Format(
+-										"Invalid table name '{0}' of type '{1}'",
+-										name, type.FullName));
++									throw new MetadataException($"Invalid table name '{name}' of type '{type.FullName}'");
+ 							}
+ 						}
+ 					}
+diff --git a/Source/LinqToDB/Metadata/SystemDataSqlServerAttributeReader.cs b/Source/LinqToDB/Metadata/SystemDataSqlServerAttributeReader.cs
+index a255571e3..55ed777f9 100644
+--- a/Source/LinqToDB/Metadata/SystemDataSqlServerAttributeReader.cs
++++ b/Source/LinqToDB/Metadata/SystemDataSqlServerAttributeReader.cs
+@@ -73,12 +73,7 @@ public T[] GetAttributes<T>(Type type, MemberInfo memberInfo, bool inherit)
+ 
+ 								var ex = mi.IsStatic
+ 									?
+-									string.Format("{0}::{1}({2})",
+-										memberInfo.DeclaringType!.Name.ToLower().StartsWith("sql")
+-											? memberInfo.DeclaringType.Name.ToLower().Substring(3)
+-											: memberInfo.DeclaringType.Name.ToLower(),
+-											((dynamic)ma[0]).Name ?? memberInfo.Name,
+-										string.Join(", ", ps.Select((_, i) => '{' + i.ToString() + '}').ToArray()))
++									$"{(memberInfo.DeclaringType!.Name.ToLower().StartsWith("sql") ? memberInfo.DeclaringType.Name.ToLower().Substring(3) : memberInfo.DeclaringType.Name.ToLower())}::{((dynamic)ma[0]).Name ?? memberInfo.Name}({string.Join(", ", ps.Select((_, i) => '{' + i.ToString() + '}').ToArray())})"
+ 									:
+ 									string.Format("{{0}}.{0}({1})",
+ 											((dynamic)ma[0]).Name ?? memberInfo.Name,
+diff --git a/Source/LinqToDB/Metadata/XmlAttributeReader.cs b/Source/LinqToDB/Metadata/XmlAttributeReader.cs
+index dbaa08fd6..39e39db08 100644
+--- a/Source/LinqToDB/Metadata/XmlAttributeReader.cs
++++ b/Source/LinqToDB/Metadata/XmlAttributeReader.cs
+@@ -83,12 +83,8 @@ static AttributeInfo[] GetAttrs(string fileName, XElement el, string? exclude, s
+ 					if (value == null)
+ 						throw new MetadataException(
+ 							memberName != null ?
+-								string.Format(
+-									"'{0}': Element <Type Name='{1}'><Member Name='{2}'><'{3}'><{4} /> has to have 'Value' attribute.",
+-									fileName, typeName, memberName, aname, name) :
+-								string.Format(
+-									"'{0}': Element <Type Name='{1}'><'{2}'><{3} /> has to have 'Value' attribute.",
+-									fileName, typeName, aname, name));
++								$"'{fileName}': Element <Type Name='{typeName}'><Member Name='{memberName}'><'{aname}'><{name} /> has to have 'Value' attribute." :
++								$"'{fileName}': Element <Type Name='{typeName}'><'{aname}'><{name} /> has to have 'Value' attribute.");
+ 
+ 					var val =
+ 						type != null ?
+diff --git a/Source/LinqToDB/Sql/Sql.ExtensionAttribute.cs b/Source/LinqToDB/Sql/Sql.ExtensionAttribute.cs
+index 4819c59cc..ce7c6ce80 100644
+--- a/Source/LinqToDB/Sql/Sql.ExtensionAttribute.cs
++++ b/Source/LinqToDB/Sql/Sql.ExtensionAttribute.cs
+@@ -374,7 +374,7 @@ public T GetValue<T>(string argName)
+ 						}
+ 					}
+ 
+-					throw new InvalidOperationException(string.Format("Argument '{0}' not found", argName));
++					throw new InvalidOperationException($"Argument '{argName}' not found");
+ 				}
+ 
+ 				public ISqlExpression GetExpression(int index)
+@@ -396,7 +396,7 @@ public ISqlExpression GetExpression(string argName)
+ 						}
+ 					}
+ 
+-					throw new InvalidOperationException(string.Format("Argument '{0}' not found", argName));
++					throw new InvalidOperationException($"Argument '{argName}' not found");
+ 				}
+ 
+ 				public ISqlExpression ConvertToSqlExpression()
+@@ -644,7 +644,7 @@ public static string ResolveExpressionValues(string expression, Func<string, str
+ 					var calculated = valueProvider(paramName, delimiter);
+ 
+ 					if (string.IsNullOrEmpty(calculated) && !canBeOptional)
+-						throw new InvalidOperationException(string.Format("Non optional parameter '{0}' not found", paramName));
++						throw new InvalidOperationException($"Non optional parameter '{paramName}' not found");
+ 
+ 					var res = calculated;
+ 					if (spaceNeeded)
+@@ -675,8 +675,8 @@ SqlExtensionParam BuildExtensionParam(IDataContext dataContext, SelectQuery quer
+ 				var type   = member.GetMemberType();
+ 				if (method != null)
+ 					type = method.ReturnType ?? type;
+-				else if (member is PropertyInfo)
+-					type = ((PropertyInfo)member).PropertyType;
++				else if (member is PropertyInfo propertyInfo)
++					type = propertyInfo.PropertyType;
+ 
+ 				var extension = new SqlExtension(type, Expression!, Precedence, ChainPrecedence, IsAggregate, IsWindowFunction, IsPure, IsPredicate, _canBeNull);
+ 
+diff --git a/Source/LinqToDB/SqlQuery/ConditionBase`2.cs b/Source/LinqToDB/SqlQuery/ConditionBase`2.cs
+index b78a466cb..d0af3d91d 100644
+--- a/Source/LinqToDB/SqlQuery/ConditionBase`2.cs
++++ b/Source/LinqToDB/SqlQuery/ConditionBase`2.cs
+@@ -105,8 +105,8 @@ SqlPredicate.InList CreateInList(bool isNot, object[] exprs)
+ 						if (item == null || item is SqlValue && ((SqlValue)item).Value == null)
+ 							continue;
+ 
+-						if (item is ISqlExpression)
+-							list.Values.Add((ISqlExpression)item);
++						if (item is ISqlExpression iSqlExpression)
++							list.Values.Add(iSqlExpression);
+ 						else
+ 							list.Values.Add(new SqlValue(item));
+ 					}
+diff --git a/Tests/Base/SqlServerTypes/Loader.cs b/Tests/Base/SqlServerTypes/Loader.cs
+index e35800084..21ab4b8a9 100644
+--- a/Tests/Base/SqlServerTypes/Loader.cs
++++ b/Tests/Base/SqlServerTypes/Loader.cs
+@@ -35,10 +35,7 @@ private static void LoadNativeAssembly(string nativeBinaryPath, string assemblyN
+ 			var ptr = LoadLibrary(path);
+ 			if (ptr == IntPtr.Zero)
+ 			{
+-				throw new InvalidOperationException(string.Format(
+-					"Error loading {0} (ErrorCode: {1})",
+-					assemblyName,
+-					Marshal.GetLastWin32Error()));
++				throw new InvalidOperationException($"Error loading {assemblyName} (ErrorCode: {Marshal.GetLastWin32Error()})");
+ 			}
+ 		}
+ 	}
+diff --git a/Tests/Linq/Data/MiniProfilerTests.cs b/Tests/Linq/Data/MiniProfilerTests.cs
+index 5470208d7..ea022af94 100644
+--- a/Tests/Linq/Data/MiniProfilerTests.cs
++++ b/Tests/Linq/Data/MiniProfilerTests.cs
+@@ -1454,9 +1454,9 @@ public async Task TestPostgreSQL([IncludeDataSources(TestProvName.AllPostgreSQL)
+ 
+ 				// provider types support by schema
+ 				var schema = db.DataProvider.GetSchemaProvider().GetSchema(db);
+-				var allTypes = schema.Tables.Where(t => t.TableName == "AllTypes").SingleOrDefault()!;
++				var allTypes = schema.Tables.SingleOrDefault(t => t.TableName == "AllTypes")!;
+ 				Assert.NotNull (allTypes);
+-				var tsColumn = allTypes.Columns.Where(c => c.ColumnName == "timestampDataType").SingleOrDefault()!;
++				var tsColumn = allTypes.Columns.SingleOrDefault(c => c.ColumnName == "timestampDataType")!;
+ 				Assert.NotNull (tsColumn);
+ 				Assert.AreEqual("NpgsqlDateTime", tsColumn.ProviderSpecificType);
+ 
+diff --git a/Tests/Linq/DataProvider/AccessProceduresTests.cs b/Tests/Linq/DataProvider/AccessProceduresTests.cs
+index 821bbd504..1cfc89f5a 100644
+--- a/Tests/Linq/DataProvider/AccessProceduresTests.cs
++++ b/Tests/Linq/DataProvider/AccessProceduresTests.cs
+@@ -21,7 +21,7 @@ public void Test_SelectProcedureSchema([IncludeDataSources(TestProvName.AllAcces
+ 			{
+ 				var schema = db.DataProvider.GetSchemaProvider().GetSchema(db);
+ 
+-				var proc = schema.Procedures.Where(_ => _.ProcedureName == "Person_SelectByKey").Single();
++				var proc = schema.Procedures.Single(_ => _.ProcedureName == "Person_SelectByKey");
+ 
+ 				Assert.IsNull(proc.CatalogName);
+ 				Assert.AreEqual(false, proc.IsAggregateFunction);
+diff --git a/Tests/Linq/DataProvider/MySqlTests.cs b/Tests/Linq/DataProvider/MySqlTests.cs
+index 591c711d7..d2744bd0f 100644
+--- a/Tests/Linq/DataProvider/MySqlTests.cs
++++ b/Tests/Linq/DataProvider/MySqlTests.cs
+@@ -1150,8 +1150,8 @@ public static IEnumerable<ProcedureTestCase> ProcedureTestCases
+ 					foreach (var actualColumn in actualTable.Columns)
+ 					{
+ 						var expectedColumn = expectedTable.Columns
+-							.Where(_ => _.ColumnName == actualColumn.ColumnName)
+-							.SingleOrDefault()!;
++							.SingleOrDefault(_ => _.ColumnName == actualColumn.ColumnName)
++!;
+ 
+ 						Assert.IsNotNull(expectedColumn);
+ 
+@@ -1643,7 +1643,7 @@ public void TestTypesSchema([IncludeDataSources(false, TestProvName.AllMySql)] s
+ 				{
+ 					var schema = db.DataProvider.GetSchemaProvider().GetSchema(db, new GetSchemaOptions() { GetProcedures = false });
+ 
+-					var tableSchema = schema.Tables.Where(t => t.TableName!.ToLower() == "testschematypestable").SingleOrDefault()!;
++					var tableSchema = schema.Tables.SingleOrDefault(t => t.TableName!.ToLower() == "testschematypestable")!;
+ 					Assert.IsNotNull(tableSchema);
+ 
+ 					assertColumn("VarChar255"        , "string"  , DataType.VarChar);
+@@ -1725,7 +1725,7 @@ public void TestTypesSchema([IncludeDataSources(false, TestProvName.AllMySql)] s
+ 
+ 					void assertColumn(string name, string type, DataType dataType)
+ 					{
+-						var column = tableSchema.Columns.Where(c => c.ColumnName == name).SingleOrDefault()!;
++						var column = tableSchema.Columns.SingleOrDefault(c => c.ColumnName == name)!;
+ 						Assert.IsNotNull(column);
+ 						Assert.AreEqual(type, column.MemberType);
+ 						Assert.AreEqual(dataType, column.DataType);
+@@ -1741,7 +1741,7 @@ public void TestProcedureTypesParameters([IncludeDataSources(false, TestProvName
+ 			{
+ 				var schema = db.DataProvider.GetSchemaProvider().GetSchema(db, new GetSchemaOptions() { GetTables = false });
+ 
+-				var proc = schema.Procedures.Where(t => t.ProcedureName == "Issue2313Parameters").SingleOrDefault()!;
++				var proc = schema.Procedures.SingleOrDefault(t => t.ProcedureName == "Issue2313Parameters")!;
+ 
+ 				Assert.IsNotNull(proc);
+ 
+@@ -1805,7 +1805,7 @@ public void TestProcedureTypesParameters([IncludeDataSources(false, TestProvName
+ 
+ 				void assertParameter(string name, string type, DataType dataType)
+ 				{
+-					var parameter = proc.Parameters.Where(c => c.ParameterName == name).SingleOrDefault()!;
++					var parameter = proc.Parameters.SingleOrDefault(c => c.ParameterName == name)!;
+ 
+ 					Assert.IsNotNull(parameter);
+ 
+@@ -1822,7 +1822,7 @@ public void TestProcedureTypesResults([IncludeDataSources(false, TestProvName.Al
+ 			{
+ 				var schema = db.DataProvider.GetSchemaProvider().GetSchema(db, new GetSchemaOptions() { GetTables = false });
+ 
+-				var proc = schema.Procedures.Where(t => t.ProcedureName == "Issue2313Results").SingleOrDefault()!;
++				var proc = schema.Procedures.SingleOrDefault(t => t.ProcedureName == "Issue2313Results")!;
+ 
+ 				Assert.IsNotNull(proc);
+ 				Assert.IsNotNull(proc.ResultTable);
+@@ -1893,7 +1893,7 @@ void assertColumn(string name, string type, DataType dataType)
+ 				{
+ 					// m'kaaaay...
+ 					name       = "`" + name + "`";
+-					var column = proc.ResultTable!.Columns.Where(c => c.ColumnName == name).SingleOrDefault()!;
++					var column = proc.ResultTable!.Columns.SingleOrDefault(c => c.ColumnName == name)!;
+ 
+ 					Assert.IsNotNull(column);
+ 
+diff --git a/Tests/Linq/DataProvider/OracleTests.cs b/Tests/Linq/DataProvider/OracleTests.cs
+index 964fae15e..6fd8ea573 100644
+--- a/Tests/Linq/DataProvider/OracleTests.cs
++++ b/Tests/Linq/DataProvider/OracleTests.cs
+@@ -3457,10 +3457,10 @@ public void Issue399Test([IncludeDataSources(false, TestProvName.AllOracle)] str
+ 				Assert.AreEqual(11, schema.Procedures.Count);
+ 
+ 				// This filter used by T4 generator
+-				Assert.AreEqual(11, schema.Procedures.Where(
++				Assert.AreEqual(11, schema.Procedures.Count(
+ 					proc => proc.IsLoaded
+ 					|| proc.IsFunction && !proc.IsTableFunction
+-					|| proc.IsTableFunction && proc.ResultException != null).Count());
++					|| proc.IsTableFunction && proc.ResultException != null));
+ 			}
+ 		}
+ 
+@@ -3487,7 +3487,7 @@ public void TestSchemaTypes([IncludeDataSources(false, TestProvName.AllOracle)]
+ 					GetProcedures = false
+ 				});
+ 
+-				var table = schema.Tables.Where(t => t.TableName == nameof(TypesTest).ToUpperInvariant()).SingleOrDefault()!;
++				var table = schema.Tables.SingleOrDefault(t => t.TableName == nameof(TypesTest).ToUpperInvariant())!;
+ 				Assert.IsNotNull(table);
+ 				Assert.AreEqual(5, table.Columns.Count);
+ 
+@@ -3696,10 +3696,10 @@ public void TestTablesAndViewsLoad([IncludeDataSources(false, TestProvName.AllOr
+ 
+ 				var schema = db.DataProvider.GetSchemaProvider().GetSchema(db, options);
+ 
+-				var table        = schema.Tables.Where(t => t.TableName == "SchemaTestTable").FirstOrDefault()!;
+-				var view         = schema.Tables.Where(t => t.TableName == "SchemaTestView").FirstOrDefault()!;
+-				var matView      = schema.Tables.Where(t => t.TableName == "SchemaTestMatView" && t.IsView).FirstOrDefault()!;
+-				var matViewTable = schema.Tables.Where(t => t.TableName == "SchemaTestMatView" && !t.IsView).FirstOrDefault();
++				var table        = schema.Tables.FirstOrDefault(t => t.TableName == "SchemaTestTable")!;
++				var view         = schema.Tables.FirstOrDefault(t => t.TableName == "SchemaTestView")!;
++				var matView      = schema.Tables.FirstOrDefault(t => t.TableName == "SchemaTestMatView" && t.IsView)!;
++				var matViewTable = schema.Tables.FirstOrDefault(t => t.TableName == "SchemaTestMatView" && !t.IsView);
+ 
+ 				Assert.IsNotNull(table);
+ 				Assert.AreEqual("This is table", table.Description);
+diff --git a/Tests/Linq/DataProvider/PostgreSQLTests.cs b/Tests/Linq/DataProvider/PostgreSQLTests.cs
+index 690e61319..4499bc3c2 100644
+--- a/Tests/Linq/DataProvider/PostgreSQLTests.cs
++++ b/Tests/Linq/DataProvider/PostgreSQLTests.cs
+@@ -236,7 +236,7 @@ static void TestNumeric<T>(DataConnection conn, T expectedValue, DataType dataTy
+ 			{
+ 				var sqlValue = (object?)expectedValue;
+ 
+-				var sql = string.Format("SELECT Cast({0} as {1})", sqlValue ?? "NULL", sqlType);
++				var sql = $"SELECT Cast({sqlValue ?? "NULL"} as {sqlType})";
+ 
+ 				Debug.WriteLine(sql + " -> " + typeof(T));
+ 
+diff --git a/Tests/Linq/DataProvider/SQLiteTests.cs b/Tests/Linq/DataProvider/SQLiteTests.cs
+index 182725702..a4ae675d8 100644
+--- a/Tests/Linq/DataProvider/SQLiteTests.cs
++++ b/Tests/Linq/DataProvider/SQLiteTests.cs
+@@ -39,10 +39,10 @@ public void TestParameters([IncludeDataSources(TestProvName.AllSQLite)] string c
+ 		static void TestType<T>(DataConnection connection, string dataTypeName, T value, string tableName = "AllTypes", bool convertToString = false)
+ 			where T : notnull
+ 		{
+-			Assert.That(connection.Execute<T>(string.Format("SELECT {0} FROM {1} WHERE ID = 1", dataTypeName, tableName)),
++			Assert.That(connection.Execute<T>($"SELECT {dataTypeName} FROM {tableName} WHERE ID = 1"),
+ 				Is.EqualTo(connection.MappingSchema.GetDefaultValue(typeof(T))));
+ 
+-			object actualValue   = connection.Execute<T>(string.Format("SELECT {0} FROM {1} WHERE ID = 2", dataTypeName, tableName))!;
++			object actualValue   = connection.Execute<T>($"SELECT {dataTypeName} FROM {tableName} WHERE ID = 2")!;
+ 			object expectedValue = value;
+ 
+ 			if (convertToString)
+diff --git a/Tests/Linq/DataProvider/SqlServerTests.cs b/Tests/Linq/DataProvider/SqlServerTests.cs
+index 6a44a7e12..a30d6a4cc 100644
+--- a/Tests/Linq/DataProvider/SqlServerTests.cs
++++ b/Tests/Linq/DataProvider/SqlServerTests.cs
+@@ -1650,7 +1650,7 @@ public void TestIssue1144([IncludeDataSources(TestProvName.AllSqlServer2005Plus)
+ 			{
+ 				var schema = db.DataProvider.GetSchemaProvider().GetSchema(db);
+ 
+-				var table = schema.Tables.Where(_ => _.TableName == "Issue1144").Single();
++				var table = schema.Tables.Single(_ => _.TableName == "Issue1144");
+ 
+ 				Assert.AreEqual(1, table.Columns.Count);
+ 			}
+diff --git a/Tests/Linq/DataProvider/SybaseTests.cs b/Tests/Linq/DataProvider/SybaseTests.cs
+index 42ae879ef..7b71e2e8c 100644
+--- a/Tests/Linq/DataProvider/SybaseTests.cs
++++ b/Tests/Linq/DataProvider/SybaseTests.cs
+@@ -40,10 +40,10 @@ public void TestParameters([IncludeDataSources(TestProvName.AllSybase)] string c
+ 		static void TestType<T>(DataConnection connection, string dataTypeName, T value, string tableName = "AllTypes", bool convertToString = false)
+ 			where T : notnull
+ 		{
+-			Assert.That(connection.Execute<T>(string.Format("SELECT {0} FROM {1} WHERE ID = 1", dataTypeName, tableName)),
++			Assert.That(connection.Execute<T>($"SELECT {dataTypeName} FROM {tableName} WHERE ID = 1"),
+ 				Is.EqualTo(connection.MappingSchema.GetDefaultValue(typeof(T))));
+ 
+-			object actualValue   = connection.Execute<T>(string.Format("SELECT {0} FROM {1} WHERE ID = 2", dataTypeName, tableName))!;
++			object actualValue   = connection.Execute<T>($"SELECT {dataTypeName} FROM {tableName} WHERE ID = 2")!;
+ 			object expectedValue = value;
+ 
+ 			if (convertToString)
+diff --git a/Tests/Linq/Exceptions/CommonTests.cs b/Tests/Linq/Exceptions/CommonTests.cs
+index 017fc60a1..07616845f 100644
+--- a/Tests/Linq/Exceptions/CommonTests.cs
++++ b/Tests/Linq/Exceptions/CommonTests.cs
+@@ -24,8 +24,7 @@ protected override SqlStatement ProcessQuery(SqlStatement statement, EvaluationC
+ 			{
+ 				if (statement.IsInsert() && statement.RequireInsertClause().Into!.Name == "Parent")
+ 				{
+-					var expr =
+-						new QueryVisitor().Find(statement.RequireInsertClause(), e =>
++					if (						new QueryVisitor().Find(statement.RequireInsertClause(), e =>
+ 						{
+ 							if (e.ElementType == QueryElementType.SetExpression)
+ 							{
+@@ -34,9 +33,7 @@ protected override SqlStatement ProcessQuery(SqlStatement statement, EvaluationC
+ 							}
+ 
+ 							return false;
+-						}) as SqlSetExpression;
+-
+-					if (expr != null && expr.Expression!.TryEvaluateExpression(context, out var expressionValue))
++						}) is SqlSetExpression expr && expr.Expression!.TryEvaluateExpression(context, out var expressionValue))
+ 					{
+ 						var value = ConvertTo<int>.From(expressionValue);
+ 
+diff --git a/Tests/Linq/Linq/AllAnyTests.cs b/Tests/Linq/Linq/AllAnyTests.cs
+index 7fc673d66..886da2c05 100644
+--- a/Tests/Linq/Linq/AllAnyTests.cs
++++ b/Tests/Linq/Linq/AllAnyTests.cs
+@@ -27,7 +27,7 @@ public void Any2([DataSources] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 				AreEqual(
+-					   Parent.Where(p =>    Child.Where(c => c.ParentID == p.ParentID).Any()),
++					   Parent.Where(p =>    Child.Any(c => c.ParentID == p.ParentID)),
+ 					db.Parent.Where(p => db.Child.Where(c => c.ParentID == p.ParentID).Any()));
+ 		}
+ 
+diff --git a/Tests/Linq/Linq/AssociationTests.cs b/Tests/Linq/Linq/AssociationTests.cs
+index 40fe2f356..db9c14a0e 100644
+--- a/Tests/Linq/Linq/AssociationTests.cs
++++ b/Tests/Linq/Linq/AssociationTests.cs
+@@ -277,8 +277,8 @@ public void StackOverflow3([DataSources(ProviderName.SqlCe)] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 				AreEqual(
+-					from p in    Parent5 where p.Children.Count() != 0 select p,
+-					from p in db.Parent5 where p.Children.Count() != 0 select p);
++					from p in    Parent5 where p.Children.Any()select p,
++					from p in db.Parent5 where p.Children.Any()select p);
+ 		}
+ 
+ 		[Test]
+@@ -457,10 +457,10 @@ public void LetTest1([DataSources] string context)
+ 				AreEqual(
+ 					from p in Parent
+ 					let chs = p.Children
+-					select new { p.ParentID, Count = chs.Count() },
++					select new { p.ParentID, Count = chs.Count },
+ 					from p in db.Parent
+ 					let chs = p.Children
+-					select new { p.ParentID, Count = chs.Count() });
++					select new { p.ParentID, Count = chs.Count });
+ 		}
+ 
+ 		[Test]
+@@ -471,7 +471,7 @@ public void LetTest2([DataSources] string context)
+ 				var exptected = from p in Parent
+ 					select new { p } into pp
+ 					let chs = pp.p.Children
+-					select new { pp.p.ParentID, Count = chs.Count() };
++					select new { pp.p.ParentID, Count = chs.Count };
+ 
+ 				var actual = db.Parent.Select(p => new { Peojection = p })
+ 					.Select(pp => new { pp, chs = pp.Peojection.Children })
+diff --git a/Tests/Linq/Linq/CountTests.cs b/Tests/Linq/Linq/CountTests.cs
+index 8d6fcf331..d5aa0cc3e 100644
+--- a/Tests/Linq/Linq/CountTests.cs
++++ b/Tests/Linq/Linq/CountTests.cs
+@@ -101,8 +101,7 @@ public void SubQueryCount([IncludeDataSources(TestProvName.AllSqlServer2008Plus)
+ 			{
+ 				AreEqual(
+ 					from p in Parent
+-					select Parent.Where(t => t.ParentID == p.ParentID).Count()
+-					,
++					select Parent.Count(t => t.ParentID == p.ParentID)					,
+ 					from p in db.Parent
+ 					select Sql.AsSql(db.GetParentByID(p.ParentID).Count()));
+ 			}
+@@ -388,12 +387,10 @@ public void GroupByWhere202([DataSources(ProviderName.SqlCe)] string context)
+ 				AreEqual(
+ 					from ch in Child
+ 					group ch by ch.ParentID into g
+-					where g.Count(ch => ch.ChildID > 20) > 2 || g.Count(ch => ch.ChildID == 20) > 2
+-					select g.Key,
++					where g.Count(ch => ch.ChildID > 20) > 2 || g.Count(ch => ch.ChildID == 20) > 2					select g.Key,
+ 					from ch in db.Child
+ 					group ch by ch.ParentID into g
+-					where g.Count(ch => ch.ChildID > 20) > 2 || g.Count(ch => ch.ChildID == 20) > 2
+-					select g.Key);
++					where g.Count(ch => ch.ChildID > 20) > 2 || g.Count(ch => ch.ChildID == 20) > 2					select g.Key);
+ 		}
+ 
+ 		[Test]
+@@ -403,12 +400,10 @@ public void GroupByWhere203([DataSources(ProviderName.SqlCe)] string context)
+ 				AreEqual(
+ 					from ch in Child
+ 					group ch by ch.ParentID into g
+-					where g.Count(ch => ch.ChildID > 20) > 2 || g.Key > 2
+-					select g.Key,
++					where g.Count(ch => ch.ChildID > 20) > 2 || g.Key > 2					select g.Key,
+ 					from ch in db.Child
+ 					group ch by ch.ParentID into g
+-					where g.Count(ch => ch.ChildID > 20) > 2 || g.Key > 2
+-					select g.Key);
++					where g.Count(ch => ch.ChildID > 20) > 2 || g.Key > 2					select g.Key);
+ 		}
+ 
+ 		[Test]
+@@ -418,12 +413,10 @@ public void GroupByWhere3([DataSources] string context)
+ 				AreEqual(
+ 					from ch in Child
+ 					group ch by ch.ParentID into g
+-					where g.Count() > 2 && g.Key < 5
+-					select g.Key,
++					where g.Count() > 2 && g.Key < 5					select g.Key,
+ 					from ch in db.Child
+ 					group ch by ch.ParentID into g
+-					where g.Count() > 2 && g.Key < 5
+-					select g.Key);
++					where g.Count() > 2 && g.Key < 5					select g.Key);
+ 		}
+ 
+ 		[Test]
+@@ -433,12 +426,10 @@ public void GroupByWhere301([DataSources] string context)
+ 				AreEqual(
+ 					from ch in Child
+ 					group ch by ch.ParentID into g
+-					where g.Count() > 3 || g.Key == 1
+-					select g.Key,
++					where g.Count() > 3 || g.Key == 1					select g.Key,
+ 					from ch in db.Child
+ 					group ch by ch.ParentID into g
+-					where g.Count() > 3 || g.Key == 1
+-					select g.Key);
++					where g.Count() > 3 || g.Key == 1					select g.Key);
+ 		}
+ 
+ 		[Test]
+@@ -464,10 +455,10 @@ public void SubQuery1([DataSources] string context)
+ 				AreEqual(
+ 					from p in Parent
+ 					where p.ParentID != 5
+-					select new { p.ParentID, Count = p.Children.Where(c => c.ParentID == p.ParentID && c.ChildID != 0m).Count() },
++					select new { p.ParentID, Count = p.Children.Count(c => c.ParentID == p.ParentID && c.ChildID != 0m)},
+ 					from p in db.Parent
+ 					where p.ParentID != 5
+-					select new { p.ParentID, Count = p.Children.Where(c => c.ParentID == p.ParentID && c.ChildID != 0m).Count() });
++					select new { p.ParentID, Count = p.Children.Count(c => c.ParentID == p.ParentID && c.ChildID != 0m)});
+ 		}
+ 
+ 		[Test]
+@@ -510,7 +501,7 @@ public void SubQuery5([DataSources] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 				AreEqual(
+-					from p in    Parent select new { Count =    Parent.Where(p1 => p1.ParentID == p.ParentID).Count() },
++					from p in    Parent select new { Count =    Parent.Count(p1 => p1.ParentID == p.ParentID)},
+ 					from p in db.Parent select new { Count = db.Parent.Where(p1 => p1.ParentID == p.ParentID).Count() });
+ 		}
+ 
+diff --git a/Tests/Linq/Linq/ExpressionsTests.cs b/Tests/Linq/Linq/ExpressionsTests.cs
+index 47420e210..55aff57f6 100644
+--- a/Tests/Linq/Linq/ExpressionsTests.cs
++++ b/Tests/Linq/Linq/ExpressionsTests.cs
+@@ -176,7 +176,7 @@ public void MethodExpression5([DataSources(ProviderName.SqlCe)] string context)
+ 
+ 			using (var db = GetDataContext(context))
+ 				AreEqual(
+-					   Parent.Select(p => Child.Where(c => c.ParentID == p.ParentID).Count() + n),
++					   Parent.Select(p => Child.Count(c => c.ParentID == p.ParentID)+ n),
+ 					db.Parent.Select(p => Count5(db, p, n)));
+ 		}
+ 
+@@ -198,7 +198,7 @@ public void MethodExpression6([DataSources] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 				AreEqual(
+-					   Parent.Select(p => Child.Where(c => c.ParentID == p.ParentID).Count()),
++					   Parent.Select(p => Child.Count(c => c.ParentID == p.ParentID)),
+ 					db.Parent.Select(p => Count6(db.Child, p)));
+ 		}
+ 
+@@ -222,7 +222,7 @@ public void MethodExpression7([DataSources(ProviderName.SqlCe)] string context)
+ 
+ 			using (var db = GetDataContext(context))
+ 				AreEqual(
+-					   Parent.Select(p => Child.Where(c => c.ParentID == p.ParentID).Count() + n),
++					   Parent.Select(p => Child.Count(c => c.ParentID == p.ParentID)+ n),
+ 					db.Parent.Select(p => Count7(db.Child, p, n)));
+ 		}
+ 
+diff --git a/Tests/Linq/Linq/GenericExtensionsTests.cs b/Tests/Linq/Linq/GenericExtensionsTests.cs
+index 9adf9a70f..e91007b3b 100644
+--- a/Tests/Linq/Linq/GenericExtensionsTests.cs
++++ b/Tests/Linq/Linq/GenericExtensionsTests.cs
+@@ -64,9 +64,7 @@ string Match(Type[] current, ExtensionChoiceAttribute[] choices)
+ 
+ 		public void Build(Sql.ISqExtensionBuilder builder)
+ 		{
+-			var method = builder.Member as MethodInfo;
+-
+-			if (method != null && method.IsGenericMethod)
++			if (builder.Member is MethodInfo method && method.IsGenericMethod)
+ 			{
+ 				var typeParameters = method.GetGenericArguments();
+ 				builder.Expression = Match(typeParameters,
+diff --git a/Tests/Linq/Linq/GroupByExtensionsTests.cs b/Tests/Linq/Linq/GroupByExtensionsTests.cs
+index 9010254df..363ee4190 100644
+--- a/Tests/Linq/Linq/GroupByExtensionsTests.cs
++++ b/Tests/Linq/Linq/GroupByExtensionsTests.cs
+@@ -184,8 +184,7 @@ select new
+ 					group q by Sql.GroupBy.GroupingSets(() => new
+ 						{ Set1 = new { q.Id1, q.Id2 }, Set2 = new { q.Id2 }, Set3 = new { } })
+ 					into g
+-					where g.Count() > 0 || Sql.Grouping(g.Key.Set1.Id1) == 1
+-					select
++					where g.Any() || Sql.Grouping(g.Key.Set1.Id1) == 1					select
+ 						new
+ 						{
+ 							g.Key.Set1.Id1,
+@@ -215,7 +214,7 @@ into g
+ 							{ Set1 = new { q.Id1, q.Id2 }, Set2 = new { q.Id2 }, Set3 = new { } })
+ 						into g
+ 						select g)
+-					.Where(gg => gg.Count() > 0)
++					.Where(gg => gg.Any())
+ 					.Select(g =>
+ 						new
+ 						{
+diff --git a/Tests/Linq/Linq/GroupByTests.cs b/Tests/Linq/Linq/GroupByTests.cs
+index d041eb7cc..b8268c451 100644
+--- a/Tests/Linq/Linq/GroupByTests.cs
++++ b/Tests/Linq/Linq/GroupByTests.cs
+@@ -800,7 +800,7 @@ public void Aggregates5([DataSources(ProviderName.SqlCe)] string context)
+ 					select new
+ 					{
+ 						Count1 = g.Count(c => c.ChildID > 30),
+-						Count2 = g.Select(c => c.ChildID).Where(_ => _ > 30).Count(),
++						Count2 = g.Select(c => c.ChildID).Count(_ => _ > 30),
+ 						Count3 = g.Count()
+ 					},
+ 					from ch in db.Child
+@@ -808,7 +808,7 @@ select new
+ 					select new
+ 					{
+ 						Count1 = g.Count(c => c.ChildID > 30),
+-						Count2 = g.Select(c => c.ChildID).Where(_ => _ > 30).Count(),
++						Count2 = g.Select(c => c.ChildID).Count(_ => _ > 30),
+ 						Count3 = g.Count()
+ 					});
+ 		}
+@@ -1043,13 +1043,11 @@ select g.Key.Value1
+ 				AreEqual(
+ 					from ch in GrandChild1
+ 					group ch by ch.Parent into g
+-					where g.Count(_ => _.ChildID >= 20) > 2 && g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0
+-					select g.Key.Value1
++					where g.Count(_ => _.ChildID >= 20) > 2 && g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0					select g.Key.Value1
+ 					,
+ 					from ch in db.GrandChild1
+ 					group ch by ch.Parent into g
+-					where g.Count(_ => _.ChildID >= 20) > 2 && g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0
+-					select g.Key.Value1);
++					where g.Count(_ => _.ChildID >= 20) > 2 && g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0					select g.Key.Value1);
+ 		}
+ 
+ 		[Test]
+@@ -1062,18 +1060,12 @@ select g.Key.Value1
+ 					from ch in GrandChild1
+ 					group ch by ch.Parent into g
+ 					where
+-						g.Count(_ => _.ChildID >= 20) > 2 &&
+-						g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0 &&
+-						g.Where(_ => _.ChildID >= 19).Max(p => p.ParentID) > 0
+-					select g.Key.Value1
++g.Count(_ => _.ChildID >= 20) > 2 && g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0 && g.Where(_ => _.ChildID >= 19).Max(p => p.ParentID) > 0					select g.Key.Value1
+ 					,
+ 					from ch in db.GrandChild1
+ 					group ch by ch.Parent into g
+ 					where
+-						g.Count(_ => _.ChildID >= 20) > 2 &&
+-						g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0 &&
+-						g.Where(_ => _.ChildID >= 19).Max(p => p.ParentID) > 0
+-					select g.Key.Value1);
++g.Count(_ => _.ChildID >= 20) > 2 && g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0 && g.Where(_ => _.ChildID >= 19).Max(p => p.ParentID) > 0					select g.Key.Value1);
+ 		}
+ 
+ 		[Test]
+@@ -1086,20 +1078,12 @@ select g.Key.Value1
+ 					from ch in GrandChild1
+ 					group ch by ch.Parent into g
+ 					where
+-						g.Count(_ => _.ChildID >= 20) > 2 &&
+-						g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0 &&
+-						g.Where(_ => _.ChildID >= 19).Max(p => p.ParentID) > 0 &&
+-						g.Where(_ => _.ChildID >= 18).Max(p => p.ParentID) > 0
+-					select g.Key.Value1
++g.Count(_ => _.ChildID >= 20) > 2 && g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0 && g.Where(_ => _.ChildID >= 19).Max(p => p.ParentID) > 0 && g.Where(_ => _.ChildID >= 18).Max(p => p.ParentID) > 0					select g.Key.Value1
+ 					,
+ 					from ch in db.GrandChild1
+ 					group ch by ch.Parent into g
+ 					where
+-						g.Count(_ => _.ChildID >= 20) > 2 &&
+-						g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0 &&
+-						g.Where(_ => _.ChildID >= 19).Max(p => p.ParentID) > 0 &&
+-						g.Where(_ => _.ChildID >= 18).Max(p => p.ParentID) > 0
+-					select g.Key.Value1);
++g.Count(_ => _.ChildID >= 20) > 2 && g.Where(_ => _.ChildID >= 19).Sum(p => p.ParentID) > 0 && g.Where(_ => _.ChildID >= 19).Max(p => p.ParentID) > 0 && g.Where(_ => _.ChildID >= 18).Max(p => p.ParentID) > 0					select g.Key.Value1);
+ 		}
+ 
+ 		[Test]
+@@ -1109,13 +1093,11 @@ public void GroupByAssociation2([DataSources] string context)
+ 				AreEqual(
+ 					from ch in GrandChild1
+ 					group ch by ch.Parent into g
+-					where g.Count() > 2 && g.Key.ParentID != 1
+-					select g.Key.Value1
++					where g.Count() > 2 && g.Key.ParentID != 1					select g.Key.Value1
+ 					,
+ 					from ch in db.GrandChild1
+ 					group ch by ch.Parent into g
+-					where g.Count() > 2 && g.Key.ParentID != 1
+-					select g.Key.Value1);
++					where g.Count() > 2 && g.Key.ParentID != 1					select g.Key.Value1);
+ 		}
+ 
+ 		[Test]
+@@ -1431,10 +1413,10 @@ public void Scalar9([DataSources(ProviderName.SqlCe)] string context)
+ 				AreEqual(
+ 					(from ch in Child
+ 					 group ch by ch.ParentID into g
+-					 select g.Select(ch => ch.ChildID).Where(id => id < 30).Count()),
++					 select g.Select(ch => ch.ChildID).Count(id => id < 30)),
+ 					(from ch in db.Child
+ 					 group ch by ch.ParentID into g
+-					 select g.Select(ch => ch.ChildID).Where(id => id < 30).Count()));
++					 select g.Select(ch => ch.ChildID).Count(id => id < 30)));
+ 		}
+ 
+ 		[Test]
+diff --git a/Tests/Linq/Linq/InheritanceTests.cs b/Tests/Linq/Linq/InheritanceTests.cs
+index 39f2365c1..08ae24780 100644
+--- a/Tests/Linq/Linq/InheritanceTests.cs
++++ b/Tests/Linq/Linq/InheritanceTests.cs
+@@ -375,7 +375,7 @@ public void TypeCastIsChildConditional2([NorthwindDataContext] string context)
+ 
+ 				Assert.Greater(list.Count, 0);
+ 				Assert.AreEqual(expected.Count(), list.Count);
+-				Assert.IsTrue(list.Except(expected).Count() == 0);
++				Assert.IsTrue(!list.Except(expected).Any());
+ 			}
+ 		}
+ 
+diff --git a/Tests/Linq/Linq/JoinTests.cs b/Tests/Linq/Linq/JoinTests.cs
+index b9b307d79..3bfea02d4 100644
+--- a/Tests/Linq/Linq/JoinTests.cs
++++ b/Tests/Linq/Linq/JoinTests.cs
+@@ -1111,13 +1111,13 @@ select p2
+ 					where p.ParentID > 0
+ 					join c in Child on p.ParentID equals c.ParentID into t
+ 					//select new { p.ParentID, count = t.Count() }
+-					select new { p.ParentID, count = t.Where(c => c.ChildID != p.ParentID * 10 + n).Count() }
++					select new { p.ParentID, count = t.Count(c => c.ChildID != p.ParentID * 10 + n)}
+ 					,
+ 					from p in db.Parent
+ 					where p.ParentID > 0
+ 					join c in db.Child on p.ParentID equals c.ParentID into t
+ 					//select new { p.ParentID, count = t.Count() }
+-					select new { p.ParentID, count = t.Where(c => c.ChildID != p.ParentID * 10 + n).Count() }
++					select new { p.ParentID, count = t.Count(c => c.ChildID != p.ParentID * 10 + n)}
+ 					);
+ 		}
+ 
+diff --git a/Tests/Linq/Linq/ParameterTests.cs b/Tests/Linq/Linq/ParameterTests.cs
+index 8c1d0343d..cfbbc6ade 100644
+--- a/Tests/Linq/Linq/ParameterTests.cs
++++ b/Tests/Linq/Linq/ParameterTests.cs
+@@ -416,23 +416,23 @@ void Execute()
+ 					var res1 = Test()!;
+ 					Assert.AreEqual(1, res1.Id);
+ 					Assert.AreEqual(3, res1.Values!.Count);
+-					Assert.AreEqual(3, res1.Values.Where(v => v.FirstTableId == 1).Count());
++					Assert.AreEqual(3, res1.Values.Count(v => v.FirstTableId == 1));
+ 
+ 					usage = Issue404.Value1;
+ 					allUsages = false;
+ 					var res2 = Test()!;
+ 					Assert.AreEqual(1, res2.Id);
+ 					Assert.AreEqual(2, res2.Values!.Count);
+-					Assert.AreEqual(2, res2.Values.Where(v => v.Usage == usage).Count());
+-					Assert.AreEqual(2, res2.Values.Where(v => v.FirstTableId == 1).Count());
++					Assert.AreEqual(2, res2.Values.Count(v => v.Usage == usage));
++					Assert.AreEqual(2, res2.Values.Count(v => v.FirstTableId == 1));
+ 
+ 					usage = Issue404.Value2;
+ 					allUsages = false;
+ 					var res3 = Test()!;
+ 					Assert.AreEqual(1, res2.Id);
+ 					Assert.AreEqual(1, res3.Values!.Count);
+-					Assert.AreEqual(1, res3.Values.Where(v => v.Usage == usage).Count());
+-					Assert.AreEqual(1, res3.Values.Where(v => v.FirstTableId == 1).Count());
++					Assert.AreEqual(1, res3.Values.Count(v => v.Usage == usage));
++					Assert.AreEqual(1, res3.Values.Count(v => v.FirstTableId == 1));
+ 
+ 					FirstTable? Test()
+ 					{
+diff --git a/Tests/Linq/Linq/ParserTests.cs b/Tests/Linq/Linq/ParserTests.cs
+index 2e7b9f020..bf2c94768 100644
+--- a/Tests/Linq/Linq/ParserTests.cs
++++ b/Tests/Linq/Linq/ParserTests.cs
+@@ -943,8 +943,7 @@ class MyContextParser : ISequenceBuilder
+ 
+ 		public bool CanBuild(ExpressionBuilder builder, BuildInfo buildInfo)
+ 		{
+-			var call = buildInfo.Expression as MethodCallExpression;
+-			return call != null && call.Method.Name == "GetMyContext";
++			return buildInfo.Expression is MethodCallExpression call && call.Method.Name == "GetMyContext";
+ 		}
+ 
+ 		public IBuildContext BuildSequence(ExpressionBuilder builder, BuildInfo buildInfo)
+diff --git a/Tests/Linq/Linq/QueryInheritanceTests.cs b/Tests/Linq/Linq/QueryInheritanceTests.cs
+index 32742b012..39d73c91f 100644
+--- a/Tests/Linq/Linq/QueryInheritanceTests.cs
++++ b/Tests/Linq/Linq/QueryInheritanceTests.cs
+@@ -200,7 +200,7 @@ public void FirstOrDefault([NorthwindDataContext] string context)
+ 				var dd = GetNorthwindAsList(context);
+ 				Assert.AreEqual(
+ 					dd.DiscontinuedProduct.FirstOrDefault()!.ProductID,
+-					QueryTable<Northwind.DiscontinuedProduct>(db).Where(p => p.Discontinued).FirstOrDefault()!.ProductID);
++					QueryTable<Northwind.DiscontinuedProduct>(db).FirstOrDefault(p => p.Discontinued)!.ProductID);
+ 			}
+ 		}
+ 
+@@ -257,7 +257,7 @@ public void TypeCastIsChildConditional2([NorthwindDataContext] string context)
+ 
+ 				Assert.Greater(list.Count, 0);
+ 				Assert.AreEqual(expected.Count(), list.Count);
+-				Assert.IsTrue(list.Except(expected).Count() == 0);
++				Assert.IsTrue(!list.Except(expected).Any());
+ 			}
+ 		}
+ 
+diff --git a/Tests/Linq/Linq/SelectScalarTests.cs b/Tests/Linq/Linq/SelectScalarTests.cs
+index a476285c4..88177183c 100644
+--- a/Tests/Linq/Linq/SelectScalarTests.cs
++++ b/Tests/Linq/Linq/SelectScalarTests.cs
+@@ -100,7 +100,7 @@ public void Scalar1([DataSources] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 			{
+-				var q = (from p in db.Person select new { p } into p1 select p1.p).ToList().Where(p => p.ID == 1).First();
++				var q = (from p in db.Person select new { p } into p1 select p1.p).ToList().First(p => p.ID == 1);
+ 				Assert.AreEqual(1, q.ID);
+ 			}
+ 		}
+@@ -110,7 +110,7 @@ public void Scalar11([DataSources] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 			{
+-				var n = (from p in db.Person select p.ID).ToList().Where(id => id == 1).First();
++				var n = (from p in db.Person select p.ID).ToList().First(id => id == 1);
+ 				Assert.AreEqual(1, n);
+ 			}
+ 		}
+@@ -120,7 +120,7 @@ public void Scalar2([DataSources] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 			{
+-				var q = (from p in db.Person select new { p }).ToList().Where(p => p.p.ID == 1).First();
++				var q = (from p in db.Person select new { p }).ToList().First(p => p.p.ID == 1);
+ 				Assert.AreEqual(1, q.p.ID);
+ 			}
+ 		}
+@@ -130,7 +130,7 @@ public void Scalar21([DataSources] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 			{
+-				var n = (from p in db.Person select p.FirstName.Length).ToList().Where(len => len == 4).First();
++				var n = (from p in db.Person select p.FirstName.Length).ToList().First(len => len == 4);
+ 				Assert.AreEqual(4, n);
+ 			}
+ 		}
+@@ -221,7 +221,7 @@ public void Scalar4([DataSources] string context)
+ 					where c.ChildID > 20
+ 					select p;
+ 
+-				Assert.AreEqual(expected.Where(p => p.ParentID == 3).First(), result.Where(p => p.ParentID == 3).First());
++				Assert.AreEqual(expected.First(p => p.ParentID == 3), result.Where(p => p.ParentID == 3).First());
+ 			}
+ 		}
+ 
+@@ -232,8 +232,8 @@ public void Function([DataSources] string context)
+ 
+ 			using (var db = GetDataContext(context))
+ 				Assert.AreEqual(
+-					   Child.Select(c => string.Format("{0},{1}", c.ChildID, text)).FirstOrDefault(),
+-					db.Child.Select(c => string.Format("{0},{1}", c.ChildID, text)).FirstOrDefault());
++					   Child.Select(c => $"{c.ChildID},{text}").FirstOrDefault(),
++					db.Child.Select(c => $"{c.ChildID},{text}").FirstOrDefault());
+ 		}
+ 
+ 		[Test]
+diff --git a/Tests/Linq/Linq/SelectTests.cs b/Tests/Linq/Linq/SelectTests.cs
+index 533d43b92..3cdecd4e3 100644
+--- a/Tests/Linq/Linq/SelectTests.cs
++++ b/Tests/Linq/Linq/SelectTests.cs
+@@ -394,9 +394,9 @@ public void Coalesce3([DataSources(false)] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 			{
+-				if (db is DataConnection)
++				if (db is DataConnection dataConnection)
+ 				{
+-					((DataConnection)db).AddMappingSchema(_myMapSchema);
++					dataConnection.AddMappingSchema(_myMapSchema);
+ 
+ 					var q = (
+ 
+@@ -1457,7 +1457,7 @@ select new
+ 						Parent = p,
+ 						Child = c1,
+ 						Any = children.Any(),
+-						Child1 = children.Where(c => c.ParentID >= p.ParentID).FirstOrDefault(),
++						Child1 = children.FirstOrDefault(c => c.ParentID >= p.ParentID),
+ 						Child2 = children.Where(c => c.ParentID >= 2).Select(c => new { c.ChildID, c.ParentID }).FirstOrDefault(),
+ 						ChildArray = children.Where(c => c.ParentID >= p.ParentID).Select(c => new object[] {c.ChildID, c.ParentID}).FirstOrDefault(),
+ 						ChildDictionary1 = children.Where(c => c.ParentID >= p.ParentID).Select(c => new Dictionary<int, int?>{{c.ChildID, c.ParentID}}).FirstOrDefault(),
+diff --git a/Tests/Linq/Linq/SetTests.cs b/Tests/Linq/Linq/SetTests.cs
+index a6243a62b..e2f2eaa14 100644
+--- a/Tests/Linq/Linq/SetTests.cs
++++ b/Tests/Linq/Linq/SetTests.cs
+@@ -28,8 +28,8 @@ public void Except2([DataSources(ProviderName.SqlServer2000)] string context)
+ 
+ 			using (var db = GetDataContext(context))
+ 				Assert.AreEqual(
+-					   Child.Where(c => c.GrandChildren.Select(_ => _.ParentID ?? 0).Except(ids).Count() == 0),
+-					db.Child.Where(c => c.GrandChildren.Select(_ => _.ParentID ?? 0).Except(ids).Count() == 0));
++					   Child.Where(c => !c.GrandChildren.Select(_ => _.ParentID ?? 0).Except(ids).Any()),
++					db.Child.Where(c => !c.GrandChildren.Select(_ => _.ParentID ?? 0).Except(ids).Any()));
+ 		}
+ 
+ 		[Test]
+@@ -290,8 +290,7 @@ public void Contains12([NorthwindDataContext] string context)
+ 				var q =
+ 					from e in db.EmployeeTerritory
+ 					group e by e.Employee into g
+-					where g.Key.EmployeeTerritories.Count() > 1 && g.Count() > 2
+-					select new
++					where g.Key.EmployeeTerritories.Count() > 1 && g.Count() > 2					select new
+ 					{
+ 						g.Key.LastName,
+ 						//cnt = g.Where(t => t.Employee.FirstName.Contains("an")).Count(),
+diff --git a/Tests/Linq/Linq/SubQueryTests.cs b/Tests/Linq/Linq/SubQueryTests.cs
+index cc97b4bbe..0cdd13fc8 100644
+--- a/Tests/Linq/Linq/SubQueryTests.cs
++++ b/Tests/Linq/Linq/SubQueryTests.cs
+@@ -85,8 +85,8 @@ public void Test5([DataSources] string context)
+ 					new
+ 					{
+ 						id,
+-						Count1 = Child.Where(p => p.ParentID == id).Count(),
+-						Count2 = Child.Where(p => p.ParentID == id && p.ParentID == _testValue).Count(),
++						Count1 = Child.Count(p => p.ParentID == id),
++						Count2 = Child.Count(p => p.ParentID == id && p.ParentID == _testValue),
+ 					});
+ 
+ 				var rids   = db.Parent
+@@ -151,7 +151,7 @@ public void Test7([DataSources] string context)
+ 		{
+ 			using (var db = GetDataContext(context))
+ 				AreEqual(
+-					from c in    Child select new { Count =    GrandChild.Where(g => g.ChildID == c.ChildID).Count() },
++					from c in    Child select new { Count =    GrandChild.Count(g => g.ChildID == c.ChildID)},
+ 					from c in db.Child select new { Count = db.GrandChild.Where(g => g.ChildID == c.ChildID).Count() });
+ 		}
+ 
+diff --git a/Tests/Linq/OrmBattle/OrmBattleTests.cs b/Tests/Linq/OrmBattle/OrmBattleTests.cs
+index 686147c68..67b0606b5 100644
+--- a/Tests/Linq/OrmBattle/OrmBattleTests.cs
++++ b/Tests/Linq/OrmBattle/OrmBattleTests.cs
+@@ -367,7 +367,7 @@ public void SelectDtoTest([NorthwindDataContext] string context)
+ 			var result = from o in db.Order
+ 				select new OrderDTO {Id = o.OrderID, CustomerId = o.Customer.CustomerID, OrderDate = o.OrderDate};
+ 			var list = result.ToList();
+-			Assert.AreEqual(Order.Count(), list.Count);
++			Assert.AreEqual(Order.Count, list.Count);
+ 		}
+ 
+ 		[Test]
+@@ -879,7 +879,7 @@ public void ExceptTest([NorthwindDataContext] string context)
+ 		{
+ 			Setup(context);
+ 			var result =
+-				db.Customer.Except(db.Customer.Where(c => c.Orders.Count() > 0));
++				db.Customer.Except(db.Customer.Where(c => c.Orders.Any()));
+ 			var list = result.ToList();
+ 			Assert.AreEqual(2, list.Count);
+ 		}
+@@ -889,7 +889,7 @@ public void IntersectTest([NorthwindDataContext] string context)
+ 		{
+ 			Setup(context);
+ 			var result =
+-				db.Customer.Intersect(db.Customer.Where(c => c.Orders.Count() > 0));
++				db.Customer.Intersect(db.Customer.Where(c => c.Orders.Any()));
+ 			var list = result.ToList();
+ 			Assert.AreEqual(89, list.Count);
+ 		}
+@@ -968,7 +968,7 @@ public void TypeCastIsParentTest([NorthwindDataContext] string context)
+ 			var expected = db.Product.ToList();
+ 			var list = result.ToList();
+ 			Assert.Greater(list.Count, 0);
+-			Assert.AreEqual(expected.Count(), list.Count);
++			Assert.AreEqual(expected.Count, list.Count);
+ 		}
+ 
+ 		[Test, ActiveIssue(573)]
+@@ -989,7 +989,7 @@ public void TypeCastIsChildConditionalTest([NorthwindDataContext] string context
+ 			var list = result.ToList();
+ 			Assert.Greater(list.Count, 0);
+ 			Assert.AreEqual(expected.Count(), list.Count);
+-			Assert.IsTrue(list.Except(expected).Count() == 0);
++			Assert.IsTrue(!list.Except(expected).Any());
+ 			Assert.IsTrue(list.Contains(null));
+ 		}
+ 
+@@ -1025,7 +1025,7 @@ public void TypeCastAsTest([NorthwindDataContext] string context)
+ 			var list = result.ToList();
+ 			Assert.Greater(list.Count, 0);
+ 			Assert.AreEqual(expected.Count(), list.Count);
+-			Assert.IsTrue(list.Except(expected).Count() == 0);
++			Assert.IsTrue(!list.Except(expected).Any());
+ 		}
+ 
+ 		#endregion
+@@ -1099,7 +1099,7 @@ public void NestedSingleOrDefaultTest([IncludeDataSources(TestProvName.Northwind
+ 		public void NestedSingleTest([IncludeDataSources(TestProvName.Northwind)] string context)
+ 		{
+ 			Setup(context);
+-			var result = db.Customer.Where(c => c.Orders.Count() > 0).Select(c => c.Orders.Take(1).Single());
++			var result = db.Customer.Where(c => c.Orders.Any()).Select(c => c.Orders.Take(1).Single());
+ 			var list = result.ToList();
+ 			Assert.Greater(list.Count, 0);
+ 		}
+@@ -1256,7 +1256,7 @@ public void NestedCountTest([NorthwindDataContext] string context)
+ 			var result = db.Customer.Where(c => db.Order.Count(o => o.Customer.CustomerID == c.CustomerID) > 5);
+ 			var expected = Customers.Where(c => db.Order.Count(o => o.Customer.CustomerID == c.CustomerID) > 5);
+ 
+-			Assert.IsTrue(expected.Except(result).Count() == 0);
++			Assert.IsTrue(!expected.Except(result).Any());
+ 		}
+ 
+ 		[Test]
+@@ -1484,7 +1484,7 @@ public void ComplexTest4([NorthwindDataContext] string context)
+ 				.Select(
+ 					c =>
+ 						db.Order.Select(o => db.Employee.Take(2).Where(e => e.Orders.Contains(o)))
+-							.Where(o => o.Count() > 0))
++							.Where(o => o.Any()))
+ 				.Select(os => os);
+ 
+ 			var list = result.ToList();
+diff --git a/Tests/Linq/SchemaProvider/PostgreSQLSchemaProviderTests.cs b/Tests/Linq/SchemaProvider/PostgreSQLSchemaProviderTests.cs
+index fdff7a0db..cc7487cba 100644
+--- a/Tests/Linq/SchemaProvider/PostgreSQLSchemaProviderTests.cs
++++ b/Tests/Linq/SchemaProvider/PostgreSQLSchemaProviderTests.cs
+@@ -369,8 +369,8 @@ public static IEnumerable<ProcedureTestCase> ProcedureTestCases
+ 					foreach (var actualColumn in actualTable.Columns)
+ 					{
+ 						var expectedColumn = expectedColumns
+-							.Where(_ => _.ColumnName == actualColumn.ColumnName)
+-							.SingleOrDefault()!;
++							.SingleOrDefault(_ => _.ColumnName == actualColumn.ColumnName)
++!;
+ 
+ 						Assert.IsNotNull(expectedColumn);
+ 
+diff --git a/Tests/Linq/Update/UpdateTests.cs b/Tests/Linq/Update/UpdateTests.cs
+index e1119e4d5..6090a59d7 100644
+--- a/Tests/Linq/Update/UpdateTests.cs
++++ b/Tests/Linq/Update/UpdateTests.cs
+@@ -1278,7 +1278,7 @@ select p
+ 					var queryResult = new Lazy<Parent1>(() => query.First());
+ 
+ 					var cnt = db.GetTable<Parent1>()
+-						.Where(_ => _.ParentID == id && query.Count() > 0)
++						.Where(_ => _.ParentID == id && query.Any())
+ 						.Update(_ => new Parent1()
+ 						{
+ 							Value1 = queryResult.Value.ParentID
+diff --git a/Tests/Linq/UserTests/Issue192Tests.cs b/Tests/Linq/UserTests/Issue192Tests.cs
+index 70882b971..168af7d30 100644
+--- a/Tests/Linq/UserTests/Issue192Tests.cs
++++ b/Tests/Linq/UserTests/Issue192Tests.cs
+@@ -26,7 +26,7 @@ public class TypeConvertTable
+ 
+ 			public override string ToString()
+ 			{
+-				return string.Format("{0} {1} {2}", Name, BoolValue, GuidValue);
++				return $"{Name} {BoolValue} {GuidValue}";
+ 			}
+ 
+ 			public override bool Equals(object? obj)
+diff --git a/Tests/Linq/UserTests/Issue1983Tests.cs b/Tests/Linq/UserTests/Issue1983Tests.cs
+index fdf5d61e1..26d920bb3 100644
+--- a/Tests/Linq/UserTests/Issue1983Tests.cs
++++ b/Tests/Linq/UserTests/Issue1983Tests.cs
+@@ -29,7 +29,7 @@ public class Issue1983Person
+ 
+ 			public static Expression<Func<Issue1983Person, IDataContext, int>> CountOfCardExpr3()
+ 			{
+-				return (p, db) => p.Cards.Where(card => card.CardType == 2).Count();
++				return (p, db) => p.Cards.Count(card => card.CardType == 2);
+ 			}
+ 
+ 			[Association(ThisKey = nameof(Id), OtherKey = nameof(Issue1983Card.PersonId))]
+diff --git a/Tests/Linq/UserTests/Issue781Tests.cs b/Tests/Linq/UserTests/Issue781Tests.cs
+index d07599d00..2000c9e02 100644
+--- a/Tests/Linq/UserTests/Issue781Tests.cs
++++ b/Tests/Linq/UserTests/Issue781Tests.cs
+@@ -61,8 +61,8 @@ public void TestHavingCount([DataSources(false, TestProvName.AllAccess, TestProv
+ 
+ 				var expected = Person
+ 					.GroupBy(_ => _.Patient == null ? null : "test" + _.Patient.Diagnosis)
+-					.Where(_ => _.Key != null)
+-					.Count();
++					.Count(_ => _.Key != null)
++;
+ 
+ 				Assert.AreEqual(expected, actual);
+ 				Assert.True(db.LastQuery!.IndexOf("COUNT", StringComparison.OrdinalIgnoreCase) != -1);
+diff --git a/Tests/Linq/UserTests/Issue873Tests.cs b/Tests/Linq/UserTests/Issue873Tests.cs
+index 42d7549ef..43c79d425 100644
+--- a/Tests/Linq/UserTests/Issue873Tests.cs
++++ b/Tests/Linq/UserTests/Issue873Tests.cs
+@@ -37,9 +37,8 @@ public void Test([DataSources(ProviderName.SqlCe)] string context)
+ 						{
+ 							Label = " " + (e.Value1 ?? 0).ToString(),
+ 							Sum = new { SubSum = qc.Where(c => c.Parent == e).Sum(c => c.ChildID) },
+-							Any = qc.Where(c => c.Parent == e).Any(),
+-							Count = qc.Where(p => p.Parent == e).Count()
+-						},
++							Any = qc.Any(c => c.Parent == e),
++							Count = qc.Count(p => p.Parent == e)						},
+ 					})
+ 					.Where(f => f.Fields.Label.Contains("1") && f.Fields.Sum.SubSum > 0);
+ 
+diff --git a/Tests/Model/Extensions.cs b/Tests/Model/Extensions.cs
+index 0cb3b41a3..39514f319 100644
+--- a/Tests/Model/Extensions.cs
++++ b/Tests/Model/Extensions.cs
+@@ -6,8 +6,8 @@ public static class Extensions
+ 	{
+ 		public static void BeginTransaction(this ITestDataContext context)
+ 		{
+-			if (context is DataConnection)
+-				((DataConnection)context).BeginTransaction();
++			if (context is DataConnection dataConnection)
++				dataConnection.BeginTransaction();
+ 			//else if (context is ServiceModelDataContext)
+ 			//	((ServiceModelDataContext)context).BeginBatch();
+ 		}
+diff --git a/Tests/Model/OracleSpecific.cs b/Tests/Model/OracleSpecific.cs
+index 15bf4ad5c..f57879a7b 100644
+--- a/Tests/Model/OracleSpecific.cs
++++ b/Tests/Model/OracleSpecific.cs
+@@ -31,7 +31,7 @@ public override bool Equals(object? obj)
+ 
+ 			public override int GetHashCode()
+ 			{
+-				return string.Format("{0}{1}{2}", KeyValue, StringValue1, StringValue2).GetHashCode();
++				return $"{KeyValue}{StringValue1}{StringValue2}".GetHashCode();
+ 			}
+ 		}
+ 	}

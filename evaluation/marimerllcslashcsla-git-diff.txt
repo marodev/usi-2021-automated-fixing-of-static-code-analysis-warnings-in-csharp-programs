@@ -1,0 +1,2593 @@
+diff --git a/Source/Csla.Analyzers/Csla.Analyzers.Tests/Extensions/SyntaxNodeExtensionsTests.cs b/Source/Csla.Analyzers/Csla.Analyzers.Tests/Extensions/SyntaxNodeExtensionsTests.cs
+index da0e85c48..9fe2cb967 100644
+--- a/Source/Csla.Analyzers/Csla.Analyzers.Tests/Extensions/SyntaxNodeExtensionsTests.cs
++++ b/Source/Csla.Analyzers/Csla.Analyzers.Tests/Extensions/SyntaxNodeExtensionsTests.cs
+@@ -43,7 +43,7 @@ public class A
+ }";
+       var rootNode = await GetRootAsync(code);
+       var invocationNode = rootNode.DescendantNodes(_ => true)
+-        .Where(_ => _.Kind() == SyntaxKind.InvocationExpression).First();
++        .First(_ => _.Kind() == SyntaxKind.InvocationExpression);
+ 
+       Assert.IsNotNull(invocationNode.FindParent<ArrowExpressionClauseSyntax>());
+     }
+@@ -60,7 +60,7 @@ public class A
+ }";
+       var rootNode = await GetRootAsync(code);
+       var invocationNode = rootNode.DescendantNodes(_ => true)
+-        .Where(_ => _.Kind() == SyntaxKind.InvocationExpression).First();
++        .First(_ => _.Kind() == SyntaxKind.InvocationExpression);
+ 
+       Assert.IsNull(invocationNode.FindParent<AwaitExpressionSyntax>());
+     }
+diff --git a/Source/Csla.Analyzers/Csla.Analyzers.Tests/TestHelpers.cs b/Source/Csla.Analyzers/Csla.Analyzers.Tests/TestHelpers.cs
+index c8baa5dff..207645bce 100644
+--- a/Source/Csla.Analyzers/Csla.Analyzers.Tests/TestHelpers.cs
++++ b/Source/Csla.Analyzers/Csla.Analyzers.Tests/TestHelpers.cs
+@@ -18,7 +18,7 @@ internal static class TestHelpers
+     internal static async Task VerifyChangesAsync(List<CodeAction> actions, string title, Document document,
+       Action<SemanticModel, SyntaxNode> handleChanges)
+     {
+-      var action = actions.Where(_ => _.Title == title).First();
++      var action = actions.First(_ => _.Title == title);
+       var operations = (await action.GetOperationsAsync(
+         new CancellationToken(false))).ToArray();
+       var operation = operations[0] as ApplyChangesOperation;
+diff --git a/Source/Csla.Analyzers/Csla.Analyzers/CheckConstructorsAnalyzerPublicConstructorCodeFix.cs b/Source/Csla.Analyzers/Csla.Analyzers/CheckConstructorsAnalyzerPublicConstructorCodeFix.cs
+index 285804ae9..463c26585 100644
+--- a/Source/Csla.Analyzers/Csla.Analyzers/CheckConstructorsAnalyzerPublicConstructorCodeFix.cs
++++ b/Source/Csla.Analyzers/Csla.Analyzers/CheckConstructorsAnalyzerPublicConstructorCodeFix.cs
+@@ -92,7 +92,7 @@ public override async Task RegisterCodeFixesAsync(CodeFixContext context)
+       if (classSymbol != null)
+       {
+         var constructorSymbol = classSymbol.Constructors
+-          .Single(_ => _.Parameters.Count() == 0 &&
++          .Single(_ => !_.Parameters.Any()&&
+             !_.DeclaredAccessibility.HasFlag(Accessibility.Public));
+ 
+         var constructor = constructorSymbol.DeclaringSyntaxReferences[0].GetSyntax(context.CancellationToken);
+diff --git a/Source/Csla.Analyzers/Csla.Analyzers/Extensions/SyntaxNodeExtensions.cs b/Source/Csla.Analyzers/Csla.Analyzers/Extensions/SyntaxNodeExtensions.cs
+index 0212c87d3..0d54354b7 100644
+--- a/Source/Csla.Analyzers/Csla.Analyzers/Extensions/SyntaxNodeExtensions.cs
++++ b/Source/Csla.Analyzers/Csla.Analyzers/Extensions/SyntaxNodeExtensions.cs
+@@ -24,7 +24,7 @@ internal static bool HasUsing(this SyntaxNode @this, string qualifiedName)
+         }
+       }
+ 
+-      return @this.ChildNodes().Where(_ => _.HasUsing(qualifiedName)).Any();
++      return @this.ChildNodes().Any(_ => _.HasUsing(qualifiedName));
+     }
+ 
+     internal static T FindParent<T>(this SyntaxNode @this)
+diff --git a/Source/Csla.Channels.Grpc/GrpcPortal.cs b/Source/Csla.Channels.Grpc/GrpcPortal.cs
+index dcfb92f08..068ab2ffd 100644
+--- a/Source/Csla.Channels.Grpc/GrpcPortal.cs
++++ b/Source/Csla.Channels.Grpc/GrpcPortal.cs
+@@ -134,9 +134,9 @@ public async Task<HttpResponse> Create(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+@@ -181,9 +181,9 @@ public async Task<HttpResponse> Fetch(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+@@ -270,9 +270,9 @@ public async Task<HttpResponse> Delete(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+diff --git a/Source/Csla.Channels.Grpc/GrpcProxy.cs b/Source/Csla.Channels.Grpc/GrpcProxy.cs
+index 31058eec0..39f60de17 100644
+--- a/Source/Csla.Channels.Grpc/GrpcProxy.cs
++++ b/Source/Csla.Channels.Grpc/GrpcProxy.cs
+@@ -157,7 +157,7 @@ public async Task<DataPortalResult> Create(Type objectType, object criteria, Dat
+           var obj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(obj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -212,7 +212,7 @@ public async Task<DataPortalResult> Fetch(Type objectType, object criteria, Data
+           var obj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(obj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -261,7 +261,7 @@ public async Task<DataPortalResult> Update(object obj, DataPortalContext context
+           var newobj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(newobj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -316,7 +316,7 @@ public async Task<DataPortalResult> Delete(Type objectType, object criteria, Dat
+         {
+           result = new DataPortalResult(null, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -368,7 +368,7 @@ private string GetRoutingToken(Type objectType)
+     {
+       string result = null;
+       var list = objectType.GetCustomAttributes(typeof(DataPortalServerRoutingTagAttribute), false);
+-      if (list.Count() > 0)
++      if (list.Any())
+         result = ((DataPortalServerRoutingTagAttribute)list[0]).RoutingTag;
+       return result;
+     }
+diff --git a/Source/Csla.Channels.RabbitMq/RabbitMqPortal.cs b/Source/Csla.Channels.RabbitMq/RabbitMqPortal.cs
+index 870fb3da3..6f2d0fc1f 100644
+--- a/Source/Csla.Channels.RabbitMq/RabbitMqPortal.cs
++++ b/Source/Csla.Channels.RabbitMq/RabbitMqPortal.cs
+@@ -193,9 +193,9 @@ public async Task<HttpResponse> Create(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+@@ -240,9 +240,9 @@ public async Task<HttpResponse> Fetch(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+@@ -329,9 +329,9 @@ public async Task<HttpResponse> Delete(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+diff --git a/Source/Csla.Channels.RabbitMq/RabbitMqProxy.cs b/Source/Csla.Channels.RabbitMq/RabbitMqProxy.cs
+index 9f396b69b..bd91f198f 100644
+--- a/Source/Csla.Channels.RabbitMq/RabbitMqProxy.cs
++++ b/Source/Csla.Channels.RabbitMq/RabbitMqProxy.cs
+@@ -154,7 +154,7 @@ public async Task<DataPortalResult> Create(Type objectType, object criteria, Dat
+           var obj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(obj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -213,7 +213,7 @@ public async Task<DataPortalResult> Fetch(Type objectType, object criteria, Data
+           var obj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(obj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -266,7 +266,7 @@ public async Task<DataPortalResult> Update(object obj, DataPortalContext context
+           var newobj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(newobj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -325,7 +325,7 @@ public async Task<DataPortalResult> Delete(Type objectType, object criteria, Dat
+           var obj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(obj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+diff --git a/Source/Csla.Validation.Shared/CommonRules.cs b/Source/Csla.Validation.Shared/CommonRules.cs
+index 5e51ae61f..317cfc6d8 100644
+--- a/Source/Csla.Validation.Shared/CommonRules.cs
++++ b/Source/Csla.Validation.Shared/CommonRules.cs
+@@ -1330,14 +1330,13 @@ public static bool CanRead(object target, RuleArgs e)
+     {
+       bool isAuthorized = true;
+ 
+-      BusinessBase business = target as BusinessBase;
+-      if (business != null && !string.IsNullOrEmpty(e.PropertyName))
++      if (target is BusinessBase business && !string.IsNullOrEmpty(e.PropertyName))
+         isAuthorized = business.CanReadProperty(e.PropertyName);
+ 
+       if (!isAuthorized)
+       {
+         e.Severity = RuleSeverity.Information;
+-        e.Description = string.Format("You are not authorized to read this field {0}", RuleArgs.GetPropertyName(e));
++        e.Description = $"You are not authorized to read this field {RuleArgs.GetPropertyName(e)}";
+       }
+ 
+       return isAuthorized;
+@@ -1362,14 +1361,13 @@ public static bool CanWrite(object target, RuleArgs e)
+     {
+       bool isAuthorized = true;
+ 
+-      BusinessBase business = target as BusinessBase;
+-      if (business != null && !string.IsNullOrEmpty(e.PropertyName))
++      if (target is BusinessBase business && !string.IsNullOrEmpty(e.PropertyName))
+         isAuthorized = business.CanWriteProperty(e.PropertyName);
+ 
+       if (!isAuthorized)
+       {
+         e.Severity = RuleSeverity.Information;
+-        e.Description = string.Format("You are not authorized to write to this field {0}", RuleArgs.GetPropertyName(e));
++        e.Description = $"You are not authorized to write to this field {RuleArgs.GetPropertyName(e)}";
+       }
+ 
+       return isAuthorized;
+@@ -1411,7 +1409,7 @@ public DataAnnotationRuleArgs(string name, System.ComponentModel.DataAnnotations
+       /// </summary>
+       public override string ToString()
+       {
+-        return string.Format("{0}?Attribute={1}", base.ToString(), Attribute.GetType().FullName);
++        return $"{base.ToString()}?Attribute={Attribute.GetType().FullName}";
+       }
+     }
+ 
+diff --git a/Source/Csla.Validation.Shared/PropertyHelper.cs b/Source/Csla.Validation.Shared/PropertyHelper.cs
+index 07aa449b3..1335cf9b1 100644
+--- a/Source/Csla.Validation.Shared/PropertyHelper.cs
++++ b/Source/Csla.Validation.Shared/PropertyHelper.cs
+@@ -22,7 +22,7 @@ public static IPropertyInfo GetRegisteredProperty(BusinessRules businessRules, s
+       var primaryProperty = PropertyInfoManager.GetRegisteredProperty(target.GetType(), propertyName);
+ 
+       if (primaryProperty == null)
+-        throw new ArgumentException(string.Format("Unkonwn property. {0} is not a registered field", propertyName));
++        throw new ArgumentException($"Unkonwn property. {propertyName} is not a registered field");
+ 
+       return primaryProperty;
+     }
+diff --git a/Source/Csla.Validation.Test/ResourceInfo.cs b/Source/Csla.Validation.Test/ResourceInfo.cs
+index 30bac45e4..a09dcc923 100644
+--- a/Source/Csla.Validation.Test/ResourceInfo.cs
++++ b/Source/Csla.Validation.Test/ResourceInfo.cs
+@@ -27,7 +27,7 @@ public override string ToString()
+     internal ResourceInfo(int id, string lastname, string firstname)
+     {
+       _id = id;
+-      _name = string.Format("{0}, {1}", lastname, firstname);
++      _name = $"{lastname}, {firstname}";
+     }
+ 
+     protected static void AddObjectAuthorizationRules()
+diff --git a/Source/Csla.Web.Mvc.Shared/CslaModelBinder.cs b/Source/Csla.Web.Mvc.Shared/CslaModelBinder.cs
+index 6de319aeb..88fa291cc 100644
+--- a/Source/Csla.Web.Mvc.Shared/CslaModelBinder.cs
++++ b/Source/Csla.Web.Mvc.Shared/CslaModelBinder.cs
+@@ -257,8 +257,7 @@ public override object BindModel(ControllerContext controllerContext, ModelBindi
+       if (typeof(Core.IEditableCollection).IsAssignableFrom((bindingContext.ModelType)))
+         return BindCslaCollection(controllerContext, bindingContext);
+ 
+-      var suppress = bindingContext.Model as Core.ICheckRules;
+-      if (suppress != null)
++      if (bindingContext.Model is Core.ICheckRules suppress)
+         suppress.SuppressRuleChecking();
+       var result = base.BindModel(controllerContext, bindingContext);
+       return result;
+@@ -282,8 +281,8 @@ private object BindCslaCollection(ControllerContext controllerContext, ModelBind
+         if (!bindingContext.ValueProvider.ContainsPrefix(subIndexKey))
+           continue;      //no value to update skip
+         var elementModel = collection[currIdx];
+-        var suppress = elementModel as Core.ICheckRules;
+-        if (suppress != null)
++
++        if (elementModel is Core.ICheckRules suppress)
+           suppress.SuppressRuleChecking();
+         var elementContext = new ModelBindingContext()
+         {
+@@ -317,8 +316,7 @@ private object BindCslaCollection(ControllerContext controllerContext, ModelBind
+     /// <param name="modelType">Type of model object</param>
+     protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
+     {
+-      var controller = controllerContext.Controller as IModelCreator;
+-      if (controller != null)
++      if (controllerContext.Controller is IModelCreator controller)
+         return controller.CreateModel(modelType);
+       else
+         return base.CreateModel(controllerContext, bindingContext, modelType);
+@@ -332,13 +330,11 @@ protected override object CreateModel(ControllerContext controllerContext, Model
+     /// <param name="bindingContext">Binding context</param>
+     protected override void OnModelUpdated(ControllerContext controllerContext, ModelBindingContext bindingContext)
+     {
+-      var obj = bindingContext.Model as Core.BusinessBase;
+-      if (obj != null)
++      if (bindingContext.Model is Core.BusinessBase obj)
+       {
+         if (this._checkRulesOnModelUpdated)
+         {
+-          var suppress = obj as Core.ICheckRules;
+-          if (suppress != null)
++          if (obj is Core.ICheckRules suppress)
+           {
+             suppress.ResumeRuleChecking();
+             suppress.CheckRules();
+diff --git a/Source/Csla.Web.Mvc.Shared/Server/Hosts/HttpPortal.cs b/Source/Csla.Web.Mvc.Shared/Server/Hosts/HttpPortal.cs
+index 237e89fc9..5f7c0b286 100644
+--- a/Source/Csla.Web.Mvc.Shared/Server/Hosts/HttpPortal.cs
++++ b/Source/Csla.Web.Mvc.Shared/Server/Hosts/HttpPortal.cs
+@@ -41,9 +41,9 @@ public async Task<HttpResponse> Create(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+@@ -90,9 +90,9 @@ public async Task<HttpResponse> Fetch(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+@@ -183,9 +183,9 @@ public async Task<HttpResponse> Delete(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var objectType = Csla.Reflection.MethodCaller.GetType(AssemblyNameTranslator.GetAssemblyQualifiedName(request.TypeName), true);
+diff --git a/Source/Csla.Web.Shared/CslaDataSource.cs b/Source/Csla.Web.Shared/CslaDataSource.cs
+index 043ee2bc0..b5e972526 100644
+--- a/Source/Csla.Web.Shared/CslaDataSource.cs
++++ b/Source/Csla.Web.Shared/CslaDataSource.cs
+@@ -138,8 +138,7 @@ public bool TypeSupportsSorting
+       if (!string.IsNullOrEmpty(typeAssemblyName))
+       {
+         // explicit assembly name provided
+-        result = Type.GetType(string.Format(
+-          "{0}, {1}", typeName, typeAssemblyName), true, true);
++        result = Type.GetType($"{typeName}, {typeAssemblyName}", true, true);
+       }
+       else if (typeName.IndexOf(",") > 0)
+       {
+diff --git a/Source/Csla.Web.Shared/CslaDataSourceView.cs b/Source/Csla.Web.Shared/CslaDataSourceView.cs
+index 2b32375c5..13df60213 100644
+--- a/Source/Csla.Web.Shared/CslaDataSourceView.cs
++++ b/Source/Csla.Web.Shared/CslaDataSourceView.cs
+@@ -105,13 +105,12 @@ protected override System.Collections.IEnumerable
+         int rowCount;
+         if (result == null)
+           rowCount = 0;
+-        else if (result is Csla.Core.IReportTotalRowCount)
+-          rowCount = ((Csla.Core.IReportTotalRowCount)result).TotalRowCount;
+-        else if (result is IList)
+-          rowCount = ((IList)result).Count;
+-        else if (result is IEnumerable)
++        else if (result is Csla.Core.IReportTotalRowCount iReportTotalRowCount)
++          rowCount = iReportTotalRowCount.TotalRowCount;
++        else if (result is IList iList)
++          rowCount = iList.Count;
++        else if (result is IEnumerable temp)
+         {
+-          IEnumerable temp = (IEnumerable)result;
+           int count = 0;
+           foreach (object item in temp)
+             count++;
+diff --git a/Source/Csla.Web.Shared/Design/CslaDataSourceDesigner.cs b/Source/Csla.Web.Shared/Design/CslaDataSourceDesigner.cs
+index 03004c822..a544da770 100644
+--- a/Source/Csla.Web.Shared/Design/CslaDataSourceDesigner.cs
++++ b/Source/Csla.Web.Shared/Design/CslaDataSourceDesigner.cs
+@@ -108,8 +108,7 @@ private bool ConfigureCallback(object context)
+       if (string.IsNullOrEmpty(((CslaDataSource)DataSourceControl).TypeAssemblyName))
+         oldTypeName = ((CslaDataSource)DataSourceControl).TypeName;
+       else
+-        oldTypeName = string.Format("{0}, {1}", 
+-          ((CslaDataSource)DataSourceControl).TypeName, ((CslaDataSource)DataSourceControl).TypeAssemblyName);
++        oldTypeName = $"{((CslaDataSource)DataSourceControl).TypeName}, {((CslaDataSource)DataSourceControl).TypeAssemblyName}";
+ 
+       IUIService uiService = (IUIService)_control.Site.GetService(typeof(IUIService));
+       CslaDataSourceConfiguration cfg = new CslaDataSourceConfiguration(_control, oldTypeName);
+diff --git a/Source/Csla.Windows.Shared/BindingSourceNode.cs b/Source/Csla.Windows.Shared/BindingSourceNode.cs
+index 7f4b199db..47db87666 100644
+--- a/Source/Csla.Windows.Shared/BindingSourceNode.cs
++++ b/Source/Csla.Windows.Shared/BindingSourceNode.cs
+@@ -73,12 +73,10 @@ internal void Unbind(bool cancel)
+         foreach (BindingSourceNode child in _children)
+           child.Unbind(cancel);
+ 
+-      IEditableObject current = _source.Current as IEditableObject;
+-
+       if (!(_source.DataSource is BindingSource))
+         _source.DataSource = null;
+ 
+-      if (current != null)
++      if (_source.Current is IEditableObject current)
+       {
+         if (cancel)
+           current.CancelEdit();
+@@ -134,9 +132,7 @@ internal void ResetBindings(bool refreshMetadata)
+     /// </param>
+     public void Bind(object objectToBind)
+     {
+-      ISupportUndo root = objectToBind as ISupportUndo;
+-
+-      if (root != null)
++      if (objectToBind is ISupportUndo root)
+         root.BeginEdit();
+ 
+       _source.DataSource = objectToBind;
+@@ -151,12 +147,10 @@ public void Apply()
+     {
+       SetEvents(false);
+ 
+-      ISupportUndo root = _source.DataSource as ISupportUndo;
+-
+       Unbind(false);
+       EndEdit();
+ 
+-      if (root != null)
++      if (_source.DataSource is ISupportUndo root)
+         root.ApplyEdit();
+     }
+ 
+@@ -168,11 +162,9 @@ public void Cancel(object businessObject)
+     {
+       SetEvents(false);
+ 
+-      ISupportUndo root = _source.DataSource as ISupportUndo;
+-
+       Unbind(true);
+ 
+-      if (root != null)
++      if (_source.DataSource is ISupportUndo root)
+         root.CancelEdit();
+ 
+       Bind(businessObject);
+diff --git a/Source/Csla.Windows.Shared/CslaActionExtender.cs b/Source/Csla.Windows.Shared/CslaActionExtender.cs
+index 50ea2d559..4fe0f95ea 100644
+--- a/Source/Csla.Windows.Shared/CslaActionExtender.cs
++++ b/Source/Csla.Windows.Shared/CslaActionExtender.cs
+@@ -753,7 +753,7 @@ protected void OnClick(object sender, EventArgs e)
+                         var friendlyName =
+                           PropertyInfoManager.GetRegisteredProperties(businessObject.GetType()).Find(
+                             c => c.Name == lambdaBrokenRule.Property).FriendlyName;
+-                        brokenRules += string.Format("{0}: {1}{2}", friendlyName, brokenRule, Environment.NewLine);
++                        brokenRules += $"{friendlyName}: {brokenRule}{Environment.NewLine}";
+                       }
+                       MessageBox.Show(brokenRules, Resources.ActionExtenderErrorCaption,
+                         MessageBoxButtons.OK, MessageBoxIcon.Error);
+@@ -853,7 +853,7 @@ private bool ExecuteSaveAction(ISavable savableObject, ITrackStatus trackableObj
+               var friendlyName =
+                 PropertyInfoManager.GetRegisteredProperties(businessObject.GetType()).Find(
+                   c => c.Name == lambdaBrokenRule.Property).FriendlyName;
+-              brokenRules += string.Format("{0}: {1}{2}", friendlyName, brokenRule, Environment.NewLine);
++              brokenRules += $"{friendlyName}: {brokenRule}{Environment.NewLine}";
+             }
+             MessageBox.Show(brokenRules, Resources.ActionExtenderErrorCaption,
+               MessageBoxButtons.OK, MessageBoxIcon.Error);
+diff --git a/Source/Csla.Windows.Shared/CslaActionExtenderToolStrip.cs b/Source/Csla.Windows.Shared/CslaActionExtenderToolStrip.cs
+index abb949a20..38ca4c2e7 100644
+--- a/Source/Csla.Windows.Shared/CslaActionExtenderToolStrip.cs
++++ b/Source/Csla.Windows.Shared/CslaActionExtenderToolStrip.cs
+@@ -753,7 +753,7 @@ protected void OnClick(object sender, EventArgs e)
+                         var friendlyName =
+                           PropertyInfoManager.GetRegisteredProperties(businessObject.GetType()).Find(
+                             c => c.Name == lambdaBrokenRule.Property).FriendlyName;
+-                        brokenRules += string.Format("{0}: {1}{2}", friendlyName, brokenRule, Environment.NewLine);
++                        brokenRules += $"{friendlyName}: {brokenRule}{Environment.NewLine}";
+                       }
+                       MessageBox.Show(brokenRules, Resources.ActionExtenderErrorCaption,
+                         MessageBoxButtons.OK, MessageBoxIcon.Error);
+@@ -853,7 +853,7 @@ private bool ExecuteSaveAction(ISavable savableObject, ITrackStatus trackableObj
+               var friendlyName =
+                 PropertyInfoManager.GetRegisteredProperties(businessObject.GetType()).Find(
+                   c => c.Name == lambdaBrokenRule.Property).FriendlyName;
+-              brokenRules += string.Format("{0}: {1}{2}", friendlyName, brokenRule, Environment.NewLine);
++              brokenRules += $"{friendlyName}: {brokenRule}{Environment.NewLine}";
+             }
+             MessageBox.Show(brokenRules, Resources.ActionExtenderErrorCaption,
+               MessageBoxButtons.OK, MessageBoxIcon.Error);
+diff --git a/Source/Csla.Windows.Shared/ReadWriteAuthorization.cs b/Source/Csla.Windows.Shared/ReadWriteAuthorization.cs
+index f625b5145..be146892f 100644
+--- a/Source/Csla.Windows.Shared/ReadWriteAuthorization.cs
++++ b/Source/Csla.Windows.Shared/ReadWriteAuthorization.cs
+@@ -122,10 +122,9 @@ private void ApplyAuthorizationRules(Control control)
+         {
+           BindingSource bs =
+             (BindingSource)binding.DataSource;
++
+           // get the BusinessObject if appropriate
+-          Csla.Security.IAuthorizeReadWrite ds =
+-            bs.Current as Csla.Security.IAuthorizeReadWrite;
+-          if (ds != null)
++          if (bs.Current is Csla.Security.IAuthorizeReadWrite ds)
+           {
+             // get the object property name
+             string propertyName =
+@@ -172,14 +171,7 @@ private void ApplyAuthorizationRules(Control control)
+           BindingFlags.FlattenHierarchy |
+           BindingFlags.Instance |
+           BindingFlags.Public);
+-        if (propertyInfo != null)
+-        {
+-          propertyInfo.SetValue(ctl,
+-            GetEmptyValue(
+-            Utilities.GetPropertyType(
+-              propertyInfo.PropertyType)),
+-            new object[] { });
+-        }
++        propertyInfo?.SetValue(ctl, GetEmptyValue(Utilities.GetPropertyType(propertyInfo.PropertyType)), new object[]{});
+       }
+ 
+       // store new status
+diff --git a/Source/Csla.Xaml.Shared/BrokenRulesSeverityConverter.cs b/Source/Csla.Xaml.Shared/BrokenRulesSeverityConverter.cs
+index 8a216af10..b113a82fb 100644
+--- a/Source/Csla.Xaml.Shared/BrokenRulesSeverityConverter.cs
++++ b/Source/Csla.Xaml.Shared/BrokenRulesSeverityConverter.cs
+@@ -33,7 +33,7 @@ public class BrokenRuleSeverityConverter : IValueConverter
+     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+     {
+       RuleSeverity severity = (RuleSeverity)value;
+-      string uri = string.Format("/Csla.Xaml;component/Resources/{0}.png", severity);
++      string uri = $"/Csla.Xaml;component/Resources/{severity}.png";
+       StreamResourceInfo sr = Application.GetResourceStream(new Uri(uri, UriKind.Relative));
+       BitmapImage bmp = new BitmapImage();
+       bmp.BeginInit();
+diff --git a/Source/Csla.Xaml.Shared/BusyAnimation.cs b/Source/Csla.Xaml.Shared/BusyAnimation.cs
+index 208f645e3..dafdb8792 100644
+--- a/Source/Csla.Xaml.Shared/BusyAnimation.cs
++++ b/Source/Csla.Xaml.Shared/BusyAnimation.cs
+@@ -178,7 +178,7 @@ private void GoToState(bool useTransitions)
+     {
+       if ((bool)IsRunning)
+       {
+-        VisualStateManager.GoToState(this, string.Format("state{0}", _state + 1), useTransitions);
++        VisualStateManager.GoToState(this, $"state{_state + 1}", useTransitions);
+       }
+       else
+       {
+diff --git a/Source/Csla.Xaml.Shared/CancellableViewModel.cs b/Source/Csla.Xaml.Shared/CancellableViewModel.cs
+index eb83e3ef0..fcbaa12d3 100644
+--- a/Source/Csla.Xaml.Shared/CancellableViewModel.cs
++++ b/Source/Csla.Xaml.Shared/CancellableViewModel.cs
+@@ -69,10 +69,7 @@ protected override void BeginRefresh(string factoryMethod, params object[] facto
+     public virtual void CancelRefresh()
+     {
+       _nextOperationExecutor = null;
+-      if (_lastOperation != null)
+-      {
+-        _lastOperation.Cancel();
+-      }
++      _lastOperation?.Cancel();
+       IsBusy = false;
+       Model = default(T);
+       Error = null;
+diff --git a/Source/Csla.Xaml.Shared/CslaDataProvider.cs b/Source/Csla.Xaml.Shared/CslaDataProvider.cs
+index bce5e73d6..e5e6f880a 100644
+--- a/Source/Csla.Xaml.Shared/CslaDataProvider.cs
++++ b/Source/Csla.Xaml.Shared/CslaDataProvider.cs
+@@ -352,7 +352,7 @@ private void DoQuery(object state)
+           {
+             exceptionResult = ex.InnerException;
+             var dpe = exceptionResult as Csla.DataPortalException;
+-            if (dpe != null && dpe.BusinessException != null)
++            if (dpe?.BusinessException != null)
+               exceptionResult = dpe.BusinessException;
+           }
+           else
+diff --git a/Source/Csla.Xaml.Shared/CslaDataProviderCommandManager.cs b/Source/Csla.Xaml.Shared/CslaDataProviderCommandManager.cs
+index 89e8e5fbf..462c35fef 100644
+--- a/Source/Csla.Xaml.Shared/CslaDataProviderCommandManager.cs
++++ b/Source/Csla.Xaml.Shared/CslaDataProviderCommandManager.cs
+@@ -56,15 +56,13 @@ private static void CanExecuteSave(object target, CanExecuteRoutedEventArgs e)
+     {
+       bool result = false;
+       CslaDataProviderCommandManager ctl = target as CslaDataProviderCommandManager;
+-      if (ctl != null && ctl.Provider != null)
++      if (ctl?.Provider != null)
+       {
+-        Csla.Core.IEditableBusinessObject ibiz = ctl.Provider.Data as Csla.Core.IEditableBusinessObject;
+-        if (ibiz != null)
++        if (ctl.Provider.Data is Csla.Core.IEditableBusinessObject ibiz)
+           result = ibiz.IsSavable;
+         else
+         {
+-          Csla.Core.IEditableCollection icol = ctl.Provider.Data as Csla.Core.IEditableCollection;
+-          if (icol != null)
++          if (ctl.Provider.Data is Csla.Core.IEditableCollection icol)
+             result = icol.IsSavable;
+         }
+       }
+@@ -74,7 +72,7 @@ private static void CanExecuteSave(object target, CanExecuteRoutedEventArgs e)
+     private static void SaveCommand(object target, ExecutedRoutedEventArgs e)
+     {
+       CslaDataProviderCommandManager ctl = target as CslaDataProviderCommandManager;
+-      if (ctl != null && ctl.Provider != null)
++      if (ctl?.Provider != null)
+         ctl.Provider.Save();
+     }
+ 
+@@ -82,17 +80,15 @@ private static void CanExecuteUndo(object target, CanExecuteRoutedEventArgs e)
+     {
+       bool result = false;
+       CslaDataProviderCommandManager ctl = target as CslaDataProviderCommandManager;
+-      if (ctl != null && ctl.Provider != null)
++      if (ctl?.Provider != null)
+       {
+         if (ctl.Provider.Data != null)
+         {
+-          Csla.Core.IEditableBusinessObject ibiz = ctl.Provider.Data as Csla.Core.IEditableBusinessObject;
+-          if (ibiz != null)
++          if (ctl.Provider.Data is Csla.Core.IEditableBusinessObject ibiz)
+             result = ibiz.IsDirty;
+           else
+           {
+-            Csla.Core.IEditableCollection icol = ctl.Provider.Data as Csla.Core.IEditableCollection;
+-            if (icol != null)
++            if (ctl.Provider.Data is Csla.Core.IEditableCollection icol)
+               result = icol.IsDirty;
+           }
+         }
+@@ -103,7 +99,7 @@ private static void CanExecuteUndo(object target, CanExecuteRoutedEventArgs e)
+     private static void UndoCommand(object target, ExecutedRoutedEventArgs e)
+     {
+       CslaDataProviderCommandManager ctl = target as CslaDataProviderCommandManager;
+-      if (ctl != null && ctl.Provider != null)
++      if (ctl?.Provider != null)
+         ctl.Provider.Cancel();
+     }
+ 
+@@ -111,12 +107,11 @@ private static void CanExecuteNew(object target, CanExecuteRoutedEventArgs e)
+     {
+       bool result = false;
+       CslaDataProviderCommandManager ctl = target as CslaDataProviderCommandManager;
+-      if (ctl != null && ctl.Provider != null)
++      if (ctl?.Provider != null)
+       {
+         if (ctl.Provider.Data != null)
+         {
+-          IBindingList list = ctl.Provider.Data as IBindingList;
+-          if (list != null)
++          if (ctl.Provider.Data is IBindingList list)
+           {
+             result = list.AllowNew;
+             if (result && !Csla.Rules.BusinessRules.HasPermission(Rules.AuthorizationActions.EditObject, ctl.Provider.Data))
+@@ -130,7 +125,7 @@ private static void CanExecuteNew(object target, CanExecuteRoutedEventArgs e)
+     private static void NewCommand(object target, ExecutedRoutedEventArgs e)
+     {
+       CslaDataProviderCommandManager ctl = target as CslaDataProviderCommandManager;
+-      if (ctl != null && ctl.Provider != null)
++      if (ctl?.Provider != null)
+         ctl.Provider.AddNew();
+     }
+ 
+@@ -138,13 +133,13 @@ private static void CanExecuteRemove(object target, CanExecuteRoutedEventArgs e)
+     {
+       bool result = false;
+       CslaDataProviderCommandManager ctl = target as CslaDataProviderCommandManager;
+-      if (ctl != null && ctl.Provider != null)
++      if (ctl?.Provider != null)
+       {
+         if (ctl.Provider.Data != null)
+         {
+-          Csla.Core.BusinessBase bb = e.Parameter as Csla.Core.BusinessBase;
+           IBindingList list;
+-          if (bb != null)
++
++          if (e.Parameter is Csla.Core.BusinessBase bb)
+             list = bb.Parent as IBindingList;
+           else
+             list = ctl.Provider.Data as IBindingList;
+@@ -162,7 +157,7 @@ private static void CanExecuteRemove(object target, CanExecuteRoutedEventArgs e)
+     private static void RemoveCommand(object target, ExecutedRoutedEventArgs e)
+     {
+       CslaDataProviderCommandManager ctl = target as CslaDataProviderCommandManager;
+-      if (ctl != null && ctl.Provider != null)
++      if (ctl?.Provider != null)
+         ctl.Provider.RemoveItem(null, new ExecuteEventArgs { MethodParameter = e.Parameter });
+     }
+   }
+diff --git a/Source/Csla.Xaml.Shared/DataDecoratorBase.cs b/Source/Csla.Xaml.Shared/DataDecoratorBase.cs
+index 6c87996b3..60b218c1b 100644
+--- a/Source/Csla.Xaml.Shared/DataDecoratorBase.cs
++++ b/Source/Csla.Xaml.Shared/DataDecoratorBase.cs
+@@ -72,15 +72,14 @@ private void Panel_DataContextChanged(object sender, DependencyPropertyChangedEv
+     private object GetDataObject(object dataContext)
+     {
+       object result = dataContext;
+-      DataSourceProvider provider = dataContext as DataSourceProvider;
+-      if (provider != null)
++
++      if (dataContext is DataSourceProvider provider)
+       {
+         result = provider.Data;
+       }
+       else
+       {
+-        var icv = dataContext as ICollectionView;
+-        if (icv != null)
++        if (dataContext is ICollectionView icv)
+           result = icv.CurrentItem;
+       }
+       return result;
+@@ -131,8 +130,8 @@ private void UnHookDataContextEvents(object oldValue)
+       }
+       UnHookChildChanged(oldContext as Csla.Core.INotifyChildChanged);
+       UnHookPropertyChanged(oldContext as INotifyPropertyChanged);
+-      INotifyCollectionChanged observable = oldContext as INotifyCollectionChanged;
+-      if (observable != null)
++
++      if (oldContext is INotifyCollectionChanged observable)
+         UnHookObservableListChanged(observable);
+       else
+         UnHookBindingListChanged(oldContext as IBindingList);
+@@ -155,8 +154,8 @@ private void HookDataContextEvents(object newValue)
+       }
+       HookChildChanged(newContext as Csla.Core.INotifyChildChanged);
+       HookPropertyChanged(newContext as INotifyPropertyChanged);
+-      INotifyCollectionChanged observable = newContext as INotifyCollectionChanged;
+-      if (observable != null)
++
++      if (newContext is INotifyCollectionChanged observable)
+         HookObservableListChanged(observable);
+       else
+         HookBindingListChanged(newContext as IBindingList);
+diff --git a/Source/Csla.Xaml.Shared/ErrorDialog.cs b/Source/Csla.Xaml.Shared/ErrorDialog.cs
+index 2c72d1941..f29f22d77 100644
+--- a/Source/Csla.Xaml.Shared/ErrorDialog.cs
++++ b/Source/Csla.Xaml.Shared/ErrorDialog.cs
+@@ -125,22 +125,20 @@ internal void Register(object source)
+ 
+     private void AttachSource(object source)
+     {
+-      var dp = source as System.Windows.Data.DataSourceProvider;
+-      if (dp != null)
++      if (source is System.Windows.Data.DataSourceProvider dp)
+         dp.DataChanged += source_DataChanged;
+     }
+ 
+     private void DetachSource(object source)
+     {
+-      var dp = source as System.Windows.Data.DataSourceProvider;
+-      if (dp != null)
++      if (source is System.Windows.Data.DataSourceProvider dp)
+         dp.DataChanged -= source_DataChanged;
+     }
+ 
+     private void source_DataChanged(object sender, EventArgs e)
+     {
+       var dp = sender as System.Windows.Data.DataSourceProvider;
+-      if (dp != null && dp.Error != null)
++      if (dp?.Error != null)
+       {
+         string error;
+         if (this.ShowExceptionDetail)
+@@ -152,7 +150,7 @@ private void source_DataChanged(object sender, EventArgs e)
+         if (string.IsNullOrEmpty(this.DialogFirstLine))
+           output = error;
+         else
+-          output = string.Format("{0}{1}{2}", this.DialogFirstLine, Environment.NewLine, error);
++          output = $"{this.DialogFirstLine}{Environment.NewLine}{error}";
+ 
+         MessageBox.Show(
+           output,
+diff --git a/Source/Csla.Xaml.Shared/InvokeMethod.cs b/Source/Csla.Xaml.Shared/InvokeMethod.cs
+index a45f22e63..be947eb9d 100644
+--- a/Source/Csla.Xaml.Shared/InvokeMethod.cs
++++ b/Source/Csla.Xaml.Shared/InvokeMethod.cs
+@@ -53,12 +53,11 @@ public static object GetTarget(UIElement ctrl)
+       result = ctrl.GetValue(TargetProperty);
+       if (result == null)
+       {
+-        var fe = ctrl as FrameworkElement;
+-        if (fe != null)
++        if (ctrl is FrameworkElement fe)
+           result = fe.DataContext;
+       }
+-      var icv = result as ICollectionView;
+-      if (icv != null)
++
++      if (result is ICollectionView icv)
+         result = icv.CurrentItem;
+       return result;
+     }
+diff --git a/Source/Csla.Xaml.Shared/ObjectStatus.cs b/Source/Csla.Xaml.Shared/ObjectStatus.cs
+index 14a184610..56c6ac0a9 100644
+--- a/Source/Csla.Xaml.Shared/ObjectStatus.cs
++++ b/Source/Csla.Xaml.Shared/ObjectStatus.cs
+@@ -284,8 +284,7 @@ public void Refresh()
+         CanDeleteObject = false;
+       }
+ 
+-      IEditableBusinessObject source = DataObject as IEditableBusinessObject;
+-      if (source != null)
++      if (DataObject is IEditableBusinessObject source)
+       {
+         if (IsDeleted != source.IsDeleted)
+           IsDeleted = source.IsDeleted;
+@@ -300,8 +299,7 @@ public void Refresh()
+       }
+       else
+       {
+-        IEditableCollection sourceList = DataObject as IEditableCollection;
+-        if (sourceList != null)
++        if (DataObject is IEditableCollection sourceList)
+         {
+           if (IsDirty != sourceList.IsDirty)
+             IsDirty = sourceList.IsDirty;
+diff --git a/Source/Csla.Xaml.Shared/PropertyInfo.cs b/Source/Csla.Xaml.Shared/PropertyInfo.cs
+index beff93d9e..118199364 100644
+--- a/Source/Csla.Xaml.Shared/PropertyInfo.cs
++++ b/Source/Csla.Xaml.Shared/PropertyInfo.cs
+@@ -223,8 +223,7 @@ private void P_PropertyChanged(object sender, PropertyChangedEventArgs e)
+ 
+       public void DetachHandlers()
+       {
+-        var p = Source as INotifyPropertyChanged;
+-        if (p != null)
++        if (Source is INotifyPropertyChanged p)
+           p.PropertyChanged -= P_PropertyChanged;
+       }
+ 
+@@ -258,7 +257,7 @@ private void SetSource()
+         catch (Exception ex)
+         {
+           throw new InvalidOperationException(
+-            string.Format("SetSource: BindingContext:{0}, Path={1}", BindingPath.GetType().Name, Path), ex);
++            $"SetSource: BindingContext:{BindingPath.GetType().Name}, Path={Path}", ex);
+         }
+       }
+       HandleSourceEvents(oldSource, Source);
+@@ -331,7 +330,7 @@ protected virtual BindingExpression ParseRelativeBinding(BindingExpression sourc
+ #if NETFX_CORE
+           fi = type.GetField(string.Format("{0}{1}", path, _dependencyPropertySuffix), BindingFlags.Instance | BindingFlags.Public);
+ #else
+-          fi = type.GetField(string.Format("{0}{1}", path, _dependencyPropertySuffix));
++          fi = type.GetField($"{path}{_dependencyPropertySuffix}");
+ #endif
+ 
+           if (fi != null)
+@@ -379,9 +378,9 @@ protected virtual void SetSource(object dataItem)
+ 
+       // Check to see if PropertyInfo is inside a control template
+       ClearValue(MyDataContextProperty);
+-      if (newSource != null && newSource is FrameworkElement)
++      if (newSource is FrameworkElement frameworkElement)
+       {
+-        var data = ((FrameworkElement)newSource).DataContext;
++        var data = frameworkElement.DataContext;
+         SetBindingValues(ParseRelativeBinding(GetBindingExpression(PropertyProperty)));
+ 
+         if (data != null && GetBindingExpression(RelativeBindingProperty) == null)
+@@ -456,8 +455,7 @@ private void SetBindingValues(BindingExpression binding)
+     /// <returns></returns>
+     protected object GetRealSource(object source, string bindingPath)
+     {
+-      var icv = source as ICollectionView;
+-      if (icv != null)
++      if (source is ICollectionView icv)
+         source = icv.CurrentItem;
+       if (source != null && bindingPath.IndexOf('.') > 0)
+       {
+@@ -508,8 +506,8 @@ private void HandleSourceEvents(object old, object source)
+       {
+         DetachSource(old);
+         AttachSource(source);
+-        BusinessBase bb = Source as BusinessBase;
+-        if (bb != null && !string.IsNullOrWhiteSpace(BindingPath))
++
++        if (Source is BusinessBase bb && !string.IsNullOrWhiteSpace(BindingPath))
+         {
+           IsBusy = bb.IsPropertyBusy(BindingPath);
+         }
+@@ -518,21 +516,19 @@ private void HandleSourceEvents(object old, object source)
+ 
+     private void DetachSource(object source)
+     {
+-      var p = source as INotifyPropertyChanged;
+-      if (p != null)
++      if (source is INotifyPropertyChanged p)
+         p.PropertyChanged -= source_PropertyChanged;
+-      INotifyBusy busy = source as INotifyBusy;
+-      if (busy != null)
++
++      if (source is INotifyBusy busy)
+         busy.BusyChanged -= source_BusyChanged;
+     }
+ 
+     private void AttachSource(object source)
+     {
+-      var p = source as INotifyPropertyChanged;
+-      if (p != null)
++      if (source is INotifyPropertyChanged p)
+         p.PropertyChanged += source_PropertyChanged;
+-      INotifyBusy busy = source as INotifyBusy;
+-      if (busy != null)
++
++      if (source is INotifyBusy busy)
+         busy.BusyChanged += source_BusyChanged;
+     }
+ 
+@@ -550,8 +546,8 @@ void source_BusyChanged(object sender, BusyChangedEventArgs e)
+       if (e.PropertyName == BindingPath || string.IsNullOrEmpty(e.PropertyName))
+       {
+         bool busy = e.Busy;
+-        BusinessBase bb = Source as BusinessBase;
+-        if (bb != null)
++
++        if (Source is BusinessBase bb)
+           busy = bb.IsPropertyBusy(BindingPath);
+ 
+         if (busy != IsBusy)
+diff --git a/Source/Csla.Xaml.Shared/PropertyStatus.cs b/Source/Csla.Xaml.Shared/PropertyStatus.cs
+index e1cdcddd4..378246e9c 100644
+--- a/Source/Csla.Xaml.Shared/PropertyStatus.cs
++++ b/Source/Csla.Xaml.Shared/PropertyStatus.cs
+@@ -222,8 +222,7 @@ protected virtual void SetSource(object dataItem)
+         Source = newSource;      // set new Source
+         AttachSource(Source);    // attach to new Source
+ 
+-        var bb = Source as BusinessBase;
+-        if (bb != null)
++        if (Source is BusinessBase bb)
+         {
+           IsBusy = bb.IsPropertyBusy(PropertyName);
+         }
+@@ -267,8 +266,7 @@ protected object GetRealSource(object source, string bindingPath)
+       if (bindingPath.IndexOf('.') > 0)
+         firstProperty = bindingPath.Substring(0, bindingPath.IndexOf('.'));
+ 
+-      var icv = source as ICollectionView;
+-      if (icv != null && firstProperty != "CurrentItem")
++      if (source is ICollectionView icv && firstProperty != "CurrentItem")
+         source = icv.CurrentItem;
+       if (source != null && !string.IsNullOrEmpty(firstProperty))
+       {
+@@ -283,11 +281,10 @@ protected object GetRealSource(object source, string bindingPath)
+ 
+     private void DetachSource(object source)
+     {
+-      var p = source as INotifyPropertyChanged;
+-      if (p != null)
++      if (source is INotifyPropertyChanged p)
+         p.PropertyChanged -= source_PropertyChanged;
+-      INotifyBusy busy = source as INotifyBusy;
+-      if (busy != null)
++
++      if (source is INotifyBusy busy)
+         busy.BusyChanged -= source_BusyChanged;
+ 
+       ClearState();
+@@ -295,11 +292,10 @@ private void DetachSource(object source)
+ 
+     private void AttachSource(object source)
+     {
+-      var p = source as INotifyPropertyChanged;
+-      if (p != null)
++      if (source is INotifyPropertyChanged p)
+         p.PropertyChanged += source_PropertyChanged;
+-      INotifyBusy busy = source as INotifyBusy;
+-      if (busy != null)
++
++      if (source is INotifyBusy busy)
+         busy.BusyChanged += source_BusyChanged;
+ 
+     }
+@@ -315,8 +311,8 @@ void source_BusyChanged(object sender, BusyChangedEventArgs e)
+       if (e.PropertyName == PropertyName || string.IsNullOrEmpty(e.PropertyName))
+       {
+         bool busy = e.Busy;
+-        BusinessBase bb = Source as BusinessBase;
+-        if (bb != null)
++
++        if (Source is BusinessBase bb)
+           busy = bb.IsPropertyBusy(PropertyName);
+ 
+         if (busy != IsBusy)
+@@ -560,15 +556,13 @@ protected virtual void UpdateState()
+       }
+       else
+       {
+-        var iarw = Source as Csla.Security.IAuthorizeReadWrite;
+-        if (iarw != null)
++        if (Source is Csla.Security.IAuthorizeReadWrite iarw)
+         {
+           CanWrite = iarw.CanWriteProperty(PropertyName);
+           CanRead = iarw.CanReadProperty(PropertyName);
+         }
+ 
+-        BusinessBase businessObject = Source as BusinessBase;
+-        if (businessObject != null)
++        if (Source is BusinessBase businessObject)
+         {
+           var allRules = (from r in businessObject.BrokenRulesCollection
+                           where r.Property == PropertyName
+@@ -640,8 +634,7 @@ protected virtual void GoToState(bool useTransitions)
+     {
+       if (_loading) return;
+ 
+-      BusyAnimation busy = FindChild(this, "busy") as BusyAnimation;
+-      if (busy != null)
++      if (FindChild(this, "busy") is BusyAnimation busy)
+         busy.IsRunning = IsBusy;
+ 
+       string newState;
+@@ -659,7 +652,7 @@ protected virtual void GoToState(bool useTransitions)
+         VisualStateManager.GoToState(this, newState, useTransitions);
+         if (newState != "Busy" && newState != "PropertyValid")
+         {
+-          _lastImage = (FrameworkElement)FindChild(this, string.Format("{0}Image", newState.ToLower()));
++          _lastImage = (FrameworkElement)FindChild(this, $"{newState.ToLower()}Image");
+           EnablePopup(_lastImage);
+         }
+       }
+diff --git a/Source/Csla.Xaml.Shared/TriggerAction.cs b/Source/Csla.Xaml.Shared/TriggerAction.cs
+index a7ab407c8..2e2f07328 100644
+--- a/Source/Csla.Xaml.Shared/TriggerAction.cs
++++ b/Source/Csla.Xaml.Shared/TriggerAction.cs
+@@ -41,14 +41,13 @@ private void CallMethod(object sender, EventArgs e)
+     {
+       object target = this.DataContext;
+       var cvs = target as System.Windows.Data.CollectionViewSource;
+-      if (cvs != null && cvs.View != null)
++      if (cvs?.View != null)
+       {
+         target = cvs.View.CurrentItem;
+       }
+       else
+       {
+-        var icv = target as ICollectionView;
+-        if (icv != null)
++        if (target is ICollectionView icv)
+           target = icv.CurrentItem;
+       }
+       if (target == null) return; // can be null at design time - so just exit
+@@ -255,7 +254,7 @@ public bool RebindParameterDynamically
+     private object GetMethodParameter()
+     {
+       var be = this.GetBindingExpression(MethodParameterProperty);
+-      if (be != null && be.ParentBinding != null)
++      if (be?.ParentBinding != null)
+       {
+         var newBinding = CopyBinding(be.ParentBinding);
+         SetBinding(MethodParameterProperty, newBinding);
+diff --git a/Source/Csla.test/Basic/Child.cs b/Source/Csla.test/Basic/Child.cs
+index d6ad400e4..8ad268fc9 100644
+--- a/Source/Csla.test/Basic/Child.cs
++++ b/Source/Csla.test/Basic/Child.cs
+@@ -40,7 +40,7 @@ public string Data
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj == null || !(obj is Child))
++            if (!(obj is Child))
+             {
+                 return false;
+             }
+diff --git a/Source/Csla.test/DataAnnotations/DataAnnotationsTests.cs b/Source/Csla.test/DataAnnotations/DataAnnotationsTests.cs
+index 0499bd889..6e1814d55 100644
+--- a/Source/Csla.test/DataAnnotations/DataAnnotationsTests.cs
++++ b/Source/Csla.test/DataAnnotations/DataAnnotationsTests.cs
+@@ -99,8 +99,8 @@ public void MultipleMetaRules()
+       var typeRules = obj.GetRegisteredRules();
+       // 4 rules from metadatacalss and 1 rule from autogenerated class. 
+       Assert.AreEqual(5, typeRules.Rules.Count);
+-      Assert.AreEqual(3, typeRules.Rules.Where(p => p.PrimaryProperty == MultipleMeta.AmountProperty).Count());
+-      Assert.AreEqual(2, typeRules.Rules.Where(p => p.PrimaryProperty == MultipleMeta.QuantityProperty).Count());
++      Assert.AreEqual(3, typeRules.Rules.Count(p => p.PrimaryProperty == MultipleMeta.AmountProperty));
++      Assert.AreEqual(2, typeRules.Rules.Count(p => p.PrimaryProperty == MultipleMeta.QuantityProperty));
+     }
+ 	}
+ 
+diff --git a/Source/Csla.test/MethodCaller/MethodCallerTests.cs b/Source/Csla.test/MethodCaller/MethodCallerTests.cs
+index d7f371aa1..989fb3e8a 100644
+--- a/Source/Csla.test/MethodCaller/MethodCallerTests.cs
++++ b/Source/Csla.test/MethodCaller/MethodCallerTests.cs
+@@ -143,7 +143,7 @@ public void CallDynamicIsFasterThanReflectionSuccess()
+       end = DateTime.Now;
+       reflectionTime = end - start;
+ 
+-      Assert.IsTrue(dynamicTime < reflectionTime, string.Format("Dynamic {0} should be faster than reflection {1}", dynamicTime, reflectionTime));
++      Assert.IsTrue(dynamicTime < reflectionTime, $"Dynamic {dynamicTime} should be faster than reflection {reflectionTime}");
+     }
+ #endif
+ #endif
+diff --git a/Source/Csla.test/Reflection/GetConstructor.cs b/Source/Csla.test/Reflection/GetConstructor.cs
+index 54dd732b7..50aaceff4 100644
+--- a/Source/Csla.test/Reflection/GetConstructor.cs
++++ b/Source/Csla.test/Reflection/GetConstructor.cs
+@@ -50,7 +50,7 @@ private static ConstructorInfo GetConstructor(Type t, BindingFlags bindingFlags,
+       if (paramTypes.Length > 0)
+         throw new NotImplementedException();
+       var ti = t.GetTypeInfo();
+-      var m = ti.DeclaredConstructors.Where(r => r.GetParameters().Count() == 0);
++      var m = ti.DeclaredConstructors.Where(r => !r.GetParameters().Any());
+       if (!((bindingFlags & BindingFlags.Instance) > 0))
+         m = m.Where(r => r.IsStatic);
+       if (!((bindingFlags & BindingFlags.Static) > 0))
+diff --git a/Source/Csla.test/ValidationRules/AsyncRuleRoot.cs b/Source/Csla.test/ValidationRules/AsyncRuleRoot.cs
+index ae7317695..4d6757d20 100644
+--- a/Source/Csla.test/ValidationRules/AsyncRuleRoot.cs
++++ b/Source/Csla.test/ValidationRules/AsyncRuleRoot.cs
+@@ -81,7 +81,7 @@ protected override void Execute(IRuleContext context)
+ 
+         bw.RunWorkerCompleted += (o, e) =>
+         {
+-          context.AddOutValue(_nameProperty, string.Format("customer name {0}", cn));
++          context.AddOutValue(_nameProperty, $"customer name {cn}");
+ 
+           context.Complete();
+         };
+diff --git a/Source/Csla.test/ValidationRules/RuleBaseClassesRoot.cs b/Source/Csla.test/ValidationRules/RuleBaseClassesRoot.cs
+index ce2d52570..f2faf5af3 100644
+--- a/Source/Csla.test/ValidationRules/RuleBaseClassesRoot.cs
++++ b/Source/Csla.test/ValidationRules/RuleBaseClassesRoot.cs
+@@ -235,8 +235,8 @@ protected override void Execute(IRuleContext context)
+ 
+       if (value1.CompareTo(value2) >= 0)
+       {
+-        context.AddErrorResult(string.Format("{0} must be less than {1}", PrimaryProperty.FriendlyName, CompareTo.FriendlyName));
+-        context.AddErrorResult(CompareTo, string.Format("{0} must be larger than {1}", CompareTo.FriendlyName, PrimaryProperty.FriendlyName));
++        context.AddErrorResult($"{PrimaryProperty.FriendlyName} must be less than {CompareTo.FriendlyName}");
++        context.AddErrorResult(CompareTo, $"{CompareTo.FriendlyName} must be larger than {PrimaryProperty.FriendlyName}");
+       }
+     }
+   }
+@@ -271,7 +271,7 @@ protected override void Execute(IRuleContext context)
+                                        name = "Rocky Lhotka";
+                                        break;
+                                      default:
+-                                       name = string.Format("Customer_{0}", customerId);
++                                       name = $"Customer_{customerId}";
+                                        break;
+                                    }
+                                    context.AddOutValue(NameProperty, name);
+diff --git a/Source/Csla.test/ValidationRules/ValidationTests.cs b/Source/Csla.test/ValidationRules/ValidationTests.cs
+index d4e11040f..5cd0b30ab 100644
+--- a/Source/Csla.test/ValidationRules/ValidationTests.cs
++++ b/Source/Csla.test/ValidationRules/ValidationTests.cs
+@@ -681,7 +681,7 @@ protected override void Execute(Rules.IRuleContext context)
+       var v1 = (string)context.InputPropertyValues[PrimaryProperty];
+       var v2 = (string)context.InputPropertyValues[SecondaryProperty];
+       if (string.IsNullOrEmpty(v1) || string.IsNullOrEmpty(v2))
+-        context.AddErrorResult(string.Format("v1:{0}, v2:{1}", v1, v2));
++        context.AddErrorResult($"v1:{v1}, v2:{v2}");
+     }
+   }
+ 
+diff --git a/Source/Csla/Core/BusinessBase.cs b/Source/Csla/Core/BusinessBase.cs
+index 4af882c22..5a59d0b6d 100644
+--- a/Source/Csla/Core/BusinessBase.cs
++++ b/Source/Csla/Core/BusinessBase.cs
+@@ -526,8 +526,7 @@ public bool CanReadProperty(Csla.Core.IPropertyInfo property, bool throwOnFalse)
+       if (throwOnFalse && result == false)
+       {
+         Csla.Security.SecurityException ex = new Csla.Security.SecurityException(
+-          String.Format("{0} ({1})",
+-          Resources.PropertyGetNotAllowed, property.Name));
++          $"{Resources.PropertyGetNotAllowed} ({property.Name})");
+         throw ex;
+       }
+       return result;
+@@ -601,7 +600,7 @@ public bool CanWriteProperty(Csla.Core.IPropertyInfo property, bool throwOnFalse
+       if (throwOnFalse && result == false)
+       {
+         Csla.Security.SecurityException ex = new Csla.Security.SecurityException(
+-          String.Format("{0} ({1})", Resources.PropertySetNotAllowed, property.Name));
++          $"{Resources.PropertySetNotAllowed} ({property.Name})");
+         throw ex;
+       }
+       return result;
+@@ -695,7 +694,7 @@ public bool CanExecuteMethod(Csla.Core.IMemberInfo method, bool throwOnFalse)
+       if (throwOnFalse && result == false)
+       {
+         Csla.Security.SecurityException ex =
+-          new Csla.Security.SecurityException(string.Format("{0} ({1})", Properties.Resources.MethodExecuteNotAllowed, method.Name));
++          new Csla.Security.SecurityException($"{Properties.Resources.MethodExecuteNotAllowed} ({method.Name})");
+         throw ex;
+       }
+       return result;
+@@ -721,7 +720,7 @@ private bool CanExecuteMethod(string methodName, bool throwOnFalse)
+       bool result = CanExecuteMethod(new MethodInfo(methodName));
+       if (throwOnFalse && result == false)
+       {
+-        Csla.Security.SecurityException ex = new Csla.Security.SecurityException(string.Format("{0} ({1})", Properties.Resources.MethodExecuteNotAllowed, methodName));
++        Csla.Security.SecurityException ex = new Csla.Security.SecurityException($"{Properties.Resources.MethodExecuteNotAllowed} ({methodName})");
+         throw ex;
+       }
+       return result;
+diff --git a/Source/Csla/Core/ContextDictionary.cs b/Source/Csla/Core/ContextDictionary.cs
+index d086a6002..e1032f662 100644
+--- a/Source/Csla/Core/ContextDictionary.cs
++++ b/Source/Csla/Core/ContextDictionary.cs
+@@ -47,8 +47,8 @@ void IMobileObject.GetChildren(SerializationInfo info, MobileFormatter formatter
+       foreach (string key in this.Keys)
+       {
+         object value = this[key];
+-        IMobileObject mobile = value as IMobileObject;
+-        if (mobile != null)
++
++        if (value is IMobileObject mobile)
+         {
+           SerializationInfo si = formatter.SerializeObject(mobile);
+           info.AddChild(key, si.ReferenceId);
+diff --git a/Source/Csla/Core/ExtendedBindingList.cs b/Source/Csla/Core/ExtendedBindingList.cs
+index c012395e2..2228b7396 100644
+--- a/Source/Csla/Core/ExtendedBindingList.cs
++++ b/Source/Csla/Core/ExtendedBindingList.cs
+@@ -225,20 +225,16 @@ protected override void InsertItem(int index, T item)
+     [EditorBrowsable(EditorBrowsableState.Never)]
+     protected virtual void OnAddEventHooks(T item)
+     {
+-      INotifyBusy busy = item as INotifyBusy;
+-      if (busy != null)
++      if (item is INotifyBusy busy)
+         busy.BusyChanged += new BusyChangedEventHandler(busy_BusyChanged);
+ 
+-      INotifyUnhandledAsyncException unhandled = item as INotifyUnhandledAsyncException;
+-      if (unhandled != null)
++      if (item is INotifyUnhandledAsyncException unhandled)
+         unhandled.UnhandledAsyncException += new EventHandler<ErrorEventArgs>(unhandled_UnhandledAsyncException);
+ 
+-      INotifyPropertyChanged c = item as INotifyPropertyChanged;
+-      if (c != null)
++      if (item is INotifyPropertyChanged c)
+         c.PropertyChanged += Child_PropertyChanged;
+ 
+-      INotifyChildChanged child = item as INotifyChildChanged;
+-      if (child != null)
++      if (item is INotifyChildChanged child)
+         child.ChildChanged += Child_Changed;
+     }
+ 
+@@ -250,20 +246,16 @@ protected virtual void OnAddEventHooks(T item)
+     [EditorBrowsable(EditorBrowsableState.Never)]
+     protected virtual void OnRemoveEventHooks(T item)
+     {
+-      INotifyBusy busy = item as INotifyBusy;
+-      if (busy != null)
++      if (item is INotifyBusy busy)
+         busy.BusyChanged -= new BusyChangedEventHandler(busy_BusyChanged);
+ 
+-      INotifyUnhandledAsyncException unhandled = item as INotifyUnhandledAsyncException;
+-      if (unhandled != null)
++      if (item is INotifyUnhandledAsyncException unhandled)
+         unhandled.UnhandledAsyncException -= new EventHandler<ErrorEventArgs>(unhandled_UnhandledAsyncException);
+ 
+-      INotifyPropertyChanged c = item as INotifyPropertyChanged;
+-      if (c != null)
++      if (item is INotifyPropertyChanged c)
+         c.PropertyChanged -= new PropertyChangedEventHandler(Child_PropertyChanged);
+ 
+-      INotifyChildChanged child = item as INotifyChildChanged;
+-      if (child != null)
++      if (item is INotifyChildChanged child)
+         child.ChildChanged -= new EventHandler<ChildChangedEventArgs>(Child_Changed);
+     }
+ 
+diff --git a/Source/Csla/Core/FieldManager/FieldDataManager.cs b/Source/Csla/Core/FieldManager/FieldDataManager.cs
+index 61b6ac38f..35633f8eb 100644
+--- a/Source/Csla/Core/FieldManager/FieldDataManager.cs
++++ b/Source/Csla/Core/FieldManager/FieldDataManager.cs
+@@ -85,7 +85,7 @@ public List<IPropertyInfo> GetRegisteredProperties()
+     /// property name doesn't correspond to a registered property.</exception>
+     public IPropertyInfo GetRegisteredProperty(string propertyName)
+     {
+-      var result = GetRegisteredProperties().Where(c => c.Name == propertyName).FirstOrDefault();
++      var result = GetRegisteredProperties().FirstOrDefault(c => c.Name == propertyName);
+       if (result == null)
+         throw new ArgumentOutOfRangeException(string.Format(Resources.PropertyNameNotRegisteredException, propertyName));
+       return result;
+@@ -222,7 +222,7 @@ internal IPropertyInfo FindProperty(object value)
+       var index = 0;
+       foreach (var item in _fieldData)
+       {
+-        if (item != null && item.Value != null && item.Value.Equals(value))
++        if (item?.Value != null && item.Value.Equals(value))
+           return _propertyList[index];
+         index += 1;
+       }
+@@ -311,8 +311,8 @@ internal IFieldData LoadFieldData(IPropertyInfo prop, object value)
+     internal IFieldData LoadFieldData<P>(IPropertyInfo prop, P value)
+     {
+       var field = GetOrCreateFieldData(prop);
+-      var fd = field as IFieldData<P>;
+-      if (fd != null)
++
++      if (field is IFieldData<P> fd)
+         fd.Value = value;
+       else
+         field.Value = value;
+@@ -508,8 +508,7 @@ void Core.IUndoableObject.UndoChanges(int parentEditLevel, bool parentBindingEdi
+           var item = _fieldData[index];
+           if (item != null)
+           {
+-            var undoable = item.Value as IUndoableObject;
+-            if (undoable != null)
++            if (item.Value is IUndoableObject undoable)
+             {
+               // current value is undoable
+               if (oldItem != null)
+@@ -540,11 +539,7 @@ void Core.IUndoableObject.AcceptChanges(int parentEditLevel, bool parentBindingE
+           if (item != null)
+           {
+             var child = item.Value as IUndoableObject;
+-            if (child != null)
+-            {
+-              // cascade call to child
+-              child.AcceptChanges(parentEditLevel, parentBindingEdit);
+-            }
++            child?.AcceptChanges(parentEditLevel, parentBindingEdit);
+           }
+         }
+       }
+diff --git a/Source/Csla/Core/GraphMerger.cs b/Source/Csla/Core/GraphMerger.cs
+index 3e71d8a6d..1a130e736 100644
+--- a/Source/Csla/Core/GraphMerger.cs
++++ b/Source/Csla/Core/GraphMerger.cs
+@@ -87,10 +87,7 @@ private static void CopyField(object source, object target, string fieldName)
+       if (sourceField != null)
+       {
+         var targetField = target.GetType().GetField(fieldName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+-        if (targetField!= null)
+-        {
+-          targetField.SetValue(target, sourceField.GetValue(source));
+-        }
++        targetField?.SetValue(target, sourceField.GetValue(source));
+       }
+     }
+ 
+diff --git a/Source/Csla/Core/ManagedObjectBase.cs b/Source/Csla/Core/ManagedObjectBase.cs
+index 8fd7dff05..d14331715 100644
+--- a/Source/Csla/Core/ManagedObjectBase.cs
++++ b/Source/Csla/Core/ManagedObjectBase.cs
+@@ -170,8 +170,7 @@ protected P ReadProperty<P>(PropertyInfo<P> propertyInfo)
+       FieldManager.IFieldData data = FieldManager.GetFieldData(propertyInfo);
+       if (data != null)
+       {
+-        var fd = data as FieldManager.IFieldData<P>;
+-        if (fd != null)
++        if (data is FieldManager.IFieldData<P> fd)
+           result = fd.Value;
+         else
+           result = (P)data.Value;
+@@ -242,8 +241,7 @@ protected virtual object ReadProperty(IPropertyInfo propertyInfo)
+         }
+         else
+         {
+-          var fd = fieldData as FieldManager.IFieldData<P>;
+-          if (fd != null)
++          if (fieldData is FieldManager.IFieldData<P> fd)
+             oldValue = fd.Value;
+           else
+             oldValue = (P)fieldData.Value;
+@@ -287,8 +285,7 @@ protected void LoadProperty<P>(PropertyInfo<P> propertyInfo, P newValue)
+         }
+         else
+         {
+-          var fd = fieldData as FieldManager.IFieldData<P>;
+-          if (fd != null)
++          if (fieldData is FieldManager.IFieldData<P> fd)
+             oldValue = fd.Value;
+           else
+             oldValue = (P)fieldData.Value;
+@@ -314,8 +311,7 @@ private bool LoadPropertyMarkDirty<P>(PropertyInfo<P> propertyInfo, P newValue)
+         }
+         else
+         {
+-          var fd = fieldData as FieldManager.IFieldData<P>;
+-          if (fd != null)
++          if (fieldData is FieldManager.IFieldData<P> fd)
+             oldValue = fd.Value;
+           else
+             oldValue = (P)fieldData.Value;
+diff --git a/Source/Csla/Core/ObservableBindingList.cs b/Source/Csla/Core/ObservableBindingList.cs
+index 56b407f34..96c492e1b 100644
+--- a/Source/Csla/Core/ObservableBindingList.cs
++++ b/Source/Csla/Core/ObservableBindingList.cs
+@@ -309,24 +309,17 @@ protected override void InsertItem(int index, T item)
+     [EditorBrowsable(EditorBrowsableState.Never)]
+     protected virtual void OnAddEventHooks(T item)
+     {
+-      INotifyBusy busy = item as INotifyBusy;
+-      if (busy != null)
++      if (item is INotifyBusy busy)
+         busy.BusyChanged += new BusyChangedEventHandler(busy_BusyChanged);
+ 
+-      INotifyUnhandledAsyncException unhandled = item as INotifyUnhandledAsyncException;
+-      if (unhandled != null)
++      if (item is INotifyUnhandledAsyncException unhandled)
+         unhandled.UnhandledAsyncException += new EventHandler<ErrorEventArgs>(unhandled_UnhandledAsyncException);
+ 
+-      INotifyPropertyChanged c = item as INotifyPropertyChanged;
+-      if (c != null)
++      if (item is INotifyPropertyChanged c)
+         c.PropertyChanged += Child_PropertyChanged;
+ 
+-      //IBindingList list = item as IBindingList;
+-      //if (list != null)
+-      //  list.ListChanged += new ListChangedEventHandler(Child_ListChanged);
+-
+-      INotifyChildChanged child = item as INotifyChildChanged;
+-      if (child != null)
++      //IBindingList list = item as IBindingList;      //if (list != null)      //  list.ListChanged += new ListChangedEventHandler(Child_ListChanged);
++      if (item is INotifyChildChanged child)
+         child.ChildChanged += Child_Changed;
+     }
+ 
+@@ -338,24 +331,17 @@ protected virtual void OnAddEventHooks(T item)
+     [EditorBrowsable(EditorBrowsableState.Never)]
+     protected virtual void OnRemoveEventHooks(T item)
+     {
+-      INotifyBusy busy = item as INotifyBusy;
+-      if (busy != null)
++      if (item is INotifyBusy busy)
+         busy.BusyChanged -= new BusyChangedEventHandler(busy_BusyChanged);
+ 
+-      INotifyUnhandledAsyncException unhandled = item as INotifyUnhandledAsyncException;
+-      if (unhandled != null)
++      if (item is INotifyUnhandledAsyncException unhandled)
+         unhandled.UnhandledAsyncException -= new EventHandler<ErrorEventArgs>(unhandled_UnhandledAsyncException);
+ 
+-      INotifyPropertyChanged c = item as INotifyPropertyChanged;
+-      if (c != null)
++      if (item is INotifyPropertyChanged c)
+         c.PropertyChanged -= Child_PropertyChanged;
+ 
+-      //IBindingList list = item as IBindingList;
+-      //if(list!=null)
+-      //  list.ListChanged -= new ListChangedEventHandler(Child_ListChanged);
+-
+-      INotifyChildChanged child = item as INotifyChildChanged;
+-      if (child != null)
++      //IBindingList list = item as IBindingList;      //if(list!=null)      //  list.ListChanged -= new ListChangedEventHandler(Child_ListChanged);
++      if (item is INotifyChildChanged child)
+         child.ChildChanged -= new EventHandler<ChildChangedEventArgs>(Child_Changed);
+     }
+ 
+diff --git a/Source/Csla/Data/DataMapper.cs b/Source/Csla/Data/DataMapper.cs
+index 077ca66e6..a6d4f29b9 100644
+--- a/Source/Csla/Data/DataMapper.cs
++++ b/Source/Csla/Data/DataMapper.cs
+@@ -87,8 +87,7 @@ public static void Map(System.Collections.IDictionary source, object target, par
+           {
+             if (!suppressExceptions)
+               throw new ArgumentException(
+-                String.Format("{0} ({1})",
+-                Resources.PropertyCopyFailed, propertyName), ex);
++                $"{Resources.PropertyCopyFailed} ({propertyName})", ex);
+           }
+         }
+       }
+@@ -146,8 +145,7 @@ public static void Map(object source, Dictionary<string, object> target, params
+           {
+             if (!suppressExceptions)
+               throw new ArgumentException(
+-                String.Format("{0} ({1})",
+-                Resources.PropertyCopyFailed, propertyName), ex);
++                $"{Resources.PropertyCopyFailed} ({propertyName})", ex);
+           }
+         }
+       }
+@@ -230,8 +228,7 @@ public static void Map(object source, object target, params string[] ignoreList)
+               {
+                   if (!suppressExceptions)
+                       throw new ArgumentException(
+-                          String.Format("{0} ({1})",
+-                                        Resources.PropertyCopyFailed, propertyName), ex);
++                          $"{Resources.PropertyCopyFailed} ({propertyName})", ex);
+               }
+           }
+       }
+@@ -280,8 +277,7 @@ public static void Map(object source, object target, DataMap map, bool suppressE
+         {
+           if (!suppressExceptions)
+             throw new ArgumentException(
+-              String.Format("{0} ({1})",
+-              Resources.PropertyCopyFailed, mapping.FromMemberHandle.MemberName), ex);
++              $"{Resources.PropertyCopyFailed} ({mapping.FromMemberHandle.MemberName})", ex);
+         }
+       }
+     }
+diff --git a/Source/Csla/Data/ObjectAdapter.cs b/Source/Csla/Data/ObjectAdapter.cs
+index 15cdddbe7..276387281 100644
+--- a/Source/Csla/Data/ObjectAdapter.cs
++++ b/Source/Csla/Data/ObjectAdapter.cs
+@@ -92,8 +92,8 @@ public void Fill(DataTable dt, object source)
+ 
+     private IList GetIList(object source)
+     {
+-      if (source is IListSource)
+-        return ((IListSource)source).GetList();
++      if (source is IListSource iListSource)
++        return iListSource.GetList();
+       else if (source is IList)
+         return source as IList;
+       else
+@@ -139,20 +139,18 @@ private List<string> GetColumns(object source)
+       List<string> result;
+       // first handle DataSet/DataTable
+       object innerSource;
+-      IListSource iListSource = source as IListSource;
+-      if (iListSource != null)
++
++      if (source is IListSource iListSource)
+         innerSource = iListSource.GetList();
+       else
+         innerSource = source;
+ 
+-      DataView dataView = innerSource as DataView;
+-      if (dataView != null)
++      if (innerSource is DataView dataView)
+         result = ScanDataView(dataView);
+       else
+       {
+         // now handle lists/arrays/collections
+-        IEnumerable iEnumerable = innerSource as IEnumerable;
+-        if (iEnumerable != null)
++        if (innerSource is IEnumerable iEnumerable)
+         {
+           Type childType = Utilities.GetChildItemType(
+             innerSource.GetType());
+@@ -204,8 +202,8 @@ private List<string> ScanObject(Type sourceType)
+     private static string GetField(object obj, string fieldName)
+     {
+       string result;
+-      DataRowView dataRowView = obj as DataRowView;
+-      if (dataRowView != null)
++
++      if (obj is DataRowView dataRowView)
+       {
+         // this is a DataRowView from a DataView
+         result = dataRowView[fieldName].ToString();
+@@ -217,8 +215,7 @@ private static string GetField(object obj, string fieldName)
+       }
+       else
+       {
+-        string tmp = obj as string;
+-        if (tmp != null)
++        if (obj is string tmp)
+         {
+           // this is a simple string
+           result = (string)obj;
+diff --git a/Source/Csla/DataPortal.cs b/Source/Csla/DataPortal.cs
+index 9b407e627..89f52cb14 100644
+--- a/Source/Csla/DataPortal.cs
++++ b/Source/Csla/DataPortal.cs
+@@ -858,10 +858,7 @@ public static void ResetProxyFactory()
+     /// </summary>
+     public static void ResetProxyType()
+     {
+-      if (_dataProxyFactory != null)
+-      {
+-        _dataProxyFactory.ResetProxyType();
+-      }
++      _dataProxyFactory?.ResetProxyType();
+     }
+ 
+     /// <summary>
+diff --git a/Source/Csla/DataPortalClient/DataPortalProxyFactory.cs b/Source/Csla/DataPortalClient/DataPortalProxyFactory.cs
+index dbd7c3f19..e6f1c5478 100644
+--- a/Source/Csla/DataPortalClient/DataPortalProxyFactory.cs
++++ b/Source/Csla/DataPortalClient/DataPortalProxyFactory.cs
+@@ -164,7 +164,7 @@ public static string GetTypeName(Type objectType)
+     public static string GetTypeKey(Type objectType)
+     {
+       var attributes = objectType.GetCustomAttributes(typeof(DataPortalServerResourceAttribute), true);
+-      if (attributes != null && attributes.Count() > 0)
++      if (attributes != null && attributes.Any())
+         return ((DataPortalServerResourceAttribute)attributes[0]).ResourceId.ToString();
+       else
+         return GetTypeName(objectType);
+diff --git a/Source/Csla/DataPortalClient/HttpProxy.cs b/Source/Csla/DataPortalClient/HttpProxy.cs
+index d54533714..180357f6a 100644
+--- a/Source/Csla/DataPortalClient/HttpProxy.cs
++++ b/Source/Csla/DataPortalClient/HttpProxy.cs
+@@ -230,7 +230,7 @@ public async Task<DataPortalResult> Create(Type objectType, object criteria, Dat
+           var obj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(obj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -287,7 +287,7 @@ public async Task<DataPortalResult> Fetch(Type objectType, object criteria, Data
+           var obj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(obj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -338,7 +338,7 @@ public async Task<DataPortalResult> Update(object obj, DataPortalContext context
+           var newobj = SerializationFormatterFactory.GetFormatter().Deserialize(response.ObjectData);
+           result = new DataPortalResult(newobj, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -395,7 +395,7 @@ public async Task<DataPortalResult> Delete(Type objectType, object criteria, Dat
+         {
+           result = new DataPortalResult(null, null, globalContext);
+         }
+-        else if (response != null && response.ErrorData != null)
++        else if (response?.ErrorData != null)
+         {
+           var ex = new DataPortalException(response.ErrorData);
+           result = new DataPortalResult(null, ex, globalContext);
+@@ -494,7 +494,7 @@ private string GetRoutingToken(Type objectType)
+     {
+       string result = null;
+       var list = objectType.GetCustomAttributes(typeof(DataPortalServerRoutingTagAttribute), false);
+-      if (list.Count() > 0)
++      if (list.Any())
+         result = ((DataPortalServerRoutingTagAttribute)list[0]).RoutingTag;
+       return result;
+     }
+diff --git a/Source/Csla/DataPortalException.cs b/Source/Csla/DataPortalException.cs
+index 9ed2a71b3..ae4fd3ea9 100644
+--- a/Source/Csla/DataPortalException.cs
++++ b/Source/Csla/DataPortalException.cs
+@@ -202,7 +202,7 @@ public string BusinessExceptionMessage
+     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object,System.Object,System.Object)")]
+     public override string StackTrace
+     {
+-      get { return String.Format("{0}{1}{2}", _innerStackTrace, Environment.NewLine, base.StackTrace); }
++      get { return $"{_innerStackTrace}{Environment.NewLine}{base.StackTrace}"; }
+     }
+ 
+     /// <summary>
+diff --git a/Source/Csla/DataPortalT.cs b/Source/Csla/DataPortalT.cs
+index 463714535..d98500736 100644
+--- a/Source/Csla/DataPortalT.cs
++++ b/Source/Csla/DataPortalT.cs
+@@ -109,7 +109,7 @@ private async Task<object> DoCreateAsync(Type objectType, object criteria, bool
+               HandleCreateDataPortalException(dpe, isSync, proxy);
+           }
+           throw new DataPortalException(
+-            string.Format("DataPortal.Create {0}", Resources.Failed),
++            $"DataPortal.Create {Resources.Failed}",
+             ex, null);
+         }
+         catch (Server.DataPortalException ex)
+@@ -302,12 +302,11 @@ private async Task<object> DoFetchAsync(Type objectType, object criteria, bool i
+         {
+           if (ex.InnerExceptions.Count > 0)
+           {
+-            var dpe = ex.InnerExceptions[0] as Server.DataPortalException;
+-            if (dpe != null)
++            if (ex.InnerExceptions[0] is Server.DataPortalException dpe)
+               HandleFetchDataPortalException(dpe, isSync, proxy);
+           }
+           throw new DataPortalException(
+-            string.Format("DataPortal.Fetch {0}", Resources.Failed),
++            $"DataPortal.Fetch {Resources.Failed}",
+             ex, null);
+         }
+         catch (Server.DataPortalException ex)
+@@ -618,7 +617,7 @@ internal async Task<T> DoUpdateAsync(T obj, bool isSync)
+               HandleUpdateDataPortalException(dpe, isSync, proxy);
+           }
+           throw new DataPortalException(
+-            string.Format("DataPortal.Update {0}", Resources.Failed),
++            $"DataPortal.Update {Resources.Failed}",
+             ex, null);
+         }
+         catch (Server.DataPortalException ex)
+@@ -655,7 +654,7 @@ private void HandleDataPortalException(string operation, Server.DataPortalExcept
+       if (original.InnerException != null)
+         original = original.InnerException;
+       throw new DataPortalException(
+-        String.Format("DataPortal.{2} {0} ({1})", Resources.Failed, original.Message, operation),
++        $"DataPortal.{Resources.Failed} {original.Message} ({operation})",
+         ex.InnerException, result.ReturnObject);
+     }
+ 
+@@ -803,12 +802,11 @@ internal async Task DoDeleteAsync(Type objectType, object criteria, bool isSync)
+         {
+           if (ex.InnerExceptions.Count > 0)
+           {
+-            var dpe = ex.InnerExceptions[0] as Server.DataPortalException;
+-            if (dpe != null)
++            if (ex.InnerExceptions[0] is Server.DataPortalException dpe)
+               HandleDeleteDataPortalException(dpe, isSync, proxy);
+           }
+           throw new DataPortalException(
+-            string.Format("DataPortal.Delete {0}", Resources.Failed),
++            $"DataPortal.Delete {Resources.Failed}",
+             ex, null);
+         }
+         catch (Server.DataPortalException ex)
+@@ -1077,7 +1075,7 @@ internal static class Extensions
+   {
+     internal static bool RunLocal(this System.Reflection.MethodInfo t)
+     {
+-      return t.CustomAttributes.Count(a => a.AttributeType.Equals(typeof(RunLocalAttribute))) > 0;
++      return t.CustomAttributes.Any(a => a.AttributeType.Equals(typeof(RunLocalAttribute)));
+     }
+   }
+ }
+\ No newline at end of file
+diff --git a/Source/Csla/DynamicBindingListBase.cs b/Source/Csla/DynamicBindingListBase.cs
+index cff2a1475..e7baf11a3 100644
+--- a/Source/Csla/DynamicBindingListBase.cs
++++ b/Source/Csla/DynamicBindingListBase.cs
+@@ -151,8 +151,7 @@ public virtual T SaveItem(int index)
+         T savable = item;
+ 
+         // clone the object if possible
+-        ICloneable clonable = savable as ICloneable;
+-        if (clonable != null)
++        if (savable is ICloneable clonable)
+           savable = (T)clonable.Clone();
+ 
+         // commit all changes
+@@ -176,8 +175,7 @@ public virtual T SaveItem(int index)
+         if (!ReferenceEquals(savable, item))
+         {
+           // raise Saved event from original object
+-          Core.ISavable original = item as Core.ISavable;
+-          if (original != null)
++          if (item is Core.ISavable original)
+             original.SaveComplete(result);
+         }
+ 
+@@ -421,8 +419,8 @@ protected override void OnDeserialized()
+       foreach (IEditableBusinessObject child in this)
+       {
+         child.SetParent(this);
+-        INotifyPropertyChanged c = child as INotifyPropertyChanged;
+-        if (c != null)
++
++        if (child is INotifyPropertyChanged c)
+           c.PropertyChanged += new PropertyChangedEventHandler(Child_PropertyChanged);
+       }
+       base.OnDeserialized();
+diff --git a/Source/Csla/DynamicListBase.cs b/Source/Csla/DynamicListBase.cs
+index e098a8220..9cd5dc005 100644
+--- a/Source/Csla/DynamicListBase.cs
++++ b/Source/Csla/DynamicListBase.cs
+@@ -161,8 +161,7 @@ protected virtual async Task SaveItemAsync(int index, bool delete)
+         T savable = item;
+ 
+         // attempt to clone object
+-        ICloneable cloneable = savable as ICloneable;
+-        if (cloneable != null)
++        if (savable is ICloneable cloneable)
+         {
+           savable = (T)cloneable.Clone();
+           MethodCaller.CallMethodIfImplemented(item, "MarkBusy");
+diff --git a/Source/Csla/FilteredBindingList.cs b/Source/Csla/FilteredBindingList.cs
+index 00f949aba..f12ad37e1 100644
+--- a/Source/Csla/FilteredBindingList.cs
++++ b/Source/Csla/FilteredBindingList.cs
+@@ -748,10 +748,10 @@ public FilteredBindingList(IList<T> list)
+     {
+       _list = list;
+ 
+-      if (_list is IBindingList)
++      if (_list is IBindingList iBindingList)
+       {
+         _supportsBinding = true;
+-        _bindingList = (IBindingList)_list;
++        _bindingList = iBindingList;
+         _bindingList.ListChanged += 
+           new ListChangedEventHandler(SourceChanged);
+       }
+@@ -1008,8 +1008,7 @@ void ICancelAddNew.CancelNew(int itemIndex)
+     {
+       if (itemIndex <= -1) return;
+ 
+-      ICancelAddNew can = _list as ICancelAddNew;
+-      if (can != null)
++      if (_list is ICancelAddNew can)
+         can.CancelNew(OriginalIndex(itemIndex));
+       else
+         _list.RemoveAt(OriginalIndex(itemIndex));
+@@ -1017,8 +1016,7 @@ void ICancelAddNew.CancelNew(int itemIndex)
+ 
+     void ICancelAddNew.EndNew(int itemIndex)
+     {
+-      ICancelAddNew can = _list as ICancelAddNew;
+-      if (can != null)
++      if (_list is ICancelAddNew can)
+         can.EndNew(OriginalIndex(itemIndex));
+     }
+ 
+diff --git a/Source/Csla/MethodInfo.cs b/Source/Csla/MethodInfo.cs
+index faa0fb3d9..ec7cb7c34 100644
+--- a/Source/Csla/MethodInfo.cs
++++ b/Source/Csla/MethodInfo.cs
+@@ -37,8 +37,7 @@ public MethodInfo(string name)
+     /// <param name="obj">Object to compare.</param>
+     public override bool Equals(object obj)
+     {
+-      var other = obj as MethodInfo;
+-      if (other != null)
++      if (obj is MethodInfo other)
+         return Name == other.Name;
+       else
+         return false;
+diff --git a/Source/Csla/ReadOnlyBase.cs b/Source/Csla/ReadOnlyBase.cs
+index fa37da8c9..becc8d52a 100644
+--- a/Source/Csla/ReadOnlyBase.cs
++++ b/Source/Csla/ReadOnlyBase.cs
+@@ -225,8 +225,7 @@ public bool CanReadProperty(Csla.Core.IPropertyInfo property, bool throwOnFalse)
+       if (throwOnFalse && result == false)
+       {
+         Csla.Security.SecurityException ex = new Csla.Security.SecurityException(
+-          String.Format("{0} ({1})",
+-          Resources.PropertyGetNotAllowed, property.Name));
++          $"{Resources.PropertyGetNotAllowed} ({property.Name})");
+         throw ex;
+       }
+       return result;
+@@ -326,7 +325,7 @@ public bool CanExecuteMethod(Csla.Core.IMemberInfo method, bool throwOnFalse)
+       if (throwOnFalse && result == false)
+       {
+         Csla.Security.SecurityException ex =
+-          new Csla.Security.SecurityException(string.Format("{0} ({1})", Properties.Resources.MethodExecuteNotAllowed, method.Name));
++          new Csla.Security.SecurityException($"{Properties.Resources.MethodExecuteNotAllowed} ({method.Name})");
+         throw ex;
+       }
+       return result;
+@@ -352,7 +351,7 @@ private bool CanExecuteMethod(string methodName, bool throwOnFalse)
+       bool result = CanExecuteMethod(new MethodInfo(methodName));
+       if (throwOnFalse && result == false)
+       {
+-        Csla.Security.SecurityException ex = new Csla.Security.SecurityException(string.Format("{0} ({1})", Properties.Resources.MethodExecuteNotAllowed, methodName));
++        Csla.Security.SecurityException ex = new Csla.Security.SecurityException($"{Properties.Resources.MethodExecuteNotAllowed} ({methodName})");
+         throw ex;
+       }
+       return result;
+@@ -1158,8 +1157,7 @@ protected P ReadProperty<P>(PropertyInfo<P> propertyInfo)
+       IFieldData data = FieldManager.GetFieldData(propertyInfo);
+       if (data != null)
+       {
+-        IFieldData<P> fd = data as IFieldData<P>;
+-        if (fd != null)
++        if (data is IFieldData<P> fd)
+           result = fd.Value;
+         else
+           result = (P)data.Value;
+diff --git a/Source/Csla/Reflection/CallMethodException.cs b/Source/Csla/Reflection/CallMethodException.cs
+index a406efdfe..7e560f07d 100644
+--- a/Source/Csla/Reflection/CallMethodException.cs
++++ b/Source/Csla/Reflection/CallMethodException.cs
+@@ -35,8 +35,7 @@ public override string StackTrace
+     {
+       get
+       {
+-        return string.Format("{0}{1}{2}", 
+-          _innerStackTrace, Environment.NewLine, base.StackTrace);
++        return $"{_innerStackTrace}{Environment.NewLine}{base.StackTrace}";
+       }
+     }
+ 
+diff --git a/Source/Csla/Reflection/MethodCacheKey.cs b/Source/Csla/Reflection/MethodCacheKey.cs
+index a9a667d4f..f3b84ddce 100644
+--- a/Source/Csla/Reflection/MethodCacheKey.cs
++++ b/Source/Csla/Reflection/MethodCacheKey.cs
+@@ -34,8 +34,7 @@ public MethodCacheKey(string typeName, string methodName, Type[] paramTypes)
+ 
+     public override bool Equals(object obj)
+     {
+-      MethodCacheKey key = obj as MethodCacheKey;
+-      if (key != null &&
++      if (obj is MethodCacheKey key &&
+           key.TypeName == this.TypeName &&
+           key.MethodName == this.MethodName &&
+           ArrayEquals(key.ParamTypes, this.ParamTypes))
+diff --git a/Source/Csla/Reflection/MethodCaller.cs b/Source/Csla/Reflection/MethodCaller.cs
+index 57eb4b772..09b496aab 100644
+--- a/Source/Csla/Reflection/MethodCaller.cs
++++ b/Source/Csla/Reflection/MethodCaller.cs
+@@ -414,7 +414,7 @@ private static object CallMethodIfImplemented(object obj, string method, bool ha
+     public static bool IsMethodImplemented(object obj, string method, params object[] parameters)
+     {
+       var mh = GetCachedMethod(obj, method, parameters);
+-      return mh != null && mh.DynamicMethod != null;
++      return mh?.DynamicMethod != null;
+     }
+ 
+     /// <summary>
+diff --git a/Source/Csla/Rules/AuthorizationRule.cs b/Source/Csla/Rules/AuthorizationRule.cs
+index 4b563c5d3..f2191025b 100644
+--- a/Source/Csla/Rules/AuthorizationRule.cs
++++ b/Source/Csla/Rules/AuthorizationRule.cs
+@@ -95,7 +95,7 @@ public AuthorizationActions Action
+     private void CanWriteProperty(string argument)
+     {
+       if (_locked)
+-        throw new ArgumentException(string.Format("{0} ({1})", Resources.PropertySetNotAllowed, argument), argument);
++        throw new ArgumentException($"{Resources.PropertySetNotAllowed} ({argument})", argument);
+     }
+ 
+     #region IAuthorizationRule
+@@ -137,8 +137,7 @@ AuthorizationActions IAuthorizationRule.Action
+     /// </remarks>
+     protected object ReadProperty(object obj, Csla.Core.IPropertyInfo propertyInfo)
+     {
+-      var target = obj as Core.IManageProperties;
+-      if (target != null)
++      if (obj is Core.IManageProperties target)
+         return target.ReadProperty(propertyInfo);
+       else
+         throw new ArgumentException(Resources.IManagePropertiesRequiredException);
+diff --git a/Source/Csla/Rules/AuthorizationRuleManager.cs b/Source/Csla/Rules/AuthorizationRuleManager.cs
+index cfdf46b1d..fb97dbcbe 100644
+--- a/Source/Csla/Rules/AuthorizationRuleManager.cs
++++ b/Source/Csla/Rules/AuthorizationRuleManager.cs
+@@ -78,8 +78,8 @@ private static System.Reflection.MethodInfo FindObjectAuthorizationRulesMethod(T
+     {
+       System.Reflection.MethodInfo method;
+       method = type.GetMethods().Where(
+-        m => m.IsStatic && m.CustomAttributes.Where(
+-        a => a.AttributeType == typeof(ObjectAuthorizationRulesAttribute)).Any()).
++        m => m.IsStatic && m.CustomAttributes.Any(
++        a => a.AttributeType == typeof(ObjectAuthorizationRulesAttribute))).
+         FirstOrDefault();
+       if (method == null)
+       {
+diff --git a/Source/Csla/Rules/BusinessRuleBase.cs b/Source/Csla/Rules/BusinessRuleBase.cs
+index dc9aceaca..577f750b4 100644
+--- a/Source/Csla/Rules/BusinessRuleBase.cs
++++ b/Source/Csla/Rules/BusinessRuleBase.cs
+@@ -134,7 +134,7 @@ public RunModes RunMode
+     protected void CanWriteProperty(string argument)
+     {
+       if (PropertiesLocked) throw
+-        new ArgumentException(string.Format("{0} ({1})", Resources.PropertySetNotAllowed, argument), argument);
++        new ArgumentException($"{Resources.PropertySetNotAllowed} ({argument})", argument);
+     }
+ 
+     /// <summary>
+diff --git a/Source/Csla/Rules/BusinessRules.cs b/Source/Csla/Rules/BusinessRules.cs
+index 0052747e4..14c513078 100644
+--- a/Source/Csla/Rules/BusinessRules.cs
++++ b/Source/Csla/Rules/BusinessRules.cs
+@@ -847,7 +847,7 @@ private RunRulesResult RunRules(IEnumerable<IBusinessRuleBase> rules, bool casca
+         }
+         catch (Exception ex)
+         {
+-          context.AddErrorResult(string.Format("{0}:{1}", rule.RuleName, ex.Message));
++          context.AddErrorResult($"{rule.RuleName}:{ex.Message}");
+           if (rule.IsAsync)
+             context.Complete();
+         }
+@@ -1069,10 +1069,9 @@ public static BrokenRulesTree GetAllBrokenRules(object root, bool errorsOnly)
+     private static void AddNodeToBrukenRules(ref BrokenRulesTree list, ref long counter, object parentKey, object obj, bool errorsOnly, ref long childBrokenRuleCount)
+     {
+       // is this a single editable object 
+-      if (obj is Csla.Core.BusinessBase)
++      if (obj is Csla.Core.BusinessBase bo)
+       {
+         var nodeKey = counter++;
+-        var bo = (Csla.Core.BusinessBase)obj;
+         long myChildBrokenRuleCount = bo.BrokenRulesCollection.Count;
+         var node = new BrokenRulesNode() { Parent = parentKey, Node = nodeKey, BrokenRules = bo.BrokenRulesCollection, Object = obj };
+         list.Add(node);
+diff --git a/Source/Csla/Serialization/Mobile/CslaBinaryWriter.cs b/Source/Csla/Serialization/Mobile/CslaBinaryWriter.cs
+index 4c4ec7b4b..004475e29 100644
+--- a/Source/Csla/Serialization/Mobile/CslaBinaryWriter.cs
++++ b/Source/Csla/Serialization/Mobile/CslaBinaryWriter.cs
+@@ -113,21 +113,21 @@ private void Write(object target, BinaryWriter writer)
+       {
+         writer.Write((byte)((CslaKnownTypes)target));
+       }
+-      else if (target is TimeSpan)
++      else if (target is TimeSpan timeSpan)
+       {
+         Write(CslaKnownTypes.TimeSpan, writer);
+-        writer.Write(((TimeSpan)target).Ticks);
++        writer.Write(timeSpan.Ticks);
+       }
+-      else if (target is DateTimeOffset)
++      else if (target is DateTimeOffset dateTimeOffset)
+       {
+         Write(CslaKnownTypes.DateTimeOffset, writer);
+-        writer.Write(((DateTimeOffset)target).Ticks);
++        writer.Write(dateTimeOffset.Ticks);
+         writer.Write(((DateTimeOffset)target).Offset.Ticks);
+       }
+-      else if (target is byte[])
++      else if (target is byte[] bytes)
+       {
+         Write(CslaKnownTypes.ByteArray, writer);
+-        writer.Write(((byte[])target).Length);
++        writer.Write(bytes.Length);
+         writer.Write((byte[])target);
+       }
+       else if (target is byte[][] outerArray)
+@@ -140,21 +140,21 @@ private void Write(object target, BinaryWriter writer)
+           writer.Write(item);
+         }
+       }
+-      else if (target is char[])
++      else if (target is char[] chars)
+       {
+         Write(CslaKnownTypes.CharArray, writer);
+-        writer.Write(((char[])target).Length);
++        writer.Write(chars.Length);
+         writer.Write((char[])target);
+       }
+-      else if (target is Guid)
++      else if (target is Guid guid)
+       {
+         Write(CslaKnownTypes.Guid, writer);
+-        writer.Write(((Guid)target).ToByteArray());
++        writer.Write(guid.ToByteArray());
+       }
+-      else if (target is List<int>)
++      else if (target is List<int> ints)
+       {
+         Write(CslaKnownTypes.ListOfInt, writer);
+-        writer.Write(((List<int>)target).Count);
++        writer.Write(ints.Count);
+         foreach (var oneInt in ((List<int>)target))
+         {
+           writer.Write(oneInt);
+diff --git a/Source/Csla/Serialization/Mobile/CslaLegacyBinaryWriter.cs b/Source/Csla/Serialization/Mobile/CslaLegacyBinaryWriter.cs
+index 55ef7fd96..736a18cd1 100644
+--- a/Source/Csla/Serialization/Mobile/CslaLegacyBinaryWriter.cs
++++ b/Source/Csla/Serialization/Mobile/CslaLegacyBinaryWriter.cs
+@@ -102,21 +102,21 @@ private void Write(object target, BinaryWriter writer)
+       {
+         writer.Write((byte)((CslaKnownTypes)target));
+       }
+-      else if (target is TimeSpan)
++      else if (target is TimeSpan timeSpan)
+       {
+         Write(CslaKnownTypes.TimeSpan, writer);
+-        writer.Write(((TimeSpan)target).Ticks);
++        writer.Write(timeSpan.Ticks);
+       }
+-      else if (target is DateTimeOffset)
++      else if (target is DateTimeOffset dateTimeOffset)
+       {
+         Write(CslaKnownTypes.DateTimeOffset, writer);
+-        writer.Write(((DateTimeOffset)target).Ticks);
++        writer.Write(dateTimeOffset.Ticks);
+         writer.Write(((DateTimeOffset)target).Offset.Ticks);
+       }
+-      else if (target is byte[])
++      else if (target is byte[] bytes)
+       {
+         Write(CslaKnownTypes.ByteArray, writer);
+-        writer.Write(((byte[])target).Length);
++        writer.Write(bytes.Length);
+         writer.Write((byte[])target);
+       }
+       else if (target is byte[][] outerArray)
+@@ -129,21 +129,21 @@ private void Write(object target, BinaryWriter writer)
+           writer.Write(item);
+         }
+       }
+-      else if (target is char[])
++      else if (target is char[] chars)
+       {
+         Write(CslaKnownTypes.CharArray, writer);
+-        writer.Write(((char[])target).Length);
++        writer.Write(chars.Length);
+         writer.Write((char[])target);
+       }
+-      else if (target is Guid)
++      else if (target is Guid guid)
+       {
+         Write(CslaKnownTypes.Guid, writer);
+-        writer.Write(((Guid)target).ToByteArray());
++        writer.Write(guid.ToByteArray());
+       }
+-      else if (target is List<int>)
++      else if (target is List<int> ints)
+       {
+         Write(CslaKnownTypes.ListOfInt, writer);
+-        writer.Write(((List<int>)target).Count);
++        writer.Write(ints.Count);
+         foreach (var oneInt in ((List<int>)target))
+         {
+           writer.Write(oneInt);
+diff --git a/Source/Csla/Serialization/Mobile/MobileFormatter.cs b/Source/Csla/Serialization/Mobile/MobileFormatter.cs
+index a5ca34c3c..f5df96a71 100644
+--- a/Source/Csla/Serialization/Mobile/MobileFormatter.cs
++++ b/Source/Csla/Serialization/Mobile/MobileFormatter.cs
+@@ -290,16 +290,12 @@ public object DeserializeAsDTO(List<SerializationInfo> deserialized)
+       {
+         IMobileObject mobile = _deserializationReferences[info.ReferenceId];
+ 
+-        if (mobile != null)
+-        {
+-          mobile.SetChildren(info, this);
+-        }
++        mobile?.SetChildren(info, this);
+       }
+ 
+       foreach (SerializationInfo info in deserialized)
+       {
+-        ISerializationNotification notifiable = _deserializationReferences[info.ReferenceId] as ISerializationNotification;
+-        if (notifiable != null)
++        if (_deserializationReferences[info.ReferenceId] is ISerializationNotification notifiable)
+           notifiable.Deserialized();
+       }
+       return (_deserializationReferences.Count > 0 ? _deserializationReferences[1] : null);
+diff --git a/Source/Csla/Serialization/Mobile/SerializationInfo.cs b/Source/Csla/Serialization/Mobile/SerializationInfo.cs
+index c797e93a0..56d982c49 100644
+--- a/Source/Csla/Serialization/Mobile/SerializationInfo.cs
++++ b/Source/Csla/Serialization/Mobile/SerializationInfo.cs
+@@ -299,7 +299,7 @@ public T GetValue<T>(string name)
+       }
+       catch (Exception ex)
+       {
+-        throw new InvalidOperationException(string.Format("SerializationInfo.GetValue: {0}", name), ex);
++        throw new InvalidOperationException($"SerializationInfo.GetValue: {name}", ex);
+       }
+     }
+ 
+@@ -413,9 +413,9 @@ public void SetChildren(SerializationInfo info, MobileFormatter formatter)
+       {
+         int referenceId = info.Children[key].ReferenceId;
+         object serialized = formatter.GetObject(referenceId);
+-        if (serialized is ChildData)
++        if (serialized is ChildData childData)
+         {
+-          _children.Add(key, (ChildData)serialized);
++          _children.Add(key, childData);
+         }
+         else
+         {
+diff --git a/Source/Csla/Server/DataPortal.cs b/Source/Csla/Server/DataPortal.cs
+index 369828556..8a0749ff5 100644
+--- a/Source/Csla/Server/DataPortal.cs
++++ b/Source/Csla/Server/DataPortal.cs
+@@ -344,8 +344,8 @@ public async Task<DataPortalResult> Update(object obj, DataPortalContext context
+         {
+           string methodName;
+           var factoryType = FactoryDataPortal.FactoryLoader.GetFactoryType(factoryInfo.FactoryTypeName);
+-          var bbase = obj as Core.BusinessBase;
+-          if (bbase != null)
++
++          if (obj is Core.BusinessBase bbase)
+           {
+             if (bbase.IsDeleted)
+               methodName = factoryInfo.DeleteMethodName;
+@@ -361,8 +361,8 @@ public async Task<DataPortalResult> Update(object obj, DataPortalContext context
+         else
+         {
+           Reflection.ServiceProviderMethodInfo serviceProviderMethodInfo;
+-          var bbase = obj as Core.BusinessBase;
+-          if (bbase != null)
++
++          if (obj is Core.BusinessBase bbase)
+           {
+             if (bbase.IsDeleted)
+               serviceProviderMethodInfo = Reflection.ServiceProviderMethodCaller.FindDataPortalMethod<DeleteSelfAttribute>(objectType, null);
+diff --git a/Source/Csla/Server/DataPortalException.cs b/Source/Csla/Server/DataPortalException.cs
+index 052b35ebb..eb4610325 100644
+--- a/Source/Csla/Server/DataPortalException.cs
++++ b/Source/Csla/Server/DataPortalException.cs
+@@ -36,8 +36,7 @@ public DataPortalResult Result
+     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object,System.Object,System.Object)")]
+     public override string StackTrace
+     {
+-      get { return String.Format("{0}{1}{2}", 
+-        _innerStackTrace, Environment.NewLine, base.StackTrace); }
++      get { return $"{_innerStackTrace}{Environment.NewLine}{base.StackTrace}"; }
+     }
+ 
+     /// <summary>
+diff --git a/Source/Csla/Server/DataPortalTarget.cs b/Source/Csla/Server/DataPortalTarget.cs
+index e3322f901..f7f1db4c9 100644
+--- a/Source/Csla/Server/DataPortalTarget.cs
++++ b/Source/Csla/Server/DataPortalTarget.cs
+@@ -80,7 +80,7 @@ internal void Child_OnDataPortalException(DataPortalEventArgs eventArgs, Excepti
+     public void ThrowIfBusy()
+     {
+       if (Instance is Csla.Core.ITrackStatus busy && busy.IsBusy)
+-        throw new InvalidOperationException(string.Format("{0}.IsBusy == true", Instance.GetType().Name));
++        throw new InvalidOperationException($"{Instance.GetType().Name}.IsBusy == true");
+     }
+ 
+     public void MarkNew()
+diff --git a/Source/Csla/Server/FactoryDataPortal.cs b/Source/Csla/Server/FactoryDataPortal.cs
+index 0993c4dd4..c1043d304 100644
+--- a/Source/Csla/Server/FactoryDataPortal.cs
++++ b/Source/Csla/Server/FactoryDataPortal.cs
+@@ -66,13 +66,12 @@ private async Task<DataPortalResult> InvokeMethod(string factoryTypeName, DataPo
+         Utilities.ThrowIfAsyncMethodOnSyncClient(isSync, factory, methodName);
+ 
+         result = await Csla.Reflection.MethodCaller.CallMethodTryAsync(factory, methodName).ConfigureAwait(false);
+-        var error = result as Exception;
+-        if (error != null)
++
++        if (result is Exception error)
+           throw error;
+ 
+-        var busy = result as Csla.Core.ITrackStatus;
+-        if (busy != null && busy.IsBusy)
+-          throw new InvalidOperationException(string.Format("{0}.IsBusy == true", objectType.Name));
++        if (result is Csla.Core.ITrackStatus busy && busy.IsBusy)
++          throw new InvalidOperationException($"{objectType.Name}.IsBusy == true");
+ 
+         Csla.Reflection.MethodCaller.CallMethodIfImplemented(factory, "InvokeComplete", eventArgs);
+       }
+@@ -97,13 +96,12 @@ private async Task<DataPortalResult> InvokeMethod(string factoryTypeName, DataPo
+         Utilities.ThrowIfAsyncMethodOnSyncClient(isSync, factory, methodName, e);
+ 
+         result = await Csla.Reflection.MethodCaller.CallMethodTryAsync(factory, methodName, e).ConfigureAwait(false);
+-        var error = result as Exception;
+-        if (error != null)
++
++        if (result is Exception error)
+           throw error;
+ 
+-        var busy = result as Csla.Core.ITrackStatus;
+-        if (busy != null && busy.IsBusy)
+-          throw new InvalidOperationException(string.Format("{0}.IsBusy == true", objectType.Name));
++        if (result is Csla.Core.ITrackStatus busy && busy.IsBusy)
++          throw new InvalidOperationException($"{objectType.Name}.IsBusy == true");
+ 
+         Csla.Reflection.MethodCaller.CallMethodIfImplemented(factory, "InvokeComplete", eventArgs);
+       }
+diff --git a/Source/Csla/Server/Hosts/Mobile/WcfPortal.cs b/Source/Csla/Server/Hosts/Mobile/WcfPortal.cs
+index 971bfa8d1..c243a86ac 100644
+--- a/Source/Csla/Server/Hosts/Mobile/WcfPortal.cs
++++ b/Source/Csla/Server/Hosts/Mobile/WcfPortal.cs
+@@ -41,9 +41,9 @@ public async Task<WcfResponse> Create(CriteriaRequest request)
+ 
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var processor = new MobileRequestProcessor();
+@@ -89,9 +89,9 @@ public async Task<WcfResponse> Fetch(CriteriaRequest request)
+         request = ConvertRequest(request);
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+         var processor = new MobileRequestProcessor();
+         var fetchRequest = new MobileCriteriaRequest(
+@@ -177,9 +177,9 @@ public async Task<WcfResponse> Delete(CriteriaRequest request)
+         request = ConvertRequest(request);
+         // unpack criteria data into object
+         object criteria = GetCriteria(request.CriteriaData);
+-        if (criteria is Csla.DataPortalClient.PrimitiveCriteria)
++        if (criteria is Csla.DataPortalClient.PrimitiveCriteria primitiveCriteria)
+         {
+-          criteria = ((Csla.DataPortalClient.PrimitiveCriteria)criteria).Value;
++          criteria = primitiveCriteria.Value;
+         }
+ 
+         var processor = new MobileRequestProcessor();
+diff --git a/Source/Csla/Server/ObjectFactory.cs b/Source/Csla/Server/ObjectFactory.cs
+index e5f30a7e4..acc52ca3d 100644
+--- a/Source/Csla/Server/ObjectFactory.cs
++++ b/Source/Csla/Server/ObjectFactory.cs
+@@ -29,8 +29,7 @@ public abstract class ObjectFactory
+     /// <param name="value">New value for IsReadOnly.</param>
+     protected void SetIsReadOnly(object obj, bool value)
+     {
+-      var list = obj as Csla.Core.IReadOnlyBindingList;
+-      if (list != null)
++      if (obj is Csla.Core.IReadOnlyBindingList list)
+         list.IsReadOnly = value;
+     }
+ 
+@@ -43,8 +42,7 @@ protected void SetIsReadOnly(object obj, bool value)
+     /// </param>
+     protected void CheckRules(object obj)
+     {
+-      var target = obj as IDataPortalTarget;
+-      if (target != null)
++      if (obj is IDataPortalTarget target)
+         target.CheckRules();
+       else
+         MethodCaller.CallMethodIfImplemented(obj, "CheckRules", null);
+@@ -59,8 +57,7 @@ protected void CheckRules(object obj)
+     /// </param>
+     protected void MarkOld(object obj)
+     {
+-      var target = obj as IDataPortalTarget;
+-      if (target != null)
++      if (obj is IDataPortalTarget target)
+         target.MarkOld();
+       else
+         MethodCaller.CallMethodIfImplemented(obj, "MarkOld", null);
+@@ -75,8 +72,7 @@ protected void MarkOld(object obj)
+     /// </param>
+     protected void MarkNew(object obj)
+     {
+-      var target = obj as IDataPortalTarget;
+-      if (target != null)
++      if (obj is IDataPortalTarget target)
+         target.MarkNew();
+       else
+         MethodCaller.CallMethodIfImplemented(obj, "MarkNew", null);
+@@ -91,8 +87,7 @@ protected void MarkNew(object obj)
+     /// </param>
+     protected void MarkAsChild(object obj)
+     {
+-      var target = obj as IDataPortalTarget;
+-      if (target != null)
++      if (obj is IDataPortalTarget target)
+         target.MarkAsChild();
+       else
+         MethodCaller.CallMethodIfImplemented(obj, "MarkAsChild", null);
+@@ -119,8 +114,7 @@ protected void MarkAsChild(object obj)
+     /// </remarks>
+     protected void LoadProperty<P>(object obj, PropertyInfo<P> propertyInfo, P newValue)
+     {
+-      var target = obj as Core.IManageProperties;
+-      if (target != null)
++      if (obj is Core.IManageProperties target)
+         target.LoadProperty<P>(propertyInfo, newValue);
+       else
+         throw new ArgumentException(Resources.IManagePropertiesRequiredException);
+@@ -140,8 +134,7 @@ protected void LoadProperty<P>(object obj, PropertyInfo<P> propertyInfo, P newVa
+     /// </remarks>
+     protected void LoadProperty(object obj, IPropertyInfo propertyInfo, object newValue)
+     {
+-      var target = obj as Core.IManageProperties;
+-      if (target != null)
++      if (obj is Core.IManageProperties target)
+         target.LoadProperty(propertyInfo, newValue);
+       else
+         throw new ArgumentException(Resources.IManagePropertiesRequiredException);
+@@ -161,8 +154,7 @@ protected void LoadProperty(object obj, IPropertyInfo propertyInfo, object newVa
+     /// </remarks>
+     protected P ReadProperty<P>(object obj, PropertyInfo<P> propertyInfo)
+     {
+-      var target = obj as Core.IManageProperties;
+-      if (target != null)
++      if (obj is Core.IManageProperties target)
+         return target.ReadProperty(propertyInfo);
+       else
+         throw new ArgumentException(Resources.IManagePropertiesRequiredException);
+@@ -179,8 +171,7 @@ protected P ReadProperty<P>(object obj, PropertyInfo<P> propertyInfo)
+     /// </remarks>
+     protected object ReadProperty(object obj, IPropertyInfo propertyInfo)
+     {
+-      var target = obj as IManageProperties;
+-      if (target != null)
++      if (obj is IManageProperties target)
+         return target.ReadProperty(propertyInfo);
+       else
+         throw new ArgumentException(Resources.IManagePropertiesRequiredException);
+@@ -214,8 +205,7 @@ protected IDisposable BypassPropertyChecks(Csla.Core.BusinessBase businessObject
+     /// <param name="property">Property info object.</param>
+     protected bool FieldExists(object obj, Csla.Core.IPropertyInfo property)
+     {
+-      var target = obj as Core.IManageProperties;
+-      if (target != null)
++      if (obj is Core.IManageProperties target)
+         return target.FieldExists(property);
+       else
+         throw new ArgumentException(Resources.IManagePropertiesRequiredException);
+@@ -229,8 +219,7 @@ protected bool FieldExists(object obj, Csla.Core.IPropertyInfo property)
+     /// <param name="obj">Editable collection object.</param>
+     protected Csla.Core.MobileList<C> GetDeletedList<C>(object obj)
+     {
+-      var target = obj as Core.IEditableCollection;
+-      if (target != null)
++      if (obj is Core.IEditableCollection target)
+         return (Csla.Core.MobileList<C>)target.GetDeletedList();
+       else
+         throw new ArgumentException(Resources.IEditableCollectionRequiredException);
+diff --git a/Source/Csla/Server/ObjectFactoryAttribute.cs b/Source/Csla/Server/ObjectFactoryAttribute.cs
+index e62ee1fd5..e03ba50e5 100644
+--- a/Source/Csla/Server/ObjectFactoryAttribute.cs
++++ b/Source/Csla/Server/ObjectFactoryAttribute.cs
+@@ -304,7 +304,7 @@ private static string GetAssemblyQualifiedName(Type type)
+         if (type.AssemblyQualifiedName == null) return string.Empty;
+ 
+         var elements = type.AssemblyQualifiedName.Split(',');
+-        return string.Format("{0},{1}", elements[0], elements[1]);
++        return $"{elements[0]},{elements[1]}";
+ 
+       }
+     }
+diff --git a/Source/Csla/SmartDate.cs b/Source/Csla/SmartDate.cs
+index 6f4c4e6fb..227fa8331 100644
+--- a/Source/Csla/SmartDate.cs
++++ b/Source/Csla/SmartDate.cs
+@@ -479,16 +479,15 @@ public string ToString(string format)
+     /// <param name="obj">Object to compare for equality.</param>
+     public override bool Equals(object obj)
+     {
+-      if (obj is SmartDate)
++      if (obj is SmartDate tmp)
+       {
+-        SmartDate tmp = (SmartDate)obj;
+         if (this.IsEmpty && tmp.IsEmpty)
+           return true;
+         else
+           return this.Date.Equals(tmp.Date);
+       }
+-      else if (obj is DateTime)
+-        return this.Date.Equals((DateTime)obj);
++      else if (obj is DateTime dateTime)
++        return this.Date.Equals(dateTime);
+       else if (obj is string)
+         return (this.CompareTo(obj.ToString()) == 0);
+       else
+@@ -860,8 +859,8 @@ public int CompareTo(SmartDate value)
+     /// <returns>A value indicating if the comparison date is less than, equal to or greater than this date.</returns>
+     int IComparable.CompareTo(object value)
+     {
+-      if (value is SmartDate)
+-        return CompareTo((SmartDate)value);
++      if (value is SmartDate smartDate)
++        return CompareTo(smartDate);
+       else
+         throw new ArgumentException(Resources.ValueNotSmartDateException);
+     }
+diff --git a/Source/Csla/SortedBindingList.cs b/Source/Csla/SortedBindingList.cs
+index af37d6f68..41904e9c8 100644
+--- a/Source/Csla/SortedBindingList.cs
++++ b/Source/Csla/SortedBindingList.cs
+@@ -55,8 +55,8 @@ public int CompareTo(ListItem other)
+       {
+         object target = other.Key;
+ 
+-        if (Key is IComparable)
+-          return ((IComparable)Key).CompareTo(target);
++        if (Key is IComparable iComparable)
++          return iComparable.CompareTo(target);
+ 
+         else
+         {
+@@ -737,10 +737,10 @@ public SortedBindingList(IList<T> list)
+     {
+       _list = list;
+ 
+-      if (_list is IBindingList)
++      if (_list is IBindingList iBindingList)
+       {
+         _supportsBinding = true;
+-        _bindingList = (IBindingList)_list;
++        _bindingList = iBindingList;
+         _bindingList.ListChanged +=
+           new ListChangedEventHandler(SourceChanged);
+       }
+@@ -885,8 +885,7 @@ void ICancelAddNew.CancelNew(int itemIndex)
+     {
+       if (itemIndex <= -1) return;
+ 
+-      ICancelAddNew can = _list as ICancelAddNew;
+-      if (can != null)
++      if (_list is ICancelAddNew can)
+         can.CancelNew(OriginalIndex(itemIndex));
+       else
+         _list.RemoveAt(OriginalIndex(itemIndex));
+@@ -894,8 +893,7 @@ void ICancelAddNew.CancelNew(int itemIndex)
+ 
+     void ICancelAddNew.EndNew(int itemIndex)
+     {
+-      ICancelAddNew can = _list as ICancelAddNew;
+-      if (can != null)
++      if (_list is ICancelAddNew can)
+         can.EndNew(OriginalIndex(itemIndex));
+     }
+ 
+diff --git a/Source/Csla/Threading/BackgroundWorker.cs b/Source/Csla/Threading/BackgroundWorker.cs
+index 156cfa249..3ab1ffd72 100644
+--- a/Source/Csla/Threading/BackgroundWorker.cs
++++ b/Source/Csla/Threading/BackgroundWorker.cs
+@@ -251,10 +251,7 @@ void InternalDoWork(object sender, DoWorkEventArgs e)
+       try
+       {
+         var doWorkEventArgs = new DoWorkEventArgs(request.Argument);
+-        if (_myDoWork != null)
+-        {
+-          _myDoWork.Invoke(this, doWorkEventArgs);
+-        }
++        _myDoWork?.Invoke(this, doWorkEventArgs);
+ #pragma warning disable CS0618 // Type or member is obsolete
+         e.Result = new WorkerAsyncResult(doWorkEventArgs.Result, Csla.ApplicationContext.GlobalContext, null);
+ #pragma warning restore CS0618 // Type or member is obsolete
+@@ -300,10 +297,7 @@ private void InternalRunWorkerCompleted(object sender, RunWorkerCompletedEventAr
+       }
+ 
+ 
+-      if (_myWorkerCompleted != null)
+-      {
+-        _myWorkerCompleted.Invoke(this, new RunWorkerCompletedEventArgs(result, error, e.Cancelled));
+-      }
++      _myWorkerCompleted?.Invoke(this, new RunWorkerCompletedEventArgs(result, error, e.Cancelled));
+     }
+ 
+     /// <summary>
+@@ -316,10 +310,7 @@ private void InternalRunWorkerCompleted(object sender, RunWorkerCompletedEventAr
+     /// </exception>
+     private void InternalProgressChanged(object sender, ProgressChangedEventArgs e)
+     {
+-      if (_myWorkerProgressChanged != null)
+-      {
+-        _myWorkerProgressChanged.Invoke(this, new ProgressChangedEventArgs(e.ProgressPercentage, e.UserState));
+-      }
++      _myWorkerProgressChanged?.Invoke(this, new ProgressChangedEventArgs(e.ProgressPercentage, e.UserState));
+     }
+ 
+     /// <summary>
+diff --git a/Source/csla.netcore.test/Serialization/ClaimsPrincipalTests.cs b/Source/csla.netcore.test/Serialization/ClaimsPrincipalTests.cs
+index 88b98cfd4..704c0bcdb 100644
+--- a/Source/csla.netcore.test/Serialization/ClaimsPrincipalTests.cs
++++ b/Source/csla.netcore.test/Serialization/ClaimsPrincipalTests.cs
+@@ -33,7 +33,7 @@ public void CloneClaimsPrincipal()
+       var p1 = (ClaimsPrincipal)Core.ObjectCloner.Clone(p);
+       Assert.AreNotSame(p, p1, "Should be different instances");
+       Assert.AreEqual(p.Claims.Count(), p1.Claims.Count(), "Should have same number of claims");
+-      var c = p1.Claims.Where(r => r.Type == "name").First();
++      var c = p1.Claims.First(r => r.Type == "name");
+       Assert.AreEqual("Franklin", c.Value, "Claim value should match");
+     }
+   }

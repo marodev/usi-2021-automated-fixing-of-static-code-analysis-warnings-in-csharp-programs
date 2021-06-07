@@ -1,0 +1,124 @@
+diff --git a/BTCPayServer/Controllers/HomeController.cs b/BTCPayServer/Controllers/HomeController.cs
+index 961ada06..48f2464c 100644
+--- a/BTCPayServer/Controllers/HomeController.cs
++++ b/BTCPayServer/Controllers/HomeController.cs
+@@ -61,8 +61,8 @@ namespace BTCPayServer.Controllers
+                             var controller = (AppsPublicController)serviceProvider.GetService(typeof(AppsPublicController));
+                             controller.Url = Url;
+                             controller.ControllerContext = ControllerContext;
+-                            var res = await controller.ViewCrowdfund(appId, null) as ViewResult;
+-                            if (res != null)
++
++                            if (await controller.ViewCrowdfund(appId, null)is ViewResult res)
+                             {
+                                 res.ViewName = $"/Views/AppsPublic/ViewCrowdfund.cshtml";
+                                 return res; // return 
+@@ -77,8 +77,8 @@ namespace BTCPayServer.Controllers
+                             var controller = (AppsPublicController)serviceProvider.GetService(typeof(AppsPublicController));
+                             controller.Url = Url;
+                             controller.ControllerContext = ControllerContext;
+-                            var res = await controller.ViewPointOfSale(appId) as ViewResult;
+-                            if (res != null)
++
++                            if (await controller.ViewCrowdfund(appId, null)is ViewResult res)
+                             {
+                                 res.ViewName = $"/Views/AppsPublic/{res.ViewName}.cshtml";
+                                 return res; // return 
+diff --git a/BTCPayServer/Controllers/StoresController.cs b/BTCPayServer/Controllers/StoresController.cs
+index 52b870fd..c9d2f491 100644
+--- a/BTCPayServer/Controllers/StoresController.cs
++++ b/BTCPayServer/Controllers/StoresController.cs
+@@ -952,8 +952,8 @@ namespace BTCPayServer.Controllers
+             {
+                 var excludeFilter = store.GetStoreBlob().GetExcludedPaymentMethods();
+                 StoreNotConfigured = !store.GetSupportedPaymentMethods(_NetworkProvider)
+-                                          .Where(p => !excludeFilter.Match(p.PaymentId))
+-                                          .Any();
++                                          .Any(p => !excludeFilter.Match(p.PaymentId))
++;
+                 TempData[WellKnownTempData.SuccessMessage] = "Pairing is successful";
+                 if (pairingResult == PairingResult.Partial)
+                     TempData[WellKnownTempData.SuccessMessage] = "Server initiated pairing code: " + pairingCode;
+diff --git a/BTCPayServer/Extensions.cs b/BTCPayServer/Extensions.cs
+index 3f56a56c..cee7d1c5 100644
+--- a/BTCPayServer/Extensions.cs
++++ b/BTCPayServer/Extensions.cs
+@@ -255,7 +255,7 @@ namespace BTCPayServer
+                 }
+                 return parsedModel;
+             }
+-            else if (model != null && model is string str)
++            else if (model is string str)
+             {
+                 return JObject.Parse(str).ToObject<StatusMessageModel>();
+             }
+diff --git a/BTCPayServer/Extensions/ControllerBaseExtensions.cs b/BTCPayServer/Extensions/ControllerBaseExtensions.cs
+index 77460803..c063f039 100644
+--- a/BTCPayServer/Extensions/ControllerBaseExtensions.cs
++++ b/BTCPayServer/Extensions/ControllerBaseExtensions.cs
+@@ -40,8 +40,7 @@ namespace BTCPayServer
+                          null;
+             if (searchTerm is null)
+             {
+-                var section = prop.GetValue(prefCookie) as ListQueryDataHolder;
+-                if (section != null && !String.IsNullOrEmpty(section.SearchTerm))
++                if (prop.GetValue(prefCookie) is ListQueryDataHolder section && !String.IsNullOrEmpty(section.SearchTerm))
+                 {
+                     model.SearchTerm = section.SearchTerm;
+                     model.TimezoneOffset = section.TimezoneOffset ?? 0;
+diff --git a/BTCPayServer/HostedServices/CssThemeManager.cs b/BTCPayServer/HostedServices/CssThemeManager.cs
+index 8724e073..0824eaee 100644
+--- a/BTCPayServer/HostedServices/CssThemeManager.cs
++++ b/BTCPayServer/HostedServices/CssThemeManager.cs
+@@ -93,9 +93,7 @@ namespace BTCPayServer.HostedServices
+ 
+         public void OnActionExecuting(ActionExecutingContext context)
+         {
+-            var manager = context.HttpContext.RequestServices.GetService(typeof(CssThemeManager)) as CssThemeManager;
+-            var policies = context.HttpContext.RequestServices.GetService(typeof(ContentSecurityPolicies)) as ContentSecurityPolicies;
+-            if (manager != null && policies != null)
++            if (context.HttpContext.RequestServices.GetService(typeof(CssThemeManager)) is CssThemeManager manager && context.HttpContext.RequestServices.GetService(typeof(ContentSecurityPolicies)) is ContentSecurityPolicies policies)
+             {
+                 if (manager.CreativeStartUri != null && Uri.TryCreate(manager.CreativeStartUri, UriKind.Absolute, out var uri))
+                 {
+diff --git a/BTCPayServer/JsonConverters/DateTimeMilliJsonConverter.cs b/BTCPayServer/JsonConverters/DateTimeMilliJsonConverter.cs
+index bb9fc803..d8f97278 100644
+--- a/BTCPayServer/JsonConverters/DateTimeMilliJsonConverter.cs
++++ b/BTCPayServer/JsonConverters/DateTimeMilliJsonConverter.cs
+@@ -45,8 +45,8 @@ namespace BTCPayServer.JsonConverters
+         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+         {
+             DateTime time;
+-            if (value is DateTime)
+-                time = (DateTime)value;
++            if (value is DateTime dateTime)
++                time = dateTime;
+             else
+                 time = ((DateTimeOffset)value).UtcDateTime;
+ 
+diff --git a/BTCPayServer/Payments/Bitcoin/NBXplorerListener.cs b/BTCPayServer/Payments/Bitcoin/NBXplorerListener.cs
+index 992d3700..42a164ee 100644
+--- a/BTCPayServer/Payments/Bitcoin/NBXplorerListener.cs
++++ b/BTCPayServer/Payments/Bitcoin/NBXplorerListener.cs
+@@ -157,7 +157,7 @@ namespace BTCPayServer.Payments.Bitcoin
+                                             output.matchedOutput.Value, output.outPoint,
+                                             evt.TransactionData.Transaction.RBF, output.Item1.KeyPath);
+ 
+-                                        var alreadyExist = invoice.GetAllBitcoinPaymentData().Where(c => c.GetPaymentId() == paymentData.GetPaymentId()).Any();
++                                        var alreadyExist = invoice.GetAllBitcoinPaymentData().Any(c => c.GetPaymentId() == paymentData.GetPaymentId());
+                                         if (!alreadyExist)
+                                         {
+                                             var payment = await _InvoiceRepository.AddPayment(invoice.Id, DateTimeOffset.UtcNow, paymentData, network);
+diff --git a/BTCPayServer/Services/Stores/StoreRepository.cs b/BTCPayServer/Services/Stores/StoreRepository.cs
+index 57c165af..15668f30 100644
+--- a/BTCPayServer/Services/Stores/StoreRepository.cs
++++ b/BTCPayServer/Services/Stores/StoreRepository.cs
+@@ -119,7 +119,7 @@ namespace BTCPayServer.Services.Stores
+             {
+                 if (!ctx.Database.SupportDropForeignKey())
+                     return;
+-                foreach (var store in await ctx.Stores.Where(s => !s.UserStores.Where(u => u.Role == StoreRoles.Owner).Any()).ToArrayAsync())
++                foreach (var store in await ctx.Stores.Where(s => !s.UserStores.Any(u => u.Role == StoreRoles.Owner)).ToArrayAsync())
+                 {
+                     ctx.Stores.Remove(store);
+                 }

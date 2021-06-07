@@ -1,0 +1,500 @@
+diff --git a/src/BermudanSwaption/BermudanSwaption.cs b/src/BermudanSwaption/BermudanSwaption.cs
+index 0ef1fb7..f59020d 100644
+--- a/src/BermudanSwaption/BermudanSwaption.cs
++++ b/src/BermudanSwaption/BermudanSwaption.cs
+@@ -196,7 +196,7 @@ namespace BermudanSwaption
+                            modelHw.parameters()[1]);
+ 
+          Console.WriteLine("Hull-White (numerical) calibration");
+-         for (int i = 0; i < swaptions.Count(); i++)
++         for (int i = 0; i < swaptions.Count; i++)
+             swaptions[i].setPricingEngine(new TreeSwaptionEngine(modelHw2, grid));
+          CalibrateModel(modelHw2, swaptions);
+          Console.WriteLine("calibrated to:\n" +
+diff --git a/src/QLNet/Cashflows/CPICoupon.cs b/src/QLNet/Cashflows/CPICoupon.cs
+index cfc8aa3..b42d4a5 100644
+--- a/src/QLNet/Cashflows/CPICoupon.cs
++++ b/src/QLNet/Cashflows/CPICoupon.cs
+@@ -56,8 +56,7 @@ namespace QLNet
+ 
+       protected override bool checkPricerImpl(InflationCouponPricer pricer)
+       {
+-         CPICouponPricer p = pricer as CPICouponPricer;
+-         return (p != null);
++         return (pricer is CPICouponPricer p);
+       }
+ 
+       // use to calculate for fixing date, allows change of
+diff --git a/src/QLNet/Cashflows/CashFlows.cs b/src/QLNet/Cashflows/CashFlows.cs
+index 8d74f4e..745108d 100644
+--- a/src/QLNet/Cashflows/CashFlows.cs
++++ b/src/QLNet/Cashflows/CashFlows.cs
+@@ -359,10 +359,7 @@ namespace QLNet
+             Type[] types = new Type[] { o.GetType() };
+             MethodInfo methodInfo = Utils.GetMethodInfo(this, "visit", types);
+ 
+-            if (methodInfo != null)
+-            {
+-               methodInfo.Invoke(this, new object[] { o });
+-            }
++            methodInfo?.Invoke(this, new object[]{o});
+          }
+          public void visit(Coupon c)
+          {
+diff --git a/src/QLNet/Cashflows/CouponPricer.cs b/src/QLNet/Cashflows/CouponPricer.cs
+index 9a584f9..c50167c 100644
+--- a/src/QLNet/Cashflows/CouponPricer.cs
++++ b/src/QLNet/Cashflows/CouponPricer.cs
+@@ -126,8 +126,7 @@ namespace QLNet
+          if (index_ == null)
+          {
+             // check if the coupon was right
+-            IborCoupon c = coupon as IborCoupon;
+-            Utils.QL_REQUIRE(c != null, () => "IborCoupon required");
++            Utils.QL_REQUIRE(coupon is IborCoupon c, () => "IborCoupon required");
+             // coupon was right, index is not
+             Utils.QL_FAIL("IborIndex required");
+          }
+@@ -315,10 +314,7 @@ namespace QLNet
+       {
+          Type[] types = new Type[] { o.GetType() };
+          MethodInfo methodInfo = Utils.GetMethodInfo(this, "visit", types);
+-         if (methodInfo != null)
+-         {
+-            methodInfo.Invoke(this, new object[] { o });
+-         }
++         methodInfo?.Invoke(this, new object[]{o});
+       }
+ 
+       public void visit(CashFlow c)
+diff --git a/src/QLNet/Instruments/AssetSwap.cs b/src/QLNet/Instruments/AssetSwap.cs
+index b485125..96b504b 100644
+--- a/src/QLNet/Instruments/AssetSwap.cs
++++ b/src/QLNet/Instruments/AssetSwap.cs
+@@ -429,8 +429,8 @@ namespace QLNet
+       public override void fetchResults(IPricingEngineResults r)
+       {
+          base.fetchResults(r);
+-         AssetSwap.Results results = r as AssetSwap.Results;
+-         if (results != null)
++
++         if (r is AssetSwap.Results results)
+          {
+             fairSpread_ = results.fairSpread;
+             fairCleanPrice_ = results.fairCleanPrice;
+diff --git a/src/QLNet/Instruments/BasisSwap.cs b/src/QLNet/Instruments/BasisSwap.cs
+index bcf13db..030ed52 100644
+--- a/src/QLNet/Instruments/BasisSwap.cs
++++ b/src/QLNet/Instruments/BasisSwap.cs
+@@ -249,9 +249,8 @@ namespace QLNet
+       public override void fetchResults(IPricingEngineResults r)
+       {
+          base.fetchResults(r);
+-         BasisSwap.Results results = r as BasisSwap.Results;
+ 
+-         if (results != null)
++         if (r is BasisSwap.Results results)
+          {
+             fairLongSpread_ = results.fairLongSpread;
+             fairShortSpread_ = results.fairShortSpread;
+diff --git a/src/QLNet/Instruments/Bonds/CallableBond.cs b/src/QLNet/Instruments/Bonds/CallableBond.cs
+index ac92665..bdb5184 100644
+--- a/src/QLNet/Instruments/Bonds/CallableBond.cs
++++ b/src/QLNet/Instruments/Bonds/CallableBond.cs
+@@ -576,8 +576,7 @@ namespace QLNet
+             // the first coupon paying after d is the one we're after
+             if (!cashflows_[i].hasOccurred(settlement, IncludeToday))
+             {
+-               Coupon coupon = cashflows_[i] as Coupon;
+-               if (coupon != null)
++               if (cashflows_[i] is Coupon coupon)
+                   // !!!
+                   return coupon.accruedAmount(settlement) /
+                          notional(settlement) * 100.0;
+diff --git a/src/QLNet/Instruments/Bonds/ConvertibleBond.cs b/src/QLNet/Instruments/Bonds/ConvertibleBond.cs
+index fab1742..38dcc82 100644
+--- a/src/QLNet/Instruments/Bonds/ConvertibleBond.cs
++++ b/src/QLNet/Instruments/Bonds/ConvertibleBond.cs
+@@ -171,8 +171,7 @@ namespace QLNet
+                   else
+                      moreArgs.callabilityPrices.Add(callability_[i].price().amount());
+ 
+-                  SoftCallability softCall = callability_[i] as SoftCallability;
+-                  if (softCall != null)
++                  if (callability_[i] is SoftCallability softCall)
+                      moreArgs.callabilityTriggers.Add(softCall.trigger());
+                   else
+                      moreArgs.callabilityTriggers.Add(null);
+diff --git a/src/QLNet/Instruments/CPISwap.cs b/src/QLNet/Instruments/CPISwap.cs
+index 4b3876b..7f9772d 100644
+--- a/src/QLNet/Instruments/CPISwap.cs
++++ b/src/QLNet/Instruments/CPISwap.cs
+@@ -265,9 +265,7 @@ namespace QLNet
+ 
+          base.fetchResults(r);
+ 
+-         CPISwap.Results results = r as CPISwap.Results;
+-
+-         if (results != null)
++         if (r is CPISwap.Results results)
+          {
+             // might be a swap engine, so no error is thrown
+             fairRate_ = results.fairRate;
+diff --git a/src/QLNet/Instruments/FloatFloatSwap.cs b/src/QLNet/Instruments/FloatFloatSwap.cs
+index c9f6500..87d12ed 100644
+--- a/src/QLNet/Instruments/FloatFloatSwap.cs
++++ b/src/QLNet/Instruments/FloatFloatSwap.cs
+@@ -187,8 +187,7 @@ namespace QLNet
+ 
+          for (int i = 0; i < leg1Coupons.Count; ++i)
+          {
+-            FloatingRateCoupon coupon = leg1Coupons[i] as FloatingRateCoupon;
+-            if (coupon != null)
++            if (leg1Coupons[i] is FloatingRateCoupon coupon)
+             {
+                arguments.leg1AccrualTimes[i] = coupon.accrualPeriod();
+                arguments.leg1PayDates[i] = coupon.date();
+@@ -204,8 +203,8 @@ namespace QLNet
+                {
+                   arguments.leg1Coupons[i] = null;
+                }
+-               CappedFlooredCoupon cfcoupon = leg1Coupons[i] as CappedFlooredCoupon;
+-               if (cfcoupon != null)
++
++               if (leg1Coupons[i] is CappedFlooredCoupon cfcoupon)
+                {
+                   arguments.leg1CappedRates[i] = cfcoupon.cap();
+                   arguments.leg1FlooredRates[i] = cfcoupon.floor();
+@@ -231,8 +230,7 @@ namespace QLNet
+ 
+          for (int i = 0; i < leg2Coupons.Count; ++i)
+          {
+-            FloatingRateCoupon coupon = leg2Coupons[i] as FloatingRateCoupon;
+-            if (coupon != null)
++            if (leg1Coupons[i] is FloatingRateCoupon coupon)
+             {
+                arguments.leg2AccrualTimes[i] = coupon.accrualPeriod();
+                arguments.leg2PayDates[i] = coupon.date();
+@@ -248,8 +246,8 @@ namespace QLNet
+                {
+                   arguments.leg2Coupons[i] = null;
+                }
+-               CappedFlooredCoupon cfcoupon = leg2Coupons[i] as CappedFlooredCoupon;
+-               if (cfcoupon != null)
++
++               if (leg1Coupons[i] is CappedFlooredCoupon cfcoupon)
+                {
+                   arguments.leg2CappedRates[i] = cfcoupon.cap();
+                   arguments.leg2FlooredRates[i] = cfcoupon.floor();
+diff --git a/src/QLNet/Instruments/VanillaSwap.cs b/src/QLNet/Instruments/VanillaSwap.cs
+index 9343054..09b5cfe 100644
+--- a/src/QLNet/Instruments/VanillaSwap.cs
++++ b/src/QLNet/Instruments/VanillaSwap.cs
+@@ -245,9 +245,8 @@ namespace QLNet
+       public override void fetchResults(IPricingEngineResults r)
+       {
+          base.fetchResults(r);
+-         VanillaSwap.Results results = r as VanillaSwap.Results;
+ 
+-         if (results != null)
++         if (r is VanillaSwap.Results results)
+          {
+             // might be a swap engine, so no error is thrown
+             fairRate_ = results.fairRate;
+diff --git a/src/QLNet/Instruments/YearOnYearInflationSwap.cs b/src/QLNet/Instruments/YearOnYearInflationSwap.cs
+index ebce4bc..5c9ed44 100644
+--- a/src/QLNet/Instruments/YearOnYearInflationSwap.cs
++++ b/src/QLNet/Instruments/YearOnYearInflationSwap.cs
+@@ -205,8 +205,7 @@ namespace QLNet
+ 
+          base.fetchResults(r);
+ 
+-         YearOnYearInflationSwap.Results results = r as YearOnYearInflationSwap.Results;
+-         if (results != null)
++         if (r is YearOnYearInflationSwap.Results results)
+          {
+             // might be a swap engine, so no error is thrown
+             fairRate_ = results.fairRate;
+diff --git a/src/QLNet/InterestRate.cs b/src/QLNet/InterestRate.cs
+index 549fdfa..520e7a6 100644
+--- a/src/QLNet/InterestRate.cs
++++ b/src/QLNet/InterestRate.cs
+@@ -226,7 +226,7 @@ namespace QLNet
+          if (r_ == null)
+             return "null interest rate";
+ 
+-         result += string.Format("{0:0.00%}", rate()) + " " + dayCounter().name() + " ";
++         result += $"{rate():0.00%}" + " " + dayCounter().name() + " ";
+          switch (compounding())
+          {
+             case Compounding.Simple:
+diff --git a/src/QLNet/Math/Vector.cs b/src/QLNet/Math/Vector.cs
+index 745646a..c4df8e3 100644
+--- a/src/QLNet/Math/Vector.cs
++++ b/src/QLNet/Math/Vector.cs
+@@ -131,8 +131,7 @@ namespace QLNet
+       /// </returns>
+       public sealed override bool Equals(object o)
+       {
+-         var v = o as Vector;
+-         return v != null && this == v ;
++         return o is Vector v && this == v ;
+       }
+ 
+       public override int GetHashCode()
+diff --git a/src/QLNet/Methods/Finitedifferences/Meshers/FdmBlackScholesMesher.cs b/src/QLNet/Methods/Finitedifferences/Meshers/FdmBlackScholesMesher.cs
+index 0f8bdb6..cc84148 100644
+--- a/src/QLNet/Methods/Finitedifferences/Meshers/FdmBlackScholesMesher.cs
++++ b/src/QLNet/Methods/Finitedifferences/Meshers/FdmBlackScholesMesher.cs
+@@ -176,8 +176,7 @@ namespace QLNet
+          }
+ 
+          Fdm1dMesher helper;
+-         if (cPoint != null
+-             && cPoint.first != null
++         if (cPoint?.first != null
+              && Math.Log(cPoint.first.Value) >= xMin && Math.Log(cPoint.first.Value) <= xMax)
+          {
+ 
+diff --git a/src/QLNet/Pricingengines/BlackCalculator.cs b/src/QLNet/Pricingengines/BlackCalculator.cs
+index 4cbb1f4..44db392 100644
+--- a/src/QLNet/Pricingengines/BlackCalculator.cs
++++ b/src/QLNet/Pricingengines/BlackCalculator.cs
+@@ -338,10 +338,7 @@ namespace QLNet
+          {
+             Type[] types = new Type[] { o.GetType() };
+             MethodInfo methodInfo = Utils.GetMethodInfo(this, "visit", types);
+-            if (methodInfo != null)
+-            {
+-               methodInfo.Invoke(this, new object[] { o });
+-            }
++            methodInfo?.Invoke(this, new object[]{o});
+          }
+ 
+          public void visit(Payoff p)
+diff --git a/src/QLNet/Pricingengines/barrier/AnalyticBinaryBarrierEngine.cs b/src/QLNet/Pricingengines/barrier/AnalyticBinaryBarrierEngine.cs
+index 96d426c..0d97bb4 100644
+--- a/src/QLNet/Pricingengines/barrier/AnalyticBinaryBarrierEngine.cs
++++ b/src/QLNet/Pricingengines/barrier/AnalyticBinaryBarrierEngine.cs
+@@ -140,15 +140,13 @@ namespace QLNet
+          double K = 0;
+ 
+          // binary cash-or-nothing payoff?
+-         CashOrNothingPayoff coo = payoff_ as CashOrNothingPayoff;
+-         if (coo != null)
++         if (payoff_ is CashOrNothingPayoff coo)
+          {
+             K = coo.cashPayoff();
+          }
+ 
+          // binary asset-or-nothing payoff?
+-         AssetOrNothingPayoff aoo = payoff_ as AssetOrNothingPayoff;
+-         if (aoo != null)
++         if (payoff_ is AssetOrNothingPayoff aoo)
+          {
+             mu += 1.0;
+             K = spot * dividendDiscount / discount; // forward
+diff --git a/src/QLNet/Pricingengines/credit/IsdaCdsEngine.cs b/src/QLNet/Pricingengines/credit/IsdaCdsEngine.cs
+index 05157ba..0c50ade 100644
+--- a/src/QLNet/Pricingengines/credit/IsdaCdsEngine.cs
++++ b/src/QLNet/Pricingengines/credit/IsdaCdsEngine.cs
+@@ -127,24 +127,20 @@ namespace QLNet
+          // collect nodes from both curves and sort them
+          List<Date> yDates = new List<Date>(), cDates = new List<Date>();
+ 
+-         var castY1 =  discountCurve_.link as PiecewiseYieldCurve<Discount, LogLinear>;
+-         var castY2 = discountCurve_.link as InterpolatedForwardCurve<BackwardFlat>;
+-         var castY3 = discountCurve_.link as InterpolatedForwardCurve<ForwardFlat>;
+-         var castY4 =  discountCurve_.link as FlatForward;
+-         if (castY1 != null)
++         if (discountCurve_.link is PiecewiseYieldCurve<Discount, LogLinear> castY1)
+          {
+             if (castY1.dates() != null)
+                yDates = castY1.dates();
+          }
+-         else if (castY2 != null)
++         else if (discountCurve_.link is InterpolatedForwardCurve<BackwardFlat> castY2)
+          {
+             yDates = castY2.dates();
+          }
+-         else if (castY3 != null)
++         else if (discountCurve_.link is InterpolatedForwardCurve<ForwardFlat> castY3)
+          {
+             yDates = castY3.dates();
+          }
+-         else if (castY4 != null)
++         else if (discountCurve_.link is FlatForward castY4)
+          {
+          }
+          else
+@@ -152,19 +148,15 @@ namespace QLNet
+             Utils.QL_FAIL("Yield curve must be flat forward interpolated");
+          }
+ 
+-         var castC1 =  probability_.link as InterpolatedSurvivalProbabilityCurve<LogLinear>;
+-         var castC2 = probability_.link as InterpolatedHazardRateCurve<BackwardFlat>;
+-         var castC3 = probability_.link as FlatHazardRate;
+-
+-         if (castC1 != null)
++         if (probability_.link is InterpolatedSurvivalProbabilityCurve<LogLinear> castC1)
+          {
+             cDates = castC1.dates();
+          }
+-         else if (castC2 != null)
++         else if (probability_.link is InterpolatedHazardRateCurve<BackwardFlat> castC2)
+          {
+             cDates = castC2.dates();
+          }
+-         else if (castC3 != null)
++         else if (probability_.link is FlatHazardRate castC3)
+          {
+          }
+          else
+diff --git a/src/QLNet/Pricingengines/vanilla/FDDividendEngine.cs b/src/QLNet/Pricingengines/vanilla/FDDividendEngine.cs
+index e8e0002..34a74ae 100644
+--- a/src/QLNet/Pricingengines/vanilla/FDDividendEngine.cs
++++ b/src/QLNet/Pricingengines/vanilla/FDDividendEngine.cs
+@@ -57,8 +57,7 @@ namespace QLNet
+ 
+       protected double getDividendAmount(int i)
+       {
+-         Dividend dividend = events_[i] as Dividend;
+-         if (dividend != null)
++         if (events_[i] is Dividend dividend)
+          {
+             return dividend.amount();
+          }
+diff --git a/src/QLNet/Time/Calendars/BespokeCalendar.cs b/src/QLNet/Time/Calendars/BespokeCalendar.cs
+index 05b210c..02f39a3 100644
+--- a/src/QLNet/Time/Calendars/BespokeCalendar.cs
++++ b/src/QLNet/Time/Calendars/BespokeCalendar.cs
+@@ -48,8 +48,7 @@ namespace QLNet
+       //! marks the passed day as part of the weekend
+       public void addWeekend(DayOfWeek w)
+       {
+-         Impl impl = calendar_ as Impl;
+-         if (impl != null)
++         if (calendar_ is Impl impl)
+             impl.addWeekend(w);
+       }
+ 
+diff --git a/src/QLNet/Time/Schedule.cs b/src/QLNet/Time/Schedule.cs
+index 51f5ea3..7c0d493 100644
+--- a/src/QLNet/Time/Schedule.cs
++++ b/src/QLNet/Time/Schedule.cs
+@@ -69,7 +69,7 @@ namespace QLNet
+          dates_ = dates;
+ 
+          Utils.QL_REQUIRE(isRegular_.Count == 0 || isRegular_.Count == dates.Count - 1, () =>
+-                          string.Format("isRegular size ({0}) must be zero or equal to the number of dates minus 1 ({1})", isRegular_.Count, dates.Count - 1));
++                          $"isRegular size ({isRegular_.Count}) must be zero or equal to the number of dates minus 1 ({dates.Count - 1})");
+       }
+ 
+       /// <summary>
+diff --git a/src/QLNet/processes/BlackScholesProcess.cs b/src/QLNet/processes/BlackScholesProcess.cs
+index d4bab3a..ffbb1b4 100644
+--- a/src/QLNet/processes/BlackScholesProcess.cs
++++ b/src/QLNet/processes/BlackScholesProcess.cs
+@@ -197,8 +197,7 @@ namespace QLNet
+             isStrikeIndependent_ = true;
+ 
+             // constant Black vol?
+-            BlackConstantVol constVol = blackVolatility().link as BlackConstantVol;
+-            if (constVol != null)
++            if (blackVolatility().link is BlackConstantVol constVol)
+             {
+                // ok, the local vol is constant too.
+                localVolatility_.linkTo(new LocalConstantVol(constVol.referenceDate(),
+@@ -209,8 +208,7 @@ namespace QLNet
+             }
+ 
+             // ok, so it's not constant. Maybe it's strike-independent?
+-            BlackVarianceCurve volCurve = blackVolatility().link as BlackVarianceCurve;
+-            if (volCurve != null)
++            if (blackVolatility().link is BlackVarianceCurve volCurve)
+             {
+                // ok, we can use the optimized algorithm
+                localVolatility_.linkTo(new LocalVolCurve(new Handle<BlackVarianceCurve>(volCurve)));
+diff --git a/tests/QLNet.Tests/T_AmericanOption.cs b/tests/QLNet.Tests/T_AmericanOption.cs
+index 3f5c457..4507912 100644
+--- a/tests/QLNet.Tests/T_AmericanOption.cs
++++ b/tests/QLNet.Tests/T_AmericanOption.cs
+@@ -632,7 +632,7 @@ namespace TestSuite
+          const double tolerance = 3.0e-3;
+ 
+          if (Math.Abs(impliedVol - volatility) > tolerance)
+-            QAssert.Fail(string.Format("Implied volatility calculation failed. Expected {0}. Actual {1}", volatility, impliedVol));
++            QAssert.Fail($"Implied volatility calculation failed. Expected {volatility}. Actual {impliedVol}");
+       }
+ 
+ #if NET452
+@@ -686,7 +686,7 @@ namespace TestSuite
+          const double tolerance = 1.0e-5;
+ 
+          if (Math.Abs(npv - result) > tolerance)
+-            QAssert.Fail(string.Format("NPV calculation failed. Expected {0}. Actual {1}", result, npv));
++            QAssert.Fail($"NPV calculation failed. Expected {result}. Actual {npv}");
+ 
+       }
+ 
+diff --git a/tests/QLNet.Tests/T_AsianOptions.cs b/tests/QLNet.Tests/T_AsianOptions.cs
+index 662dd84..e3fea46 100644
+--- a/tests/QLNet.Tests/T_AsianOptions.cs
++++ b/tests/QLNet.Tests/T_AsianOptions.cs
+@@ -51,7 +51,7 @@ namespace TestSuite
+                       + runningAccumulator + "\n"
+                       + "    past fixings:     "
+                       + pastFixings + "\n"
+-                      + "    future fixings:   " + fixingDates.Count() + "\n"
++                      + "    future fixings:   " + fixingDates.Count + "\n"
+                       + "    underlying value: " + s + "\n"
+                       + "    strike:           " + payoff.strike() + "\n"
+                       + "    dividend yield:   " + q + "\n"
+diff --git a/tests/QLNet.Tests/T_Bonds.cs b/tests/QLNet.Tests/T_Bonds.cs
+index d5260a9..79440e5 100644
+--- a/tests/QLNet.Tests/T_Bonds.cs
++++ b/tests/QLNet.Tests/T_Bonds.cs
+@@ -1325,8 +1325,7 @@ namespace TestSuite
+          double tolerance = 1e-5;
+          if (Math.Abs(calculatedPrice - expectedPrice) > tolerance)
+          {
+-            QAssert.Fail(string.Format("failed to reproduce R2048 dirty price\nexpected: {0}\ncalculated: {1}",
+-                                       expectedPrice, calculatedPrice));
++            QAssert.Fail($"failed to reproduce R2048 dirty price\nexpected: {expectedPrice}\ncalculated: {calculatedPrice}");
+          }
+       }
+ 
+diff --git a/tests/QLNet.Tests/T_CPISwap.cs b/tests/QLNet.Tests/T_CPISwap.cs
+index 7bb90a1..62cf12e 100644
+--- a/tests/QLNet.Tests/T_CPISwap.cs
++++ b/tests/QLNet.Tests/T_CPISwap.cs
+@@ -309,8 +309,7 @@ namespace TestSuite
+                floatIndex.addFixing(floatSchedule[i], floatFix[i], true); //true=overwrite
+             }
+ 
+-            CPICoupon zic = zisV.cpiLeg()[i] as CPICoupon;
+-            if (zic != null)
++            if (zisV.cpiLeg()[i] is CPICoupon zic)
+             {
+                if (zic.fixingDate() < (common.evaluationDate - new Period(1, TimeUnit.Months)))
+                {
+@@ -335,8 +334,7 @@ namespace TestSuite
+                testInfLegNPV += (zisV.leg(0))[i].amount() * common.nominalUK.link.discount(zicPayDate);
+             }
+ 
+-            CPICoupon zicV = zisV.cpiLeg()[i] as CPICoupon;
+-            if (zicV != null)
++            if (zisV.cpiLeg()[i] is CPICoupon zicV)
+             {
+                diff = Math.Abs(zicV.rate() - (fixedRate * (zicV.indexFixing() / baseCPI)));
+                QAssert.IsTrue(diff < 1e-8, "failed " + i + "th coupon reconstruction as "
+@@ -483,8 +481,7 @@ namespace TestSuite
+                floatIndex.addFixing(floatSchedule[i], floatFix[i], true); //true=overwrite
+             }
+ 
+-            CPICoupon zic = zisV.cpiLeg()[i] as CPICoupon;
+-            if (zic != null)
++            if (zisV.cpiLeg()[i] is CPICoupon zic)
+             {
+                if (zic.fixingDate() < (common.evaluationDate - new Period(1, TimeUnit.Months)))
+                {

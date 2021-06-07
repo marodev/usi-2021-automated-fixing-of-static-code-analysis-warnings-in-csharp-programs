@@ -1,0 +1,340 @@
+diff --git a/src_5.0/Chromely.CefGlue/Browser/CefGlueCustomHandlers.cs b/src_5.0/Chromely.CefGlue/Browser/CefGlueCustomHandlers.cs
+index 102216d..a4a9ab0 100644
+--- a/src_5.0/Chromely.CefGlue/Browser/CefGlueCustomHandlers.cs
++++ b/src_5.0/Chromely.CefGlue/Browser/CefGlueCustomHandlers.cs
+@@ -55,36 +55,36 @@ namespace Chromely.CefGlue.Browser
+                     {
+                         if (handler is CefLifeSpanHandler spanHandler) 
+                         { 
+-                            if (spanHandler is CefGlueLifeSpanHandler)
++                            if (spanHandler is CefGlueLifeSpanHandler cefGlueLifeSpanHandler)
+                             {
+-                                ((CefGlueLifeSpanHandler)spanHandler).Browser = browser;
++                                cefGlueLifeSpanHandler.Browser = browser;
+                             }
+                             handlers.LifeSpanHandler = spanHandler; 
+                         }
+ 
+                         if (handler is CefLoadHandler loadHandler) 
+                         {
+-                            if (loadHandler is CefGlueLoadHandler)
++                            if (loadHandler is CefGlueLoadHandler cefGlueLoadHandler)
+                             {
+-                                ((CefGlueLoadHandler)loadHandler).Browser = browser;
++                                cefGlueLoadHandler.Browser = browser;
+                             }
+                             handlers.LoadHandler = loadHandler; 
+                         }
+ 
+                         if (handler is CefRequestHandler requestHandler) 
+                         {
+-                            if (requestHandler is CefGlueRequestHandler)
++                            if (requestHandler is CefGlueRequestHandler cefGlueRequestHandler)
+                             {
+-                                ((CefGlueRequestHandler)requestHandler).Browser = browser;
++                                cefGlueRequestHandler.Browser = browser;
+                             }
+                             handlers.RequestHandler = requestHandler; 
+                         }
+ 
+                         if (handler is CefDisplayHandler displayHandler) 
+                         {
+-                            if (displayHandler is CefGlueDisplayHandler)
++                            if (displayHandler is CefGlueDisplayHandler cefGlueDisplayHandler)
+                             {
+-                                ((CefGlueDisplayHandler)displayHandler).Browser = browser;
++                                cefGlueDisplayHandler.Browser = browser;
+                             }
+                             handlers.DisplayHandler = displayHandler; 
+                         }
+diff --git a/src_5.0/Chromely.CefGlue/BrowserWindow/HostServicesBase.cs b/src_5.0/Chromely.CefGlue/BrowserWindow/HostServicesBase.cs
+index f382aca..902e11e 100644
+--- a/src_5.0/Chromely.CefGlue/BrowserWindow/HostServicesBase.cs
++++ b/src_5.0/Chromely.CefGlue/BrowserWindow/HostServicesBase.cs
+@@ -55,8 +55,7 @@ namespace Chromely.CefGlue.BrowserWindow
+             {
+                 foreach (var obj in controllerObjs)
+                 {
+-                    var controller = obj as ChromelyController;
+-                    if (controller != null)
++                    if (obj is ChromelyController controller)
+                     {
+ 
+                         ServiceRouteProvider.RegisterActionRoutes(_container, controller.ActionRouteDictionary);
+@@ -125,8 +124,8 @@ namespace Chromely.CefGlue.BrowserWindow
+                     if (!string.IsNullOrWhiteSpace(item.Name))
+                     {
+                         var resourceObj = _container.GetInstance(typeof(IChromelyResourceHandlerFactory), item.Name);
+-                        var resourceHandlerFactory = resourceObj as CefSchemeHandlerFactory;
+-                        if (resourceHandlerFactory != null)
++
++                        if (resourceObj is CefSchemeHandlerFactory resourceHandlerFactory)
+                         {
+                             isDefault = false;
+                             CefRuntime.RegisterSchemeHandlerFactory(item.Scheme, item.Host, resourceHandlerFactory);
+@@ -169,8 +168,8 @@ namespace Chromely.CefGlue.BrowserWindow
+                     if (!string.IsNullOrWhiteSpace(item.Name))
+                     {
+                         var schemeObj = _container.GetInstance(typeof(IChromelySchemeHandlerFactory), item.Name);
+-                        var schemeHandlerFactory = schemeObj as CefSchemeHandlerFactory;
+-                        if (schemeHandlerFactory != null)
++
++                        if (schemeObj is CefSchemeHandlerFactory schemeHandlerFactory)
+                         {
+                             isDefault = false;
+                             CefRuntime.RegisterSchemeHandlerFactory(item.Scheme, item.Host, schemeHandlerFactory);
+@@ -206,8 +205,8 @@ namespace Chromely.CefGlue.BrowserWindow
+                     if (!string.IsNullOrWhiteSpace(item.Name))
+                     {
+                         var schemeObj = _container.GetInstance(typeof(IChromelySchemeHandlerFactory), item.Name);
+-                        var schemeHandlerFactory = schemeObj as CefSchemeHandlerFactory;
+-                        if (schemeHandlerFactory != null)
++
++                        if (schemeObj is CefSchemeHandlerFactory schemeHandlerFactory)
+                         {
+                             isDefault = false;
+                             CefRuntime.RegisterSchemeHandlerFactory(item.Scheme, item.Host, schemeHandlerFactory);
+@@ -241,8 +240,7 @@ namespace Chromely.CefGlue.BrowserWindow
+             {
+                 foreach (var handler in messageRouterHandlers)
+                 {
+-                    var router = handler as CefMessageRouterBrowserSide.Handler;
+-                    if (router != null)
++                    if (handler is CefMessageRouterBrowserSide.Handler router)
+                     {
+                         BrowserMessageRouter.AddHandler(router);
+                     }
+diff --git a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarArchive..cs b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarArchive..cs
+index 1ad38f4..30d1187 100644
+--- a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarArchive..cs
++++ b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarArchive..cs
+@@ -104,10 +104,9 @@ namespace ICSharpCode.SharpZipLib.Tar
+                 throw new ArgumentNullException(nameof(inputStream));
+             }
+ 
+-            var tarStream = inputStream as TarInputStream;
+-
+             TarArchive result;
+-            if (tarStream != null)
++
++            if (inputStream is TarInputStream tarStream)
+             {
+                 result = new TarArchive(tarStream);
+             }
+@@ -151,10 +150,9 @@ namespace ICSharpCode.SharpZipLib.Tar
+                 throw new ArgumentNullException(nameof(outputStream));
+             }
+ 
+-            var tarStream = outputStream as TarOutputStream;
+-
+             TarArchive result;
+-            if (tarStream != null)
++
++            if (outputStream is TarOutputStream tarStream)
+             {
+                 result = new TarArchive(tarStream);
+             }
+@@ -869,10 +867,7 @@ namespace ICSharpCode.SharpZipLib.Tar
+                         tarOut.Dispose();
+                     }
+ 
+-                    if (tarIn != null)
+-                    {
+-                        tarIn.Dispose();
+-                    }
++                    tarIn?.Dispose();
+                 }
+             }
+         }
+diff --git a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarBuffer.cs b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarBuffer.cs
+index 2d97b8c..304b5a4 100644
+--- a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarBuffer.cs
++++ b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarBuffer.cs
+@@ -461,8 +461,7 @@ namespace ICSharpCode.SharpZipLib.Tar
+ 
+             if (block.Length != BlockSize)
+             {
+-                string errorText = string.Format("TarBuffer.WriteBlock - block to write has length '{0}' which is not the block size of '{1}'",
+-                    block.Length, BlockSize);
++                string errorText = $"TarBuffer.WriteBlock - block to write has length '{block.Length}' which is not the block size of '{BlockSize}'";
+                 throw new TarException(errorText);
+             }
+ 
+@@ -505,8 +504,7 @@ namespace ICSharpCode.SharpZipLib.Tar
+ 
+             if ((offset + BlockSize) > buffer.Length)
+             {
+-                string errorText = string.Format("TarBuffer.WriteBlock - record has length '{0}' with offset '{1}' which is less than the record size of '{2}'",
+-                    buffer.Length, offset, recordSize);
++                string errorText = $"TarBuffer.WriteBlock - record has length '{buffer.Length}' with offset '{offset}' which is less than the record size of '{recordSize}'";
+                 throw new TarException(errorText);
+             }
+ 
+diff --git a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarEntry.cs b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarEntry.cs
+index 4062d25..5695573 100644
+--- a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarEntry.cs
++++ b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarEntry.cs
+@@ -120,9 +120,7 @@ namespace ICSharpCode.SharpZipLib.Tar
+         /// </returns>
+         public override bool Equals(object obj)
+         {
+-            var localEntry = obj as TarEntry;
+-
+-            if (localEntry != null)
++            if (obj is TarEntry localEntry)
+             {
+                 return Name.Equals(localEntry.Name);
+             }
+diff --git a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarHeader.cs b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarHeader.cs
+index 942d6f0..71069b9 100644
+--- a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarHeader.cs
++++ b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarHeader.cs
+@@ -667,10 +667,10 @@ namespace ICSharpCode.SharpZipLib.Tar
+         /// <returns>true if the objects are equal, false otherwise.</returns>
+         public override bool Equals(object obj)
+         {
+-            var localHeader = obj as TarHeader;
+ 
+             bool result;
+-            if (localHeader != null)
++
++            if (obj is TarHeader localHeader)
+             {
+                 result = (name == localHeader.name)
+                     && (mode == localHeader.mode)
+diff --git a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarInputStream.cs b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarInputStream.cs
+index 84d587c..7ad1432 100644
+--- a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarInputStream.cs
++++ b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarInputStream.cs
+@@ -529,8 +529,7 @@ namespace ICSharpCode.SharpZipLib.Tar
+                     entrySize = 0;
+                     entryOffset = 0;
+                     currentEntry = null;
+-                    string errorText = string.Format("Bad header in record {0} block {1} {2}",
+-                        tarBuffer.CurrentRecord, tarBuffer.CurrentBlock, ex.Message);
++                    string errorText = $"Bad header in record {tarBuffer.CurrentRecord} block {tarBuffer.CurrentBlock} {ex.Message}";
+                     throw new InvalidHeaderException(errorText);
+                 }
+             }
+diff --git a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarOutputStream.cs b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarOutputStream.cs
+index 27595cf..9867dfc 100644
+--- a/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarOutputStream.cs
++++ b/src_5.0/Chromely.CefGlue/Loader/SharpZipLib/Tar/TarOutputStream.cs
+@@ -297,9 +297,7 @@ namespace ICSharpCode.SharpZipLib.Tar
+ 
+             if (currBytes < currSize)
+             {
+-                string errorText = string.Format(
+-                    "Entry closed at '{0}' before the '{1}' bytes specified in the header were written",
+-                    currBytes, currSize);
++                string errorText = $"Entry closed at '{currBytes}' before the '{currSize}' bytes specified in the header were written";
+                 throw new TarException(errorText);
+             }
+         }
+@@ -358,8 +356,7 @@ namespace ICSharpCode.SharpZipLib.Tar
+ 
+             if ((currBytes + count) > currSize)
+             {
+-                string errorText = string.Format("request to write '{0}' bytes exceeds size in header of '{1}' bytes",
+-                    count, this.currSize);
++                string errorText = $"request to write '{count}' bytes exceeds size in header of '{this.currSize}' bytes";
+                 throw new ArgumentOutOfRangeException(nameof(count), errorText);
+             }
+ 
+diff --git a/src_5.0/Chromely.Core/Network/ChromelyControllerFactory.cs b/src_5.0/Chromely.Core/Network/ChromelyControllerFactory.cs
+index 5185268..89f22e6 100644
+--- a/src_5.0/Chromely.Core/Network/ChromelyControllerFactory.cs
++++ b/src_5.0/Chromely.Core/Network/ChromelyControllerFactory.cs
+@@ -44,19 +44,17 @@ namespace Chromely.Core.Network
+ 
+             foreach (var item in methodInfos)
+             {
+-                var httpAttributeDelegate = CreateDelegate(controller, item) as Func<ChromelyRequest, ChromelyResponse>;
+-                var asyncHttpAttributeDelegate = CreateDelegate(controller, item) as Func<ChromelyRequest, Task<ChromelyResponse>>;
+                 var attribute = item.GetCustomAttribute<HttpAttribute>();
+ 
+                 // Sync
+-                if (httpAttributeDelegate != null && attribute != null)
++                if (CreateDelegate(controller, item) is Func<ChromelyRequest, ChromelyResponse> httpAttributeDelegate && attribute != null)
+                 {
+                     var routhPath = new RoutePath(attribute.Method, attribute.Route);
+                     result[routhPath.Key] = new ActionRoute(attribute.Method, attribute.Route, httpAttributeDelegate);
+                 }
+ 
+                 // Async
+-                if (asyncHttpAttributeDelegate != null && attribute != null)
++                if (CreateDelegate(controller, item) is Func<ChromelyRequest, Task<ChromelyResponse>> asyncHttpAttributeDelegate && attribute != null)
+                 {
+                     var routhPath = new RoutePath(attribute.Method, attribute.Route);
+                     result[routhPath.Key] = new ActionRoute(attribute.Method, attribute.Route, asyncHttpAttributeDelegate);
+@@ -81,10 +79,9 @@ namespace Chromely.Core.Network
+ 
+             foreach (var item in methodInfos)
+             {
+-                var customAttributeDelegate = CreateDelegate(controller, item) as Action<IDictionary<string, string>>;
+                 var attribute = item.GetCustomAttribute<CommandAttribute>();
+ 
+-                if (customAttributeDelegate != null && attribute != null)
++                if (CreateDelegate(controller, item) is Action<IDictionary<string, string>> customAttributeDelegate && attribute != null)
+                 {
+                     var commandRoute = new CommandRoute(attribute.Route, customAttributeDelegate);
+                     result[commandRoute.Key] = commandRoute;
+diff --git a/src_5.0/Chromely.Core/Network/ExtensionMethods.cs b/src_5.0/Chromely.Core/Network/ExtensionMethods.cs
+index e19c81a..f1db1dd 100644
+--- a/src_5.0/Chromely.Core/Network/ExtensionMethods.cs
++++ b/src_5.0/Chromely.Core/Network/ExtensionMethods.cs
+@@ -107,8 +107,7 @@ namespace Chromely.Core.Network
+                     return JsonSerializer.Deserialize<IDictionary<string, string>>(value.ToString(), JsonSerializingOption);
+                 }
+ 
+-                var dict1 = value as IDictionary<string, string>;
+-                if (dict1 != null)
++                if (value is IDictionary<string, string> dict1)
+                 {
+                     var dict1Res = new Dictionary<string, string>();
+                     foreach (var item in dict1)
+@@ -118,8 +117,7 @@ namespace Chromely.Core.Network
+                     return dict1Res;
+                 }
+ 
+-                var dict2 = value as IDictionary<string, string>;
+-                if (dict2 != null)
++                if (value is IDictionary<string, string> dict2)
+                 {
+                     return dict2;
+                 }
+diff --git a/src_5.0/Chromely/Native/WinAPI/WinAPIHost.cs b/src_5.0/Chromely/Native/WinAPI/WinAPIHost.cs
+index 64b579f..65206b6 100644
+--- a/src_5.0/Chromely/Native/WinAPI/WinAPIHost.cs
++++ b/src_5.0/Chromely/Native/WinAPI/WinAPIHost.cs
+@@ -228,10 +228,7 @@ namespace Chromely.Native
+                         int excelProcessId = -1;
+                         GetWindowThreadProcessId(_handle, ref excelProcessId);
+                         var process = Process.GetProcessById(excelProcessId);
+-                        if (process != null)
+-                        {
+-                            process.Kill();
+-                        }
++                        process?.Kill();
+                     });
+                 }
+                 catch {}
+diff --git a/src_5.0/Chromely/Native/WinAPI/WinNativeMethods.cs b/src_5.0/Chromely/Native/WinAPI/WinNativeMethods.cs
+index 5c21446..ab28271 100644
+--- a/src_5.0/Chromely/Native/WinAPI/WinNativeMethods.cs
++++ b/src_5.0/Chromely/Native/WinAPI/WinNativeMethods.cs
+@@ -302,10 +302,10 @@ namespace Chromely.Native
+ 
+             public override bool Equals(object obj)
+             {
+-                if (obj is RECT)
+-                    return Equals((RECT)obj);
+-                else if (obj is System.Drawing.Rectangle)
+-                    return Equals(new RECT((System.Drawing.Rectangle)obj));
++                if (obj is RECT rECT)
++                    return Equals(rECT);
++                else if (obj is System.Drawing.Rectangle rectangle)
++                    return Equals(new RECT(rectangle));
+                 return false;
+             }
+ 

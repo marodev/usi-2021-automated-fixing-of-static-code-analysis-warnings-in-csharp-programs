@@ -1,0 +1,661 @@
+diff --git a/CefSharp.BrowserSubprocess.Core/Resource.rc b/CefSharp.BrowserSubprocess.Core/Resource.rc
+index bcc1fb51..65b64006 100644
+--- a/CefSharp.BrowserSubprocess.Core/Resource.rc
++++ b/CefSharp.BrowserSubprocess.Core/Resource.rc
+@@ -1,8 +1,8 @@
+ #pragma code_page(65001)
+ 
+ 1 VERSIONINFO
+- FILEVERSION 88,2,10
+- PRODUCTVERSION 88,2,10
++ FILEVERSION 89,0,60
++ PRODUCTVERSION 89,0,60
+  FILEFLAGSMASK 0x17L
+ #ifdef _DEBUG
+  FILEFLAGS 0x1L
+@@ -18,10 +18,10 @@ BEGIN
+         BLOCK "040904b0"
+         BEGIN
+             VALUE "FileDescription", "CefSharp.BrowserSubprocess.Core"
+-            VALUE "FileVersion", "88.2.10"
++            VALUE "FileVersion", "89.0.60"
+             VALUE "LegalCopyright", "Copyright © 2021 The CefSharp Authors"
+             VALUE "ProductName", "CefSharp"
+-            VALUE "ProductVersion", "88.2.10"
++            VALUE "ProductVersion", "89.0.60"
+         END
+     END
+     BLOCK "VarFileInfo"
+diff --git a/CefSharp.BrowserSubprocess/app.manifest b/CefSharp.BrowserSubprocess/app.manifest
+index c6aa2ebc..adef93f6 100644
+--- a/CefSharp.BrowserSubprocess/app.manifest
++++ b/CefSharp.BrowserSubprocess/app.manifest
+@@ -8,7 +8,7 @@
+     xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ 
+-  <assemblyIdentity version="88.2.10.0" name="CefSharp.BrowserSubprocess.app" />
++  <assemblyIdentity version="89.0.60.0" name="CefSharp.BrowserSubprocess.app" />
+   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+     <security>
+       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+diff --git a/CefSharp.Core.Runtime.RefAssembly/CefSharp.Core.Runtime.netcore.cs b/CefSharp.Core.Runtime.RefAssembly/CefSharp.Core.Runtime.netcore.cs
+index feca7134..aab2fa37 100644
+--- a/CefSharp.Core.Runtime.RefAssembly/CefSharp.Core.Runtime.netcore.cs
++++ b/CefSharp.Core.Runtime.RefAssembly/CefSharp.Core.Runtime.netcore.cs
+@@ -79,6 +79,7 @@ namespace CefSharp.Core
+         public static CefSharp.ICookieManager GetGlobalCookieManager(CefSharp.ICompletionCallback callback) { throw null; }
+         public static CefSharp.IRequestContext GetGlobalRequestContext() { throw null; }
+         public static string GetMimeType(string extension) { throw null; }
++        public static int GetMinLogLevel() { throw null; }
+         public static System.Threading.Tasks.Task<System.Collections.Generic.List<CefSharp.WebPluginInfo>> GetPlugins() { throw null; }
+         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings) { throw null; }
+         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings, bool performDependencyCheck) { throw null; }
+diff --git a/CefSharp.Core.Runtime/Resource.rc b/CefSharp.Core.Runtime/Resource.rc
+index e8583de5..3dcae0f0 100644
+--- a/CefSharp.Core.Runtime/Resource.rc
++++ b/CefSharp.Core.Runtime/Resource.rc
+@@ -1,8 +1,8 @@
+ #pragma code_page(65001)
+ 
+ 1 VERSIONINFO
+- FILEVERSION 88,2,10
+- PRODUCTVERSION 88,2,10
++ FILEVERSION 89,0,60
++ PRODUCTVERSION 89,0,60
+  FILEFLAGSMASK 0x17L
+ #ifdef _DEBUG
+  FILEFLAGS 0x1L
+@@ -18,10 +18,10 @@ BEGIN
+         BLOCK "040904b0"
+         BEGIN
+             VALUE "FileDescription", "CefSharp.Core"
+-            VALUE "FileVersion", "88.2.10"
++            VALUE "FileVersion", "89.0.60"
+             VALUE "LegalCopyright", "Copyright © 2021 The CefSharp Authors"
+             VALUE "ProductName", "CefSharp"
+-            VALUE "ProductVersion", "88.2.10"
++            VALUE "ProductVersion", "89.0.60"
+         END
+     END
+     BLOCK "VarFileInfo"
+diff --git a/CefSharp.Example/CefExample.cs b/CefSharp.Example/CefExample.cs
+index ae827b1f..ead032ce 100644
+--- a/CefSharp.Example/CefExample.cs
++++ b/CefSharp.Example/CefExample.cs
+@@ -260,9 +260,7 @@ namespace CefSharp.Example
+                 browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
+             }
+ 
+-            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
+-
+-            if (handler != null)
++            if (browser.ResourceRequestHandlerFactory is ResourceRequestHandlerFactory handler)
+             {
+                 const string renderProcessCrashedBody = "<html><body><h1>Render Process Crashed</h1><p>Your seeing this message as the render process has crashed</p></body></html>";
+                 handler.RegisterHandler(RenderProcessCrashedUrl, ResourceHandler.GetByteArray(renderProcessCrashedBody, Encoding.UTF8));
+diff --git a/CefSharp.Example/Handlers/ExampleRequestHandler.cs b/CefSharp.Example/Handlers/ExampleRequestHandler.cs
+index 4e7df3eb..ce20a9b9 100644
+--- a/CefSharp.Example/Handlers/ExampleRequestHandler.cs
++++ b/CefSharp.Example/Handlers/ExampleRequestHandler.cs
+@@ -16,8 +16,7 @@ namespace CefSharp.Example.Handlers
+     /// </summary>
+     public class ExampleRequestHandler : RequestHandler
+     {
+-        public static readonly string VersionNumberString = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
+-            Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
++        public static readonly string VersionNumberString = $"Chromium: {Cef.ChromiumVersion}, CEF: {Cef.CefVersion}, CefSharp: {Cef.CefSharpVersion}";
+ 
+         protected override bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
+         {
+diff --git a/CefSharp.Example/JavascriptBinding/BoundObject.cs b/CefSharp.Example/JavascriptBinding/BoundObject.cs
+index 0172a885..23c5a3ae 100644
+--- a/CefSharp.Example/JavascriptBinding/BoundObject.cs
++++ b/CefSharp.Example/JavascriptBinding/BoundObject.cs
+@@ -388,7 +388,7 @@ namespace CefSharp.Example.JavascriptBinding
+ 
+         public string MethodWithoutParams(string name, string arg2)
+         {
+-            return string.Format("{0}, {1}", name, arg2);
++            return $"{name}, {arg2}";
+         }
+ 
+         public string MethodWithoutAnything()
+diff --git a/CefSharp.OffScreen.Example/app.manifest b/CefSharp.OffScreen.Example/app.manifest
+index 2825e7e4..6fb0ce37 100644
+--- a/CefSharp.OffScreen.Example/app.manifest
++++ b/CefSharp.OffScreen.Example/app.manifest
+@@ -7,7 +7,7 @@
+   xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ 
+-  <assemblyIdentity version="88.2.10.0" name="CefSharp.OffScreen.Example.app" />
++  <assemblyIdentity version="89.0.60.0" name="CefSharp.OffScreen.Example.app" />
+   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+     <security>
+       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+diff --git a/CefSharp.WinForms.Example/AboutBox.cs b/CefSharp.WinForms.Example/AboutBox.cs
+index 4f0c4369..f464f488 100644
+--- a/CefSharp.WinForms.Example/AboutBox.cs
++++ b/CefSharp.WinForms.Example/AboutBox.cs
+@@ -79,7 +79,7 @@ namespace CefSharp.WinForms.Example
+ 
+             Text = "About CefTest";
+             labelProductName.Text = AssemblyProduct;
+-            labelVersion.Text = String.Format("Version {0} ", Cef.CefSharpVersion);
++            labelVersion.Text = $"Version {Cef.CefSharpVersion} ";
+             labelCopyright.Text = AssemblyCopyright;
+             labelCompanyName.Text = AssemblyCompany;
+             textBoxDescription.Text = "CefSharp - .Net binding for Chromium\r\n\r\n"
+diff --git a/CefSharp.WinForms.Example/BrowserForm.cs b/CefSharp.WinForms.Example/BrowserForm.cs
+index 376129a5..49c180de 100644
+--- a/CefSharp.WinForms.Example/BrowserForm.cs
++++ b/CefSharp.WinForms.Example/BrowserForm.cs
+@@ -153,19 +153,13 @@ namespace CefSharp.WinForms.Example
+         private void FindMenuItemClick(object sender, EventArgs e)
+         {
+             var control = GetCurrentTabControl();
+-            if (control != null)
+-            {
+-                control.ShowFind();
+-            }
++            control?.ShowFind();
+         }
+ 
+         private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
+         {
+             var control = GetCurrentTabControl();
+-            if (control != null)
+-            {
+-                control.CopySourceToClipBoardAsync();
+-            }
++            control?.CopySourceToClipBoardAsync();
+         }
+ 
+         private BrowserTabUserControl GetCurrentTabControl()
+@@ -411,11 +405,11 @@ namespace CefSharp.WinForms.Example
+                     if (task.Exception == null)
+                     {
+                         var isText = task.Result;
+-                        message = string.Format("The active element is{0}a text entry element.", isText ? " " : " not ");
++                        message = $"The active element is{(isText ? " " : " not ")}a text entry element.";
+                     }
+                     else
+                     {
+-                        message = string.Format("Script evaluation failed. {0}", task.Exception.Message);
++                        message = $"Script evaluation failed. {task.Exception.Message}";
+                         icon = MessageBoxIcon.Error;
+                     }
+ 
+@@ -459,7 +453,7 @@ namespace CefSharp.WinForms.Example
+                             }
+                             else
+                             {
+-                                message = string.Format("Script evaluation failed. {0}", task.Exception.Message);
++                                message = $"Script evaluation failed. {task.Exception.Message}";
+                             }
+ 
+                             dialog.Result = message;
+diff --git a/CefSharp.WinForms.Example/BrowserTabUserControl.cs b/CefSharp.WinForms.Example/BrowserTabUserControl.cs
+index 629b09da..33d03b01 100644
+--- a/CefSharp.WinForms.Example/BrowserTabUserControl.cs
++++ b/CefSharp.WinForms.Example/BrowserTabUserControl.cs
+@@ -104,7 +104,7 @@ namespace CefSharp.WinForms.Example
+ 
+             CefExample.RegisterTestResources(browser);
+ 
+-            var version = string.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
++            var version = $"Chromium: {Cef.ChromiumVersion}, CEF: {Cef.CefVersion}, CefSharp: {Cef.CefSharpVersion}";
+             //Set label directly, don't use DisplayOutput as call would be a NOOP (no valid handle yet).
+             outputLabel.Text = version;
+         }
+@@ -156,7 +156,7 @@ namespace CefSharp.WinForms.Example
+ 
+         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
+         {
+-            DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
++            DisplayOutput($"Line: {args.Line}, Source: {args.Source}, Message: {args.Message}");
+         }
+ 
+         private void OnBrowserStatusMessage(object sender, StatusMessageEventArgs args)
+@@ -189,8 +189,8 @@ namespace CefSharp.WinForms.Example
+                 case "click":
+                 {
+                     var message = eventData.ToString();
+-                    var dataDictionary = eventData as Dictionary<string, object>;
+-                    if (dataDictionary != null)
++
++                    if (eventData is Dictionary<string, object> dataDictionary)
+                     {
+                         var result = string.Join(", ", dataDictionary.Select(pair => pair.Key + "=" + pair.Value));
+                         message = "event data: " + result;
+diff --git a/CefSharp.WinForms.Example/Minimal/SimpleBrowserForm.cs b/CefSharp.WinForms.Example/Minimal/SimpleBrowserForm.cs
+index 3b8bf021..3859a830 100644
+--- a/CefSharp.WinForms.Example/Minimal/SimpleBrowserForm.cs
++++ b/CefSharp.WinForms.Example/Minimal/SimpleBrowserForm.cs
+@@ -26,7 +26,7 @@ namespace CefSharp.WinForms.Example.Minimal
+             WindowState = FormWindowState.Maximized;
+ 
+             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
+-            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}, Environment: {3}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion, bitness);
++            var version = $"Chromium: {Cef.ChromiumVersion}, CEF: {Cef.CefVersion}, CefSharp: {Cef.CefSharpVersion}, Environment: {bitness}";
+             DisplayOutput(version);
+ 
+             //Only perform layout when control has completly finished resizing
+@@ -86,7 +86,7 @@ namespace CefSharp.WinForms.Example.Minimal
+ 
+         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
+         {
+-            DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
++            DisplayOutput($"Line: {args.Line}, Source: {args.Source}, Message: {args.Message}");
+         }
+ 
+         private void OnBrowserStatusMessage(object sender, StatusMessageEventArgs args)
+diff --git a/CefSharp.WinForms.Example/app.manifest b/CefSharp.WinForms.Example/app.manifest
+index 8243e057..6795c3a6 100644
+--- a/CefSharp.WinForms.Example/app.manifest
++++ b/CefSharp.WinForms.Example/app.manifest
+@@ -8,7 +8,7 @@
+     xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ 
+-  <assemblyIdentity version="88.2.10.0" name="CefSharp.WinForms.Example.app" />
++  <assemblyIdentity version="89.0.60.0" name="CefSharp.WinForms.Example.app" />
+ 
+   <dependency>
+     <dependentAssembly>
+diff --git a/CefSharp.WinForms/ChromiumWebBrowser.cs b/CefSharp.WinForms/ChromiumWebBrowser.cs
+index ed4f3e55..c83bd8ce 100644
+--- a/CefSharp.WinForms/ChromiumWebBrowser.cs
++++ b/CefSharp.WinForms/ChromiumWebBrowser.cs
+@@ -138,7 +138,7 @@ namespace CefSharp.WinForms
+                 }
+                 if (value != null && !Core.ObjectFactory.BrowserSetingsType.IsAssignableFrom(value.UnWrap().GetType()))
+                 {
+-                    throw new Exception(string.Format("BrowserSettings can only be of type {0} or null", Core.ObjectFactory.BrowserSetingsType));
++                    throw new Exception($"BrowserSettings can only be of type {Core.ObjectFactory.BrowserSetingsType} or null");
+                 }
+                 browserSettings = value;
+             }
+@@ -167,7 +167,7 @@ namespace CefSharp.WinForms
+                 }
+                 if (value != null && !Core.ObjectFactory.RequestContextType.IsAssignableFrom(value.UnWrap().GetType()))
+                 {
+-                    throw new Exception(string.Format("RequestContext can only be of type {0} or null", Core.ObjectFactory.RequestContextType));
++                    throw new Exception($"RequestContext can only be of type {Core.ObjectFactory.RequestContextType} or null");
+                 }
+                 requestContext = value;
+             }
+diff --git a/CefSharp.Wpf.Example/Handlers/ExperimentalLifespanHandler.cs b/CefSharp.Wpf.Example/Handlers/ExperimentalLifespanHandler.cs
+index 7265b3b9..c7428d01 100644
+--- a/CefSharp.Wpf.Example/Handlers/ExperimentalLifespanHandler.cs
++++ b/CefSharp.Wpf.Example/Handlers/ExperimentalLifespanHandler.cs
+@@ -75,8 +75,7 @@ namespace CefSharp.Wpf.Example.Handlers
+ 
+                 popup.Closed += (o, e) =>
+                 {
+-                    var w = o as Window;
+-                    if (w != null && w.Content is IWebBrowser)
++                    if (o is Window w && w.Content is IWebBrowser)
+                     {
+                         (w.Content as IWebBrowser).Dispose();
+                         w.Content = null;
+diff --git a/CefSharp.Wpf.Example/Handlers/WpfBrowserProcessHandler.cs b/CefSharp.Wpf.Example/Handlers/WpfBrowserProcessHandler.cs
+index c3115c6d..cf1cf873 100644
+--- a/CefSharp.Wpf.Example/Handlers/WpfBrowserProcessHandler.cs
++++ b/CefSharp.Wpf.Example/Handlers/WpfBrowserProcessHandler.cs
+@@ -32,10 +32,7 @@ namespace CefSharp.Wpf.Example.Handlers
+         private void DispatcherShutdownStarted(object sender, EventArgs e)
+         {
+             //If the dispatcher is shutting down then we stop the timer
+-            if (timer != null)
+-            {
+-                timer.Stop();
+-            }
++            timer?.Stop();
+         }
+ 
+         private void TimerTick(object sender, EventArgs e)
+diff --git a/CefSharp.Wpf.Example/SpawnBrowsersWindow.xaml.cs b/CefSharp.Wpf.Example/SpawnBrowsersWindow.xaml.cs
+index 48c94397..4c50d0d2 100644
+--- a/CefSharp.Wpf.Example/SpawnBrowsersWindow.xaml.cs
++++ b/CefSharp.Wpf.Example/SpawnBrowsersWindow.xaml.cs
+@@ -74,7 +74,7 @@ namespace CefSharp.Wpf.Example
+ 
+         private void speedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+         {
+-            speedLabel.Content = string.Format("{0}ms", (int)(MAX_SPEED * speedSlider.Value));
++            speedLabel.Content = $"{(int)(MAX_SPEED * speedSlider.Value)}ms";
+         }
+     }
+ }
+diff --git a/CefSharp.Wpf.Example/TouchKeyboardWin10MainWindow.xaml.cs b/CefSharp.Wpf.Example/TouchKeyboardWin10MainWindow.xaml.cs
+index c829593e..ad205abb 100644
+--- a/CefSharp.Wpf.Example/TouchKeyboardWin10MainWindow.xaml.cs
++++ b/CefSharp.Wpf.Example/TouchKeyboardWin10MainWindow.xaml.cs
+@@ -34,10 +34,7 @@ namespace CefSharp.Wpf.Example
+             }
+             else
+             {
+-                if (touchKeyboardEventManager != null)
+-                {
+-                    touchKeyboardEventManager.Dispose();
+-                }
++                touchKeyboardEventManager?.Dispose();
+             }
+         }
+ 
+diff --git a/CefSharp.Wpf.Example/ViewModels/BrowserTabViewModel.cs b/CefSharp.Wpf.Example/ViewModels/BrowserTabViewModel.cs
+index 3272051e..0c417e23 100644
+--- a/CefSharp.Wpf.Example/ViewModels/BrowserTabViewModel.cs
++++ b/CefSharp.Wpf.Example/ViewModels/BrowserTabViewModel.cs
+@@ -140,7 +140,7 @@ namespace CefSharp.Wpf.Example.ViewModels
+ 
+             PropertyChanged += OnPropertyChanged;
+ 
+-            var version = string.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
++            var version = $"Chromium: {Cef.ChromiumVersion}, CEF: {Cef.CefVersion}, CefSharp: {Cef.CefSharpVersion}";
+             OutputMessage = version;
+         }
+ 
+@@ -194,8 +194,7 @@ namespace CefSharp.Wpf.Example.ViewModels
+                         WebBrowser.FrameLoadEnd += (s, args) =>
+                         {
+                             //Sender is the ChromiumWebBrowser object 
+-                            var browser = s as ChromiumWebBrowser;
+-                            if (browser != null && !browser.IsDisposed)
++                            if (s is ChromiumWebBrowser browser && !browser.IsDisposed)
+                             {
+                                 browser.Dispatcher.BeginInvoke((Action)(() => browser.Focus()));
+                             }
+diff --git a/CefSharp.Wpf.Example/Views/BrowserTabView.xaml.cs b/CefSharp.Wpf.Example/Views/BrowserTabView.xaml.cs
+index 2ae25b2b..d9687014 100644
+--- a/CefSharp.Wpf.Example/Views/BrowserTabView.xaml.cs
++++ b/CefSharp.Wpf.Example/Views/BrowserTabView.xaml.cs
+@@ -178,8 +178,7 @@ namespace CefSharp.Wpf.Example.Views
+                 }
+ 
+                 // Display a load error message.
+-                var errorBody = string.Format("<html><body bgcolor=\"white\"><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>",
+-                                              args.FailedUrl, args.ErrorText, args.ErrorCode);
++                var errorBody = $"<html><body bgcolor=\"white\"><h2>Failed to load URL {args.FailedUrl} with error {args.ErrorText} ({args.ErrorCode}).</h2></body></html>";
+ 
+                 args.Frame.LoadHtml(errorBody, base64Encode: true);
+             };
+@@ -192,9 +191,8 @@ namespace CefSharp.Wpf.Example.Views
+         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+         {
+             //TODO: Ideally we'd be able to bind this directly without having to use codebehind
+-            var viewModel = e.NewValue as BrowserTabViewModel;
+ 
+-            if (viewModel != null)
++            if (e.NewValue is BrowserTabViewModel viewModel)
+             {
+ 
+                 browser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = viewModel.LegacyBindingEnabled;
+diff --git a/CefSharp.Wpf.Example/app.manifest b/CefSharp.Wpf.Example/app.manifest
+index 5acf1477..bc8f8def 100644
+--- a/CefSharp.Wpf.Example/app.manifest
++++ b/CefSharp.Wpf.Example/app.manifest
+@@ -7,7 +7,7 @@
+   xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ 
+-  <assemblyIdentity version="88.2.10.0" name="CefSharp.Wpf.Example.app" />
++  <assemblyIdentity version="89.0.60.0" name="CefSharp.Wpf.Example.app" />
+   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+     <security>
+       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+diff --git a/CefSharp.Wpf/ChromiumWebBrowser.cs b/CefSharp.Wpf/ChromiumWebBrowser.cs
+index 42ddb647..ee4a33f5 100644
+--- a/CefSharp.Wpf/ChromiumWebBrowser.cs
++++ b/CefSharp.Wpf/ChromiumWebBrowser.cs
+@@ -203,7 +203,7 @@ namespace CefSharp.Wpf
+                 }
+                 if (value != null && !Core.ObjectFactory.RequestContextType.IsAssignableFrom(value.UnWrap().GetType()))
+                 {
+-                    throw new Exception(string.Format("RequestContext can only be of type {0} or null", Core.ObjectFactory.RequestContextType));
++                    throw new Exception($"RequestContext can only be of type {Core.ObjectFactory.RequestContextType} or null");
+                 }
+                 requestContext = value;
+             }
+@@ -983,10 +983,7 @@ namespace CefSharp.Wpf
+         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
+         {
+             var imeKeyboardHandler = WpfKeyboardHandler as WpfImeKeyboardHandler;
+-            if (imeKeyboardHandler != null)
+-            {
+-                imeKeyboardHandler.ChangeCompositionRange(selectedRange, characterBounds);
+-            }
++            imeKeyboardHandler?.ChangeCompositionRange(selectedRange, characterBounds);
+         }
+ 
+         void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+@@ -1610,8 +1607,7 @@ namespace CefSharp.Wpf
+ 
+                 NotifyDpiChange((float)matrix.M11);
+ 
+-                var window = source.RootVisual as Window;
+-                if (window != null)
++                if (source.RootVisual is Window window)
+                 {
+                     window.StateChanged += OnWindowStateChanged;
+                     window.LocationChanged += OnWindowLocationChanged;
+@@ -1627,8 +1623,7 @@ namespace CefSharp.Wpf
+             {
+                 WpfKeyboardHandler.Dispose();
+ 
+-                var window = args.OldSource.RootVisual as Window;
+-                if (window != null)
++                if (source.RootVisual is Window window)
+                 {
+                     window.StateChanged -= OnWindowStateChanged;
+                     window.LocationChanged -= OnWindowLocationChanged;
+@@ -1721,10 +1716,7 @@ namespace CefSharp.Wpf
+                 //If the browser has finished rendering before we attach to the Visual Tree
+                 //then ask for a new frame to be generated
+                 var host = this.GetBrowserHost();
+-                if (host != null)
+-                {
+-                    host.Invalidate(PaintElementType.View);
+-                }
++                host?.Invalidate(PaintElementType.View);
+             };
+ 
+             Loaded += handler;
+diff --git a/CefSharp.Wpf/Experimental/Accessibility/TabControlAutomationPeer.cs b/CefSharp.Wpf/Experimental/Accessibility/TabControlAutomationPeer.cs
+index 314cc287..6be2c81f 100644
+--- a/CefSharp.Wpf/Experimental/Accessibility/TabControlAutomationPeer.cs
++++ b/CefSharp.Wpf/Experimental/Accessibility/TabControlAutomationPeer.cs
+@@ -31,8 +31,7 @@ namespace CefSharp.Wpf.Experimental.Accessibility
+ 
+             for (var i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
+             {
+-                var child = VisualTreeHelper.GetChild(element, i) as UIElement;
+-                if (child != null)
++                if (VisualTreeHelper.GetChild(element, i) is UIElement child)
+                 {
+                     var childPeer = CreatePeerForElement(child);
+                     if (childPeer != null)
+diff --git a/CefSharp.shfbproj b/CefSharp.shfbproj
+index 3021638e..a8ebeb9c 100644
+--- a/CefSharp.shfbproj
++++ b/CefSharp.shfbproj
+@@ -31,7 +31,7 @@
+       <DocumentationSource sourceFile="CefSharp.WinForms\CefSharp.WinForms.csproj" />
+       <DocumentationSource sourceFile="CefSharp.Wpf\CefSharp.Wpf.csproj" />
+     </DocumentationSources>
+-    <HelpFileVersion>88.2.10</HelpFileVersion>
++    <HelpFileVersion>89.0.60</HelpFileVersion>
+     <MaximumGroupParts>2</MaximumGroupParts>
+     <NamespaceGrouping>False</NamespaceGrouping>
+     <SyntaxFilters>C#, Managed C++</SyntaxFilters>
+@@ -59,7 +59,7 @@
+       <Filter entryType="Namespace" fullName="CefSharp.Wpf.Internals" isExposed="False" xmlns="" />
+     </ApiFilter>
+     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, EditorBrowsableNever, NonBrowsable</VisibleItems>
+-    <HeaderText>Version 88.2.10</HeaderText>
++    <HeaderText>Version 89.0.60</HeaderText>
+     <CopyrightHref>https://raw.githubusercontent.com/cefsharp/CefSharp/master/LICENSE</CopyrightHref>
+     <NamespaceSummaries>
+       <NamespaceSummaryItem name="CefSharp" isDocumented="True">Interfaces, enums, structs and classes that make up the core API interface</NamespaceSummaryItem>
+diff --git a/CefSharp/DevTools/DevToolsClient.cs b/CefSharp/DevTools/DevToolsClient.cs
+index 39afa84d..ee95b4ac 100644
+--- a/CefSharp/DevTools/DevToolsClient.cs
++++ b/CefSharp/DevTools/DevToolsClient.cs
+@@ -108,7 +108,7 @@ namespace CefSharp.DevTools
+ 
+             if (!queuedCommandResults.TryAdd(messageId, taskCompletionSource))
+             {
+-                throw new DevToolsClientException(string.Format("Unable to add MessageId {0} to queuedCommandResults ConcurrentDictionary.", messageId));
++                throw new DevToolsClientException($"Unable to add MessageId {messageId} to queuedCommandResults ConcurrentDictionary.");
+             }
+ 
+             var browserHost = browser.GetHost();
+@@ -124,7 +124,7 @@ namespace CefSharp.DevTools
+                 else if(returnedMessageId != messageId)
+                 {
+                     //For some reason our message Id's don't match
+-                    throw new DevToolsClientException(string.Format("Generated MessageId {0} doesn't match returned Message Id {1}", returnedMessageId, messageId));
++                    throw new DevToolsClientException($"Generated MessageId {returnedMessageId} doesn't match returned Message Id {messageId}");
+                 }
+             }
+             //ExecuteDevToolsMethod can only be called on the CEF UI Thread
+@@ -142,7 +142,7 @@ namespace CefSharp.DevTools
+                 else if (returnedMessageId != messageId)
+                 {
+                     //For some reason our message Id's don't match
+-                    throw new DevToolsClientException(string.Format("Generated MessageId {0} doesn't match returned Message Id {1}", returnedMessageId, messageId));
++                    throw new DevToolsClientException($"Generated MessageId {returnedMessageId} doesn't match returned Message Id {messageId}");
+                 }
+             }
+             else
+diff --git a/CefSharp/DomNode.cs b/CefSharp/DomNode.cs
+index 6806ec3d..18a72933 100644
+--- a/CefSharp/DomNode.cs
++++ b/CefSharp/DomNode.cs
+@@ -47,7 +47,7 @@ namespace CefSharp
+ 
+             if (!String.IsNullOrWhiteSpace(TagName))
+             {
+-                sb.Insert(0, String.Format("{0} ", TagName));
++                sb.Insert(0, $"{TagName} ");
+             }
+ 
+             if (sb.Length < 1)
+diff --git a/CefSharp/Internals/JavascriptObjectRepository.cs b/CefSharp/Internals/JavascriptObjectRepository.cs
+index 9ca953c1..f1c1952c 100644
+--- a/CefSharp/Internals/JavascriptObjectRepository.cs
++++ b/CefSharp/Internals/JavascriptObjectRepository.cs
+@@ -211,7 +211,7 @@ namespace CefSharp.Internals
+ #endif
+ 
+             //Validation name is unique
+-            if (objects.Values.Count(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)) > 0)
++            if (objects.Values.Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)))
+             {
+                 throw new ArgumentException("Object already bound with name:" + name, name);
+             }
+@@ -275,7 +275,7 @@ namespace CefSharp.Internals
+             var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
+             if (method == null)
+             {
+-                throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
++                throw new InvalidOperationException($"Method {name} not found on Object of Type {obj.Value.GetType()}");
+             }
+ 
+             try
+@@ -409,7 +409,7 @@ namespace CefSharp.Internals
+             var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
+             if (method == null)
+             {
+-                throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
++                throw new InvalidOperationException($"Method {name} not found on Object of Type {obj.Value.GetType()}");
+             }
+ 
+             try
+@@ -559,7 +559,7 @@ namespace CefSharp.Internals
+             var property = obj.Properties.FirstOrDefault(p => p.JavascriptName == name);
+             if (property == null)
+             {
+-                throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
++                throw new InvalidOperationException($"Property {name} not found on Object of Type {obj.Value.GetType()}");
+             }
+ 
+             try
+@@ -593,7 +593,7 @@ namespace CefSharp.Internals
+             var property = obj.Properties.FirstOrDefault(p => p.JavascriptName == name);
+             if (property == null)
+             {
+-                throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
++                throw new InvalidOperationException($"Property {name} not found on Object of Type {obj.Value.GetType()}");
+             }
+             try
+             {
+diff --git a/CefSharp/ModelBinding/BindingMemberInfo.cs b/CefSharp/ModelBinding/BindingMemberInfo.cs
+index 2d0495ba..1fd3ec07 100644
+--- a/CefSharp/ModelBinding/BindingMemberInfo.cs
++++ b/CefSharp/ModelBinding/BindingMemberInfo.cs
+@@ -67,9 +67,9 @@ namespace CefSharp.ModelBinding
+         /// <param name="newValue">The value to assign in the specified object to this BindingMemberInfo's property or field.</param>
+         public void SetValue(object destinationObject, object newValue)
+         {
+-            if (memberInfo is PropertyInfo)
++            if (memberInfo is PropertyInfo propertyInfo)
+             {
+-                ((PropertyInfo)memberInfo).SetValue(destinationObject, newValue, null);
++                propertyInfo.SetValue(destinationObject, newValue, null);
+             }
+             else
+             {
+diff --git a/CefSharp/Properties/AssemblyInfo.cs b/CefSharp/Properties/AssemblyInfo.cs
+index 427a4dbf..0e3476d4 100644
+--- a/CefSharp/Properties/AssemblyInfo.cs
++++ b/CefSharp/Properties/AssemblyInfo.cs
+@@ -26,8 +26,8 @@ namespace CefSharp
+         public const bool ComVisible = false;
+         public const string AssemblyCompany = "The CefSharp Authors";
+         public const string AssemblyProduct = "CefSharp";
+-        public const string AssemblyVersion = "88.2.10";
+-        public const string AssemblyFileVersion = "88.2.10.0";
++        public const string AssemblyVersion = "89.0.60";
++        public const string AssemblyFileVersion = "89.0.60.0";
+         public const string AssemblyCopyright = "Copyright © 2021 The CefSharp Authors";
+         public const string CefSharpCoreProject = "CefSharp.Core, PublicKey=" + PublicKey;
+         public const string CefSharpBrowserSubprocessProject = "CefSharp.BrowserSubprocess, PublicKey=" + PublicKey;
+diff --git a/CefSharp/SchemeHandler/FolderSchemeHandlerFactory.cs b/CefSharp/SchemeHandler/FolderSchemeHandlerFactory.cs
+index 5da8053d..ae69ae15 100644
+--- a/CefSharp/SchemeHandler/FolderSchemeHandlerFactory.cs
++++ b/CefSharp/SchemeHandler/FolderSchemeHandlerFactory.cs
+@@ -91,14 +91,14 @@ namespace CefSharp.SchemeHandler
+         {
+             if (this.schemeName != null && !schemeName.Equals(this.schemeName, StringComparison.OrdinalIgnoreCase))
+             {
+-                return ResourceHandler.ForErrorMessage(string.Format("SchemeName {0} does not match the expected SchemeName of {1}.", schemeName, this.schemeName), HttpStatusCode.NotFound);
++                return ResourceHandler.ForErrorMessage($"SchemeName {schemeName} does not match the expected SchemeName of {this.schemeName}.", HttpStatusCode.NotFound);
+             }
+ 
+             var uri = new Uri(request.Url);
+ 
+             if (this.hostName != null && !uri.Host.Equals(this.hostName, StringComparison.OrdinalIgnoreCase))
+             {
+-                return ResourceHandler.ForErrorMessage(string.Format("HostName {0} does not match the expected HostName of {1}.", uri.Host, this.hostName), HttpStatusCode.NotFound);
++                return ResourceHandler.ForErrorMessage($"HostName {uri.Host} does not match the expected HostName of {this.hostName}.", HttpStatusCode.NotFound);
+             }
+ 
+             //Get the absolute path and remove the leading slash
+diff --git a/NuGet/PackageReference/CefSharp.Common.NETCore.targets b/NuGet/PackageReference/CefSharp.Common.NETCore.targets
+index 787ef047..29dd258d 100644
+--- a/NuGet/PackageReference/CefSharp.Common.NETCore.targets
++++ b/NuGet/PackageReference/CefSharp.Common.NETCore.targets
+@@ -120,8 +120,8 @@
+     </When>
+     <Otherwise>
+       <ItemGroup>
+-        <PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="88.2.9" />
+-        <PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="88.2.9" />
++        <PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="89.0.6" />
++        <PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="89.0.6" />
+         <Content Include="@(CefRuntimeWin32Locales)">
+           <Link>runtimes\win-x86\native\locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
+           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

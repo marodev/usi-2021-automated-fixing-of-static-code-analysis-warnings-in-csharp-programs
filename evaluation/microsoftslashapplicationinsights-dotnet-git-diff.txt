@@ -1,0 +1,1418 @@
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/EnumerableExtensions.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/EnumerableExtensions.cs
+index 492b83d87..716d12046 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/EnumerableExtensions.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/EnumerableExtensions.cs
+@@ -1,4 +1,5 @@
+-﻿
++﻿using System.Linq;
++
+ namespace Microsoft.ApplicationInsights
+ {
+     using System;
+@@ -14,7 +15,7 @@ namespace Microsoft.ApplicationInsights
+ 
+         public static double StdDev<T>(this IEnumerable<T> sequence, Func<T, double> selector)
+         {
+-            if (sequence.Count() <= 0)
++            if (!sequence.Any())
+             {
+                 return 0;
+             }
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Extensibility/Implementation/Tracing/HeartbeatTests.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Extensibility/Implementation/Tracing/HeartbeatTests.cs
+index 311527ebc..5b0c1535a 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Extensibility/Implementation/Tracing/HeartbeatTests.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Extensibility/Implementation/Tracing/HeartbeatTests.cs
+@@ -1,4 +1,5 @@
+-﻿namespace Microsoft.ApplicationInsights.Extensibility.Implementation.Tracing
++﻿using System.Linq;
++namespace Microsoft.ApplicationInsights.Extensibility.Implementation.Tracing
+ {
+     using System;
+     using System.Collections.Generic;
+@@ -36,7 +37,7 @@
+             using (var hbeat = new HeartbeatProvider())
+             {
+                 hbeat.Initialize(configuration: null);
+-                Assert.IsTrue(hbeat.ExcludedHeartbeatProperties == null || hbeat.ExcludedHeartbeatProperties.Count() == 0);
++                Assert.IsTrue(hbeat.ExcludedHeartbeatProperties == null || !hbeat.ExcludedHeartbeatProperties.Any());
+                 Assert.AreEqual(hbeat.HeartbeatInterval, HeartbeatProvider.DefaultHeartbeatInterval);
+             }
+         }
+@@ -266,7 +267,7 @@
+             {
+                 List<string> disableHbProps = new List<string>();
+ 
+-                for (int i = 0; i < allDefaultFields.Count(); ++i)
++                for (int i = 0; i < allDefaultFields.Count; ++i)
+                 {
+                     if (i % 2 == 0)
+                     {
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Extensibility/ApplicationInsightsTelemetryPipelineTests.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Extensibility/ApplicationInsightsTelemetryPipelineTests.cs
+index d7a6cbb45..a52a89fa7 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Extensibility/ApplicationInsightsTelemetryPipelineTests.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Extensibility/ApplicationInsightsTelemetryPipelineTests.cs
+@@ -162,22 +162,22 @@ namespace Microsoft.ApplicationInsights.Metrics.Extensibility
+                         Assert.IsNotNull(telemetrySentToChannel);
+                         Assert.AreEqual(4, telemetrySentToChannel.Count);
+ 
+-                        Assert.AreEqual(1, telemetrySentToChannel.Where( (item) => (item as MetricTelemetry).Name.Equals("M1") ).Count());
++                        Assert.AreEqual(1, telemetrySentToChannel.Count( (item) => (item as MetricTelemetry).Name.Equals("M1") ));
+                         Assert.AreEqual("NSa", (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M1") ) as MetricTelemetry).MetricNamespace);
+                         Assert.AreEqual(1, (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M1") ) as MetricTelemetry).Count);
+                         Assert.AreEqual(10.0, (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M1") ) as MetricTelemetry).Sum);
+ 
+-                        Assert.AreEqual(1, telemetrySentToChannel.Where( (item) => (item as MetricTelemetry).Name.Equals("M2") ).Count());
++                        Assert.AreEqual(1, telemetrySentToChannel.Count( (item) => (item as MetricTelemetry).Name.Equals("M2") ));
+                         Assert.AreEqual("NSb", (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M2") ) as MetricTelemetry).MetricNamespace);
+                         Assert.AreEqual(expectedCountWhenZero, (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M2") ) as MetricTelemetry).Count);
+                         Assert.AreEqual(20.0, (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M2") ) as MetricTelemetry).Sum);
+ 
+-                        Assert.AreEqual(1, telemetrySentToChannel.Where( (item) => (item as MetricTelemetry).Name.Equals("M3") ).Count());
++                        Assert.AreEqual(1, telemetrySentToChannel.Count( (item) => (item as MetricTelemetry).Name.Equals("M3") ));
+                         Assert.AreEqual("NSc", (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M3") ) as MetricTelemetry).MetricNamespace);
+                         Assert.AreEqual(expectedCountWhenZero, (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M3") ) as MetricTelemetry).Count);
+                         Assert.AreEqual(30.0, (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M3") ) as MetricTelemetry).Sum);
+ 
+-                        Assert.AreEqual(1, telemetrySentToChannel.Where( (item) => (item as MetricTelemetry).Name.Equals("M4") ).Count());
++                        Assert.AreEqual(1, telemetrySentToChannel.Count( (item) => (item as MetricTelemetry).Name.Equals("M4") ));
+                         Assert.AreEqual("NSd", (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M4") ) as MetricTelemetry).MetricNamespace);
+                         Assert.AreEqual(3, (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M4") ) as MetricTelemetry).Count);
+                         Assert.AreEqual(-40.0, (telemetrySentToChannel.First( (item) => (item as MetricTelemetry).Name.Equals("M4") ) as MetricTelemetry).Sum);
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Extensibility/AutocollectedMetricsExtraction/AutocollectedMetricsExtractorTest.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Extensibility/AutocollectedMetricsExtraction/AutocollectedMetricsExtractorTest.cs
+index 973615b16..ccad430b3 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Extensibility/AutocollectedMetricsExtraction/AutocollectedMetricsExtractorTest.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Extensibility/AutocollectedMetricsExtraction/AutocollectedMetricsExtractorTest.cs
+@@ -1,4 +1,5 @@
+-﻿namespace Microsoft.ApplicationInsights.Extensibility
++﻿using System.Linq;
++namespace Microsoft.ApplicationInsights.Extensibility
+ {
+     using System;
+     using System.Collections.Generic;
+@@ -278,14 +279,14 @@
+                 (tel) => "Server response time".Equals((tel as MetricTelemetry)?.Name)
+                 && (tel as MetricTelemetry).Properties.Contains(new KeyValuePair<string, string>("cloud/roleInstance", "RoleInstanceC")));
+ 
+-            Assert.IsTrue(cloudRoleInstanceC.Count() == 0);
++            Assert.IsTrue(!cloudRoleInstanceC.Any());
+ 
+             // We expect RoleInstanceD to be not present as a dimension, as dimension cap of 2 is already hit.
+             var cloudRoleInstanceD = telemetrySentToChannel.Where(
+                 (tel) => "Server response time".Equals((tel as MetricTelemetry)?.Name)
+                 && (tel as MetricTelemetry).Properties.Contains(new KeyValuePair<string, string>("cloud/roleInstance", "RoleInstanceD")));
+ 
+-            Assert.IsTrue(cloudRoleInstanceD.Count() == 0);
++            Assert.IsTrue(!cloudRoleInstanceD.Any());
+ 
+             // We expect a DIMENSION-CAPPED series, which represents RoleInstanceC and RoleInstanceD
+             var dimCappedSeries = telemetrySentToChannel.Where(
+@@ -653,8 +654,8 @@
+             AssertEx.IsType<MetricTelemetry>(telemetrySentToChannel[5]);
+             AssertEx.IsType<MetricTelemetry>(telemetrySentToChannel[6]);
+ 
+-            Assert.AreEqual(1, telemetrySentToChannel.Where( (t) => "Server response time".Equals((t as MetricTelemetry)?.Name) ).Count());
+-            Assert.AreEqual(1, telemetrySentToChannel.Where( (t) => "Dependency duration".Equals((t as MetricTelemetry)?.Name) ).Count());
++            Assert.AreEqual(1, telemetrySentToChannel.Count( (t) => "Server response time".Equals((t as MetricTelemetry)?.Name) ));
++            Assert.AreEqual(1, telemetrySentToChannel.Count( (t) => "Dependency duration".Equals((t as MetricTelemetry)?.Name) ));
+         }
+ 
+         [TestMethod]
+@@ -1108,14 +1109,14 @@
+                 (tel) => "Exceptions".Equals((tel as MetricTelemetry)?.Name)
+                 && (tel as MetricTelemetry).Properties.Contains(new KeyValuePair<string, string>("cloud/roleInstance", "RoleInstanceC")));
+ 
+-            Assert.IsTrue(cloudRoleInstanceC.Count() == 0);
++            Assert.IsTrue(!cloudRoleInstanceC.Any());
+ 
+             // We expect RoleInstanceD to be not present as a dimension, as dimension cap of 2 is already hit.
+             var cloudRoleInstanceD = telemetrySentToChannel.Where(
+                 (tel) => "Exceptions".Equals((tel as MetricTelemetry)?.Name)
+                 && (tel as MetricTelemetry).Properties.Contains(new KeyValuePair<string, string>("cloud/roleInstance", "RoleInstanceD")));
+ 
+-            Assert.IsTrue(cloudRoleInstanceD.Count() == 0);
++            Assert.IsTrue(!cloudRoleInstanceD.Any());
+ 
+             // We expect a DIMENSION-CAPPED series, which represents RoleInstanceC and RoleInstanceD
+             var dimCappedSeries = telemetrySentToChannel.Where(
+@@ -1413,14 +1414,14 @@
+                 (tel) => "Traces".Equals((tel as MetricTelemetry)?.Name)
+                 && (tel as MetricTelemetry).Properties.Contains(new KeyValuePair<string, string>("cloud/roleInstance", "RoleInstanceC")));
+ 
+-            Assert.IsTrue(cloudRoleInstanceC.Count() == 0);
++            Assert.IsTrue(!cloudRoleInstanceC.Any());
+ 
+             // We expect RoleInstanceD to be not present as a dimension, as dimension cap of 2 is already hit.
+             var cloudRoleInstanceD = telemetrySentToChannel.Where(
+                 (tel) => "Traces".Equals((tel as MetricTelemetry)?.Name)
+                 && (tel as MetricTelemetry).Properties.Contains(new KeyValuePair<string, string>("cloud/roleInstance", "RoleInstanceD")));
+ 
+-            Assert.IsTrue(cloudRoleInstanceD.Count() == 0);
++            Assert.IsTrue(!cloudRoleInstanceD.Any());
+ 
+             // We expect a DIMENSION-CAPPED series, which represents RoleInstanceC and RoleInstanceD
+             var dimCappedSeries = telemetrySentToChannel.Where(
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/CommonSimpleDataSeriesAggregatorTests.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/CommonSimpleDataSeriesAggregatorTests.cs
+index ab2a94ae6..8639fc175 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/CommonSimpleDataSeriesAggregatorTests.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/CommonSimpleDataSeriesAggregatorTests.cs
+@@ -389,8 +389,7 @@ namespace Microsoft.ApplicationInsights.Metrics
+ 
+                 double doubleValue;
+ 
+-                string stringValue = metricValue as string;
+-                if (stringValue != null)
++                if (metricValue is string stringValue)
+                 {
+                     if (!Double.TryParse(stringValue, out doubleValue))
+                     {
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/ConcurrentDatastructures/MultidimensionalCube2Tests.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/ConcurrentDatastructures/MultidimensionalCube2Tests.cs
+index 3e5649fc5..3e0d06d18 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/ConcurrentDatastructures/MultidimensionalCube2Tests.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/ConcurrentDatastructures/MultidimensionalCube2Tests.cs
+@@ -611,7 +611,7 @@ namespace Microsoft.ApplicationInsights.Metrics.ConcurrentDatastructures
+             Action<IReadOnlyCollection<KeyValuePair<string[], int>>, IDictionary<string[], int>, string[], int> AssertContains =
+                     (points1, points2, expectedVector, expectedPoint) =>
+                     {
+-                        Assert.AreEqual(1, points1.Where((p) => TestUtil.AreEqual(expectedVector, p.Key)).Count());
++                        Assert.AreEqual(1, points1.Count((p) => TestUtil.AreEqual(expectedVector, p.Key)));
+                         Assert.AreEqual(expectedPoint, points1.First( (p) => TestUtil.AreEqual(expectedVector, p.Key) ).Value);
+ 
+                         Assert.IsTrue(points2.ContainsKey(expectedVector));
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/ConcurrentDatastructures/MultidimensionalCubeTests.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/ConcurrentDatastructures/MultidimensionalCubeTests.cs
+index 3813cad07..055509836 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/ConcurrentDatastructures/MultidimensionalCubeTests.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/Implementation/ConcurrentDatastructures/MultidimensionalCubeTests.cs
+@@ -421,7 +421,7 @@ namespace Microsoft.ApplicationInsights.Metrics.ConcurrentDatastructures
+             Action<IReadOnlyCollection<KeyValuePair<string[], int>>, IDictionary<string[], int>, string[], int> AssertContains =
+                     (points1, points2, expectedVector, expectedPoint) =>
+                     {
+-                        Assert.AreEqual(1, points1.Where((p) => TestUtil.AreEqual(expectedVector, p.Key)).Count());
++                        Assert.AreEqual(1, points1.Count((p) => TestUtil.AreEqual(expectedVector, p.Key)));
+                         Assert.AreEqual(expectedPoint, points1.First( (p) => TestUtil.AreEqual(expectedVector, p.Key) ).Value);
+ 
+                         Assert.IsTrue(points2.ContainsKey(expectedVector));
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/MetricsExamples.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/MetricsExamples.cs
+index 818fd8bce..52410860c 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/MetricsExamples.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/MetricsExamples.cs
+@@ -975,19 +975,13 @@ namespace User.Namespace.Example06ab
+             foreach (ITelemetryProcessor initializer in telemetryConfig.TelemetryInitializers)
+             {
+                 ITelemetryModule m = initializer as ITelemetryModule;
+-                if (m != null)
+-                {
+-                    m.Initialize(telemetryConfig);
+-                }
++                m?.Initialize(telemetryConfig);
+             }
+ 
+             foreach (ITelemetryProcessor processor in telemetryConfig.TelemetryProcessors)
+             {
+                 ITelemetryModule m = processor as ITelemetryModule;
+-                if (m != null)
+-                {
+-                    m.Initialize(telemetryConfig);
+-                }
++                m?.Initialize(telemetryConfig);
+             }
+ 
+             telemetrySentToChannel = channel.TelemetryItems;
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/TestUtility/MetricSeriesConfigurationForTestingAccumulatorBehavior.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/TestUtility/MetricSeriesConfigurationForTestingAccumulatorBehavior.cs
+index 5dca71d88..c7aca851b 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/TestUtility/MetricSeriesConfigurationForTestingAccumulatorBehavior.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/TestUtility/MetricSeriesConfigurationForTestingAccumulatorBehavior.cs
+@@ -39,8 +39,7 @@ namespace Microsoft.ApplicationInsights.Metrics.TestUtility
+         {
+             if (obj != null)
+             {
+-                var otherConfig = obj as MetricSeriesConfigurationForTestingAccumulatorBehavior;
+-                if (otherConfig != null)
++                if (obj is MetricSeriesConfigurationForTestingAccumulatorBehavior otherConfig)
+                 {
+                     return Equals(otherConfig);
+                 }
+diff --git a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/TestUtility/TestUtil.cs b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/TestUtility/TestUtil.cs
+index 2279e8553..762b9c5b8 100644
+--- a/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/TestUtility/TestUtil.cs
++++ b/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/Metrics/TestUtility/TestUtil.cs
+@@ -106,19 +106,13 @@ namespace Microsoft.ApplicationInsights.Metrics.TestUtility
+             foreach (ITelemetryProcessor initializer in telemetryConfig.TelemetryInitializers)
+             {
+                 ITelemetryModule m = initializer as ITelemetryModule;
+-                if (m != null)
+-                {
+-                    m.Initialize(telemetryConfig);
+-                }
++                m?.Initialize(telemetryConfig);
+             }
+ 
+             foreach (ITelemetryProcessor processor in telemetryConfig.TelemetryProcessors)
+             {
+                 ITelemetryModule m = processor as ITelemetryModule;
+-                if (m != null)
+-                {
+-                    m.Initialize(telemetryConfig);
+-                }
++                m?.Initialize(telemetryConfig);
+             }
+ 
+             telemetrySentToChannel = channel.TelemetryItems;
+diff --git a/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Nuget.Tests/TelemetryProcessorsTests.cs b/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Nuget.Tests/TelemetryProcessorsTests.cs
+index 4926bb42c..c4b0482dc 100644
+--- a/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Nuget.Tests/TelemetryProcessorsTests.cs
++++ b/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Nuget.Tests/TelemetryProcessorsTests.cs
+@@ -24,19 +24,19 @@
+             var type = processors.FirstOrDefault(element => element.Attribute("Type").Value == ConfigurationHelpers.GetPartialTypeName(typeToFind));
+             Assert.IsNotNull(type);
+ 
+-            var excludedTypes = processors.Descendants().Where(element => element.Name.LocalName == "ExcludedTypes").First().Value;
++            var excludedTypes = processors.Descendants().First(element => element.Name.LocalName == "ExcludedTypes").Value;
+             Assert.AreEqual("Event", excludedTypes);
+ 
+-            var maxItems = processors.Descendants().Where(element => element.Name.LocalName == "MaxTelemetryItemsPerSecond").First().Value;
++            var maxItems = processors.Descendants().First(element => element.Name.LocalName == "MaxTelemetryItemsPerSecond").Value;
+             Assert.AreEqual("5", maxItems);
+ 
+             type = processors.LastOrDefault(element => element.Attribute("Type").Value == ConfigurationHelpers.GetPartialTypeName(typeToFind));
+             Assert.IsNotNull(type);
+ 
+-            var includedTypes = processors.Descendants().Where(element => element.Name.LocalName == "IncludedTypes").First().Value;
++            var includedTypes = processors.Descendants().First(element => element.Name.LocalName == "IncludedTypes").Value;
+             Assert.AreEqual("Event", includedTypes);
+ 
+-            maxItems = processors.Descendants().Where(element => element.Name.LocalName == "MaxTelemetryItemsPerSecond").Last().Value;
++            maxItems = processors.Descendants().Last(element => element.Name.LocalName == "MaxTelemetryItemsPerSecond").Value;
+             Assert.AreEqual("5", maxItems);
+         }
+ 
+diff --git a/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/AdaptiveSamplingTelemetryProcessorTest.cs b/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/AdaptiveSamplingTelemetryProcessorTest.cs
+index 515a677d5..232582aa9 100644
+--- a/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/AdaptiveSamplingTelemetryProcessorTest.cs
++++ b/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/AdaptiveSamplingTelemetryProcessorTest.cs
+@@ -269,11 +269,8 @@
+             // tolrance +-
+             int tolerance = targetItemCount / 2;
+ 
+-            Trace.WriteLine(string.Format("'Ideal' telemetry item count: {0}", targetItemCount));
+-            Trace.WriteLine(string.Format(
+-                "Expected range: from {0} to {1}",
+-                targetItemCount - tolerance,
+-                targetItemCount + tolerance));
++            Trace.WriteLine($"'Ideal' telemetry item count: {targetItemCount}");
++            Trace.WriteLine($"Expected range: from {targetItemCount - tolerance} to {targetItemCount + tolerance}");
+             Trace.WriteLine(string.Format(
+                 "Actual telemetry item count: {0} ({1:##.##}% of ideal)",
+                 sentTelemetry.Count,
+@@ -348,11 +345,8 @@
+             int targetItemCount = 30 * 5;
+             int tolerance = targetItemCount / 2;
+ 
+-            Trace.WriteLine(string.Format("'Ideal' telemetry item count: {0}", targetItemCount));
+-            Trace.WriteLine(string.Format(
+-                "Expected range: from {0} to {1}",
+-                targetItemCount - tolerance,
+-                targetItemCount + tolerance));
++            Trace.WriteLine($"'Ideal' telemetry item count: {targetItemCount}");
++            Trace.WriteLine($"Expected range: from {targetItemCount - tolerance} to {targetItemCount + tolerance}");
+             Trace.WriteLine(string.Format(
+                 "Actual telemetry item count: {0} ({1:##.##}% of ideal)",
+                 sentTelemetry.Count,
+@@ -496,13 +490,7 @@
+             bool isSamplingPercentageChanged,
+             Channel.Implementation.SamplingPercentageEstimatorSettings settings)
+         {
+-            Trace.WriteLine(string.Format(
+-                "[Sampling% evaluation] {0}, Eps: {1}, Current %: {2}, New %: {3}, Changed: {4}",
+-                DateTimeOffset.UtcNow.ToString("o"), 
+-                afterSamplingTelemetryItemRatePerSecond,
+-                currentSamplingPercentage,
+-                newSamplingPercentage,
+-                isSamplingPercentageChanged));
++            Trace.WriteLine($"[Sampling% evaluation] {DateTimeOffset.UtcNow.ToString("o")}, Eps: {afterSamplingTelemetryItemRatePerSecond}, Current %: {currentSamplingPercentage}, New %: {newSamplingPercentage}, Changed: {isSamplingPercentageChanged}");
+         }
+ 
+ 
+diff --git a/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/Implementation/FileSystemTest.cs b/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/Implementation/FileSystemTest.cs
+index 5b6ad9888..807e28b6c 100644
+--- a/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/Implementation/FileSystemTest.cs
++++ b/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/Implementation/FileSystemTest.cs
+@@ -36,8 +36,7 @@
+         protected static void DeletePlatformItem(FileSystemInfo platformItem)
+         {
+             // If platformItem is a directory, then force delete its subdirectories
+-            var directory = platformItem as DirectoryInfo;
+-            if (directory != null)
++            if (platformItem is DirectoryInfo directory)
+             {
+                 directory.Delete(true);
+                 return;
+diff --git a/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/Implementation/PlatformFolderTest.cs b/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/Implementation/PlatformFolderTest.cs
+index e6e354559..3fc909da1 100644
+--- a/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/Implementation/PlatformFolderTest.cs
++++ b/BASE/Test/ServerTelemetryChannel.Test/TelemetryChannel.Tests/Implementation/PlatformFolderTest.cs
+@@ -110,7 +110,7 @@
+             [TestCategory("WindowsOnly")]
+             public void ThrowsUnauthorizedAccessExceptionWhenProcessDoesNotHaveRightToListDirectory()
+             {
+-                Trace.WriteLine(string.Format("{0} Blocking Listing Permission on: {1} ",DateTime.Now.ToLongTimeString(), this.storageFolder.FullName));
++                Trace.WriteLine($"{DateTime.Now.ToLongTimeString()} Blocking Listing Permission on: {this.storageFolder.FullName} ");
+                 // Only on Windows as the APIs are not available in Linux.
+                 // The product also does not this this.
+                 using (new DirectoryAccessDenier(this.storageFolder, FileSystemRights.ListDirectory))
+@@ -198,7 +198,7 @@
+             [TestCategory("WindowsOnly")]
+             public void ThrowsUnauthorizedAccessExceptionWhenProcessDoesNotHaveRightToCreateFile()
+             {
+-                Trace.WriteLine(string.Format("{0} Blocking Listing Permission on: {1} ", DateTime.Now.ToLongTimeString(), this.storageFolder.FullName));
++                Trace.WriteLine($"{DateTime.Now.ToLongTimeString()} Blocking Listing Permission on: {this.storageFolder.FullName} ");
+                 // Only on Windows as the APIs are not available in Linux.
+                 // The product also does not this this.
+                 using (new DirectoryAccessDenier(this.storageFolder, FileSystemRights.CreateFiles))
+diff --git a/BASE/src/Microsoft.ApplicationInsights/DataContracts/ExceptionTelemetry.cs b/BASE/src/Microsoft.ApplicationInsights/DataContracts/ExceptionTelemetry.cs
+index 31e8bacf5..68bb6ee63 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/DataContracts/ExceptionTelemetry.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/DataContracts/ExceptionTelemetry.cs
+@@ -400,8 +400,7 @@
+ 
+             exceptions.Add(exceptionDetails);
+ 
+-            AggregateException aggregate = exception as AggregateException;
+-            if (aggregate != null)
++            if (exception is AggregateException aggregate)
+             {
+                 foreach (Exception inner in aggregate.InnerExceptions)
+                 {
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/CallContextHelpers.cs b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/CallContextHelpers.cs
+index 520dd088a..e42ac3cfa 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/CallContextHelpers.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/CallContextHelpers.cs
+@@ -28,8 +28,7 @@
+         /// </summary>
+         internal static OperationContextForCallContext GetCurrentOperationContext()
+         {
+-            var handle = CallContext.LogicalGetData(FieldKey) as ObjectHandle;
+-            if (handle != null)
++            if (CallContext.LogicalGetData(FieldKey) is ObjectHandle handle)
+             {
+                 return (OperationContextForCallContext)handle.Unwrap();
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/External/PageViewData.cs b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/External/PageViewData.cs
+index 9fb3baa5d..1ccfbecc6 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/External/PageViewData.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/External/PageViewData.cs
+@@ -21,8 +21,8 @@
+         protected override void ApplyProperties(EventData other)
+         {
+             base.ApplyProperties(other);
+-            PageViewData otherPageView = other as PageViewData;
+-            if (otherPageView != null)
++
++            if (other is PageViewData otherPageView)
+             {
+                 otherPageView.url = this.url;
+                 otherPageView.duration = this.duration;
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/External/PageViewPerfData.cs b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/External/PageViewPerfData.cs
+index 83406e54a..69f38d682 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/External/PageViewPerfData.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/External/PageViewPerfData.cs
+@@ -20,8 +20,8 @@
+         protected override void ApplyProperties(EventData other)
+         {
+             base.ApplyProperties(other);
+-            PageViewPerfData otherPageViewPerf = other as PageViewPerfData;
+-            if (otherPageViewPerf != null)
++
++            if (other is PageViewPerfData otherPageViewPerf)
+             {
+                 otherPageViewPerf.domProcessing = this.domProcessing;
+                 otherPageViewPerf.perfTotal = this.perfTotal;
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/JsonSerializationWriter.cs b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/JsonSerializationWriter.cs
+index 7d07d9bee..ddbd48bff 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/JsonSerializationWriter.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/JsonSerializationWriter.cs
+@@ -153,10 +153,7 @@
+         /// <inheritdoc/>
+         public void WriteProperty(ISerializableWithWriter value)
+         {
+-            if (value != null)
+-            {                
+-                value.Serialize(this);                
+-            }
++            value?.Serialize(this);
+         }
+ 
+         /// <inheritdoc/>
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TaskTimerInternal.cs b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TaskTimerInternal.cs
+index c81022caf..382a18436 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TaskTimerInternal.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TaskTimerInternal.cs
+@@ -110,8 +110,7 @@ namespace Microsoft.ApplicationInsights.Extensibility.Implementation
+         /// <param name="exception">Exception to log.</param>
+         private static void LogException(Exception exception)
+         {
+-            var aggregateException = exception as AggregateException;
+-            if (aggregateException != null)
++            if (exception is AggregateException aggregateException)
+             {
+                 aggregateException = aggregateException.Flatten();
+                 foreach (Exception e in aggregateException.InnerExceptions)
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TelemetryConfigurationFactory.cs b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TelemetryConfigurationFactory.cs
+index 0fdd7da36..def79a28c 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TelemetryConfigurationFactory.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TelemetryConfigurationFactory.cs
+@@ -247,10 +247,9 @@
+                         }
+                     }
+                 }
+-                
++
+                 // Either name was not specified, or we have encountered it first time--need to create new sink instance.
+-                var sink = LoadInstance(addElement, typeof(TelemetrySink), null, new object[] { telemetryConfiguration, null }, null) as TelemetrySink;
+-                if (sink != null)
++                if (LoadInstance(addElement, typeof(TelemetrySink), null, new object[] { telemetryConfiguration, null }, null) is TelemetrySink sink)
+                 {
+                     telemetryConfiguration.TelemetrySinks.Add(sink);
+                 }
+@@ -364,8 +363,7 @@
+ 
+         private static void InitializeComponent(object component, TelemetryConfiguration configuration)
+         {
+-            var configurable = component as ITelemetryModule;
+-            if (configurable != null)
++            if (component is ITelemetryModule configurable)
+             {
+                 try
+                 {
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TelemetryProcessorChain.cs b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TelemetryProcessorChain.cs
+index 006d00354..2205a1ae4 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TelemetryProcessorChain.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Extensibility/Implementation/TelemetryProcessorChain.cs
+@@ -78,10 +78,7 @@
+                     {
+                         IDisposable disposableProcessor = processor as IDisposable;
+ 
+-                        if (disposableProcessor != null)
+-                        {
+-                            disposableProcessor.Dispose();
+-                        }
++                        disposableProcessor?.Dispose();
+                     }
+                 }
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Extensibility/AutocollectedMetricsExtraction/AutocollectedMetricsExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Extensibility/AutocollectedMetricsExtraction/AutocollectedMetricsExtractor.cs
+index cb9b04ad8..a7d2cba34 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Extensibility/AutocollectedMetricsExtraction/AutocollectedMetricsExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Extensibility/AutocollectedMetricsExtraction/AutocollectedMetricsExtractor.cs
+@@ -522,8 +522,7 @@
+         /// <param name="fromItem">The item from which to extract metrics.</param>
+         private void ExtractMetrics(ITelemetry fromItem)
+         {
+-            ISupportSampling potentiallySampledItem = fromItem as ISupportSampling;
+-            if (potentiallySampledItem != null && false == this.EnsureItemNotSampled(potentiallySampledItem))
++            if (fromItem is ISupportSampling potentiallySampledItem && false == this.EnsureItemNotSampled(potentiallySampledItem))
+             {
+                 return;
+             }
+@@ -578,10 +577,7 @@
+         private void InvokeNextProcessor(ITelemetry item)
+         {
+             ITelemetryProcessor next = this.nextProcessorInPipeline;
+-            if (next != null)
+-            {
+-                next.Process(item);
+-            }
++            next?.Process(item);
+         }
+ 
+         /// <summary>
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/DependencyDurationBucketExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/DependencyDurationBucketExtractor.cs
+index 1d0630d8b..26033fe3d 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/DependencyDurationBucketExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/DependencyDurationBucketExtractor.cs
+@@ -14,8 +14,7 @@
+ 
+         public string ExtractDimension(ITelemetry item)
+         {
+-            var dep = item as DependencyTelemetry;
+-            if (dep != null)
++            if (item is DependencyTelemetry dep)
+             {
+                 return DurationBucketizer.GetPerformanceBucket(dep.Duration);
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/DependencyResultCodeDimensionExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/DependencyResultCodeDimensionExtractor.cs
+index f2fdcd50f..406bcf079 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/DependencyResultCodeDimensionExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/DependencyResultCodeDimensionExtractor.cs
+@@ -14,8 +14,7 @@
+ 
+         public string ExtractDimension(ITelemetry item)
+         {
+-            var dep = item as DependencyTelemetry;
+-            if (dep != null)
++            if (item is DependencyTelemetry dep)
+             {
+                 return dep.ResultCode;
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/SuccessDimensionExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/SuccessDimensionExtractor.cs
+index ebbe163a9..f37236ff8 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/SuccessDimensionExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/SuccessDimensionExtractor.cs
+@@ -14,8 +14,7 @@
+ 
+         public string ExtractDimension(ITelemetry item)
+         {
+-            var dep = item as DependencyTelemetry;
+-            if (dep != null)
++            if (item is DependencyTelemetry dep)
+             {
+                 bool dependencyFailed = (dep.Success != null) && (dep.Success == false);
+                 string dependencySuccessString = dependencyFailed ? bool.FalseString : bool.TrueString;
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/TargetDimensionExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/TargetDimensionExtractor.cs
+index 184e08399..a0d219e41 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/TargetDimensionExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/TargetDimensionExtractor.cs
+@@ -14,8 +14,7 @@
+ 
+         public string ExtractDimension(ITelemetry item)
+         {
+-            var dep = item as DependencyTelemetry;
+-            if (dep != null)
++            if (item is DependencyTelemetry dep)
+             {
+                 return dep.Target;
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/TypeDimensionExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/TypeDimensionExtractor.cs
+index dd2291e64..5e0c71b92 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/TypeDimensionExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/DependencyExtractor/TypeDimensionExtractor.cs
+@@ -14,8 +14,7 @@
+ 
+         public string ExtractDimension(ITelemetry item)
+         {
+-            var dep = item as DependencyTelemetry;
+-            if (dep != null)
++            if (item is DependencyTelemetry dep)
+             {
+                 return dep.Type;
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/DurationBucketExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/DurationBucketExtractor.cs
+index 1850738ca..b341ed00b 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/DurationBucketExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/DurationBucketExtractor.cs
+@@ -14,8 +14,7 @@
+ 
+         public string ExtractDimension(ITelemetry item)
+         {
+-            var req = item as RequestTelemetry;
+-            if (req != null)
++            if (item is RequestTelemetry req)
+             {
+                 return DurationBucketizer.GetPerformanceBucket(req.Duration);
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/RequestResponseCodeDimensionExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/RequestResponseCodeDimensionExtractor.cs
+index 53baa5d11..d26a10243 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/RequestResponseCodeDimensionExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/RequestResponseCodeDimensionExtractor.cs
+@@ -14,8 +14,7 @@
+ 
+         public string ExtractDimension(ITelemetry item)
+         {
+-            var req = item as RequestTelemetry;
+-            if (req != null)
++            if (item is RequestTelemetry req)
+             {
+                 return req.ResponseCode;
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/RequestSuccessDimensionExtractor.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/RequestSuccessDimensionExtractor.cs
+index 7aab7e4ff..0ffb4f2c8 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/RequestSuccessDimensionExtractor.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/AutocollectedMetricsExtraction/RequestExtractor/RequestSuccessDimensionExtractor.cs
+@@ -14,8 +14,7 @@
+ 
+         public string ExtractDimension(ITelemetry item)
+         {
+-            var req = item as RequestTelemetry;
+-            if (req != null)
++            if (item is RequestTelemetry req)
+             {
+                 bool isFailed = req.Success.HasValue
+                                 ? (req.Success.Value == false)
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/Util.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/Util.cs
+index 411f36b1e..8e161f2e9 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/Util.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/Implementation/Util.cs
+@@ -173,8 +173,7 @@
+             }
+             else
+             {
+-                string stringValue = metricValue as string;
+-                if (stringValue != null)
++                if (metricValue is string stringValue)
+                 {
+                     double doubleValue;
+                     if (Double.TryParse(stringValue, NumberStyles.Any, CultureInfo.InvariantCulture, out doubleValue))
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricConfiguration.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricConfiguration.cs
+index 1f1af2c7c..6eee4fe53 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricConfiguration.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricConfiguration.cs
+@@ -157,8 +157,7 @@
+         {
+             if (obj != null)
+             {
+-                var otherConfig = obj as MetricConfiguration;
+-                if (otherConfig != null)
++                if (obj is MetricConfiguration otherConfig)
+                 {
+                     return this.Equals(otherConfig);
+                 }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricIdentifier.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricIdentifier.cs
+index 69b304da0..1a81cce32 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricIdentifier.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricIdentifier.cs
+@@ -505,9 +505,7 @@
+         /// <returns>Whether the specified other object is equal to this object based on the respective namespaces, IDs and dimension names.</returns>
+         public override bool Equals(object otherObj)
+         {
+-            MetricIdentifier otherMetricIdentifier = otherObj as MetricIdentifier;
+-
+-            if (otherMetricIdentifier != null)
++            if (otherObj is MetricIdentifier otherMetricIdentifier)
+             {
+                 return this.Equals(otherMetricIdentifier);
+             }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricSeriesConfigurationForMeasurement.cs b/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricSeriesConfigurationForMeasurement.cs
+index 9441fb1e7..69f05f8be 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricSeriesConfigurationForMeasurement.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/Metrics/MetricSeriesConfigurationForMeasurement.cs
+@@ -67,8 +67,7 @@
+         {
+             if (obj != null)
+             {
+-                var otherConfig = obj as MetricSeriesConfigurationForMeasurement;
+-                if (otherConfig != null)
++                if (obj is MetricSeriesConfigurationForMeasurement otherConfig)
+                 {
+                     return this.Equals(otherConfig);
+                 }
+diff --git a/BASE/src/Microsoft.ApplicationInsights/TelemetryClient.cs b/BASE/src/Microsoft.ApplicationInsights/TelemetryClient.cs
+index 3e6579807..1ce2aa624 100644
+--- a/BASE/src/Microsoft.ApplicationInsights/TelemetryClient.cs
++++ b/BASE/src/Microsoft.ApplicationInsights/TelemetryClient.cs
+@@ -495,11 +495,10 @@
+                 throw new ArgumentNullException(nameof(telemetry));
+             }
+ 
+-            ISupportAdvancedSampling telemetryWithSampling = telemetry as ISupportAdvancedSampling;
+-
+             // Telemetry can be already sampled out if that decision was made before calling Track()
+             bool sampledOut = false;
+-            if (telemetryWithSampling != null)
++
++            if (telemetry is ISupportAdvancedSampling telemetryWithSampling)
+             {
+                 sampledOut = telemetryWithSampling.ProactiveSamplingDecision == SamplingDecision.SampledOut;
+             }
+diff --git a/BASE/src/ServerTelemetryChannel/Implementation/ErrorHandlingTransmissionPolicy.cs b/BASE/src/ServerTelemetryChannel/Implementation/ErrorHandlingTransmissionPolicy.cs
+index 84c21654d..4afba3f5f 100644
+--- a/BASE/src/ServerTelemetryChannel/Implementation/ErrorHandlingTransmissionPolicy.cs
++++ b/BASE/src/ServerTelemetryChannel/Implementation/ErrorHandlingTransmissionPolicy.cs
+@@ -38,7 +38,7 @@
+                 try
+                 {
+                     BackendResponse backendResponse = BackoffLogicManager.GetBackendResponse(httpResponse);
+-                    if (backendResponse != null && backendResponse.Errors != null)
++                    if (backendResponse?.Errors != null)
+                     {
+                         foreach (var error in backendResponse.Errors)
+                         {
+diff --git a/BASE/src/ServerTelemetryChannel/Implementation/ExceptionHandler.cs b/BASE/src/ServerTelemetryChannel/Implementation/ExceptionHandler.cs
+index 60a7d0429..15539c2bf 100644
+--- a/BASE/src/ServerTelemetryChannel/Implementation/ExceptionHandler.cs
++++ b/BASE/src/ServerTelemetryChannel/Implementation/ExceptionHandler.cs
+@@ -14,12 +14,7 @@
+             {
+                 // Do not use await here because ASP.NET does not allow that and throws
+                 var asyncTask = asyncMethod();
+-                if (asyncTask != null)
+-                {
+-                    asyncTask.ContinueWith(
+-                        task => TelemetryChannelEventSource.Log.ExceptionHandlerStartExceptionWarning(task.Exception.ToString()),
+-                        TaskContinuationOptions.OnlyOnFaulted);
+-                }
++                asyncTask?.ContinueWith(task => TelemetryChannelEventSource.Log.ExceptionHandlerStartExceptionWarning(task.Exception.ToString()), TaskContinuationOptions.OnlyOnFaulted);
+             }
+             catch (Exception exp)
+             {
+diff --git a/BASE/src/ServerTelemetryChannel/Implementation/PartialSuccessTransmissionPolicy.cs b/BASE/src/ServerTelemetryChannel/Implementation/PartialSuccessTransmissionPolicy.cs
+index 3308cedbc..491ecc50b 100644
+--- a/BASE/src/ServerTelemetryChannel/Implementation/PartialSuccessTransmissionPolicy.cs
++++ b/BASE/src/ServerTelemetryChannel/Implementation/PartialSuccessTransmissionPolicy.cs
+@@ -35,7 +35,7 @@
+             BackendResponse backendResponse = null;
+             lastStatusCode = 206;
+ 
+-            if (args != null && args.Response != null)
++            if (args?.Response != null)
+             {
+                 backendResponse = BackoffLogicManager.GetBackendResponse(args.Response.Content);
+             }
+diff --git a/BASE/src/ServerTelemetryChannel/Implementation/TaskTimerInternal.cs b/BASE/src/ServerTelemetryChannel/Implementation/TaskTimerInternal.cs
+index d9bc7f36d..a1bdabd6c 100644
+--- a/BASE/src/ServerTelemetryChannel/Implementation/TaskTimerInternal.cs
++++ b/BASE/src/ServerTelemetryChannel/Implementation/TaskTimerInternal.cs
+@@ -111,8 +111,7 @@ namespace Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implement
+         /// <param name="exception">Exception to log.</param>
+         private static void LogException(Exception exception)
+         {
+-            var aggregateException = exception as AggregateException;
+-            if (aggregateException != null)
++            if (exception is AggregateException aggregateException)
+             {
+                 aggregateException = aggregateException.Flatten();
+                 foreach (Exception e in aggregateException.InnerExceptions)
+diff --git a/LOGGING/src/Log4NetAppender/ApplicationInsightsAppender.cs b/LOGGING/src/Log4NetAppender/ApplicationInsightsAppender.cs
+index fd6420e96..57249a7e7 100644
+--- a/LOGGING/src/Log4NetAppender/ApplicationInsightsAppender.cs
++++ b/LOGGING/src/Log4NetAppender/ApplicationInsightsAppender.cs
+@@ -113,9 +113,9 @@ namespace Microsoft.ApplicationInsights.Log4NetAppender
+ 
+             IDictionary<string, string> metaData;
+             
+-            if (trace is ExceptionTelemetry)
++            if (trace is ExceptionTelemetry exceptionTelemetry)
+             {
+-                metaData = ((ExceptionTelemetry)trace).Properties;
++                metaData = exceptionTelemetry.Properties;
+             }
+             else
+             {
+diff --git a/LOGGING/src/NLogTarget/ApplicationInsightsTarget.cs b/LOGGING/src/NLogTarget/ApplicationInsightsTarget.cs
+index 7d5e65d07..0829da7e5 100644
+--- a/LOGGING/src/NLogTarget/ApplicationInsightsTarget.cs
++++ b/LOGGING/src/NLogTarget/ApplicationInsightsTarget.cs
+@@ -71,9 +71,9 @@ namespace Microsoft.ApplicationInsights.NLogTarget
+ 
+             IDictionary<string, string> propertyBag;
+ 
+-            if (trace is ExceptionTelemetry)
++            if (trace is ExceptionTelemetry exceptionTelemetry)
+             {
+-                propertyBag = ((ExceptionTelemetry)trace).Properties;
++                propertyBag = exceptionTelemetry.Properties;
+             }
+             else
+             {
+diff --git a/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/DiagnosticListeners/Implementation/HostingDiagnosticListener.cs b/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/DiagnosticListeners/Implementation/HostingDiagnosticListener.cs
+index c6d4e0a71..fc118a1bc 100644
+--- a/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/DiagnosticListeners/Implementation/HostingDiagnosticListener.cs
++++ b/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/DiagnosticListeners/Implementation/HostingDiagnosticListener.cs
+@@ -391,9 +391,7 @@
+                         }
+                     }
+ 
+-                    var routeValues = this.routeValuesFetcher.Fetch(routeData) as IDictionary<string, object>;
+-
+-                    if (context != null && routeValues != null)
++                    if (context != null && this.routeValuesFetcher.Fetch(routeData) is IDictionary<string, object> routeValues)
+                     {
+                         OnBeforeAction(context, routeValues);
+                     }
+diff --git a/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/DiagnosticListeners/Implementation/MvcDiagnosticsListener.cs b/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/DiagnosticListeners/Implementation/MvcDiagnosticsListener.cs
+index cb7b1c466..2cbc55d24 100644
+--- a/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/DiagnosticListeners/Implementation/MvcDiagnosticsListener.cs
++++ b/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/DiagnosticListeners/Implementation/MvcDiagnosticsListener.cs
+@@ -67,11 +67,9 @@ namespace Microsoft.ApplicationInsights.AspNetCore.DiagnosticListeners
+             {
+                 if (value.Key == "Microsoft.AspNetCore.Mvc.BeforeAction")
+                 {
+-                    var context = this.httpContextFetcher.Fetch(value.Value) as HttpContext;
+                     var routeData = this.routeDataFetcher.Fetch(value.Value);
+-                    var routeValues = this.routeValuesFetcher.Fetch(routeData) as IDictionary<string, object>;
+ 
+-                    if (context != null && routeValues != null)
++                    if (this.httpContextFetcher.Fetch(value.Value) is HttpContext context && this.routeValuesFetcher.Fetch(routeData) is IDictionary<string, object> routeValues)
+                     {
+                         this.OnBeforeAction(context, routeValues);
+                     }
+diff --git a/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/Logging/Implementation/ApplicationInsightsLogger.cs b/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/Logging/Implementation/ApplicationInsightsLogger.cs
+index e20a1fc27..39b87620f 100644
+--- a/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/Logging/Implementation/ApplicationInsightsLogger.cs
++++ b/NETCORE/src/Microsoft.ApplicationInsights.AspNetCore/Logging/Implementation/ApplicationInsightsLogger.cs
+@@ -110,8 +110,7 @@
+ 
+         private void PopulateTelemetry(ITelemetry telemetry, IReadOnlyList<KeyValuePair<string, object>> stateDictionary, EventId eventId)
+         {
+-            var telemetryWithProperties = telemetry as ISupportProperties;
+-            if (telemetryWithProperties != null)
++            if (telemetry is ISupportProperties telemetryWithProperties)
+             {
+                 IDictionary<string, string> dict = telemetryWithProperties.Properties;
+                 dict["CategoryName"] = this.categoryName;
+diff --git a/NETCORE/src/Shared/Implementation/TelemetryConfigurationOptionsSetup.cs b/NETCORE/src/Shared/Implementation/TelemetryConfigurationOptionsSetup.cs
+index 8c47ea58d..77eabc1f8 100644
+--- a/NETCORE/src/Shared/Implementation/TelemetryConfigurationOptionsSetup.cs
++++ b/NETCORE/src/Shared/Implementation/TelemetryConfigurationOptionsSetup.cs
+@@ -266,10 +266,7 @@ namespace Microsoft.Extensions.DependencyInjection
+                 foreach (ITelemetryProcessor processor in configuration.TelemetryProcessors)
+                 {
+                     ITelemetryModule module = processor as ITelemetryModule;
+-                    if (module != null)
+-                    {
+-                        module.Initialize(configuration);
+-                    }
++                    module?.Initialize(configuration);
+                 }
+ 
+                 // Microsoft.ApplicationInsights.DependencyCollector.DependencyTrackingTelemetryModule depends on this nullable configuration to support Correlation.
+@@ -303,8 +300,7 @@ namespace Microsoft.Extensions.DependencyInjection
+         {
+             if (this.applicationInsightsServiceOptions.EnableQuickPulseMetricStream)
+             {
+-                QuickPulseTelemetryModule quickPulseModule = this.modules.FirstOrDefault((module) => module.GetType() == typeof(QuickPulseTelemetryModule)) as QuickPulseTelemetryModule;
+-                if (quickPulseModule != null)
++                if (this.modules.FirstOrDefault((module) => module.GetType() == typeof(QuickPulseTelemetryModule)) is QuickPulseTelemetryModule quickPulseModule)
+                 {
+                     QuickPulseTelemetryProcessor processor = null;
+                     configuration.DefaultTelemetrySink.TelemetryProcessorChainBuilder.Use((next) =>
+diff --git a/NETCORE/test/FunctionalTests.Utils/HttpListenerObservableBase.cs b/NETCORE/test/FunctionalTests.Utils/HttpListenerObservableBase.cs
+index f01fa2061..34fe082a3 100644
+--- a/NETCORE/test/FunctionalTests.Utils/HttpListenerObservableBase.cs
++++ b/NETCORE/test/FunctionalTests.Utils/HttpListenerObservableBase.cs
+@@ -19,7 +19,7 @@
+         {
+             this.output = output;
+ 
+-            this.output.WriteLine(string.Format("{0}: HttpListenerObservableBase Constructor. Url is: {1}", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt"), url));
++            this.output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: HttpListenerObservableBase Constructor. Url is: {url}");
+             this.listener = new HttpListener();            
+             this.listener.Prefixes.Add(url);
+         }
+@@ -29,16 +29,16 @@
+             OnStart();
+             if (this.stream != null)
+             {
+-                this.output.WriteLine(string.Format("{0}: HttpListenerObservableBase Start. Stream is not null. Stopping", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")));
++                this.output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: HttpListenerObservableBase Start. Stream is not null. Stopping");
+                 this.Stop();
+-                this.output.WriteLine(string.Format("{0}: HttpListenerObservableBase Start. Stream is not null. Stop completed", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")));
++                this.output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: HttpListenerObservableBase Start. Stream is not null. Stop completed");
+             }
+ 
+             if (!this.listener.IsListening)
+             {
+-                this.output.WriteLine(string.Format("{0}: HttpListenerObservableBase Start. Listener not already listening. Starting to listen", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")));
++                this.output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: HttpListenerObservableBase Start. Listener not already listening. Starting to listen");
+                 this.listener.Start();
+-                this.output.WriteLine(string.Format("{0}: HttpListenerObservableBase Start. Listener not already listening. Started listening", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")));
++                this.output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: HttpListenerObservableBase Start. Listener not already listening. Started listening");
+             }
+ 
+             this.stream = this.CreateStream();
+diff --git a/NETCORE/test/FunctionalTests.Utils/InProcessServer.cs b/NETCORE/test/FunctionalTests.Utils/InProcessServer.cs
+index 258d7f55f..db538da4b 100644
+--- a/NETCORE/test/FunctionalTests.Utils/InProcessServer.cs
++++ b/NETCORE/test/FunctionalTests.Utils/InProcessServer.cs
+@@ -63,7 +63,7 @@ namespace FunctionalTests.Utils
+             int retryCount = 1;
+             while (retryCount <= 3)
+             {
+-                output.WriteLine(string.Format("{0}: Attempt {1} to StartApplication", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt"), retryCount));
++                output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: Attempt {retryCount} to StartApplication");
+                 listenerConnectionString = StartApplication(assemblyName);
+                 listenerStarted = StartListener(listenerConnectionString);
+                 if(listenerStarted)
+@@ -87,17 +87,17 @@ namespace FunctionalTests.Utils
+ 
+         private bool StartListener(string listenerConnectionString)
+         {
+-            output.WriteLine(string.Format("{0}: Starting listener at: {1}", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt"), this.httpListenerConnectionString));
++            output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: Starting listener at: {this.httpListenerConnectionString}");
+ 
+             this.listener = new TelemetryHttpListenerObservable(listenerConnectionString, this.output);
+             try
+             {
+                 this.listener.Start();
+-                output.WriteLine(string.Format("{0}: Started listener", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")));
++                output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: Started listener");
+             }
+             catch (HttpListenerException ex)
+             {
+-                output.WriteLine(string.Format("{0}: Error starting listener.ErrorCode {1} Native Code {2}", DateTime.Now.ToString("G"), ex.ErrorCode, ex.NativeErrorCode));
++                output.WriteLine($"{DateTime.Now.ToString("G")}: Error starting listener.ErrorCode {ex.ErrorCode} Native Code {ex.NativeErrorCode}");
+                 return false;
+             }
+ 
+@@ -106,7 +106,7 @@ namespace FunctionalTests.Utils
+ 
+         private string StartApplication(string assemblyName)
+         {
+-            output.WriteLine(string.Format("{0}: Launching application at: {1}", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt"), this.url));
++            output.WriteLine($"{DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}: Launching application at: {this.url}");
+             return this.Start(assemblyName);
+         }
+ 
+@@ -114,9 +114,9 @@ namespace FunctionalTests.Utils
+         {
+             if (this.hostingEngine != null)
+             {
+-                this.output.WriteLine(string.Format("{0}:Disposing WebHost starting.....", DateTime.Now.ToString("G")));
++                this.output.WriteLine($"{DateTime.Now.ToString("G")}:Disposing WebHost starting.....");
+                 this.hostingEngine.Dispose();
+-                this.output.WriteLine(string.Format("{0}:Disposing WebHost completed.", DateTime.Now.ToString("G")));
++                this.output.WriteLine($"{DateTime.Now.ToString("G")}:Disposing WebHost completed.");
+             }
+         }
+ 
+@@ -173,14 +173,14 @@ namespace FunctionalTests.Utils
+         {
+             if (this.hostingEngine != null)
+             {
+-                this.output.WriteLine(string.Format("{0}:Disposing WebHost starting.....", DateTime.Now.ToString("G")));
++                this.output.WriteLine($"{DateTime.Now.ToString("G")}:Disposing WebHost starting.....");
+                 this.hostingEngine.Dispose();
+-                this.output.WriteLine(string.Format("{0}:Disposing WebHost completed.", DateTime.Now.ToString("G")));
++                this.output.WriteLine($"{DateTime.Now.ToString("G")}:Disposing WebHost completed.");
+                 this.hostingEngine = null;
+             }
+             else
+             {
+-                this.output.WriteLine(string.Format("{0}: Hosting engine is null.", DateTime.Now.ToString("G")));
++                this.output.WriteLine($"{DateTime.Now.ToString("G")}: Hosting engine is null.");
+             }
+         }
+ 
+@@ -189,7 +189,7 @@ namespace FunctionalTests.Utils
+             DisposeHost();
+             if (this.listener != null)
+             {
+-                output.WriteLine(string.Format("{0}: Stopping listener at: {1}", DateTime.Now.ToString("G"), this.httpListenerConnectionString));
++                output.WriteLine($"{DateTime.Now.ToString("G")}: Stopping listener at: {this.httpListenerConnectionString}");
+                 this.listener.Stop();
+             }
+         }
+diff --git a/NETCORE/test/FunctionalTests.Utils/TelemetryTestsBase.cs b/NETCORE/test/FunctionalTests.Utils/TelemetryTestsBase.cs
+index 9bae62bdb..8a125b2bd 100644
+--- a/NETCORE/test/FunctionalTests.Utils/TelemetryTestsBase.cs
++++ b/NETCORE/test/FunctionalTests.Utils/TelemetryTestsBase.cs
+@@ -154,40 +154,35 @@
+             StringBuilder builder = new StringBuilder();
+             foreach (Envelope telemetry in telemetries)
+             {
+-                TelemetryItem<RemoteDependencyData> dependency = telemetry as TelemetryItem<RemoteDependencyData>;
+-                if (dependency != null)
++                if (telemetry is TelemetryItem<RemoteDependencyData> dependency)
+                 {                    
+                     var data = ((TelemetryItem<RemoteDependencyData>)dependency).data.baseData;
+                     builder.AppendLine($"{dependency} - {data.data} - {((TelemetryItem<RemoteDependencyData>)dependency).time} - {data.duration} - {data.id} - {data.name} - {data.resultCode} - {data.success} - {data.target} - {data.type}");
+                 }
+                 else
+                 {
+-                    TelemetryItem<RequestData> request = telemetry as TelemetryItem<RequestData>;
+-                    if (request != null)
++                    if (telemetry is TelemetryItem<RequestData> request)
+                     {
+                         var data = ((TelemetryItem<RequestData>)request).data.baseData;
+                         builder.AppendLine($"{request} - {data.url} - {((TelemetryItem<RequestData>)request).time} - {data.duration} - {data.id} - {data.name} - {data.success} - {data.responseCode}");
+                     }
+                     else
+                     {
+-                        TelemetryItem<ExceptionData> exception = telemetry as TelemetryItem<ExceptionData>;
+-                        if (exception != null)
++                        if (telemetry is TelemetryItem<ExceptionData> exception)
+                         {
+                             var data = ((TelemetryItem<ExceptionData>)exception).data.baseData;
+                             builder.AppendLine($"{exception} - {data.exceptions[0].message} - {data.exceptions[0].stack} - {data.exceptions[0].typeName} - {data.severityLevel}");
+                         }
+                         else
+                         {
+-                            TelemetryItem<MessageData> message = telemetry as TelemetryItem<MessageData>;
+-                            if (message != null)
++                            if (telemetry is TelemetryItem<MessageData> message)
+                             {
+                                 var data = ((TelemetryItem<MessageData>)message).data.baseData;
+                                 builder.AppendLine($"{message} - {data.message} - {data.severityLevel}");
+                             }
+                             else
+                             {
+-                                TelemetryItem<MetricData> metric = telemetry as TelemetryItem<MetricData>;
+-                                if (metric != null)
++                                if (telemetry is TelemetryItem<MetricData> metric)
+                                 {
+                                     var data = ((TelemetryItem<MetricData>)metric).data.baseData;
+                                     builder.AppendLine($"{metric.ToString()} - {metric.data}- {metric.name} - {data.metrics.Count}");
+diff --git a/NETCORE/test/FunctionalTests.WebApi.Tests/FunctionalTest/MultipleWebHostsTests.cs b/NETCORE/test/FunctionalTests.WebApi.Tests/FunctionalTest/MultipleWebHostsTests.cs
+index c4a1ea873..62b3a56c6 100644
+--- a/NETCORE/test/FunctionalTests.WebApi.Tests/FunctionalTest/MultipleWebHostsTests.cs
++++ b/NETCORE/test/FunctionalTests.WebApi.Tests/FunctionalTest/MultipleWebHostsTests.cs
+@@ -72,12 +72,10 @@ namespace FunctionalTests.WebApi.Tests.FunctionalTest
+                 this.DebugTelemetryItems(telemetry2);
+ 
+                 // we don't know which host reported requests
+-                Assert.True(2 == telemetry1.Count(t => t is TelemetryItem<RequestData>) ||
+-                            2 == telemetry2.Count(t => t is TelemetryItem<RequestData>));
++                Assert.True(2 == telemetry1.Count(t => t is TelemetryItem<RequestData>) || 2 == telemetry2.Count(t => t is TelemetryItem<RequestData>));
+ 
+                 // we don't know which host reported dependencies
+-                Assert.True(2 == telemetry1.Count(IsServiceDependencyCall) ||
+-                            2 == telemetry2.Count(IsServiceDependencyCall));
++                Assert.True(2 == telemetry1.Count(IsServiceDependencyCall) || 2 == telemetry2.Count(IsServiceDependencyCall));
+ 
+                 Assert.DoesNotContain(telemetry1, t => t is TelemetryItem<ExceptionData>);
+ 
+diff --git a/NETCORE/test/Microsoft.ApplicationInsights.AspNetCore.Tests/Extensions/ApplicationInsightsExtensionsTests/AddApplicationInsightsTelemetryTests.cs b/NETCORE/test/Microsoft.ApplicationInsights.AspNetCore.Tests/Extensions/ApplicationInsightsExtensionsTests/AddApplicationInsightsTelemetryTests.cs
+index de08c53c9..a8b070acf 100644
+--- a/NETCORE/test/Microsoft.ApplicationInsights.AspNetCore.Tests/Extensions/ApplicationInsightsExtensionsTests/AddApplicationInsightsTelemetryTests.cs
++++ b/NETCORE/test/Microsoft.ApplicationInsights.AspNetCore.Tests/Extensions/ApplicationInsightsExtensionsTests/AddApplicationInsightsTelemetryTests.cs
+@@ -1490,12 +1490,12 @@ namespace Microsoft.Extensions.DependencyInjection.Test
+ 
+         private static int GetTelemetryProcessorsCountInConfiguration<T>(TelemetryConfiguration telemetryConfiguration)
+         {
+-            return telemetryConfiguration.TelemetryProcessors.Where(processor => processor.GetType() == typeof(T)).Count();
++            return telemetryConfiguration.TelemetryProcessors.Count(processor => processor.GetType() == typeof(T));
+         }
+ 
+         private static int GetTelemetryProcessorsCountInConfigurationDefaultSink<T>(TelemetryConfiguration telemetryConfiguration)
+         {
+-            return telemetryConfiguration.DefaultTelemetrySink.TelemetryProcessors.Where(processor => processor.GetType() == typeof(T)).Count();
++            return telemetryConfiguration.DefaultTelemetrySink.TelemetryProcessors.Count(processor => processor.GetType() == typeof(T));
+         }
+ 
+         [Fact]
+diff --git a/NETCORE/test/Microsoft.ApplicationInsights.WorkerService.Tests/ExtensionsTest.cs b/NETCORE/test/Microsoft.ApplicationInsights.WorkerService.Tests/ExtensionsTest.cs
+index 6c8c13401..f66bdf5e9 100644
+--- a/NETCORE/test/Microsoft.ApplicationInsights.WorkerService.Tests/ExtensionsTest.cs
++++ b/NETCORE/test/Microsoft.ApplicationInsights.WorkerService.Tests/ExtensionsTest.cs
+@@ -893,7 +893,7 @@ namespace Microsoft.ApplicationInsights.WorkerService.Tests
+ 
+         private static int GetTelemetryProcessorsCountInConfigurationDefaultSink<T>(TelemetryConfiguration telemetryConfiguration)
+         {
+-            return telemetryConfiguration.DefaultTelemetrySink.TelemetryProcessors.Where(processor => processor.GetType() == typeof(T)).Count();
++            return telemetryConfiguration.DefaultTelemetrySink.TelemetryProcessors.Count(processor => processor.GetType() == typeof(T));
+         }
+     }
+ 
+diff --git a/NETCORE/test/Microsoft.ApplicationInsights.WorkerService.Tests/FunctionalTests.cs b/NETCORE/test/Microsoft.ApplicationInsights.WorkerService.Tests/FunctionalTests.cs
+index 90ce54064..7758e84b1 100644
+--- a/NETCORE/test/Microsoft.ApplicationInsights.WorkerService.Tests/FunctionalTests.cs
++++ b/NETCORE/test/Microsoft.ApplicationInsights.WorkerService.Tests/FunctionalTests.cs
+@@ -77,9 +77,9 @@ namespace Microsoft.ApplicationInsights.WorkerService.Tests
+             List<T> foundItems = new List<T>();
+             foreach (var item in items)
+             {
+-                if (item is T)
++                if (item is T t)
+                 {
+-                    foundItems.Add((T)item);
++                    foundItems.Add(t);
+                 }
+             }
+ 
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector.Tests/HeaderCollectionManipulationTests.cs b/WEB/Src/DependencyCollector/DependencyCollector.Tests/HeaderCollectionManipulationTests.cs
+index 7ae1d8a5f..9f212ca12 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector.Tests/HeaderCollectionManipulationTests.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector.Tests/HeaderCollectionManipulationTests.cs
+@@ -139,7 +139,7 @@ namespace Microsoft.ApplicationInsights.Tests
+ 
+             correlationContext = headers.GetNameValueCollectionFromHeader("Correlation-Context");
+             Assert.IsNotNull(correlationContext);
+-            Assert.AreEqual(1, correlationContext.Count());
++            Assert.AreEqual(1, correlationContext.Count);
+             Assert.IsTrue(correlationContext.Contains(new KeyValuePair<string, string>("k1", "v1")));
+         }
+ 
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector.Tests/Implementation/DesktopDiagnosticSourceHttpProcessingTests.cs b/WEB/Src/DependencyCollector/DependencyCollector.Tests/Implementation/DesktopDiagnosticSourceHttpProcessingTests.cs
+index af49a83c0..b5b4b7a79 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector.Tests/Implementation/DesktopDiagnosticSourceHttpProcessingTests.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector.Tests/Implementation/DesktopDiagnosticSourceHttpProcessingTests.cs
+@@ -353,7 +353,7 @@ namespace Microsoft.ApplicationInsights.Tests
+             var request = WebRequest.Create(new Uri(url));
+ 
+             Assert.IsNull(request.Headers[RequestResponseHeaders.RequestContextHeader]);
+-            Assert.AreEqual(0, request.Headers.Keys.Cast<string>().Where((x) => { return x.StartsWith("x-ms-", StringComparison.OrdinalIgnoreCase); }).Count());
++            Assert.AreEqual(0, request.Headers.Keys.Cast<string>().Count((x) => { return x.StartsWith("x-ms-", StringComparison.OrdinalIgnoreCase); }));
+ 
+             var localHttpProcessingFramework = new DesktopDiagnosticSourceHttpProcessing(
+                 this.configuration, 
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector.Tests/Implementation/ProfilerHttpProcessingTest.cs b/WEB/Src/DependencyCollector/DependencyCollector.Tests/Implementation/ProfilerHttpProcessingTest.cs
+index f2a4b8210..4c1386036 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector.Tests/Implementation/ProfilerHttpProcessingTest.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector.Tests/Implementation/ProfilerHttpProcessingTest.cs
+@@ -412,7 +412,7 @@ namespace Microsoft.ApplicationInsights.Tests
+             var request = WebRequest.Create(new Uri(url));
+ 
+             Assert.IsNull(request.Headers[RequestResponseHeaders.RequestContextHeader]);
+-            Assert.AreEqual(0, request.Headers.Keys.Cast<string>().Where((x) => { return x.StartsWith("x-ms-", StringComparison.OrdinalIgnoreCase); }).Count());
++            Assert.AreEqual(0, request.Headers.Keys.Cast<string>().Count((x) => { return x.StartsWith("x-ms-", StringComparison.OrdinalIgnoreCase); }));
+ 
+             var httpProcessingProfiler = new ProfilerHttpProcessing(
+                 this.configuration, 
+@@ -424,7 +424,7 @@ namespace Microsoft.ApplicationInsights.Tests
+                 injectW3CHeaders: false);
+             httpProcessingProfiler.OnBeginForGetResponse(request);
+             Assert.IsNull(request.Headers[RequestResponseHeaders.RequestContextHeader]);
+-            Assert.AreEqual(0, request.Headers.Keys.Cast<string>().Where((x) => { return x.StartsWith("x-ms-", StringComparison.OrdinalIgnoreCase); }).Count());
++            Assert.AreEqual(0, request.Headers.Keys.Cast<string>().Count((x) => { return x.StartsWith("x-ms-", StringComparison.OrdinalIgnoreCase); }));
+ 
+             ICollection<string> exclusionList = new SanitizedHostList() { "randomstringtoexclude", hostnamepart };
+             httpProcessingProfiler = new ProfilerHttpProcessing(
+@@ -437,7 +437,7 @@ namespace Microsoft.ApplicationInsights.Tests
+                     injectW3CHeaders: false);
+             httpProcessingProfiler.OnBeginForGetResponse(request);
+             Assert.IsNull(request.Headers[RequestResponseHeaders.RequestContextHeader]);
+-            Assert.AreEqual(0, request.Headers.Keys.Cast<string>().Where((x) => { return x.StartsWith("x-ms-", StringComparison.OrdinalIgnoreCase); }).Count());
++            Assert.AreEqual(0, request.Headers.Keys.Cast<string>().Count((x) => { return x.StartsWith("x-ms-", StringComparison.OrdinalIgnoreCase); }));
+         }
+ 
+         /// <summary>
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector/HttpCoreDiagnosticSourceListener.cs b/WEB/Src/DependencyCollector/DependencyCollector/HttpCoreDiagnosticSourceListener.cs
+index 0c08a03c8..58170f5bb 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector/HttpCoreDiagnosticSourceListener.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector/HttpCoreDiagnosticSourceListener.cs
+@@ -401,7 +401,7 @@ namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+         /// </summary>
+         internal void OnRequest(HttpRequestMessage request, Guid loggingRequestId)
+         {
+-            if (request != null && request.RequestUri != null &&
++            if (request?.RequestUri != null &&
+                 !this.applicationInsightsUrlFilter.IsApplicationInsightsUrl(request.RequestUri))
+             {
+                 DependencyCollectorEventSource.Log.HttpCoreDiagnosticSourceListenerRequest(loggingRequestId);
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector/HttpDependenciesParsingTelemetryInitializer.cs b/WEB/Src/DependencyCollector/DependencyCollector/HttpDependenciesParsingTelemetryInitializer.cs
+index 243cae0bc..89d6855ea 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector/HttpDependenciesParsingTelemetryInitializer.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector/HttpDependenciesParsingTelemetryInitializer.cs
+@@ -20,7 +20,7 @@
+         {
+             var httpDependency = telemetry as DependencyTelemetry;
+ 
+-            if (httpDependency != null && httpDependency.Type != null && httpDependency.Type.Equals(RemoteDependencyConstants.HTTP, StringComparison.OrdinalIgnoreCase))
++            if (httpDependency?.Type != null && httpDependency.Type.Equals(RemoteDependencyConstants.HTTP, StringComparison.OrdinalIgnoreCase))
+             {
+                 bool parsed =
+                     AzureBlobHttpParser.TryParse(ref httpDependency)
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/AzureSdk/AzureSdkDiagnosticsEventHandler.cs b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/AzureSdk/AzureSdkDiagnosticsEventHandler.cs
+index 4a25454a4..8d2caf240 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/AzureSdk/AzureSdkDiagnosticsEventHandler.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/AzureSdk/AzureSdkDiagnosticsEventHandler.cs
+@@ -96,11 +96,11 @@
+                 }
+                 else if (evnt.Key.EndsWith(".Exception", StringComparison.Ordinal))
+                 {
+-                    Exception ex = evnt.Value as Exception;
+ 
+                     var telemetry = this.operationHolder.Get(currentActivity);
+                     telemetry.Item1.Success = false;
+-                    if (ex != null)
++
++                    if (evnt.Value is Exception ex)
+                     {
+                         telemetry.Item1.Properties[RemoteDependencyConstants.DependencyErrorPropertyKey] = ex.ToInvariantString();
+                     }
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/HttpProcessing.cs b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/HttpProcessing.cs
+index a97aa7deb..6b16b4f97 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/HttpProcessing.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/HttpProcessing.cs
+@@ -64,7 +64,7 @@ namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+         internal static Uri GetUrl(WebRequest webRequest)
+         {
+             Uri resource = null;
+-            if (webRequest != null && webRequest.RequestUri != null)
++            if (webRequest?.RequestUri != null)
+             {
+                 resource = webRequest.RequestUri;
+             }
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlCommandProcessing.cs b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlCommandProcessing.cs
+index 9152f35d4..9dc3bd9f9 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlCommandProcessing.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlCommandProcessing.cs
+@@ -31,9 +31,9 @@ namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+         /// <returns>The resource name if possible otherwise empty string.</returns>
+         internal override string GetDependencyName(object thisObj)
+         {
+-            SqlCommand command = thisObj as SqlCommand;
+             string resource = string.Empty;
+-            if (command != null)
++
++            if (thisObj is SqlCommand command)
+             {
+                 if (command.Connection != null)
+                 {
+@@ -57,9 +57,9 @@ namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+         /// <returns>The resource target name if possible otherwise empty string.</returns>
+         internal override string GetDependencyTarget(object thisObj)
+         {
+-            SqlCommand command = thisObj as SqlCommand;
+             string result = string.Empty;
+-            if (command != null)
++
++            if (thisObj is SqlCommand command)
+             {
+                 if (command.Connection != null)
+                 {
+@@ -79,9 +79,7 @@ namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+         {
+             if (this.collectCommandText)
+             {
+-                SqlCommand command = thisObj as SqlCommand;
+-
+-                if (command != null)
++                if (thisObj is SqlCommand command)
+                 {
+                     return command.CommandText ?? string.Empty;
+                 }
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlConnectionProcessing.cs b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlConnectionProcessing.cs
+index 294c62ecb..6c3d3f05c 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlConnectionProcessing.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlConnectionProcessing.cs
+@@ -33,8 +33,7 @@ namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+         {
+             string resource = string.Empty;
+ 
+-            SqlConnection connection = thisObj as SqlConnection;
+-            if (connection != null)
++            if (thisObj is SqlConnection connection)
+             {
+                 resource = string.Join(" | ", connection.DataSource, connection.Database, SqlConnectionCommandText);
+             }
+@@ -51,8 +50,7 @@ namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+         {
+             string resource = string.Empty;
+ 
+-            SqlConnection connection = thisObj as SqlConnection;
+-            if (connection != null)
++            if (thisObj is SqlConnection connection)
+             {
+                 resource = string.Join(" | ", connection.DataSource, connection.Database);
+             }
+diff --git a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlProcessingBase.cs b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlProcessingBase.cs
+index f3fb5381a..4ab76f44e 100644
+--- a/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlProcessingBase.cs
++++ b/WEB/Src/DependencyCollector/DependencyCollector/Implementation/ProfilerSqlProcessingBase.cs
+@@ -420,14 +420,11 @@ namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+ 
+                 if (sendTelemetryItem)
+                 {
+-                    var exception = exceptionObj as Exception;
+-                    if (exception != null)
++                    if (exceptionObj is Exception exception)
+                     {
+                         telemetry.Success = false;
+                         telemetry.Properties.Add("ErrorMessage", exception.Message);
+-
+-                        var sqlEx = exception as SqlException;
+-                        telemetry.ResultCode = sqlEx != null ? sqlEx.Number.ToString(CultureInfo.InvariantCulture) : "0";
++                        telemetry.ResultCode = exception is SqlException sqlEx ? sqlEx.Number.ToString(CultureInfo.InvariantCulture) : "0";
+                     }
+                     else
+                     {
+diff --git a/WEB/Src/EventCounterCollector/EventCounterCollector/EventCounterListener.cs b/WEB/Src/EventCounterCollector/EventCounterCollector/EventCounterListener.cs
+index f17a96218..2acfa8fe8 100644
+--- a/WEB/Src/EventCounterCollector/EventCounterCollector/EventCounterListener.cs
++++ b/WEB/Src/EventCounterCollector/EventCounterCollector/EventCounterListener.cs
+@@ -107,8 +107,7 @@
+             {
+                 if (this.countersToCollect.ContainsKey(eventData.EventSource.Name))
+                 {
+-                    IDictionary<string, object> eventPayload = eventData.Payload[0] as IDictionary<string, object>;
+-                    if (eventPayload != null)
++                    if (eventData.Payload[0] is IDictionary<string, object> eventPayload)
+                     {
+                         this.ExtractAndPostMetric(eventData.EventSource.Name, eventPayload);
+                     }
+diff --git a/WEB/Src/PerformanceCollector/Perf.Tests/PerformanceCollectorModuleTests.cs b/WEB/Src/PerformanceCollector/Perf.Tests/PerformanceCollectorModuleTests.cs
+index 50b344839..d0f0968e2 100644
+--- a/WEB/Src/PerformanceCollector/Perf.Tests/PerformanceCollectorModuleTests.cs
++++ b/WEB/Src/PerformanceCollector/Perf.Tests/PerformanceCollectorModuleTests.cs
+@@ -159,7 +159,7 @@
+                     // check that the configured counter list has been registered
+                     var defaultCounterCount = module.DefaultCounters.Count();
+ 
+-                    Assert.AreEqual(customCounters.Count() + defaultCounterCount, collector.Counters.Count);
++                    Assert.AreEqual(customCounters.Count + defaultCounterCount, collector.Counters.Count);
+                 }
+             }
+         }
+@@ -377,10 +377,7 @@
+         {
+             var module = new PerformanceCollectorModule(collector);
+ 
+-            if (customCounterList != null)
+-            {
+-                customCounterList.ForEach(module.Counters.Add);
+-            }
++            customCounterList?.ForEach(module.Counters.Add);
+ 
+             module.CollectionPeriod = TimeSpan.FromMilliseconds(10);
+ 
+diff --git a/WEB/Src/PerformanceCollector/PerformanceCollector/Filter.cs b/WEB/Src/PerformanceCollector/PerformanceCollector/Filter.cs
+index 22b812d85..36893a24e 100644
+--- a/WEB/Src/PerformanceCollector/PerformanceCollector/Filter.cs
++++ b/WEB/Src/PerformanceCollector/PerformanceCollector/Filter.cs
+@@ -243,9 +243,7 @@
+ 
+         private static MethodInfo GetMethodInfo<T, TResult>(Expression<Func<T, TResult>> expression)
+         {
+-            var member = expression.Body as MethodCallExpression;
+-
+-            if (member != null)
++            if (expression.Body is MethodCallExpression member)
+             {
+                 return member.Method;
+             }
+@@ -255,9 +253,7 @@
+ 
+         private static MethodInfo GetMethodInfo<T1, T2, TResult>(Expression<Func<T1, T2, TResult>> expression)
+         {
+-            var member = expression.Body as MethodCallExpression;
+-
+-            if (member != null)
++            if (expression.Body is MethodCallExpression member)
+             {
+                 return member.Method;
+             }
+diff --git a/WEB/Src/Web/Web/OperationNameTelemetryInitializer.cs b/WEB/Src/Web/Web/OperationNameTelemetryInitializer.cs
+index 016a0287b..abc15324a 100644
+--- a/WEB/Src/Web/Web/OperationNameTelemetryInitializer.cs
++++ b/WEB/Src/Web/Web/OperationNameTelemetryInitializer.cs
+@@ -43,10 +43,8 @@
+                 string name = string.IsNullOrEmpty(rootRequestTelemetry.Name) ?
+                     platformContext.CreateRequestNamePrivate() :
+                     rootRequestTelemetry.Name;
+-                
+-                var telemetryType = telemetry as RequestTelemetry;
+ 
+-                if (telemetryType != null && string.IsNullOrEmpty(telemetryType.Name))
++                if (telemetry is RequestTelemetry telemetryType && string.IsNullOrEmpty(telemetryType.Name))
+                 {
+                     telemetryType.Name = name;
+                 }
+diff --git a/WEB/Src/WindowsServer/WindowsServer.Tests/FirstChanceExceptionStatisticsTelemetryModuleTest.cs b/WEB/Src/WindowsServer/WindowsServer.Tests/FirstChanceExceptionStatisticsTelemetryModuleTest.cs
+index a793c0e64..e841aff2a 100644
+--- a/WEB/Src/WindowsServer/WindowsServer.Tests/FirstChanceExceptionStatisticsTelemetryModuleTest.cs
++++ b/WEB/Src/WindowsServer/WindowsServer.Tests/FirstChanceExceptionStatisticsTelemetryModuleTest.cs
+@@ -531,9 +531,9 @@ namespace Microsoft.ApplicationInsights.WindowsServer
+ 
+             foreach (ITelemetry i in testItems)
+             {
+-                if (i is MetricTelemetry)
++                if (i is MetricTelemetry metricTelemetry)
+                 {
+-                    Assert.Equal(1, ((MetricTelemetry)i).Count);
++                    Assert.Equal(1, metricTelemetry.Count);
+                 }
+             }
+         }
+diff --git a/WEB/Src/WindowsServer/WindowsServer/Implementation/MetricManager.cs b/WEB/Src/WindowsServer/WindowsServer/Implementation/MetricManager.cs
+index db3268a5f..760d6feee 100644
+--- a/WEB/Src/WindowsServer/WindowsServer/Implementation/MetricManager.cs
++++ b/WEB/Src/WindowsServer/WindowsServer/Implementation/MetricManager.cs
+@@ -917,8 +917,7 @@ namespace Microsoft.ApplicationInsights.WindowsServer
+         /// <param name="exception">Exception to log.</param>
+         private static void LogException(Exception exception)
+         {
+-            var aggregateException = exception as AggregateException;
+-            if (aggregateException != null)
++            if (exception is AggregateException aggregateException)
+             {
+                 aggregateException = aggregateException.Flatten();
+                 foreach (Exception e in aggregateException.InnerExceptions)

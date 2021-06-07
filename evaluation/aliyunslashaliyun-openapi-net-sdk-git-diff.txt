@@ -1,0 +1,113 @@
+diff --git a/aliyun-net-sdk-core/Auth/CredentialsBackupCompatibilityAdaptor.cs b/aliyun-net-sdk-core/Auth/CredentialsBackupCompatibilityAdaptor.cs
+index 2260d648d..90db49dc4 100644
+--- a/aliyun-net-sdk-core/Auth/CredentialsBackupCompatibilityAdaptor.cs
++++ b/aliyun-net-sdk-core/Auth/CredentialsBackupCompatibilityAdaptor.cs
+@@ -52,9 +52,8 @@ namespace Aliyun.Acs.Core.Auth
+         public string GetSecurityToken()
+         {
+             var credentials = GetCredentials();
+-            var sessionCredentials = credentials as BasicSessionCredentials;
+ 
+-            return sessionCredentials != null ? sessionCredentials.GetSessionToken() : null;
++            return credentials is BasicSessionCredentials sessionCredentials ? sessionCredentials.GetSessionToken() : null;
+         }
+     }
+ }
+diff --git a/aliyun-net-sdk-core/DefaultAcsClient.cs b/aliyun-net-sdk-core/DefaultAcsClient.cs
+index 6ccbd0d7d..2b9f3b3ff 100644
+--- a/aliyun-net-sdk-core/DefaultAcsClient.cs
++++ b/aliyun-net-sdk-core/DefaultAcsClient.cs
+@@ -270,8 +270,7 @@ namespace Aliyun.Acs.Core
+                     if (500 <= httpResponse.Status)
+                     {
+                         throw new ServerException(error.ErrorCode,
+-                            string.Format("{0}, the request url is {1}, the RequestId is {2}.", error.ErrorMessage,
+-                                httpResponse.Url ?? "empty", error.RequestId));
++                            $"{error.ErrorMessage}, the request url is {httpResponse.Url ?? "empty"}, the RequestId is {error.RequestId}.");
+                     }
+ 
+                     if (400 == httpResponse.Status && (error.ErrorCode.Equals("SignatureDoesNotMatch") ||
+diff --git a/aliyun-net-sdk-core/Exceptions/ClientException.cs b/aliyun-net-sdk-core/Exceptions/ClientException.cs
+index d310ce42d..a0ee67805 100644
+--- a/aliyun-net-sdk-core/Exceptions/ClientException.cs
++++ b/aliyun-net-sdk-core/Exceptions/ClientException.cs
+@@ -24,7 +24,7 @@ namespace Aliyun.Acs.Core.Exceptions
+     public class ClientException : Exception
+     {
+         public ClientException(string errCode, string errMsg, string requestId) : base(
+-            string.Format("{0} : {1} + [ RequestId : {2} ]", errCode, errMsg, requestId))
++            $"{errCode} : {errMsg} + [ RequestId : {requestId} ]")
+         {
+             ErrorType = ErrorType.Client;
+             ErrorMessage = errMsg;
+diff --git a/aliyun-net-sdk-core/Http/HttpResponse.cs b/aliyun-net-sdk-core/Http/HttpResponse.cs
+index d6fbb1088..af78df7c1 100644
+--- a/aliyun-net-sdk-core/Http/HttpResponse.cs
++++ b/aliyun-net-sdk-core/Http/HttpResponse.cs
+@@ -142,21 +142,17 @@ namespace Aliyun.Acs.Core.Http
+                 }
+ 
+                 throw new ClientException("SDK.WebException",
+-                    string.Format("HttpWebRequest WebException occured, the request url is {0} {1}",
+-                        httpWebRequest.RequestUri == null ? "empty" : httpWebRequest.RequestUri.Host, ex));
++                    $"HttpWebRequest WebException occured, the request url is {(httpWebRequest.RequestUri == null ? "empty" : httpWebRequest.RequestUri.Host)} {ex}");
+             }
+             catch (IOException ex)
+             {
+                 throw new ClientException("SDK.ServerUnreachable:",
+-                    string.Format("Server unreachable: connection to url: {0} failed. {1}",
+-                        httpWebRequest.RequestUri == null ? "empty" : httpWebRequest.RequestUri.Host,
+-                        ex));
++                    $"Server unreachable: connection to url: {(httpWebRequest.RequestUri == null ? "empty" : httpWebRequest.RequestUri.Host)} failed. {ex}");
+             }
+             catch (Exception ex)
+             {
+                 throw new ClientException("SDK.Exception",
+-                    string.Format("The request url is {0} {1}",
+-                        httpWebRequest.RequestUri == null ? "empty" : httpWebRequest.RequestUri.Host, ex));
++                    $"The request url is {(httpWebRequest.RequestUri == null ? "empty" : httpWebRequest.RequestUri.Host)} {ex}");
+             }
+         }
+ 
+diff --git a/aliyun-net-sdk-core/Regions/InternalEndpointsParser.cs b/aliyun-net-sdk-core/Regions/InternalEndpointsParser.cs
+index dc60866f3..a835c222c 100644
+--- a/aliyun-net-sdk-core/Regions/InternalEndpointsParser.cs
++++ b/aliyun-net-sdk-core/Regions/InternalEndpointsParser.cs
+@@ -44,7 +44,7 @@ namespace Aliyun.Acs.Core.Regions
+         {
+             string domain;
+ 
+-            regionIdEndpointCollection.TryGetValue(string.Format("{0}_{1}", productName.ToLower(), regionId), out domain);
++            regionIdEndpointCollection.TryGetValue($"{productName.ToLower()}_{regionId}", out domain);
+ 
+             if (string.IsNullOrEmpty(domain))
+             {
+diff --git a/aliyun-net-sdk-core/Retry/Condition/RetryOnExceptionCondition.cs b/aliyun-net-sdk-core/Retry/Condition/RetryOnExceptionCondition.cs
+index 4396128dd..af45d7be0 100644
+--- a/aliyun-net-sdk-core/Retry/Condition/RetryOnExceptionCondition.cs
++++ b/aliyun-net-sdk-core/Retry/Condition/RetryOnExceptionCondition.cs
+@@ -43,9 +43,8 @@ namespace Aliyun.Acs.Core.Retry.Condition
+                 return RetryCondition.ShouldRetry;
+             }
+ 
+-            if (exception is ServerException)
++            if (exception is ServerException serverException)
+             {
+-                var serverException = (ServerException) exception;
+                 var errorCode = serverException.ErrorCode;
+ 
+                 var product = retryPolicyContext.Product;
+diff --git a/aliyun-net-sdk-core/Utils/CommonLog.cs b/aliyun-net-sdk-core/Utils/CommonLog.cs
+index 6fa65dac4..8b83a9c62 100644
+--- a/aliyun-net-sdk-core/Utils/CommonLog.cs
++++ b/aliyun-net-sdk-core/Utils/CommonLog.cs
+@@ -159,8 +159,7 @@ namespace Aliyun.Acs.Core.Utils
+             }
+ 
+             Logger.Error(ex,
+-                string.Format("AlibabaCloud. ExceptionMessage: ErrorCode:{0}, ErrorMessage:{1},", errorCode,
+-                    errorMessage));
++                $"AlibabaCloud. ExceptionMessage: ErrorCode:{errorCode}, ErrorMessage:{errorMessage},");
+         }
+     }
+ }

@@ -1,0 +1,346 @@
+diff --git a/Source/Mosa.Compiler.Framework/BasicBlock.cs b/Source/Mosa.Compiler.Framework/BasicBlock.cs
+index f97035e85..a37277236 100644
+--- a/Source/Mosa.Compiler.Framework/BasicBlock.cs
++++ b/Source/Mosa.Compiler.Framework/BasicBlock.cs
+@@ -217,7 +217,7 @@ private bool FindTarget(BasicBlock block)
+ 		/// <returns>The code as a string value.</returns>
+ 		public override string ToString()
+ 		{
+-			return String.Format("L_{0:X5}", Label);
++			return $"L_{Label:X5}";
+ 		}
+ 
+ 		/// <summary>
+diff --git a/Source/Mosa.Compiler.MosaTypeSystem/Metadata/DnlibExtension.cs b/Source/Mosa.Compiler.MosaTypeSystem/Metadata/DnlibExtension.cs
+index 277875fd3..450acbdb7 100644
+--- a/Source/Mosa.Compiler.MosaTypeSystem/Metadata/DnlibExtension.cs
++++ b/Source/Mosa.Compiler.MosaTypeSystem/Metadata/DnlibExtension.cs
+@@ -39,11 +39,9 @@ public static bool HasOpenGenericParameter(this TypeSig signature)
+ 			if (signature.IsGenericParameter)
+ 				return true;
+ 
+-			if (signature is ModifierSig)
++			if (signature is ModifierSig modifierSig)
+ 			{
+-				var modifier = ((ModifierSig)signature).Modifier as TypeSpec;
+-
+-				if (modifier != null && HasOpenGenericParameter(modifier.TypeSig))
++				if (modifierSig.Modifier is TypeSpec modifier && HasOpenGenericParameter(modifier.TypeSig))
+ 					return true;
+ 			}
+ 
+@@ -51,27 +49,22 @@ public static bool HasOpenGenericParameter(this TypeSig signature)
+ 			{
+ 				return HasOpenGenericParameter(signature.Next);
+ 			}
+-			else if (signature is TypeDefOrRefSig)
++			else if (signature is TypeDefOrRefSig typeDefOrRefSig)
+ 			{
+-				var type = ((TypeDefOrRefSig)signature).TypeDefOrRef as TypeSpec;
+-
+-				if (type != null && HasOpenGenericParameter(type.TypeSig))
++				if (typeDefOrRefSig.TypeDefOrRef is TypeSpec type && HasOpenGenericParameter(type.TypeSig))
+ 					return true;
+ 				else
+ 					return ((TypeDefOrRefSig)signature).TypeDefOrRef.ResolveTypeDef().HasGenericParameters;
+ 			}
+-			else if (signature is GenericInstSig)
++			else if (signature is GenericInstSig genericInst)
+ 			{
+-				var genericInst = (GenericInstSig)signature;
+-
+ 				foreach (var genericArg in genericInst.GenericArguments)
+ 				{
+ 					if (HasOpenGenericParameter(genericArg))
+ 						return true;
+ 				}
+-				var genericType = genericInst.GenericType.TypeDefOrRef as TypeSpec;
+ 
+-				if (genericType != null && HasOpenGenericParameter(genericType.TypeSig))
++				if (genericInst.GenericType.TypeDefOrRef is TypeSpec genericType && HasOpenGenericParameter(genericType.TypeSig))
+ 					return true;
+ 			}
+ 
+diff --git a/Source/Mosa.Compiler.MosaTypeSystem/Metadata/MetadataLoader.cs b/Source/Mosa.Compiler.MosaTypeSystem/Metadata/MetadataLoader.cs
+index c1f083847..185658c3b 100644
+--- a/Source/Mosa.Compiler.MosaTypeSystem/Metadata/MetadataLoader.cs
++++ b/Source/Mosa.Compiler.MosaTypeSystem/Metadata/MetadataLoader.cs
+@@ -248,17 +248,17 @@ private MosaType Load(TypeSig typeSig)
+ 				{
+ 					throw new AssemblyLoadException();  // Should have been loaded in MetadataLoader
+ 				}
+-				else if (typeSig is GenericInstSig)
++				else if (typeSig is GenericInstSig genericInstSig)
+ 				{
+-					return LoadGenericTypeInstanceSig((GenericInstSig)typeSig);
++					return LoadGenericTypeInstanceSig(genericInstSig);
+ 				}
+-				else if (typeSig is GenericSig)
++				else if (typeSig is GenericSig genericSig)
+ 				{
+-					return LoadGenericParam((GenericSig)typeSig);
++					return LoadGenericParam(genericSig);
+ 				}
+-				else if (typeSig is FnPtrSig)
++				else if (typeSig is FnPtrSig fnPtrSig)
+ 				{
+-					var fnPtr = ((FnPtrSig)typeSig).MethodSig;
++					var fnPtr = fnPtrSig.MethodSig;
+ 					var returnType = GetType(fnPtr.RetType);
+ 					var pars = new List<MosaParameter>();
+ 					for (int i = 0; i < fnPtr.Params.Count; i++)
+@@ -465,8 +465,8 @@ public MosaMethod LoadGenericMethodInstance(IMethodDefOrRef method, IList<TypeSi
+ 			var declType = GetType(resolver.Resolve(method.DeclaringType.ToTypeSig()));
+ 
+ 			MDToken token;
+-			if (method is MethodDef)
+-				token = ((MethodDef)method).MDToken;
++			if (method is MethodDef methodDef)
++				token = methodDef.MDToken;
+ 			else
+ 				token = ((MemberRef)method).ResolveMethodThrow().MDToken;
+ 
+diff --git a/Source/Mosa.Compiler.MosaTypeSystem/Metadata/MetadataResolver.cs b/Source/Mosa.Compiler.MosaTypeSystem/Metadata/MetadataResolver.cs
+index 5e0c8139a..8c3d1e6dc 100644
+--- a/Source/Mosa.Compiler.MosaTypeSystem/Metadata/MetadataResolver.cs
++++ b/Source/Mosa.Compiler.MosaTypeSystem/Metadata/MetadataResolver.cs
+@@ -77,14 +77,14 @@ public void Resolve()
+ 			while (resolveQueue.Count > 0)
+ 			{
+ 				var unit = resolveQueue.Dequeue();
+-				if (unit is MosaType)
+-					ResolveType((MosaType)unit);
+-				if (unit is MosaField)
+-					ResolveField((MosaField)unit);
+-				if (unit is MosaMethod)
+-					ResolveMethod((MosaMethod)unit);
+-				if (unit is MosaProperty)
+-					ResolveProperty((MosaProperty)unit);
++				if (unit is MosaType mosaType)
++					ResolveType(mosaType);
++				if (unit is MosaField mosaField)
++					ResolveField(mosaField);
++				if (unit is MosaMethod mosaMethod)
++					ResolveMethod(mosaMethod);
++				if (unit is MosaProperty mosaProperty)
++					ResolveProperty(mosaProperty);
+ 				if (unit is MosaModule module)
+ 				{
+ 					using (var mosaModule = metadata.Controller.MutateModule(module))
+@@ -132,13 +132,13 @@ private void ResolveInterfacesInBaseTypes(MosaType.Mutator mosaType, MosaType ba
+ 		private MosaCustomAttribute.Argument ToMosaCAArgument(CAArgument arg)
+ 		{
+ 			var value = arg.Value;
+-			if (value is UTF8String)
++			if (value is UTF8String uTF8String)
+ 			{
+-				value = ((UTF8String)value).String;
++				value = uTF8String.String;
+ 			}
+-			else if (value is TypeSig)
++			else if (value is TypeSig typeSig)
+ 			{
+-				value = metadata.Loader.GetType((TypeSig)value);
++				value = metadata.Loader.GetType(typeSig);
+ 			}
+ 			else if (value is CAArgument[] valueArray)
+ 			{
+@@ -516,9 +516,9 @@ private MosaMethod ResolveArrayMethod(IMethod method, GenericArgumentResolver re
+ 
+ 		private MosaMethod ResolveMethodOperand(IMethod operand, GenericArgumentResolver resolver)
+ 		{
+-			if (operand is MethodSpec)
++			if (operand is MethodSpec methodSpec)
+ 			{
+-				return metadata.Loader.LoadGenericMethodInstance((MethodSpec)operand, resolver);
++				return metadata.Loader.LoadGenericMethodInstance(methodSpec, resolver);
+ 			}
+ 			else if (operand.DeclaringType.TryGetArraySig() != null || operand.DeclaringType.TryGetSZArraySig() != null)
+ 			{
+diff --git a/Source/Mosa.Kernel.x86/ConsoleSession.cs b/Source/Mosa.Kernel.x86/ConsoleSession.cs
+index e878cb5c7..069732abd 100644
+--- a/Source/Mosa.Kernel.x86/ConsoleSession.cs
++++ b/Source/Mosa.Kernel.x86/ConsoleSession.cs
+@@ -126,10 +126,7 @@ public void Write(char chr)
+ 			text[address] = (byte)chr;
+ 			textcolor[address] = color;
+ 
+-			if (consoleManager != null)
+-			{
+-				consoleManager.RawWrite(this, Row, Column, chr, color);
+-			}
++			consoleManager?.RawWrite(this, Row, Column, chr, color);
+ 
+ 			Next();
+ 		}
+@@ -200,10 +197,7 @@ public void Clear()
+ 					text[address] = (byte)' ';
+ 					textcolor[address] = BackgroundColor;
+ 
+-					if (consoleManager != null)
+-					{
+-						consoleManager.RawWrite(this, r, c, ' ', BackgroundColor);
+-					}
++					consoleManager?.RawWrite(this, r, c, ' ', BackgroundColor);
+ 				}
+ 			}
+ 		}
+@@ -241,10 +235,7 @@ protected void ScrollUp()
+ 						textcolor[address] = textcolor[address + Columns];
+ 					}
+ 
+-					if (consoleManager != null)
+-					{
+-						consoleManager.RawWrite(this, r, c, (char)text[address], textcolor[address]);
+-					}
++					consoleManager?.RawWrite(this, r, c, (char)text[address], textcolor[address]);
+ 				}
+ 			}
+ 		}
+diff --git a/Source/Mosa.Korlib/System.Collections.Generic/List.cs b/Source/Mosa.Korlib/System.Collections.Generic/List.cs
+index 563c401cf..3b11d3d59 100644
+--- a/Source/Mosa.Korlib/System.Collections.Generic/List.cs
++++ b/Source/Mosa.Korlib/System.Collections.Generic/List.cs
+@@ -430,8 +430,7 @@ public void InsertRange(int index, IEnumerable<T> collection)
+ 			}
+ 			Contract.EndContractBlock();
+ 
+-			ICollection<T> c = collection as ICollection<T>;
+-			if (c != null)
++			if (collection is ICollection<T> c)
+ 			{    // if collection is ICollection<T>
+ 				int count = c.Count;
+ 				if (count > 0)
+diff --git a/Source/Mosa.Korlib/System.Collections/ArrayList.cs b/Source/Mosa.Korlib/System.Collections/ArrayList.cs
+index fd3a0c905..13dbadddf 100644
+--- a/Source/Mosa.Korlib/System.Collections/ArrayList.cs
++++ b/Source/Mosa.Korlib/System.Collections/ArrayList.cs
+@@ -987,8 +987,7 @@ public override void InsertRange(int index, ICollection c)
+ 
+ 				if (c.Count > 0)
+ 				{
+-					ArrayList al = _list as ArrayList;
+-					if (al != null)
++					if (_list is ArrayList al)
+ 					{
+ 						// We need to special case ArrayList. 
+ 						// When c is a range of _list, we need to handle this in a special way.
+diff --git a/Source/Mosa.Korlib/System.Collections/CompatibleComparer.cs b/Source/Mosa.Korlib/System.Collections/CompatibleComparer.cs
+index 40e0dad24..5ac28382f 100644
+--- a/Source/Mosa.Korlib/System.Collections/CompatibleComparer.cs
++++ b/Source/Mosa.Korlib/System.Collections/CompatibleComparer.cs
+@@ -23,8 +23,8 @@ public int Compare(Object a, Object b)
+ 			if (b == null) return 1;
+ 			if (_comparer != null)
+ 				return _comparer.Compare(a, b);
+-			IComparable ia = a as IComparable;
+-			if (ia != null)
++
++			if (a is IComparable ia)
+ 				return ia.CompareTo(b);
+ 
+ 			throw new ArgumentException("Argument_ImplementIComparable");
+diff --git a/Source/Mosa.Korlib/System/IntPtr.cs b/Source/Mosa.Korlib/System/IntPtr.cs
+index dd6bfdb05..d3050710b 100644
+--- a/Source/Mosa.Korlib/System/IntPtr.cs
++++ b/Source/Mosa.Korlib/System/IntPtr.cs
+@@ -40,9 +40,9 @@ public unsafe IntPtr(void* value)
+ 
+ 		public unsafe override bool Equals(Object obj)
+ 		{
+-			if (obj is IntPtr)
++			if (obj is IntPtr intPtr)
+ 			{
+-				return (_value == ((IntPtr)obj)._value);
++				return (_value == intPtr._value);
+ 			}
+ 			return false;
+ 		}
+diff --git a/Source/Mosa.Korlib/System/UIntPtr.cs b/Source/Mosa.Korlib/System/UIntPtr.cs
+index 6f55486cc..8dc5e23fa 100644
+--- a/Source/Mosa.Korlib/System/UIntPtr.cs
++++ b/Source/Mosa.Korlib/System/UIntPtr.cs
+@@ -35,9 +35,9 @@ public unsafe UIntPtr(void* value)
+ 
+ 		public unsafe override bool Equals(Object obj)
+ 		{
+-			if (obj is UIntPtr)
++			if (obj is UIntPtr uIntPtr)
+ 			{
+-				return (_value == ((UIntPtr)obj)._value);
++				return (_value == uIntPtr._value);
+ 			}
+ 			return false;
+ 		}
+diff --git a/Source/Mosa.Korlib/System/ValueTuple.cs b/Source/Mosa.Korlib/System/ValueTuple.cs
+index 0ef4b8686..0a71c107c 100644
+--- a/Source/Mosa.Korlib/System/ValueTuple.cs
++++ b/Source/Mosa.Korlib/System/ValueTuple.cs
+@@ -18,9 +18,8 @@ public ValueTuple(T1 item1, T2 item2)
+ 
+ 	public override bool Equals(object obj)
+ 	{
+-		if (obj is ValueTuple<T1, T2>)
++		if (obj is ValueTuple<T1, T2> other)
+ 		{
+-			var other = (ValueTuple<T1, T2>)obj;
+ 			return Equals(other);
+ 		}
+ 
+diff --git a/Source/Mosa.Runtime/Pointer.cs b/Source/Mosa.Runtime/Pointer.cs
+index b81dcf424..19ece8999 100644
+--- a/Source/Mosa.Runtime/Pointer.cs
++++ b/Source/Mosa.Runtime/Pointer.cs
+@@ -72,9 +72,9 @@ public unsafe Pointer(void* value)
+ 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+ 		public unsafe override bool Equals(Object obj)
+ 		{
+-			if (obj is Pointer)
++			if (obj is Pointer pointer)
+ 			{
+-				return (value == ((Pointer)obj).value);
++				return (value == pointer.value);
+ 			}
+ 			return false;
+ 		}
+diff --git a/Source/Mosa.Utility.UnitTests/UnitTestSystem.cs b/Source/Mosa.Utility.UnitTests/UnitTestSystem.cs
+index c09d1c8a9..8aeab4254 100644
+--- a/Source/Mosa.Utility.UnitTests/UnitTestSystem.cs
++++ b/Source/Mosa.Utility.UnitTests/UnitTestSystem.cs
+@@ -221,7 +221,7 @@ private static int GetReturnResultType(MosaType type)
+ 
+ 		private static void AddParameters(List<int> cmd, object parameter)
+ 		{
+-			if ((parameter == null) || !(parameter is ValueType))
++			if (!(parameter is ValueType))
+ 			{
+ 				throw new InvalidProgramException();
+ 			}
+@@ -242,9 +242,9 @@ private static void AddParameters(List<int> cmd, object parameter)
+ 			{
+ 				cmd.Add((short)parameter);
+ 			}
+-			else if (parameter is int)
++			else if (parameter is int i)
+ 			{
+-				cmd.Add((int)parameter);
++				cmd.Add(i);
+ 			}
+ 			else if (parameter is Byte)
+ 			{
+diff --git a/Source/Mosa.Workspace.Kernel.Debug/Mod/Mosa.Runtime/Pointer.cs b/Source/Mosa.Workspace.Kernel.Debug/Mod/Mosa.Runtime/Pointer.cs
+index 7cba0c521..8072cba90 100644
+--- a/Source/Mosa.Workspace.Kernel.Debug/Mod/Mosa.Runtime/Pointer.cs
++++ b/Source/Mosa.Workspace.Kernel.Debug/Mod/Mosa.Runtime/Pointer.cs
+@@ -71,9 +71,9 @@ public unsafe Pointer(void* value)
+ 
+ 		public unsafe override bool Equals(Object obj)
+ 		{
+-			if (obj is Pointer)
++			if (obj is Pointer pointer)
+ 			{
+-				return (value == ((Pointer)obj).value);
++				return (value == pointer.value);
+ 			}
+ 			return false;
+ 		}

@@ -1,0 +1,2001 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: ShareX
+    #1 Path: D:\a\1\s\ShareX\CaptureHelpers\CaptureBase.cs, Line: 97, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #2 Path: D:\a\1\s\ShareX\Controls\BeforeUploadControl.cs, Line: 199, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\ShareX\Controls\BeforeUploadControl.cs, Line: 214, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #4 Path: D:\a\1\s\ShareX\Controls\BeforeUploadControl.cs, Line: 225, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #5 Path: D:\a\1\s\ShareX\Controls\BeforeUploadControl.cs, Line: 244, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #6 Path: D:\a\1\s\ShareX\Controls\BeforeUploadControl.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #7 Path: D:\a\1\s\ShareX\Controls\BeforeUploadControl.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #8 Path: D:\a\1\s\ShareX\Controls\NewsListControl.cs, Line: 171, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #9 Path: D:\a\1\s\ShareX\Controls\NewsListControl.cs, Line: 188, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #10 Path: D:\a\1\s\ShareX\Controls\NewsListControl.cs, Line: 203, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #11 Path: D:\a\1\s\ShareX\Controls\NewsListControl.cs, Line: 219, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #12 Path: D:\a\1\s\ShareX\EasterEggAboutAnimation.cs, Line: 154, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #13 Path: D:\a\1\s\ShareX\EasterEggBounce.cs, Line: 136, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #14 Path: D:\a\1\s\ShareX\EasterEggBounce.cs, Line: 72, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #15 Path: D:\a\1\s\ShareX\Forms\AfterCaptureForm.cs, Line: 61, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #16 Path: D:\a\1\s\ShareX\Forms\AutoCaptureForm.Designer.cs, Line: 21, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #17 Path: D:\a\1\s\ShareX\Forms\AutoCaptureForm.Designer.cs, Line: 26, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #18 Path: D:\a\1\s\ShareX\Forms\MainForm.cs, Line: 1305, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\ShareX\Forms\MainForm.cs, Line: 1642, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #20 Path: D:\a\1\s\ShareX\Forms\MainForm.cs, Line: 2096, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #21 Path: D:\a\1\s\ShareX\Forms\MainForm.cs, Line: 2133, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #22 Path: D:\a\1\s\ShareX\Forms\MainForm.cs, Line: 949, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #23 Path: D:\a\1\s\ShareX\Forms\NotificationForm.cs, Line: 352, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #24 Path: D:\a\1\s\ShareX\Forms\NotificationForm.cs, Line: 60, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #25 Path: D:\a\1\s\ShareX\Forms\NotificationForm.cs, Line: 65, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #26 Path: D:\a\1\s\ShareX\Forms\NotificationForm.cs, Line: 70, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #27 Path: D:\a\1\s\ShareX\Forms\ScreenRecordForm.cs, Line: 118, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #28 Path: D:\a\1\s\ShareX\Forms\ScreenRecordForm.cs, Line: 123, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #29 Path: D:\a\1\s\ShareX\Forms\ScreenRecordForm.cs, Line: 253, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #30 Path: D:\a\1\s\ShareX\Forms\TaskSettingsForm.cs, Line: 1254, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #31 Path: D:\a\1\s\ShareX\Forms\TaskSettingsForm.cs, Line: 1308, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #32 Path: D:\a\1\s\ShareX\Forms\TaskSettingsForm.cs, Line: 1342, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #33 Path: D:\a\1\s\ShareX\HotkeyManager.cs, Line: 196, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\ShareX\HotkeySettings.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: D:\a\1\s\ShareX\ImageInfo.cs, Line: 58, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #36 Path: D:\a\1\s\ShareX\LanguageHelper.cs, Line: 219, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #37 Path: D:\a\1\s\ShareX\LanguageHelper.cs, Line: 238, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #38 Path: D:\a\1\s\ShareX\ScreenRecordManager.cs, Line: 259, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #39 Path: D:\a\1\s\ShareX\TaskHelpers.cs, Line: 1757, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #40 Path: D:\a\1\s\ShareX\TaskHelpers.cs, Line: 299, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #41 Path: D:\a\1\s\ShareX\TaskHelpers.cs, Line: 553, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #42 Path: D:\a\1\s\ShareX\TaskListView.cs, Line: 111, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #43 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 170, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 202, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #45 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 211, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 225, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #47 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 238, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #48 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 278, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #49 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 478, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #50 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 484, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #51 Path: D:\a\1\s\ShareX\TaskManager.cs, Line: 489, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #52 Path: D:\a\1\s\ShareX\UploadInfoManager.cs, Line: 71, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #53 Path: D:\a\1\s\ShareX\UploadInfoManager.cs, Line: 73, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #54 Path: D:\a\1\s\ShareX\UploadInfoManager.cs, Line: 83, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #55 Path: D:\a\1\s\ShareX\UploadManager.cs, Line: 348, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #56 Path: D:\a\1\s\ShareX\WatchFolder.cs, Line: 128, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #57 Path: D:\a\1\s\ShareX\WatchFolderManager.cs, Line: 136, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #58 Path: D:\a\1\s\ShareX\WorkerTask.cs, Line: 503, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #59 Path: D:\a\1\s\ShareX\WorkerTask.cs, Line: 723, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #60 Path: D:\a\1\s\ShareX\WorkerTask.cs, Line: 744, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: ShareX.HistoryLib
+    #61 Path: D:\a\1\s\ShareX.HistoryLib\Forms\HistoryForm.cs, Line: 107, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #62 Path: D:\a\1\s\ShareX.HistoryLib\Forms\HistoryForm.cs, Line: 119, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #63 Path: D:\a\1\s\ShareX.HistoryLib\Forms\HistoryForm.cs, Line: 133, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #64 Path: D:\a\1\s\ShareX.HistoryLib\Forms\HistoryForm.cs, Line: 145, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #65 Path: D:\a\1\s\ShareX.HistoryLib\Forms\HistoryForm.cs, Line: 302, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #66 Path: D:\a\1\s\ShareX.HistoryLib\HistoryItemManager.cs, Line: 281, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #67 Path: D:\a\1\s\ShareX.HistoryLib\HistoryItemManager.cs, Line: 300, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #68 Path: D:\a\1\s\ShareX.HistoryLib\HistoryItemManager.cs, Line: 319, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #69 Path: D:\a\1\s\ShareX.HistoryLib\HistoryItemManager.cs, Line: 338, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #70 Path: D:\a\1\s\ShareX.HistoryLib\HistoryItemManager.cs, Line: 357, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #71 Path: D:\a\1\s\ShareX.HistoryLib\HistoryItemManager.cs, Line: 376, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #72 Path: D:\a\1\s\ShareX.HistoryLib\HistoryItemManager.cs, Line: 395, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #73 Path: D:\a\1\s\ShareX.HistoryLib\HistoryItemManager.cs, Line: 414, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #74 Path: D:\a\1\s\ShareX.HistoryLib\HistoryManagerXML.cs, Line: 69, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: ShareX.ScreenCaptureLib
+    #75 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\FFmpegOptionsForm.cs, Line: 611, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #76 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\RegionCaptureForm.cs, Line: 420, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #77 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\RegionCaptureForm.cs, Line: 425, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #78 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\RegionCaptureForm.cs, Line: 685, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #79 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\ScrollingCaptureForm.cs, Line: 249, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #80 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\ScrollingCaptureForm.cs, Line: 258, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #81 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\ScrollingCaptureForm.cs, Line: 270, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #82 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\ScrollingCaptureForm.cs, Line: 620, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #83 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\ScrollingCaptureForm.cs, Line: 90, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #84 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Forms\StickerForm.cs, Line: 94, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #85 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Screencast\HardDiskCache.cs, Line: 73, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #86 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Screencast\ImageCache.cs, Line: 114, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #87 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Screencast\ScreenRecorder.cs, Line: 203, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #88 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Screencast\ScreenRecorder.cs, Line: 211, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #89 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Screencast\ScreenRecorder.cs, Line: 296, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #90 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Screencast\ScreenRecorder.cs, Line: 301, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #91 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Screenshot_Transparent.cs, Line: 124, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #92 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Shapes\Drawing\ImageDrawingShape.cs, Line: 112, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #93 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Shapes\Drawing\SpeechBalloonDrawingShape.cs, Line: 188, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #94 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Shapes\Drawing\TextOutlineDrawingShape.cs, Line: 137, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #95 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Shapes\ShapeManager.cs, Line: 1337, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #96 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Shapes\ShapeManager.cs, Line: 1345, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #97 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Shapes\ShapeManager.cs, Line: 824, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #98 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Shapes\ShapeManager.cs, Line: 886, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #99 Path: D:\a\1\s\ShareX.ScreenCaptureLib\Shapes\ShapeManager.cs, Line: 895, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: ShareX.HelpersLib
+    #100 Path: D:\a\1\s\ShareX.HelpersLib\ApplicationInstanceManager.cs, Line: 135, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #101 Path: D:\a\1\s\ShareX.HelpersLib\ApplicationInstanceManager.cs, Line: 156, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #102 Path: D:\a\1\s\ShareX.HelpersLib\ApplicationInstanceManager.cs, Line: 164, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #103 Path: D:\a\1\s\ShareX.HelpersLib\ApplicationInstanceManager.cs, Line: 184, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #104 Path: D:\a\1\s\ShareX.HelpersLib\ApplicationInstanceManager.cs, Line: 39, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #105 Path: D:\a\1\s\ShareX.HelpersLib\ApplicationInstanceManager.cs, Line: 40, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #106 Path: D:\a\1\s\ShareX.HelpersLib\ApplicationInstanceManager.cs, Line: 78, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #107 Path: D:\a\1\s\ShareX.HelpersLib\ApplicationInstanceManager.cs, Line: 88, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #108 Path: D:\a\1\s\ShareX.HelpersLib\CLI\ExternalCLIManager.cs, Line: 130, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #109 Path: D:\a\1\s\ShareX.HelpersLib\ColorBgra.cs, Line: 105, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #110 Path: D:\a\1\s\ShareX.HelpersLib\Controls\MyListView.cs, Line: 239, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #111 Path: D:\a\1\s\ShareX.HelpersLib\Controls\MyListView.cs, Line: 270, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #112 Path: D:\a\1\s\ShareX.HelpersLib\Controls\TabToTreeView.cs, Line: 172, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #113 Path: D:\a\1\s\ShareX.HelpersLib\Controls\ToolStripButtonColorAnimation.cs, Line: 97, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #114 Path: D:\a\1\s\ShareX.HelpersLib\Controls\ToolStripButtonCounter.cs, Line: 54, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #115 Path: D:\a\1\s\ShareX.HelpersLib\Controls\ToolStripButtonCounter.cs, Line: 90, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #116 Path: D:\a\1\s\ShareX.HelpersLib\Controls\ToolStripButtonExtraImage.cs, Line: 70, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #117 Path: D:\a\1\s\ShareX.HelpersLib\Controls\ToolStripRadioButtonMenuItem.cs, Line: 237, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #118 Path: D:\a\1\s\ShareX.HelpersLib\Controls\ToolStripRadioButtonMenuItem.cs, Line: 93, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #119 Path: D:\a\1\s\ShareX.HelpersLib\Cryptographic\HashCheck.cs, Line: 80, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #120 Path: D:\a\1\s\ShareX.HelpersLib\DNS\AdapterInfo.cs, Line: 117, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #121 Path: D:\a\1\s\ShareX.HelpersLib\Extensions\Extensions.cs, Line: 449, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #122 Path: D:\a\1\s\ShareX.HelpersLib\Extensions\Extensions.cs, Line: 534, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #123 Path: D:\a\1\s\ShareX.HelpersLib\Extensions\NumberExtensions.cs, Line: 102, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #124 Path: D:\a\1\s\ShareX.HelpersLib\Extensions\StringExtensions.cs, Line: 311, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #125 Path: D:\a\1\s\ShareX.HelpersLib\Extensions\XMLExtensions.cs, Line: 198, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #126 Path: D:\a\1\s\ShareX.HelpersLib\Extensions\XMLExtensions.cs, Line: 233, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #127 Path: D:\a\1\s\ShareX.HelpersLib\Forms\ColorPickerForm.cs, Line: 424, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #128 Path: D:\a\1\s\ShareX.HelpersLib\Forms\DNSChangerForm.cs, Line: 112, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #129 Path: D:\a\1\s\ShareX.HelpersLib\Forms\DNSChangerForm.cs, Line: 159, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #130 Path: D:\a\1\s\ShareX.HelpersLib\Forms\DNSChangerForm.cs, Line: 70, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #131 Path: D:\a\1\s\ShareX.HelpersLib\Forms\GradientPickerForm.cs, Line: 143, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #132 Path: D:\a\1\s\ShareX.HelpersLib\Forms\GradientPickerForm.cs, Line: 302, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #133 Path: D:\a\1\s\ShareX.HelpersLib\Forms\HashCheckForm.cs, Line: 205, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #134 Path: D:\a\1\s\ShareX.HelpersLib\Forms\ImageViewer.cs, Line: 116, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #135 Path: D:\a\1\s\ShareX.HelpersLib\Forms\PrintForm.cs, Line: 53, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #136 Path: D:\a\1\s\ShareX.HelpersLib\Forms\PrintForm.cs, Line: 58, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #137 Path: D:\a\1\s\ShareX.HelpersLib\Forms\PrintTextForm.cs, Line: 56, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #138 Path: D:\a\1\s\ShareX.HelpersLib\Forms\PrintTextForm.cs, Line: 61, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #139 Path: D:\a\1\s\ShareX.HelpersLib\Helpers\ClipboardHelpersEx.cs, Line: 134, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #140 Path: D:\a\1\s\ShareX.HelpersLib\Helpers\ClipboardHelpersEx.cs, Line: 141, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #141 Path: D:\a\1\s\ShareX.HelpersLib\Helpers\Helpers.cs, Line: 1397, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #142 Path: D:\a\1\s\ShareX.HelpersLib\Helpers\Helpers.cs, Line: 1405, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #143 Path: D:\a\1\s\ShareX.HelpersLib\Helpers\Helpers.cs, Line: 873, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #144 Path: D:\a\1\s\ShareX.HelpersLib\Helpers\RegistryHelpers.cs, Line: 43, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #145 Path: D:\a\1\s\ShareX.HelpersLib\Helpers\RegistryHelpers.cs, Line: 59, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #146 Path: D:\a\1\s\ShareX.HelpersLib\ImageFilesCache.cs, Line: 102, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #147 Path: D:\a\1\s\ShareX.HelpersLib\Logger.cs, Line: 151, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #148 Path: D:\a\1\s\ShareX.HelpersLib\Native\FolderSelectDialog.cs, Line: 162, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #149 Path: D:\a\1\s\ShareX.HelpersLib\Native\NativeStructs.cs, Line: 156, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #150 Path: D:\a\1\s\ShareX.HelpersLib\Native\NativeStructs.cs, Line: 161, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #151 Path: D:\a\1\s\ShareX.HelpersLib\Native\NativeStructs.cs, Line: 204, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #152 Path: D:\a\1\s\ShareX.HelpersLib\PingResult.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #153 Path: D:\a\1\s\ShareX.HelpersLib\PingResult.cs, Line: 83, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #154 Path: D:\a\1\s\ShareX.HelpersLib\PingResult.cs, Line: 91, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #155 Path: D:\a\1\s\ShareX.HelpersLib\ProxyInfo.cs, Line: 104, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #156 Path: D:\a\1\s\ShareX.HelpersLib\ProxyInfo.cs, Line: 56, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #157 Path: D:\a\1\s\ShareX.HelpersLib\ProxyInfo.cs, Line: 74, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #158 Path: D:\a\1\s\ShareX.HelpersLib\TextBoxTraceListener.cs, Line: 45, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #159 Path: D:\a\1\s\ShareX.HelpersLib\UpdateChecker\XMLUpdateChecker.cs, Line: 79, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #160 Path: D:\a\1\s\ShareX.HelpersLib\Vector2.cs, Line: 69, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #161 Path: D:\a\1\s\ShareX.HelpersLib\XmlColor.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #162 Path: D:\a\1\s\ShareX.HelpersLib\XmlFont.cs, Line: 94, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: ShareX.UploadersLib
+    #163 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Box.cs, Line: 183, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #164 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Box.cs, Line: 203, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #165 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Box.cs, Line: 233, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #166 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Box.cs, Line: 244, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #167 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Copy.cs, Line: 153, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #168 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Copy.cs, Line: 201, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #169 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Copy.cs, Line: 203, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #170 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Copy.cs, Line: 205, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #171 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Dropbox.cs, Line: 310, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #172 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\DropIO.cs, Line: 78, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #173 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\FTP.cs, Line: 224, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #174 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\FTPAccount.cs, Line: 98, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #175 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\GoogleDrive.cs, Line: 154, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #176 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Hostr.cs, Line: 86, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #177 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Jira.cs, Line: 260, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #178 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\LocalhostAccount.cs, Line: 165, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #179 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\LocalhostAccount.cs, Line: 209, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #180 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\MediaFire.cs, Line: 146, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #181 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\MediaFire.cs, Line: 162, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #182 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\OneDrive.cs, Line: 299, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #183 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\OwnCloud.cs, Line: 178, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #184 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\OwnCloud.cs, Line: 196, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #185 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Pushbullet.cs, Line: 183, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #186 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 147, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #187 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 185, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #188 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 226, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #189 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 267, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #190 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 304, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #191 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 339, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #192 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 388, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #193 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 475, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #194 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\Seafile.cs, Line: 510, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #195 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\SendSpace.cs, Line: 135, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #196 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\SendSpace.cs, Line: 616, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #197 Path: D:\a\1\s\ShareX.UploadersLib\FileUploaders\SendSpace.cs, Line: 623, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #198 Path: D:\a\1\s\ShareX.UploadersLib\Forms\CustomUploaderSettingsForm.cs, Line: 1158, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #199 Path: D:\a\1\s\ShareX.UploadersLib\Forms\CustomUploaderSettingsForm.cs, Line: 1162, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #200 Path: D:\a\1\s\ShareX.UploadersLib\Forms\CustomUploaderSettingsForm.cs, Line: 1167, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #201 Path: D:\a\1\s\ShareX.UploadersLib\Forms\CustomUploaderSettingsForm.cs, Line: 803, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #202 Path: D:\a\1\s\ShareX.UploadersLib\Forms\CustomUploaderSettingsForm.cs, Line: 824, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #203 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigForm.cs, Line: 1714, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #204 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigForm.cs, Line: 1724, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #205 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigForm.cs, Line: 1788, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #206 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigForm.cs, Line: 1909, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #207 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigForm.cs, Line: 1923, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #208 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigForm.cs, Line: 2152, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #209 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigForm.cs, Line: 2191, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #210 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigForm.cs, Line: 2463, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #211 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigFormHelper.cs, Line: 376, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #212 Path: D:\a\1\s\ShareX.UploadersLib\Forms\UploadersConfigFormHelper.cs, Line: 404, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #213 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\Chevereto.cs, Line: 84, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #214 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\FlickrUploader.cs, Line: 132, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #215 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\ImageShackUploader.cs, Line: 121, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #216 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\ImageShackUploader.cs, Line: 122, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #217 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\ImageShackUploader.cs, Line: 144, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #218 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\ImageShackUploader.cs, Line: 86, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #219 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\TwitPicUploader.cs, Line: 111, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #220 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\Twitter.cs, Line: 120, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #221 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\Twitter.cs, Line: 143, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #222 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\Twitter.cs, Line: 155, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #223 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\Twitter.cs, Line: 166, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #224 Path: D:\a\1\s\ShareX.UploadersLib\ImageUploaders\Twitter.cs, Line: 182, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #225 Path: D:\a\1\s\ShareX.UploadersLib\OAuth\OAuthManager.cs, Line: 131, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #226 Path: D:\a\1\s\ShareX.UploadersLib\OAuth\OAuthManager.cs, Line: 143, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #227 Path: D:\a\1\s\ShareX.UploadersLib\OAuth\OAuthManager.cs, Line: 147, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #228 Path: D:\a\1\s\ShareX.UploadersLib\OAuth\OAuthManager.cs, Line: 191, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #229 Path: D:\a\1\s\ShareX.UploadersLib\UploadersConfigValidator.cs, Line: 36, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #230 Path: D:\a\1\s\ShareX.UploadersLib\UploadersConfigValidator.cs, Line: 41, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #231 Path: D:\a\1\s\ShareX.UploadersLib\UploadersConfigValidator.cs, Line: 46, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #232 Path: D:\a\1\s\ShareX.UploadersLib\UploadersConfigValidator.cs, Line: 51, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #233 Path: D:\a\1\s\ShareX.UploadersLib\UploadersConfigValidator.cs, Line: 56, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: ShareX.IndexerLib
+    #234 Path: D:\a\1\s\ShareX.IndexerLib\IndexerText.cs, Line: 107, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #235 Path: D:\a\1\s\ShareX.IndexerLib\IndexerText.cs, Line: 91, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #236 Path: D:\a\1\s\ShareX.IndexerLib\IndexerText.cs, Line: 95, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: ShareX.ImageEffectsLib
+    #237 Path: D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs, Line: 397, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #238 Path: D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs, Line: 505, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #239 Path: D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs, Line: 526, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #240 Path: D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs, Line: 830, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #241 Path: D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs, Line: 844, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: ShareX.MediaLib
+    #242 Path: D:\a\1\s\ShareX.MediaLib\Forms\ImageCombinerForm.cs, Line: 208, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #243 Path: D:\a\1\s\ShareX.MediaLib\Forms\ImageCombinerForm.cs, Line: 241, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #244 Path: D:\a\1\s\ShareX.MediaLib\Forms\ImageThumbnailerForm.cs, Line: 112, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #245 Path: D:\a\1\s\ShareX.MediaLib\Forms\VideoConverterForm.cs, Line: 285, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #246 Path: D:\a\1\s\ShareX.MediaLib\Forms\VideoConverterForm.cs, Line: 295, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #247 Path: D:\a\1\s\ShareX.MediaLib\VideoInfo.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #248 Path: D:\a\1\s\ShareX.MediaLib\VideoInfo.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #249 Path: D:\a\1\s\ShareX.MediaLib\VideoInfo.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #250 Path: D:\a\1\s\ShareX.MediaLib\VideoThumbnailer.cs, Line: 321, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #251 Path: D:\a\1\s\ShareX.MediaLib\VideoThumbnailer.cs, Line: 332, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #252 Path: D:\a\1\s\ShareX.MediaLib\VideoThumbnailer.cs, Line: 87, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R7: 82
+R9: 80
+R8: 45
+R2: 19
+R5: 17
+R6: 6
+R3: 2
+R4: 1
+
+--- Summary ---
+Fixed ReSharper issues: 233
+Fixed SonarQube issues: 26
+Total fixed issues: 252
+
+Finished in: 21 s
+
+######################################################################
+Nr: 1 - MergeSequentialChecksRewriterR2
+Filepath: D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using Newtonsoft.Json.Serialization;
+using ShareX.HelpersLib;
+using ShareX.ImageEffectsLib.Properties;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace ShareX.ImageEffectsLib
+{
+    public partial class ImageEffectsForm : Form
+    {
+        public static bool IsInstanceActive => instance != null && !instance.IsDisposed;
+
+        private static ImageEffectsForm instance;
+
+        public event Action<Bitmap> ImageProcessRequested;
+
+        public bool AutoGeneratePreviewImage { get; set; }
+        public Bitmap PreviewImage { get; private set; }
+        public List<ImageEffectPreset> Presets { get; private set; }
+        public int SelectedPresetIndex { get; private set; }
+        public string FilePath { get; private set; }
+
+        private bool pauseUpdate;
+        private ISerializationBinder serializationBinder = new TypeNameSerializationBinder("ShareX.ImageEffectsLib", "ShareX.ImageEffectsLib");
+
+        public ImageEffectsForm(Bitmap bmp, List<ImageEffectPreset> presets, int selectedPresetIndex)
+        {
+            pauseUpdate = true;
+
+            InitializeComponent();
+            ShareXResources.ApplyTheme(this);
+
+            PreviewImage = bmp;
+            if (PreviewImage == null)
+            {
+                AutoGeneratePreviewImage = true;
+            }
+
+            Presets = presets;
+            if (Presets.Count == 0)
+            {
+                Presets.Add(new ImageEffectPreset());
+            }
+
+            SelectedPresetIndex = selectedPresetIndex;
+
+            AddAllEffectsToContextMenu();
+            LoadSettings();
+        }
+
+        public static ImageEffectsForm GetFormInstance(List<ImageEffectPreset> presets, int selectedPresetIndex)
+        {
+            if (!IsInstanceActive)
+            {
+                instance = new ImageEffectsForm(null, presets, selectedPresetIndex);
+            }
+
+            return instance;
+        }
+
+        public void EnableToolMode(Action<Bitmap> imageProcessRequested, string filePath = null)
+        {
+            FilePath = filePath;
+            ImageProcessRequested += imageProcessRequested;
+            pbResult.AllowDrop = true;
+            mbLoadImage.Visible = true;
+            btnSaveImage.Visible = true;
+            btnUploadImage.Visible = true;
+        }
+
+        public void EditorMode()
+        {
+            btnOK.Visible = true;
+            btnClose.Text = Resources.ImageEffectsForm_EditorMode_Cancel;
+        }
+
+        public void ImportImageEffect(string json)
+        {
+            ImageEffectPreset preset = null;
+
+            try
+            {
+                preset = JsonHelpers.DeserializeFromString<ImageEffectPreset>(json, serializationBinder);
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
+                e.ShowError();
+            }
+
+            if (preset != null && preset.Effects.Count > 0)
+            {
+                AddPreset(preset);
+            }
+        }
+
+        public void ImportImageEffectFile(string filePath)
+        {
+            try
+            {
+                string configJson = ImageEffectPackager.ExtractPackage(filePath, HelpersOptions.ShareXSpecialFolders["ShareXImageEffects"]);
+
+                if (!string.IsNullOrEmpty(configJson))
+                {
+                    ImportImageEffect(configJson);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ShowError(false);
+            }
+        }
+
+        protected void OnImageProcessRequested(Bitmap bmp)
+        {
+            ImageProcessRequested?.Invoke(bmp);
+        }
+
+        private void AddAllEffectsToContextMenu()
+        {
+            AddEffectToContextMenu(Resources.ImageEffectsForm_AddAllEffectsToTreeView_Drawings,
+                typeof(DrawBackground),
+                typeof(DrawBorder),
+                typeof(DrawCheckerboard),
+                typeof(DrawImage),
+                typeof(DrawParticles),
+                typeof(DrawTextEx),
+                typeof(DrawText));
+
+            AddEffectToContextMenu(Resources.ImageEffectsForm_AddAllEffectsToTreeView_Manipulations,
+                typeof(AutoCrop),
+                typeof(Canvas),
+                typeof(Crop),
+                typeof(Flip),
+                typeof(ForceProportions),
+                typeof(Resize),
+                typeof(Rotate),
+                typeof(RoundedCorners),
+                typeof(Scale),
+                typeof(Skew));
+
+            AddEffectToContextMenu(Resources.ImageEffectsForm_AddAllEffectsToTreeView_Adjustments,
+                typeof(Alpha),
+                typeof(BlackWhite),
+                typeof(Brightness),
+                typeof(MatrixColor), // "Color matrix"
+                typeof(Colorize),
+                typeof(Contrast),
+                typeof(Gamma),
+                typeof(Grayscale),
+                typeof(Hue),
+                typeof(Inverse),
+                typeof(Polaroid),
+                typeof(Saturation),
+                typeof(SelectiveColor),
+                typeof(Sepia));
+
+            AddEffectToContextMenu(Resources.ImageEffectsForm_AddAllEffectsToTreeView_Filters,
+                typeof(Blur),
+                typeof(ColorDepth),
+                typeof(MatrixConvolution), // "Convolution matrix"
+                typeof(EdgeDetect),
+                typeof(Emboss),
+                typeof(GaussianBlur),
+                typeof(MeanRemoval),
+                typeof(Outline),
+                typeof(Pixelate),
+                typeof(Reflection),
+                typeof(RGBSplit),
+                typeof(Shadow),
+                typeof(Sharpen),
+                typeof(Slice),
+                typeof(Smooth),
+                typeof(TornEdge));
+        }
+
+        private void AddEffectToContextMenu(string groupName, params Type[] imageEffects)
+        {
+            ToolStripMenuItem tsmiParent = new ToolStripMenuItem(groupName);
+            tsmiParent.HideImageMargin();
+
+            cmsEffects.Items.Add(tsmiParent);
+
+            foreach (Type imageEffect in imageEffects)
+            {
+                ToolStripItem tsmiChild = tsmiParent.DropDownItems.Add(imageEffect.GetDescription().Replace("&", "&&"));
+                tsmiChild.Tag = imageEffect;
+                tsmiChild.Click += tsmiEffectClick;
+            }
+        }
+
+        private void LoadSettings()
+        {
+            if (Presets != null && Presets.Count > 0)
+            {
+                foreach (ImageEffectPreset preset in Presets)
+                {
+                    ListViewItem lvi = new ListViewItem(preset.ToString());
+                    lvPresets.Items.Add(lvi);
+                }
+
+                lvPresets.SelectedIndex = SelectedPresetIndex.Clamp(0, Presets.Count - 1);
+            }
+
+            UpdateControlStates();
+        }
+
+        private ImageEffectPreset GetSelectedPreset()
+        {
+            return GetSelectedPreset(out _);
+        }
+
+        private ImageEffectPreset GetSelectedPreset(out ListViewItem lvi)
+        {
+            int index = lvPresets.SelectedIndex;
+
+            if (Presets.IsValidIndex(index))
+            {
+                lvi = lvPresets.Items[index];
+                return Presets[index];
+            }
+
+            lvi = null;
+            return null;
+        }
+
+        private void AddPreset()
+        {
+            AddPreset(new ImageEffectPreset());
+        }
+
+        private void AddPreset(ImageEffectPreset preset)
+        {
+            if (preset != null)
+            {
+                Presets.Add(preset);
+                ListViewItem lvi = new ListViewItem(preset.ToString());
+                lvPresets.Items.Add(lvi);
+                lvPresets.SelectLast();
+                txtPresetName.Focus();
+            }
+        }
+
+        private void UpdatePreview()
+        {
+            if (!pauseUpdate)
+            {
+                ImageEffectPreset preset = GetSelectedPreset();
+
+                if (preset != null)
+                {
+                    Cursor = Cursors.WaitCursor;
+
+                    try
+                    {
+                        if (AutoGeneratePreviewImage)
+                        {
+                            GeneratePreviewImage(24);
+                        }
+
+                        if (PreviewImage != null)
+                        {
+                            //Debug.WriteLine("Updating preview...");
+
+                            Stopwatch timer = Stopwatch.StartNew();
+
+                            using (Image preview = ApplyEffects())
+                            {
+                                if (preview != null)
+                                {
+                                    pbResult.LoadImage(preview);
+                                    Text = string.Format("ShareX - " + Resources.ImageEffectsForm_UpdatePreview_Image_effects___Width___0___Height___1___Render_time___2__ms,
+                                        preview.Width, preview.Height, timer.ElapsedMilliseconds);
+                                }
+                                else
+                                {
+                                    pbResult.Reset();
+                                    Text = string.Format("ShareX - " + Resources.ImageEffectsForm_UpdatePreview_Image_effects___Width___0___Height___1___Render_time___2__ms,
+                                        0, 0, timer.ElapsedMilliseconds);
+                                }
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        Cursor = Cursors.Default;
+                    }
+                }
+                else
+                {
+                    pbResult.Reset();
+                }
+
+                UpdateControlStates();
+            }
+        }
+
+        private void UpdateControlStates()
+        {
+            btnPresetRemove.Enabled = btnPresetDuplicate.Enabled = txtPresetName.Enabled = btnEffectAdd.Enabled = lvPresets.SelectedItems.Count > 0;
+            btnEffectClear.Enabled = btnEffectRefresh.Enabled = btnPackager.Enabled = lvEffects.Items.Count > 0;
+            btnEffectRemove.Enabled = btnEffectDuplicate.Enabled = lvEffects.SelectedItems.Count > 0;
+        }
+
+        private void GeneratePreviewImage(int padding)
+        {
+            if (pbResult.ClientSize.Width > 0 && pbResult.ClientSize.Height > 0)
+            {
+                int size = Math.Min(pbResult.ClientSize.Width, pbResult.ClientSize.Height);
+                int minSizePadding = 300;
+
+                if (size < minSizePadding + (padding * 2))
+                {
+                    padding = 0;
+                }
+
+                size = size - (padding * 2);
+
+                if (PreviewImage != null) PreviewImage.Dispose();
+                PreviewImage = new Bitmap(size, size);
+
+                Color backgroundColor;
+
+                if (ShareXResources.UseCustomTheme)
+                {
+                    backgroundColor = ShareXResources.Theme.BackgroundColor;
+                }
+                else
+                {
+                    backgroundColor = Color.DarkGray;
+                }
+
+                using (Graphics g = Graphics.FromImage(PreviewImage))
+                {
+                    g.Clear(backgroundColor);
+
+                    if (PreviewImage.Width > 260 && PreviewImage.Height > 260)
+                    {
+                        using (Bitmap logo = ShareXResources.Logo)
+                        {
+                            g.DrawImage(logo, (PreviewImage.Width / 2) - (logo.Width / 2), (PreviewImage.Height / 2) - (logo.Height / 2));
+                        }
+                    }
+                }
+            }
+        }
+
+        private Bitmap ApplyEffects()
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                return preset.ApplyEffects(PreviewImage);
+            }
+
+            return null;
+        }
+
+        private void tsmiEffectClick(object sender, EventArgs e)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+
+                if (tsmi != null && tsmi.Tag is Type)
+                {
+                    Type type = (Type)tsmi.Tag;
+                    ImageEffect imageEffect = (ImageEffect)Activator.CreateInstance(type);
+                    AddEffect(imageEffect, preset);
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void RemoveSelectedEffects()
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                int index = lvEffects.SelectedIndex;
+
+                if (index > -1)
+                {
+                    preset.Effects.RemoveAt(index);
+                    lvEffects.Items.RemoveAt(index);
+
+                    if (lvEffects.Items.Count > 0)
+                    {
+                        lvEffects.SelectedIndex = index == lvEffects.Items.Count ? lvEffects.Items.Count - 1 : index;
+                    }
+
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void ClearFields()
+        {
+            txtPresetName.Text = "";
+            lvEffects.Items.Clear();
+            ClearSelectedEffect();
+            UpdatePreview();
+        }
+
+        private void ClearSelectedEffect()
+        {
+            lblEffect.Text = Resources.Effect;
+            pgSettings.SelectedObject = null;
+        }
+
+        private void AddEffect(ImageEffect imageEffect, ImageEffectPreset preset = null)
+        {
+            ListViewItem lvi = new ListViewItem(imageEffect.GetType().GetDescription());
+            lvi.Checked = imageEffect.Enabled;
+            lvi.Tag = imageEffect;
+
+            if (lvEffects.SelectedIndices.Count > 0)
+            {
+                int index = lvEffects.SelectedIndices[lvEffects.SelectedIndices.Count - 1] + 1;
+                lvEffects.Items.Insert(index, lvi);
+
+                if (preset != null)
+                {
+                    preset.Effects.Insert(index, imageEffect);
+                }
+            }
+            else
+            {
+                lvEffects.Items.Add(lvi);
+
+                if (preset != null)
+                {
+                    preset.Effects.Add(imageEffect);
+                }
+            }
+
+            lvi.EnsureVisible();
+            lvi.Selected = true;
+        }
+
+        private void LoadPreset(ImageEffectPreset preset)
+        {
+            txtPresetName.Text = preset.Name;
+            lvEffects.Items.Clear();
+            ClearSelectedEffect();
+
+            foreach (ImageEffect imageEffect in preset.Effects)
+            {
+                AddEffect(imageEffect);
+            }
+
+            UpdatePreview();
+        }
+
+        #region Form events
+
+        private void ImageEffectsForm_Shown(object sender, EventArgs e)
+        {
+            this.ForceActivate();
+
+            pauseUpdate = false;
+            lvPresets.EnsureSelectedVisible();
+            UpdatePreview();
+        }
+
+        private void ImageEffectsForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+
+                if (files != null && files.Any(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxie")))
+                {
+                    e.Effect = DragDropEffects.Copy;
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void ImageEffectsForm_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+
+                if (files != null)
+                {
+                    foreach (string filePath in files.Where(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxie")))
+                    {
+                        ImportImageEffectFile(filePath);
+                    }
+                }
+            }
+        }
+
+        private void btnPresetNew_Click(object sender, EventArgs e)
+        {
+            AddPreset();
+        }
+
+        private void btnPresetRemove_Click(object sender, EventArgs e)
+        {
+            int selected = lvPresets.SelectedIndex;
+
+            if (selected > -1)
+            {
+                lvPresets.Items.RemoveAt(selected);
+                Presets.RemoveAt(selected);
+
+                if (lvPresets.Items.Count > 0)
+                {
+                    lvPresets.SelectedIndex = selected == lvPresets.Items.Count ? lvPresets.Items.Count - 1 : selected;
+                }
+                else
+                {
+                    ClearFields();
+                    btnPresetNew.Focus();
+                }
+            }
+        }
+
+        private void btnPresetDuplicate_Click(object sender, EventArgs e)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                ImageEffectPreset presetClone = preset.Copy();
+                AddPreset(presetClone);
+            }
+        }
+
+        private void lvPresets_ItemMoving(object sender, int oldIndex, int newIndex)
+        {
+            Presets.Move(oldIndex, newIndex);
+        }
+
+        private void lvPresets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedPresetIndex = lvPresets.SelectedIndex;
+
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                LoadPreset(preset);
+            }
+        }
+
+        private void txtPresetName_TextChanged(object sender, EventArgs e)
+        {
+            ListViewItem lvi;
+            ImageEffectPreset preset = GetSelectedPreset(out lvi);
+
+            if (preset != null)
+            {
+                preset.Name = txtPresetName.Text;
+                lvi.Text = preset.ToString();
+            }
+        }
+
+        private void btnEffectAdd_Click(object sender, EventArgs e)
+        {
+            cmsEffects.Show(btnEffectAdd, 0, btnEffectAdd.Height + 1);
+        }
+
+        private void btnEffectRemove_Click(object sender, EventArgs e)
+        {
+            RemoveSelectedEffects();
+        }
+
+        private void btnEffectDuplicate_Click(object sender, EventArgs e)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                if (lvEffects.SelectedItems.Count > 0)
+                {
+                    ListViewItem lvi = lvEffects.SelectedItems[0];
+
+                    if (lvi.Tag is ImageEffect)
+                    {
+                        ImageEffect imageEffect = (ImageEffect)lvi.Tag;
+                        ImageEffect imageEffectClone = imageEffect.Copy();
+                        AddEffect(imageEffectClone, preset);
+                        UpdatePreview();
+                    }
+                }
+            }
+        }
+
+        private void btnEffectClear_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(Resources.WouldYouLikeToClearEffects, "ShareX - " + Resources.Confirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                ImageEffectPreset preset = GetSelectedPreset();
+
+                if (preset != null)
+                {
+                    lvEffects.Items.Clear();
+                    preset.Effects.Clear();
+                    ClearSelectedEffect();
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void btnEffectRefresh_Click(object sender, EventArgs e)
+        {
+            UpdatePreview();
+        }
+
+        private void lvEffects_ItemMoved(object sender, int oldIndex, int newIndex)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                preset.Effects.Move(oldIndex, newIndex);
+                UpdatePreview();
+            }
+        }
+
+        private void lvEffects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearSelectedEffect();
+
+            if (lvEffects.SelectedItems.Count > 0)
+            {
+                ListViewItem lvi = lvEffects.SelectedItems[0];
+
+                if (lvi.Tag is ImageEffect ie)
+                {
+                    lblEffect.Text = ie.GetType().GetDescription() + ":";
+                    pgSettings.SelectedObject = ie;
+                }
+            }
+
+            UpdateControlStates();
+        }
+
+        private void lvEffects_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (e.Item != null && e.Item.Focused && e.Item.Tag is ImageEffect)
+            {
+                ImageEffect imageEffect = (ImageEffect)e.Item.Tag;
+                imageEffect.Enabled = e.Item.Checked;
+                UpdatePreview();
+            }
+        }
+
+        private void lvEffects_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyData)
+            {
+                case Keys.Delete:
+                    RemoveSelectedEffects();
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.F5:
+                    UpdatePreview();
+                    e.SuppressKeyPress = true;
+                    break;
+            }
+        }
+
+        private void pgSettings_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            UpdatePreview();
+        }
+
+        private void btnPackager_Click(object sender, EventArgs e)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                if (string.IsNullOrEmpty(preset.Name))
+                {
+                    MessageBox.Show(Resources.PresetNameCannotBeEmpty, "ShareX - " + Resources.MissingPresetName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    string json = null;
+
+                    try
+                    {
+                        json = JsonHelpers.SerializeToString(preset, serializationBinder: serializationBinder);
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.WriteException(ex);
+                        ex.ShowError();
+                    }
+
+                    if (!string.IsNullOrEmpty(json))
+                    {
+                        using (ImageEffectPackagerForm packagerForm = new ImageEffectPackagerForm(json, preset.Name,
+                            HelpersOptions.ShareXSpecialFolders["ShareXImageEffects"]))
+                        {
+                            packagerForm.ShowDialog();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void btnImageEffects_Click(object sender, EventArgs e)
+        {
+            URLHelpers.OpenURL(Links.URL_IMAGE_EFFECTS);
+        }
+
+        private void tsmiLoadImageFromFile_Click(object sender, EventArgs e)
+        {
+            string filePath = ImageHelpers.OpenImageFileDialog();
+
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                if (PreviewImage != null) PreviewImage.Dispose();
+                PreviewImage = ImageHelpers.LoadImage(filePath);
+                FilePath = filePath;
+                UpdatePreview();
+            }
+        }
+
+        private void tsmiLoadImageFromClipboard_Click(object sender, EventArgs e)
+        {
+            Bitmap bmp = ClipboardHelpers.GetImage();
+
+            if (bmp != null)
+            {
+                if (PreviewImage != null) PreviewImage.Dispose();
+                PreviewImage = bmp;
+                FilePath = null;
+                UpdatePreview();
+            }
+        }
+
+        private void btnSaveImage_Click(object sender, EventArgs e)
+        {
+            if (PreviewImage != null)
+            {
+                using (Image img = ApplyEffects())
+                {
+                    if (img != null)
+                    {
+                        string filePath = ImageHelpers.SaveImageFileDialog(img, FilePath);
+
+                        if (!string.IsNullOrEmpty(filePath))
+                        {
+                            FilePath = filePath;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void btnUploadImage_Click(object sender, EventArgs e)
+        {
+            if (PreviewImage != null)
+            {
+                Bitmap bmp = ApplyEffects();
+
+                if (bmp != null)
+                {
+                    OnImageProcessRequested(bmp);
+                }
+            }
+        }
+
+        private void pbResult_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false) || e.Data.GetDataPresent(DataFormats.Bitmap, false))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void pbResult_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+
+                if (files != null && files.Length > 0)
+                {
+                    if (Helpers.IsImageFile(files[0]))
+                    {
+                        if (PreviewImage != null) PreviewImage.Dispose();
+                        PreviewImage = ImageHelpers.LoadImage(files[0]);
+                        UpdatePreview();
+                    }
+                }
+            }
+            else if (e.Data.GetDataPresent(DataFormats.Bitmap, false))
+            {
+                Bitmap bmp = e.Data.GetData(DataFormats.Bitmap, false) as Bitmap;
+
+                if (bmp != null)
+                {
+                    if (PreviewImage != null) PreviewImage.Dispose();
+                    PreviewImage = bmp;
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        #endregion Form events
+    }
+}
+---- Transformed Tree ----
+using Newtonsoft.Json.Serialization;
+using ShareX.HelpersLib;
+using ShareX.ImageEffectsLib.Properties;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace ShareX.ImageEffectsLib
+{
+    public partial class ImageEffectsForm : Form
+    {
+        public static bool IsInstanceActive => instance != null && !instance.IsDisposed;
+
+        private static ImageEffectsForm instance;
+
+        public event Action<Bitmap> ImageProcessRequested;
+
+        public bool AutoGeneratePreviewImage { get; set; }
+        public Bitmap PreviewImage { get; private set; }
+        public List<ImageEffectPreset> Presets { get; private set; }
+        public int SelectedPresetIndex { get; private set; }
+        public string FilePath { get; private set; }
+
+        private bool pauseUpdate;
+        private ISerializationBinder serializationBinder = new TypeNameSerializationBinder("ShareX.ImageEffectsLib", "ShareX.ImageEffectsLib");
+
+        public ImageEffectsForm(Bitmap bmp, List<ImageEffectPreset> presets, int selectedPresetIndex)
+        {
+            pauseUpdate = true;
+
+            InitializeComponent();
+            ShareXResources.ApplyTheme(this);
+
+            PreviewImage = bmp;
+            if (PreviewImage == null)
+            {
+                AutoGeneratePreviewImage = true;
+            }
+
+            Presets = presets;
+            if (Presets.Count == 0)
+            {
+                Presets.Add(new ImageEffectPreset());
+            }
+
+            SelectedPresetIndex = selectedPresetIndex;
+
+            AddAllEffectsToContextMenu();
+            LoadSettings();
+        }
+
+        public static ImageEffectsForm GetFormInstance(List<ImageEffectPreset> presets, int selectedPresetIndex)
+        {
+            if (!IsInstanceActive)
+            {
+                instance = new ImageEffectsForm(null, presets, selectedPresetIndex);
+            }
+
+            return instance;
+        }
+
+        public void EnableToolMode(Action<Bitmap> imageProcessRequested, string filePath = null)
+        {
+            FilePath = filePath;
+            ImageProcessRequested += imageProcessRequested;
+            pbResult.AllowDrop = true;
+            mbLoadImage.Visible = true;
+            btnSaveImage.Visible = true;
+            btnUploadImage.Visible = true;
+        }
+
+        public void EditorMode()
+        {
+            btnOK.Visible = true;
+            btnClose.Text = Resources.ImageEffectsForm_EditorMode_Cancel;
+        }
+
+        public void ImportImageEffect(string json)
+        {
+            ImageEffectPreset preset = null;
+
+            try
+            {
+                preset = JsonHelpers.DeserializeFromString<ImageEffectPreset>(json, serializationBinder);
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
+                e.ShowError();
+            }
+
+            if (preset != null && preset.Effects.Count > 0)
+            {
+                AddPreset(preset);
+            }
+        }
+
+        public void ImportImageEffectFile(string filePath)
+        {
+            try
+            {
+                string configJson = ImageEffectPackager.ExtractPackage(filePath, HelpersOptions.ShareXSpecialFolders["ShareXImageEffects"]);
+
+                if (!string.IsNullOrEmpty(configJson))
+                {
+                    ImportImageEffect(configJson);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ShowError(false);
+            }
+        }
+
+        protected void OnImageProcessRequested(Bitmap bmp)
+        {
+            ImageProcessRequested?.Invoke(bmp);
+        }
+
+        private void AddAllEffectsToContextMenu()
+        {
+            AddEffectToContextMenu(Resources.ImageEffectsForm_AddAllEffectsToTreeView_Drawings,
+                typeof(DrawBackground),
+                typeof(DrawBorder),
+                typeof(DrawCheckerboard),
+                typeof(DrawImage),
+                typeof(DrawParticles),
+                typeof(DrawTextEx),
+                typeof(DrawText));
+
+            AddEffectToContextMenu(Resources.ImageEffectsForm_AddAllEffectsToTreeView_Manipulations,
+                typeof(AutoCrop),
+                typeof(Canvas),
+                typeof(Crop),
+                typeof(Flip),
+                typeof(ForceProportions),
+                typeof(Resize),
+                typeof(Rotate),
+                typeof(RoundedCorners),
+                typeof(Scale),
+                typeof(Skew));
+
+            AddEffectToContextMenu(Resources.ImageEffectsForm_AddAllEffectsToTreeView_Adjustments,
+                typeof(Alpha),
+                typeof(BlackWhite),
+                typeof(Brightness),
+                typeof(MatrixColor), // "Color matrix"
+                typeof(Colorize),
+                typeof(Contrast),
+                typeof(Gamma),
+                typeof(Grayscale),
+                typeof(Hue),
+                typeof(Inverse),
+                typeof(Polaroid),
+                typeof(Saturation),
+                typeof(SelectiveColor),
+                typeof(Sepia));
+
+            AddEffectToContextMenu(Resources.ImageEffectsForm_AddAllEffectsToTreeView_Filters,
+                typeof(Blur),
+                typeof(ColorDepth),
+                typeof(MatrixConvolution), // "Convolution matrix"
+                typeof(EdgeDetect),
+                typeof(Emboss),
+                typeof(GaussianBlur),
+                typeof(MeanRemoval),
+                typeof(Outline),
+                typeof(Pixelate),
+                typeof(Reflection),
+                typeof(RGBSplit),
+                typeof(Shadow),
+                typeof(Sharpen),
+                typeof(Slice),
+                typeof(Smooth),
+                typeof(TornEdge));
+        }
+
+        private void AddEffectToContextMenu(string groupName, params Type[] imageEffects)
+        {
+            ToolStripMenuItem tsmiParent = new ToolStripMenuItem(groupName);
+            tsmiParent.HideImageMargin();
+
+            cmsEffects.Items.Add(tsmiParent);
+
+            foreach (Type imageEffect in imageEffects)
+            {
+                ToolStripItem tsmiChild = tsmiParent.DropDownItems.Add(imageEffect.GetDescription().Replace("&", "&&"));
+                tsmiChild.Tag = imageEffect;
+                tsmiChild.Click += tsmiEffectClick;
+            }
+        }
+
+        private void LoadSettings()
+        {
+            if (Presets != null && Presets.Count > 0)
+            {
+                foreach (ImageEffectPreset preset in Presets)
+                {
+                    ListViewItem lvi = new ListViewItem(preset.ToString());
+                    lvPresets.Items.Add(lvi);
+                }
+
+                lvPresets.SelectedIndex = SelectedPresetIndex.Clamp(0, Presets.Count - 1);
+            }
+
+            UpdateControlStates();
+        }
+
+        private ImageEffectPreset GetSelectedPreset()
+        {
+            return GetSelectedPreset(out _);
+        }
+
+        private ImageEffectPreset GetSelectedPreset(out ListViewItem lvi)
+        {
+            int index = lvPresets.SelectedIndex;
+
+            if (Presets.IsValidIndex(index))
+            {
+                lvi = lvPresets.Items[index];
+                return Presets[index];
+            }
+
+            lvi = null;
+            return null;
+        }
+
+        private void AddPreset()
+        {
+            AddPreset(new ImageEffectPreset());
+        }
+
+        private void AddPreset(ImageEffectPreset preset)
+        {
+            if (preset != null)
+            {
+                Presets.Add(preset);
+                ListViewItem lvi = new ListViewItem(preset.ToString());
+                lvPresets.Items.Add(lvi);
+                lvPresets.SelectLast();
+                txtPresetName.Focus();
+            }
+        }
+
+        private void UpdatePreview()
+        {
+            if (!pauseUpdate)
+            {
+                ImageEffectPreset preset = GetSelectedPreset();
+
+                if (preset != null)
+                {
+                    Cursor = Cursors.WaitCursor;
+
+                    try
+                    {
+                        if (AutoGeneratePreviewImage)
+                        {
+                            GeneratePreviewImage(24);
+                        }
+
+                        if (PreviewImage != null)
+                        {
+                            //Debug.WriteLine("Updating preview...");
+
+                            Stopwatch timer = Stopwatch.StartNew();
+
+                            using (Image preview = ApplyEffects())
+                            {
+                                if (preview != null)
+                                {
+                                    pbResult.LoadImage(preview);
+                                    Text = string.Format("ShareX - " + Resources.ImageEffectsForm_UpdatePreview_Image_effects___Width___0___Height___1___Render_time___2__ms,
+                                        preview.Width, preview.Height, timer.ElapsedMilliseconds);
+                                }
+                                else
+                                {
+                                    pbResult.Reset();
+                                    Text = string.Format("ShareX - " + Resources.ImageEffectsForm_UpdatePreview_Image_effects___Width___0___Height___1___Render_time___2__ms,
+                                        0, 0, timer.ElapsedMilliseconds);
+                                }
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        Cursor = Cursors.Default;
+                    }
+                }
+                else
+                {
+                    pbResult.Reset();
+                }
+
+                UpdateControlStates();
+            }
+        }
+
+        private void UpdateControlStates()
+        {
+            btnPresetRemove.Enabled = btnPresetDuplicate.Enabled = txtPresetName.Enabled = btnEffectAdd.Enabled = lvPresets.SelectedItems.Count > 0;
+            btnEffectClear.Enabled = btnEffectRefresh.Enabled = btnPackager.Enabled = lvEffects.Items.Count > 0;
+            btnEffectRemove.Enabled = btnEffectDuplicate.Enabled = lvEffects.SelectedItems.Count > 0;
+        }
+
+        private void GeneratePreviewImage(int padding)
+        {
+            if (pbResult.ClientSize.Width > 0 && pbResult.ClientSize.Height > 0)
+            {
+                int size = Math.Min(pbResult.ClientSize.Width, pbResult.ClientSize.Height);
+                int minSizePadding = 300;
+
+                if (size < minSizePadding + (padding * 2))
+                {
+                    padding = 0;
+                }
+
+                size = size - (padding * 2);
+
+                if (PreviewImage != null) PreviewImage.Dispose();
+                PreviewImage = new Bitmap(size, size);
+
+                Color backgroundColor;
+
+                if (ShareXResources.UseCustomTheme)
+                {
+                    backgroundColor = ShareXResources.Theme.BackgroundColor;
+                }
+                else
+                {
+                    backgroundColor = Color.DarkGray;
+                }
+
+                using (Graphics g = Graphics.FromImage(PreviewImage))
+                {
+                    g.Clear(backgroundColor);
+
+                    if (PreviewImage.Width > 260 && PreviewImage.Height > 260)
+                    {
+                        using (Bitmap logo = ShareXResources.Logo)
+                        {
+                            g.DrawImage(logo, (PreviewImage.Width / 2) - (logo.Width / 2), (PreviewImage.Height / 2) - (logo.Height / 2));
+                        }
+                    }
+                }
+            }
+        }
+
+        private Bitmap ApplyEffects()
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                return preset.ApplyEffects(PreviewImage);
+            }
+
+            return null;
+        }
+
+        private void tsmiEffectClick(object sender, EventArgs e)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+
+                if (tsmi?.Tag is Type)
+                {
+                    Type type = (Type)tsmi.Tag;
+                    ImageEffect imageEffect = (ImageEffect)Activator.CreateInstance(type);
+                    AddEffect(imageEffect, preset);
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void RemoveSelectedEffects()
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                int index = lvEffects.SelectedIndex;
+
+                if (index > -1)
+                {
+                    preset.Effects.RemoveAt(index);
+                    lvEffects.Items.RemoveAt(index);
+
+                    if (lvEffects.Items.Count > 0)
+                    {
+                        lvEffects.SelectedIndex = index == lvEffects.Items.Count ? lvEffects.Items.Count - 1 : index;
+                    }
+
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void ClearFields()
+        {
+            txtPresetName.Text = "";
+            lvEffects.Items.Clear();
+            ClearSelectedEffect();
+            UpdatePreview();
+        }
+
+        private void ClearSelectedEffect()
+        {
+            lblEffect.Text = Resources.Effect;
+            pgSettings.SelectedObject = null;
+        }
+
+        private void AddEffect(ImageEffect imageEffect, ImageEffectPreset preset = null)
+        {
+            ListViewItem lvi = new ListViewItem(imageEffect.GetType().GetDescription());
+            lvi.Checked = imageEffect.Enabled;
+            lvi.Tag = imageEffect;
+
+            if (lvEffects.SelectedIndices.Count > 0)
+            {
+                int index = lvEffects.SelectedIndices[lvEffects.SelectedIndices.Count - 1] + 1;
+                lvEffects.Items.Insert(index, lvi);
+
+                if (preset != null)
+                {
+                    preset.Effects.Insert(index, imageEffect);
+                }
+            }
+            else
+            {
+                lvEffects.Items.Add(lvi);
+
+                if (preset != null)
+                {
+                    preset.Effects.Add(imageEffect);
+                }
+            }
+
+            lvi.EnsureVisible();
+            lvi.Selected = true;
+        }
+
+        private void LoadPreset(ImageEffectPreset preset)
+        {
+            txtPresetName.Text = preset.Name;
+            lvEffects.Items.Clear();
+            ClearSelectedEffect();
+
+            foreach (ImageEffect imageEffect in preset.Effects)
+            {
+                AddEffect(imageEffect);
+            }
+
+            UpdatePreview();
+        }
+
+        #region Form events
+
+        private void ImageEffectsForm_Shown(object sender, EventArgs e)
+        {
+            this.ForceActivate();
+
+            pauseUpdate = false;
+            lvPresets.EnsureSelectedVisible();
+            UpdatePreview();
+        }
+
+        private void ImageEffectsForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+
+                if (files != null && files.Any(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxie")))
+                {
+                    e.Effect = DragDropEffects.Copy;
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void ImageEffectsForm_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+
+                if (files != null)
+                {
+                    foreach (string filePath in files.Where(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxie")))
+                    {
+                        ImportImageEffectFile(filePath);
+                    }
+                }
+            }
+        }
+
+        private void btnPresetNew_Click(object sender, EventArgs e)
+        {
+            AddPreset();
+        }
+
+        private void btnPresetRemove_Click(object sender, EventArgs e)
+        {
+            int selected = lvPresets.SelectedIndex;
+
+            if (selected > -1)
+            {
+                lvPresets.Items.RemoveAt(selected);
+                Presets.RemoveAt(selected);
+
+                if (lvPresets.Items.Count > 0)
+                {
+                    lvPresets.SelectedIndex = selected == lvPresets.Items.Count ? lvPresets.Items.Count - 1 : selected;
+                }
+                else
+                {
+                    ClearFields();
+                    btnPresetNew.Focus();
+                }
+            }
+        }
+
+        private void btnPresetDuplicate_Click(object sender, EventArgs e)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                ImageEffectPreset presetClone = preset.Copy();
+                AddPreset(presetClone);
+            }
+        }
+
+        private void lvPresets_ItemMoving(object sender, int oldIndex, int newIndex)
+        {
+            Presets.Move(oldIndex, newIndex);
+        }
+
+        private void lvPresets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedPresetIndex = lvPresets.SelectedIndex;
+
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                LoadPreset(preset);
+            }
+        }
+
+        private void txtPresetName_TextChanged(object sender, EventArgs e)
+        {
+            ListViewItem lvi;
+            ImageEffectPreset preset = GetSelectedPreset(out lvi);
+
+            if (preset != null)
+            {
+                preset.Name = txtPresetName.Text;
+                lvi.Text = preset.ToString();
+            }
+        }
+
+        private void btnEffectAdd_Click(object sender, EventArgs e)
+        {
+            cmsEffects.Show(btnEffectAdd, 0, btnEffectAdd.Height + 1);
+        }
+
+        private void btnEffectRemove_Click(object sender, EventArgs e)
+        {
+            RemoveSelectedEffects();
+        }
+
+        private void btnEffectDuplicate_Click(object sender, EventArgs e)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                if (lvEffects.SelectedItems.Count > 0)
+                {
+                    ListViewItem lvi = lvEffects.SelectedItems[0];
+
+                    if (lvi.Tag is ImageEffect)
+                    {
+                        ImageEffect imageEffect = (ImageEffect)lvi.Tag;
+                        ImageEffect imageEffectClone = imageEffect.Copy();
+                        AddEffect(imageEffectClone, preset);
+                        UpdatePreview();
+                    }
+                }
+            }
+        }
+
+        private void btnEffectClear_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(Resources.WouldYouLikeToClearEffects, "ShareX - " + Resources.Confirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                ImageEffectPreset preset = GetSelectedPreset();
+
+                if (preset != null)
+                {
+                    lvEffects.Items.Clear();
+                    preset.Effects.Clear();
+                    ClearSelectedEffect();
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void btnEffectRefresh_Click(object sender, EventArgs e)
+        {
+            UpdatePreview();
+        }
+
+        private void lvEffects_ItemMoved(object sender, int oldIndex, int newIndex)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                preset.Effects.Move(oldIndex, newIndex);
+                UpdatePreview();
+            }
+        }
+
+        private void lvEffects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearSelectedEffect();
+
+            if (lvEffects.SelectedItems.Count > 0)
+            {
+                ListViewItem lvi = lvEffects.SelectedItems[0];
+
+                if (lvi.Tag is ImageEffect ie)
+                {
+                    lblEffect.Text = ie.GetType().GetDescription() + ":";
+                    pgSettings.SelectedObject = ie;
+                }
+            }
+
+            UpdateControlStates();
+        }
+
+        private void lvEffects_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (e.Item != null && e.Item.Focused && e.Item.Tag is ImageEffect)
+            {
+                ImageEffect imageEffect = (ImageEffect)e.Item.Tag;
+                imageEffect.Enabled = e.Item.Checked;
+                UpdatePreview();
+            }
+        }
+
+        private void lvEffects_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyData)
+            {
+                case Keys.Delete:
+                    RemoveSelectedEffects();
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.F5:
+                    UpdatePreview();
+                    e.SuppressKeyPress = true;
+                    break;
+            }
+        }
+
+        private void pgSettings_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            UpdatePreview();
+        }
+
+        private void btnPackager_Click(object sender, EventArgs e)
+        {
+            ImageEffectPreset preset = GetSelectedPreset();
+
+            if (preset != null)
+            {
+                if (string.IsNullOrEmpty(preset.Name))
+                {
+                    MessageBox.Show(Resources.PresetNameCannotBeEmpty, "ShareX - " + Resources.MissingPresetName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    string json = null;
+
+                    try
+                    {
+                        json = JsonHelpers.SerializeToString(preset, serializationBinder: serializationBinder);
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.WriteException(ex);
+                        ex.ShowError();
+                    }
+
+                    if (!string.IsNullOrEmpty(json))
+                    {
+                        using (ImageEffectPackagerForm packagerForm = new ImageEffectPackagerForm(json, preset.Name,
+                            HelpersOptions.ShareXSpecialFolders["ShareXImageEffects"]))
+                        {
+                            packagerForm.ShowDialog();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void btnImageEffects_Click(object sender, EventArgs e)
+        {
+            URLHelpers.OpenURL(Links.URL_IMAGE_EFFECTS);
+        }
+
+        private void tsmiLoadImageFromFile_Click(object sender, EventArgs e)
+        {
+            string filePath = ImageHelpers.OpenImageFileDialog();
+
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                if (PreviewImage != null) PreviewImage.Dispose();
+                PreviewImage = ImageHelpers.LoadImage(filePath);
+                FilePath = filePath;
+                UpdatePreview();
+            }
+        }
+
+        private void tsmiLoadImageFromClipboard_Click(object sender, EventArgs e)
+        {
+            Bitmap bmp = ClipboardHelpers.GetImage();
+
+            if (bmp != null)
+            {
+                if (PreviewImage != null) PreviewImage.Dispose();
+                PreviewImage = bmp;
+                FilePath = null;
+                UpdatePreview();
+            }
+        }
+
+        private void btnSaveImage_Click(object sender, EventArgs e)
+        {
+            if (PreviewImage != null)
+            {
+                using (Image img = ApplyEffects())
+                {
+                    if (img != null)
+                    {
+                        string filePath = ImageHelpers.SaveImageFileDialog(img, FilePath);
+
+                        if (!string.IsNullOrEmpty(filePath))
+                        {
+                            FilePath = filePath;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void btnUploadImage_Click(object sender, EventArgs e)
+        {
+            if (PreviewImage != null)
+            {
+                Bitmap bmp = ApplyEffects();
+
+                if (bmp != null)
+                {
+                    OnImageProcessRequested(bmp);
+                }
+            }
+        }
+
+        private void pbResult_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false) || e.Data.GetDataPresent(DataFormats.Bitmap, false))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void pbResult_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+
+                if (files != null && files.Length > 0)
+                {
+                    if (Helpers.IsImageFile(files[0]))
+                    {
+                        if (PreviewImage != null) PreviewImage.Dispose();
+                        PreviewImage = ImageHelpers.LoadImage(files[0]);
+                        UpdatePreview();
+                    }
+                }
+            }
+            else if (e.Data.GetDataPresent(DataFormats.Bitmap, false))
+            {
+                Bitmap bmp = e.Data.GetData(DataFormats.Bitmap, false) as Bitmap;
+
+                if (bmp != null)
+                {
+                    if (PreviewImage != null) PreviewImage.Dispose();
+                    PreviewImage = bmp;
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        #endregion Form events
+    }
+}
+---- Semantic diagnostics *before* transformation ----
+D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(26,7): error CS0246: The type or namespace name 'Newtonsoft' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(53,17): error CS0246: The type or namespace name 'ISerializationBinder' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(53,60): error CS0246: The type or namespace name 'ISerializationBinder' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(112,26): error CS0246: The type or namespace name 'ISerializationBinder' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(729,32): error CS0246: The type or namespace name 'DefaultValueHandling' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(26,1): hidden CS8019: Unnecessary using directive.
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(26,7): error CS0246: The type or namespace name 'Newtonsoft' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(53,17): error CS0246: The type or namespace name 'ISerializationBinder' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(53,60): error CS0246: The type or namespace name 'ISerializationBinder' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(112,26): error CS0246: The type or namespace name 'ISerializationBinder' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(397,34): error CS8370: Feature 'type pattern' is not available in C# 7.3. Please use language version 9.0 or greater.,D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(729,32): error CS0246: The type or namespace name 'DefaultValueHandling' could not be found (are you missing a using directive or an assembly reference?),D:\a\1\s\ShareX.ImageEffectsLib\Forms\ImageEffectsForm.cs(26,1): hidden CS8019: Unnecessary using directive.
+######################################################################
+
+

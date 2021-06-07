@@ -1,0 +1,2342 @@
+diff --git a/src/NzbDrone.Common/ArchiveService.cs b/src/NzbDrone.Common/ArchiveService.cs
+index 57335ae7c..e43db3e76 100644
+--- a/src/NzbDrone.Common/ArchiveService.cs
++++ b/src/NzbDrone.Common/ArchiveService.cs
+@@ -64,7 +64,7 @@ private void ExtractZip(string compressedFile, string destination)
+ 
+                 if (!zipFile.TestArchive(true, TestStrategy.FindFirstError, OnZipError))
+                 {
+-                    throw new IOException(string.Format("File {0} failed archive validation.", compressedFile));
++                    throw new IOException($"File {compressedFile} failed archive validation.");
+                 }
+ 
+                 foreach (ZipEntry zipEntry in zipFile)
+diff --git a/src/NzbDrone.Common/Cache/CachedDictionary.cs b/src/NzbDrone.Common/Cache/CachedDictionary.cs
+index 6332f5054..661dd17a8 100644
+--- a/src/NzbDrone.Common/Cache/CachedDictionary.cs
++++ b/src/NzbDrone.Common/Cache/CachedDictionary.cs
+@@ -90,7 +90,7 @@ public TValue Get(string key)
+ 
+             if (!_items.TryGetValue(key, out result))
+             {
+-                throw new KeyNotFoundException(string.Format("Item {0} not found in cache.", key));
++                throw new KeyNotFoundException($"Item {key} not found in cache.");
+             }
+ 
+             return result;
+diff --git a/src/NzbDrone.Common/Disk/DiskProviderBase.cs b/src/NzbDrone.Common/Disk/DiskProviderBase.cs
+index c3942d268..e8e6ec4bc 100644
+--- a/src/NzbDrone.Common/Disk/DiskProviderBase.cs
++++ b/src/NzbDrone.Common/Disk/DiskProviderBase.cs
+@@ -220,7 +220,7 @@ public void CloneFile(string source, string destination, bool overwrite = false)
+ 
+             if (source.PathEquals(destination))
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", source));
++                throw new IOException($"Source and destination can't be the same {source}");
+             }
+ 
+             CloneFileInternal(source, destination, overwrite);
+@@ -238,7 +238,7 @@ public void CopyFile(string source, string destination, bool overwrite = false)
+ 
+             if (source.PathEquals(destination))
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", source));
++                throw new IOException($"Source and destination can't be the same {source}");
+             }
+ 
+             CopyFileInternal(source, destination, overwrite);
+@@ -256,7 +256,7 @@ public void MoveFile(string source, string destination, bool overwrite = false)
+ 
+             if (source.PathEquals(destination))
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", source));
++                throw new IOException($"Source and destination can't be the same {source}");
+             }
+ 
+             if (FileExists(destination) && overwrite)
+@@ -464,7 +464,7 @@ public virtual IMount GetMount(string path)
+             }
+             catch (Exception ex)
+             {
+-                Logger.Debug(ex, string.Format("Failed to get mount for path {0}", path));
++                Logger.Debug(ex, $"Failed to get mount for path {path}");
+                 return null;
+             }
+         }
+diff --git a/src/NzbDrone.Common/Disk/DiskTransferService.cs b/src/NzbDrone.Common/Disk/DiskTransferService.cs
+index 3a3a7771e..e6fcc33e2 100644
+--- a/src/NzbDrone.Common/Disk/DiskTransferService.cs
++++ b/src/NzbDrone.Common/Disk/DiskTransferService.cs
+@@ -54,7 +54,7 @@ public TransferMode TransferFolder(string sourcePath, string targetPath, Transfe
+ 
+             if (sourcePath == targetPath)
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", sourcePath));
++                throw new IOException($"Source and destination can't be the same {sourcePath}");
+             }
+ 
+             if (mode == TransferMode.Move && sourcePath.PathEquals(targetPath, StringComparison.InvariantCultureIgnoreCase) && _diskProvider.FolderExists(targetPath))
+@@ -268,14 +268,14 @@ public TransferMode TransferFile(string sourcePath, string targetPath, TransferM
+ 
+             if (sourcePath == targetPath)
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", sourcePath));
++                throw new IOException($"Source and destination can't be the same {sourcePath}");
+             }
+ 
+             if (sourcePath.PathEquals(targetPath, StringComparison.InvariantCultureIgnoreCase))
+             {
+                 if (mode.HasFlag(TransferMode.HardLink) || mode.HasFlag(TransferMode.Copy))
+                 {
+-                    throw new IOException(string.Format("Source and destination can't be the same {0}", sourcePath));
++                    throw new IOException($"Source and destination can't be the same {sourcePath}");
+                 }
+ 
+                 if (mode.HasFlag(TransferMode.Move))
+@@ -312,7 +312,7 @@ public TransferMode TransferFile(string sourcePath, string targetPath, TransferM
+ 
+             if (sourcePath.IsParentPath(targetPath))
+             {
+-                throw new IOException(string.Format("Destination cannot be a child of the source [{0}] => [{1}]", sourcePath, targetPath));
++                throw new IOException($"Destination cannot be a child of the source [{sourcePath}] => [{targetPath}]");
+             }
+ 
+             ClearTargetPath(sourcePath, targetPath, overwrite);
+@@ -479,7 +479,7 @@ private void TryCopyFileVerified(string sourcePath, string targetPath, long orig
+                 var targetSize = _diskProvider.GetFileSize(targetPath);
+                 if (targetSize != originalSize)
+                 {
+-                    throw new IOException(string.Format("File copy incomplete. [{0}] was {1} bytes long instead of {2} bytes.", targetPath, targetSize, originalSize));
++                    throw new IOException($"File copy incomplete. [{targetPath}] was {targetSize} bytes long instead of {originalSize} bytes.");
+                 }
+             }
+             catch
+@@ -498,7 +498,7 @@ private void TryMoveFileVerified(string sourcePath, string targetPath, long orig
+                 var targetSize = _diskProvider.GetFileSize(targetPath);
+                 if (targetSize != originalSize)
+                 {
+-                    throw new IOException(string.Format("File move incomplete, data loss may have occurred. [{0}] was {1} bytes long instead of the expected {2}.", targetPath, targetSize, originalSize));
++                    throw new IOException($"File move incomplete, data loss may have occurred. [{targetPath}] was {targetSize} bytes long instead of the expected {originalSize}.");
+                 }
+             }
+             catch
+diff --git a/src/NzbDrone.Common/Disk/DriveInfoMount.cs b/src/NzbDrone.Common/Disk/DriveInfoMount.cs
+index 76020f219..8eac5d5f4 100644
+--- a/src/NzbDrone.Common/Disk/DriveInfoMount.cs
++++ b/src/NzbDrone.Common/Disk/DriveInfoMount.cs
+@@ -56,7 +56,7 @@ public string VolumeName
+                     return Name;
+                 }
+ 
+-                return string.Format("{0} ({1})", Name, VolumeLabel);
++                return $"{Name} ({VolumeLabel})";
+             }
+         }
+     }
+diff --git a/src/NzbDrone.Common/Disk/OsPath.cs b/src/NzbDrone.Common/Disk/OsPath.cs
+index 0cc853cb7..3680ee4c5 100644
+--- a/src/NzbDrone.Common/Disk/OsPath.cs
++++ b/src/NzbDrone.Common/Disk/OsPath.cs
+@@ -208,9 +208,9 @@ public override int GetHashCode()
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is OsPath)
++            if (obj is OsPath osPath)
+             {
+-                return Equals((OsPath)obj);
++                return Equals(osPath);
+             }
+ 
+             if (obj is string)
+@@ -314,7 +314,7 @@ public bool Equals(OsPath other)
+         {
+             if (left.Kind != right.Kind && right.Kind != OsPathKind.Unknown)
+             {
+-                throw new Exception(string.Format("Cannot combine OsPaths of different platforms ('{0}' + '{1}')", left, right));
++                throw new Exception($"Cannot combine OsPaths of different platforms ('{left}' + '{right}')");
+             }
+ 
+             if (right.IsEmpty)
+diff --git a/src/NzbDrone.Common/EnsureThat/EnsureStringExtensions.cs b/src/NzbDrone.Common/EnsureThat/EnsureStringExtensions.cs
+index 1c10c9f28..0d5cf2261 100644
+--- a/src/NzbDrone.Common/EnsureThat/EnsureStringExtensions.cs
++++ b/src/NzbDrone.Common/EnsureThat/EnsureStringExtensions.cs
+@@ -99,12 +99,12 @@ public static Param<string> IsRelativePath(this Param<string> param)
+ 
+             if (!param.Value.EndsWith("\\"))
+             {
+-                throw ExceptionFactory.CreateForParamValidation(param.Name, string.Format("value [{0}]  is not a valid relative path. relative paths must end with \\", param.Value));
++                throw ExceptionFactory.CreateForParamValidation(param.Name, $"value [{param.Value}]  is not a valid relative path. relative paths must end with \\");
+             }
+ 
+             if (param.Value.Length > 1 && param.Value.StartsWith("\\"))
+             {
+-                throw ExceptionFactory.CreateForParamValidation(param.Name, string.Format("value [{0}]  is not a valid relative path. relative paths can not start with \\", param.Value));
++                throw ExceptionFactory.CreateForParamValidation(param.Name, $"value [{param.Value}]  is not a valid relative path. relative paths can not start with \\");
+             }
+ 
+             return param;
+@@ -125,10 +125,10 @@ public static Param<string> IsValidPath(this Param<string> param)
+ 
+             if (OsInfo.IsWindows)
+             {
+-                throw ExceptionFactory.CreateForParamValidation(param.Name, string.Format("value [{0}]  is not a valid Windows path. paths must be a full path eg. C:\\Windows", param.Value));
++                throw ExceptionFactory.CreateForParamValidation(param.Name, $"value [{param.Value}]  is not a valid Windows path. paths must be a full path eg. C:\\Windows");
+             }
+ 
+-            throw ExceptionFactory.CreateForParamValidation(param.Name, string.Format("value [{0}]  is not a valid *nix path. paths must start with /", param.Value));
++            throw ExceptionFactory.CreateForParamValidation(param.Name, $"value [{param.Value}]  is not a valid *nix path. paths must start with /");
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Common/EnsureThat/ExpressionExtensions.cs b/src/NzbDrone.Common/EnsureThat/ExpressionExtensions.cs
+index 11e3598c5..a1276e249 100644
+--- a/src/NzbDrone.Common/EnsureThat/ExpressionExtensions.cs
++++ b/src/NzbDrone.Common/EnsureThat/ExpressionExtensions.cs
+@@ -7,9 +7,8 @@ internal static class ExpressionExtensions
+         internal static string ToPath(this MemberExpression e)
+         {
+             var path = "";
+-            var parent = e.Expression as MemberExpression;
+ 
+-            if (parent != null)
++            if (e.Expression is MemberExpression parent)
+             {
+                 path = parent.ToPath() + ".";
+             }
+@@ -24,9 +23,9 @@ internal static string GetPath(this Expression expression)
+ 
+         private static MemberExpression GetRightMostMember(Expression e)
+         {
+-            if (e is LambdaExpression)
++            if (e is LambdaExpression lambdaExpression)
+             {
+-                return GetRightMostMember(((LambdaExpression)e).Body);
++                return GetRightMostMember(lambdaExpression.Body);
+             }
+ 
+             if (e is MemberExpression)
+@@ -34,10 +33,8 @@ private static MemberExpression GetRightMostMember(Expression e)
+                 return (MemberExpression)e;
+             }
+ 
+-            if (e is MethodCallExpression)
++            if (e is MethodCallExpression callExpression)
+             {
+-                var callExpression = (MethodCallExpression)e;
+-
+                 if (callExpression.Object is MethodCallExpression || callExpression.Object is MemberExpression)
+                 {
+                     return GetRightMostMember(callExpression.Object);
+@@ -47,9 +44,8 @@ private static MemberExpression GetRightMostMember(Expression e)
+                 return GetRightMostMember(member);
+             }
+ 
+-            if (e is UnaryExpression)
++            if (e is UnaryExpression unaryExpression)
+             {
+-                var unaryExpression = (UnaryExpression)e;
+                 return GetRightMostMember(unaryExpression.Operand);
+             }
+ 
+diff --git a/src/NzbDrone.Common/Expansive/Expansive.cs b/src/NzbDrone.Common/Expansive/Expansive.cs
+index f6a2ff3c5..66711eb08 100644
+--- a/src/NzbDrone.Common/Expansive/Expansive.cs
++++ b/src/NzbDrone.Common/Expansive/Expansive.cs
+@@ -63,12 +63,12 @@ public static string Expand(this string source, params string[] args)
+                     foreach (Match match in tokenPattern.Matches(newArg))
+                     {
+                         var token = _patternStyle.TokenReplaceFilter(match.Value);
+-                        if (calls.Contains(string.Format("{0}:{1}", callingToken, token)))
++                        if (calls.Contains($"{callingToken}:{token}"))
+                         {
+-                            throw new CircularReferenceException(string.Format("Circular Reference Detected for token '{0}'.", callingToken));
++                            throw new CircularReferenceException($"Circular Reference Detected for token '{callingToken}'.");
+                         }
+ 
+-                        calls.Push(string.Format("{0}:{1}", callingToken, token));
++                        calls.Push($"{callingToken}:{token}");
+                         callingToken = token;
+                         newArg = Regex.Replace(newArg, _patternStyle.OutputFilter(match.Value), args[tokens.IndexOf(token)]);
+                     }
+@@ -145,10 +145,7 @@ private static string Explode(this string source, Regex pattern, PatternStyle pa
+                     // if we have already encountered this token in this call tree, we have a circular reference
+                     if (thisNode.CallTree.Contains(token))
+                     {
+-                        throw new CircularReferenceException(string.Format("Circular Reference Detected for token '{0}'. Call Tree: {1}->{2}",
+-                                                                           token,
+-                                                                           string.Join("->", thisNode.CallTree.ToArray().Reverse()),
+-                                                                           token));
++                        throw new CircularReferenceException($"Circular Reference Detected for token '{token}'. Call Tree: {string.Join("->", thisNode.CallTree.ToArray().Reverse())}->{token}");
+                     }
+ 
+                     // expand this match
+diff --git a/src/NzbDrone.Common/Http/HttpException.cs b/src/NzbDrone.Common/Http/HttpException.cs
+index c3ad7a1fa..922a1d08a 100644
+--- a/src/NzbDrone.Common/Http/HttpException.cs
++++ b/src/NzbDrone.Common/Http/HttpException.cs
+@@ -15,7 +15,7 @@ public HttpException(HttpRequest request, HttpResponse response, string message)
+         }
+ 
+         public HttpException(HttpRequest request, HttpResponse response)
+-            : this(request, response, string.Format("HTTP request failed: [{0}:{1}] [{2}] at [{3}]", (int)response.StatusCode, response.StatusCode, request.Method, request.Url))
++            : this(request, response, $"HTTP request failed: [{(int)response.StatusCode}:{response.StatusCode}] [{request.Method}] at [{request.Url}]")
+         {
+         }
+ 
+diff --git a/src/NzbDrone.Common/Http/HttpRequestBuilder.cs b/src/NzbDrone.Common/Http/HttpRequestBuilder.cs
+index ccc3567c6..8874d1f52 100644
+--- a/src/NzbDrone.Common/Http/HttpRequestBuilder.cs
++++ b/src/NzbDrone.Common/Http/HttpRequestBuilder.cs
+@@ -56,7 +56,7 @@ public static string BuildBaseUrl(bool useHttps, string host, int port, string u
+                 urlBase = "/" + urlBase;
+             }
+ 
+-            return string.Format("{0}://{1}:{2}{3}", protocol, host, port, urlBase);
++            return $"{protocol}://{host}:{port}{urlBase}";
+         }
+ 
+         public virtual HttpRequestBuilder Clone()
+@@ -155,8 +155,8 @@ protected virtual void ApplyFormData(HttpRequest request)
+             if (shouldSendAsMultipart)
+             {
+                 var boundary = "-----------------------------" + DateTime.Now.Ticks.ToString("x14");
+-                var partBoundary = string.Format("--{0}\r\n", boundary);
+-                var endBoundary = string.Format("--{0}--\r\n", boundary);
++                var partBoundary = $"--{boundary}\r\n";
++                var endBoundary = $"--{boundary}--\r\n";
+ 
+                 var bodyStream = new MemoryStream();
+                 var summary = new StringBuilder();
+@@ -217,7 +217,7 @@ protected virtual void ApplyFormData(HttpRequest request)
+             }
+             else
+             {
+-                var parameters = FormData.Select(v => string.Format("{0}={1}", v.Name, Uri.EscapeDataString(Encoding.UTF8.GetString(v.ContentData))));
++                var parameters = FormData.Select(v => $"{v.Name}={Uri.EscapeDataString(Encoding.UTF8.GetString(v.ContentData))}");
+                 var urlencoded = string.Join("&", parameters);
+                 var body = Encoding.UTF8.GetBytes(urlencoded);
+ 
+@@ -239,7 +239,7 @@ public virtual HttpRequestBuilder Resource(string resourceUrl)
+             }
+             else
+             {
+-                ResourceUrl = string.Format("{0}/{1}", ResourceUrl.TrimEnd('/'), resourceUrl);
++                ResourceUrl = $"{ResourceUrl.TrimEnd('/')}/{resourceUrl}";
+             }
+ 
+             return this;
+@@ -325,7 +325,7 @@ public virtual HttpRequestBuilder SetSegment(string segment, string value, bool
+ 
+             if (!dontCheck && !CreateUri().ToString().Contains(key))
+             {
+-                throw new InvalidOperationException(string.Format("Segment {0} is not defined in Uri", segment));
++                throw new InvalidOperationException($"Segment {segment} is not defined in Uri");
+             }
+ 
+             Segments[key] = value;
+diff --git a/src/NzbDrone.Common/Http/HttpResponse.cs b/src/NzbDrone.Common/Http/HttpResponse.cs
+index f30144df5..388f0033b 100644
+--- a/src/NzbDrone.Common/Http/HttpResponse.cs
++++ b/src/NzbDrone.Common/Http/HttpResponse.cs
+@@ -79,7 +79,7 @@ public string[] GetCookieHeaders()
+ 
+         public override string ToString()
+         {
+-            var result = string.Format("Res: [{0}] {1}: {2}.{3}", Request.Method, Request.Url, (int)StatusCode, StatusCode);
++            var result = $"Res: [{Request.Method}] {Request.Url}: {(int)StatusCode}.{StatusCode}";
+ 
+             if (HasHttpError && Headers.ContentType.IsNotNullOrWhiteSpace() && !Headers.ContentType.Equals("text/html", StringComparison.InvariantCultureIgnoreCase))
+             {
+diff --git a/src/NzbDrone.Common/Http/HttpUri.cs b/src/NzbDrone.Common/Http/HttpUri.cs
+index f90e564f5..2502f93c7 100644
+--- a/src/NzbDrone.Common/Http/HttpUri.cs
++++ b/src/NzbDrone.Common/Http/HttpUri.cs
+@@ -223,13 +223,13 @@ public override string ToString()
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is string)
++            if (obj is string s)
+             {
+-                return _uri.Equals((string)obj);
++                return _uri.Equals(s);
+             }
+-            else if (obj is Uri)
++            else if (obj is Uri uri)
+             {
+-                return _uri.Equals(((Uri)obj).OriginalString);
++                return _uri.Equals(uri.OriginalString);
+             }
+             else
+             {
+diff --git a/src/NzbDrone.Common/Http/JsonRpcRequestBuilder.cs b/src/NzbDrone.Common/Http/JsonRpcRequestBuilder.cs
+index ae987a23d..0cf4e1f4d 100644
+--- a/src/NzbDrone.Common/Http/JsonRpcRequestBuilder.cs
++++ b/src/NzbDrone.Common/Http/JsonRpcRequestBuilder.cs
+@@ -68,7 +68,7 @@ protected override void Apply(HttpRequest request)
+ 
+             if (request.ContentSummary == null)
+             {
+-                request.ContentSummary = string.Format("{0}({1})", JsonMethod, string.Join(", ", parameterSummary));
++                request.ContentSummary = $"{JsonMethod}({string.Join(", ", parameterSummary)})";
+             }
+         }
+ 
+@@ -77,7 +77,7 @@ private void ConvertParameter(object value, out object data, out string summary)
+             if (value is byte[])
+             {
+                 data = Convert.ToBase64String(value as byte[]);
+-                summary = string.Format("[blob {0} bytes]", (value as byte[]).Length);
++                summary = $"[blob {(value as byte[]).Length} bytes]";
+             }
+             else if (value is Array && ((Array)value).Length > 0)
+             {
+diff --git a/src/NzbDrone.Common/Http/NzbDroneWebClient.cs b/src/NzbDrone.Common/Http/NzbDroneWebClient.cs
+index ccd369bb7..123ed57f7 100644
+--- a/src/NzbDrone.Common/Http/NzbDroneWebClient.cs
++++ b/src/NzbDrone.Common/Http/NzbDroneWebClient.cs
+@@ -8,9 +8,9 @@ public class NzbDroneWebClient : WebClient
+         protected override WebRequest GetWebRequest(Uri address)
+         {
+             var request = base.GetWebRequest(address);
+-            if (request is HttpWebRequest)
++            if (request is HttpWebRequest httpWebRequest)
+             {
+-                ((HttpWebRequest)request).KeepAlive = false;
++                httpWebRequest.KeepAlive = false;
+                 ((HttpWebRequest)request).ServicePoint.Expect100Continue = false;
+             }
+ 
+diff --git a/src/NzbDrone.Common/Http/Proxy/ManagedWebProxyFactory.cs b/src/NzbDrone.Common/Http/Proxy/ManagedWebProxyFactory.cs
+index ef3c5950c..c772bbf20 100644
+--- a/src/NzbDrone.Common/Http/Proxy/ManagedWebProxyFactory.cs
++++ b/src/NzbDrone.Common/Http/Proxy/ManagedWebProxyFactory.cs
+@@ -66,7 +66,7 @@ private static IPAddress GetProxyIpAddress(string host)
+                 }
+                 catch (Exception e)
+                 {
+-                    throw new InvalidOperationException(string.Format("Unable to resolve proxy hostname '{0}' to a valid IP address.", host), e);
++                    throw new InvalidOperationException($"Unable to resolve proxy hostname '{host}' to a valid IP address.", e);
+                 }
+             }
+ 
+diff --git a/src/NzbDrone.Common/Instrumentation/InitializeLogger.cs b/src/NzbDrone.Common/Instrumentation/InitializeLogger.cs
+index 038be8da8..0573181a4 100644
+--- a/src/NzbDrone.Common/Instrumentation/InitializeLogger.cs
++++ b/src/NzbDrone.Common/Instrumentation/InitializeLogger.cs
+@@ -17,10 +17,7 @@ public InitializeLogger(IOsInfo osInfo)
+         public void Initialize()
+         {
+             var sentryTarget = LogManager.Configuration.AllTargets.OfType<SentryTarget>().FirstOrDefault();
+-            if (sentryTarget != null)
+-            {
+-                sentryTarget.UpdateScope(_osInfo);
+-            }
++            sentryTarget?.UpdateScope(_osInfo);
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Common/Instrumentation/Sentry/SentryTarget.cs b/src/NzbDrone.Common/Instrumentation/Sentry/SentryTarget.cs
+index d6cbf285a..839d3c555 100644
+--- a/src/NzbDrone.Common/Instrumentation/Sentry/SentryTarget.cs
++++ b/src/NzbDrone.Common/Instrumentation/Sentry/SentryTarget.cs
+@@ -185,9 +185,7 @@ public void UpdateScope(Version databaseVersion, int migration, string updateBra
+ 
+         private void OnError(Exception ex)
+         {
+-            var webException = ex as WebException;
+-
+-            if (webException != null)
++            if (ex is WebException webException)
+             {
+                 var response = webException.Response as HttpWebResponse;
+                 var statusCode = response?.StatusCode;
+@@ -245,8 +243,7 @@ public bool IsSentryMessage(LogEventInfo logEvent)
+             {
+                 if (FilterEvents)
+                 {
+-                    var sqlEx = logEvent.Exception as SQLiteException;
+-                    if (sqlEx != null && FilteredSQLiteErrors.Contains(sqlEx.ResultCode))
++                    if (logEvent.Exception is SQLiteException sqlEx && FilteredSQLiteErrors.Contains(sqlEx.ResultCode))
+                     {
+                         return false;
+                     }
+diff --git a/src/NzbDrone.Common/Model/ProcessInfo.cs b/src/NzbDrone.Common/Model/ProcessInfo.cs
+index 4f4943189..b5cd6e982 100644
+--- a/src/NzbDrone.Common/Model/ProcessInfo.cs
++++ b/src/NzbDrone.Common/Model/ProcessInfo.cs
+@@ -8,7 +8,7 @@ public class ProcessInfo
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0}:{1} [{2}]", Id, Name ?? "Unknown", StartPath ?? "Unknown");
++            return $"{Id}:{Name ?? "Unknown"} [{StartPath ?? "Unknown"}]";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Common/OAuth/OAuthTools.cs b/src/NzbDrone.Common/OAuth/OAuthTools.cs
+index c2b14c519..c83608b1c 100644
+--- a/src/NzbDrone.Common/OAuth/OAuthTools.cs
++++ b/src/NzbDrone.Common/OAuth/OAuthTools.cs
+@@ -247,8 +247,8 @@ public static string ConstructRequestUrl(Uri url)
+ 
+             var sb = new StringBuilder();
+ 
+-            var requestUrl = string.Format("{0}://{1}", url.Scheme, url.Host);
+-            var qualified = string.Format(":{0}", url.Port);
++            var requestUrl = $"{url.Scheme}://{url.Host}";
++            var qualified = $":{url.Port}";
+             var basic = url.Scheme == "http" && url.Port == 80;
+             var secure = url.Scheme == "https" && url.Port == 443;
+ 
+diff --git a/src/NzbDrone.Common/OAuth/WebParameterCollection.cs b/src/NzbDrone.Common/OAuth/WebParameterCollection.cs
+index a1084a0ef..cea68b114 100644
+--- a/src/NzbDrone.Common/OAuth/WebParameterCollection.cs
++++ b/src/NzbDrone.Common/OAuth/WebParameterCollection.cs
+@@ -16,7 +16,7 @@ public class WebParameterCollection : IList<WebParameter>
+             {
+                 var parameters = this.Where(p => p.Name.Equals(name));
+ 
+-                if (parameters.Count() == 0)
++                if (!parameters.Any())
+                 {
+                     return null;
+                 }
+diff --git a/src/NzbDrone.Common/Processes/ProcessOutputLine.cs b/src/NzbDrone.Common/Processes/ProcessOutputLine.cs
+index 189c1f494..6d1899bfd 100644
+--- a/src/NzbDrone.Common/Processes/ProcessOutputLine.cs
++++ b/src/NzbDrone.Common/Processes/ProcessOutputLine.cs
+@@ -17,7 +17,7 @@ public ProcessOutputLine(ProcessOutputLevel level, string content)
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0} - {1} - {2}", Time, Level, Content);
++            return $"{Time} - {Level} - {Content}";
+         }
+     }
+ 
+diff --git a/src/NzbDrone.Common/Reflection/ReflectionExtensions.cs b/src/NzbDrone.Common/Reflection/ReflectionExtensions.cs
+index 6fe86817f..30fc6aa8a 100644
+--- a/src/NzbDrone.Common/Reflection/ReflectionExtensions.cs
++++ b/src/NzbDrone.Common/Reflection/ReflectionExtensions.cs
+@@ -54,7 +54,7 @@ public static T GetAttribute<T>(this MemberInfo member, bool isRequired = true)
+ 
+             if (attribute == null && isRequired)
+             {
+-                throw new ArgumentException(string.Format("The {0} attribute must be defined on member {1}", typeof(T).Name, member.Name));
++                throw new ArgumentException($"The {typeof(T).Name} attribute must be defined on member {member.Name}");
+             }
+ 
+             return (T)attribute;
+diff --git a/src/NzbDrone.Common/TinyIoC.cs b/src/NzbDrone.Common/TinyIoC.cs
+index d2a293706..e978c6f1e 100644
+--- a/src/NzbDrone.Common/TinyIoC.cs
++++ b/src/NzbDrone.Common/TinyIoC.cs
+@@ -1390,7 +1390,7 @@ public MultiRegisterOptions RegisterMultiple(Type registrationType, IEnumerable<
+                 //#else
+                 if (!registrationType.IsAssignableFrom(type))
+                     //#endif
+-                    throw new ArgumentException(string.Format("types: The type {0} is not assignable from {1}", registrationType.FullName, type.FullName));
++                    throw new ArgumentException($"types: The type {registrationType.FullName} is not assignable from {type.FullName}");
+ 
+             if (implementationTypes.Count() != implementationTypes.Distinct().Count())
+             {
+@@ -1401,7 +1401,7 @@ into j
+                                                   select j.Key.FullName;
+ 
+                 var fullNamesOfDuplicatedTypes = string.Join(",\n", queryForDuplicatedTypes.ToArray());
+-                var multipleRegMessage = string.Format("types: The same implementation type cannot be specified multiple times for {0}\n\n{1}", registrationType.FullName, fullNamesOfDuplicatedTypes);
++                var multipleRegMessage = $"types: The same implementation type cannot be specified multiple times for {registrationType.FullName}\n\n{fullNamesOfDuplicatedTypes}";
+                 throw new ArgumentException(multipleRegMessage);
+             }
+ 
+@@ -2628,9 +2628,7 @@ public override void SetConstructor(ConstructorInfo constructor)
+ 
+             public void Dispose()
+             {
+-                var disposable = _instance as IDisposable;
+-
+-                if (disposable != null)
++                if (_instance is IDisposable disposable)
+                     disposable.Dispose();
+             }
+         }
+@@ -2692,9 +2690,7 @@ public override void SetConstructor(ConstructorInfo constructor)
+ 
+             public void Dispose()
+             {
+-                var disposable = _instance.Target as IDisposable;
+-
+-                if (disposable != null)
++                if (_instance.Target is IDisposable disposable)
+                     disposable.Dispose();
+             }
+         }
+@@ -2762,9 +2758,7 @@ public void Dispose()
+                 if (_Current == null)
+                     return;
+ 
+-                var disposable = _Current as IDisposable;
+-
+-                if (disposable != null)
++                if (_Current is IDisposable disposable)
+                     disposable.Dispose();
+             }
+         }
+diff --git a/src/NzbDrone.Core.Test/DecisionEngineTests/DownloadDecisionMakerFixture.cs b/src/NzbDrone.Core.Test/DecisionEngineTests/DownloadDecisionMakerFixture.cs
+index 2af1fa54a..02e39be4d 100644
+--- a/src/NzbDrone.Core.Test/DecisionEngineTests/DownloadDecisionMakerFixture.cs
++++ b/src/NzbDrone.Core.Test/DecisionEngineTests/DownloadDecisionMakerFixture.cs
+@@ -260,7 +260,7 @@ public void should_only_include_reports_for_requested_books()
+             var reports = books.Select(v =>
+                 new ReleaseInfo()
+                 {
+-                    Title = string.Format("{0}-{1}[FLAC][2017][DRONE]", author.Name, v.Title)
++                    Title = $"{author.Name}-{v.Title}[FLAC][2017][DRONE]"
+                 }).ToList();
+ 
+             Mocker.GetMock<IParsingService>()
+diff --git a/src/NzbDrone.Core.Test/Download/Pending/PendingReleaseServiceTests/RemovePendingFixture.cs b/src/NzbDrone.Core.Test/Download/Pending/PendingReleaseServiceTests/RemovePendingFixture.cs
+index 01fca8bf3..83543ecfd 100644
+--- a/src/NzbDrone.Core.Test/Download/Pending/PendingReleaseServiceTests/RemovePendingFixture.cs
++++ b/src/NzbDrone.Core.Test/Download/Pending/PendingReleaseServiceTests/RemovePendingFixture.cs
+@@ -61,7 +61,7 @@ public void should_remove_same_release()
+         {
+             AddPending(id: 1, book: "Book");
+ 
+-            var queueId = HashConverter.GetHashInt31(string.Format("pending-{0}-book{1}", 1, _book.Id));
++            var queueId = HashConverter.GetHashInt31($"pending-{1}-book{_book.Id}");
+ 
+             Subject.RemovePendingQueueItems(queueId);
+ 
+@@ -76,7 +76,7 @@ public void should_remove_multiple_releases_release()
+             AddPending(id: 3, book: "Book 3");
+             AddPending(id: 4, book: "Book 3");
+ 
+-            var queueId = HashConverter.GetHashInt31(string.Format("pending-{0}-book{1}", 3, _book.Id));
++            var queueId = HashConverter.GetHashInt31($"pending-{3}-book{_book.Id}");
+ 
+             Subject.RemovePendingQueueItems(queueId);
+ 
+@@ -91,7 +91,7 @@ public void should_not_remove_diffrent_books()
+             AddPending(id: 3, book: "Book 2");
+             AddPending(id: 4, book: "Book 3");
+ 
+-            var queueId = HashConverter.GetHashInt31(string.Format("pending-{0}-book{1}", 1, _book.Id));
++            var queueId = HashConverter.GetHashInt31($"pending-{1}-book{_book.Id}");
+ 
+             Subject.RemovePendingQueueItems(queueId);
+ 
+diff --git a/src/NzbDrone.Core.Test/Framework/DirectDataMapper.cs b/src/NzbDrone.Core.Test/Framework/DirectDataMapper.cs
+index 124edb565..d94c9185e 100644
+--- a/src/NzbDrone.Core.Test/Framework/DirectDataMapper.cs
++++ b/src/NzbDrone.Core.Test/Framework/DirectDataMapper.cs
+@@ -88,7 +88,7 @@ protected T MapToObject<T>(DataRow dataRow)
+ 
+                 if (propertyInfo == null)
+                 {
+-                    throw new Exception(string.Format("Column {0} doesn't exist on type {1}.", columnName, typeof(T)));
++                    throw new Exception($"Column {columnName} doesn't exist on type {typeof(T)}.");
+                 }
+ 
+                 var propertyType = propertyInfo.PropertyType;
+diff --git a/src/NzbDrone.Core.Test/Framework/MigrationTest.cs b/src/NzbDrone.Core.Test/Framework/MigrationTest.cs
+index 7a59c837b..21c1e78d7 100644
+--- a/src/NzbDrone.Core.Test/Framework/MigrationTest.cs
++++ b/src/NzbDrone.Core.Test/Framework/MigrationTest.cs
+@@ -26,8 +26,7 @@ protected virtual IDirectDataMapper WithMigrationTestDb(Action<TMigration> befor
+             {
+                 BeforeMigration = m =>
+                 {
+-                    var migration = m as TMigration;
+-                    if (beforeMigration != null && migration != null)
++                    if (beforeMigration != null && m is TMigration migration)
+                     {
+                         beforeMigration(migration);
+                     }
+diff --git a/src/NzbDrone.Core.Test/ParserTests/QualityParserFixture.cs b/src/NzbDrone.Core.Test/ParserTests/QualityParserFixture.cs
+index be8b87df1..109d97aed 100644
+--- a/src/NzbDrone.Core.Test/ParserTests/QualityParserFixture.cs
++++ b/src/NzbDrone.Core.Test/ParserTests/QualityParserFixture.cs
+@@ -75,7 +75,7 @@ public void quality_parse(string title)
+         [TestCaseSource(nameof(SelfQualityParserCases))]
+         public void parsing_our_own_quality_enum_name(Quality quality)
+         {
+-            var fileName = string.Format("Some book [{0}]", quality.Name);
++            var fileName = $"Some book [{quality.Name}]";
+             var result = QualityParser.ParseQuality(fileName);
+             result.Quality.Should().Be(quality);
+         }
+diff --git a/src/NzbDrone.Core/Books/Model/Author.cs b/src/NzbDrone.Core/Books/Model/Author.cs
+index 930261369..04265da14 100644
+--- a/src/NzbDrone.Core/Books/Model/Author.cs
++++ b/src/NzbDrone.Core/Books/Model/Author.cs
+@@ -58,7 +58,7 @@ public string ForeignAuthorId
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}][{1}]", Metadata.Value.ForeignAuthorId.NullSafe(), Metadata.Value.Name.NullSafe());
++            return $"[{Metadata.Value.ForeignAuthorId.NullSafe()}][{Metadata.Value.Name.NullSafe()}]";
+         }
+ 
+         public override void UseMetadataFrom(Author other)
+diff --git a/src/NzbDrone.Core/Books/Model/AuthorMetadata.cs b/src/NzbDrone.Core/Books/Model/AuthorMetadata.cs
+index cbac6d7e5..64dd5a22b 100644
+--- a/src/NzbDrone.Core/Books/Model/AuthorMetadata.cs
++++ b/src/NzbDrone.Core/Books/Model/AuthorMetadata.cs
+@@ -34,7 +34,7 @@ public AuthorMetadata()
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}][{1}]", ForeignAuthorId, Name.NullSafe());
++            return $"[{ForeignAuthorId}][{Name.NullSafe()}]";
+         }
+ 
+         public override void UseMetadataFrom(AuthorMetadata other)
+diff --git a/src/NzbDrone.Core/Books/Model/Book.cs b/src/NzbDrone.Core/Books/Model/Book.cs
+index 960ace724..0a321b0ac 100644
+--- a/src/NzbDrone.Core/Books/Model/Book.cs
++++ b/src/NzbDrone.Core/Books/Model/Book.cs
+@@ -61,7 +61,7 @@ public int AuthorId
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}][{1}]", ForeignBookId, Title.NullSafe());
++            return $"[{ForeignBookId}][{Title.NullSafe()}]";
+         }
+ 
+         public override void UseMetadataFrom(Book other)
+diff --git a/src/NzbDrone.Core/Books/Model/Edition.cs b/src/NzbDrone.Core/Books/Model/Edition.cs
+index 657f70a7c..e8f8bcd46 100644
+--- a/src/NzbDrone.Core/Books/Model/Edition.cs
++++ b/src/NzbDrone.Core/Books/Model/Edition.cs
+@@ -50,7 +50,7 @@ public Edition()
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}][{1}]", ForeignEditionId, Title.NullSafe());
++            return $"[{ForeignEditionId}][{Title.NullSafe()}]";
+         }
+ 
+         public override void UseMetadataFrom(Edition other)
+diff --git a/src/NzbDrone.Core/Books/Model/Series.cs b/src/NzbDrone.Core/Books/Model/Series.cs
+index d93230807..073d6d35d 100644
+--- a/src/NzbDrone.Core/Books/Model/Series.cs
++++ b/src/NzbDrone.Core/Books/Model/Series.cs
+@@ -22,7 +22,7 @@ public class Series : Entity<Series>
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}][{1}]", ForeignSeriesId.NullSafe(), Title.NullSafe());
++            return $"[{ForeignSeriesId.NullSafe()}][{Title.NullSafe()}]";
+         }
+ 
+         public override void UseMetadataFrom(Series other)
+diff --git a/src/NzbDrone.Core/Books/Repositories/BookRepository.cs b/src/NzbDrone.Core/Books/Repositories/BookRepository.cs
+index 4ea01e1f9..5ceb6d3ad 100644
+--- a/src/NzbDrone.Core/Books/Repositories/BookRepository.cs
++++ b/src/NzbDrone.Core/Books/Repositories/BookRepository.cs
+@@ -123,11 +123,11 @@ private string BuildQualityCutoffWhereClause(List<QualitiesBelowCutoff> qualitie
+             {
+                 foreach (var belowCutoff in profile.QualityIds)
+                 {
+-                    clauses.Add(string.Format("(Authors.[QualityProfileId] = {0} AND BookFiles.Quality LIKE '%_quality_: {1},%')", profile.ProfileId, belowCutoff));
++                    clauses.Add($"(Authors.[QualityProfileId] = {profile.ProfileId} AND BookFiles.Quality LIKE '%_quality_: {belowCutoff},%')");
+                 }
+             }
+ 
+-            return string.Format("({0})", string.Join(" OR ", clauses));
++            return $"({string.Join(" OR ", clauses)})";
+         }
+ 
+         public PagingSpec<Book> BooksWhereCutoffUnmet(PagingSpec<Book> pagingSpec, List<QualitiesBelowCutoff> qualitiesBelowCutoff)
+diff --git a/src/NzbDrone.Core/Configuration/ConfigFileProvider.cs b/src/NzbDrone.Core/Configuration/ConfigFileProvider.cs
+index 712a3646f..5abefed77 100644
+--- a/src/NzbDrone.Core/Configuration/ConfigFileProvider.cs
++++ b/src/NzbDrone.Core/Configuration/ConfigFileProvider.cs
+@@ -234,7 +234,7 @@ public string GetValue(string key, object defaultValue, bool persist = true)
+ 
+                     var valueHolder = parentContainer.Descendants(key).ToList();
+ 
+-                    if (valueHolder.Count() == 1)
++                    if (valueHolder.Count == 1)
+                     {
+                         return valueHolder.First().Value.Trim();
+                     }
+diff --git a/src/NzbDrone.Core/Datastore/Extensions/BuilderExtensions.cs b/src/NzbDrone.Core/Datastore/Extensions/BuilderExtensions.cs
+index bb13e09d0..2a8d78aad 100644
+--- a/src/NzbDrone.Core/Datastore/Extensions/BuilderExtensions.cs
++++ b/src/NzbDrone.Core/Datastore/Extensions/BuilderExtensions.cs
+@@ -127,7 +127,7 @@ public static string GetSqlLogString(string sql, object paramsObject)
+ 
+             foreach (var p in parameters.ToDictionary())
+             {
+-                var val = (p.Value is string) ? string.Format("\"{0}\"", p.Value) : p.Value;
++                var val = (p.Value is string) ? $"\"{p.Value}\"" : p.Value;
+                 sb.AppendFormat("{0} = [{1}]", p.Key, val.ToJson() ?? "NULL").AppendLine();
+             }
+ 
+diff --git a/src/NzbDrone.Core/Datastore/Migration/006_remove_chown_and_folderchmod_config.cs b/src/NzbDrone.Core/Datastore/Migration/006_remove_chown_and_folderchmod_config.cs
+index 8ae941761..a155d3172 100644
+--- a/src/NzbDrone.Core/Datastore/Migration/006_remove_chown_and_folderchmod_config.cs
++++ b/src/NzbDrone.Core/Datastore/Migration/006_remove_chown_and_folderchmod_config.cs
+@@ -22,8 +22,7 @@ private void ConvertFileChmodToFolderChmod(IDbConnection conn, IDbTransaction tr
+                 getFileChmodCmd.Transaction = tran;
+                 getFileChmodCmd.CommandText = @"SELECT Value FROM Config WHERE Key = 'filechmod'";
+ 
+-                var fileChmod = getFileChmodCmd.ExecuteScalar() as string;
+-                if (fileChmod != null)
++                if (getFileChmodCmd.ExecuteScalar() is string fileChmod)
+                 {
+                     if (fileChmod.IsNotNullOrWhiteSpace())
+                     {
+diff --git a/src/NzbDrone.Core/Datastore/Migration/Framework/NzbDroneSQLiteProcessor.cs b/src/NzbDrone.Core/Datastore/Migration/Framework/NzbDroneSQLiteProcessor.cs
+index 25e39685f..45d4f2e0e 100644
+--- a/src/NzbDrone.Core/Datastore/Migration/Framework/NzbDroneSQLiteProcessor.cs
++++ b/src/NzbDrone.Core/Datastore/Migration/Framework/NzbDroneSQLiteProcessor.cs
+@@ -34,7 +34,7 @@ public override void Process(AlterColumnExpression expression)
+ 
+             if (columnIndex == -1)
+             {
+-                throw new ApplicationException(string.Format("Column {0} does not exist on table {1}.", expression.Column.Name, expression.TableName));
++                throw new ApplicationException($"Column {expression.Column.Name} does not exist on table {expression.TableName}.");
+             }
+ 
+             columnDefinitions[columnIndex] = expression.Column;
+@@ -61,7 +61,7 @@ public override void Process(DeleteColumnExpression expression)
+ 
+             if (columnsToRemove.Any())
+             {
+-                throw new ApplicationException(string.Format("Column {0} does not exist on table {1}.", columnsToRemove.First(), expression.TableName));
++                throw new ApplicationException($"Column {columnsToRemove.First()} does not exist on table {expression.TableName}.");
+             }
+ 
+             ProcessAlterTable(tableDefinition);
+@@ -77,12 +77,12 @@ public override void Process(RenameColumnExpression expression)
+ 
+             if (columnIndex == -1)
+             {
+-                throw new ApplicationException(string.Format("Column {0} does not exist on table {1}.", expression.OldName, expression.TableName));
++                throw new ApplicationException($"Column {expression.OldName} does not exist on table {expression.TableName}.");
+             }
+ 
+             if (columnDefinitions.Any(c => c.Name == expression.NewName))
+             {
+-                throw new ApplicationException(string.Format("Column {0} already exists on table {1}.", expression.NewName, expression.TableName));
++                throw new ApplicationException($"Column {expression.NewName} already exists on table {expression.TableName}.");
+             }
+ 
+             oldColumnDefinitions[columnIndex] = (ColumnDefinition)columnDefinitions[columnIndex].Clone();
+@@ -133,7 +133,7 @@ protected virtual void ProcessAlterTable(TableDefinition tableDefinition, List<C
+ 
+             Process(new CreateTableExpression() { TableName = tempTableName, Columns = tableDefinition.Columns.ToList() });
+ 
+-            Process(string.Format("INSERT INTO {0} ({1}) SELECT {2} FROM {3}", quoter.QuoteTableName(tempTableName), columnsToInsert, columnsToFetch, quoter.QuoteTableName(tableName)));
++            Process($"INSERT INTO {quoter.QuoteTableName(tempTableName)} ({columnsToInsert}) SELECT {columnsToFetch} FROM {quoter.QuoteTableName(tableName)}");
+ 
+             Process(new DeleteTableExpression() { TableName = tableName });
+ 
+diff --git a/src/NzbDrone.Core/Datastore/Migration/Framework/SqliteSyntaxReader.cs b/src/NzbDrone.Core/Datastore/Migration/Framework/SqliteSyntaxReader.cs
+index 4940eac93..31ef06b84 100644
+--- a/src/NzbDrone.Core/Datastore/Migration/Framework/SqliteSyntaxReader.cs
++++ b/src/NzbDrone.Core/Datastore/Migration/Framework/SqliteSyntaxReader.cs
+@@ -265,7 +265,7 @@ protected string ReadEscapedString(char escape)
+ 
+         public SyntaxErrorException CreateSyntaxException(string message, params object[] args)
+         {
+-            return new SyntaxErrorException(string.Format("{0}. Syntax Error near: {1}", string.Format(message, args), Buffer.Substring(_previousIndex)));
++            return new SyntaxErrorException($"{string.Format(message, args)}. Syntax Error near: {Buffer.Substring(_previousIndex)}");
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Datastore/WhereBuilder.cs b/src/NzbDrone.Core/Datastore/WhereBuilder.cs
+index 3c018d0ad..d5676c73e 100644
+--- a/src/NzbDrone.Core/Datastore/WhereBuilder.cs
++++ b/src/NzbDrone.Core/Datastore/WhereBuilder.cs
+@@ -22,7 +22,7 @@ public class WhereBuilder : ExpressionVisitor
+ 
+         public WhereBuilder(Expression filter, bool requireConcreteValue, int seq)
+         {
+-            _paramNamePrefix = string.Format("Clause{0}", seq + 1);
++            _paramNamePrefix = $"Clause{seq + 1}";
+             _requireConcreteValue = requireConcreteValue;
+             _sb = new StringBuilder();
+ 
+@@ -79,7 +79,7 @@ protected override Expression VisitMethodCall(MethodCallExpression expression)
+                     break;
+ 
+                 default:
+-                    var msg = string.Format("'{0}' expressions are not yet implemented in the where clause expression tree parser.", method);
++                    var msg = $"'{method}' expressions are not yet implemented in the where clause expression tree parser.";
+                     throw new NotImplementedException(msg);
+             }
+ 
+@@ -222,7 +222,7 @@ private object GetFieldValue(object entity, MemberInfo member)
+                 return (member as PropertyInfo).GetValue(entity);
+             }
+ 
+-            throw new ArgumentException(string.Format("WhereBuilder could not get the value for {0}.{1}.", entity.GetType().Name, member.Name));
++            throw new ArgumentException($"WhereBuilder could not get the value for {entity.GetType().Name}.{member.Name}.");
+         }
+ 
+         private bool IsNullVariable(Expression expression)
+@@ -268,7 +268,7 @@ private string Decode(BinaryExpression expression)
+                 case ExpressionType.NotEqual: return "<>";
+                 case ExpressionType.OrElse: return "OR";
+                 case ExpressionType.Or: return "OR";
+-                default: throw new NotSupportedException(string.Format("{0} statement is not supported", expression.NodeType.ToString()));
++                default: throw new NotSupportedException($"{expression.NodeType.ToString()} statement is not supported");
+             }
+         }
+ 
+diff --git a/src/NzbDrone.Core/DecisionEngine/Rejection.cs b/src/NzbDrone.Core/DecisionEngine/Rejection.cs
+index 723968f9b..02c960190 100644
+--- a/src/NzbDrone.Core/DecisionEngine/Rejection.cs
++++ b/src/NzbDrone.Core/DecisionEngine/Rejection.cs
+@@ -13,7 +13,7 @@ public Rejection(string reason, RejectionType type = RejectionType.Permanent)
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}] {1}", Type, Reason);
++            return $"[{Type}] {Reason}";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/DecisionEngine/Specifications/AlreadyImportedSpecification.cs b/src/NzbDrone.Core/DecisionEngine/Specifications/AlreadyImportedSpecification.cs
+index 093be0366..368782356 100644
+--- a/src/NzbDrone.Core/DecisionEngine/Specifications/AlreadyImportedSpecification.cs
++++ b/src/NzbDrone.Core/DecisionEngine/Specifications/AlreadyImportedSpecification.cs
+@@ -46,7 +46,7 @@ public Decision IsSatisfiedBy(RemoteBook subject, SearchCriteriaBase searchCrite
+             {
+                 var bookFiles = _mediaFileService.GetFilesByBook(book.Id);
+ 
+-                if (bookFiles.Count() == 0)
++                if (!bookFiles.Any())
+                 {
+                     _logger.Debug("Skipping already imported check for book without files");
+                     continue;
+diff --git a/src/NzbDrone.Core/DecisionEngine/Specifications/TorrentSeedingSpecification.cs b/src/NzbDrone.Core/DecisionEngine/Specifications/TorrentSeedingSpecification.cs
+index 53313042e..8fc786e8f 100644
+--- a/src/NzbDrone.Core/DecisionEngine/Specifications/TorrentSeedingSpecification.cs
++++ b/src/NzbDrone.Core/DecisionEngine/Specifications/TorrentSeedingSpecification.cs
+@@ -40,9 +40,7 @@ public Decision IsSatisfiedBy(RemoteBook remoteBook, SearchCriteriaBase searchCr
+                 return Decision.Accept();
+             }
+ 
+-            var torrentIndexerSettings = indexer.Settings as ITorrentIndexerSettings;
+-
+-            if (torrentIndexerSettings != null)
++            if (indexer.Settings is ITorrentIndexerSettings torrentIndexerSettings)
+             {
+                 var minimumSeeders = torrentIndexerSettings.MinimumSeeders;
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/Blackhole/TorrentBlackhole.cs b/src/NzbDrone.Core/Download/Clients/Blackhole/TorrentBlackhole.cs
+index 58980cc46..62710168d 100644
+--- a/src/NzbDrone.Core/Download/Clients/Blackhole/TorrentBlackhole.cs
++++ b/src/NzbDrone.Core/Download/Clients/Blackhole/TorrentBlackhole.cs
+@@ -67,7 +67,7 @@ protected override string AddFromTorrentFile(RemoteBook remoteBook, string hash,
+ 
+             title = FileNameBuilder.CleanFileName(title);
+ 
+-            var filepath = Path.Combine(Settings.TorrentFolder, string.Format("{0}.torrent", title));
++            var filepath = Path.Combine(Settings.TorrentFolder, $"{title}.torrent");
+ 
+             using (var stream = _diskProvider.OpenWriteStream(filepath))
+             {
+diff --git a/src/NzbDrone.Core/Download/Clients/Deluge/DelugeProxy.cs b/src/NzbDrone.Core/Download/Clients/Deluge/DelugeProxy.cs
+index 370cdffb2..38c907a6e 100644
+--- a/src/NzbDrone.Core/Download/Clients/Deluge/DelugeProxy.cs
++++ b/src/NzbDrone.Core/Download/Clients/Deluge/DelugeProxy.cs
+@@ -294,7 +294,7 @@ private void VerifyResponse<TResult>(JsonRpcResponse<TResult> response)
+ 
+         private void AuthenticateClient(JsonRpcRequestBuilder requestBuilder, DelugeSettings settings, bool reauthenticate = false)
+         {
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var cookies = _authCookieCache.Find(authKey);
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortex.cs b/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortex.cs
+index ef67006ec..218493618 100644
+--- a/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortex.cs
++++ b/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortex.cs
+@@ -245,7 +245,7 @@ private OsPath GetOutputPath(NzbVortexQueueItem vortexQueueItem, DownloadClientI
+ 
+             if (filesResponse.Count > 1)
+             {
+-                var message = string.Format("Download contains multiple files and is not in a job folder: {0}", outputPath);
++                var message = $"Download contains multiple files and is not in a job folder: {outputPath}";
+ 
+                 queueItem.Status = DownloadItemStatus.Warning;
+                 queueItem.Message = message;
+diff --git a/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortexProxy.cs b/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortexProxy.cs
+index cf09d0c65..e5ff386ee 100644
+--- a/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortexProxy.cs
++++ b/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortexProxy.cs
+@@ -57,7 +57,7 @@ public string DownloadNzb(byte[] nzbData, string filename, int priority, NzbVort
+ 
+         public void Remove(int id, bool deleteData, NzbVortexSettings settings)
+         {
+-            var requestBuilder = BuildRequest(settings).Resource(string.Format("nzb/{0}/{1}", id, deleteData ? "cancelDelete" : "cancel"));
++            var requestBuilder = BuildRequest(settings).Resource($"nzb/{id}/{(deleteData ? "cancelDelete" : "cancel")}");
+ 
+             ProcessRequest<NzbVortexResponseBase>(requestBuilder, true, settings);
+         }
+@@ -106,7 +106,7 @@ public List<NzbVortexQueueItem> GetQueue(int doneLimit, NzbVortexSettings settin
+ 
+         public List<NzbVortexFile> GetFiles(int id, NzbVortexSettings settings)
+         {
+-            var requestBuilder = BuildRequest(settings).Resource(string.Format("file/{0}", id));
++            var requestBuilder = BuildRequest(settings).Resource($"file/{id}");
+ 
+             var response = ProcessRequest<NzbVortexFilesResponse>(requestBuilder, true, settings);
+ 
+@@ -176,7 +176,7 @@ private T ProcessRequest<T>(HttpRequestBuilder requestBuilder, bool requiresAuth
+ 
+         private void AuthenticateClient(HttpRequestBuilder requestBuilder, NzbVortexSettings settings, bool reauthenticate = false)
+         {
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.ApiKey);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.ApiKey}";
+ 
+             var sessionId = _authSessionIdCache.Find(authKey);
+ 
+@@ -191,7 +191,7 @@ private void AuthenticateClient(HttpRequestBuilder requestBuilder, NzbVortexSett
+ 
+                 var cnonce = Guid.NewGuid().ToString();
+ 
+-                var hashString = string.Format("{0}:{1}:{2}", nonce, cnonce, settings.ApiKey);
++                var hashString = $"{nonce}:{cnonce}:{settings.ApiKey}";
+                 var hash = Convert.ToBase64String(hashString.SHA256Hash().HexToByteArray());
+ 
+                 var authRequest = BuildRequest(settings).Resource("auth/login")
+diff --git a/src/NzbDrone.Core/Download/Clients/Nzbget/ErrorModel.cs b/src/NzbDrone.Core/Download/Clients/Nzbget/ErrorModel.cs
+index 5a917c636..0f227dad2 100644
+--- a/src/NzbDrone.Core/Download/Clients/Nzbget/ErrorModel.cs
++++ b/src/NzbDrone.Core/Download/Clients/Nzbget/ErrorModel.cs
+@@ -8,7 +8,7 @@ public class ErrorModel
+ 
+         public override string ToString()
+         {
+-            return string.Format("Name: {0}, Code: {1}, Message: {2}", Name, Code, Message);
++            return $"Name: {Name}, Code: {Code}, Message: {Message}";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Download/Clients/Pneumatic/Pneumatic.cs b/src/NzbDrone.Core/Download/Clients/Pneumatic/Pneumatic.cs
+index 6b3c3ace5..2accea9c2 100644
+--- a/src/NzbDrone.Core/Download/Clients/Pneumatic/Pneumatic.cs
++++ b/src/NzbDrone.Core/Download/Clients/Pneumatic/Pneumatic.cs
+@@ -125,7 +125,7 @@ private string WriteStrmFile(string title, string nzbFile)
+                 throw new DownloadClientException("Strm Folder needs to be set for Pneumatic Downloader");
+             }
+ 
+-            var contents = string.Format("plugin://plugin.program.pneumatic/?mode=strm&type=add_file&nzb={0}&nzbname={1}", nzbFile, title);
++            var contents = $"plugin://plugin.program.pneumatic/?mode=strm&type=add_file&nzb={nzbFile}&nzbname={title}";
+             var filename = Path.Combine(Settings.StrmFolder, title + ".strm");
+ 
+             _diskProvider.WriteAllText(filename, contents);
+diff --git a/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV1.cs b/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV1.cs
+index 8445c2d3f..a9f0482ef 100644
+--- a/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV1.cs
++++ b/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV1.cs
+@@ -326,7 +326,7 @@ private void AuthenticateClient(HttpRequestBuilder requestBuilder, QBittorrentSe
+                 return;
+             }
+ 
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var cookies = _authCookieCache.Find(authKey);
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV2.cs b/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV2.cs
+index d292f5001..605590d04 100644
+--- a/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV2.cs
++++ b/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV2.cs
+@@ -346,7 +346,7 @@ private void AuthenticateClient(HttpRequestBuilder requestBuilder, QBittorrentSe
+                 return;
+             }
+ 
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var cookies = _authCookieCache.Find(authKey);
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionBase.cs b/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionBase.cs
+index f1a67a8c8..2e577d447 100644
+--- a/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionBase.cs
++++ b/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionBase.cs
+@@ -169,7 +169,7 @@ public override DownloadClientInfo GetStatus()
+ 
+             if (Settings.MusicCategory.IsNotNullOrWhiteSpace())
+             {
+-                destDir = string.Format("{0}/{1}", destDir, Settings.MusicCategory);
++                destDir = $"{destDir}/{Settings.MusicCategory}";
+             }
+ 
+             return new DownloadClientInfo
+diff --git a/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionProxy.cs b/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionProxy.cs
+index b9ae4605a..d8aa1192f 100644
+--- a/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionProxy.cs
++++ b/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionProxy.cs
+@@ -208,7 +208,7 @@ private HttpRequestBuilder BuildRequest(TransmissionSettings settings)
+ 
+         private void AuthenticateClient(HttpRequestBuilder requestBuilder, TransmissionSettings settings, bool reauthenticate = false)
+         {
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var sessionId = _authSessionIDCache.Find(authKey);
+ 
+@@ -269,7 +269,7 @@ public TransmissionResponse ProcessRequest(string action, object arguments, Tran
+                 }
+ 
+                 request.SetContent(data.ToJson());
+-                request.ContentSummary = string.Format("{0}(...)", action);
++                request.ContentSummary = $"{action}(...)";
+ 
+                 var response = _httpClient.Execute(request);
+ 
+@@ -280,7 +280,7 @@ public TransmissionResponse ProcessRequest(string action, object arguments, Tran
+                     request = requestBuilder.Post().Build();
+ 
+                     request.SetContent(data.ToJson());
+-                    request.ContentSummary = string.Format("{0}(...)", action);
++                    request.ContentSummary = $"{action}(...)";
+ 
+                     response = _httpClient.Execute(request);
+                 }
+diff --git a/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrent.cs b/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrent.cs
+index 4dad12922..8c043d9e7 100644
+--- a/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrent.cs
++++ b/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrent.cs
+@@ -176,7 +176,7 @@ private List<UTorrentTorrent> GetTorrents()
+         {
+             List<UTorrentTorrent> torrents;
+ 
+-            var cacheKey = string.Format("{0}:{1}:{2}", Settings.Host, Settings.Port, Settings.MusicCategory);
++            var cacheKey = $"{Settings.Host}:{Settings.Port}:{Settings.MusicCategory}";
+             var cache = _torrentCache.Find(cacheKey);
+ 
+             var response = _proxy.GetTorrents(cache == null ? null : cache.CacheID, Settings);
+diff --git a/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrentProxy.cs b/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrentProxy.cs
+index fd5795cb2..29e233b2d 100644
+--- a/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrentProxy.cs
++++ b/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrentProxy.cs
+@@ -244,7 +244,7 @@ public UTorrentResponse ProcessRequest(HttpRequestBuilder requestBuilder, UTorre
+ 
+         private void AuthenticateClient(HttpRequestBuilder requestBuilder, UTorrentSettings settings, bool reauthenticate = false)
+         {
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var cookies = _authCookieCache.Find(authKey);
+             var authToken = _authTokenCache.Find(authKey);
+diff --git a/src/NzbDrone.Core/Download/DownloadClientBase.cs b/src/NzbDrone.Core/Download/DownloadClientBase.cs
+index fa2d94416..ccdae88f3 100644
+--- a/src/NzbDrone.Core/Download/DownloadClientBase.cs
++++ b/src/NzbDrone.Core/Download/DownloadClientBase.cs
+@@ -112,7 +112,7 @@ protected virtual void DeleteItemData(string downloadId)
+             }
+             catch (Exception ex)
+             {
+-                _logger.Warn(ex, string.Format("[{0}] Error occurred while trying to delete data from '{1}'.", item.Title, item.OutputPath));
++                _logger.Warn(ex, $"[{item.Title}] Error occurred while trying to delete data from '{item.OutputPath}'.");
+             }
+         }
+ 
+@@ -141,7 +141,7 @@ protected ValidationFailure TestFolder(string folder, string propertyName, bool
+             {
+                 return new NzbDroneValidationFailure(propertyName, "Folder does not exist")
+                 {
+-                    DetailedDescription = string.Format("The folder you specified does not exist or is inaccessible. Please verify the folder permissions for the user account '{0}', which is used to execute Readarr.", Environment.UserName)
++                    DetailedDescription = $"The folder you specified does not exist or is inaccessible. Please verify the folder permissions for the user account '{Environment.UserName}', which is used to execute Readarr."
+                 };
+             }
+ 
+@@ -150,7 +150,7 @@ protected ValidationFailure TestFolder(string folder, string propertyName, bool
+                 _logger.Error("Folder '{0}' is not writable.", folder);
+                 return new NzbDroneValidationFailure(propertyName, "Unable to write to folder")
+                 {
+-                    DetailedDescription = string.Format("The folder you specified is not writable. Please verify the folder permissions for the user account '{0}', which is used to execute Readarr.", Environment.UserName)
++                    DetailedDescription = $"The folder you specified is not writable. Please verify the folder permissions for the user account '{Environment.UserName}', which is used to execute Readarr."
+                 };
+             }
+ 
+diff --git a/src/NzbDrone.Core/Download/DownloadService.cs b/src/NzbDrone.Core/Download/DownloadService.cs
+index 6355f1aac..06f8996f5 100644
+--- a/src/NzbDrone.Core/Download/DownloadService.cs
++++ b/src/NzbDrone.Core/Download/DownloadService.cs
+@@ -87,8 +87,7 @@ public void DownloadReport(RemoteBook remoteBook)
+             }
+             catch (ReleaseDownloadException ex)
+             {
+-                var http429 = ex.InnerException as TooManyRequestsException;
+-                if (http429 != null)
++                if (ex.InnerException is TooManyRequestsException http429)
+                 {
+                     _indexerStatusService.RecordFailure(remoteBook.Release.IndexerId, http429.RetryAfter);
+                 }
+diff --git a/src/NzbDrone.Core/Download/Pending/PendingReleaseService.cs b/src/NzbDrone.Core/Download/Pending/PendingReleaseService.cs
+index c2c2f7619..f40eadcf7 100644
+--- a/src/NzbDrone.Core/Download/Pending/PendingReleaseService.cs
++++ b/src/NzbDrone.Core/Download/Pending/PendingReleaseService.cs
+@@ -108,9 +108,9 @@ public void AddMany(List<Tuple<DownloadDecision, PendingReleaseReason>> decision
+                             _logger.Debug("The release {0} is already pending with reason {1}, not adding again", decision.RemoteBook, reason);
+                         }
+ 
+-                        if (matchingReports.Count() > 1)
++                        if (matchingReports.Count > 1)
+                         {
+-                            _logger.Debug("The release {0} had {1} duplicate pending, removing duplicates.", decision.RemoteBook, matchingReports.Count() - 1);
++                            _logger.Debug("The release {0} had {1} duplicate pending, removing duplicates.", decision.RemoteBook, matchingReports.Count - 1);
+ 
+                             foreach (var duplicate in matchingReports.Skip(1))
+                             {
+@@ -410,7 +410,7 @@ private PendingRelease FindPendingRelease(int queueId)
+ 
+         private int GetQueueId(PendingRelease pendingRelease, Book book)
+         {
+-            return HashConverter.GetHashInt31(string.Format("pending-{0}-book{1}", pendingRelease.Id, book.Id));
++            return HashConverter.GetHashInt31($"pending-{pendingRelease.Id}-book{book.Id}");
+         }
+ 
+         private int PrioritizeDownloadProtocol(Author author, DownloadProtocol downloadProtocol)
+diff --git a/src/NzbDrone.Core/Download/TorrentClientBase.cs b/src/NzbDrone.Core/Download/TorrentClientBase.cs
+index 000961047..28c2744b4 100644
+--- a/src/NzbDrone.Core/Download/TorrentClientBase.cs
++++ b/src/NzbDrone.Core/Download/TorrentClientBase.cs
+@@ -43,7 +43,6 @@ public abstract class TorrentClientBase<TSettings> : DownloadClientBase<TSetting
+ 
+         public override string Download(RemoteBook remoteBook)
+         {
+-            var torrentInfo = remoteBook.Release as TorrentInfo;
+ 
+             string magnetUrl = null;
+             string torrentUrl = null;
+@@ -57,7 +56,7 @@ public override string Download(RemoteBook remoteBook)
+                 torrentUrl = remoteBook.Release.DownloadUrl;
+             }
+ 
+-            if (torrentInfo != null && !torrentInfo.MagnetUrl.IsNullOrWhiteSpace())
++            if (remoteBook.Release is TorrentInfo torrentInfo && !torrentInfo.MagnetUrl.IsNullOrWhiteSpace())
+             {
+                 magnetUrl = torrentInfo.MagnetUrl;
+             }
+@@ -184,7 +183,7 @@ private string DownloadFromWebUrl(RemoteBook remoteBook, string torrentUrl)
+                 throw new ReleaseDownloadException(remoteBook.Release, "Downloading torrent failed", ex);
+             }
+ 
+-            var filename = string.Format("{0}.torrent", FileNameBuilder.CleanFileName(remoteBook.Release.Title));
++            var filename = $"{FileNameBuilder.CleanFileName(remoteBook.Release.Title)}.torrent";
+             var hash = _torrentFileInfoReader.GetHashFromTorrentFile(torrentFile);
+             var actualHash = AddFromTorrentFile(remoteBook, hash, filename, torrentFile);
+ 
+diff --git a/src/NzbDrone.Core/Exceptions/AuthorNotFoundException.cs b/src/NzbDrone.Core/Exceptions/AuthorNotFoundException.cs
+index 4a1593ae6..b861180db 100644
+--- a/src/NzbDrone.Core/Exceptions/AuthorNotFoundException.cs
++++ b/src/NzbDrone.Core/Exceptions/AuthorNotFoundException.cs
+@@ -7,7 +7,7 @@ public class AuthorNotFoundException : NzbDroneException
+         public string MusicBrainzId { get; set; }
+ 
+         public AuthorNotFoundException(string musicbrainzId)
+-            : base(string.Format("Author with id {0} was not found, it may have been removed from the metadata server.", musicbrainzId))
++            : base($"Author with id {musicbrainzId} was not found, it may have been removed from the metadata server.")
+         {
+             MusicBrainzId = musicbrainzId;
+         }
+diff --git a/src/NzbDrone.Core/Exceptions/BookNotFoundException.cs b/src/NzbDrone.Core/Exceptions/BookNotFoundException.cs
+index 7e48b04df..d86d855c1 100644
+--- a/src/NzbDrone.Core/Exceptions/BookNotFoundException.cs
++++ b/src/NzbDrone.Core/Exceptions/BookNotFoundException.cs
+@@ -7,7 +7,7 @@ public class BookNotFoundException : NzbDroneException
+         public string MusicBrainzId { get; set; }
+ 
+         public BookNotFoundException(string musicbrainzId)
+-            : base(string.Format("Book with id {0} was not found, it may have been removed from metadata server.", musicbrainzId))
++            : base($"Book with id {musicbrainzId} was not found, it may have been removed from metadata server.")
+         {
+             MusicBrainzId = musicbrainzId;
+         }
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/DownloadClientStatusCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/DownloadClientStatusCheck.cs
+index d51afc417..e4565043e 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/DownloadClientStatusCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/DownloadClientStatusCheck.cs
+@@ -38,7 +38,7 @@ public override HealthCheck Check()
+                 return new HealthCheck(GetType(), HealthCheckResult.Error, "All download clients are unavailable due to failures", "#download_clients_are_unavailable_due_to_failures");
+             }
+ 
+-            return new HealthCheck(GetType(), HealthCheckResult.Warning, string.Format("Download clients unavailable due to failures: {0}", string.Join(", ", backOffProviders.Select(v => v.Provider.Definition.Name))), "#download_clients_are_unavailable_due_to_failures");
++            return new HealthCheck(GetType(), HealthCheckResult.Warning, $"Download clients unavailable due to failures: {string.Join(", ", backOffProviders.Select(v => v.Provider.Definition.Name))}", "#download_clients_are_unavailable_due_to_failures");
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/ImportListStatusCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/ImportListStatusCheck.cs
+index 0cd0d2888..c6e0adeeb 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/ImportListStatusCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/ImportListStatusCheck.cs
+@@ -38,7 +38,7 @@ public override HealthCheck Check()
+                 return new HealthCheck(GetType(), HealthCheckResult.Error, "All import lists are unavailable due to failures", "#import_lists_are_unavailable_due_to_failures");
+             }
+ 
+-            return new HealthCheck(GetType(), HealthCheckResult.Warning, string.Format("Import lists unavailable due to failures: {0}", string.Join(", ", backOffProviders.Select(v => v.ImportList.Definition.Name))), "#import_lsits_are_unavailable_due_to_failures");
++            return new HealthCheck(GetType(), HealthCheckResult.Warning, $"Import lists unavailable due to failures: {string.Join(", ", backOffProviders.Select(v => v.ImportList.Definition.Name))}", "#import_lsits_are_unavailable_due_to_failures");
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/IndexerLongTermStatusCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/IndexerLongTermStatusCheck.cs
+index 7539a6ffd..56dd5ce30 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/IndexerLongTermStatusCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/IndexerLongTermStatusCheck.cs
+@@ -47,8 +47,7 @@ public override HealthCheck Check()
+ 
+             return new HealthCheck(GetType(),
+                 HealthCheckResult.Warning,
+-                string.Format("Indexers unavailable due to failures for more than 6 hours: {0}",
+-                    string.Join(", ", backOffProviders.Select(v => v.Provider.Definition.Name))),
++                $"Indexers unavailable due to failures for more than 6 hours: {string.Join(", ", backOffProviders.Select(v => v.Provider.Definition.Name))}",
+                 "#indexers-are-unavailable-due-to-failures");
+         }
+     }
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/IndexerStatusCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/IndexerStatusCheck.cs
+index 64504e687..eb543a423 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/IndexerStatusCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/IndexerStatusCheck.cs
+@@ -42,7 +42,7 @@ public override HealthCheck Check()
+                 return new HealthCheck(GetType(), HealthCheckResult.Error, "All indexers are unavailable due to failures", "#indexers_are_unavailable_due_to_failures");
+             }
+ 
+-            return new HealthCheck(GetType(), HealthCheckResult.Warning, string.Format("Indexers unavailable due to failures: {0}", string.Join(", ", backOffProviders.Select(v => v.Provider.Definition.Name))), "#indexers_are_unavailable_due_to_failures");
++            return new HealthCheck(GetType(), HealthCheckResult.Warning, $"Indexers unavailable due to failures: {string.Join(", ", backOffProviders.Select(v => v.Provider.Definition.Name))}", "#indexers_are_unavailable_due_to_failures");
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/MountCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/MountCheck.cs
+index 10017564f..d1c19bcd9 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/MountCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/MountCheck.cs
+@@ -21,7 +21,7 @@ public override HealthCheck Check()
+             // Not best for optimization but due to possible symlinks and junctions, we get mounts based on series path so internals can handle mount resolution.
+             var mounts = _authorService.AllAuthorPaths()
+                                        .Select(path => _diskProvider.GetMount(path.Value))
+-                                       .Where(m => m != null && m.MountOptions != null && m.MountOptions.IsReadOnly)
++                                       .Where(m => m?.MountOptions != null && m.MountOptions.IsReadOnly)
+                                        .DistinctBy(m => m.RootDirectory)
+                                        .ToList();
+ 
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/ProxyCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/ProxyCheck.cs
+index ca9e3fd5a..6f629ae5d 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/ProxyCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/ProxyCheck.cs
+@@ -34,7 +34,7 @@ public override HealthCheck Check()
+                 var addresses = Dns.GetHostAddresses(_configService.ProxyHostname);
+                 if (!addresses.Any())
+                 {
+-                    return new HealthCheck(GetType(), HealthCheckResult.Error, string.Format("Failed to resolve the IP Address for the Configured Proxy Host {0}", _configService.ProxyHostname));
++                    return new HealthCheck(GetType(), HealthCheckResult.Error, $"Failed to resolve the IP Address for the Configured Proxy Host {_configService.ProxyHostname}");
+                 }
+ 
+                 var request = _cloudRequestBuilder.Create()
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/RootFolderCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/RootFolderCheck.cs
+index 7ea90b178..8454ec7db 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/RootFolderCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/RootFolderCheck.cs
+@@ -51,7 +51,7 @@ public override HealthCheck Check()
+                     return new HealthCheck(GetType(), HealthCheckResult.Error, "Missing root folder: " + missingRootFolders.First(), "#missing_root_folder");
+                 }
+ 
+-                var message = string.Format("Multiple root folders are missing: {0}", string.Join(" | ", missingRootFolders));
++                var message = $"Multiple root folders are missing: {string.Join(" | ", missingRootFolders)}";
+                 return new HealthCheck(GetType(), HealthCheckResult.Error, message, "#missing_root_folder");
+             }
+ 
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/UpdateCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/UpdateCheck.cs
+index da6800bea..9ea928cd1 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/UpdateCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/UpdateCheck.cs
+@@ -44,7 +44,7 @@ public override HealthCheck Check()
+                 {
+                     return new HealthCheck(GetType(),
+                         HealthCheckResult.Error,
+-                        string.Format("Cannot install update because startup folder '{0}' is in an App Translocation folder.", startupFolder),
++                        $"Cannot install update because startup folder '{startupFolder}' is in an App Translocation folder.",
+                         "Cannot install update because startup folder is in an App Translocation folder.");
+                 }
+ 
+@@ -52,7 +52,7 @@ public override HealthCheck Check()
+                 {
+                     return new HealthCheck(GetType(),
+                         HealthCheckResult.Error,
+-                        string.Format("Cannot install update because startup folder '{0}' is not writable by the user '{1}'.", startupFolder, Environment.UserName),
++                        $"Cannot install update because startup folder '{startupFolder}' is not writable by the user '{Environment.UserName}'.",
+                         "Cannot install update because startup folder is not writable by the user");
+                 }
+ 
+@@ -60,7 +60,7 @@ public override HealthCheck Check()
+                 {
+                     return new HealthCheck(GetType(),
+                         HealthCheckResult.Error,
+-                        string.Format("Cannot install update because UI folder '{0}' is not writable by the user '{1}'.", uiFolder, Environment.UserName),
++                        $"Cannot install update because UI folder '{uiFolder}' is not writable by the user '{Environment.UserName}'.",
+                         "Cannot install update because UI folder is not writable by the user");
+                 }
+             }
+diff --git a/src/NzbDrone.Core/History/HistoryService.cs b/src/NzbDrone.Core/History/HistoryService.cs
+index ee1b48fa9..1a7c550c1 100644
+--- a/src/NzbDrone.Core/History/HistoryService.cs
++++ b/src/NzbDrone.Core/History/HistoryService.cs
+@@ -168,9 +168,7 @@ public void Handle(BookGrabbedEvent message)
+                     history.Data.Add("ReleaseHash", message.Book.ParsedBookInfo.ReleaseHash);
+                 }
+ 
+-                var torrentRelease = message.Book.Release as TorrentInfo;
+-
+-                if (torrentRelease != null)
++                if (message.Book.Release is TorrentInfo torrentRelease)
+                 {
+                     history.Data.Add("TorrentInfoHash", torrentRelease.InfoHash);
+                 }
+diff --git a/src/NzbDrone.Core/ImportLists/Goodreads/GoodreadsImportListBase.cs b/src/NzbDrone.Core/ImportLists/Goodreads/GoodreadsImportListBase.cs
+index edb68e07e..54e3da8cf 100644
+--- a/src/NzbDrone.Core/ImportLists/Goodreads/GoodreadsImportListBase.cs
++++ b/src/NzbDrone.Core/ImportLists/Goodreads/GoodreadsImportListBase.cs
+@@ -79,7 +79,7 @@ public override object RequestAction(string action, IDictionary<string, string>
+                 oAuthRequest.RequestUrl = Settings.OAuthRequestTokenUrl;
+                 var qscoll = OAuthQuery(oAuthRequest);
+ 
+-                var url = string.Format("{0}?oauth_token={1}&oauth_callback={2}", Settings.OAuthUrl, qscoll["oauth_token"], query["callbackUrl"]);
++                var url = $"{Settings.OAuthUrl}?oauth_token={qscoll["oauth_token"]}&oauth_callback={query["callbackUrl"]}";
+ 
+                 return new
+                 {
+diff --git a/src/NzbDrone.Core/ImportLists/ImportListSyncService.cs b/src/NzbDrone.Core/ImportLists/ImportListSyncService.cs
+index 975c3bb83..f9194a42e 100644
+--- a/src/NzbDrone.Core/ImportLists/ImportListSyncService.cs
++++ b/src/NzbDrone.Core/ImportLists/ImportListSyncService.cs
+@@ -68,7 +68,7 @@ private List<Book> SyncAll()
+ 
+         private List<Book> SyncList(ImportListDefinition definition)
+         {
+-            _logger.ProgressInfo(string.Format("Starting Import List Refresh for List {0}", definition.Name));
++            _logger.ProgressInfo($"Starting Import List Refresh for List {definition.Name}");
+ 
+             var rssReleases = _listFetcherAndParser.FetchSingleList(definition);
+ 
+@@ -283,7 +283,7 @@ private void ProcessAuthorReport(ImportListDefinition importList, ImportListItem
+             var existingAuthor = _authorService.FindById(report.AuthorGoodreadsId);
+ 
+             // Check to see if author excluded
+-            var excludedAuthor = listExclusions.Where(s => s.ForeignId == report.AuthorGoodreadsId).SingleOrDefault();
++            var excludedAuthor = listExclusions.SingleOrDefault(s => s.ForeignId == report.AuthorGoodreadsId);
+ 
+             if (excludedAuthor != null)
+             {
+diff --git a/src/NzbDrone.Core/ImportLists/LazyLibrarian/LazyLibrarianImportRequestGenerator.cs b/src/NzbDrone.Core/ImportLists/LazyLibrarian/LazyLibrarianImportRequestGenerator.cs
+index 79f9b2520..f25324bfb 100644
+--- a/src/NzbDrone.Core/ImportLists/LazyLibrarian/LazyLibrarianImportRequestGenerator.cs
++++ b/src/NzbDrone.Core/ImportLists/LazyLibrarian/LazyLibrarianImportRequestGenerator.cs
+@@ -27,7 +27,7 @@ public virtual ImportListPageableRequestChain GetListItems()
+ 
+         private IEnumerable<ImportListRequest> GetPagedRequests()
+         {
+-            yield return new ImportListRequest(string.Format("{0}/api?cmd=getAllBooks&apikey={1}", Settings.BaseUrl.TrimEnd('/'), Settings.ApiKey), HttpAccept.Json);
++            yield return new ImportListRequest($"{Settings.BaseUrl.TrimEnd('/')}/api?cmd=getAllBooks&apikey={Settings.ApiKey}", HttpAccept.Json);
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Indexers/FileList/FileListRequestGenerator.cs b/src/NzbDrone.Core/Indexers/FileList/FileListRequestGenerator.cs
+index 152e679a2..211556327 100644
+--- a/src/NzbDrone.Core/Indexers/FileList/FileListRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/FileList/FileListRequestGenerator.cs
+@@ -23,7 +23,7 @@ public IndexerPageableRequestChain GetSearchRequests(BookSearchCriteria searchCr
+         {
+             var pageableRequests = new IndexerPageableRequestChain();
+ 
+-            pageableRequests.Add(GetRequest("search-torrents", Settings.Categories, string.Format(" & type=name&query={0}+{1}", Uri.EscapeDataString(searchCriteria.AuthorQuery.Trim()), Uri.EscapeDataString(searchCriteria.BookQuery.Trim()))));
++            pageableRequests.Add(GetRequest("search-torrents", Settings.Categories, $" & type=name&query={Uri.EscapeDataString(searchCriteria.AuthorQuery.Trim())}+{Uri.EscapeDataString(searchCriteria.BookQuery.Trim())}"));
+ 
+             return pageableRequests;
+         }
+@@ -32,7 +32,7 @@ public IndexerPageableRequestChain GetSearchRequests(AuthorSearchCriteria search
+         {
+             var pageableRequests = new IndexerPageableRequestChain();
+ 
+-            pageableRequests.Add(GetRequest("search-torrents", Settings.Categories, string.Format(" & type=name&query={0}", Uri.EscapeDataString(searchCriteria.AuthorQuery.Trim()))));
++            pageableRequests.Add(GetRequest("search-torrents", Settings.Categories, $" & type=name&query={Uri.EscapeDataString(searchCriteria.AuthorQuery.Trim())}"));
+ 
+             return pageableRequests;
+         }
+@@ -41,7 +41,7 @@ private IEnumerable<IndexerRequest> GetRequest(string searchType, IEnumerable<in
+         {
+             var categoriesQuery = string.Join(",", categories.Distinct());
+ 
+-            var baseUrl = string.Format("{0}/api.php?action={1}&category={2}{3}", Settings.BaseUrl.TrimEnd('/'), searchType, categoriesQuery, parameters);
++            var baseUrl = $"{Settings.BaseUrl.TrimEnd('/')}/api.php?action={searchType}&category={categoriesQuery}{parameters}";
+ 
+             var request = new IndexerRequest(baseUrl, HttpAccept.Json);
+             request.HttpRequest.Credentials = new BasicNetworkCredential(Settings.Username.Trim(), Settings.Passkey.Trim());
+diff --git a/src/NzbDrone.Core/Indexers/Gazelle/GazelleParser.cs b/src/NzbDrone.Core/Indexers/Gazelle/GazelleParser.cs
+index 3e7c67878..2d0f20f51 100644
+--- a/src/NzbDrone.Core/Indexers/Gazelle/GazelleParser.cs
++++ b/src/NzbDrone.Core/Indexers/Gazelle/GazelleParser.cs
+@@ -59,7 +59,7 @@ public IList<ReleaseInfo> ParseResponse(IndexerResponse indexerResponse)
+ 
+                         torrentInfos.Add(new GazelleInfo()
+                         {
+-                            Guid = string.Format("Gazelle-{0}", id),
++                            Guid = $"Gazelle-{id}",
+                             Author = author,
+ 
+                             // Splice Title from info to avoid calling API again for every torrent.
+diff --git a/src/NzbDrone.Core/Indexers/Gazelle/GazelleRequestGenerator.cs b/src/NzbDrone.Core/Indexers/Gazelle/GazelleRequestGenerator.cs
+index bdd27b84d..a5ef64df9 100644
+--- a/src/NzbDrone.Core/Indexers/Gazelle/GazelleRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/Gazelle/GazelleRequestGenerator.cs
+@@ -29,14 +29,14 @@ public virtual IndexerPageableRequestChain GetRecentRequests()
+         public IndexerPageableRequestChain GetSearchRequests(BookSearchCriteria searchCriteria)
+         {
+             var pageableRequests = new IndexerPageableRequestChain();
+-            pageableRequests.Add(GetRequest(string.Format("&authorname={0}&groupname={1}", searchCriteria.AuthorQuery, searchCriteria.BookQuery)));
++            pageableRequests.Add(GetRequest($"&authorname={searchCriteria.AuthorQuery}&groupname={searchCriteria.BookQuery}"));
+             return pageableRequests;
+         }
+ 
+         public IndexerPageableRequestChain GetSearchRequests(AuthorSearchCriteria searchCriteria)
+         {
+             var pageableRequests = new IndexerPageableRequestChain();
+-            pageableRequests.Add(GetRequest(string.Format("&authorname={0}", searchCriteria.AuthorQuery)));
++            pageableRequests.Add(GetRequest($"&authorname={searchCriteria.AuthorQuery}"));
+             return pageableRequests;
+         }
+ 
+diff --git a/src/NzbDrone.Core/Indexers/Newznab/NewznabCapabilitiesProvider.cs b/src/NzbDrone.Core/Indexers/Newznab/NewznabCapabilitiesProvider.cs
+index 39040eb06..78f377832 100644
+--- a/src/NzbDrone.Core/Indexers/Newznab/NewznabCapabilitiesProvider.cs
++++ b/src/NzbDrone.Core/Indexers/Newznab/NewznabCapabilitiesProvider.cs
+@@ -40,7 +40,7 @@ private NewznabCapabilities FetchCapabilities(NewznabSettings indexerSettings)
+         {
+             var capabilities = new NewznabCapabilities();
+ 
+-            var url = string.Format("{0}{1}?t=caps", indexerSettings.BaseUrl.TrimEnd('/'), indexerSettings.ApiPath.TrimEnd('/'));
++            var url = $"{indexerSettings.BaseUrl.TrimEnd('/')}{indexerSettings.ApiPath.TrimEnd('/')}?t=caps";
+ 
+             if (indexerSettings.ApiKey.IsNotNullOrWhiteSpace())
+             {
+diff --git a/src/NzbDrone.Core/Indexers/Nyaa/NyaaRequestGenerator.cs b/src/NzbDrone.Core/Indexers/Nyaa/NyaaRequestGenerator.cs
+index 2fdfaec25..96fef91f0 100644
+--- a/src/NzbDrone.Core/Indexers/Nyaa/NyaaRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/Nyaa/NyaaRequestGenerator.cs
+@@ -38,7 +38,7 @@ public virtual IndexerPageableRequestChain GetSearchRequests(AuthorSearchCriteri
+ 
+         private IEnumerable<IndexerRequest> GetPagedRequests(int maxPages, string term)
+         {
+-            var baseUrl = string.Format("{0}/?page=rss{1}", Settings.BaseUrl.TrimEnd('/'), Settings.AdditionalParameters);
++            var baseUrl = $"{Settings.BaseUrl.TrimEnd('/')}/?page=rss{Settings.AdditionalParameters}";
+ 
+             if (term != null)
+             {
+diff --git a/src/NzbDrone.Core/Indexers/Omgwtfnzbs/OmgwtfnzbsRequestGenerator.cs b/src/NzbDrone.Core/Indexers/Omgwtfnzbs/OmgwtfnzbsRequestGenerator.cs
+index 1534dc78d..1584ab36d 100644
+--- a/src/NzbDrone.Core/Indexers/Omgwtfnzbs/OmgwtfnzbsRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/Omgwtfnzbs/OmgwtfnzbsRequestGenerator.cs
+@@ -29,9 +29,7 @@ public virtual IndexerPageableRequestChain GetSearchRequests(BookSearchCriteria
+         {
+             var pageableRequests = new IndexerPageableRequestChain();
+ 
+-            pageableRequests.Add(GetPagedRequests(string.Format("{0}+{1}",
+-                searchCriteria.AuthorQuery,
+-                searchCriteria.BookQuery)));
++            pageableRequests.Add(GetPagedRequests($"{searchCriteria.AuthorQuery}+{searchCriteria.BookQuery}"));
+ 
+             return pageableRequests;
+         }
+@@ -40,8 +38,7 @@ public virtual IndexerPageableRequestChain GetSearchRequests(AuthorSearchCriteri
+         {
+             var pageableRequests = new IndexerPageableRequestChain();
+ 
+-            pageableRequests.Add(GetPagedRequests(string.Format("{0}",
+-                searchCriteria.AuthorQuery)));
++            pageableRequests.Add(GetPagedRequests($"{searchCriteria.AuthorQuery}"));
+ 
+             return pageableRequests;
+         }
+diff --git a/src/NzbDrone.Core/Indexers/Rarbg/RarbgParser.cs b/src/NzbDrone.Core/Indexers/Rarbg/RarbgParser.cs
+index b9a5a306f..1513b0732 100644
+--- a/src/NzbDrone.Core/Indexers/Rarbg/RarbgParser.cs
++++ b/src/NzbDrone.Core/Indexers/Rarbg/RarbgParser.cs
+@@ -69,11 +69,11 @@ private string GetGuid(RarbgTorrent torrent)
+ 
+             if (match.Success)
+             {
+-                return string.Format("rarbg-{0}", match.Groups[1].Value);
++                return $"rarbg-{match.Groups[1].Value}";
+             }
+             else
+             {
+-                return string.Format("rarbg-{0}", torrent.download);
++                return $"rarbg-{torrent.download}";
+             }
+         }
+     }
+diff --git a/src/NzbDrone.Core/Indexers/RssParser.cs b/src/NzbDrone.Core/Indexers/RssParser.cs
+index 096045a7b..7e3866889 100644
+--- a/src/NzbDrone.Core/Indexers/RssParser.cs
++++ b/src/NzbDrone.Core/Indexers/RssParser.cs
+@@ -353,7 +353,7 @@ protected virtual string ParseUrl(string value)
+             }
+             catch (Exception ex)
+             {
+-                _logger.Debug(ex, string.Format("Failed to parse Url {0}, ignoring.", value));
++                _logger.Debug(ex, $"Failed to parse Url {value}, ignoring.");
+                 return null;
+             }
+         }
+diff --git a/src/NzbDrone.Core/Indexers/RssSyncService.cs b/src/NzbDrone.Core/Indexers/RssSyncService.cs
+index 8f4a07a04..95ed7872f 100644
+--- a/src/NzbDrone.Core/Indexers/RssSyncService.cs
++++ b/src/NzbDrone.Core/Indexers/RssSyncService.cs
+@@ -50,7 +50,7 @@ private ProcessedDecisions Sync()
+             var decisions = _downloadDecisionMaker.GetRssDecision(reports);
+             var processed = _processDownloadDecisions.ProcessDecisions(decisions);
+ 
+-            var message = string.Format("RSS Sync Completed. Reports found: {0}, Reports grabbed: {1}", reports.Count, processed.Grabbed.Count);
++            var message = $"RSS Sync Completed. Reports found: {reports.Count}, Reports grabbed: {processed.Grabbed.Count}";
+ 
+             if (processed.Pending.Any())
+             {
+diff --git a/src/NzbDrone.Core/Indexers/SeedConfigProvider.cs b/src/NzbDrone.Core/Indexers/SeedConfigProvider.cs
+index 5344747d7..2e5b1a784 100644
+--- a/src/NzbDrone.Core/Indexers/SeedConfigProvider.cs
++++ b/src/NzbDrone.Core/Indexers/SeedConfigProvider.cs
+@@ -36,7 +36,7 @@ public TorrentSeedConfiguration GetSeedConfiguration(RemoteBook remoteBook)
+                 var indexer = _indexerFactory.Get(remoteBook.Release.IndexerId);
+                 var torrentIndexerSettings = indexer.Settings as ITorrentIndexerSettings;
+ 
+-                if (torrentIndexerSettings != null && torrentIndexerSettings.SeedCriteria != null)
++                if (torrentIndexerSettings?.SeedCriteria != null)
+                 {
+                     var seedConfig = new TorrentSeedConfiguration
+                     {
+diff --git a/src/NzbDrone.Core/Indexers/TorrentRss/TorrentRssSettingsDetector.cs b/src/NzbDrone.Core/Indexers/TorrentRss/TorrentRssSettingsDetector.cs
+index d9bc95c22..98e112647 100644
+--- a/src/NzbDrone.Core/Indexers/TorrentRss/TorrentRssSettingsDetector.cs
++++ b/src/NzbDrone.Core/Indexers/TorrentRss/TorrentRssSettingsDetector.cs
+@@ -51,7 +51,7 @@ public TorrentRssIndexerParserSettings Detect(TorrentRssIndexerSettings indexerS
+                 }
+                 catch (Exception ex)
+                 {
+-                    _logger.Warn(ex, string.Format("Unable to connect to indexer {0}: {1}", request.Url, ex.Message));
++                    _logger.Warn(ex, $"Unable to connect to indexer {request.Url}: {ex.Message}");
+                     return null;
+                 }
+ 
+diff --git a/src/NzbDrone.Core/Indexers/Torrentleech/TorrentleechRequestGenerator.cs b/src/NzbDrone.Core/Indexers/Torrentleech/TorrentleechRequestGenerator.cs
+index 29bef9c34..1c3c13540 100644
+--- a/src/NzbDrone.Core/Indexers/Torrentleech/TorrentleechRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/Torrentleech/TorrentleechRequestGenerator.cs
+@@ -29,7 +29,7 @@ public virtual IndexerPageableRequestChain GetSearchRequests(AuthorSearchCriteri
+ 
+         private IEnumerable<IndexerRequest> GetRssRequests(string searchParameters)
+         {
+-            yield return new IndexerRequest(string.Format("{0}/{1}{2}", Settings.BaseUrl.Trim().TrimEnd('/'), Settings.ApiKey, searchParameters), HttpAccept.Rss);
++            yield return new IndexerRequest($"{Settings.BaseUrl.Trim().TrimEnd('/')}/{Settings.ApiKey}{searchParameters}", HttpAccept.Rss);
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Instrumentation/ReconfigureSentry.cs b/src/NzbDrone.Core/Instrumentation/ReconfigureSentry.cs
+index 56274f6c9..84d062879 100644
+--- a/src/NzbDrone.Core/Instrumentation/ReconfigureSentry.cs
++++ b/src/NzbDrone.Core/Instrumentation/ReconfigureSentry.cs
+@@ -28,10 +28,7 @@ public void Reconfigure()
+         {
+             // Extended sentry config
+             var sentryTarget = LogManager.Configuration.AllTargets.OfType<SentryTarget>().FirstOrDefault();
+-            if (sentryTarget != null)
+-            {
+-                sentryTarget.UpdateScope(_database.Version, _database.Migration, _configFileProvider.Branch, _platformInfo);
+-            }
++            sentryTarget?.UpdateScope(_database.Version, _database.Migration, _configFileProvider.Branch, _platformInfo);
+         }
+ 
+         public void HandleAsync(ApplicationStartedEvent message)
+diff --git a/src/NzbDrone.Core/Jobs/TaskManager.cs b/src/NzbDrone.Core/Jobs/TaskManager.cs
+index 0b55160af..9315061e4 100644
+--- a/src/NzbDrone.Core/Jobs/TaskManager.cs
++++ b/src/NzbDrone.Core/Jobs/TaskManager.cs
+@@ -90,7 +90,7 @@ public void Handle(ApplicationStartedEvent message)
+ 
+             var currentTasks = _scheduledTaskRepository.All().ToList();
+ 
+-            _logger.Trace("Initializing jobs. Available: {0} Existing: {1}", defaultTasks.Count(), currentTasks.Count());
++            _logger.Trace("Initializing jobs. Available: {0} Existing: {1}", defaultTasks.Count(), currentTasks.Count);
+ 
+             foreach (var job in currentTasks)
+             {
+diff --git a/src/NzbDrone.Core/MediaFiles/AudioTag.cs b/src/NzbDrone.Core/MediaFiles/AudioTag.cs
+index 5ffdff17b..5fa1622a0 100644
+--- a/src/NzbDrone.Core/MediaFiles/AudioTag.cs
++++ b/src/NzbDrone.Core/MediaFiles/AudioTag.cs
+@@ -125,9 +125,7 @@ public void Read(string path)
+ 
+                 foreach (ICodec codec in file.Properties.Codecs)
+                 {
+-                    IAudioCodec acodec = codec as IAudioCodec;
+-
+-                    if (acodec != null && (acodec.MediaTypes & MediaTypes.Audio) != MediaTypes.None)
++                    if (codec is IAudioCodec acodec && (acodec.MediaTypes & MediaTypes.Audio) != MediaTypes.None)
+                     {
+                         int bitrate = acodec.AudioBitrate;
+                         if (bitrate == 0)
+@@ -263,8 +261,7 @@ private static ReadOnlyByteVector FixAppleId(ByteVector id)
+         {
+             if (id.Count == 4)
+             {
+-                var roid = id as ReadOnlyByteVector;
+-                if (roid != null)
++                if (id is ReadOnlyByteVector roid)
+                 {
+                     return roid;
+                 }
+diff --git a/src/NzbDrone.Core/MediaFiles/AzwTag/Headers.cs b/src/NzbDrone.Core/MediaFiles/AzwTag/Headers.cs
+index c5ac66801..c0bd18df7 100644
+--- a/src/NzbDrone.Core/MediaFiles/AzwTag/Headers.cs
++++ b/src/NzbDrone.Core/MediaFiles/AzwTag/Headers.cs
+@@ -34,7 +34,7 @@ public ExtMeta(byte[] ext, Encoding encoding)
+                         }
+                         else
+                         {
+-                            Console.WriteLine(string.Format("Meta id duplicate:{0}\nPervious:{1}  \nLatter:{2}", IdMapping.Id_map_strings[id], IdString[id], a));
++                            Console.WriteLine($"Meta id duplicate:{IdMapping.Id_map_strings[id]}\nPervious:{IdString[id]}  \nLatter:{a}");
+                         }
+                     }
+                     else
+@@ -56,7 +56,7 @@ public ExtMeta(byte[] ext, Encoding encoding)
+ 
+                     if (IdValue.ContainsKey(id))
+                     {
+-                        Console.WriteLine(string.Format("Meta id duplicate:{0}\nPervious:{1}  \nLatter:{2}", IdMapping.Id_map_values[id], IdValue[id], a));
++                        Console.WriteLine($"Meta id duplicate:{IdMapping.Id_map_values[id]}\nPervious:{IdValue[id]}  \nLatter:{a}");
+                     }
+                     else
+                     {
+@@ -69,7 +69,7 @@ public ExtMeta(byte[] ext, Encoding encoding)
+ 
+                     if (IdHex.ContainsKey(id))
+                     {
+-                        Console.WriteLine(string.Format("Meta id duplicate:{0}\nPervious:{1}  \nLatter:{2}", IdMapping.Id_map_hex[id], IdHex[id], a));
++                        Console.WriteLine($"Meta id duplicate:{IdMapping.Id_map_hex[id]}\nPervious:{IdHex[id]}  \nLatter:{a}");
+                     }
+                     else
+                     {
+diff --git a/src/NzbDrone.Core/MediaFiles/BookFile.cs b/src/NzbDrone.Core/MediaFiles/BookFile.cs
+index 7fcea767c..bebd1e9c3 100644
+--- a/src/NzbDrone.Core/MediaFiles/BookFile.cs
++++ b/src/NzbDrone.Core/MediaFiles/BookFile.cs
+@@ -28,7 +28,7 @@ public class BookFile : ModelBase
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}] {1}", Id, Path);
++            return $"[{Id}] {Path}";
+         }
+ 
+         public string GetSceneOrFileName()
+diff --git a/src/NzbDrone.Core/MediaFiles/BookFileMovingService.cs b/src/NzbDrone.Core/MediaFiles/BookFileMovingService.cs
+index eaa207aa4..c23318002 100644
+--- a/src/NzbDrone.Core/MediaFiles/BookFileMovingService.cs
++++ b/src/NzbDrone.Core/MediaFiles/BookFileMovingService.cs
+@@ -153,7 +153,7 @@ private void EnsureBookFolder(BookFile bookFile, Author author, Book book, strin
+ 
+             if (!_diskProvider.FolderExists(rootFolder))
+             {
+-                throw new RootFolderNotFoundException(string.Format("Root folder '{0}' was not found.", rootFolder));
++                throw new RootFolderNotFoundException($"Root folder '{rootFolder}' was not found.");
+             }
+ 
+             var changed = false;
+diff --git a/src/NzbDrone.Core/MediaFiles/BookImport/Aggregation/Aggregators/AggregateFilenameInfo.cs b/src/NzbDrone.Core/MediaFiles/BookImport/Aggregation/Aggregators/AggregateFilenameInfo.cs
+index 6e1d1fbb9..847c440b0 100644
+--- a/src/NzbDrone.Core/MediaFiles/BookImport/Aggregation/Aggregators/AggregateFilenameInfo.cs
++++ b/src/NzbDrone.Core/MediaFiles/BookImport/Aggregation/Aggregators/AggregateFilenameInfo.cs
+@@ -170,7 +170,7 @@ private void ApplyMatches(Dictionary<LocalBook, Match> matches, Regex pattern)
+                 }
+ 
+                 var trackNums = track.FileTrackInfo.TrackNumbers;
+-                if (keys.Contains("track") && (trackNums.Count() == 0 || trackNums.First() == 0))
++                if (keys.Contains("track") && (!trackNums.Any() || trackNums.First() == 0))
+                 {
+                     var tracknum = Convert.ToInt32(matches[track].Groups["track"].Value);
+                     if (tracknum > 100)
+diff --git a/src/NzbDrone.Core/MediaFiles/BookImport/Identification/Distance.cs b/src/NzbDrone.Core/MediaFiles/BookImport/Identification/Distance.cs
+index 619ca1812..707a6b2bf 100644
+--- a/src/NzbDrone.Core/MediaFiles/BookImport/Identification/Distance.cs
++++ b/src/NzbDrone.Core/MediaFiles/BookImport/Identification/Distance.cs
+@@ -39,7 +39,7 @@ public Distance()
+         }
+ 
+         public Dictionary<string, List<double>> Penalties => _penalties;
+-        public string Reasons => _penalties.Count(x => x.Value.Max() > 0.0) > 0 ? "[" + string.Join(", ", Penalties.Where(x => x.Value.Max() > 0.0).Select(x => x.Key.Replace('_', ' '))) + "]" : string.Empty;
++        public string Reasons => _penalties.Any(x => x.Value.Max() > 0.0)? "[" + string.Join(", ", Penalties.Where(x => x.Value.Max() > 0.0).Select(x => x.Key.Replace('_', ' '))) + "]" : string.Empty;
+ 
+         private double MaxDistance(Dictionary<string, List<double>> penalties)
+         {
+diff --git a/src/NzbDrone.Core/MediaFiles/BookImport/Identification/TrackGroupingService.cs b/src/NzbDrone.Core/MediaFiles/BookImport/Identification/TrackGroupingService.cs
+index 0c7dc527c..0f18df964 100644
+--- a/src/NzbDrone.Core/MediaFiles/BookImport/Identification/TrackGroupingService.cs
++++ b/src/NzbDrone.Core/MediaFiles/BookImport/Identification/TrackGroupingService.cs
+@@ -122,8 +122,7 @@ public static bool LooksLikeSingleRelease(List<LocalBook> tracks)
+             const double tagFuzz = 0.9;
+ 
+             // check that any Book/Release MBID is unique
+-            if (tracks.Select(x => x.FileTrackInfo.BookMBId).Distinct().Where(x => x.IsNotNullOrWhiteSpace()).Count() > 1 ||
+-                tracks.Select(x => x.FileTrackInfo.ReleaseMBId).Distinct().Where(x => x.IsNotNullOrWhiteSpace()).Count() > 1)
++            if (tracks.Select(x => x.FileTrackInfo.BookMBId).Distinct().Count(x => x.IsNotNullOrWhiteSpace())> 1 || tracks.Select(x => x.FileTrackInfo.ReleaseMBId).Distinct().Count(x => x.IsNotNullOrWhiteSpace())> 1)
+             {
+                 _logger.Trace("LooksLikeSingleRelease: MBIDs are not unique");
+                 return false;
+diff --git a/src/NzbDrone.Core/MediaFiles/DownloadedBooksImportService.cs b/src/NzbDrone.Core/MediaFiles/DownloadedBooksImportService.cs
+index 3b557d36b..ecc4d77e7 100644
+--- a/src/NzbDrone.Core/MediaFiles/DownloadedBooksImportService.cs
++++ b/src/NzbDrone.Core/MediaFiles/DownloadedBooksImportService.cs
+@@ -257,7 +257,7 @@ private List<ImportResult> ProcessFile(IFileInfo fileInfo, ImportMode importMode
+ 
+                 return new List<ImportResult>
+                        {
+-                           UnknownAuthorResult(string.Format("Unknown Author for file: {0}", fileInfo.Name), fileInfo.FullName)
++                           UnknownAuthorResult($"Unknown Author for file: {fileInfo.Name}", fileInfo.FullName)
+                        };
+             }
+ 
+diff --git a/src/NzbDrone.Core/Messaging/Events/EventAggregator.cs b/src/NzbDrone.Core/Messaging/Events/EventAggregator.cs
+index e492381de..e3dc1a4af 100644
+--- a/src/NzbDrone.Core/Messaging/Events/EventAggregator.cs
++++ b/src/NzbDrone.Core/Messaging/Events/EventAggregator.cs
+@@ -134,7 +134,7 @@ private static string GetEventName(Type eventType)
+                 return eventType.Name;
+             }
+ 
+-            return string.Format("{0}<{1}>", eventType.Name.Remove(eventType.Name.IndexOf('`')), eventType.GetGenericArguments()[0].Name);
++            return $"{eventType.Name.Remove(eventType.Name.IndexOf('`'))}<{eventType.GetGenericArguments()[0].Name}>";
+         }
+ 
+         internal static int GetEventHandleOrder<TEvent>(IHandle<TEvent> eventHandler)
+diff --git a/src/NzbDrone.Core/Notifications/Goodreads/GoodreadsNotificationBase.cs b/src/NzbDrone.Core/Notifications/Goodreads/GoodreadsNotificationBase.cs
+index aae715ab4..729246e8b 100644
+--- a/src/NzbDrone.Core/Notifications/Goodreads/GoodreadsNotificationBase.cs
++++ b/src/NzbDrone.Core/Notifications/Goodreads/GoodreadsNotificationBase.cs
+@@ -55,7 +55,7 @@ public override object RequestAction(string action, IDictionary<string, string>
+                 oAuthRequest.RequestUrl = Settings.OAuthRequestTokenUrl;
+                 var qscoll = OAuthQuery(oAuthRequest);
+ 
+-                var url = string.Format("{0}?oauth_token={1}&oauth_callback={2}", Settings.OAuthUrl, qscoll["oauth_token"], query["callbackUrl"]);
++                var url = $"{Settings.OAuthUrl}?oauth_token={qscoll["oauth_token"]}&oauth_callback={query["callbackUrl"]}";
+ 
+                 return new
+                 {
+diff --git a/src/NzbDrone.Core/Notifications/NotificationService.cs b/src/NzbDrone.Core/Notifications/NotificationService.cs
+index b49d55267..8528971fe 100644
+--- a/src/NzbDrone.Core/Notifications/NotificationService.cs
++++ b/src/NzbDrone.Core/Notifications/NotificationService.cs
+@@ -43,24 +43,17 @@ private string GetMessage(Author author, List<Book> books, QualityModel quality)
+ 
+             var bookTitles = string.Join(" + ", books.Select(e => e.Title));
+ 
+-            return string.Format("{0} - {1} - [{2}]",
+-                                    author.Name,
+-                                    bookTitles,
+-                                    qualityString);
++            return $"{author.Name} - {bookTitles} - [{qualityString}]";
+         }
+ 
+         private string GetBookDownloadMessage(Author author, Book book, List<BookFile> tracks)
+         {
+-            return string.Format("{0} - {1} ({2} Tracks Imported)",
+-                author.Name,
+-                book.Title,
+-                tracks.Count);
++            return $"{author.Name} - {book.Title} ({tracks.Count} Tracks Imported)";
+         }
+ 
+         private string GetBookIncompleteImportMessage(string source)
+         {
+-            return string.Format("Readarr failed to Import all tracks for {0}",
+-                source);
++            return $"Readarr failed to Import all tracks for {source}";
+         }
+ 
+         private string FormatMissing(object value)
+@@ -71,9 +64,7 @@ private string FormatMissing(object value)
+ 
+         private string GetTrackRetagMessage(Author author, BookFile bookFile, Dictionary<string, Tuple<string, string>> diff)
+         {
+-            return string.Format("{0}:\n{1}",
+-                                 bookFile.Path,
+-                                 string.Join("\n", diff.Select(x => $"{x.Key}: {FormatMissing(x.Value.Item1)} → {FormatMissing(x.Value.Item2)}")));
++            return $"{bookFile.Path}:\n{string.Join("\n", diff.Select(x => $"{x.Key}: {FormatMissing(x.Value.Item1)} → {FormatMissing(x.Value.Item2)}"))}";
+         }
+ 
+         private bool ShouldHandleAuthor(ProviderDefinition definition, Author author)
+diff --git a/src/NzbDrone.Core/Notifications/Synology/SynologyIndexerProxy.cs b/src/NzbDrone.Core/Notifications/Synology/SynologyIndexerProxy.cs
+index 89d213567..2b6012457 100644
+--- a/src/NzbDrone.Core/Notifications/Synology/SynologyIndexerProxy.cs
++++ b/src/NzbDrone.Core/Notifications/Synology/SynologyIndexerProxy.cs
+@@ -89,7 +89,7 @@ private void ExecuteCommand(string args, bool throwOnStdOut = true)
+ 
+         private string Escape(string arg)
+         {
+-            return string.Format("\"{0}\"", arg.Replace("\"", "\\\""));
++            return $"\"{arg.Replace("\"", "\\\"")}\"";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Notifications/Twitter/TwitterService.cs b/src/NzbDrone.Core/Notifications/Twitter/TwitterService.cs
+index 9b03a0433..0c0e4590f 100644
+--- a/src/NzbDrone.Core/Notifications/Twitter/TwitterService.cs
++++ b/src/NzbDrone.Core/Notifications/Twitter/TwitterService.cs
+@@ -61,7 +61,7 @@ public string GetOAuthRedirect(string consumerKey, string consumerSecret, string
+             oAuthRequest.RequestUrl = "https://api.twitter.com/oauth/request_token";
+             var qscoll = OAuthQuery(oAuthRequest);
+ 
+-            return string.Format("https://api.twitter.com/oauth/authorize?oauth_token={0}", qscoll["oauth_token"]);
++            return $"https://api.twitter.com/oauth/authorize?oauth_token={qscoll["oauth_token"]}";
+         }
+ 
+         public void SendNotification(string message, TwitterSettings settings)
+@@ -86,7 +86,7 @@ public void SendNotification(string message, TwitterSettings settings)
+                 {
+                     if (settings.Mention.IsNotNullOrWhiteSpace())
+                     {
+-                        message += string.Format(" @{0}", settings.Mention);
++                        message += $" @{settings.Mention}";
+                     }
+ 
+                     twitter.UpdateStatus(message);
+diff --git a/src/NzbDrone.Core/Organizer/FileNameBuilder.cs b/src/NzbDrone.Core/Organizer/FileNameBuilder.cs
+index eb12735ce..4d813235d 100644
+--- a/src/NzbDrone.Core/Organizer/FileNameBuilder.cs
++++ b/src/NzbDrone.Core/Organizer/FileNameBuilder.cs
+@@ -269,7 +269,7 @@ private void AddQualityTokens(Dictionary<string, Func<TokenMatch, string>> token
+             var qualityProper = GetQualityProper(bookFile.Quality);
+ 
+             //var qualityReal = GetQualityReal(author, bookFile.Quality);
+-            tokenHandlers["{Quality Full}"] = m => string.Format("{0}", qualityTitle);
++            tokenHandlers["{Quality Full}"] = m => $"{qualityTitle}";
+             tokenHandlers["{Quality Title}"] = m => qualityTitle;
+             tokenHandlers["{Quality Proper}"] = m => qualityProper;
+ 
+diff --git a/src/NzbDrone.Core/Parser/Model/ImportListItemInfo.cs b/src/NzbDrone.Core/Parser/Model/ImportListItemInfo.cs
+index 08b0a7f21..e07229d9a 100644
+--- a/src/NzbDrone.Core/Parser/Model/ImportListItemInfo.cs
++++ b/src/NzbDrone.Core/Parser/Model/ImportListItemInfo.cs
+@@ -15,7 +15,7 @@ public class ImportListItemInfo
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}] {1} [{2}]", ReleaseDate, Author, Book);
++            return $"[{ReleaseDate}] {Author} [{Book}]";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Parser/Model/ParsedBookInfo.cs b/src/NzbDrone.Core/Parser/Model/ParsedBookInfo.cs
+index 3cb3e7b6e..67a1f5937 100644
+--- a/src/NzbDrone.Core/Parser/Model/ParsedBookInfo.cs
++++ b/src/NzbDrone.Core/Parser/Model/ParsedBookInfo.cs
+@@ -22,10 +22,10 @@ public override string ToString()
+ 
+             if (BookTitle != null)
+             {
+-                bookString = string.Format("{0}", BookTitle);
++                bookString = $"{BookTitle}";
+             }
+ 
+-            return string.Format("{0} - {1} {2}", AuthorName, bookString, Quality);
++            return $"{AuthorName} - {bookString} {Quality}";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Parser/Model/ParsedTrackInfo.cs b/src/NzbDrone.Core/Parser/Model/ParsedTrackInfo.cs
+index 6b13cef80..61277af69 100644
+--- a/src/NzbDrone.Core/Parser/Model/ParsedTrackInfo.cs
++++ b/src/NzbDrone.Core/Parser/Model/ParsedTrackInfo.cs
+@@ -49,10 +49,10 @@ public override string ToString()
+ 
+             if (TrackNumbers != null && TrackNumbers.Any())
+             {
+-                trackString = string.Format("{0}", string.Join("-", TrackNumbers.Select(c => c.ToString("00"))));
++                trackString = $"{string.Join("-", TrackNumbers.Select(c => c.ToString("00")))}";
+             }
+ 
+-            return string.Format("{0} - {1} - {2}:{3} {4}: {5}", AuthorTitle, BookTitle, DiscNumber, trackString, Title, Quality);
++            return $"{AuthorTitle} - {BookTitle} - {DiscNumber}:{trackString} {Title}: {Quality}";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Parser/Model/ReleaseInfo.cs b/src/NzbDrone.Core/Parser/Model/ReleaseInfo.cs
+index f2521fe1d..9620015fd 100644
+--- a/src/NzbDrone.Core/Parser/Model/ReleaseInfo.cs
++++ b/src/NzbDrone.Core/Parser/Model/ReleaseInfo.cs
+@@ -47,7 +47,7 @@ public double AgeMinutes
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}] {1} [{2}]", PublishDate, Title, Size);
++            return $"[{PublishDate}] {Title} [{Size}]";
+         }
+ 
+         public virtual string ToString(string format)
+diff --git a/src/NzbDrone.Core/Parser/Parser.cs b/src/NzbDrone.Core/Parser/Parser.cs
+index c1161d4ba..cb88e3b79 100644
+--- a/src/NzbDrone.Core/Parser/Parser.cs
++++ b/src/NzbDrone.Core/Parser/Parser.cs
+@@ -283,7 +283,7 @@ public static ParsedTrackInfo ParseTitle(string title)
+ 
+                     if (airMonth != "00" || airDay != "00")
+                     {
+-                        var fixedDate = string.Format("20{0}.{1}.{2}", airYear, airMonth, airDay);
++                        var fixedDate = $"20{airYear}.{airMonth}.{airDay}";
+ 
+                         simpleTitle = simpleTitle.Replace(sixDigitAirDateMatch.Groups["airdate"].Value, fixedDate);
+                     }
+@@ -516,7 +516,7 @@ public static ParsedBookInfo ParseBookTitle(string title)
+ 
+                     if (airMonth != "00" || airDay != "00")
+                     {
+-                        var fixedDate = string.Format("20{0}.{1}.{2}", airYear, airMonth, airDay);
++                        var fixedDate = $"20{airYear}.{airMonth}.{airDay}";
+ 
+                         simpleTitle = simpleTitle.Replace(sixDigitAirDateMatch.Groups["airdate"].Value, fixedDate);
+                     }
+@@ -884,7 +884,7 @@ private static int ParseNumber(string value)
+                 return number;
+             }
+ 
+-            throw new FormatException(string.Format("{0} isn't a number", value));
++            throw new FormatException($"{value} isn't a number");
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Qualities/QualityModel.cs b/src/NzbDrone.Core/Qualities/QualityModel.cs
+index 93bbe4857..110815ead 100644
+--- a/src/NzbDrone.Core/Qualities/QualityModel.cs
++++ b/src/NzbDrone.Core/Qualities/QualityModel.cs
+@@ -26,7 +26,7 @@ public QualityModel(Quality quality, Revision revision = null)
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0} {1}", Quality, Revision);
++            return $"{Quality} {Revision}";
+         }
+ 
+         public override int GetHashCode()
+diff --git a/src/NzbDrone.Core/Queue/QueueService.cs b/src/NzbDrone.Core/Queue/QueueService.cs
+index adbb245e1..7bf32c475 100644
+--- a/src/NzbDrone.Core/Queue/QueueService.cs
++++ b/src/NzbDrone.Core/Queue/QueueService.cs
+@@ -94,11 +94,11 @@ private Queue MapQueueItem(TrackedDownload trackedDownload, Book book)
+ 
+             if (book != null)
+             {
+-                queue.Id = HashConverter.GetHashInt31(string.Format("trackedDownload-{0}-book{1}", trackedDownload.DownloadItem.DownloadId, book.Id));
++                queue.Id = HashConverter.GetHashInt31($"trackedDownload-{trackedDownload.DownloadItem.DownloadId}-book{book.Id}");
+             }
+             else
+             {
+-                queue.Id = HashConverter.GetHashInt31(string.Format("trackedDownload-{0}", trackedDownload.DownloadItem.DownloadId));
++                queue.Id = HashConverter.GetHashInt31($"trackedDownload-{trackedDownload.DownloadItem.DownloadId}");
+             }
+ 
+             if (queue.Timeleft.HasValue)
+diff --git a/src/NzbDrone.Core/RootFolders/RootFolderService.cs b/src/NzbDrone.Core/RootFolders/RootFolderService.cs
+index cb85af184..c6ebf8e76 100644
+--- a/src/NzbDrone.Core/RootFolders/RootFolderService.cs
++++ b/src/NzbDrone.Core/RootFolders/RootFolderService.cs
+@@ -89,7 +89,7 @@ private void VerifyRootFolder(RootFolder rootFolder)
+ 
+             if (!_diskProvider.FolderWritable(rootFolder.Path))
+             {
+-                throw new UnauthorizedAccessException(string.Format("Root folder path '{0}' is not writable by user '{1}'", rootFolder.Path, Environment.UserName));
++                throw new UnauthorizedAccessException($"Root folder path '{rootFolder.Path}' is not writable by user '{Environment.UserName}'");
+             }
+         }
+ 
+diff --git a/src/NzbDrone.Core/TinyTwitter.cs b/src/NzbDrone.Core/TinyTwitter.cs
+index a1a1da69c..da18f9c7e 100644
+--- a/src/NzbDrone.Core/TinyTwitter.cs
++++ b/src/NzbDrone.Core/TinyTwitter.cs
+@@ -141,12 +141,12 @@ private string GetRequestUrl()
+                     return _url;
+                 }
+ 
+-                return string.Format("{0}?{1}", _url, GetCustomParametersString());
++                return $"{_url}?{GetCustomParametersString()}";
+             }
+ 
+             private string GetCustomParametersString()
+             {
+-                return _customParameters.Select(x => string.Format("{0}={1}", x.Key, x.Value)).Join("&");
++                return _customParameters.Select(x => $"{x.Key}={x.Value}").Join("&");
+             }
+ 
+             private string GenerateAuthorizationHeaderValue(IEnumerable<KeyValuePair<string, string>> parameters, string signature)
+@@ -154,7 +154,7 @@ private string GenerateAuthorizationHeaderValue(IEnumerable<KeyValuePair<string,
+                 return new StringBuilder("OAuth ")
+                     .Append(parameters.Concat(new KeyValuePair<string, string>("oauth_signature", signature))
+                                 .Where(x => x.Key.StartsWith("oauth_"))
+-                                .Select(x => string.Format("{0}=\"{1}\"", x.Key, x.Value.EncodeRFC3986()))
++                                .Select(x => $"{x.Key}=\"{x.Value.EncodeRFC3986()}\"")
+                                 .Join(","))
+                     .ToString();
+             }
+@@ -166,11 +166,11 @@ private string GenerateSignature(IEnumerable<KeyValuePair<string, string>> param
+                     .Append(_url.EncodeRFC3986()).Append("&")
+                     .Append(parameters
+                                 .OrderBy(x => x.Key)
+-                                .Select(x => string.Format("{0}={1}", x.Key, x.Value))
++                                .Select(x => $"{x.Key}={x.Value}")
+                                 .Join("&")
+                                 .EncodeRFC3986());
+ 
+-                var signatureKey = string.Format("{0}&{1}", _oauth.ConsumerSecret.EncodeRFC3986(), _oauth.AccessSecret.EncodeRFC3986());
++                var signatureKey = $"{_oauth.ConsumerSecret.EncodeRFC3986()}&{_oauth.AccessSecret.EncodeRFC3986()}";
+                 var sha1 = new HMACSHA1(Encoding.ASCII.GetBytes(signatureKey));
+ 
+                 var signatureBytes = sha1.ComputeHash(Encoding.ASCII.GetBytes(dataToSign.ToString()));
+diff --git a/src/NzbDrone.Core/Validation/NzbDroneValidationExtensions.cs b/src/NzbDrone.Core/Validation/NzbDroneValidationExtensions.cs
+index 648e0316c..09d8bcc35 100644
+--- a/src/NzbDrone.Core/Validation/NzbDroneValidationExtensions.cs
++++ b/src/NzbDrone.Core/Validation/NzbDroneValidationExtensions.cs
+@@ -26,8 +26,7 @@ public static bool HasErrors(this List<ValidationFailure> list)
+         {
+             foreach (var item in list)
+             {
+-                var extended = item as NzbDroneValidationFailure;
+-                if (extended != null && extended.IsWarning)
++                if (item is NzbDroneValidationFailure extended && extended.IsWarning)
+                 {
+                     continue;
+                 }
+diff --git a/src/NzbDrone.Host/BrowserService.cs b/src/NzbDrone.Host/BrowserService.cs
+index 3766699d2..b13c32370 100644
+--- a/src/NzbDrone.Host/BrowserService.cs
++++ b/src/NzbDrone.Host/BrowserService.cs
+@@ -28,7 +28,7 @@ public BrowserService(IProcessProvider processProvider, IConfigFileProvider conf
+ 
+         public void LaunchWebUI()
+         {
+-            var url = string.Format("http://localhost:{0}", _configFileProvider.Port);
++            var url = $"http://localhost:{_configFileProvider.Port}";
+             try
+             {
+                 if (_runtimeInfo.IsUserInteractive)
+diff --git a/src/NzbDrone.Mono/Disk/ProcMount.cs b/src/NzbDrone.Mono/Disk/ProcMount.cs
+index ec6fb9484..9632cd676 100644
+--- a/src/NzbDrone.Mono/Disk/ProcMount.cs
++++ b/src/NzbDrone.Mono/Disk/ProcMount.cs
+@@ -49,7 +49,7 @@ public string VolumeName
+                     return Name;
+                 }
+ 
+-                return string.Format("{0} ({1})", Name, VolumeLabel);
++                return $"{Name} ({VolumeLabel})";
+             }
+         }
+     }
+diff --git a/src/NzbDrone.Test.Common/AutoMoq/AutoMoqer.cs b/src/NzbDrone.Test.Common/AutoMoq/AutoMoqer.cs
+index a670c1821..4c1210ea2 100644
+--- a/src/NzbDrone.Test.Common/AutoMoq/AutoMoqer.cs
++++ b/src/NzbDrone.Test.Common/AutoMoq/AutoMoqer.cs
+@@ -147,10 +147,7 @@ public void VerifyAllMocks()
+             foreach (var registeredMock in _registeredMocks)
+             {
+                 var mock = registeredMock.Value as Mock;
+-                if (mock != null)
+-                {
+-                    mock.VerifyAll();
+-                }
++                mock?.VerifyAll();
+             }
+         }
+ 
+diff --git a/src/NzbDrone.Test.Common/ExceptionVerification.cs b/src/NzbDrone.Test.Common/ExceptionVerification.cs
+index bcf417434..f51d80081 100644
+--- a/src/NzbDrone.Test.Common/ExceptionVerification.cs
++++ b/src/NzbDrone.Test.Common/ExceptionVerification.cs
+@@ -50,10 +50,10 @@ private static string GetLogsString(IEnumerable<LogEventInfo> logs)
+                 string exception = "";
+                 if (log.Exception != null)
+                 {
+-                    exception = string.Format("[{0}: {1}]", log.Exception.GetType(), log.Exception.Message);
++                    exception = $"[{log.Exception.GetType()}: {log.Exception.Message}]";
+                 }
+ 
+-                errors += Environment.NewLine + string.Format("[{0}] {1}: {2} {3}", log.Level, log.LoggerName, log.FormattedMessage, exception);
++                errors += Environment.NewLine + $"[{log.Level}] {log.LoggerName}: {log.FormattedMessage} {exception}";
+             }
+ 
+             return errors;
+@@ -145,11 +145,7 @@ private static void Expected(LogLevel level, int count)
+ 
+                 if (levelLogs.Count != count)
+                 {
+-                    var message = string.Format("{0} {1}(s) were expected but {2} were logged.\n\r{3}",
+-                        count,
+-                        level,
+-                        levelLogs.Count,
+-                        GetLogsString(levelLogs));
++                    var message = $"{count} {level}(s) were expected but {levelLogs.Count} were logged.\n\r{GetLogsString(levelLogs)}";
+ 
+                     message = "\n\r****************************************************************************************\n\r"
+                         + message +
+diff --git a/src/NzbDrone.Test.Common/NzbDroneRunner.cs b/src/NzbDrone.Test.Common/NzbDroneRunner.cs
+index 6a69a2190..f7af37680 100644
+--- a/src/NzbDrone.Test.Common/NzbDroneRunner.cs
++++ b/src/NzbDrone.Test.Common/NzbDroneRunner.cs
+@@ -152,10 +152,7 @@ private void OnOutputDataReceived(string data)
+         {
+             TestContext.Progress.WriteLine($" [{Port}] > " + data);
+ 
+-            if (_startupLog != null)
+-            {
+-                _startupLog.Add(data);
+-            }
++            _startupLog?.Add(data);
+ 
+             if (data.Contains("Press enter to exit"))
+             {
+diff --git a/src/NzbDrone.Windows/Disk/DiskProvider.cs b/src/NzbDrone.Windows/Disk/DiskProvider.cs
+index f480eaf36..788c831c3 100644
+--- a/src/NzbDrone.Windows/Disk/DiskProvider.cs
++++ b/src/NzbDrone.Windows/Disk/DiskProvider.cs
+@@ -178,7 +178,7 @@ public override bool TryCreateHardLink(string source, string destination)
+             }
+             catch (Exception ex)
+             {
+-                Logger.Debug(ex, string.Format("Hardlink '{0}' to '{1}' failed.", source, destination));
++                Logger.Debug(ex, $"Hardlink '{source}' to '{destination}' failed.");
+                 return false;
+             }
+         }
+diff --git a/src/NzbDrone/SysTray/SysTrayApp.cs b/src/NzbDrone/SysTray/SysTrayApp.cs
+index de99410a8..d1bf2c437 100644
+--- a/src/NzbDrone/SysTray/SysTrayApp.cs
++++ b/src/NzbDrone/SysTray/SysTrayApp.cs
+@@ -38,7 +38,7 @@ public void Start()
+             _trayMenu.Items.Add(new ToolStripMenuItem("-"));
+             _trayMenu.Items.Add(new ToolStripMenuItem("Exit", null, OnExit));
+ 
+-            _trayIcon.Text = string.Format("Readarr - {0}", BuildInfo.Version);
++            _trayIcon.Text = $"Readarr - {BuildInfo.Version}";
+             _trayIcon.Icon = Properties.Resources.NzbDroneIcon;
+ 
+             _trayIcon.ContextMenuStrip = _trayMenu;
+diff --git a/src/Readarr.Api.V1/Logs/LogFileModuleBase.cs b/src/Readarr.Api.V1/Logs/LogFileModuleBase.cs
+index 02dd98ccf..7a51d14d8 100644
+--- a/src/Readarr.Api.V1/Logs/LogFileModuleBase.cs
++++ b/src/Readarr.Api.V1/Logs/LogFileModuleBase.cs
+@@ -45,8 +45,8 @@ private List<LogFileResource> GetLogFilesResponse()
+                     Id = i + 1,
+                     Filename = filename,
+                     LastWriteTime = _diskProvider.FileGetLastWrite(file),
+-                    ContentsUrl = string.Format("{0}/api/v1/{1}/{2}", _configFileProvider.UrlBase, Resource, filename),
+-                    DownloadUrl = string.Format("{0}/{1}/{2}", _configFileProvider.UrlBase, DownloadUrlRoot, filename)
++                    ContentsUrl = $"{_configFileProvider.UrlBase}/api/v1/{Resource}/{filename}",
++                    DownloadUrl = $"{_configFileProvider.UrlBase}/{DownloadUrlRoot}/{filename}"
+                 });
+             }
+ 
+diff --git a/src/Readarr.Api.V1/ProviderModuleBase.cs b/src/Readarr.Api.V1/ProviderModuleBase.cs
+index 592a5b6d5..560f9fda3 100644
+--- a/src/Readarr.Api.V1/ProviderModuleBase.cs
++++ b/src/Readarr.Api.V1/ProviderModuleBase.cs
+@@ -114,7 +114,7 @@ private object GetTemplates()
+         {
+             var defaultDefinitions = _providerFactory.GetDefaultDefinitions().OrderBy(p => p.ImplementationName).ToList();
+ 
+-            var result = new List<TProviderResource>(defaultDefinitions.Count());
++            var result = new List<TProviderResource>(defaultDefinitions.Count);
+ 
+             foreach (var providerDefinition in defaultDefinitions)
+             {
+diff --git a/src/Readarr.Api.V1/ProviderResource.cs b/src/Readarr.Api.V1/ProviderResource.cs
+index c504e65cb..95a749696 100644
+--- a/src/Readarr.Api.V1/ProviderResource.cs
++++ b/src/Readarr.Api.V1/ProviderResource.cs
+@@ -38,8 +38,7 @@ public virtual TProviderResource ToResource(TProviderDefinition definition)
+                 Tags = definition.Tags,
+                 Fields = SchemaBuilder.ToSchema(definition.Settings),
+ 
+-                InfoLink = string.Format("https://wiki.servarr.com/Readarr_Supported_{0}",
+-                    definition.Implementation.ToLower())
++                InfoLink = $"https://wiki.servarr.com/Readarr_Supported_{definition.Implementation.ToLower()}"
+             };
+         }
+ 
+diff --git a/src/Readarr.Api.V1/Search/SearchModule.cs b/src/Readarr.Api.V1/Search/SearchModule.cs
+index 603875d15..ce2f02d84 100644
+--- a/src/Readarr.Api.V1/Search/SearchModule.cs
++++ b/src/Readarr.Api.V1/Search/SearchModule.cs
+@@ -35,9 +35,8 @@ private static IEnumerable<SearchResource> MapToResource(IEnumerable<object> res
+                 var resource = new SearchResource();
+                 resource.Id = id++;
+ 
+-                if (result is NzbDrone.Core.Books.Author)
++                if (result is NzbDrone.Core.Books.Author author)
+                 {
+-                    var author = (NzbDrone.Core.Books.Author)result;
+                     resource.Author = author.ToResource();
+                     resource.ForeignId = author.ForeignAuthorId;
+ 
+@@ -47,9 +46,8 @@ private static IEnumerable<SearchResource> MapToResource(IEnumerable<object> res
+                         resource.Author.RemotePoster = poster.Url;
+                     }
+                 }
+-                else if (result is NzbDrone.Core.Books.Book)
++                else if (result is NzbDrone.Core.Books.Book book)
+                 {
+-                    var book = (NzbDrone.Core.Books.Book)result;
+                     resource.Book = book.ToResource();
+                     resource.ForeignId = book.ForeignBookId;
+ 
+diff --git a/src/Readarr.Http/Frontend/Mappers/HtmlMapperBase.cs b/src/Readarr.Http/Frontend/Mappers/HtmlMapperBase.cs
+index 06c0f60af..8b30de2ed 100644
+--- a/src/Readarr.Http/Frontend/Mappers/HtmlMapperBase.cs
++++ b/src/Readarr.Http/Frontend/Mappers/HtmlMapperBase.cs
+@@ -71,7 +71,7 @@ protected string GetHtmlText()
+                     url = cacheBreakProvider.AddCacheBreakerToPath(match.Groups["path"].Value);
+                 }
+ 
+-                return string.Format("{0}=\"{1}{2}\"", match.Groups["attribute"].Value, UrlBase, url);
++                return $"{match.Groups["attribute"].Value}=\"{UrlBase}{url}\"";
+             });
+ 
+             _generatedContent = text;
+diff --git a/src/Readarr.Http/Mapping/MappingValidation.cs b/src/Readarr.Http/Mapping/MappingValidation.cs
+index 4e101571c..b81a47f0c 100644
+--- a/src/Readarr.Http/Mapping/MappingValidation.cs
++++ b/src/Readarr.Http/Mapping/MappingValidation.cs
+@@ -45,7 +45,7 @@ private static string GetError(Type resourceType, PropertyInfo modelProperty)
+ 
+             if (resourceProperty.PropertyType != modelProperty.PropertyType && !typeof(RestResource).IsAssignableFrom(resourceProperty.PropertyType))
+             {
+-                return string.Format("Expected {0}.{1} to have type of {2} but found {3}", resourceType.Name, resourceProperty.Name, modelProperty.PropertyType, resourceProperty.PropertyType);
++                return $"Expected {resourceType.Name}.{resourceProperty.Name} to have type of {modelProperty.PropertyType} but found {resourceProperty.PropertyType}";
+             }
+ 
+             return null;
+diff --git a/src/Readarr.Http/Validation/EmptyCollectionValidator.cs b/src/Readarr.Http/Validation/EmptyCollectionValidator.cs
+index a1424be5d..f49291931 100644
+--- a/src/Readarr.Http/Validation/EmptyCollectionValidator.cs
++++ b/src/Readarr.Http/Validation/EmptyCollectionValidator.cs
+@@ -18,9 +18,7 @@ protected override bool IsValid(PropertyValidatorContext context)
+                 return true;
+             }
+ 
+-            var collection = context.PropertyValue as IEnumerable<T>;
+-
+-            return collection != null && collection.Empty();
++            return context.PropertyValue is IEnumerable<T> collection && collection.Empty();
+         }
+     }
+ }

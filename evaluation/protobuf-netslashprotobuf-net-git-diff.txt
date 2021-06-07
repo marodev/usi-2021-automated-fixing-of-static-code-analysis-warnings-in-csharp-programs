@@ -1,0 +1,158 @@
+diff --git a/src/Examples/Issues/Issue297.cs b/src/Examples/Issues/Issue297.cs
+index bf4188dd..6489f8ac 100644
+--- a/src/Examples/Issues/Issue297.cs
++++ b/src/Examples/Issues/Issue297.cs
+@@ -200,7 +200,7 @@ namespace Examples.Issues
+             private bool Add(Node<T> theNewChild)
+             {
+                 if (Contains(theNewChild))
+-                    throw new ArgumentException(string.Format("Duplicate key: '{0}'", theNewChild.key));
++                    throw new ArgumentException($"Duplicate key: '{theNewChild.key}'");
+ 
+                 if (!IsParentOf(theNewChild))
+                     return false;
+diff --git a/src/Examples/Issues/SO18650486.cs b/src/Examples/Issues/SO18650486.cs
+index 2ad6ee6c..7e6bc3ec 100644
+--- a/src/Examples/Issues/SO18650486.cs
++++ b/src/Examples/Issues/SO18650486.cs
+@@ -73,11 +73,11 @@ namespace Examples.Issues
+                     currentAverage = average / complete;
+                     if (min != oldMin || (complete % 500) == 0)
+                     {
+-                        Trace.WriteLine(string.Format("{5}\tCycle {0}: {1:N2} ms - avg: {2:N2} ms - min: {3:N2} - max: {4:N2}", i, elapsed, currentAverage, min, max, caption));
++                        Trace.WriteLine($"{i}\tCycle {elapsed}: {currentAverage:N2} ms - avg: {min:N2} ms - min: {max:N2} - max: {caption:N2}");
+                     }
+                 }
+             });
+-            Trace.WriteLine(string.Format("{4}\tComplete {0}: avg: {1:N2} ms - min: {2:N2} - max: {3:N2}", complete, average / complete, min, max, caption));
++            Trace.WriteLine($"{complete}\tComplete {average / complete}: avg: {min:N2} ms - min: {max:N2} - max: {caption:N2}");
+         }
+         public enum EnumOne
+         {
+diff --git a/src/Examples/Issues/SO7120856.cs b/src/Examples/Issues/SO7120856.cs
+index 0d650a23..000a0cba 100644
+--- a/src/Examples/Issues/SO7120856.cs
++++ b/src/Examples/Issues/SO7120856.cs
+@@ -116,7 +116,7 @@ namespace Examples.Issues
+ #endif
+             public override string ToString()
+             {
+-                return string.Format("[{0}, {1}]", X, Z);
++                return $"[{X}, {Z}]";
+             }
+         }
+ 
+@@ -199,7 +199,7 @@ namespace Examples.Issues
+ #endif
+             public override string ToString()
+             {
+-                return string.Format("[{0}, {1}]", X, Z);
++                return $"[{X}, {Z}]";
+             }
+         }
+ 
+diff --git a/src/Examples/StupidlyComplexModel.cs b/src/Examples/StupidlyComplexModel.cs
+index f0a14192..0e37c2b4 100644
+--- a/src/Examples/StupidlyComplexModel.cs
++++ b/src/Examples/StupidlyComplexModel.cs
+@@ -66,8 +66,7 @@ namespace Examples
+                 model.Compile();
+             }
+             watch.Stop();
+-            Log.WriteLine(string.Format("{0}: {1}ms/Compile, {2} types, {3}ms total, {4} iteratons",
+-                typeof(T).Name, watch.ElapsedMilliseconds / count, typeCount, watch.ElapsedMilliseconds, count));
++            Log.WriteLine($"{typeof(T).Name}: {watch.ElapsedMilliseconds / count}ms/Compile, {typeCount} types, {watch.ElapsedMilliseconds}ms total, {count} iteratons");
+         }
+ 
+ #if LONG_RUNNING
+diff --git a/src/Examples/ValueWrapper.cs b/src/Examples/ValueWrapper.cs
+index b65056c8..59b41ce4 100644
+--- a/src/Examples/ValueWrapper.cs
++++ b/src/Examples/ValueWrapper.cs
+@@ -17,7 +17,7 @@ namespace Examples
+         public object Value { get; set; }
+ 
+         private bool Is<T>() {
+-            return Value != null && Value is T;
++            return Value is T;
+         }
+         private T Get<T>() {
+             return Is<T>() ? (T) Value : default(T);
+@@ -61,7 +61,7 @@ namespace Examples
+ 
+         private T? Get<T>() where T : struct
+         {
+-            return (Value != null && Value is T) ? (T?)Value : (T?)null;
++            return (Value is T) ? (T?)Value : (T?)null;
+         }
+         [ProtoMember(1)]
+         private int? ValueInt32
+diff --git a/src/NativeGoogleTests/MakeMeOneWithEverything.cs b/src/NativeGoogleTests/MakeMeOneWithEverything.cs
+index 4bc386ed..51bae961 100644
+--- a/src/NativeGoogleTests/MakeMeOneWithEverything.cs
++++ b/src/NativeGoogleTests/MakeMeOneWithEverything.cs
+@@ -232,10 +232,7 @@ namespace ProtoBuf.Test
+                 output.WriteRawTag(40);
+                 output.WriteEnum((int)IsoDayOfWeek);
+             }
+-            if (_unknownFields != null)
+-            {
+-                _unknownFields.WriteTo(output);
+-            }
++            _unknownFields?.WriteTo(output);
+         }
+ 
+         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+diff --git a/src/NativeGoogleTests/Nodatime.cs b/src/NativeGoogleTests/Nodatime.cs
+index 4078f249..4888f4db 100644
+--- a/src/NativeGoogleTests/Nodatime.cs
++++ b/src/NativeGoogleTests/Nodatime.cs
+@@ -186,9 +186,7 @@ public sealed partial class HazNodaTimeDuration : pb::IMessage<HazNodaTimeDurati
+       output.WriteRawTag(26);
+       output.WriteString(Name);
+     }
+-    if (_unknownFields != null) {
+-      _unknownFields.WriteTo(ref output);
+-    }
++    _unknownFields?.WriteTo(ref output);
+   }
+   #endif
+ 
+@@ -439,9 +437,7 @@ public sealed partial class HazNodaTimeInstant : pb::IMessage<HazNodaTimeInstant
+       output.WriteRawTag(26);
+       output.WriteString(Name);
+     }
+-    if (_unknownFields != null) {
+-      _unknownFields.WriteTo(ref output);
+-    }
++    _unknownFields?.WriteTo(ref output);
+   }
+   #endif
+ 
+diff --git a/src/protobuf-net.Core/ProtoReader.State.ReadMethods.cs b/src/protobuf-net.Core/ProtoReader.State.ReadMethods.cs
+index e6b21475..732eb06d 100644
+--- a/src/protobuf-net.Core/ProtoReader.State.ReadMethods.cs
++++ b/src/protobuf-net.Core/ProtoReader.State.ReadMethods.cs
+@@ -793,8 +793,7 @@ namespace ProtoBuf
+             {
+                 if (exception is object && source is object && !exception.Data.Contains("protoSource"))
+                 {
+-                    exception.Data.Add("protoSource", string.Format("tag={0}; wire-type={1}; offset={2}; depth={3}",
+-                        source.FieldNumber, source.WireType, state.GetPosition(), source._depth));
++                    exception.Data.Add("protoSource", $"tag={source.FieldNumber}; wire-type={source.WireType}; offset={state.GetPosition()}; depth={source._depth}");
+                 }
+                 return exception;
+             }
+diff --git a/src/protobuf-net.Reflection/CSharpCodeGenerator.cs b/src/protobuf-net.Reflection/CSharpCodeGenerator.cs
+index cdc5a60d..d76839c1 100644
+--- a/src/protobuf-net.Reflection/CSharpCodeGenerator.cs
++++ b/src/protobuf-net.Reflection/CSharpCodeGenerator.cs
+@@ -801,7 +801,7 @@ namespace ProtoBuf.Reflection
+         protected string MakeRelativeName(GeneratorContext ctx, string typeName)
+         {
+             var target = ctx.TryFind<DescriptorProto>(typeName);
+-            if (target != null && target.Parent is IType type)
++            if (target?.Parent is IType type)
+             {
+                 var name = FindNameFromCommonAncestor(type, target, ctx.NameNormalizer);
+                 if (!string.IsNullOrWhiteSpace(name))

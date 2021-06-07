@@ -1,0 +1,265 @@
+diff --git a/Resources/SteamLanguageParser/Generator/CSharpGen.cs b/Resources/SteamLanguageParser/Generator/CSharpGen.cs
+index f4623bc6..9f6cb0d0 100644
+--- a/Resources/SteamLanguageParser/Generator/CSharpGen.cs
++++ b/Resources/SteamLanguageParser/Generator/CSharpGen.cs
+@@ -35,7 +35,7 @@ namespace SteamLanguageParser
+                 sb.AppendLine("using System.IO;");
+                 sb.AppendLine( "using System.Runtime.InteropServices;" );
+                 sb.AppendLine();
+-                sb.AppendLine( string.Format( "namespace {0}", nspace ) );
++                sb.AppendLine( $"namespace {nspace}" );
+                 sb.AppendLine("{");
+             }
+         }
+@@ -230,13 +230,12 @@ namespace SteamLanguageParser
+ 
+             if (cnode.Ident != null)
+             {
+-                var cnodeIdentAsStrongSymbol = cnode.Ident as StrongSymbol;
+                 var supressObsoletionWarning = false;
+ 
+-                if (cnodeIdentAsStrongSymbol != null)
++                if (cnode.Ident is StrongSymbol cnodeIdentAsStrongSymbol)
+                 {
+                     var propNode = cnodeIdentAsStrongSymbol.Prop as PropNode;
+-                    if (propNode != null && propNode.Obsolete != null)
++                    if (propNode?.Obsolete != null)
+                     {
+                         supressObsoletionWarning = true;
+                     }
+@@ -315,17 +314,17 @@ namespace SteamLanguageParser
+ 
+                 if (prop.Flags != null && prop.Flags == "steamidmarshal" && typestr == "ulong")
+                 {
+-                    sb.AppendLine( padding + string.Format( "private {0} {1};", typestr, prop.Name ) );
++                    sb.AppendLine( padding + $"private {typestr} {prop.Name};" );
+                     sb.AppendLine( padding + "public SteamID " + propName + " { get { return new SteamID( " + prop.Name + " ); } set { " + prop.Name + " = value.ConvertToUInt64(); } }");
+                 }
+                 else if ( prop.Flags != null && prop.Flags == "boolmarshal" && typestr == "byte" )
+                 {
+-                    sb.AppendLine( padding + string.Format( "private {0} {1};", typestr, prop.Name ) );
++                    sb.AppendLine( padding + $"private {typestr} {prop.Name};" );
+                     sb.AppendLine( padding + "public bool " + propName + " { get { return ( " + prop.Name + " == 1 ); } set { " + prop.Name + " = ( byte )( value ? 1 : 0 ); } }" );
+                 }
+                 else if ( prop.Flags != null && prop.Flags == "gameidmarshal" && typestr == "ulong" )
+                 {
+-                    sb.AppendLine( padding + string.Format( "private {0} {1};", typestr, prop.Name ) );
++                    sb.AppendLine( padding + $"private {typestr} {prop.Name};" );
+                     sb.AppendLine( padding + "public GameID " + propName + " { get { return new GameID( " + prop.Name + " ); } set { " + prop.Name + " = value.ToUInt64(); } }" );
+                 }
+                 else
+diff --git a/Resources/SteamLanguageParser/Generator/ObjCImplementationGen.cs b/Resources/SteamLanguageParser/Generator/ObjCImplementationGen.cs
+index ad78a2c9..f5c8d247 100644
+--- a/Resources/SteamLanguageParser/Generator/ObjCImplementationGen.cs
++++ b/Resources/SteamLanguageParser/Generator/ObjCImplementationGen.cs
+@@ -144,17 +144,17 @@ namespace SteamLanguageParser
+ 
+                 if (prop.Flags != null && prop.Flags == "steamidmarshal" && typestr == "ulong")
+                 {
+-                    sb.AppendLine(padding + string.Format("private {0} {1};", typestr, prop.Name));
++                    sb.AppendLine(padding + $"private {typestr} {prop.Name};");
+                     sb.AppendLine(padding + "public SteamID " + propName + " { get { return new SteamID( " + prop.Name + " ); } set { " + prop.Name + " = value.ConvertToUint64(); } }");
+                 }
+                 else if (prop.Flags != null && prop.Flags == "boolmarshal" && typestr == "byte")
+                 {
+-                    sb.AppendLine(padding + string.Format("private {0} {1};", typestr, prop.Name));
++                    sb.AppendLine(padding + $"private {typestr} {prop.Name};");
+                     sb.AppendLine(padding + "public bool " + propName + " { get { return ( " + prop.Name + " == 1 ); } set { " + prop.Name + " = ( byte )( value ? 1 : 0 ); } }");
+                 }
+                 else if (prop.Flags != null && prop.Flags == "gameidmarshal" && typestr == "ulong")
+                 {
+-                    sb.AppendLine(padding + string.Format("private {0} {1};", typestr, prop.Name));
++                    sb.AppendLine(padding + $"private {typestr} {prop.Name};");
+                     sb.AppendLine(padding + "public GameID " + propName + " { get { return new GameID( " + prop.Name + " ); } set { " + prop.Name + " = value.ToUint64(); } }");
+                 }
+                 else
+diff --git a/SteamKit2/SteamKit2/Networking/Steam3/UdpConnection.cs b/SteamKit2/SteamKit2/Networking/Steam3/UdpConnection.cs
+index 7f85b445..e84b25f0 100644
+--- a/SteamKit2/SteamKit2/Networking/Steam3/UdpConnection.cs
++++ b/SteamKit2/SteamKit2/Networking/Steam3/UdpConnection.cs
+@@ -471,10 +471,7 @@ namespace SteamKit2
+                 }
+             }
+ 
+-            if ( sock != null )
+-            {
+-                sock.Dispose();
+-            }
++            sock?.Dispose();
+ 
+             log.LogDebug("UdpConnection", "Calling OnDisconnected");
+             Disconnected?.Invoke( this, new DisconnectedEventArgs( userRequestedDisconnect ) );
+diff --git a/SteamKit2/SteamKit2/Steam/CDNClient.cs b/SteamKit2/SteamKit2/Steam/CDNClient.cs
+index 344bd3ba..f3269f29 100644
+--- a/SteamKit2/SteamKit2/Steam/CDNClient.cs
++++ b/SteamKit2/SteamKit2/Steam/CDNClient.cs
+@@ -146,7 +146,7 @@ namespace SteamKit2
+             /// </returns>
+             public override string ToString()
+             {
+-                return string.Format( "{0}:{1} ({2})", Host, Port, Type );
++                return $"{Host}:{Port} ({Type})";
+             }
+         }
+ 
+@@ -355,7 +355,7 @@ namespace SteamKit2
+                 throw new ArgumentNullException( nameof( server ) );
+             }
+ 
+-            var manifestData = await DoRawCommandAsync( server, string.Format( "depot/{0}/manifest/{1}/5", depotId, manifestId ), cdnAuthToken, proxyServer ).ConfigureAwait( false );
++            var manifestData = await DoRawCommandAsync( server, $"depot/{depotId}/manifest/{manifestId}/5", cdnAuthToken, proxyServer ).ConfigureAwait( false );
+ 
+             manifestData = ZipUtil.Decompress( manifestData );
+ 
+@@ -481,7 +481,7 @@ namespace SteamKit2
+ 
+             var chunkID = Utils.EncodeHexString( chunk.ChunkID );
+ 
+-            var chunkData = await DoRawCommandAsync( server, string.Format( "depot/{0}/chunk/{1}", depotId, chunkID ), cdnAuthToken, proxyServer ).ConfigureAwait( false );
++            var chunkData = await DoRawCommandAsync( server, $"depot/{depotId}/chunk/{chunkID}", cdnAuthToken, proxyServer ).ConfigureAwait( false );
+ 
+             // assert that lengths match only if the chunk has a length assigned.
+             if ( chunk.CompressedLength != default( uint ) && chunkData.Length != chunk.CompressedLength )
+diff --git a/SteamKit2/SteamKit2/Steam/Handlers/SteamApps/Callbacks.cs b/SteamKit2/SteamKit2/Steam/Handlers/SteamApps/Callbacks.cs
+index 7d8c868e..1e8c8a9b 100644
+--- a/SteamKit2/SteamKit2/Steam/Handlers/SteamApps/Callbacks.cs
++++ b/SteamKit2/SteamKit2/Steam/Handlers/SteamApps/Callbacks.cs
+@@ -507,7 +507,7 @@ namespace SteamKit2
+                         var shaString = BitConverter.ToString(this.SHAHash)
+                             .Replace("-", string.Empty)
+                             .ToLower();
+-                        var uriString = string.Format("http://{0}/appinfo/{1}/sha/{2}.txt.gz", parentResponse.http_host, this.ID, shaString);
++                        var uriString = $"http://{parentResponse.http_host}/appinfo/{this.ID}/sha/{shaString}.txt.gz";
+                         this.HttpUri = new Uri(uriString);
+                     }
+ 
+diff --git a/SteamKit2/SteamKit2/Steam/Handlers/SteamUnifiedMessages/SteamUnifiedMessages.cs b/SteamKit2/SteamKit2/Steam/Handlers/SteamUnifiedMessages/SteamUnifiedMessages.cs
+index 23bd8413..c99be695 100644
+--- a/SteamKit2/SteamKit2/Steam/Handlers/SteamUnifiedMessages/SteamUnifiedMessages.cs
++++ b/SteamKit2/SteamKit2/Steam/Handlers/SteamUnifiedMessages/SteamUnifiedMessages.cs
+@@ -69,7 +69,7 @@ namespace SteamKit2
+                 var methodName = methodInfo.Name;
+                 var version = 1;
+ 
+-                var rpcName = string.Format( "{0}.{1}#{2}", serviceName, methodName, version );
++                var rpcName = $"{serviceName}.{methodName}#{version}";
+ 
+                 var method = typeof(SteamUnifiedMessages).GetMethod( nameof(SteamUnifiedMessages.SendMessage) ).MakeGenericMethod( message.GetType() );
+                 var result = method.Invoke( this.steamUnifiedMessages, new[] { rpcName, message, isNotification } );
+diff --git a/SteamKit2/SteamKit2/Steam/SteamClient/CallbackMgr/CallbackMgr_Internals.cs b/SteamKit2/SteamKit2/Steam/SteamClient/CallbackMgr/CallbackMgr_Internals.cs
+index 88ff254e..3abb7641 100644
+--- a/SteamKit2/SteamKit2/Steam/SteamClient/CallbackMgr/CallbackMgr_Internals.cs
++++ b/SteamKit2/SteamKit2/Steam/SteamClient/CallbackMgr/CallbackMgr_Internals.cs
+@@ -73,8 +73,7 @@ namespace SteamKit2.Internal
+ 
+         internal override void Run( object callback )
+         {
+-            var cb = callback as TCall;
+-            if (cb != null && (cb.JobID == JobID || JobID == JobID.Invalid) && OnRun != null)
++            if (callback is TCall cb && (cb.JobID == JobID || JobID == JobID.Invalid) && OnRun != null)
+             {
+                 OnRun(cb);
+             }
+diff --git a/SteamKit2/SteamKit2/Steam/SteamClient/SteamClient.cs b/SteamKit2/SteamKit2/Steam/SteamClient/SteamClient.cs
+index b6029725..0c42dbe9 100644
+--- a/SteamKit2/SteamKit2/Steam/SteamClient/SteamClient.cs
++++ b/SteamKit2/SteamKit2/Steam/SteamClient/SteamClient.cs
+@@ -121,7 +121,7 @@ namespace SteamKit2
+         {
+             if ( handlers.Contains( handler.GetType() ) )
+             {
+-                throw new InvalidOperationException( string.Format( "A handler of type \"{0}\" is already registered.", handler.GetType() ) );
++                throw new InvalidOperationException( $"A handler of type \"{handler.GetType()}\" is already registered." );
+ 
+             }
+ 
+diff --git a/SteamKit2/SteamKit2/Steam/WebAPI/ContentServerDirectoryService.cs b/SteamKit2/SteamKit2/Steam/WebAPI/ContentServerDirectoryService.cs
+index 6268db2c..7da4e744 100644
+--- a/SteamKit2/SteamKit2/Steam/WebAPI/ContentServerDirectoryService.cs
++++ b/SteamKit2/SteamKit2/Steam/WebAPI/ContentServerDirectoryService.cs
+@@ -83,7 +83,7 @@ namespace SteamKit2
+             var result = ( EResult )response[ "result" ].AsInteger( ( int )EResult.OK );
+             if ( result != EResult.OK || response["servers"] == KeyValue.Invalid )
+             {
+-                throw new InvalidOperationException( string.Format( "Steam Web API returned EResult.{0}", result ) );
++                throw new InvalidOperationException( $"Steam Web API returned EResult.{result}" );
+             }
+ 
+             var serverList = response[ "servers" ];
+diff --git a/SteamKit2/SteamKit2/Steam/WebAPI/SteamDirectory.cs b/SteamKit2/SteamKit2/Steam/WebAPI/SteamDirectory.cs
+index 6451f37a..3151e921 100644
+--- a/SteamKit2/SteamKit2/Steam/WebAPI/SteamDirectory.cs
++++ b/SteamKit2/SteamKit2/Steam/WebAPI/SteamDirectory.cs
+@@ -65,7 +65,7 @@ namespace SteamKit2
+             var result = ( EResult )response[ "result" ].AsInteger( ( int )EResult.Invalid );
+             if ( result != EResult.OK )
+             {
+-                throw new InvalidOperationException( string.Format( "Steam Web API returned EResult.{0}", result ) );
++                throw new InvalidOperationException( $"Steam Web API returned EResult.{result}" );
+             }
+ 
+             var socketList = response[ "serverlist" ];
+diff --git a/SteamKit2/SteamKit2/Steam/WebAPI/WebAPI.cs b/SteamKit2/SteamKit2/Steam/WebAPI/WebAPI.cs
+index 3cf09255..8846d514 100644
+--- a/SteamKit2/SteamKit2/Steam/WebAPI/WebAPI.cs
++++ b/SteamKit2/SteamKit2/Steam/WebAPI/WebAPI.cs
+@@ -268,7 +268,7 @@ namespace SteamKit2
+                         value = HttpUtility.UrlEncode( kvp.Value.ToString() );
+                     }
+ 
+-                    return string.Format( "{0}={1}", key, value );
++                    return $"{key}={value}";
+                 } ) ) );
+                 
+                 var request = new HttpRequestMessage( method, urlBuilder.ToString() );
+@@ -385,7 +385,7 @@ namespace SteamKit2
+ 
+                         foreach ( object value in enumerable )
+                         {
+-                            apiArgs.Add( string.Format( "{0}[{1}]", argName, index++ ), value );
++                            apiArgs.Add( $"{argName}[{index++}]", value );
+                         }
+ 
+                         continue;
+diff --git a/SteamKit2/SteamKit2/Types/KeyValue.cs b/SteamKit2/SteamKit2/Types/KeyValue.cs
+index 9c977d50..66c8aa9d 100644
+--- a/SteamKit2/SteamKit2/Types/KeyValue.cs
++++ b/SteamKit2/SteamKit2/Types/KeyValue.cs
+@@ -491,7 +491,7 @@ namespace SteamKit2
+         /// </returns>
+         public override string ToString()
+         {
+-            return string.Format( "{0} = {1}", this.Name, this.Value );
++            return $"{this.Name} = {this.Value}";
+         }
+ 
+         /// <summary>
+diff --git a/SteamKit2/SteamKit2/Util/DebugLog.cs b/SteamKit2/SteamKit2/Util/DebugLog.cs
+index 765ddbae..4bf16118 100644
+--- a/SteamKit2/SteamKit2/Util/DebugLog.cs
++++ b/SteamKit2/SteamKit2/Util/DebugLog.cs
+@@ -179,7 +179,7 @@ namespace SteamKit2
+         public static void Assert( [DoesNotReturnIf(false)] bool condition, string category, string message )
+         {
+             // make use of .NET's assert facility first
+-            Debug.Assert( condition, string.Format( "{0}: {1}", category, message ) );
++            Debug.Assert( condition, $"{category}: {message}" );
+ 
+             // then spew to our debuglog, so we can get info in release builds
+             if ( !condition )
+diff --git a/SteamKit2/SteamKit2/Util/LZMA/Compress/LZMA/LzmaEncoder.cs b/SteamKit2/SteamKit2/Util/LZMA/Compress/LZMA/LzmaEncoder.cs
+index d629a15b..641b4ca2 100644
+--- a/SteamKit2/SteamKit2/Util/LZMA/Compress/LZMA/LzmaEncoder.cs
++++ b/SteamKit2/SteamKit2/Util/LZMA/Compress/LZMA/LzmaEncoder.cs
+@@ -1286,10 +1286,7 @@ namespace SevenZip.Compression.LZMA
+ 					CodeOneBlock(out processedInSize, out processedOutSize, out finished);
+ 					if (finished)
+ 						return;
+-					if (progress != null)
+-					{
+-						progress.SetProgress(processedInSize, processedOutSize);
+-					}
++					progress?.SetProgress(processedInSize, processedOutSize);
+ 				}
+ 			}
+ 			finally

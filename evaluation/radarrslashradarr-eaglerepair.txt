@@ -1,0 +1,928 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Radarr.Api(net472)
+    #1 Path: D:\a\1\s\src\NzbDrone.Api\Logs\LogFileModuleBase.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: D:\a\1\s\src\NzbDrone.Api\Logs\LogFileModuleBase.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\src\NzbDrone.Api\Profiles\LegacyProfileModule.cs, Line: 14, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\src\NzbDrone.Api\ProviderModuleBase.cs, Line: 123, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: D:\a\1\s\src\NzbDrone.Api\Wanted\LegacyMissingModule.cs, Line: 14, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Radarr.Api.V3(net472)
+    #6 Path: D:\a\1\s\src\Radarr.Api.V3\Logs\LogFileModuleBase.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\src\Radarr.Api.V3\Logs\LogFileModuleBase.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\src\Radarr.Api.V3\ProviderResource.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Radarr.Http(net472)
+    #9 Path: D:\a\1\s\src\Radarr.Http\Frontend\Mappers\HtmlMapperBase.cs, Line: 70, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\src\Radarr.Http\Mapping\MappingValidation.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: D:\a\1\s\src\Radarr.Http\Validation\EmptyCollectionValidator.cs, Line: 23, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Radarr.Common(net472)
+    #12 Path: D:\a\1\s\src\NzbDrone.Common\ArchiveService.cs, Line: 67, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: D:\a\1\s\src\NzbDrone.Common\Cache\CachedDictionary.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 133, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 209, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #16 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 227, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #17 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 245, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #18 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 486, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 270, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 277, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 314, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #22 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 481, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 500, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DriveInfoMount.cs, Line: 58, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #26 Path: D:\a\1\s\src\NzbDrone.Common\Disk\OsPath.cs, Line: 211, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #27 Path: D:\a\1\s\src\NzbDrone.Common\Disk\OsPath.cs, Line: 317, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #28 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\EnsureStringExtensions.cs, Line: 102, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\EnsureStringExtensions.cs, Line: 107, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\EnsureStringExtensions.cs, Line: 128, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\EnsureStringExtensions.cs, Line: 131, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\ExpressionExtensions.cs, Line: 12, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #33 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\ExpressionExtensions.cs, Line: 27, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #34 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\ExpressionExtensions.cs, Line: 37, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #35 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\ExpressionExtensions.cs, Line: 50, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #36 Path: D:\a\1\s\src\NzbDrone.Common\Expansive\Expansive.cs, Line: 148, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\src\NzbDrone.Common\Expansive\Expansive.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\src\NzbDrone.Common\Expansive\Expansive.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\src\NzbDrone.Common\Expansive\Expansive.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpException.cs, Line: 18, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #41 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 165, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #42 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 166, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 227, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 249, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #45 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 335, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 60, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpResponse.cs, Line: 81, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpUri.cs, Line: 226, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #49 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpUri.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #50 Path: D:\a\1\s\src\NzbDrone.Common\Http\JsonRpcRequestBuilder.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #51 Path: D:\a\1\s\src\NzbDrone.Common\Http\JsonRpcRequestBuilder.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #52 Path: D:\a\1\s\src\NzbDrone.Common\Http\NzbDroneWebClient.cs, Line: 11, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #53 Path: D:\a\1\s\src\NzbDrone.Common\Http\Proxy\ManagedWebProxyFactory.cs, Line: 69, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #54 Path: D:\a\1\s\src\NzbDrone.Common\Instrumentation\InitializeLogger.cs, Line: 20, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #55 Path: D:\a\1\s\src\NzbDrone.Common\Instrumentation\Sentry\SentryTarget.cs, Line: 187, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #56 Path: D:\a\1\s\src\NzbDrone.Common\Instrumentation\Sentry\SentryTarget.cs, Line: 246, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #57 Path: D:\a\1\s\src\NzbDrone.Common\Model\ProcessInfo.cs, Line: 11, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #58 Path: D:\a\1\s\src\NzbDrone.Common\OAuth\OAuthTools.cs, Line: 250, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #59 Path: D:\a\1\s\src\NzbDrone.Common\OAuth\OAuthTools.cs, Line: 251, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #60 Path: D:\a\1\s\src\NzbDrone.Common\Processes\ProcessOutputLine.cs, Line: 20, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #61 Path: D:\a\1\s\src\NzbDrone.Common\Reflection\ReflectionExtensions.cs, Line: 57, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #62 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 1396, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #63 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 1407, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #64 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 2637, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #65 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 2701, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #66 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 2772, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Radarr.Core.Test(net472)
+    #67 Path: D:\a\1\s\src\NzbDrone.Core.Test\Datastore\Migration\180_fix_invalid_profile_referencesFixture.cs, Line: 62, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #68 Path: D:\a\1\s\src\NzbDrone.Core.Test\Datastore\Migration\186_fix_tmdb_duplicatesFixture.cs, Line: 32, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #69 Path: D:\a\1\s\src\NzbDrone.Core.Test\Download\Pending\PendingReleaseServiceTests\RemovePendingFixture.cs, Line: 65, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #70 Path: D:\a\1\s\src\NzbDrone.Core.Test\Framework\DirectDataMapper.cs, Line: 91, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #71 Path: D:\a\1\s\src\NzbDrone.Core.Test\ParserTests\QualityParserFixture.cs, Line: 346, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Radarr.Core(net472)
+    #72 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Extensions\BuilderExtensions.cs, Line: 130, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #73 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\109_add_movie_formats_to_naming_config.cs, Line: 35, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #74 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\109_add_movie_formats_to_naming_config.cs, Line: 37, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #75 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\137_add_import_exclusions_table.cs, Line: 43, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #76 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\187_swap_filechmod_for_folderchmod.cs, Line: 26, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #77 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSQLiteProcessor.cs, Line: 136, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #78 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSQLiteProcessor.cs, Line: 37, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #79 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSQLiteProcessor.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #80 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSQLiteProcessor.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #81 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSQLiteProcessor.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #82 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\SqliteSyntaxReader.cs, Line: 268, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #83 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\WhereBuilder.cs, Line: 224, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #84 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\WhereBuilder.cs, Line: 24, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #85 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\WhereBuilder.cs, Line: 270, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #86 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\WhereBuilder.cs, Line: 81, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #87 Path: D:\a\1\s\src\NzbDrone.Core\DecisionEngine\Rejection.cs, Line: 16, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #88 Path: D:\a\1\s\src\NzbDrone.Core\DecisionEngine\Specifications\TorrentSeedingSpecification.cs, Line: 45, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #89 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Blackhole\TorrentBlackhole.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #90 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Deluge\DelugeProxy.cs, Line: 298, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #91 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Nzbget\ErrorModel.cs, Line: 11, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #92 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortex.cs, Line: 259, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #93 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortexProxy.cs, Line: 109, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #94 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortexProxy.cs, Line: 179, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #95 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortexProxy.cs, Line: 194, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #96 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortexProxy.cs, Line: 60, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #97 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Pneumatic\Pneumatic.cs, Line: 129, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #98 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\QBittorrent\QBittorrentProxyV1.cs, Line: 326, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #99 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\QBittorrent\QBittorrentProxyV2.cs, Line: 349, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #100 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Transmission\TransmissionBase.cs, Line: 181, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #101 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Transmission\TransmissionProxy.cs, Line: 211, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #102 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Transmission\TransmissionProxy.cs, Line: 272, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #103 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Transmission\TransmissionProxy.cs, Line: 283, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #104 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\uTorrent\UTorrent.cs, Line: 181, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #105 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\uTorrent\UTorrentProxy.cs, Line: 247, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #106 Path: D:\a\1\s\src\NzbDrone.Core\Download\DownloadClientBase.cs, Line: 119, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #107 Path: D:\a\1\s\src\NzbDrone.Core\Download\DownloadClientBase.cs, Line: 148, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #108 Path: D:\a\1\s\src\NzbDrone.Core\Download\DownloadClientBase.cs, Line: 157, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #109 Path: D:\a\1\s\src\NzbDrone.Core\Download\DownloadService.cs, Line: 90, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #110 Path: D:\a\1\s\src\NzbDrone.Core\Download\Pending\PendingReleaseService.cs, Line: 396, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #111 Path: D:\a\1\s\src\NzbDrone.Core\Download\TorrentClientBase.cs, Line: 187, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #112 Path: D:\a\1\s\src\NzbDrone.Core\Download\TorrentClientBase.cs, Line: 61, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #113 Path: D:\a\1\s\src\NzbDrone.Core\Exceptions\MovieNotFoundExceptions.cs, Line: 10, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #114 Path: D:\a\1\s\src\NzbDrone.Core\Exceptions\MovieNotFoundExceptions.cs, Line: 16, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #115 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Metadata\Consumers\Xbmc\XbmcMetadata.cs, Line: 191, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #116 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Metadata\Consumers\Xbmc\XbmcMetadata.cs, Line: 202, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #117 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Metadata\Consumers\Xbmc\XbmcMetadata.cs, Line: 339, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #118 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Others\OtherExtraFileRenamer.cs, Line: 42, Message: ReSharper: ReplaceWithSingleCallToSingleOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #119 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Others\OtherExtraFileRenamer.cs, Line: 67, Message: ReSharper: ReplaceWithSingleCallToSingleOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #120 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\ImportListRootFolderCheck.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #121 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\MountCheck.cs, Line: 26, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #122 Path: D:\a\1\s\src\NzbDrone.Core\History\HistoryService.cs, Line: 165, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #123 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\ImportExclusions\ImportExclusion.cs, Line: 13, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #124 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\ImportListSyncService.cs, Line: 43, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #125 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\ImportListSyncService.cs, Line: 83, Message: ReSharper: ReplaceWithSingleCallToSingleOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #126 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\Radarr\RadarrImport.cs, Line: 127, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #127 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\RadarrList\RadarrListParser.cs, Line: 44, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #128 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\RSSImport\RSSImportParser.cs, Line: 236, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #129 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\FileList\FileListParser.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #130 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\FileList\FileListRequestGenerator.cs, Line: 29, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #131 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\FileList\FileListRequestGenerator.cs, Line: 35, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #132 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\FileList\FileListRequestGenerator.cs, Line: 36, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #133 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\FileList\FileListRequestGenerator.cs, Line: 47, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #134 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\HDBits\HDBitsParser.cs, Line: 70, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #135 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabCapabilitiesProvider.cs, Line: 43, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #136 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 124, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #137 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 131, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #138 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 144, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #139 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 150, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #140 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 164, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #141 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 173, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #142 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 179, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #143 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Nyaa\NyaaRequestGenerator.cs, Line: 32, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #144 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Nyaa\NyaaRequestGenerator.cs, Line: 65, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #145 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Omgwtfnzbs\OmgwtfnzbsRequestGenerator.cs, Line: 35, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #146 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\PassThePopcorn\PassThePopcornParser.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #147 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\PassThePopcorn\PassThePopcornRequestGenerator.cs, Line: 40, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #148 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Rarbg\RarbgParser.cs, Line: 89, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #149 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Rarbg\RarbgParser.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #150 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\RssParser.cs, Line: 352, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #151 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\RssSyncService.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #152 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\SeedConfigProvider.cs, Line: 39, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #153 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\TorrentPotato\TorrentPotatoParser.cs, Line: 60, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #154 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\TorrentPotato\TorrentPotatoParser.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #155 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\TorrentRss\TorrentRssSettingsDetector.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #156 Path: D:\a\1\s\src\NzbDrone.Core\IndexerSearch\Definitions\MovieSearchCriteria.cs, Line: 7, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #157 Path: D:\a\1\s\src\NzbDrone.Core\IndexerSearch\MoviesSearchService.cs, Line: 113, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #158 Path: D:\a\1\s\src\NzbDrone.Core\Instrumentation\ReconfigureSentry.cs, Line: 31, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #159 Path: D:\a\1\s\src\NzbDrone.Core\Localization\LocalizationService.cs, Line: 94, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #160 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\DownloadedMovieImportService.cs, Line: 244, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #161 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\MediaFileTableCleanupService.cs, Line: 51, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #162 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\MediaInfo\MediaInfoFormatter.cs, Line: 499, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #163 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\MovieFile.cs, Line: 32, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #164 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\MovieFileMovingService.cs, Line: 151, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #165 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\MovieImport\Manual\ManualImportService.cs, Line: 146, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #166 Path: D:\a\1\s\src\NzbDrone.Core\Messaging\Events\EventAggregator.cs, Line: 135, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #167 Path: D:\a\1\s\src\NzbDrone.Core\Movies\Movie.cs, Line: 160, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #168 Path: D:\a\1\s\src\NzbDrone.Core\Movies\MovieRepository.cs, Line: 285, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #169 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 172, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #170 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 196, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #171 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 299, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #172 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 304, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #173 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 305, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #174 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 308, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #175 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 313, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #176 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 318, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #177 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #178 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\NotificationService.cs, Line: 44, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #179 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Synology\SynologyIndexerProxy.cs, Line: 92, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #180 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Trakt\TraktProxy.cs, Line: 80, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #181 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Trakt\TraktService.cs, Line: 170, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #182 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Trakt\TraktService.cs, Line: 176, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #183 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Trakt\TraktService.cs, Line: 179, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #184 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Twitter\TwitterService.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #185 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Twitter\TwitterService.cs, Line: 89, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #186 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\Xbmc.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #187 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\Xbmc.cs, Line: 92, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #188 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\XbmcJsonApiProxy.cs, Line: 113, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #189 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\XbmcSettings.cs, Line: 58, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #190 Path: D:\a\1\s\src\NzbDrone.Core\Organizer\FileNameBuilder.cs, Line: 285, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #191 Path: D:\a\1\s\src\NzbDrone.Core\Organizer\FileNameBuilder.cs, Line: 317, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #192 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ParsedMovieInfo.cs, Line: 27, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #193 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ReleaseInfo.cs, Line: 60, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #194 Path: D:\a\1\s\src\NzbDrone.Core\Qualities\QualityModel.cs, Line: 40, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #195 Path: D:\a\1\s\src\NzbDrone.Core\Queue\QueueService.cs, Line: 81, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #196 Path: D:\a\1\s\src\NzbDrone.Core\RootFolders\RootFolderService.cs, Line: 114, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #197 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 144, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #198 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 149, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #199 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 157, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #200 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 169, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #201 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 173, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #202 Path: D:\a\1\s\src\NzbDrone.Core\Validation\NzbDroneValidationExtensions.cs, Line: 30, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Radarr.Host(net472)
+    #203 Path: D:\a\1\s\src\NzbDrone.Host\BrowserService.cs, Line: 31, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Radarr.Integration.Test(net472)
+    #204 Path: D:\a\1\s\src\NzbDrone.Integration.Test\IntegrationTestBase.cs, Line: 299, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Radarr.Mono(net472)
+    #205 Path: D:\a\1\s\src\NzbDrone.Mono\Disk\ProcMount.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Radarr.Test.Common(net472)
+    #206 Path: D:\a\1\s\src\NzbDrone.Test.Common\AutoMoq\AutoMoqer.cs, Line: 139, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #207 Path: D:\a\1\s\src\NzbDrone.Test.Common\ExceptionVerification.cs, Line: 148, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #208 Path: D:\a\1\s\src\NzbDrone.Test.Common\ExceptionVerification.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #209 Path: D:\a\1\s\src\NzbDrone.Test.Common\ExceptionVerification.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Radarr.Windows(net472)
+    #210 Path: D:\a\1\s\src\NzbDrone.Windows\Disk\DiskProvider.cs, Line: 170, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Radarr(net472)
+    #211 Path: D:\a\1\s\src\NzbDrone\SysTray\SysTrayApp.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #212 Path: D:\a\1\s\src\NzbDrone\WindowsApp.cs, Line: 33, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 178
+R8: 13
+R5: 7
+R2: 7
+R4: 4
+R7: 3
+
+--- Summary ---
+Fixed ReSharper issues: 205
+Fixed SonarQube issues: 11
+Total fixed issues: 212
+
+Finished in: 37 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\NzbDrone.Core\Indexers\Torznab\TorznabRssParser.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using NzbDrone.Common.Extensions;
+using NzbDrone.Core.Indexers.Exceptions;
+using NzbDrone.Core.Parser.Model;
+
+namespace NzbDrone.Core.Indexers.Torznab
+{
+    public class TorznabRssParser : TorrentRssParser
+    {
+        public const string ns = "{http://torznab.com/schemas/2015/feed}";
+
+        public TorznabRssParser()
+        {
+            UseEnclosureUrl = true;
+        }
+
+        protected override bool PreProcess(IndexerResponse indexerResponse)
+        {
+            var xdoc = LoadXmlDocument(indexerResponse);
+            var error = xdoc.Descendants("error").FirstOrDefault();
+
+            if (error == null)
+            {
+                return true;
+            }
+
+            var code = Convert.ToInt32(error.Attribute("code").Value);
+            var errorMessage = error.Attribute("description").Value;
+
+            if (code >= 100 && code <= 199)
+            {
+                throw new ApiKeyException("Invalid API key");
+            }
+
+            if (!indexerResponse.Request.Url.FullUri.Contains("apikey=") && errorMessage == "Missing parameter")
+            {
+                throw new ApiKeyException("Indexer requires an API key");
+            }
+
+            if (errorMessage == "Request limit reached")
+            {
+                throw new RequestLimitReachedException("API limit reached");
+            }
+
+            throw new TorznabException("Torznab error detected: {0}", errorMessage);
+        }
+
+        protected override ReleaseInfo ProcessItem(XElement item, ReleaseInfo releaseInfo)
+        {
+            var torrentInfo = base.ProcessItem(item, releaseInfo) as TorrentInfo;
+
+            if (torrentInfo != null)
+            {
+                if (GetImdbId(item) != null)
+                {
+                    torrentInfo.ImdbId = int.Parse(GetImdbId(item).Substring(2));
+                }
+
+                torrentInfo.IndexerFlags = GetFlags(item);
+            }
+
+            return torrentInfo;
+        }
+
+        protected override bool PostProcess(IndexerResponse indexerResponse, List<XElement> items, List<ReleaseInfo> releases)
+        {
+            var enclosureTypes = items.SelectMany(GetEnclosures).Select(v => v.Type).Distinct().ToArray();
+            if (enclosureTypes.Any() && enclosureTypes.Intersect(PreferredEnclosureMimeTypes).Empty())
+            {
+                if (enclosureTypes.Intersect(UsenetEnclosureMimeTypes).Any())
+                {
+                    _logger.Warn("{0} does not contain {1}, found {2}, did you intend to add a Newznab indexer?", indexerResponse.Request.Url, TorrentEnclosureMimeType, enclosureTypes[0]);
+                }
+                else
+                {
+                    _logger.Warn("{1} does not contain {1}, found {2}.", indexerResponse.Request.Url, TorrentEnclosureMimeType, enclosureTypes[0]);
+                }
+            }
+
+            return true;
+        }
+
+        protected override string GetInfoUrl(XElement item)
+        {
+            return ParseUrl(item.TryGetValue("comments").TrimEnd("#comments"));
+        }
+
+        protected override string GetCommentUrl(XElement item)
+        {
+            return ParseUrl(item.TryGetValue("comments"));
+        }
+
+        protected override long GetSize(XElement item)
+        {
+            long size;
+
+            var sizeString = TryGetTorznabAttribute(item, "size");
+            if (!sizeString.IsNullOrWhiteSpace() && long.TryParse(sizeString, out size))
+            {
+                return size;
+            }
+
+            size = GetEnclosureLength(item);
+
+            return size;
+        }
+
+        protected override DateTime GetPublishDate(XElement item)
+        {
+            return base.GetPublishDate(item);
+        }
+
+        protected override string GetDownloadUrl(XElement item)
+        {
+            var url = base.GetDownloadUrl(item);
+
+            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            {
+                url = ParseUrl((string)item.Element("enclosure").Attribute("url"));
+            }
+
+            return url;
+        }
+
+        protected virtual string GetImdbId(XElement item)
+        {
+            var imdbIdString = TryGetTorznabAttribute(item, "imdbid");
+            return !imdbIdString.IsNullOrWhiteSpace() ? imdbIdString.Substring(2) : null;
+        }
+
+        protected override string GetInfoHash(XElement item)
+        {
+            return TryGetTorznabAttribute(item, "infohash");
+        }
+
+        protected override string GetMagnetUrl(XElement item)
+        {
+            return TryGetTorznabAttribute(item, "magneturl");
+        }
+
+        protected override int? GetSeeders(XElement item)
+        {
+            var seeders = TryGetTorznabAttribute(item, "seeders");
+
+            if (seeders.IsNotNullOrWhiteSpace())
+            {
+                return int.Parse(seeders);
+            }
+
+            return base.GetSeeders(item);
+        }
+
+        protected override int? GetPeers(XElement item)
+        {
+            var peers = TryGetTorznabAttribute(item, "peers");
+
+            if (peers.IsNotNullOrWhiteSpace())
+            {
+                return int.Parse(peers);
+            }
+
+            var seeders = TryGetTorznabAttribute(item, "seeders");
+            var leechers = TryGetTorznabAttribute(item, "leechers");
+
+            if (seeders.IsNotNullOrWhiteSpace() && leechers.IsNotNullOrWhiteSpace())
+            {
+                return int.Parse(seeders) + int.Parse(leechers);
+            }
+
+            return base.GetPeers(item);
+        }
+
+        protected IndexerFlags GetFlags(XElement item)
+        {
+            IndexerFlags flags = 0;
+
+            var downloadFactor = TryGetFloatTorznabAttribute(item, "downloadvolumefactor", 1);
+
+            var uploadFactor = TryGetFloatTorznabAttribute(item, "uploadvolumefactor", 1);
+
+            if (uploadFactor == 2)
+            {
+                flags |= IndexerFlags.G_DoubleUpload;
+            }
+
+            if (downloadFactor == 0.5)
+            {
+                flags |= IndexerFlags.G_Halfleech;
+            }
+
+            if (downloadFactor == 0.0)
+            {
+                flags |= IndexerFlags.G_Freeleech;
+            }
+
+            return flags;
+        }
+
+        protected string TryGetTorznabAttribute(XElement item, string key, string defaultValue = "")
+        {
+            var attr = item.Elements(ns + "attr").FirstOrDefault(e => e.Attribute("name").Value.Equals(key, StringComparison.CurrentCultureIgnoreCase));
+
+            if (attr != null)
+            {
+                return attr.Attribute("value").Value;
+            }
+
+            return defaultValue;
+        }
+
+        protected float TryGetFloatTorznabAttribute(XElement item, string key, float defaultValue = 0)
+        {
+            var attr = TryGetTorznabAttribute(item, key, defaultValue.ToString());
+
+            float result = 0;
+
+            if (float.TryParse(attr, out result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using NzbDrone.Common.Extensions;
+using NzbDrone.Core.Indexers.Exceptions;
+using NzbDrone.Core.Parser.Model;
+
+namespace NzbDrone.Core.Indexers.Torznab
+{
+    public class TorznabRssParser : TorrentRssParser
+    {
+        public const string ns = "{http://torznab.com/schemas/2015/feed}";
+
+        public TorznabRssParser()
+        {
+            UseEnclosureUrl = true;
+        }
+
+        protected override bool PreProcess(IndexerResponse indexerResponse)
+        {
+            var xdoc = LoadXmlDocument(indexerResponse);
+            var error = xdoc.Descendants("error").FirstOrDefault();
+
+            if (error == null)
+            {
+                return true;
+            }
+
+            var code = Convert.ToInt32(error.Attribute("code").Value);
+            var errorMessage = error.Attribute("description").Value;
+
+            if (code >= 100 && code <= 199)
+            {
+                throw new ApiKeyException("Invalid API key");
+            }
+
+            if (!indexerResponse.Request.Url.FullUri.Contains("apikey=") && errorMessage == "Missing parameter")
+            {
+                throw new ApiKeyException("Indexer requires an API key");
+            }
+
+            if (errorMessage == "Request limit reached")
+            {
+                throw new RequestLimitReachedException("API limit reached");
+            }
+
+            throw new TorznabException("Torznab error detected: {0}", errorMessage);
+        }
+
+        protected override ReleaseInfo ProcessItem(XElement item, ReleaseInfo releaseInfo)
+        {
+            if (base.ProcessItem(item, releaseInfo) is TorrentInfo torrentInfo)
+            {
+                if (GetImdbId(item) != null)
+                {
+                    torrentInfo.ImdbId = int.Parse(GetImdbId(item).Substring(2));
+                }
+
+                torrentInfo.IndexerFlags = GetFlags(item);
+            }
+
+            return torrentInfo;
+        }
+
+        protected override bool PostProcess(IndexerResponse indexerResponse, List<XElement> items, List<ReleaseInfo> releases)
+        {
+            var enclosureTypes = items.SelectMany(GetEnclosures).Select(v => v.Type).Distinct().ToArray();
+            if (enclosureTypes.Any() && enclosureTypes.Intersect(PreferredEnclosureMimeTypes).Empty())
+            {
+                if (enclosureTypes.Intersect(UsenetEnclosureMimeTypes).Any())
+                {
+                    _logger.Warn("{0} does not contain {1}, found {2}, did you intend to add a Newznab indexer?", indexerResponse.Request.Url, TorrentEnclosureMimeType, enclosureTypes[0]);
+                }
+                else
+                {
+                    _logger.Warn("{1} does not contain {1}, found {2}.", indexerResponse.Request.Url, TorrentEnclosureMimeType, enclosureTypes[0]);
+                }
+            }
+
+            return true;
+        }
+
+        protected override string GetInfoUrl(XElement item)
+        {
+            return ParseUrl(item.TryGetValue("comments").TrimEnd("#comments"));
+        }
+
+        protected override string GetCommentUrl(XElement item)
+        {
+            return ParseUrl(item.TryGetValue("comments"));
+        }
+
+        protected override long GetSize(XElement item)
+        {
+            long size;
+
+            var sizeString = TryGetTorznabAttribute(item, "size");
+            if (!sizeString.IsNullOrWhiteSpace() && long.TryParse(sizeString, out size))
+            {
+                return size;
+            }
+
+            size = GetEnclosureLength(item);
+
+            return size;
+        }
+
+        protected override DateTime GetPublishDate(XElement item)
+        {
+            return base.GetPublishDate(item);
+        }
+
+        protected override string GetDownloadUrl(XElement item)
+        {
+            var url = base.GetDownloadUrl(item);
+
+            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            {
+                url = ParseUrl((string)item.Element("enclosure").Attribute("url"));
+            }
+
+            return url;
+        }
+
+        protected virtual string GetImdbId(XElement item)
+        {
+            var imdbIdString = TryGetTorznabAttribute(item, "imdbid");
+            return !imdbIdString.IsNullOrWhiteSpace() ? imdbIdString.Substring(2) : null;
+        }
+
+        protected override string GetInfoHash(XElement item)
+        {
+            return TryGetTorznabAttribute(item, "infohash");
+        }
+
+        protected override string GetMagnetUrl(XElement item)
+        {
+            return TryGetTorznabAttribute(item, "magneturl");
+        }
+
+        protected override int? GetSeeders(XElement item)
+        {
+            var seeders = TryGetTorznabAttribute(item, "seeders");
+
+            if (seeders.IsNotNullOrWhiteSpace())
+            {
+                return int.Parse(seeders);
+            }
+
+            return base.GetSeeders(item);
+        }
+
+        protected override int? GetPeers(XElement item)
+        {
+            var peers = TryGetTorznabAttribute(item, "peers");
+
+            if (peers.IsNotNullOrWhiteSpace())
+            {
+                return int.Parse(peers);
+            }
+
+            var seeders = TryGetTorznabAttribute(item, "seeders");
+            var leechers = TryGetTorznabAttribute(item, "leechers");
+
+            if (seeders.IsNotNullOrWhiteSpace() && leechers.IsNotNullOrWhiteSpace())
+            {
+                return int.Parse(seeders) + int.Parse(leechers);
+            }
+
+            return base.GetPeers(item);
+        }
+
+        protected IndexerFlags GetFlags(XElement item)
+        {
+            IndexerFlags flags = 0;
+
+            var downloadFactor = TryGetFloatTorznabAttribute(item, "downloadvolumefactor", 1);
+
+            var uploadFactor = TryGetFloatTorznabAttribute(item, "uploadvolumefactor", 1);
+
+            if (uploadFactor == 2)
+            {
+                flags |= IndexerFlags.G_DoubleUpload;
+            }
+
+            if (downloadFactor == 0.5)
+            {
+                flags |= IndexerFlags.G_Halfleech;
+            }
+
+            if (downloadFactor == 0.0)
+            {
+                flags |= IndexerFlags.G_Freeleech;
+            }
+
+            return flags;
+        }
+
+        protected string TryGetTorznabAttribute(XElement item, string key, string defaultValue = "")
+        {
+            var attr = item.Elements(ns + "attr").FirstOrDefault(e => e.Attribute("name").Value.Equals(key, StringComparison.CurrentCultureIgnoreCase));
+
+            if (attr != null)
+            {
+                return attr.Attribute("value").Value;
+            }
+
+            return defaultValue;
+        }
+
+        protected float TryGetFloatTorznabAttribute(XElement item, string key, float defaultValue = 0)
+        {
+            var attr = TryGetTorznabAttribute(item, key, defaultValue.ToString());
+
+            float result = 0;
+
+            if (float.TryParse(attr, out result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\NzbDrone.Core\Indexers\Torznab\TorznabRssParser.cs(63,20): error CS0165: Use of unassigned local variable 'torrentInfo'
+######################################################################
+
+
+######################################################################
+Nr: 2 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\NzbDrone.Core\Security\X509CertificateValidationService.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System.Linq;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using NLog;
+using NzbDrone.Common.Extensions;
+using NzbDrone.Core.Configuration;
+using NzbDrone.Core.Lifecycle;
+using NzbDrone.Core.Messaging.Events;
+
+namespace NzbDrone.Core.Security
+{
+    public class X509CertificateValidationService : IHandle<ApplicationStartedEvent>
+    {
+        private readonly IConfigService _configService;
+        private readonly Logger _logger;
+
+        public X509CertificateValidationService(IConfigService configService, Logger logger)
+        {
+            _configService = configService;
+            _logger = logger;
+        }
+
+        private bool ShouldByPassValidationError(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            var request = sender as HttpWebRequest;
+
+            if (request == null)
+            {
+                return true;
+            }
+
+            var cert2 = certificate as X509Certificate2;
+            if (cert2 != null && request != null && cert2.SignatureAlgorithm.FriendlyName == "md5RSA")
+            {
+                _logger.Error("https://{0} uses the obsolete md5 hash in it's https certificate, if that is your certificate, please (re)create certificate with better algorithm as soon as possible.", request.RequestUri.Authority);
+            }
+
+            if (sslPolicyErrors == SslPolicyErrors.None)
+            {
+                return true;
+            }
+
+            if (request.RequestUri.Host == "localhost" || request.RequestUri.Host == "127.0.0.1")
+            {
+                return true;
+            }
+
+            var ipAddresses = GetIPAddresses(request.RequestUri.Host);
+            var certificateValidation = _configService.CertificateValidation;
+
+            if (certificateValidation == CertificateValidationType.Disabled)
+            {
+                return true;
+            }
+
+            if (certificateValidation == CertificateValidationType.DisabledForLocalAddresses &&
+                ipAddresses.All(i => i.IsLocalAddress()))
+            {
+                return true;
+            }
+
+            _logger.Error("Certificate validation for {0} failed. {1}", request.Address, sslPolicyErrors);
+
+            return false;
+        }
+
+        private IPAddress[] GetIPAddresses(string host)
+        {
+            if (IPAddress.TryParse(host, out var ipAddress))
+            {
+                return new[] { ipAddress };
+            }
+
+            return Dns.GetHostEntry(host).AddressList;
+        }
+
+        public void Handle(ApplicationStartedEvent message)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = ShouldByPassValidationError;
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System.Linq;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using NLog;
+using NzbDrone.Common.Extensions;
+using NzbDrone.Core.Configuration;
+using NzbDrone.Core.Lifecycle;
+using NzbDrone.Core.Messaging.Events;
+
+namespace NzbDrone.Core.Security
+{
+    public class X509CertificateValidationService : IHandle<ApplicationStartedEvent>
+    {
+        private readonly IConfigService _configService;
+        private readonly Logger _logger;
+
+        public X509CertificateValidationService(IConfigService configService, Logger logger)
+        {
+            _configService = configService;
+            _logger = logger;
+        }
+
+        private bool ShouldByPassValidationError(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+
+            if (request == null)
+            {
+                return true;
+            }
+            if (certificate is X509Certificate2 cert2 && sender is HttpWebRequest request && cert2.SignatureAlgorithm.FriendlyName == "md5RSA")
+            {
+                _logger.Error("https://{0} uses the obsolete md5 hash in it's https certificate, if that is your certificate, please (re)create certificate with better algorithm as soon as possible.", request.RequestUri.Authority);
+            }
+
+            if (sslPolicyErrors == SslPolicyErrors.None)
+            {
+                return true;
+            }
+
+            if (request.RequestUri.Host == "localhost" || request.RequestUri.Host == "127.0.0.1")
+            {
+                return true;
+            }
+
+            var ipAddresses = GetIPAddresses(request.RequestUri.Host);
+            var certificateValidation = _configService.CertificateValidation;
+
+            if (certificateValidation == CertificateValidationType.Disabled)
+            {
+                return true;
+            }
+
+            if (certificateValidation == CertificateValidationType.DisabledForLocalAddresses &&
+                ipAddresses.All(i => i.IsLocalAddress()))
+            {
+                return true;
+            }
+
+            _logger.Error("Certificate validation for {0} failed. {1}", request.Address, sslPolicyErrors);
+
+            return false;
+        }
+
+        private IPAddress[] GetIPAddresses(string host)
+        {
+            if (IPAddress.TryParse(host, out var ipAddress))
+            {
+                return new[] { ipAddress };
+            }
+
+            return Dns.GetHostEntry(host).AddressList;
+        }
+
+        public void Handle(ApplicationStartedEvent message)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = ShouldByPassValidationError;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\NzbDrone.Core\Security\X509CertificateValidationService.cs(27,17): error CS0841: Cannot use local variable 'request' before it is declared
+######################################################################
+
+

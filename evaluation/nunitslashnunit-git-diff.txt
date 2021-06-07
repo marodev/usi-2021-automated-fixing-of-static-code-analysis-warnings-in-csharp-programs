@@ -1,0 +1,1969 @@
+diff --git a/src/NUnitFramework/framework/Api/DefaultTestAssemblyBuilder.cs b/src/NUnitFramework/framework/Api/DefaultTestAssemblyBuilder.cs
+index a768e940..93492791 100644
+--- a/src/NUnitFramework/framework/Api/DefaultTestAssemblyBuilder.cs
++++ b/src/NUnitFramework/framework/Api/DefaultTestAssemblyBuilder.cs
+@@ -130,8 +130,7 @@ namespace NUnit.Framework.Api
+ 
+                 if (options.ContainsKey(FrameworkPackageSettings.TestParametersDictionary))
+                 {
+-                    var testParametersDictionary = options[FrameworkPackageSettings.TestParametersDictionary] as IDictionary<string, string>;
+-                    if (testParametersDictionary != null)
++                    if (options[FrameworkPackageSettings.TestParametersDictionary] is IDictionary<string, string> testParametersDictionary)
+                     {
+                         foreach (var parameter in testParametersDictionary)
+                             TestContext.Parameters.Add(parameter.Key, parameter.Value);
+diff --git a/src/NUnitFramework/framework/Api/FrameworkController.cs b/src/NUnitFramework/framework/Api/FrameworkController.cs
+index 4a58fbfb..0bfa280a 100644
+--- a/src/NUnitFramework/framework/Api/FrameworkController.cs
++++ b/src/NUnitFramework/framework/Api/FrameworkController.cs
+@@ -408,8 +408,7 @@ namespace NUnit.Framework.Api
+ 
+             if (value != null)
+             {
+-                var dict = value as IDictionary;
+-                if (dict != null)
++                if (value is IDictionary dict)
+                 {
+                     AddDictionaryEntries(setting, dict);
+                     AddBackwardsCompatibleDictionaryEntries(setting, dict);
+diff --git a/src/NUnitFramework/framework/Attributes/AuthorAttribute.cs b/src/NUnitFramework/framework/Attributes/AuthorAttribute.cs
+index a4a111aa..3e65bf48 100644
+--- a/src/NUnitFramework/framework/Attributes/AuthorAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/AuthorAttribute.cs
+@@ -50,7 +50,7 @@ namespace NUnit.Framework
+         /// <param name="name">The name of the author.</param>
+         /// <param name="email">The email address of the author.</param>
+         public AuthorAttribute(string name, string email)
+-            : base(PropertyNames.Author, string.Format("{0} <{1}>", name, email))
++            : base(PropertyNames.Author, $"{name} <{email}>")
+         {
+         }
+     }
+diff --git a/src/NUnitFramework/framework/Attributes/CultureAttribute.cs b/src/NUnitFramework/framework/Attributes/CultureAttribute.cs
+index 5bfe91e7..96f6f437 100644
+--- a/src/NUnitFramework/framework/Attributes/CultureAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/CultureAttribute.cs
+@@ -81,13 +81,13 @@ namespace NUnit.Framework
+         {
+             if (Include != null && !cultureDetector.IsCultureSupported(Include))
+             {
+-                reason = string.Format("Only supported under culture {0}", Include);
++                reason = $"Only supported under culture {Include}";
+                 return false;
+             }
+ 
+             if (Exclude != null && cultureDetector.IsCultureSupported(Exclude))
+             {
+-                reason = string.Format("Not supported under culture {0}", Exclude);
++                reason = $"Not supported under culture {Exclude}";
+                 return false;
+             }
+ 
+diff --git a/src/NUnitFramework/framework/Attributes/FixtureLifeCycleAttribute.cs b/src/NUnitFramework/framework/Attributes/FixtureLifeCycleAttribute.cs
+index 544afc05..4a286a5f 100644
+--- a/src/NUnitFramework/framework/Attributes/FixtureLifeCycleAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/FixtureLifeCycleAttribute.cs
+@@ -54,8 +54,7 @@ namespace NUnit.Framework
+         /// </summary>
+         public void ApplyToTest(Test test)
+         {
+-            var testFixture = test as TestFixture;
+-            if (testFixture != null)
++            if (test is TestFixture testFixture)
+             {
+                 testFixture.LifeCycle = LifeCycle;
+             }
+diff --git a/src/NUnitFramework/framework/Attributes/RandomAttribute.cs b/src/NUnitFramework/framework/Attributes/RandomAttribute.cs
+index c34a3dfe..b884581a 100644
+--- a/src/NUnitFramework/framework/Attributes/RandomAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/RandomAttribute.cs
+@@ -316,9 +316,9 @@ namespace NUnit.Framework
+ 
+                 foreach (object obj in _source.GetData(parameter))
+                 {
+-                    if (obj is int)
++                    if (obj is int ival)
+                     {
+-                        int ival = (int)obj; // unbox first
++ // unbox first
+                         if (parmType == typeof(short))
+                             yield return (short)ival;
+                         else if (parmType == typeof(ushort))
+@@ -330,9 +330,9 @@ namespace NUnit.Framework
+                         else if (parmType == typeof(decimal))
+                             yield return (decimal)ival;
+                     }
+-                    else if (obj is double)
++                    else if (obj is double d)
+                     {
+-                        double d = (double)obj; // unbox first
++ // unbox first
+                         if (parmType == typeof(decimal))
+                             yield return (decimal)d;
+                     }
+diff --git a/src/NUnitFramework/framework/Attributes/SetUpFixtureAttribute.cs b/src/NUnitFramework/framework/Attributes/SetUpFixtureAttribute.cs
+index ef3ec112..06c8f47a 100644
+--- a/src/NUnitFramework/framework/Attributes/SetUpFixtureAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/SetUpFixtureAttribute.cs
+@@ -74,13 +74,13 @@ namespace NUnit.Framework
+             {
+                 if (typeInfo.IsAbstract)
+                 {
+-                    reason = string.Format("{0} is an abstract class", typeInfo.FullName);
++                    reason = $"{typeInfo.FullName} is an abstract class";
+                     return false;
+                 }
+ 
+                 if (!typeInfo.HasConstructor(new Type[0]))
+                 {
+-                    reason = string.Format("{0} does not have a default constructor", typeInfo.FullName);
++                    reason = $"{typeInfo.FullName} does not have a default constructor";
+                     return false;
+                 }
+             }
+diff --git a/src/NUnitFramework/framework/Attributes/TestCaseAttribute.cs b/src/NUnitFramework/framework/Attributes/TestCaseAttribute.cs
+index ad4ea6e3..26ee843a 100644
+--- a/src/NUnitFramework/framework/Attributes/TestCaseAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/TestCaseAttribute.cs
+@@ -380,10 +380,7 @@ namespace NUnit.Framework
+                             if (i < parms.Arguments.Length)
+                                 newArgList[i] = parms.Arguments[i];
+                             else
+-                                throw new TargetParameterCountException(string.Format(
+-                                    "Method requires {0} arguments but TestCaseAttribute only supplied {1}",
+-                                    argsNeeded,
+-                                    argsProvided));
++                                throw new TargetParameterCountException($"Method requires {argsNeeded} arguments but TestCaseAttribute only supplied {argsProvided}");
+                         }
+                     }
+                     parms.Arguments = newArgList;
+@@ -447,7 +444,7 @@ namespace NUnit.Framework
+                 if (_untilDate > DateTimeOffset.UtcNow)
+                 {
+                     test.RunState = RunState.Ignored;
+-                    string reason = string.Format("Ignoring until {0}. {1}", _untilDate.Value.ToString("u"), IgnoreReason);
++                    string reason = $"Ignoring until {_untilDate.Value.ToString("u")}. {IgnoreReason}";
+                     test.Properties.Set(PropertyNames.SkipReason, reason);
+                 }
+                 else
+diff --git a/src/NUnitFramework/framework/Attributes/TestCaseSourceAttribute.cs b/src/NUnitFramework/framework/Attributes/TestCaseSourceAttribute.cs
+index 376d4a0c..395e7e71 100644
+--- a/src/NUnitFramework/framework/Attributes/TestCaseSourceAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/TestCaseSourceAttribute.cs
+@@ -185,11 +185,8 @@ namespace NUnit.Framework
+                         {
+                             object?[]? args = null;
+ 
+-                            // 3. An array was passed, it may be an object[]
+-                            //    or possibly some other kind of array, which
+-                            //    TestCaseSource can accept.
+-                            var array = item as Array;
+-                            if (array != null)
++                            // 3. An array was passed, it may be an object[]                            //    or possibly some other kind of array, which                            //    TestCaseSource can accept.
++                            if (item is Array array)
+                             {
+                                 // If array has the same number of elements as parameters
+                                 // and it does not fit exactly into single existing parameter
+@@ -250,22 +247,19 @@ namespace NUnit.Framework
+             {
+                 MemberInfo member = members[0];
+ 
+-                var field = member as FieldInfo;
+-                if (field != null)
++                if (member is FieldInfo field)
+                     return field.IsStatic
+                         ? (MethodParams == null ? (IEnumerable)field.GetValue(null)
+                                                 : ReturnErrorAsParameter(ParamGivenToField))
+                         : ReturnErrorAsParameter(SourceMustBeStatic);
+ 
+-                var property = member as PropertyInfo;
+-                if (property != null)
++                if (member is PropertyInfo property)
+                     return property.GetGetMethod(true).IsStatic
+                         ? (MethodParams == null ? (IEnumerable)property.GetValue(null, null)
+                                                 : ReturnErrorAsParameter(ParamGivenToProperty))
+                         : ReturnErrorAsParameter(SourceMustBeStatic);
+ 
+-                var m = member as MethodInfo;
+-                if (m != null)
++                if (member is MethodInfo m)
+                     return m.IsStatic
+                         ? (MethodParams == null || m.GetParameters().Length == MethodParams.Length
+                             ? (IEnumerable)m.Invoke(null, MethodParams)
+diff --git a/src/NUnitFramework/framework/Attributes/TestFixtureSourceAttribute.cs b/src/NUnitFramework/framework/Attributes/TestFixtureSourceAttribute.cs
+index 5b271356..a6e06664 100644
+--- a/src/NUnitFramework/framework/Attributes/TestFixtureSourceAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/TestFixtureSourceAttribute.cs
+@@ -205,20 +205,17 @@ namespace NUnit.Framework
+             {
+                 MemberInfo member = members[0];
+ 
+-                var field = member as FieldInfo;
+-                if (field != null)
++                if (member is FieldInfo field)
+                     return field.IsStatic
+                         ? (IEnumerable)field.GetValue(null)
+                         : SourceMustBeStaticError();
+ 
+-                var property = member as PropertyInfo;
+-                if (property != null)
++                if (member is PropertyInfo property)
+                     return property.GetGetMethod(true).IsStatic
+                         ? (IEnumerable)property.GetValue(null, null)
+                         : SourceMustBeStaticError();
+ 
+-                var m = member as MethodInfo;
+-                if (m != null)
++                if (member is MethodInfo m)
+                     return m.IsStatic
+                         ? (IEnumerable)m.Invoke(null, null)
+                         : SourceMustBeStaticError();
+diff --git a/src/NUnitFramework/framework/Attributes/ValueSourceAttribute.cs b/src/NUnitFramework/framework/Attributes/ValueSourceAttribute.cs
+index a37b5760..d2af889a 100644
+--- a/src/NUnitFramework/framework/Attributes/ValueSourceAttribute.cs
++++ b/src/NUnitFramework/framework/Attributes/ValueSourceAttribute.cs
+@@ -116,8 +116,7 @@ namespace NUnit.Framework
+ 
+             MemberInfo member = members[0];
+ 
+-            var field = member as FieldInfo;
+-            if (field != null)
++            if (member is FieldInfo field)
+             {
+                 if (field.IsStatic)
+                     return (IEnumerable)field.GetValue(null);
+@@ -125,8 +124,7 @@ namespace NUnit.Framework
+                 throw CreateSourceNameException();
+             }
+ 
+-            var property = member as PropertyInfo;
+-            if (property != null)
++            if (member is PropertyInfo property)
+             {
+                 if (property.GetGetMethod(true).IsStatic)
+                     return (IEnumerable)property.GetValue(null, null);
+@@ -134,8 +132,7 @@ namespace NUnit.Framework
+                 throw CreateSourceNameException();
+             }
+ 
+-            var m = member as MethodInfo;
+-            if (m != null)
++            if (member is MethodInfo m)
+             {
+                 if (m.IsStatic)
+                     return (IEnumerable)m.Invoke(null, null);
+diff --git a/src/NUnitFramework/framework/Compatibility/AttributeHelper.cs b/src/NUnitFramework/framework/Compatibility/AttributeHelper.cs
+index 751e72d4..5ca3c773 100644
+--- a/src/NUnitFramework/framework/Compatibility/AttributeHelper.cs
++++ b/src/NUnitFramework/framework/Compatibility/AttributeHelper.cs
+@@ -41,8 +41,7 @@ namespace NUnit.Compatibility
+         /// <returns>A list of the given attribute on the given object.</returns>
+         public static Attribute[] GetCustomAttributes(object actual, Type attributeType, bool inherit)
+         {
+-            var attrProvider = actual as ICustomAttributeProvider;
+-            if (attrProvider != null) return (Attribute[])attrProvider.GetCustomAttributes(attributeType, inherit);
++            if (actual is ICustomAttributeProvider attrProvider) return (Attribute[])attrProvider.GetCustomAttributes(attributeType, inherit);
+ 
+             throw new ArgumentException($"Actual value {actual} does not implement ICustomAttributeProvider.", nameof(actual));
+         }
+diff --git a/src/NUnitFramework/framework/Constraints/AttributeConstraint.cs b/src/NUnitFramework/framework/Constraints/AttributeConstraint.cs
+index a3607d9f..1b2a16a7 100644
+--- a/src/NUnitFramework/framework/Constraints/AttributeConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/AttributeConstraint.cs
+@@ -49,8 +49,7 @@ namespace NUnit.Framework.Constraints
+             this.DescriptionPrefix = "attribute " + expectedType.FullName;
+ 
+             if (!typeof(Attribute).GetTypeInfo().IsAssignableFrom(expectedType.GetTypeInfo()))
+-                throw new ArgumentException(string.Format(
+-                    "Type {0} is not an attribute", expectedType), nameof(type));
++                throw new ArgumentException($"Type {expectedType} is not an attribute", nameof(type));
+         }
+ 
+         /// <summary>
+@@ -63,7 +62,7 @@ namespace NUnit.Framework.Constraints
+             Guard.ArgumentNotNull(actual, nameof(actual));
+             Attribute[] attrs = AttributeHelper.GetCustomAttributes(actual, expectedType, true);
+             if (attrs.Length == 0)
+-                throw new ArgumentException(string.Format("Attribute {0} was not found", expectedType), nameof(actual));
++                throw new ArgumentException($"Attribute {expectedType} was not found", nameof(actual));
+ 
+             attrFound = attrs[0];
+             return BaseConstraint.ApplyTo(attrFound);
+@@ -74,7 +73,7 @@ namespace NUnit.Framework.Constraints
+         /// </summary>
+         protected override string GetStringRepresentation()
+         {
+-            return string.Format("<attribute {0} {1}>", expectedType, BaseConstraint);
++            return $"<attribute {expectedType} {BaseConstraint}>";
+         }
+     }
+ }
+diff --git a/src/NUnitFramework/framework/Constraints/AttributeExistsConstraint.cs b/src/NUnitFramework/framework/Constraints/AttributeExistsConstraint.cs
+index 1f5f15d6..147ee2ac 100644
+--- a/src/NUnitFramework/framework/Constraints/AttributeExistsConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/AttributeExistsConstraint.cs
+@@ -44,8 +44,7 @@ namespace NUnit.Framework.Constraints
+             this.expectedType = type;
+ 
+             if (!typeof(Attribute).GetTypeInfo().IsAssignableFrom(expectedType.GetTypeInfo()))
+-                throw new ArgumentException(string.Format(
+-                    "Type {0} is not an attribute", expectedType), nameof(type));
++                throw new ArgumentException($"Type {expectedType} is not an attribute", nameof(type));
+         }
+ 
+         /// <summary>
+diff --git a/src/NUnitFramework/framework/Constraints/CollectionConstraint.cs b/src/NUnitFramework/framework/Constraints/CollectionConstraint.cs
+index 30024ed3..b33a0d9d 100644
+--- a/src/NUnitFramework/framework/Constraints/CollectionConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/CollectionConstraint.cs
+@@ -53,8 +53,7 @@ namespace NUnit.Framework.Constraints
+         /// </returns>
+         protected static bool IsEmpty(IEnumerable enumerable)
+         {
+-            ICollection collection = enumerable as ICollection;
+-            if (collection != null)
++            if (enumerable is ICollection collection)
+                 return collection.Count == 0;
+ 
+             foreach (object o in enumerable)
+diff --git a/src/NUnitFramework/framework/Constraints/Constraint.cs b/src/NUnitFramework/framework/Constraints/Constraint.cs
+index 7fc50fa2..b3f0339b 100644
+--- a/src/NUnitFramework/framework/Constraints/Constraint.cs
++++ b/src/NUnitFramework/framework/Constraints/Constraint.cs
+@@ -161,7 +161,7 @@ namespace NUnit.Framework.Constraints
+         {
+             string rep = GetStringRepresentation();
+ 
+-            return this.Builder == null ? rep : string.Format("<unresolved {0}>", rep);
++            return this.Builder == null ? rep : $"<unresolved {rep}>";
+         }
+ 
+         /// <summary>
+diff --git a/src/NUnitFramework/framework/Constraints/DelayedConstraint.cs b/src/NUnitFramework/framework/Constraints/DelayedConstraint.cs
+index b30aeb3b..2198ca72 100644
+--- a/src/NUnitFramework/framework/Constraints/DelayedConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/DelayedConstraint.cs
+@@ -234,7 +234,7 @@ namespace NUnit.Framework.Constraints
+         /// </summary>
+         public override string Description
+         {
+-            get { return string.Format("{0} after {1} delay", BaseConstraint.Description, DelayInterval); }
++            get { return $"{BaseConstraint.Description} after {DelayInterval} delay"; }
+         }
+ 
+         /// <summary>
+@@ -360,7 +360,7 @@ namespace NUnit.Framework.Constraints
+         /// </summary>
+         protected override string GetStringRepresentation()
+         {
+-            return string.Format("<after {0} {1}>", DelayInterval.AsTimeSpan.TotalMilliseconds, BaseConstraint);
++            return $"<after {DelayInterval.AsTimeSpan.TotalMilliseconds} {BaseConstraint}>";
+         }
+ 
+         /// <summary>
+diff --git a/src/NUnitFramework/framework/Constraints/EqualConstraintResult.cs b/src/NUnitFramework/framework/Constraints/EqualConstraintResult.cs
+index 5c877327..56e108d3 100644
+--- a/src/NUnitFramework/framework/Constraints/EqualConstraintResult.cs
++++ b/src/NUnitFramework/framework/Constraints/EqualConstraintResult.cs
+@@ -175,11 +175,11 @@ namespace NUnit.Framework.Constraints
+         {
+             string sExpected = MsgUtils.GetTypeRepresentation(expected);
+             if (expected is ICollection && !(expected is Array))
+-                sExpected += string.Format(" with {0} elements", ((ICollection)expected).Count);
++                sExpected += $" with {((ICollection)expected).Count} elements";
+ 
+             string sActual = MsgUtils.GetTypeRepresentation(actual);
+             if (actual is ICollection && !(actual is Array))
+-                sActual += string.Format(" with {0} elements", ((ICollection)actual).Count);
++                sActual += $" with {((ICollection)actual).Count} elements";
+ 
+             if (sExpected == sActual)
+                 writer.WriteMessageLine(indent, CollectionType_1, sExpected);
+diff --git a/src/NUnitFramework/framework/Constraints/ExactCountConstraint.cs b/src/NUnitFramework/framework/Constraints/ExactCountConstraint.cs
+index 52aeeecb..6445f59a 100644
+--- a/src/NUnitFramework/framework/Constraints/ExactCountConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/ExactCountConstraint.cs
+@@ -105,7 +105,7 @@ namespace NUnit.Framework.Constraints
+                 var descriptionPrefix =
+                     _expectedCount == 0 ? "no item" :
+                     _expectedCount == 1 ? "exactly one item" :
+-                    string.Format("exactly {0} items", _expectedCount);
++                    $"exactly {_expectedCount} items";
+ 
+                 return _itemConstraint != null ? PrefixConstraint.FormatDescription(descriptionPrefix, _itemConstraint) : descriptionPrefix;
+             }
+diff --git a/src/NUnitFramework/framework/Constraints/FileOrDirectoryExistsConstraint.cs b/src/NUnitFramework/framework/Constraints/FileOrDirectoryExistsConstraint.cs
+index ddf81e5e..705c4241 100644
+--- a/src/NUnitFramework/framework/Constraints/FileOrDirectoryExistsConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/FileOrDirectoryExistsConstraint.cs
+@@ -106,20 +106,17 @@ namespace NUnit.Framework.Constraints
+             if (actual == null)
+                 throw new ArgumentNullException(nameof(actual), "The actual value must be a non-null string" + ErrorSubstring);
+ 
+-            var stringValue = actual as string;
+-            if (stringValue != null)
++            if (actual is string stringValue)
+             {
+                 return CheckString(stringValue);
+             }
+ 
+-            var fileInfo = actual as FileInfo;
+-            if (!_ignoreFiles && fileInfo != null)
++            if (!_ignoreFiles && actual is FileInfo fileInfo)
+             {
+                 return new ConstraintResult(this, actual, fileInfo.Exists);
+             }
+ 
+-            var directoryInfo = actual as DirectoryInfo;
+-            if (!_ignoreDirectories && directoryInfo != null)
++            if (!_ignoreDirectories && actual is DirectoryInfo directoryInfo)
+             {
+                 return new ConstraintResult(this, actual, directoryInfo.Exists);
+             }
+diff --git a/src/NUnitFramework/framework/Constraints/Interval.cs b/src/NUnitFramework/framework/Constraints/Interval.cs
+index 4836b301..6b91cc63 100644
+--- a/src/NUnitFramework/framework/Constraints/Interval.cs
++++ b/src/NUnitFramework/framework/Constraints/Interval.cs
+@@ -81,7 +81,7 @@ namespace NUnit.Framework.Constraints
+         /// </returns>
+         public override string ToString()
+         {
+-            return string.Format("{0} {1}{2}", _value, _mode.ToString().ToLower(), _value > 1 ? "s" : string.Empty);
++            return $"{_value} {_mode.ToString().ToLower()}{(_value > 1 ? "s" : string.Empty)}";
+         }
+ 
+         /// <summary>
+diff --git a/src/NUnitFramework/framework/Constraints/MsgUtils.cs b/src/NUnitFramework/framework/Constraints/MsgUtils.cs
+index 9063241e..87d00759 100644
+--- a/src/NUnitFramework/framework/Constraints/MsgUtils.cs
++++ b/src/NUnitFramework/framework/Constraints/MsgUtils.cs
+@@ -263,7 +263,7 @@ namespace NUnit.Framework.Constraints
+ 
+         private static string FormatKeyValuePair(object? key, object? value)
+         {
+-            return string.Format("[{0}, {1}]", FormatValue(key), FormatValue(value));
++            return $"[{FormatValue(key)}, {FormatValue(value)}]";
+         }
+ 
+         private static object? GetValueFromTuple(Type type, string propertyName, object obj)
+@@ -376,7 +376,7 @@ namespace NUnit.Framework.Constraints
+         {
+             Array? array = obj as Array;
+             if (array == null)
+-                return string.Format("<{0}>", obj.GetType());
++                return $"<{obj.GetType()}>";
+ 
+             StringBuilder sb = new StringBuilder();
+             Type elementType = array.GetType();
+@@ -398,7 +398,7 @@ namespace NUnit.Framework.Constraints
+             while (--nest > 0)
+                 sb.Append("[]");
+ 
+-            return string.Format("<{0}>", sb.ToString());
++            return $"<{sb.ToString()}>";
+         }
+ 
+         /// <summary>
+@@ -455,7 +455,7 @@ namespace NUnit.Framework.Constraints
+                         case '\x0085':
+                         case '\x2028':
+                         case '\x2029':
+-                            sb.Append(string.Format("\\x{0:X4}", (int)c));
++                            sb.Append($"\\x{(int)c:X4}");
+                             break;
+ 
+                         default:
+diff --git a/src/NUnitFramework/framework/Constraints/PathConstraint.cs b/src/NUnitFramework/framework/Constraints/PathConstraint.cs
+index d8c77582..1972d5c5 100644
+--- a/src/NUnitFramework/framework/Constraints/PathConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/PathConstraint.cs
+@@ -62,7 +62,7 @@ namespace NUnit.Framework.Constraints
+         /// </summary>
+         protected override string GetStringRepresentation()
+         {
+-            return string.Format("<{0} \"{1}\" {2}>", DisplayName.ToLower(), expected, caseInsensitive ? "ignorecase" : "respectcase");
++            return $"<{DisplayName.ToLower()} \"{expected}\" {(caseInsensitive ? "ignorecase" : "respectcase")}>";
+         }
+ 
+         #region Helper Methods
+diff --git a/src/NUnitFramework/framework/Constraints/PropertyConstraint.cs b/src/NUnitFramework/framework/Constraints/PropertyConstraint.cs
+index f1ffebb3..7dcc27e2 100644
+--- a/src/NUnitFramework/framework/Constraints/PropertyConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/PropertyConstraint.cs
+@@ -90,7 +90,7 @@ namespace NUnit.Framework.Constraints
+         /// </summary>
+         protected override string GetStringRepresentation()
+         {
+-            return string.Format("<property {0} {1}>", name, BaseConstraint);
++            return $"<property {name} {BaseConstraint}>";
+         }
+     }
+ }
+diff --git a/src/NUnitFramework/framework/Constraints/PropertyExistsConstraint.cs b/src/NUnitFramework/framework/Constraints/PropertyExistsConstraint.cs
+index 0121894f..4bceec29 100644
+--- a/src/NUnitFramework/framework/Constraints/PropertyExistsConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/PropertyExistsConstraint.cs
+@@ -96,7 +96,7 @@ namespace NUnit.Framework.Constraints
+         /// <returns></returns>
+         protected override string GetStringRepresentation()
+         {
+-            return string.Format("<propertyexists {0}>", name);
++            return $"<propertyexists {name}>";
+         }
+     }
+ }
+diff --git a/src/NUnitFramework/framework/Constraints/RangeConstraint.cs b/src/NUnitFramework/framework/Constraints/RangeConstraint.cs
+index fdf0df45..4358cb91 100644
+--- a/src/NUnitFramework/framework/Constraints/RangeConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/RangeConstraint.cs
+@@ -54,7 +54,7 @@ namespace NUnit.Framework.Constraints
+         /// </summary>
+         public override string Description
+         {
+-            get { return string.Format("in range ({0},{1})", from, to); }
++            get { return $"in range ({from},{to})"; }
+         }
+ 
+         /// <summary>
+diff --git a/src/NUnitFramework/framework/Constraints/StringConstraint.cs b/src/NUnitFramework/framework/Constraints/StringConstraint.cs
+index 10bb6ab2..613fa4eb 100644
+--- a/src/NUnitFramework/framework/Constraints/StringConstraint.cs
++++ b/src/NUnitFramework/framework/Constraints/StringConstraint.cs
+@@ -67,7 +67,7 @@ namespace NUnit.Framework.Constraints
+         {
+             get
+             {
+-                string desc = string.Format("{0} {1}", descriptionText, MsgUtils.FormatValue(expected));
++                string desc = $"{descriptionText} {MsgUtils.FormatValue(expected)}";
+                 if (caseInsensitive)
+                     desc += ", ignoring case";
+                 return desc;
+diff --git a/src/NUnitFramework/framework/Interfaces/AssertionResult.cs b/src/NUnitFramework/framework/Interfaces/AssertionResult.cs
+index 29cd5a1b..369ac6b7 100644
+--- a/src/NUnitFramework/framework/Interfaces/AssertionResult.cs
++++ b/src/NUnitFramework/framework/Interfaces/AssertionResult.cs
+@@ -85,7 +85,7 @@ namespace NUnit.Framework.Interfaces
+         /// </summary>
+         public override string ToString()
+         {
+-            return string.Format("Assert {0}: {1}", Status, Message) + Environment.NewLine + StackTrace;
++            return $"Assert {Status}: {Message}" + Environment.NewLine + StackTrace;
+         }
+     }
+ }
+diff --git a/src/NUnitFramework/framework/Interfaces/ResultState.cs b/src/NUnitFramework/framework/Interfaces/ResultState.cs
+index 62ec7a7b..929a82d0 100644
+--- a/src/NUnitFramework/framework/Interfaces/ResultState.cs
++++ b/src/NUnitFramework/framework/Interfaces/ResultState.cs
+@@ -276,7 +276,7 @@ namespace NUnit.Framework.Interfaces
+         {
+             var sb = new StringBuilder(Status.ToString());
+ 
+-            if (Label != null && Label.Length > 0)
++            if (!string.IsNullOrEmpty(Label))
+                 sb.AppendFormat(":{0}", Label);
+             if (Site != FailureSite.Test)
+                 sb.AppendFormat("({0})", Site.ToString());
+diff --git a/src/NUnitFramework/framework/Interfaces/TNode.cs b/src/NUnitFramework/framework/Interfaces/TNode.cs
+index 7da3f9f2..bacbf8bd 100644
+--- a/src/NUnitFramework/framework/Interfaces/TNode.cs
++++ b/src/NUnitFramework/framework/Interfaces/TNode.cs
+@@ -368,7 +368,7 @@ namespace NUnit.Framework.Interfaces
+ 
+         private static string CharToUnicodeSequence(char symbol)
+         {
+-            return string.Format("\\u{0}", ((int)symbol).ToString("x4"));
++            return $"\\u{((int)symbol).ToString("x4")}";
+         }
+ 
+         private void WriteCDataTo(XmlWriter writer)
+diff --git a/src/NUnitFramework/framework/Internal/AwaitAdapter.cs b/src/NUnitFramework/framework/Internal/AwaitAdapter.cs
+index a00da100..2443bf81 100644
+--- a/src/NUnitFramework/framework/Internal/AwaitAdapter.cs
++++ b/src/NUnitFramework/framework/Internal/AwaitAdapter.cs
+@@ -54,12 +54,8 @@ namespace NUnit.Framework.Internal
+             if (awaitable == null)
+                 throw new InvalidOperationException("A null reference cannot be awaited.");
+ 
+-            // TaskAwaitAdapter is more efficient because it can rely on Task’s
+-            // special quality of blocking until complete in GetResult.
+-            // As long as the pattern-based adapters are reflection-based, this
+-            // is much more efficient as well.
+-            var task = awaitable as System.Threading.Tasks.Task;
+-            if (task != null) return TaskAwaitAdapter.Create(task);
++            // TaskAwaitAdapter is more efficient because it can rely on Task’s            // special quality of blocking until complete in GetResult.            // As long as the pattern-based adapters are reflection-based, this            // is much more efficient as well.
++            if (awaitable is System.Threading.Tasks.Task task) return TaskAwaitAdapter.Create(task);
+ 
+             // Await all the (C# and F#) things
+             var adapter =
+diff --git a/src/NUnitFramework/framework/Internal/Builders/DatapointProvider.cs b/src/NUnitFramework/framework/Internal/Builders/DatapointProvider.cs
+index 78a05338..05430223 100644
+--- a/src/NUnitFramework/framework/Internal/Builders/DatapointProvider.cs
++++ b/src/NUnitFramework/framework/Internal/Builders/DatapointProvider.cs
+@@ -85,8 +85,7 @@ namespace NUnit.Framework.Internal.Builders
+             {
+                 if (member.IsDefined(typeof(DatapointAttribute), true))
+                 {
+-                    var field = member as FieldInfo;
+-                    if (GetTypeFromMemberInfo(member) == parameterType && field != null)
++                    if (GetTypeFromMemberInfo(member) == parameterType && member is FieldInfo field)
+                     {
+                         if (field.IsStatic)
+                             datapoints.Add(field.GetValue(null));
+@@ -100,23 +99,20 @@ namespace NUnit.Framework.Internal.Builders
+                     {
+                         object? instance;
+ 
+-                        FieldInfo? field = member as FieldInfo;
+-                        PropertyInfo? property = member as PropertyInfo;
+-                        MethodInfo? method = member as MethodInfo;
+-                        if (field != null)
++                        if (member is FieldInfo field)
+                         {
+                             instance = field.IsStatic ? null : ProviderCache.GetInstanceOf(fixtureType);
+                             foreach (object data in (IEnumerable)field.GetValue(instance))
+                                 datapoints.Add(data);
+                         }
+-                        else if (property != null)
++                        else if (member is PropertyInfo property)
+                         {
+                             MethodInfo getMethod = property.GetGetMethod(true);
+                             instance = getMethod.IsStatic ? null : ProviderCache.GetInstanceOf(fixtureType);
+                             foreach (object data in (IEnumerable)property.GetValue(instance, null))
+                                 datapoints.Add(data);
+                         }
+-                        else if (method != null)
++                        else if (member is MethodInfo method)
+                         {
+                             instance = method.IsStatic ? null : ProviderCache.GetInstanceOf(fixtureType);
+                             foreach (object data in (IEnumerable)method.Invoke(instance, new Type[0]))
+@@ -158,16 +154,13 @@ namespace NUnit.Framework.Internal.Builders
+ 
+         private Type? GetTypeFromMemberInfo(MemberInfo member)
+         {
+-            var field = member as FieldInfo;
+-            if (field != null)
++            if (member is FieldInfo field)
+                 return field.FieldType;
+ 
+-            var property = member as PropertyInfo;
+-            if (property != null)
++            if (member is PropertyInfo property)
+                 return property.PropertyType;
+ 
+-            var method = member as MethodInfo;
+-            if (method != null)
++            if (member is MethodInfo method)
+                 return method.ReturnType;
+ 
+             return null;
+diff --git a/src/NUnitFramework/framework/Internal/Builders/NUnitTestCaseBuilder.cs b/src/NUnitFramework/framework/Internal/Builders/NUnitTestCaseBuilder.cs
+index be31439e..3e48c2a7 100644
+--- a/src/NUnitFramework/framework/Internal/Builders/NUnitTestCaseBuilder.cs
++++ b/src/NUnitFramework/framework/Internal/Builders/NUnitTestCaseBuilder.cs
+@@ -211,10 +211,10 @@ namespace NUnit.Framework.Internal.Builders
+                 return MarkAsNotRunnable(testMethod, "No arguments were provided");
+ 
+             if (argsProvided < minArgsNeeded)
+-                return MarkAsNotRunnable(testMethod, string.Format("Not enough arguments provided, provide at least {0} arguments.", minArgsNeeded));
++                return MarkAsNotRunnable(testMethod, $"Not enough arguments provided, provide at least {minArgsNeeded} arguments.");
+ 
+             if (argsProvided > maxArgsNeeded)
+-                return MarkAsNotRunnable(testMethod, string.Format("Too many arguments provided, provide at most {0} arguments.", maxArgsNeeded));
++                return MarkAsNotRunnable(testMethod, $"Too many arguments provided, provide at most {maxArgsNeeded} arguments.");
+ 
+             if (testMethod.Method.IsGenericMethodDefinition && arglist != null)
+             {
+diff --git a/src/NUnitFramework/framework/Internal/Builders/NUnitTestFixtureBuilder.cs b/src/NUnitFramework/framework/Internal/Builders/NUnitTestFixtureBuilder.cs
+index f7323942..dcfff7ce 100644
+--- a/src/NUnitFramework/framework/Internal/Builders/NUnitTestFixtureBuilder.cs
++++ b/src/NUnitFramework/framework/Internal/Builders/NUnitTestFixtureBuilder.cs
+@@ -156,7 +156,7 @@ namespace NUnit.Framework.Internal.Builders
+             if (fixture.Name != name) // name was changed
+             {
+                 string nspace = typeInfo.Namespace;
+-                fixture.FullName = nspace != null && nspace != ""
++                fixture.FullName = !string.IsNullOrEmpty(nspace)
+                     ? nspace + "." + fixture.Name
+                     : fixture.Name;
+             }
+diff --git a/src/NUnitFramework/framework/Internal/Builders/PairwiseStrategy.cs b/src/NUnitFramework/framework/Internal/Builders/PairwiseStrategy.cs
+index 7666ddec..27fa2b1b 100644
+--- a/src/NUnitFramework/framework/Internal/Builders/PairwiseStrategy.cs
++++ b/src/NUnitFramework/framework/Internal/Builders/PairwiseStrategy.cs
+@@ -594,7 +594,7 @@ namespace NUnit.Framework.Internal.Builders
+ 
+                                 if ( !IsTupleCovered( testCases, tuple ) )
+                                 {
+-                                    throw new InvalidOperationException( string.Format( "PairwiseStrategy : Not all pairs are covered : {0}", tuple.ToString() ) );
++                                    throw new InvalidOperationException( $"PairwiseStrategy : Not all pairs are covered : {tuple.ToString()}" );
+                                 }
+                             }
+                         }
+diff --git a/src/NUnitFramework/framework/Internal/Commands/MaxTimeCommand.cs b/src/NUnitFramework/framework/Internal/Commands/MaxTimeCommand.cs
+index 64d2448b..7ac3bfa4 100644
+--- a/src/NUnitFramework/framework/Internal/Commands/MaxTimeCommand.cs
++++ b/src/NUnitFramework/framework/Internal/Commands/MaxTimeCommand.cs
+@@ -61,8 +61,7 @@ namespace NUnit.Framework.Internal.Commands
+ 
+                     if (elapsedTime > maxTime)
+                         result.SetResult(ResultState.Failure,
+-                            string.Format("Elapsed time of {0}ms exceeds maximum of {1}ms",
+-                                elapsedTime, maxTime));
++                            $"Elapsed time of {elapsedTime}ms exceeds maximum of {maxTime}ms");
+                 }
+             };
+         }
+diff --git a/src/NUnitFramework/framework/Internal/CultureDetector.cs b/src/NUnitFramework/framework/Internal/CultureDetector.cs
+index 8349e5ae..9befb22d 100644
+--- a/src/NUnitFramework/framework/Internal/CultureDetector.cs
++++ b/src/NUnitFramework/framework/Internal/CultureDetector.cs
+@@ -84,13 +84,13 @@ namespace NUnit.Framework.Internal
+             //{
+                 if (include != null && !IsCultureSupported(include))
+                 {
+-                    reason = string.Format("Only supported under culture {0}", include);
++                    reason = $"Only supported under culture {include}";
+                     return false;
+                 }
+ 
+                 if (exclude != null && IsCultureSupported(exclude))
+                 {
+-                    reason = string.Format("Not supported under culture {0}", exclude);
++                    reason = $"Not supported under culture {exclude}";
+                     return false;
+                 }
+             //}
+diff --git a/src/NUnitFramework/framework/Internal/ExceptionHelper.cs b/src/NUnitFramework/framework/Internal/ExceptionHelper.cs
+index 308eabac..f3b78679 100644
+--- a/src/NUnitFramework/framework/Internal/ExceptionHelper.cs
++++ b/src/NUnitFramework/framework/Internal/ExceptionHelper.cs
+@@ -106,8 +106,7 @@ namespace NUnit.Framework.Internal
+             if (string.IsNullOrEmpty(message))
+             {
+                 // Special handling for Mono 5.0, which returns an empty message
+-                var fnfEx = ex as System.IO.FileNotFoundException;
+-                return fnfEx != null
++                return ex is System.IO.FileNotFoundException fnfEx
+                     ? "Could not load assembly. File not found: " + fnfEx.FileName
+                     : "No message provided";
+             }
+diff --git a/src/NUnitFramework/framework/Internal/Execution/CompositeWorkItem.cs b/src/NUnitFramework/framework/Internal/Execution/CompositeWorkItem.cs
+index fc23837c..b24e27d5 100644
+--- a/src/NUnitFramework/framework/Internal/Execution/CompositeWorkItem.cs
++++ b/src/NUnitFramework/framework/Internal/Execution/CompositeWorkItem.cs
+@@ -327,8 +327,8 @@ namespace NUnit.Framework.Internal.Execution
+                 // even for tests that have been skipped at a higher level.
+                 Context.Listener.TestFinished(child.Result);
+ 
+-                if (child is CompositeWorkItem)
+-                    SkipChildren((CompositeWorkItem)child, resultState, message);
++                if (child is CompositeWorkItem compositeWorkItem)
++                    SkipChildren(compositeWorkItem, resultState, message);
+             }
+         }
+ 
+@@ -371,8 +371,7 @@ namespace NUnit.Framework.Internal.Execution
+             // only blocks its own children.
+             lock (_childCompletionLock)
+             {
+-                WorkItem childTask = sender as WorkItem;
+-                if (childTask != null)
++                if (sender is WorkItem childTask)
+                 {
+                     childTask.Completed -= new EventHandler(OnChildItemCompleted);
+                     _suiteResult.AddResult(childTask.Result);
+@@ -450,7 +449,7 @@ namespace NUnit.Framework.Internal.Execution
+             /// </summary>
+             public override string Name
+             {
+-                get { return string.Format("{0} OneTimeTearDown", base.Name); }
++                get { return $"{base.Name} OneTimeTearDown"; }
+             }
+ 
+             /// <summary>
+diff --git a/src/NUnitFramework/framework/Internal/Execution/ParallelWorkItemDispatcher.cs b/src/NUnitFramework/framework/Internal/Execution/ParallelWorkItemDispatcher.cs
+index b9c687a8..306be2a8 100644
+--- a/src/NUnitFramework/framework/Internal/Execution/ParallelWorkItemDispatcher.cs
++++ b/src/NUnitFramework/framework/Internal/Execution/ParallelWorkItemDispatcher.cs
+@@ -204,8 +204,7 @@ namespace NUnit.Framework.Internal.Execution
+             log.Debug("Using {0} strategy for {1}", strategy, work.Name);
+ 
+             // Currently, we only track CompositeWorkItems - this could be expanded
+-            var composite = work as CompositeWorkItem;
+-            if (composite != null)
++            if (work is CompositeWorkItem composite)
+                 lock (_activeWorkItems)
+                 {
+                     _activeWorkItems.Add(composite);
+diff --git a/src/NUnitFramework/framework/Internal/Execution/TextCapture.cs b/src/NUnitFramework/framework/Internal/Execution/TextCapture.cs
+index 7410c152..be46ddbb 100644
+--- a/src/NUnitFramework/framework/Internal/Execution/TextCapture.cs
++++ b/src/NUnitFramework/framework/Internal/Execution/TextCapture.cs
+@@ -63,7 +63,7 @@ namespace NUnit.Framework.Internal.Execution
+         {
+             var context = TestExecutionContext.CurrentContext;
+ 
+-            if (context != null && context.CurrentResult != null)
++            if (context?.CurrentResult != null)
+                 context.CurrentResult.OutWriter.Write(value);
+             else
+                 _defaultWriter.Write(value);
+@@ -77,7 +77,7 @@ namespace NUnit.Framework.Internal.Execution
+         {
+             var context = TestExecutionContext.CurrentContext;
+ 
+-            if (context != null && context.CurrentResult != null)
++            if (context?.CurrentResult != null)
+                 context.CurrentResult.OutWriter.Write(value);
+             else
+                 _defaultWriter.Write(value);
+@@ -91,7 +91,7 @@ namespace NUnit.Framework.Internal.Execution
+         {
+             var context = TestExecutionContext.CurrentContext;
+ 
+-            if (context != null && context.CurrentResult != null)
++            if (context?.CurrentResult != null)
+                 context.CurrentResult.OutWriter.WriteLine(value);
+             else
+                 _defaultWriter.WriteLine(value);
+diff --git a/src/NUnitFramework/framework/Internal/Extensions/IPropertyBagDataExtensions.cs b/src/NUnitFramework/framework/Internal/Extensions/IPropertyBagDataExtensions.cs
+index 8255f6a7..99f5d4c8 100644
+--- a/src/NUnitFramework/framework/Internal/Extensions/IPropertyBagDataExtensions.cs
++++ b/src/NUnitFramework/framework/Internal/Extensions/IPropertyBagDataExtensions.cs
+@@ -41,7 +41,7 @@ namespace NUnit.Framework.Internal.Extensions
+         /// <param name="reason">The reason the test is being ignored until that date</param>
+         internal static void AddIgnoreUntilReason(this IPropertyBag properties, DateTimeOffset untilDate, string reason)
+         {
+-            string skipReason = string.Format("Ignoring until {0}. {1}", untilDate.ToString("u"), reason);
++            string skipReason = $"Ignoring until {untilDate.ToString("u")}. {reason}";
+             properties.Set(PropertyNames.SkipReason, skipReason);
+         }
+     }
+diff --git a/src/NUnitFramework/framework/Internal/PlatformHelper.cs b/src/NUnitFramework/framework/Internal/PlatformHelper.cs
+index 3f795f35..4d0aba16 100644
+--- a/src/NUnitFramework/framework/Internal/PlatformHelper.cs
++++ b/src/NUnitFramework/framework/Internal/PlatformHelper.cs
+@@ -120,13 +120,13 @@ namespace NUnit.Framework.Internal
+         {
+             if (include != null && !IsPlatformSupported(include))
+             {
+-                _reason = string.Format("Only supported on {0}", include);
++                _reason = $"Only supported on {include}";
+                 return false;
+             }
+ 
+             if (exclude != null && IsPlatformSupported(exclude))
+             {
+-                _reason = string.Format("Not supported on {0}", exclude);
++                _reason = $"Not supported on {exclude}";
+                 return false;
+             }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/Results/TestResult.cs b/src/NUnitFramework/framework/Internal/Results/TestResult.cs
+index 8b0e06f4..903eeee1 100644
+--- a/src/NUnitFramework/framework/Internal/Results/TestResult.cs
++++ b/src/NUnitFramework/framework/Internal/Results/TestResult.cs
+@@ -563,9 +563,9 @@ namespace NUnit.Framework.Internal
+             {
+                 ex = ValidateAndUnwrap(ex);
+ 
+-                if (ex is ResultStateException)
++                if (ex is ResultStateException resultStateException)
+                 {
+-                    ResultState = ((ResultStateException)ex).ResultState.WithSite(site);
++                    ResultState = resultStateException.ResultState.WithSite(site);
+                     Message = ex.GetMessageWithoutThrowing();
+                     StackTrace = StackFilter.DefaultFilter.Filter(ex.GetStackTraceWithoutThrowing());
+                 }
+@@ -651,7 +651,7 @@ namespace NUnit.Framework.Internal
+ 
+             int counter = 0;
+             foreach (var assertion in AssertionResults)
+-                writer.WriteLine(string.Format("  {0}) {1}", ++counter, assertion.Message));
++                writer.WriteLine($"  {++counter}) {assertion.Message}");
+ 
+             return writer.ToString();
+         }
+diff --git a/src/NUnitFramework/framework/Internal/TestNameGenerator.cs b/src/NUnitFramework/framework/Internal/TestNameGenerator.cs
+index 81b39849..1e150cae 100644
+--- a/src/NUnitFramework/framework/Internal/TestNameGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/TestNameGenerator.cs
+@@ -224,8 +224,7 @@ namespace NUnit.Framework.Internal
+                     ? "null"
+                     : Convert.ToString(arg, System.Globalization.CultureInfo.InvariantCulture);
+ 
+-                var argArray = arg as Array;
+-                if (argArray != null && argArray.Rank == 1)
++                if (arg is Array argArray && argArray.Rank == 1)
+                 {
+                     if (argArray.Length == 0)
+                         display = "[]";
+@@ -243,9 +242,8 @@ namespace NUnit.Framework.Internal
+                                 builder.Append(", ");
+ 
+                             var element = argArray.GetValue(i);
+-                            var childArray = element as Array;
+ 
+-                            if (childArray != null && childArray.Rank == 1)
++                            if (element is Array childArray && childArray.Rank == 1)
+                             {
+                                 builder.Append(childArray.GetType().GetElementType().Name);
+                                 builder.Append("[]");
+@@ -440,7 +438,7 @@ namespace NUnit.Framework.Internal
+                     case '\x0085':
+                     case '\x2028':
+                     case '\x2029':
+-                        return string.Format("\\x{0:X4}", (int)c);
++                        return $"\\x{(int)c:X4}";
+ 
+                     default:
+                         return c.ToString();
+diff --git a/src/NUnitFramework/framework/Internal/Tests/TestSuite.cs b/src/NUnitFramework/framework/Internal/Tests/TestSuite.cs
+index 2ff8080c..acae0c2b 100644
+--- a/src/NUnitFramework/framework/Internal/Tests/TestSuite.cs
++++ b/src/NUnitFramework/framework/Internal/Tests/TestSuite.cs
+@@ -145,8 +145,7 @@ namespace NUnit.Framework.Internal
+ 
+                 foreach (Test test in Tests)
+                 {
+-                    TestSuite? suite = test as TestSuite;
+-                    if (suite != null)
++                    if (test is TestSuite suite)
+                         suite.Sort();
+                 }
+             }
+diff --git a/src/NUnitFramework/framework/Internal/TypeHelper.cs b/src/NUnitFramework/framework/Internal/TypeHelper.cs
+index 3db535ce..314e94d6 100644
+--- a/src/NUnitFramework/framework/Internal/TypeHelper.cs
++++ b/src/NUnitFramework/framework/Internal/TypeHelper.cs
+@@ -400,9 +400,9 @@ namespace NUnit.Framework.Internal
+         /// <param name="value">The value of the object, if the cast succeeded.</param>
+         internal static bool TryCast<T>(object obj, [MaybeNull] out T value)
+         {
+-            if (obj is T)
++            if (obj is T t)
+             {
+-                value = (T)obj;
++                value = t;
+                 return true;
+             }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.ByteValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.ByteValueGenerator.cs
+index a777a9c8..e3c73d5a 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.ByteValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.ByteValueGenerator.cs
+@@ -29,18 +29,18 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is byte)
++                if (value is byte b)
+                 {
+-                    step = new ComparableStep<byte>((byte)value, (prev, stepValue) => checked((byte)(prev + stepValue)));
++                    step = new ComparableStep<byte>(b, (prev, stepValue) => checked((byte)(prev + stepValue)));
+                     return true;
+                 }
+ 
+                 // ByteValueGenerator is unusual in this regard. We allow byte parameter ranges to start high and end low,
+                 // and internally the step is represented as the Int32 value -1 since it can’t be represented as a Byte.
+                 // -1 can be converted natively to Int16, SByte and Decimal, so we can fall back on the automatic conversion for them.
+-                if (value is int)
++                if (value is int i)
+                 {
+-                    step = new ComparableStep<int>((int)value, (prev, stepValue) => checked((byte)(prev + stepValue)));
++                    step = new ComparableStep<int>(i, (prev, stepValue) => checked((byte)(prev + stepValue)));
+                     return true;
+                 }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.DecimalValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.DecimalValueGenerator.cs
+index f0a66fef..bed676f0 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.DecimalValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.DecimalValueGenerator.cs
+@@ -31,9 +31,9 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is decimal)
++                if (value is decimal d)
+                 {
+-                    step = new ComparableStep<decimal>((decimal)value, (prev, stepValue) =>
++                    step = new ComparableStep<decimal>(d, (prev, stepValue) =>
+                     {
+                         var next = prev + stepValue;
+                         if (stepValue > 0 ? next <= prev : prev <= next)
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.DoubleValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.DoubleValueGenerator.cs
+index 52062dce..25418e6d 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.DoubleValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.DoubleValueGenerator.cs
+@@ -31,9 +31,9 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is double)
++                if (value is double d)
+                 {
+-                    step = new ComparableStep<double>((double)value, (prev, stepValue) =>
++                    step = new ComparableStep<double>(d, (prev, stepValue) =>
+                     {
+                         var next = prev + stepValue;
+                         if (stepValue > 0 ? next <= prev : prev <= next)
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.Int16ValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.Int16ValueGenerator.cs
+index 032c3602..5c94b208 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.Int16ValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.Int16ValueGenerator.cs
+@@ -29,9 +29,9 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is short)
++                if (value is short sh)
+                 {
+-                    step = new ComparableStep<short>((short)value, (prev, stepValue) => checked((short)(prev + stepValue)));
++                    step = new ComparableStep<short>(sh, (prev, stepValue) => checked((short)(prev + stepValue)));
+                     return true;
+                 }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.Int32ValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.Int32ValueGenerator.cs
+index 46d40199..a98e5061 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.Int32ValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.Int32ValueGenerator.cs
+@@ -29,9 +29,9 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is int)
++                if (value is int i)
+                 {
+-                    step = new ComparableStep<int>((int)value, (prev, stepValue) => checked(prev + stepValue));
++                    step = new ComparableStep<int>(i, (prev, stepValue) => checked(prev + stepValue));
+                     return true;
+                 }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.Int64ValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.Int64ValueGenerator.cs
+index 912f61c6..17592a5e 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.Int64ValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.Int64ValueGenerator.cs
+@@ -29,9 +29,9 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is long)
++                if (value is long l)
+                 {
+-                    step = new ComparableStep<long>((long)value, (prev, stepValue) => checked(prev + stepValue));
++                    step = new ComparableStep<long>(l, (prev, stepValue) => checked(prev + stepValue));
+                     return true;
+                 }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.SByteValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.SByteValueGenerator.cs
+index 42d2906b..1a8bac0a 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.SByteValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.SByteValueGenerator.cs
+@@ -29,9 +29,9 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is sbyte)
++                if (value is sbyte sb)
+                 {
+-                    step = new ComparableStep<sbyte>((sbyte)value, (prev, stepValue) => checked((sbyte)(prev + stepValue)));
++                    step = new ComparableStep<sbyte>(sb, (prev, stepValue) => checked((sbyte)(prev + stepValue)));
+                     return true;
+                 }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.SingleValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.SingleValueGenerator.cs
+index b3515728..ff63289e 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.SingleValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.SingleValueGenerator.cs
+@@ -31,9 +31,9 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is float)
++                if (value is float f)
+                 {
+-                    step = new ComparableStep<float>((float)value, (prev, stepValue) =>
++                    step = new ComparableStep<float>(f, (prev, stepValue) =>
+                     {
+                         var next = prev + stepValue;
+                         if (stepValue > 0 ? next <= prev : prev <= next)
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.UInt16ValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.UInt16ValueGenerator.cs
+index 61b017b9..72ebf918 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.UInt16ValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.UInt16ValueGenerator.cs
+@@ -29,15 +29,15 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is ushort)
++                if (value is ushort us)
+                 {
+-                    step = new ComparableStep<ushort>((ushort)value, (prev, stepValue) => checked((ushort)(prev + stepValue)));
++                    step = new ComparableStep<ushort>(us, (prev, stepValue) => checked((ushort)(prev + stepValue)));
+                     return true;
+                 }
+ 
+-                if (value is int)
++                if (value is int i)
+                 {
+-                    step = new ComparableStep<int>((int)value, (prev, stepValue) => checked((ushort)(prev + stepValue)));
++                    step = new ComparableStep<int>(i, (prev, stepValue) => checked((ushort)(prev + stepValue)));
+                     return true;
+                 }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.UInt32ValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.UInt32ValueGenerator.cs
+index e696eeba..5687dbc6 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.UInt32ValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.UInt32ValueGenerator.cs
+@@ -29,15 +29,15 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is uint)
++                if (value is uint ui)
+                 {
+-                    step = new ComparableStep<uint>((uint)value, (prev, stepValue) => checked(prev + stepValue));
++                    step = new ComparableStep<uint>(ui, (prev, stepValue) => checked(prev + stepValue));
+                     return true;
+                 }
+ 
+-                if (value is int)
++                if (value is int i)
+                 {
+-                    step = new ComparableStep<int>((int)value, (prev, stepValue) => checked((uint)(prev + stepValue)));
++                    step = new ComparableStep<int>(i, (prev, stepValue) => checked((uint)(prev + stepValue)));
+                     return true;
+                 }
+ 
+diff --git a/src/NUnitFramework/framework/Internal/ValueGenerator.UInt64ValueGenerator.cs b/src/NUnitFramework/framework/Internal/ValueGenerator.UInt64ValueGenerator.cs
+index 7741cba4..5fdb9b75 100644
+--- a/src/NUnitFramework/framework/Internal/ValueGenerator.UInt64ValueGenerator.cs
++++ b/src/NUnitFramework/framework/Internal/ValueGenerator.UInt64ValueGenerator.cs
+@@ -29,15 +29,15 @@ namespace NUnit.Framework.Internal
+         {
+             public override bool TryCreateStep(object value, out ValueGenerator.Step step)
+             {
+-                if (value is ulong)
++                if (value is ulong ul)
+                 {
+-                    step = new ComparableStep<ulong>((ulong)value, (prev, stepValue) => checked(prev + stepValue));
++                    step = new ComparableStep<ulong>(ul, (prev, stepValue) => checked(prev + stepValue));
+                     return true;
+                 }
+ 
+-                if (value is int)
++                if (value is int i)
+                 {
+-                    step = new ComparableStep<int>((int)value, (prev, stepValue) => checked(prev + (ulong)stepValue));
++                    step = new ComparableStep<int>(i, (prev, stepValue) => checked(prev + (ulong)stepValue));
+                     return true;
+                 }
+ 
+diff --git a/src/NUnitFramework/framework/ListMapper.cs b/src/NUnitFramework/framework/ListMapper.cs
+index 23584e04..07b4632e 100644
+--- a/src/NUnitFramework/framework/ListMapper.cs
++++ b/src/NUnitFramework/framework/ListMapper.cs
+@@ -61,8 +61,7 @@ namespace NUnit.Framework
+                 PropertyInfo property = item.GetType().GetProperty( name,
+                     BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+                 if ( property == null )
+-                    throw new ArgumentException( string.Format(
+-                        "{0} does not have a {1} property", item, name ) );
++                    throw new ArgumentException( $"{item} does not have a {name} property" );
+ 
+                 propList.Add( property.GetValue( item, null ) );
+             }
+diff --git a/src/NUnitFramework/nunitlite.tests/CommandLineTests.cs b/src/NUnitFramework/nunitlite.tests/CommandLineTests.cs
+index 0e54b7fb..8ecab131 100644
+--- a/src/NUnitFramework/nunitlite.tests/CommandLineTests.cs
++++ b/src/NUnitFramework/nunitlite.tests/CommandLineTests.cs
+@@ -234,7 +234,7 @@ namespace NUnitLite.Tests
+             {
+                 foreach (string value in goodValues)
+                 {
+-                    string optionPlusValue = string.Format("--{0}:{1}", option, value);
++                    string optionPlusValue = $"--{option}:{value}";
+                     var options = new NUnitLiteOptions(optionPlusValue);
+                     Assert.True(options.Validate(), "Should be valid: " + optionPlusValue);
+                     Assert.AreEqual(value, (string)property.GetValue(options, null), "Didn't recognize " + optionPlusValue);
+@@ -242,7 +242,7 @@ namespace NUnitLite.Tests
+ 
+                 foreach (string value in badValues)
+                 {
+-                    string optionPlusValue = string.Format("--{0}:{1}", option, value);
++                    string optionPlusValue = $"--{option}:{value}";
+                     var options = new NUnitLiteOptions(optionPlusValue);
+                     Assert.False(options.Validate(), "Should not be valid: " + optionPlusValue);
+                 }
+@@ -259,7 +259,7 @@ namespace NUnitLite.Tests
+             foreach (string canonicalValue in canonicalValues)
+             {
+                 string lowercaseValue = canonicalValue.ToLowerInvariant();
+-                string optionPlusValue = string.Format("--{0}:{1}", optionName, lowercaseValue);
++                string optionPlusValue = $"--{optionName}:{lowercaseValue}";
+                 var options = new NUnitLiteOptions(optionPlusValue);
+                 Assert.True(options.Validate(), "Should be valid: " + optionPlusValue);
+                 Assert.AreEqual(canonicalValue, (string)property.GetValue(options, null), "Didn't recognize " + optionPlusValue);
+diff --git a/src/NUnitFramework/nunitlite/CommandLineOptions.cs b/src/NUnitFramework/nunitlite/CommandLineOptions.cs
+index c6329b55..c889a5c8 100644
+--- a/src/NUnitFramework/nunitlite/CommandLineOptions.cs
++++ b/src/NUnitFramework/nunitlite/CommandLineOptions.cs
+@@ -284,7 +284,7 @@ namespace NUnit.Common
+             }
+ 
+             if (!isValid)
+-                ErrorMessages.Add(string.Format("The value '{0}' is not valid for option '{1}'.", val, option));
++                ErrorMessages.Add($"The value '{val}' is not valid for option '{option}'.");
+ 
+             return val;
+         }
+diff --git a/src/NUnitFramework/nunitlite/Options.cs b/src/NUnitFramework/nunitlite/Options.cs
+index a7367c1c..a3b66549 100644
+--- a/src/NUnitFramework/nunitlite/Options.cs
++++ b/src/NUnitFramework/nunitlite/Options.cs
+@@ -314,7 +314,7 @@ namespace NUnit.Options
+                         nameof(maxValueCount));
+             if (this.type == OptionValueType.None && maxValueCount > 1)
+                 throw new ArgumentException (
+-                        string.Format ("Cannot provide maxValueCount of {0} for OptionValueType.None.", maxValueCount),
++                        $"Cannot provide maxValueCount of {maxValueCount} for OptionValueType.None.",
+                         nameof(maxValueCount));
+             if (Array.IndexOf (names, "<>") >= 0 &&
+                     ((names.Length == 1 && this.type != OptionValueType.None) ||
+@@ -387,7 +387,7 @@ namespace NUnit.Options
+                     type = name [end];
+                 else
+                     throw new ArgumentException (
+-                            string.Format ("Conflicting option types: '{0}' vs. '{1}'.", type, name [end]),
++                            $"Conflicting option types: '{type}' vs. '{name[end]}'.",
+                             "prototype");
+                 AddSeparators (name, end, seps);
+             }
+@@ -397,7 +397,7 @@ namespace NUnit.Options
+ 
+             if (count <= 1 && seps.Count != 0)
+                 throw new ArgumentException (
+-                        string.Format ("Cannot provide key/value separators for Options taking {0} value(s).", count),
++                        $"Cannot provide key/value separators for Options taking {count} value(s).",
+                         "prototype");
+             if (count > 1) {
+                 if (seps.Count == 0)
+@@ -419,14 +419,14 @@ namespace NUnit.Options
+                     case '{':
+                         if (start != -1)
+                             throw new ArgumentException (
+-                                    string.Format ("Ill-formed name/value separator found in \"{0}\".", name),
++                                    $"Ill-formed name/value separator found in \"{name}\".",
+                                     "prototype");
+                         start = i+1;
+                         break;
+                     case '}':
+                         if (start == -1)
+                             throw new ArgumentException (
+-                                    string.Format ("Ill-formed name/value separator found in \"{0}\".", name),
++                                    $"Ill-formed name/value separator found in \"{name}\".",
+                                     "prototype");
+                         seps.Add (name.Substring (start, i-start));
+                         start = -1;
+@@ -439,7 +439,7 @@ namespace NUnit.Options
+             }
+             if (start != -1)
+                 throw new ArgumentException (
+-                        string.Format ("Ill-formed name/value separator found in \"{0}\".", name),
++                        $"Ill-formed name/value separator found in \"{name}\".",
+                         "prototype");
+         }
+ 
+@@ -801,9 +801,7 @@ namespace NUnit.Options
+                     c.Option.OptionValueType == OptionValueType.Optional)
+                 c.Option.Invoke (c);
+             else if (c.OptionValues.Count > c.Option.MaxValueCount) {
+-                throw new OptionException (Localizer (string.Format (
+-                                "Error: Found {0} option values when expecting {1}.",
+-                                c.OptionValues.Count, c.Option.MaxValueCount)),
++                throw new OptionException (Localizer ($"Error: Found {c.OptionValues.Count} option values when expecting {c.Option.MaxValueCount}."),
+                         c.OptionName);
+             }
+         }
+diff --git a/src/NUnitFramework/nunitlite/OutputManager.cs b/src/NUnitFramework/nunitlite/OutputManager.cs
+index 8b69b97f..e26035e2 100644
+--- a/src/NUnitFramework/nunitlite/OutputManager.cs
++++ b/src/NUnitFramework/nunitlite/OutputManager.cs
+@@ -74,7 +74,7 @@ namespace NUnitLite
+ 
+                 default:
+                     throw new ArgumentException(
+-                        string.Format("Invalid XML output format '{0}'", spec.Format),
++                        $"Invalid XML output format '{spec.Format}'",
+                         nameof(spec));
+             }
+ 
+@@ -104,7 +104,7 @@ namespace NUnitLite
+ 
+                 default:
+                     throw new ArgumentException(
+-                        string.Format("Invalid output format '{0}'", spec.Format),
++                        $"Invalid output format '{spec.Format}'",
+                         nameof(spec));
+             }
+ 
+diff --git a/src/NUnitFramework/nunitlite/OutputWriters/NUnit2XmlOutputWriter.cs b/src/NUnitFramework/nunitlite/OutputWriters/NUnit2XmlOutputWriter.cs
+index bb5cc968..41b80590 100644
+--- a/src/NUnitFramework/nunitlite/OutputWriters/NUnit2XmlOutputWriter.cs
++++ b/src/NUnitFramework/nunitlite/OutputWriters/NUnit2XmlOutputWriter.cs
+@@ -177,9 +177,8 @@ namespace NUnitLite
+         private void StartTestElement(ITestResult result)
+         {
+             ITest test = result.Test;
+-            TestSuite suite = test as TestSuite;
+ 
+-            if (suite != null)
++            if (test is TestSuite suite)
+             {
+                 xmlWriter.WriteStartElement("test-suite");
+                 xmlWriter.WriteAttributeString("type", suite.TestType == "ParameterizedMethod" ? "ParameterizedTest" : suite.TestType);
+diff --git a/src/NUnitFramework/nunitlite/TestSelectionParser.cs b/src/NUnitFramework/nunitlite/TestSelectionParser.cs
+index b809a113..0029b085 100644
+--- a/src/NUnitFramework/nunitlite/TestSelectionParser.cs
++++ b/src/NUnitFramework/nunitlite/TestSelectionParser.cs
+@@ -245,8 +245,7 @@ namespace NUnit.Common
+ 
+         private Exception InvalidTokenError(Token token)
+         {
+-            return new TestSelectionParserException(string.Format(
+-                "Unexpected token '{0}' at position {1} in selection expression.", token.Text, token.Pos));
++            return new TestSelectionParserException($"Unexpected token '{token.Text}' at position {token.Pos} in selection expression.");
+         }
+ 
+         private Token LookAhead
+diff --git a/src/NUnitFramework/nunitlite/TextUI.cs b/src/NUnitFramework/nunitlite/TextUI.cs
+index 93fd2cd7..eccff580 100644
+--- a/src/NUnitFramework/nunitlite/TextUI.cs
++++ b/src/NUnitFramework/nunitlite/TextUI.cs
+@@ -82,9 +82,9 @@ namespace NUnitLite
+ 
+             var configAttr = executingAssembly.GetCustomAttribute<AssemblyConfigurationAttribute>();
+             if (configAttr != null)
+-                build = string.Format("({0})", configAttr.Configuration);
++                build = $"({configAttr.Configuration})";
+ 
+-            WriteHeader(String.Format("NUnitLite {0} {1}", version.ToString(3), build));
++            WriteHeader($"NUnitLite {version.ToString(3)} {build}");
+             WriteSubHeader(copyright);
+             Writer.WriteLine();
+         }
+@@ -515,7 +515,7 @@ namespace NUnitLite
+                 foreach (var assertion in result.AssertionResults)
+                 {
+                     if (numAsserts > 1)
+-                        assertId = string.Format("{0}-{1}", reportId, ++assertionCounter);
++                        assertId = $"{reportId}-{++assertionCounter}";
+                     ColorStyle style = GetColorStyle(resultState);
+                     string status = assertion.Status.ToString();
+                     DisplayTestResult(style, assertId, status, fullName, assertion.Message, assertion.StackTrace);
+@@ -533,7 +533,7 @@ namespace NUnitLite
+         {
+             Writer.WriteLine();
+             Writer.WriteLine(
+-                style, string.Format("{0}) {1} : {2}", prefix, status, fullName));
++                style, $"{prefix}) {status} : {fullName}");
+ 
+             if (!string.IsNullOrEmpty(message))
+                 Writer.WriteLine(style, message.TrimEnd(TRIM_CHARS));
+diff --git a/src/NUnitFramework/testdata/ActionAttributeFixture.cs b/src/NUnitFramework/testdata/ActionAttributeFixture.cs
+index bcf5f0dc..56a44910 100644
+--- a/src/NUnitFramework/testdata/ActionAttributeFixture.cs
++++ b/src/NUnitFramework/testdata/ActionAttributeFixture.cs
+@@ -77,13 +77,13 @@ namespace NUnit.TestData.ActionAttributeTests
+         [SetUp]
+         public void SetUp()
+         {
+-            Events.Add(string.Format("{0}.SetUpTearDown.Before.Test", TestContext.CurrentContext.Test.Name));
++            Events.Add($"{TestContext.CurrentContext.Test.Name}.SetUpTearDown.Before.Test");
+         }
+ 
+         [TearDown]
+         public void TearDown()
+         {
+-            Events.Add(string.Format("{0}.SetUpTearDown.After.Test", TestContext.CurrentContext.Test.Name));
++            Events.Add($"{TestContext.CurrentContext.Test.Name}.SetUpTearDown.After.Test");
+         }
+ 
+         [TestCase("One", TestName="CaseOne")]
+@@ -167,7 +167,7 @@ namespace NUnit.TestData.ActionAttributeTests
+ 
+         private void AddResult(string phase, ITest test)
+         {
+-            string message = string.Format("{0}.{1}.{2}.{3}", test.Name, _tag, phase, _targets);
++            string message = $"{test.Name}.{_tag}.{phase}.{_targets}";
+ 
+             if(ActionAttributeFixture.Events != null)
+                 ActionAttributeFixture.Events.Add(message);
+diff --git a/src/NUnitFramework/testdata/WarningFixture.cs b/src/NUnitFramework/testdata/WarningFixture.cs
+index 469e37f8..ae690723 100644
+--- a/src/NUnitFramework/testdata/WarningFixture.cs
++++ b/src/NUnitFramework/testdata/WarningFixture.cs
+@@ -73,14 +73,14 @@ namespace NUnit.TestData
+         [Test]
+         public void WarnUnless_Passes_BooleanWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.Unless(2 + 2 == 4, getExceptionMessage);
+         }
+ 
+         [Test]
+         public void WarnIf_Passes_BooleanWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.If(2 + 2 != 4, getExceptionMessage);
+         }
+ 
+@@ -123,14 +123,14 @@ namespace NUnit.TestData
+         [Test]
+         public void WarnUnless_Passes_BooleanLambdaWithWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.Unless(() => 2 + 2 == 4, getExceptionMessage);
+         }
+ 
+         [Test]
+         public void WarnIf_Passes_BooleanLambdaWithWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.If(() => 2 + 2 != 4, getExceptionMessage);
+         }
+ 
+@@ -173,14 +173,14 @@ namespace NUnit.TestData
+         [Test]
+         public void WarnUnless_Passes_ActualAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.Unless(2 + 2, Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+         [Test]
+         public void WarnIf_Passes_ActualAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.If(2 + 2, Is.Not.EqualTo(4), getExceptionMessage);
+         }
+ 
+@@ -223,14 +223,14 @@ namespace NUnit.TestData
+         [Test]
+         public void WarnUnless_Passes_ActualLambdaAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.Unless(() => 2 + 2, Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+         [Test]
+         public void WarnIf_Passes_ActualLambdaAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.If(() => 2 + 2, Is.Not.EqualTo(4), getExceptionMessage);
+         }
+ 
+@@ -273,14 +273,14 @@ namespace NUnit.TestData
+         [Test]
+         public void WarnUnless_Passes_DelegateAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.Unless(new ActualValueDelegate<int>(ReturnsFour), Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+         [Test]
+         public void WarnIf_Passes_DelegateAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Warn.If(new ActualValueDelegate<int>(ReturnsFour), Is.Not.EqualTo(4), getExceptionMessage);
+         }
+ 
+diff --git a/src/NUnitFramework/tests/Api/FrameworkControllerTests.cs b/src/NUnitFramework/tests/Api/FrameworkControllerTests.cs
+index 026ce92a..ee186476 100644
+--- a/src/NUnitFramework/tests/Api/FrameworkControllerTests.cs
++++ b/src/NUnitFramework/tests/Api/FrameworkControllerTests.cs
+@@ -513,7 +513,7 @@ namespace NUnit.Framework.Api
+ 
+         private static string GetSkipReason(TNode result)
+         {
+-            var propNode = result.SelectSingleNode(string.Format("properties/property[@name='{0}']", PropertyNames.SkipReason));
++            var propNode = result.SelectSingleNode($"properties/property[@name='{PropertyNames.SkipReason}']");
+             return propNode == null ? null : propNode.Attributes["value"];
+         }
+ 
+diff --git a/src/NUnitFramework/tests/Assertions/AssertMultipleTests.cs b/src/NUnitFramework/tests/Assertions/AssertMultipleTests.cs
+index 049b60e9..d8a35107 100644
+--- a/src/NUnitFramework/tests/Assertions/AssertMultipleTests.cs
++++ b/src/NUnitFramework/tests/Assertions/AssertMultipleTests.cs
+@@ -123,7 +123,7 @@ namespace NUnit.Framework.Assertions
+                 {
+                     // Since the order of argument evaluation is not guaranteed, we don't
+                     // want 'i' to appear more than once in the Assert statement.
+-                    string errmsg = string.Format("AssertionResult {0}", i + 1);
++                    string errmsg = $"AssertionResult {i + 1}";
+                     Assert.That(assertion.Message, Does.Match(assertionMessageRegex[i++]), errmsg);
+                     Assert.That(result.Message, Contains.Substring(assertion.Message), errmsg);
+ 
+diff --git a/src/NUnitFramework/tests/Assertions/AssertThatTests.cs b/src/NUnitFramework/tests/Assertions/AssertThatTests.cs
+index 0f2490a2..45d8560e 100644
+--- a/src/NUnitFramework/tests/Assertions/AssertThatTests.cs
++++ b/src/NUnitFramework/tests/Assertions/AssertThatTests.cs
+@@ -56,7 +56,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssertionPasses_BooleanWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assert.That(2 + 2 == 4, getExceptionMessage);
+         }
+ 
+@@ -81,7 +81,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssertionPasses_ActualAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assert.That(2 + 2, Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+@@ -106,7 +106,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssertionPasses_ActualLambdaAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assert.That(() => 2 + 2, Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+@@ -131,7 +131,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssertionPasses_DelegateAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assert.That(new ActualValueDelegate<int>(ReturnsFour), Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+@@ -163,7 +163,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void FailureThrowsAssertionException_BooleanWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             var ex = Assert.Throws<AssertionException>(() => Assert.That(2 + 2 == 5, getExceptionMessage));
+             Assert.That(ex.Message, Does.Contain("Not Equal to 4"));
+         }
+diff --git a/src/NUnitFramework/tests/Assertions/AssumeThatTests.cs b/src/NUnitFramework/tests/Assertions/AssumeThatTests.cs
+index b7c01d26..66b76dda 100644
+--- a/src/NUnitFramework/tests/Assertions/AssumeThatTests.cs
++++ b/src/NUnitFramework/tests/Assertions/AssumeThatTests.cs
+@@ -51,7 +51,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssumptionPasses_BooleanWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assume.That(2 + 2 == 4, getExceptionMessage);
+         }
+ 
+@@ -76,7 +76,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssumptionPasses_BooleanLambdaWithWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assume.That(() => 2 + 2 == 4, getExceptionMessage);
+         }
+ 
+@@ -101,7 +101,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssumptionPasses_ActualAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assume.That(2 + 2, Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+@@ -126,7 +126,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssumptionPasses_ActualLambdaAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assume.That(() => 2 + 2, Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+@@ -151,7 +151,7 @@ namespace NUnit.Framework.Assertions
+         [Test]
+         public void AssumptionPasses_DelegateAndConstraintWithMessageStringFunc()
+         {
+-            Func<string> getExceptionMessage = () => string.Format("Not Equal to {0}", 4);
++            Func<string> getExceptionMessage = () => $"Not Equal to {4}";
+             Assume.That(new ActualValueDelegate<int>(ReturnsFour), Is.EqualTo(4), getExceptionMessage);
+         }
+ 
+diff --git a/src/NUnitFramework/tests/Attributes/CommandWrapperTests.cs b/src/NUnitFramework/tests/Attributes/CommandWrapperTests.cs
+index 44b1687d..f755b2fb 100644
+--- a/src/NUnitFramework/tests/Attributes/CommandWrapperTests.cs
++++ b/src/NUnitFramework/tests/Attributes/CommandWrapperTests.cs
+@@ -120,10 +120,10 @@ namespace NUnit.Framework.Attributes
+                         context.CurrentResult.SetResult(ResultState.Success);
+                     else if (caughtType != null)
+                         context.CurrentResult.SetResult(ResultState.Failure,
+-                            string.Format("Expected {0} but got {1}", _expectedType.Name, caughtType.Name));
++                            $"Expected {_expectedType.Name} but got {caughtType.Name}");
+                     else
+                         context.CurrentResult.SetResult(ResultState.Failure,
+-                            string.Format("Expected {0} but no exception was thrown", _expectedType.Name));
++                            $"Expected {_expectedType.Name} but no exception was thrown");
+                     
+                     return context.CurrentResult;
+ }
+diff --git a/src/NUnitFramework/tests/Attributes/TestCaseAttributeTests.cs b/src/NUnitFramework/tests/Attributes/TestCaseAttributeTests.cs
+index ce413e4d..468d454a 100644
+--- a/src/NUnitFramework/tests/Attributes/TestCaseAttributeTests.cs
++++ b/src/NUnitFramework/tests/Attributes/TestCaseAttributeTests.cs
+@@ -337,7 +337,7 @@ namespace NUnit.Framework.Attributes
+             string untilDateString = DateTimeOffset.Parse("4242-01-01", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal).ToString("u");
+             testCase = TestFinder.Find($"{methodName}(2)", suite, false);
+             Assert.That(testCase.RunState, Is.EqualTo(RunState.Ignored));
+-            Assert.That(testCase.Properties.Get(PropertyNames.SkipReason), Is.EqualTo(string.Format("Ignoring until {0}. Should not run", untilDateString)));
++            Assert.That(testCase.Properties.Get(PropertyNames.SkipReason), Is.EqualTo($"Ignoring until {untilDateString}. Should not run"));
+             Assert.That(testCase.Properties.Get(PropertyNames.IgnoreUntilDate), Is.EqualTo(untilDateString));
+ 
+             untilDateString = DateTimeOffset.Parse("1942-01-01", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal).ToString("u");
+@@ -350,7 +350,7 @@ namespace NUnit.Framework.Attributes
+ 
+             testCase = TestFinder.Find($"{methodName}(4)", suite, false);
+             Assert.That(testCase.RunState, Is.EqualTo(RunState.Ignored));
+-            Assert.That(testCase.Properties.Get(PropertyNames.SkipReason), Is.EqualTo(string.Format("Ignoring until {0}. Don't Run Me!", untilDateString)));
++            Assert.That(testCase.Properties.Get(PropertyNames.SkipReason), Is.EqualTo($"Ignoring until {untilDateString}. Don't Run Me!"));
+             Assert.That(testCase.Properties.Get(PropertyNames.IgnoreUntilDate), Is.EqualTo(untilDateString));
+ 
+             testCase = TestFinder.Find($"{methodName}(5)", suite, false);
+diff --git a/src/NUnitFramework/tests/Attributes/TestCaseSourceTests.cs b/src/NUnitFramework/tests/Attributes/TestCaseSourceTests.cs
+index 69e915f0..a9b4d2ef 100644
+--- a/src/NUnitFramework/tests/Attributes/TestCaseSourceTests.cs
++++ b/src/NUnitFramework/tests/Attributes/TestCaseSourceTests.cs
+@@ -276,7 +276,7 @@ namespace NUnit.Framework.Attributes
+ 
+             Test testCase = TestFinder.Find("MethodWithIgnoredTestCases(3)", suite, false);
+             Assert.That(testCase.RunState, Is.EqualTo(RunState.Ignored));
+-            Assert.That(testCase.Properties.Get(PropertyNames.SkipReason), Is.EqualTo(string.Format("Ignoring until {0}. Ignore Me Until The Future", untilDate.ToString("u"))));
++            Assert.That(testCase.Properties.Get(PropertyNames.SkipReason), Is.EqualTo($"Ignoring until {untilDate.ToString("u")}. Ignore Me Until The Future"));
+             Assert.That(testCase.Properties.Get(PropertyNames.IgnoreUntilDate), Is.EqualTo(untilDate.ToString("u")));
+ 
+             untilDate = DateTimeOffset.Parse("1492-01-01", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
+@@ -289,7 +289,7 @@ namespace NUnit.Framework.Attributes
+ 
+             testCase = TestFinder.Find("MethodWithIgnoredTestCases(5)", suite, false);
+             Assert.That(testCase.RunState, Is.EqualTo(RunState.Ignored));
+-            Assert.That(testCase.Properties.Get(PropertyNames.SkipReason), Is.EqualTo(string.Format("Ignoring until {0}. Ignore Me Until The Future", untilDate.ToString("u"))));
++            Assert.That(testCase.Properties.Get(PropertyNames.SkipReason), Is.EqualTo($"Ignoring until {untilDate.ToString("u")}. Ignore Me Until The Future"));
+             Assert.That(testCase.Properties.Get(PropertyNames.IgnoreUntilDate), Is.EqualTo(untilDate.ToString("u")));
+         }
+ 
+diff --git a/src/NUnitFramework/tests/Constraints/AssignableFromConstraintTests.cs b/src/NUnitFramework/tests/Constraints/AssignableFromConstraintTests.cs
+index 8e8ee2f5..7709d9ee 100644
+--- a/src/NUnitFramework/tests/Constraints/AssignableFromConstraintTests.cs
++++ b/src/NUnitFramework/tests/Constraints/AssignableFromConstraintTests.cs
+@@ -30,8 +30,8 @@ namespace NUnit.Framework.Constraints
+         public void SetUp()
+         {
+             TheConstraint = new AssignableFromConstraint(typeof(D1));
+-            ExpectedDescription = string.Format("assignable from <{0}>", typeof(D1));
+-            StringRepresentation = string.Format("<assignablefrom {0}>", typeof(D1));
++            ExpectedDescription = $"assignable from <{typeof(D1)}>";
++            StringRepresentation = $"<assignablefrom {typeof(D1)}>";
+         }
+ 
+         static object[] SuccessData = new object[] { new D1(), new B() };
+diff --git a/src/NUnitFramework/tests/Constraints/AssignableToConstraintTests.cs b/src/NUnitFramework/tests/Constraints/AssignableToConstraintTests.cs
+index 1d42736a..6d0d6a4c 100644
+--- a/src/NUnitFramework/tests/Constraints/AssignableToConstraintTests.cs
++++ b/src/NUnitFramework/tests/Constraints/AssignableToConstraintTests.cs
+@@ -30,8 +30,8 @@ namespace NUnit.Framework.Constraints
+         public void SetUp()
+         {
+             TheConstraint = new AssignableToConstraint(typeof(D1));
+-            ExpectedDescription = string.Format("assignable to <{0}>", typeof(D1));
+-            StringRepresentation = string.Format("<assignableto {0}>", typeof(D1));
++            ExpectedDescription = $"assignable to <{typeof(D1)}>";
++            StringRepresentation = $"<assignableto {typeof(D1)}>";
+         }
+ 
+         static object[] SuccessData = new object[] { new D1(), new D2() };
+diff --git a/src/NUnitFramework/tests/Constraints/ExactTypeConstraintTests.cs b/src/NUnitFramework/tests/Constraints/ExactTypeConstraintTests.cs
+index 9262dbfd..abb39ec3 100644
+--- a/src/NUnitFramework/tests/Constraints/ExactTypeConstraintTests.cs
++++ b/src/NUnitFramework/tests/Constraints/ExactTypeConstraintTests.cs
+@@ -30,8 +30,8 @@ namespace NUnit.Framework.Constraints
+         public void SetUp()
+         {
+             TheConstraint = new ExactTypeConstraint(typeof(D1));
+-            ExpectedDescription = string.Format("<{0}>", typeof(D1));
+-            StringRepresentation = string.Format("<typeof {0}>", typeof(D1));
++            ExpectedDescription = $"<{typeof(D1)}>";
++            StringRepresentation = $"<typeof {typeof(D1)}>";
+         }
+ 
+         static object[] SuccessData = new object[] { new D1() };
+diff --git a/src/NUnitFramework/tests/Constraints/InstanceOfTypeConstraintTests.cs b/src/NUnitFramework/tests/Constraints/InstanceOfTypeConstraintTests.cs
+index bd1a380b..3c1b3288 100644
+--- a/src/NUnitFramework/tests/Constraints/InstanceOfTypeConstraintTests.cs
++++ b/src/NUnitFramework/tests/Constraints/InstanceOfTypeConstraintTests.cs
+@@ -30,8 +30,8 @@ namespace NUnit.Framework.Constraints
+         public void SetUp()
+         {
+             TheConstraint = new InstanceOfTypeConstraint(typeof(D1));
+-            ExpectedDescription = string.Format("instance of <{0}>", typeof(D1));
+-            StringRepresentation = string.Format("<instanceof {0}>", typeof(D1));
++            ExpectedDescription = $"instance of <{typeof(D1)}>";
++            StringRepresentation = $"<instanceof {typeof(D1)}>";
+         }
+ 
+         static object[] SuccessData = new object[] { new D1(), new D2() };
+diff --git a/src/NUnitFramework/tests/Internal/CultureSettingAndDetectionTests.cs b/src/NUnitFramework/tests/Internal/CultureSettingAndDetectionTests.cs
+index 95386e56..02b0f035 100644
+--- a/src/NUnitFramework/tests/Internal/CultureSettingAndDetectionTests.cs
++++ b/src/NUnitFramework/tests/Internal/CultureSettingAndDetectionTests.cs
+@@ -41,27 +41,26 @@ namespace NUnit.Framework.Internal
+         private void ExpectMatch( string culture )
+         {
+             if ( !detector.IsCultureSupported( culture ) )
+-                Assert.Fail( string.Format( "Failed to match \"{0}\"" , culture ) );
++                Assert.Fail( $"Failed to match \"{culture}\"" );
+         }
+ 
+         private void ExpectMatch( CultureAttribute attr )
+         {
+             if ( !detector.IsCultureSupported( attr ) )
+-                Assert.Fail( string.Format( "Failed to match attribute with Include=\"{0}\",Exclude=\"{1}\"", attr.Include, attr.Exclude ) );
++                Assert.Fail( $"Failed to match attribute with Include=\"{attr.Include}\",Exclude=\"{attr.Exclude}\"" );
+         }
+ 
+         private void ExpectFailure( string culture )
+         {
+             if ( detector.IsCultureSupported( culture ) )
+-                Assert.Fail( string.Format( "Should not match \"{0}\"" , culture ) );
++                Assert.Fail( $"Should not match \"{culture}\"" );
+             Assert.AreEqual( "Only supported under culture " + culture, detector.Reason );
+         }
+ 
+         private void ExpectFailure( CultureAttribute attr, string msg )
+         {
+             if ( detector.IsCultureSupported( attr ) )
+-                Assert.Fail( string.Format( "Should not match attribute with Include=\"{0}\",Exclude=\"{1}\"",
+-                    attr.Include, attr.Exclude ) );
++                Assert.Fail( $"Should not match attribute with Include=\"{attr.Include}\",Exclude=\"{attr.Exclude}\"" );
+             Assert.AreEqual( msg, detector.Reason );
+         }
+ 
+diff --git a/src/NUnitFramework/tests/Internal/EventQueueTests.cs b/src/NUnitFramework/tests/Internal/EventQueueTests.cs
+index 992b58d9..02b14e85 100644
+--- a/src/NUnitFramework/tests/Internal/EventQueueTests.cs
++++ b/src/NUnitFramework/tests/Internal/EventQueueTests.cs
+@@ -63,7 +63,7 @@ namespace NUnit.Framework.Internal.Execution
+             for (int index = 0; index < events.Length; index++)
+             {
+                 Event e = q.Dequeue(false);
+-                Assert.AreEqual(events[index].GetType(), e.GetType(), string.Format("Event {0}", index));
++                Assert.AreEqual(events[index].GetType(), e.GetType(), $"Event {index}");
+             }
+         }
+ 
+diff --git a/src/NUnitFramework/tests/Internal/Filters/AndFilterTests.cs b/src/NUnitFramework/tests/Internal/Filters/AndFilterTests.cs
+index 2145a376..3c64a86a 100644
+--- a/src/NUnitFramework/tests/Internal/Filters/AndFilterTests.cs
++++ b/src/NUnitFramework/tests/Internal/Filters/AndFilterTests.cs
+@@ -159,7 +159,7 @@ namespace NUnit.Framework.Internal.Filters
+         public void BuildFromXml()
+         {
+             TestFilter filter = TestFilter.FromXml(
+-                string.Format("<filter><and><cat>Dummy</cat><id>{0}</id></and></filter>", _dummyFixture.Id));
++                $"<filter><and><cat>Dummy</cat><id>{_dummyFixture.Id}</id></and></filter>");
+ 
+             Assert.That(filter, Is.TypeOf<AndFilter>());
+             Assert.That(filter.Match(_dummyFixture));
+@@ -170,7 +170,7 @@ namespace NUnit.Framework.Internal.Filters
+         public void BuildFromXml_TopLevelDefaultsToAnd()
+         {
+             TestFilter filter = TestFilter.FromXml(
+-                string.Format("<filter><cat>Dummy</cat><id>{0}</id></filter>", _dummyFixture.Id));
++                $"<filter><cat>Dummy</cat><id>{_dummyFixture.Id}</id></filter>");
+ 
+             Assert.That(filter, Is.TypeOf<AndFilter>());
+             Assert.That(filter.Match(_dummyFixture));
+diff --git a/src/NUnitFramework/tests/Internal/Filters/TestFilterXmlTests.cs b/src/NUnitFramework/tests/Internal/Filters/TestFilterXmlTests.cs
+index fd3a950d..55210754 100644
+--- a/src/NUnitFramework/tests/Internal/Filters/TestFilterXmlTests.cs
++++ b/src/NUnitFramework/tests/Internal/Filters/TestFilterXmlTests.cs
+@@ -314,7 +314,7 @@ namespace NUnit.Framework.Internal.Filters
+         public void IdFilter_FromXml()
+         {
+             TestFilter filter = TestFilter.FromXml(
+-                string.Format("<filter><id>{0}</id></filter>", _dummyFixture.Id));
++                $"<filter><id>{_dummyFixture.Id}</id></filter>");
+ 
+             Assert.That(filter, Is.TypeOf<IdFilter>());
+             Assert.That(filter.Match(_dummyFixture));
+diff --git a/src/NUnitFramework/tests/Internal/PropertyBagTests.cs b/src/NUnitFramework/tests/Internal/PropertyBagTests.cs
+index e0504069..c7786b4c 100644
+--- a/src/NUnitFramework/tests/Internal/PropertyBagTests.cs
++++ b/src/NUnitFramework/tests/Internal/PropertyBagTests.cs
+@@ -119,9 +119,7 @@ namespace NUnit.Framework.Internal
+ 
+                 Assert.That(node.Name, Is.EqualTo("property"));
+                 
+-                props[i] = string.Format("{0}={1}",
+-                    node.Attributes["name"],
+-                    node.Attributes["value"]);
++                props[i] = $"{node.Attributes["name"]}={node.Attributes["value"]}";
+             }
+ 
+             Assert.That(props,
+diff --git a/src/NUnitFramework/tests/Internal/RuntimeFrameworkTests.cs b/src/NUnitFramework/tests/Internal/RuntimeFrameworkTests.cs
+index a0a5f485..e1814b11 100644
+--- a/src/NUnitFramework/tests/Internal/RuntimeFrameworkTests.cs
++++ b/src/NUnitFramework/tests/Internal/RuntimeFrameworkTests.cs
+@@ -326,7 +326,7 @@ namespace NUnit.Framework.Internal
+ 
+             public override string ToString()
+             {
+-                return string.Format("<{0},{1},{2}>", this.Runtime, this.FrameworkVersion, this.ClrVersion);
++                return $"<{this.Runtime},{this.FrameworkVersion},{this.ClrVersion}>";
+             }
+         }
+ 
+diff --git a/src/NUnitFramework/tests/Internal/SetUpTearDownTests.cs b/src/NUnitFramework/tests/Internal/SetUpTearDownTests.cs
+index d99d661e..6f1d1c5f 100644
+--- a/src/NUnitFramework/tests/Internal/SetUpTearDownTests.cs
++++ b/src/NUnitFramework/tests/Internal/SetUpTearDownTests.cs
+@@ -125,7 +125,7 @@ namespace NUnit.Framework.Internal
+             Assert.IsTrue(suiteResult.HasChildren, "Fixture test should have child result.");
+             ITestResult result = suiteResult.Children.ToArray()[0];
+             Assert.AreEqual(ResultState.Error, result.ResultState, "Test should be in error state");
+-            string expected = string.Format("{0} : {1}", e.GetType().FullName, e.Message);
++            string expected = $"{e.GetType().FullName} : {e.Message}";
+             Assert.AreEqual(expected, result.Message);
+ 
+             PlatformInconsistency.MonoMethodInfoInvokeLosesStackTrace.SkipOnAffectedPlatform(() =>
+@@ -144,7 +144,7 @@ namespace NUnit.Framework.Internal
+             Assert.That(suiteResult.HasChildren, "Fixture test should have child result.");
+             ITestResult result = suiteResult.Children.ToArray()[0];
+             Assert.AreEqual(ResultState.Error, result.ResultState, "Test should be in error state");
+-            string expected = string.Format("TearDown : {0} : {1}", e.GetType().FullName, e.Message);
++            string expected = $"TearDown : {e.GetType().FullName} : {e.Message}";
+             Assert.AreEqual(expected, result.Message);
+             Assert.That(result.StackTrace, Does.StartWith("--TearDown"));
+ 
+@@ -166,8 +166,8 @@ namespace NUnit.Framework.Internal
+             Assert.That(suiteResult.HasChildren, "Fixture test should have child result.");
+             ITestResult result = suiteResult.Children.ToArray()[0];
+             Assert.AreEqual(ResultState.Error, result.ResultState, "Test should be in error state");
+-            string expected = string.Format("{0} : {1}", e1.GetType().FullName, e1.Message) + Environment.NewLine
+-                + string.Format("TearDown : {0} : {1}", e2.GetType().FullName, e2.Message);
++            string expected = $"{e1.GetType().FullName} : {e1.Message}" + Environment.NewLine
++                + $"TearDown : {e2.GetType().FullName} : {e2.Message}";
+             Assert.AreEqual(expected, result.Message);
+             Assert.That(result.StackTrace, Does.Contain("--TearDown"));
+ 
+diff --git a/src/NUnitFramework/tests/Internal/TestFixtureTests.cs b/src/NUnitFramework/tests/Internal/TestFixtureTests.cs
+index 98ae9adf..42f75c2e 100644
+--- a/src/NUnitFramework/tests/Internal/TestFixtureTests.cs
++++ b/src/NUnitFramework/tests/Internal/TestFixtureTests.cs
+@@ -52,7 +52,7 @@ namespace NUnit.Framework.Internal
+ 
+         private static Type GetTestDataType(string typeName)
+         {
+-            string qualifiedName = string.Format("{0},{1}", typeName, dataAssembly);
++            string qualifiedName = $"{typeName},{dataAssembly}";
+             Type type = Type.GetType(qualifiedName);
+             return type;
+         }
+diff --git a/src/NUnitFramework/tests/Internal/TestNamingTests.cs b/src/NUnitFramework/tests/Internal/TestNamingTests.cs
+index 880dc7e1..f40a2b30 100644
+--- a/src/NUnitFramework/tests/Internal/TestNamingTests.cs
++++ b/src/NUnitFramework/tests/Internal/TestNamingTests.cs
+@@ -52,7 +52,7 @@ namespace NUnit.Framework.Internal
+         public void ParameterizedTest(int x, int y, string s)
+         {
+             CheckNames(
+-                string.Format("ParameterizedTest({0},{1},\"{2}\")", x, y, s.Replace("\"", "\\\"")),
++                $"ParameterizedTest({x},{y},\"{s.Replace("\"", "\\\"")}\")",
+                 "ParameterizedTest", 
+                 OUTER_CLASS);
+         }
+diff --git a/src/NUnitFramework/tests/Internal/TestXmlTests.cs b/src/NUnitFramework/tests/Internal/TestXmlTests.cs
+index b290a945..42aeae1e 100644
+--- a/src/NUnitFramework/tests/Internal/TestXmlTests.cs
++++ b/src/NUnitFramework/tests/Internal/TestXmlTests.cs
+@@ -182,12 +182,11 @@ namespace NUnit.Framework.Internal
+ 
+             if (recursive)
+             {
+-                TestSuite suite = test as TestSuite;
+-                if (suite != null)
++                if (test is TestSuite suite)
+                 {
+                     foreach (Test child in suite.Tests)
+                     {
+-                        string xpathQuery = string.Format("{0}[@id={1}]", child.XmlElementName, child.Id);
++                        string xpathQuery = $"{child.XmlElementName}[@id={child.Id}]";
+                         TNode childNode = topNode.SelectSingleNode(xpathQuery);
+                         Assert.NotNull(childNode, "Expected node for test with ID={0}, Name={1}", child.Id, child.Name);
+ 
+diff --git a/src/NUnitFramework/tests/TestContextTests.cs b/src/NUnitFramework/tests/TestContextTests.cs
+index cee5dda6..4307860a 100644
+--- a/src/NUnitFramework/tests/TestContextTests.cs
++++ b/src/NUnitFramework/tests/TestContextTests.cs
+@@ -100,7 +100,7 @@ namespace NUnit.Framework
+         {
+             string workDirectory = TestContext.CurrentContext.WorkDirectory;
+             Assert.NotNull(workDirectory);
+-            Assert.That(Directory.Exists(workDirectory), string.Format("Directory {0} does not exist", workDirectory));
++            Assert.That(Directory.Exists(workDirectory), $"Directory {workDirectory} does not exist");
+         }
+ 
+         [TestCaseSource(nameof(WorkDirectorySource))]
+diff --git a/src/NUnitFramework/tests/TestUtilities/Collections/SimpleEnumerable.cs b/src/NUnitFramework/tests/TestUtilities/Collections/SimpleEnumerable.cs
+index 9fcc02c5..521864b3 100644
+--- a/src/NUnitFramework/tests/TestUtilities/Collections/SimpleEnumerable.cs
++++ b/src/NUnitFramework/tests/TestUtilities/Collections/SimpleEnumerable.cs
+@@ -71,9 +71,9 @@ namespace NUnit.TestUtilities.Collections
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is IEnumerable<object>)
++            if (obj is IEnumerable<object> objects)
+             {
+-                List<object> other = new List<object>((IEnumerable<object>)obj);
++                List<object> other = new List<object>(objects);
+ 
+                 return other[0].Equals(Contents[0]);
+             }
+diff --git a/src/NUnitFramework/tests/TestUtilities/TestFinder.cs b/src/NUnitFramework/tests/TestUtilities/TestFinder.cs
+index 53e621ba..284028ac 100644
+--- a/src/NUnitFramework/tests/TestUtilities/TestFinder.cs
++++ b/src/NUnitFramework/tests/TestUtilities/TestFinder.cs
+@@ -40,8 +40,7 @@ namespace NUnit.TestUtilities
+                     return child;
+                 if (recursive)
+                 {
+-                    TestSuite childSuite = child as TestSuite;
+-                    if (childSuite != null)
++                    if (child is TestSuite childSuite)
+                     {
+                         Test grandchild = Find(name, childSuite, true);
+                         if (grandchild != null)

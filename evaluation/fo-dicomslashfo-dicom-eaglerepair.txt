@@ -1,0 +1,98 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: DICOM Dump
+    #1 Path: D:\a\1\s\Tools\DICOM Dump\MainForm.cs, Line: 199, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: D:\a\1\s\Tools\DICOM Dump\MainForm.cs, Line: 228, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\Tools\DICOM Dump\MainForm.cs, Line: 264, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: DICOM.Tests.Desktop
+    #4 Path: D:\a\1\s\Tests\Desktop\Network\Client\DicomClientTest.cs, Line: 1297, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: DICOM.Desktop
+    #5 Path: D:\a\1\s\DICOM\DicomAnonymizer.cs, Line: 335, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #6 Path: D:\a\1\s\DICOM\DicomFile.cs, Line: 490, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\DICOM\DicomMaskedTag.cs, Line: 69, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #8 Path: D:\a\1\s\DICOM\DicomMaskedTag.cs, Line: 96, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 135, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 170, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 205, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 252, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 291, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 330, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 369, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #16 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 408, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #17 Path: D:\a\1\s\DICOM\DicomMatchRules.cs, Line: 450, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #18 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 116, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 117, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 156, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 157, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #22 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 199, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 200, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 242, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 243, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #26 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 244, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #27 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 291, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #28 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 292, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 335, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 336, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 379, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 380, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 437, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 438, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 506, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #36 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 508, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 513, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 561, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 562, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 611, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #41 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 612, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #42 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 660, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 661, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 701, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #45 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 702, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 742, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 743, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 783, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #49 Path: D:\a\1\s\DICOM\DicomTransformRules.cs, Line: 784, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #50 Path: D:\a\1\s\DICOM\Imaging\ColorSpace.cs, Line: 42, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #51 Path: D:\a\1\s\DICOM\Imaging\Mathematics\Geometry3D.cs, Line: 207, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #52 Path: D:\a\1\s\DICOM\Imaging\Mathematics\Geometry3D.cs, Line: 498, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #53 Path: D:\a\1\s\DICOM\Imaging\Mathematics\Point2.cs, Line: 57, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #54 Path: D:\a\1\s\DICOM\Network\DesktopNetworkListener.cs, Line: 79, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #55 Path: D:\a\1\s\DICOM\Network\DesktopNetworkManager.cs, Line: 72, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #56 Path: D:\a\1\s\DICOM\Network\DicomStatus.cs, Line: 107, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #57 Path: D:\a\1\s\DICOM\Printing\FilmBox.cs, Line: 568, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #58 Path: D:\a\1\s\DICOM\Printing\FilmBoxExtensions.cs, Line: 89, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #59 Path: D:\a\1\s\DICOM\Printing\FilmSession.cs, Line: 262, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #60 Path: D:\a\1\s\DICOM\Printing\ImageBoxExtensions.cs, Line: 59, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #61 Path: D:\a\1\s\DICOM\Serialization\DicomXML.cs, Line: 67, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #62 Path: D:\a\1\s\DICOM\StructuredReport\DicomCodeItem.cs, Line: 76, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #63 Path: D:\a\1\s\DICOM\StructuredReport\DicomCodeItem.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #64 Path: D:\a\1\s\DICOM\StructuredReport\DicomContentItem.cs, Line: 512, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #65 Path: D:\a\1\s\DICOM\StructuredReport\DicomContentItem.cs, Line: 514, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #66 Path: D:\a\1\s\DICOM\StructuredReport\DicomContentItem.cs, Line: 520, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 58
+R8: 5
+R4: 1
+R7: 1
+R5: 1
+
+--- Summary ---
+Fixed ReSharper issues: 66
+Fixed SonarQube issues: 2
+Total fixed issues: 66
+
+Finished in: 14 s
+
+No errors reported.
+

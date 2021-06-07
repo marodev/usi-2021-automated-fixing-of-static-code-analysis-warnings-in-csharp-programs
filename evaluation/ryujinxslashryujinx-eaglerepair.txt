@@ -1,0 +1,78 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Ryujinx
+    #1 Path: D:\a\1\s\Ryujinx\Modules\Motion\Client.cs, Line: 163, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #2 Path: D:\a\1\s\Ryujinx\Modules\Motion\Client.cs, Line: 202, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #3 Path: D:\a\1\s\Ryujinx\Modules\Motion\Client.cs, Line: 241, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Ryujinx.HLE
+    #4 Path: D:\a\1\s\Ryujinx.HLE\FileSystem\Content\ContentManager.cs, Line: 264, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #5 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\ArrayType.cs, Line: 49, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #6 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\EncodedFunction.cs, Line: 49, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #7 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\EncodedFunction.cs, Line: 56, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #8 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\EncodedFunction.cs, Line: 61, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #9 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\EncodedFunction.cs, Line: 66, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #10 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\EncodedFunction.cs, Line: 71, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #11 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\InitListExpression.cs, Line: 19, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #12 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\PackedTemplateParameterExpansion.cs, Line: 11, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #13 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\Qualifier.cs, Line: 114, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #14 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\Qualifier.cs, Line: 49, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #15 Path: D:\a\1\s\Ryujinx.HLE\HOS\Diagnostics\Demangler\Ast\Qualifier.cs, Line: 64, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #16 Path: D:\a\1\s\Ryujinx.HLE\HOS\Kernel\Process\KProcess.cs, Line: 1013, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #17 Path: D:\a\1\s\Ryujinx.HLE\HOS\Kernel\Threading\KScheduler.cs, Line: 363, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #18 Path: D:\a\1\s\Ryujinx.HLE\HOS\Kernel\Threading\KScheduler.cs, Line: 612, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #19 Path: D:\a\1\s\Ryujinx.HLE\HOS\Services\Audio\AudioIn\AudioIn.cs, Line: 83, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #20 Path: D:\a\1\s\Ryujinx.HLE\HOS\Services\Audio\AudioOut\AudioOut.cs, Line: 83, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #21 Path: D:\a\1\s\Ryujinx.HLE\HOS\Services\Audio\AudioRenderer\AudioRenderer.cs, Line: 58, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #22 Path: D:\a\1\s\Ryujinx.HLE\HOS\Services\Time\Clock\SystemClockCore.cs, Line: 102, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Ryujinx.Graphics.Gpu
+    #23 Path: D:\a\1\s\Ryujinx.Graphics.Gpu\Memory\Buffer.cs, Line: 204, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #24 Path: D:\a\1\s\Ryujinx.Graphics.Gpu\Shader\Cache\CacheCollection.cs, Line: 314, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Ryujinx.Graphics.OpenGL
+    #25 Path: D:\a\1\s\Ryujinx.Graphics.OpenGL\Pipeline.cs, Line: 1207, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #26 Path: D:\a\1\s\Ryujinx.Graphics.OpenGL\Pipeline.cs, Line: 1219, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #27 Path: D:\a\1\s\Ryujinx.Graphics.OpenGL\Pipeline.cs, Line: 1273, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Ryujinx.Graphics.Shader
+    #28 Path: D:\a\1\s\Ryujinx.Graphics.Shader\Translation\Optimizations\BindlessElimination.cs, Line: 16, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Ryujinx.Audio.Backends.SoundIo
+    #29 Path: D:\a\1\s\Ryujinx.Audio.Backends.SoundIo\Native\libsoundio\SoundIO.cs, Line: 37, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #30 Path: D:\a\1\s\Ryujinx.Audio.Backends.SoundIo\Native\libsoundio\SoundIODevice.cs, Line: 30, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #31 Path: D:\a\1\s\Ryujinx.Audio.Backends.SoundIo\Native\libsoundio\SoundIOInStream.cs, Line: 27, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #32 Path: D:\a\1\s\Ryujinx.Audio.Backends.SoundIo\Native\libsoundio\SoundIOOutStream.cs, Line: 26, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #33 Path: D:\a\1\s\Ryujinx.Audio.Backends.SoundIo\SoundIoHardwareDeviceDriver.cs, Line: 88, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #34 Path: D:\a\1\s\Ryujinx.Audio.Backends.SoundIo\SoundIoHardwareDeviceDriver.cs, Line: 93, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+--- Rules Summary ---
+R7: 20
+R5: 5
+R8: 5
+R2: 3
+R4: 1
+
+--- Summary ---
+Fixed ReSharper issues: 31
+Fixed SonarQube issues: 6
+Total fixed issues: 34
+
+Finished in: 34 s
+
+No errors reported.
+

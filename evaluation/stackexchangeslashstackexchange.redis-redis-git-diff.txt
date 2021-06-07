@@ -1,0 +1,72 @@
+diff --git a/src/StackExchange.Redis/ChannelMessageQueue.cs b/src/StackExchange.Redis/ChannelMessageQueue.cs
+index 280e4fc..82267cd 100644
+--- a/src/StackExchange.Redis/ChannelMessageQueue.cs
++++ b/src/StackExchange.Redis/ChannelMessageQueue.cs
+@@ -306,10 +306,7 @@ internal void UnsubscribeImpl(Exception error = null, CommandFlags flags = Comma
+         {
+             var parent = _parent;
+             _parent = null;
+-            if (parent != null)
+-            {
+-                parent.UnsubscribeAsync(Channel, null, this, flags);
+-            }
++            parent?.UnsubscribeAsync(Channel, null, this, flags);
+             _queue.Writer.TryComplete(error);
+         }
+ 
+diff --git a/src/StackExchange.Redis/ConnectionMultiplexer.cs b/src/StackExchange.Redis/ConnectionMultiplexer.cs
+index 2c13342..955463d 100644
+--- a/src/StackExchange.Redis/ConnectionMultiplexer.cs
++++ b/src/StackExchange.Redis/ConnectionMultiplexer.cs
+@@ -2297,7 +2297,7 @@ internal void InitializeSentinel(LogProxy logProxy)
+                 sub.Subscribe("+switch-master", (channel, message) =>
+                 {
+                     string[] messageParts = ((string)message).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+-                    EndPoint switchBlame = Format.TryParseEndPoint(string.Format("{0}:{1}", messageParts[1], messageParts[2]));
++                    EndPoint switchBlame = Format.TryParseEndPoint($"{messageParts[1]}:{messageParts[2]}");
+ 
+                     lock (sentinelConnectionChildren)
+                     {
+@@ -2561,10 +2561,10 @@ internal void SwitchMaster(EndPoint switchBlame, ConnectionMultiplexer connectio
+                     {
+                         connection.RawConfig.EndPoints.TryAdd(replicaEndPoint);
+                     }
+-                    Trace(string.Format("Switching master to {0}", newMasterEndPoint));
++                    Trace($"Switching master to {newMasterEndPoint}");
+                     // Trigger a reconfigure
+                     connection.ReconfigureAsync(false, false, logProxy, switchBlame,
+-                        string.Format("master switch {0}", serviceName), false, CommandFlags.PreferMaster).Wait();
++                        $"master switch {serviceName}", false, CommandFlags.PreferMaster).Wait();
+ 
+                     UpdateSentinelAddressList(serviceName);
+                 }
+diff --git a/src/StackExchange.Redis/GeoEntry.cs b/src/StackExchange.Redis/GeoEntry.cs
+index bf97404..89a3be1 100644
+--- a/src/StackExchange.Redis/GeoEntry.cs
++++ b/src/StackExchange.Redis/GeoEntry.cs
+@@ -119,7 +119,7 @@ public GeoPosition(double longitude, double latitude)
+         /// <summary>
+         /// See Object.ToString()
+         /// </summary>
+-        public override string ToString() => string.Format("{0} {1}", Longitude, Latitude);
++        public override string ToString() => $"{Longitude} {Latitude}";
+ 
+         /// <summary>
+         /// See Object.GetHashCode()
+diff --git a/src/StackExchange.Redis/PhysicalBridge.cs b/src/StackExchange.Redis/PhysicalBridge.cs
+index 64577bd..337395a 100644
+--- a/src/StackExchange.Redis/PhysicalBridge.cs
++++ b/src/StackExchange.Redis/PhysicalBridge.cs
+@@ -654,10 +654,10 @@ private WriteResult WriteMessageInsideLock(PhysicalConnection physical, Message
+             {
+                 physical.SetWriting();
+                 var messageIsSent = false;
+-                if (message is IMultiMessage)
++                if (message is IMultiMessage iMultiMessage)
+                 {
+                     SelectDatabaseInsideWriteLock(physical, message); // need to switch database *before* the transaction
+-                    foreach (var subCommand in ((IMultiMessage)message).GetMessages(physical))
++                    foreach (var subCommand in iMultiMessage.GetMessages(physical))
+                     {
+                         result = WriteMessageToServerInsideWriteLock(physical, subCommand);
+                         if (result != WriteResult.Success)

@@ -1,0 +1,369 @@
+diff --git a/Src/FluentAssertions/AndWhichConstraint.cs b/Src/FluentAssertions/AndWhichConstraint.cs
+index c05501ae..3e9bf63f 100644
+--- a/Src/FluentAssertions/AndWhichConstraint.cs
++++ b/Src/FluentAssertions/AndWhichConstraint.cs
+@@ -43,10 +43,7 @@ namespace FluentAssertions
+                     matchedElements.Select(
+                         ele => "\t" + Formatter.ToString(ele)));
+ 
+-                string message = string.Format(
+-                    "More than one object found.  FluentAssertions cannot determine which object is meant.  Found objects:{0}{1}",
+-                    Environment.NewLine,
+-                    foundObjects);
++                string message = $"More than one object found.  FluentAssertions cannot determine which object is meant.  Found objects:{Environment.NewLine}{foundObjects}";
+ 
+                 Services.ThrowException(message);
+             }
+diff --git a/Src/FluentAssertions/Common/Configuration.cs b/Src/FluentAssertions/Common/Configuration.cs
+index b5d302a1..6e421541 100644
+--- a/Src/FluentAssertions/Common/Configuration.cs
++++ b/Src/FluentAssertions/Common/Configuration.cs
+@@ -66,9 +66,7 @@ namespace FluentAssertions.Common
+                 }
+                 catch (ArgumentException)
+                 {
+-                    throw new InvalidOperationException(string.Format(
+-                        "'{0}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.",
+-                        setting));
++                    throw new InvalidOperationException($"'{setting}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.");
+                 }
+             }
+ 
+diff --git a/Src/FluentAssertions/Common/ExpressionExtensions.cs b/Src/FluentAssertions/Common/ExpressionExtensions.cs
+index f6dd66e9..0ec9e83b 100644
+--- a/Src/FluentAssertions/Common/ExpressionExtensions.cs
++++ b/Src/FluentAssertions/Common/ExpressionExtensions.cs
+@@ -32,7 +32,7 @@ namespace FluentAssertions.Common
+             }
+ 
+             throw new ArgumentException(
+-                string.Format("Expression <{0}> cannot be used to select a member.", expression.Body),
++                $"Expression <{expression.Body}> cannot be used to select a member.",
+                 nameof(expression));
+         }
+ 
+diff --git a/Src/FluentAssertions/Common/TypeExtensions.cs b/Src/FluentAssertions/Common/TypeExtensions.cs
+index 63754fcd..66b9f1ff 100644
+--- a/Src/FluentAssertions/Common/TypeExtensions.cs
++++ b/Src/FluentAssertions/Common/TypeExtensions.cs
+@@ -433,10 +433,10 @@ namespace FluentAssertions.Common
+ 
+         public static bool HasExplicitlyImplementedProperty(this Type type, Type interfaceType, string propertyName)
+         {
+-            bool hasGetter = type.HasParameterlessMethod(string.Format("{0}.get_{1}", interfaceType.FullName, propertyName));
++            bool hasGetter = type.HasParameterlessMethod($"{interfaceType.FullName}.get_{propertyName}");
+             bool hasSetter = type.GetMethods(AllMembersFlag)
+                                  .SingleOrDefault(m =>
+-                                     m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) &&
++                                     m.Name == $"{interfaceType.FullName}.set_{propertyName}" &&
+                                      m.GetParameters().Length == 1) != null;
+ 
+             return hasGetter || hasSetter;
+diff --git a/Src/FluentAssertions/Equivalency/EnumEqualityStep.cs b/Src/FluentAssertions/Equivalency/EnumEqualityStep.cs
+index 9a780fc3..1f5eeb04 100644
+--- a/Src/FluentAssertions/Equivalency/EnumEqualityStep.cs
++++ b/Src/FluentAssertions/Equivalency/EnumEqualityStep.cs
+@@ -46,8 +46,7 @@ namespace FluentAssertions.Equivalency
+                     break;
+ 
+                 default:
+-                    throw new InvalidOperationException(string.Format("Do not know how to handle {0}",
+-                        config.EnumEquivalencyHandling));
++                    throw new InvalidOperationException($"Do not know how to handle {config.EnumEquivalencyHandling}");
+             }
+ 
+             return true;
+diff --git a/Src/FluentAssertions/EventRaisingExtensions.cs b/Src/FluentAssertions/EventRaisingExtensions.cs
+index 59aa5c35..e54205fa 100644
+--- a/Src/FluentAssertions/EventRaisingExtensions.cs
++++ b/Src/FluentAssertions/EventRaisingExtensions.cs
+@@ -21,9 +21,7 @@ namespace FluentAssertions
+             {
+                 if (!recordedEvent.Parameters.Any())
+                 {
+-                    throw new ArgumentException(string.Format(
+-                        "Expected event from sender <{0}>, but event {1} does not include any arguments",
+-                        expectedSender, eventRecorder.EventName));
++                    throw new ArgumentException($"Expected event from sender <{expectedSender}>, but event {eventRecorder.EventName} does not include any arguments");
+                 }
+ 
+                 object actualSender = recordedEvent.Parameters.First();
+diff --git a/Src/FluentAssertions/Execution/GallioTestFramework.cs b/Src/FluentAssertions/Execution/GallioTestFramework.cs
+index fa4a7501..a7d7b627 100644
+--- a/Src/FluentAssertions/Execution/GallioTestFramework.cs
++++ b/Src/FluentAssertions/Execution/GallioTestFramework.cs
+@@ -19,9 +19,7 @@ namespace FluentAssertions.Execution
+ 
+             if ((assertionFailureBuilderType is null) || (assertionHelperType is null) || (testContextType is null))
+             {
+-                throw new Exception(string.Format(
+-                    "Failed to create the assertion exception for the current test framework: \"{0}\"",
+-                    assembly.FullName));
++                throw new Exception($"Failed to create the assertion exception for the current test framework: \"{assembly.FullName}\"");
+             }
+ 
+             object testContext = testContextType
+diff --git a/Src/FluentAssertions/Execution/LateBoundTestFramework.cs b/Src/FluentAssertions/Execution/LateBoundTestFramework.cs
+index 362a0260..d30b10e8 100644
+--- a/Src/FluentAssertions/Execution/LateBoundTestFramework.cs
++++ b/Src/FluentAssertions/Execution/LateBoundTestFramework.cs
+@@ -13,9 +13,7 @@ namespace FluentAssertions.Execution
+             Type exceptionType = assembly.GetType(ExceptionFullName);
+             if (exceptionType is null)
+             {
+-                throw new Exception(string.Format(
+-                    "Failed to create the assertion exception for the current test framework: \"{0}, {1}\"",
+-                    ExceptionFullName, assembly.FullName));
++                throw new Exception($"Failed to create the assertion exception for the current test framework: \"{ExceptionFullName}, {assembly.FullName}\"");
+             }
+ 
+             throw (Exception)Activator.CreateInstance(exceptionType, message);
+diff --git a/Src/FluentAssertions/Formatting/DefaultValueFormatter.cs b/Src/FluentAssertions/Formatting/DefaultValueFormatter.cs
+index 3a758a3d..5f0515c9 100644
+--- a/Src/FluentAssertions/Formatting/DefaultValueFormatter.cs
++++ b/Src/FluentAssertions/Formatting/DefaultValueFormatter.cs
+@@ -33,7 +33,7 @@ namespace FluentAssertions.Formatting
+         {
+             if (value.GetType() == typeof(object))
+             {
+-                return string.Format("System.Object (HashCode={0})", value.GetHashCode());
++                return $"System.Object (HashCode={value.GetHashCode()})";
+             }
+ 
+             string prefix = (context.UseLineBreaks ? Environment.NewLine : "");
+@@ -92,13 +92,10 @@ namespace FluentAssertions.Formatting
+             }
+             catch (Exception ex)
+             {
+-                propertyValue = string.Format("[Member '{0}' threw an exception: '{1}']", selectedMemberInfo.Name, ex.Message);
++                propertyValue = $"[Member '{selectedMemberInfo.Name}' threw an exception: '{ex.Message}']";
+             }
+ 
+-            return string.Format("{0}{1} = {2}",
+-                CreateWhitespaceForLevel(context.Depth + 1),
+-                selectedMemberInfo.Name,
+-                formatChild(selectedMemberInfo.Name, propertyValue));
++            return $"{CreateWhitespaceForLevel(context.Depth + 1)}{selectedMemberInfo.Name} = {formatChild(selectedMemberInfo.Name, propertyValue)}";
+         }
+ 
+         private static string CreateWhitespaceForLevel(int level)
+diff --git a/Src/FluentAssertions/Specialized/ExceptionAssertions.cs b/Src/FluentAssertions/Specialized/ExceptionAssertions.cs
+index b69209b9..92ce8d90 100644
+--- a/Src/FluentAssertions/Specialized/ExceptionAssertions.cs
++++ b/Src/FluentAssertions/Specialized/ExceptionAssertions.cs
+@@ -167,9 +167,7 @@ namespace FluentAssertions.Specialized
+                 {
+                     string thrownExceptions = BuildExceptionsString(Subject);
+                     Services.ThrowException(
+-                        string.Format(
+-                            "More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}",
+-                            Environment.NewLine, thrownExceptions));
++                        $"More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{Environment.NewLine}{thrownExceptions}");
+                 }
+ 
+                 return Subject.Single();
+diff --git a/Src/FluentAssertions/Types/ConstructorInfoAssertions.cs b/Src/FluentAssertions/Types/ConstructorInfoAssertions.cs
+index 3fca3299..5ab0f674 100644
+--- a/Src/FluentAssertions/Types/ConstructorInfoAssertions.cs
++++ b/Src/FluentAssertions/Types/ConstructorInfoAssertions.cs
+@@ -19,8 +19,7 @@ namespace FluentAssertions.Types
+ 
+         internal static string GetDescriptionFor(ConstructorInfo constructorInfo)
+         {
+-            return string.Format("{0}({1})",
+-                constructorInfo.DeclaringType, GetParameterString(constructorInfo));
++            return $"{constructorInfo.DeclaringType}({GetParameterString(constructorInfo)})";
+         }
+ 
+         internal override string SubjectDescription => GetDescriptionFor(Subject);
+diff --git a/Src/FluentAssertions/Types/MemberInfoAssertions.cs b/Src/FluentAssertions/Types/MemberInfoAssertions.cs
+index ccb4386d..cdfb928b 100644
+--- a/Src/FluentAssertions/Types/MemberInfoAssertions.cs
++++ b/Src/FluentAssertions/Types/MemberInfoAssertions.cs
+@@ -136,7 +136,7 @@ namespace FluentAssertions.Types
+         {
+             get
+             {
+-                return string.Format("{0}.{1}", Subject.DeclaringType, Subject.Name);
++                return $"{Subject.DeclaringType}.{Subject.Name}";
+             }
+         }
+     }
+diff --git a/Src/FluentAssertions/Types/MethodInfoAssertions.cs b/Src/FluentAssertions/Types/MethodInfoAssertions.cs
+index 49c45bf1..33223191 100644
+--- a/Src/FluentAssertions/Types/MethodInfoAssertions.cs
++++ b/Src/FluentAssertions/Types/MethodInfoAssertions.cs
+@@ -223,8 +223,7 @@ namespace FluentAssertions.Types
+         {
+             string returnTypeName = method.ReturnType.Name;
+ 
+-            return string.Format("{0} {1}.{2}", returnTypeName,
+-                method.DeclaringType, method.Name);
++            return $"{returnTypeName} {method.DeclaringType}.{method.Name}";
+         }
+ 
+         internal override string SubjectDescription => GetDescriptionFor(Subject);
+diff --git a/Src/FluentAssertions/Types/PropertyInfoAssertions.cs b/Src/FluentAssertions/Types/PropertyInfoAssertions.cs
+index 4d228e58..28817bb9 100644
+--- a/Src/FluentAssertions/Types/PropertyInfoAssertions.cs
++++ b/Src/FluentAssertions/Types/PropertyInfoAssertions.cs
+@@ -269,8 +269,7 @@ namespace FluentAssertions.Types
+         internal static string GetDescriptionFor(PropertyInfo property)
+         {
+             string propTypeName = property.PropertyType.Name;
+-            return string.Format("{0} {1}.{2}", propTypeName,
+-                property.DeclaringType, property.Name);
++            return $"{propTypeName} {property.DeclaringType}.{property.Name}";
+         }
+ 
+         internal override string SubjectDescription => GetDescriptionFor(Subject);
+diff --git a/Src/FluentAssertions/Types/TypeAssertions.cs b/Src/FluentAssertions/Types/TypeAssertions.cs
+index 82fe8501..3e51544e 100644
+--- a/Src/FluentAssertions/Types/TypeAssertions.cs
++++ b/Src/FluentAssertions/Types/TypeAssertions.cs
+@@ -847,7 +847,7 @@ namespace FluentAssertions.Types
+         {
+             Subject.Should().Implement(interfaceType, because, becauseArgs);
+ 
+-            var explicitlyImplementsMethod = Subject.HasMethod(string.Format("{0}.{1}", interfaceType.FullName, name), parameterTypes);
++            var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType.FullName}.{name}", parameterTypes);
+ 
+             Execute.Assertion.ForCondition(explicitlyImplementsMethod)
+                 .BecauseOf(because, becauseArgs)
+@@ -887,7 +887,7 @@ namespace FluentAssertions.Types
+         {
+             Subject.Should().Implement(interfaceType, because, becauseArgs);
+ 
+-            var explicitlyImplementsMethod = Subject.HasMethod(string.Format("{0}.{1}", interfaceType.FullName, name), parameterTypes);
++            var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType.FullName}.{name}", parameterTypes);
+ 
+             Execute.Assertion.ForCondition(!explicitlyImplementsMethod)
+                 .BecauseOf(because, becauseArgs)
+diff --git a/Tests/Shared.Specs/EventAssertionSpecs.cs b/Tests/Shared.Specs/EventAssertionSpecs.cs
+index 10992a8f..9976185c 100644
+--- a/Tests/Shared.Specs/EventAssertionSpecs.cs
++++ b/Tests/Shared.Specs/EventAssertionSpecs.cs
+@@ -643,7 +643,7 @@ namespace FluentAssertions.Specs
+             MethodBuilder emitAddRemoveEventHandler(string methodName)
+             {
+                 MethodBuilder method =
+-                    typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
++                    typeBuilder.DefineMethod($"{interfaceType.FullName}.{methodName}_InterfaceEvent",
+                         MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final |
+                         MethodAttributes.HideBySig |
+                         MethodAttributes.NewSlot);
+diff --git a/Tests/Shared.Specs/ExceptionAssertionSpecs.cs b/Tests/Shared.Specs/ExceptionAssertionSpecs.cs
+index d5f5e8b4..8892d4ea 100644
+--- a/Tests/Shared.Specs/ExceptionAssertionSpecs.cs
++++ b/Tests/Shared.Specs/ExceptionAssertionSpecs.cs
+@@ -498,7 +498,7 @@ namespace FluentAssertions.Specs
+ 
+         private static string BuildExpectedMessageForWithInnerExceptionExactly(string because, string innerExceptionMessage)
+         {
+-            var expectedMessage = string.Format("{0} \"{1}\"\n.", because, innerExceptionMessage);
++            var expectedMessage = $"{because} \"{innerExceptionMessage}\"\n.";
+ 
+             return expectedMessage;
+         }
+@@ -748,8 +748,7 @@ namespace FluentAssertions.Specs
+             // Assert
+             act.Should().Throw<XunitException>()
+                 .WithMessage(
+-                    string.Format("*System.ArgumentNullException*{0}*",
+-                        typeof(ExceptionWithEmptyToString)));
++                    $"*System.ArgumentNullException*{typeof(ExceptionWithEmptyToString)}*");
+         }
+ 
+         #endregion
+diff --git a/Tests/Shared.Specs/ExtensibilityRelatedEquivalencySpecs.cs b/Tests/Shared.Specs/ExtensibilityRelatedEquivalencySpecs.cs
+index 881cc11a..2ee4c4ab 100644
+--- a/Tests/Shared.Specs/ExtensibilityRelatedEquivalencySpecs.cs
++++ b/Tests/Shared.Specs/ExtensibilityRelatedEquivalencySpecs.cs
+@@ -61,7 +61,7 @@ namespace FluentAssertions.Specs
+ 
+             // Assert
+             act.Should().Throw<XunitException>()
+-                .WithMessage(string.Format("*{0}*", typeof(ExcludeForeignKeysSelectionRule).Name));
++                .WithMessage($"*{typeof(ExcludeForeignKeysSelectionRule).Name}*");
+         }
+ 
+         internal class ExcludeForeignKeysSelectionRule : IMemberSelectionRule
+@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
+ 
+             // Assert
+             act.Should().Throw<XunitException>()
+-                .WithMessage(string.Format("*{0}*", typeof(ForeignKeyMatchingRule).Name));
++                .WithMessage($"*{typeof(ForeignKeyMatchingRule).Name}*");
+         }
+ 
+         internal class ForeignKeyMatchingRule : IMemberMatchingRule
+diff --git a/Tests/Shared.Specs/ReferenceTypeAssertionsSpecs.cs b/Tests/Shared.Specs/ReferenceTypeAssertionsSpecs.cs
+index 69cb2946..c4c8d780 100644
+--- a/Tests/Shared.Specs/ReferenceTypeAssertionsSpecs.cs
++++ b/Tests/Shared.Specs/ReferenceTypeAssertionsSpecs.cs
+@@ -419,6 +419,26 @@ namespace FluentAssertions.Specs
+             Action act = () => subject.Should().Be(other);
+ 
+             // Assert
++
++/* Unmerged change from project 'NetCore.Specs'
++Before:
++            act.Should().Throw<XunitException>().WithMessage(string.Format(
++#if NETCOREAPP1_1
++                "Expected object to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
++#else
++                "Expected subject to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
++#endif
++                other.GetHashCode(), subject.GetHashCode()));
++After:
++            act.Should().Throw<XunitException>().WithMessage($"Expected object to be System.Object (HashCode={
++#else
++                "Expected subject to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
++#endif
++other.GetHashCode()}), but found System.Object (HashCode={subject.GetHashCode()}).");
++*/
++
++/* Unmerged change from project 'NetStandard13.Specs'
++Before:
+             act.Should().Throw<XunitException>().WithMessage(string.Format(
+ #if NETCOREAPP1_1
+                 "Expected object to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
+@@ -426,6 +446,16 @@ namespace FluentAssertions.Specs
+                 "Expected subject to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
+ #endif
+                 other.GetHashCode(), subject.GetHashCode()));
++After:
++            act.Should().Throw<XunitException>().WithMessage($"Expected object to be System.Object (HashCode={
++#else
++                "Expected subject to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
++#endif
++other.GetHashCode()}), but found System.Object (HashCode={subject.GetHashCode()}).");
++*/
++            act.Should().Throw<XunitException>().WithMessage($"Expected subject to be System.Object (HashCode={
++#endif
++other.GetHashCode()}), but found System.Object (HashCode={subject.GetHashCode()}).");
+         }
+ 
+         #endregion
+@@ -506,7 +536,7 @@ namespace FluentAssertions.Specs
+         /// <filterpriority>2</filterpriority>
+         public override string ToString()
+         {
+-            return string.Format("ClassWithCustomEqualMethod({0})", Key);
++            return $"ClassWithCustomEqualMethod({Key})";
+         }
+     }
+ }
+diff --git a/Tests/Shared.Specs/StringAssertionSpecs.cs b/Tests/Shared.Specs/StringAssertionSpecs.cs
+index f9176437..5f29bcb6 100644
+--- a/Tests/Shared.Specs/StringAssertionSpecs.cs
++++ b/Tests/Shared.Specs/StringAssertionSpecs.cs
+@@ -3365,7 +3365,7 @@ namespace FluentAssertions.Specs
+ 
+         private static string WrapMessageWithPunctuation(string msg, string because)
+         {
+-            var ending = string.IsNullOrEmpty(because) ? "." : string.Format(" because {0}.", because);
++            var ending = string.IsNullOrEmpty(because) ? "." : $" because {because}.";
+             return msg + ending;
+         }
+     }

@@ -1,0 +1,2252 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Sonarr.Test.Common
+    #1 Path: D:\a\1\s\src\NzbDrone.Test.Common\AutoMoq\AutoMoqer.cs, Line: 127, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\src\NzbDrone.Test.Common\ExceptionVerification.cs, Line: 146, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\src\NzbDrone.Test.Common\ExceptionVerification.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\src\NzbDrone.Test.Common\ExceptionVerification.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Sonarr.Core.Test
+    #5 Path: D:\a\1\s\src\NzbDrone.Core.Test\Download\Pending\PendingReleaseServiceTests\RemovePendingFixture.cs, Line: 113, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #6 Path: D:\a\1\s\src\NzbDrone.Core.Test\Download\Pending\PendingReleaseServiceTests\RemovePendingFixture.cs, Line: 126, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\src\NzbDrone.Core.Test\Download\Pending\PendingReleaseServiceTests\RemovePendingFixture.cs, Line: 139, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\src\NzbDrone.Core.Test\Download\Pending\PendingReleaseServiceTests\RemovePendingFixture.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\src\NzbDrone.Core.Test\Download\Pending\PendingReleaseServiceTests\RemovePendingFixture.cs, Line: 83, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\src\NzbDrone.Core.Test\Download\Pending\PendingReleaseServiceTests\RemovePendingFixture.cs, Line: 98, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: D:\a\1\s\src\NzbDrone.Core.Test\Framework\DirectDataMapper.cs, Line: 108, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: D:\a\1\s\src\NzbDrone.Core.Test\Framework\MigrationTest.cs, Line: 29, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #13 Path: D:\a\1\s\src\NzbDrone.Core.Test\NotificationTests\PlexClientServiceTest.cs, Line: 38, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: D:\a\1\s\src\NzbDrone.Core.Test\NotificationTests\PlexClientServiceTest.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\src\NzbDrone.Core.Test\NotificationTests\Xbmc\Http\ActivePlayersFixture.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #16 Path: D:\a\1\s\src\NzbDrone.Core.Test\ParserTests\QualityParserFixture.cs, Line: 367, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #17 Path: D:\a\1\s\src\NzbDrone.Core.Test\ParserTests\QualityParserFixture.cs, Line: 377, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Sonarr.Integration.Test
+    #18 Path: D:\a\1\s\src\NzbDrone.Integration.Test\IntegrationTestBase.cs, Line: 295, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Sonarr.Core
+    #19 Path: D:\a\1\s\src\NzbDrone.Core\Configuration\ConfigFileProvider.cs, Line: 238, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #20 Path: D:\a\1\s\src\NzbDrone.Core\DataAugmentation\Scene\InvalidSceneMappingException.cs, Line: 19, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\BasicRepository.cs, Line: 91, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #22 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\BasicRepository.cs, Line: 94, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #23 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Converters\BooleanIntConverter.cs, Line: 25, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Extensions\MappingExtensions.cs, Line: 29, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\018_remove_duplicates.cs, Line: 38, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #26 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\018_remove_duplicates.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #27 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\018_remove_duplicates.cs, Line: 74, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #28 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\018_remove_duplicates.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\018_remove_duplicates.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\018_remove_duplicates.cs, Line: 83, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\018_remove_duplicates.cs, Line: 92, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\018_remove_duplicates.cs, Line: 95, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\020_add_year_and_seasons_to_series.cs, Line: 57, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\029_add_formats_to_naming_config.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\029_add_formats_to_naming_config.cs, Line: 84, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #36 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\069_quality_proper.cs, Line: 63, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\069_quality_proper.cs, Line: 67, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\069_quality_proper.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\070_delay_profile.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\070_delay_profile.cs, Line: 55, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #41 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\079_dedupe_tags.cs, Line: 134, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #42 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\079_dedupe_tags.cs, Line: 76, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\085_expand_transmission_urlbase.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\147_swap_filechmod_for_folderchmod.cs, Line: 26, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #45 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSqliteProcessor.cs, Line: 134, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSqliteProcessor.cs, Line: 35, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSqliteProcessor.cs, Line: 62, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSqliteProcessor.cs, Line: 78, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #49 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\NzbDroneSqliteProcessor.cs, Line: 83, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #50 Path: D:\a\1\s\src\NzbDrone.Core\Datastore\Migration\Framework\SqliteSyntaxReader.cs, Line: 248, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #51 Path: D:\a\1\s\src\NzbDrone.Core\DecisionEngine\Rejection.cs, Line: 16, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #52 Path: D:\a\1\s\src\NzbDrone.Core\DecisionEngine\Specifications\AcceptableSizeSpecification.cs, Line: 85, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #53 Path: D:\a\1\s\src\NzbDrone.Core\DecisionEngine\Specifications\AcceptableSizeSpecification.cs, Line: 96, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #54 Path: D:\a\1\s\src\NzbDrone.Core\DecisionEngine\Specifications\Search\SingleEpisodeSearchMatchSpecification.cs, Line: 31, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #55 Path: D:\a\1\s\src\NzbDrone.Core\DecisionEngine\Specifications\Search\SingleEpisodeSearchMatchSpecification.cs, Line: 34, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #56 Path: D:\a\1\s\src\NzbDrone.Core\DecisionEngine\Specifications\TorrentSeedingSpecification.cs, Line: 46, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #57 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Blackhole\TorrentBlackhole.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #58 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Deluge\DelugeProxy.cs, Line: 286, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #59 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Nzbget\ErrorModel.cs, Line: 11, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #60 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortex.cs, Line: 245, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #61 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortexProxy.cs, Line: 110, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #62 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortexProxy.cs, Line: 180, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #63 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortexProxy.cs, Line: 195, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #64 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\NzbVortex\NzbVortexProxy.cs, Line: 60, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #65 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Pneumatic\Pneumatic.cs, Line: 129, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #66 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\QBittorrent\QBittorrentProxyV1.cs, Line: 328, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #67 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\QBittorrent\QBittorrentProxyV2.cs, Line: 350, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #68 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Transmission\TransmissionBase.cs, Line: 163, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #69 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Transmission\TransmissionProxy.cs, Line: 208, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #70 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Transmission\TransmissionProxy.cs, Line: 269, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #71 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\Transmission\TransmissionProxy.cs, Line: 280, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #72 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\uTorrent\UTorrent.cs, Line: 179, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #73 Path: D:\a\1\s\src\NzbDrone.Core\Download\Clients\uTorrent\UTorrentProxy.cs, Line: 244, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #74 Path: D:\a\1\s\src\NzbDrone.Core\Download\DownloadClientBase.cs, Line: 112, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #75 Path: D:\a\1\s\src\NzbDrone.Core\Download\DownloadClientBase.cs, Line: 141, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #76 Path: D:\a\1\s\src\NzbDrone.Core\Download\DownloadClientBase.cs, Line: 150, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #77 Path: D:\a\1\s\src\NzbDrone.Core\Download\DownloadService.cs, Line: 92, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #78 Path: D:\a\1\s\src\NzbDrone.Core\Download\Pending\PendingReleaseService.cs, Line: 112, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #79 Path: D:\a\1\s\src\NzbDrone.Core\Download\Pending\PendingReleaseService.cs, Line: 114, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #80 Path: D:\a\1\s\src\NzbDrone.Core\Download\Pending\PendingReleaseService.cs, Line: 420, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #81 Path: D:\a\1\s\src\NzbDrone.Core\Download\TorrentClientBase.cs, Line: 187, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #82 Path: D:\a\1\s\src\NzbDrone.Core\Download\TorrentClientBase.cs, Line: 60, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #83 Path: D:\a\1\s\src\NzbDrone.Core\Exceptions\SeriesNotFoundException.cs, Line: 10, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #84 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Metadata\Consumers\Roksbox\RoksboxMetadata.cs, Line: 151, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #85 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Metadata\Consumers\Wdtv\WdtvMetadata.cs, Line: 145, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #86 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Metadata\Consumers\Xbmc\XbmcMetadata.cs, Line: 151, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #87 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Metadata\Consumers\Xbmc\XbmcMetadata.cs, Line: 413, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #88 Path: D:\a\1\s\src\NzbDrone.Core\Extras\Metadata\Consumers\Xbmc\XbmcMetadata.cs, Line: 417, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #89 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\DownloadClientStatusCheck.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #90 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\ImportListRootFolderCheck.cs, Line: 57, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #91 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\ImportListStatusCheck.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #92 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\IndexerLongTermStatusCheck.cs, Line: 47, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #93 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\IndexerStatusCheck.cs, Line: 45, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #94 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\MountCheck.cs, Line: 24, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #95 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\ProxyCheck.cs, Line: 37, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #96 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\RemovedSeriesCheck.cs, Line: 34, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #97 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\RootFolderCheck.cs, Line: 43, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #98 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\UpdateCheck.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #99 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\UpdateCheck.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #100 Path: D:\a\1\s\src\NzbDrone.Core\HealthCheck\Checks\UpdateCheck.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #101 Path: D:\a\1\s\src\NzbDrone.Core\History\HistoryService.cs, Line: 180, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #102 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\ImportListSyncService.cs, Line: 108, Message: ReSharper: ReplaceWithSingleCallToSingleOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #103 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\ImportListSyncService.cs, Line: 142, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #104 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\ImportListSyncService.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #105 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\Trakt\TraktImportBase.cs, Line: 103, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #106 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\Trakt\TraktImportBase.cs, Line: 130, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #107 Path: D:\a\1\s\src\NzbDrone.Core\ImportLists\Trakt\TraktImportBase.cs, Line: 88, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #108 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\BroadcastheNet\BroadcastheNetParser.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #109 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\BroadcastheNet\BroadcastheNetParser.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #110 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\BroadcastheNet\BroadcastheNetRequestGenerator.cs, Line: 125, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #111 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\BroadcastheNet\BroadcastheNetRequestGenerator.cs, Line: 167, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #112 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\BroadcastheNet\BroadcastheNetRequestGenerator.cs, Line: 206, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #113 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\BroadcastheNet\BroadcastheNetRequestGenerator.cs, Line: 211, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #114 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\BroadcastheNet\BroadcastheNetRequestGenerator.cs, Line: 73, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #115 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\BroadcastheNet\BroadcastheNetRequestGenerator.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #116 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\FileList\FileListRequestGenerator.cs, Line: 116, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #117 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\FileList\FileListRequestGenerator.cs, Line: 124, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #118 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\FileList\FileListRequestGenerator.cs, Line: 132, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #119 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\HDBits\HDBitsParser.cs, Line: 55, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #120 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\HDBits\HDBitsRequestGenerator.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #121 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabCapabilitiesProvider.cs, Line: 45, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #122 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 169, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #123 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 177, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #124 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 187, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #125 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 202, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #126 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 209, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #127 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 218, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #128 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 263, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #129 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 270, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #130 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 279, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #131 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 317, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #132 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 362, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #133 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 367, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #134 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 372, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #135 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 378, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #136 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 390, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #137 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 401, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #138 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 417, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #139 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 426, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #140 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Newznab\NewznabRequestGenerator.cs, Line: 432, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #141 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Nyaa\NyaaRequestGenerator.cs, Line: 75, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #142 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Nyaa\NyaaRequestGenerator.cs, Line: 84, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #143 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Omgwtfnzbs\OmgwtfnzbsRequestGenerator.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #144 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Rarbg\RarbgParser.cs, Line: 84, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #145 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Rarbg\RarbgParser.cs, Line: 88, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #146 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\RssParser.cs, Line: 349, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #147 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\RssSyncService.cs, Line: 54, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #148 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\SeedConfigProvider.cs, Line: 35, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #149 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\Torrentleech\TorrentleechRequestGenerator.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #150 Path: D:\a\1\s\src\NzbDrone.Core\Indexers\TorrentRss\TorrentRssSettingsDetector.cs, Line: 55, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #151 Path: D:\a\1\s\src\NzbDrone.Core\IndexerSearch\Definitions\DailySeasonSearchCriteria.cs, Line: 11, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #152 Path: D:\a\1\s\src\NzbDrone.Core\IndexerSearch\Definitions\SpecialEpisodeSearchCriteria.cs, Line: 15, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #153 Path: D:\a\1\s\src\NzbDrone.Core\IndexerSearch\Definitions\SpecialEpisodeSearchCriteria.cs, Line: 18, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #154 Path: D:\a\1\s\src\NzbDrone.Core\Jobs\TaskManager.cs, Line: 95, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #155 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\DownloadedEpisodesImportService.cs, Line: 227, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #156 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\EpisodeFile.cs, Line: 32, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #157 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\EpisodeFileMovingService.cs, Line: 158, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #158 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\EpisodeImport\ImportDecisionMaker.cs, Line: 61, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #159 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\EpisodeImport\Manual\ManualImportService.cs, Line: 197, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #160 Path: D:\a\1\s\src\NzbDrone.Core\MediaFiles\MediaInfo\MediaInfoFormatter.cs, Line: 483, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #161 Path: D:\a\1\s\src\NzbDrone.Core\Messaging\Events\EventAggregator.cs, Line: 133, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #162 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 181, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #163 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 360, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #164 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 388, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #165 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Discord\Discord.cs, Line: 98, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #166 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\NotificationService.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #167 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\NotificationService.cs, Line: 67, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #168 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\NotificationService.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #169 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Plex\HomeTheater\PlexClientService.cs, Line: 29, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #170 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Plex\HomeTheater\PlexClientService.cs, Line: 40, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #171 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Plex\HomeTheater\PlexClientService.cs, Line: 55, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #172 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Slack\Slack.cs, Line: 192, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #173 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Synology\SynologyIndexerProxy.cs, Line: 92, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #174 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Twitter\TwitterService.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #175 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Twitter\TwitterService.cs, Line: 90, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #176 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\HttpApiProvider.cs, Line: 101, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #177 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\HttpApiProvider.cs, Line: 163, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #178 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\HttpApiProvider.cs, Line: 184, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #179 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\HttpApiProvider.cs, Line: 196, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #180 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\HttpApiProvider.cs, Line: 31, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #181 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\HttpApiProvider.cs, Line: 98, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #182 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\Model\XbmcVersion.cs, Line: 90, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #183 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\Xbmc.cs, Line: 112, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #184 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\Xbmc.cs, Line: 91, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #185 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\XbmcJsonApiProxy.cs, Line: 114, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #186 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\XbmcService.cs, Line: 92, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #187 Path: D:\a\1\s\src\NzbDrone.Core\Notifications\Xbmc\XbmcSettings.cs, Line: 58, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #188 Path: D:\a\1\s\src\NzbDrone.Core\Organizer\FileNameBuilder.cs, Line: 590, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #189 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ImportListItemInfo.cs, Line: 16, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #190 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ParsedEpisodeInfo.cs, Line: 100, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #191 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ParsedEpisodeInfo.cs, Line: 104, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #192 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ParsedEpisodeInfo.cs, Line: 108, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #193 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ParsedEpisodeInfo.cs, Line: 113, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #194 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ParsedEpisodeInfo.cs, Line: 118, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #195 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ParsedEpisodeInfo.cs, Line: 96, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #196 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Model\ReleaseInfo.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #197 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Parser.cs, Line: 1014, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #198 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Parser.cs, Line: 1029, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #199 Path: D:\a\1\s\src\NzbDrone.Core\Parser\Parser.cs, Line: 525, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #200 Path: D:\a\1\s\src\NzbDrone.Core\Qualities\QualityModel.cs, Line: 36, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #201 Path: D:\a\1\s\src\NzbDrone.Core\Queue\QueueService.cs, Line: 87, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #202 Path: D:\a\1\s\src\NzbDrone.Core\Queue\QueueService.cs, Line: 91, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #203 Path: D:\a\1\s\src\NzbDrone.Core\Rest\RestException.cs, Line: 11, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #204 Path: D:\a\1\s\src\NzbDrone.Core\RootFolders\RootFolderService.cs, Line: 109, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #205 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 143, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #206 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 148, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #207 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 156, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #208 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 168, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #209 Path: D:\a\1\s\src\NzbDrone.Core\TinyTwitter.cs, Line: 172, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #210 Path: D:\a\1\s\src\NzbDrone.Core\Tv\Episode.cs, Line: 50, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #211 Path: D:\a\1\s\src\NzbDrone.Core\Tv\EpisodeRepository.cs, Line: 214, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #212 Path: D:\a\1\s\src\NzbDrone.Core\Tv\EpisodeRepository.cs, Line: 225, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #213 Path: D:\a\1\s\src\NzbDrone.Core\Tv\EpisodeRepository.cs, Line: 237, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #214 Path: D:\a\1\s\src\NzbDrone.Core\Tv\EpisodeRepository.cs, Line: 241, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #215 Path: D:\a\1\s\src\NzbDrone.Core\Tv\EpisodeRepository.cs, Line: 253, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #216 Path: D:\a\1\s\src\NzbDrone.Core\Tv\EpisodeRepository.cs, Line: 257, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #217 Path: D:\a\1\s\src\NzbDrone.Core\Tv\Series.cs, Line: 61, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #218 Path: D:\a\1\s\src\NzbDrone.Core\Validation\NzbDroneValidationExtensions.cs, Line: 30, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Sonarr.Common
+    #219 Path: D:\a\1\s\src\NzbDrone.Common\ArchiveService.cs, Line: 67, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #220 Path: D:\a\1\s\src\NzbDrone.Common\Cache\CachedDictionary.cs, Line: 94, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #221 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 210, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #222 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 228, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #223 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 246, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #224 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskProviderBase.cs, Line: 454, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #225 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 252, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #226 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 259, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #227 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 296, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #228 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 462, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #229 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 481, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #230 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DiskTransferService.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #231 Path: D:\a\1\s\src\NzbDrone.Common\Disk\DriveInfoMount.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #232 Path: D:\a\1\s\src\NzbDrone.Common\Disk\OsPath.cs, Line: 195, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #233 Path: D:\a\1\s\src\NzbDrone.Common\Disk\OsPath.cs, Line: 288, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #234 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\EnsureStringExtensions.cs, Line: 106, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #235 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\EnsureStringExtensions.cs, Line: 109, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #236 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\EnsureStringExtensions.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #237 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\EnsureStringExtensions.cs, Line: 90, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #238 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\ExpressionExtensions.cs, Line: 12, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #239 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\ExpressionExtensions.cs, Line: 25, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #240 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\ExpressionExtensions.cs, Line: 31, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #241 Path: D:\a\1\s\src\NzbDrone.Common\EnsureThat\ExpressionExtensions.cs, Line: 42, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #242 Path: D:\a\1\s\src\NzbDrone.Common\Expansive\Expansive.cs, Line: 142, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #243 Path: D:\a\1\s\src\NzbDrone.Common\Expansive\Expansive.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #244 Path: D:\a\1\s\src\NzbDrone.Common\Expansive\Expansive.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #245 Path: D:\a\1\s\src\NzbDrone.Common\Expansive\Expansive.cs, Line: 67, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #246 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpException.cs, Line: 18, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #247 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 163, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #248 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 164, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #249 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 215, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #250 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 237, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #251 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 323, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #252 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpRequestBuilder.cs, Line: 61, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #253 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpResponse.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #254 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpUri.cs, Line: 224, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #255 Path: D:\a\1\s\src\NzbDrone.Common\Http\HttpUri.cs, Line: 5, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #256 Path: D:\a\1\s\src\NzbDrone.Common\Http\JsonRpcRequestBuilder.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #257 Path: D:\a\1\s\src\NzbDrone.Common\Http\JsonRpcRequestBuilder.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #258 Path: D:\a\1\s\src\NzbDrone.Common\Http\NzbDroneWebClient.cs, Line: 11, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #259 Path: D:\a\1\s\src\NzbDrone.Common\Http\Proxy\ManagedWebProxyFactory.cs, Line: 67, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #260 Path: D:\a\1\s\src\NzbDrone.Common\Instrumentation\InitializeLogger.cs, Line: 22, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #261 Path: D:\a\1\s\src\NzbDrone.Common\Instrumentation\Sentry\SentryTarget.cs, Line: 165, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #262 Path: D:\a\1\s\src\NzbDrone.Common\Model\ProcessInfo.cs, Line: 11, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #263 Path: D:\a\1\s\src\NzbDrone.Common\OAuth\OAuthTools.cs, Line: 249, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #264 Path: D:\a\1\s\src\NzbDrone.Common\OAuth\OAuthTools.cs, Line: 250, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #265 Path: D:\a\1\s\src\NzbDrone.Common\OAuth\WebParameterCollection.cs, Line: 19, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #266 Path: D:\a\1\s\src\NzbDrone.Common\Processes\ProcessOutputLine.cs, Line: 20, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #267 Path: D:\a\1\s\src\NzbDrone.Common\Reflection\ReflectionExtensions.cs, Line: 57, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #268 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 1394, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #269 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 1405, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #270 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 2634, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #271 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 2698, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #272 Path: D:\a\1\s\src\NzbDrone.Common\TinyIoC.cs, Line: 2768, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Sonarr.Api
+    #273 Path: D:\a\1\s\src\NzbDrone.Api\Logs\LogFileModuleBase.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #274 Path: D:\a\1\s\src\NzbDrone.Api\Logs\LogFileModuleBase.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #275 Path: D:\a\1\s\src\NzbDrone.Api\Profiles\LegacyProfileModule.cs, Line: 14, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #276 Path: D:\a\1\s\src\NzbDrone.Api\ProviderModuleBase.cs, Line: 122, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #277 Path: D:\a\1\s\src\NzbDrone.Api\ProviderModuleBase.cs, Line: 149, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #278 Path: D:\a\1\s\src\NzbDrone.Api\Series\SeriesResource.cs, Line: 32, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #279 Path: D:\a\1\s\src\NzbDrone.Api\Wanted\LegacyMissingModule.cs, Line: 13, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Sonarr.Host
+    #280 Path: D:\a\1\s\src\NzbDrone.Host\AccessControl\SslAdapter.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #281 Path: D:\a\1\s\src\NzbDrone.Host\AccessControl\SslAdapter.cs, Line: 81, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #282 Path: D:\a\1\s\src\NzbDrone.Host\AccessControl\UrlAcl.cs, Line: 10, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #283 Path: D:\a\1\s\src\NzbDrone.Host\AccessControl\UrlAclAdapter.cs, Line: 185, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #284 Path: D:\a\1\s\src\NzbDrone.Host\AccessControl\UrlAclAdapter.cs, Line: 206, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #285 Path: D:\a\1\s\src\NzbDrone.Host\BrowserService.cs, Line: 31, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Sonarr
+    #286 Path: D:\a\1\s\src\NzbDrone\SysTray\SysTrayApp.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Marr.Data
+    #287 Path: D:\a\1\s\src\Marr.Data\Converters\BooleanIntConverter.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #288 Path: D:\a\1\s\src\Marr.Data\Converters\BooleanYNConverter.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #289 Path: D:\a\1\s\src\Marr.Data\DataHelper.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #290 Path: D:\a\1\s\src\Marr.Data\DataMapper.cs, Line: 880, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #291 Path: D:\a\1\s\src\Marr.Data\EntityGraph.cs, Line: 316, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #292 Path: D:\a\1\s\src\Marr.Data\EntityGraph.cs, Line: 347, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #293 Path: D:\a\1\s\src\Marr.Data\Mapping\ColumnMapBuilder.cs, Line: 215, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #294 Path: D:\a\1\s\src\Marr.Data\Mapping\MappingHelper.cs, Line: 122, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #295 Path: D:\a\1\s\src\Marr.Data\Mapping\MappingHelper.cs, Line: 76, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #296 Path: D:\a\1\s\src\Marr.Data\Mapping\Relationship.cs, Line: 61, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #297 Path: D:\a\1\s\src\Marr.Data\Mapping\RelationshipBuilder.cs, Line: 152, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #298 Path: D:\a\1\s\src\Marr.Data\QGen\DeleteQuery.cs, Line: 23, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #299 Path: D:\a\1\s\src\Marr.Data\QGen\InsertQueryBuilder.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #300 Path: D:\a\1\s\src\Marr.Data\QGen\PagingQueryDecorator.cs, Line: 166, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #301 Path: D:\a\1\s\src\Marr.Data\QGen\SortBuilder.cs, Line: 212, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #302 Path: D:\a\1\s\src\Marr.Data\QGen\SortBuilder.cs, Line: 215, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #303 Path: D:\a\1\s\src\Marr.Data\QGen\SqlitePagingQueryDecorator.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #304 Path: D:\a\1\s\src\Marr.Data\QGen\TableCollection.cs, Line: 29, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #305 Path: D:\a\1\s\src\Marr.Data\QGen\TableCollection.cs, Line: 44, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #306 Path: D:\a\1\s\src\Marr.Data\QGen\WhereBuilder.cs, Line: 152, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #307 Path: D:\a\1\s\src\Marr.Data\QGen\WhereBuilder.cs, Line: 189, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #308 Path: D:\a\1\s\src\Marr.Data\QGen\WhereBuilder.cs, Line: 225, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #309 Path: D:\a\1\s\src\Marr.Data\QGen\WhereBuilder.cs, Line: 272, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #310 Path: D:\a\1\s\src\Marr.Data\QGen\WhereBuilder.cs, Line: 97, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #311 Path: D:\a\1\s\src\Marr.Data\Reflection\SimpleReflectionStrategy.cs, Line: 44, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Sonarr.Mono
+    #312 Path: D:\a\1\s\src\NzbDrone.Mono\Disk\ProcMount.cs, Line: 53, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Sonarr.Windows
+    #313 Path: D:\a\1\s\src\NzbDrone.Windows\Disk\DiskProvider.cs, Line: 169, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: MonoTorrent
+    #314 Path: D:\a\1\s\src\MonoTorrent\BEncoding\BEncodedDictionary.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #315 Path: D:\a\1\s\src\MonoTorrent\BEncoding\BEncodedString.cs, Line: 126, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #316 Path: D:\a\1\s\src\MonoTorrent\BEncoding\BEncodedString.cs, Line: 191, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #317 Path: D:\a\1\s\src\MonoTorrent\BEncoding\BEncodedString.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #318 Path: D:\a\1\s\src\MonoTorrent\Hashes.cs, Line: 61, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #319 Path: D:\a\1\s\src\MonoTorrent\Hashes.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #320 Path: D:\a\1\s\src\MonoTorrent\Torrent.cs, Line: 770, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #321 Path: D:\a\1\s\src\MonoTorrent\Torrent.cs, Line: 847, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: LogentriesCore
+    #322 Path: D:\a\1\s\src\LogentriesCore\AsyncLogger.cs, Line: 403, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: LogentriesNLog
+    #323 Path: D:\a\1\s\src\LogentriesNLog\fastJSON\JSON.cs, Line: 135, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #324 Path: D:\a\1\s\src\LogentriesNLog\fastJSON\JsonSerializer.cs, Line: 16, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #325 Path: D:\a\1\s\src\LogentriesNLog\fastJSON\JsonSerializer.cs, Line: 4, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #326 Path: D:\a\1\s\src\LogentriesNLog\fastJSON\JsonSerializer.cs, Line: 4, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #327 Path: D:\a\1\s\src\LogentriesNLog\fastJSON\JsonSerializer.cs, Line: 4, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #328 Path: D:\a\1\s\src\LogentriesNLog\fastJSON\JsonSerializer.cs, Line: 7, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #329 Path: D:\a\1\s\src\LogentriesNLog\fastJSON\JsonSerializer.cs, Line: 7, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #330 Path: D:\a\1\s\src\LogentriesNLog\fastJSON\JsonSerializer.cs, Line: 75, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Sonarr.Api.V3
+    #331 Path: D:\a\1\s\src\Sonarr.Api.V3\Logs\LogFileModuleBase.cs, Line: 47, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #332 Path: D:\a\1\s\src\Sonarr.Api.V3\Logs\LogFileModuleBase.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #333 Path: D:\a\1\s\src\Sonarr.Api.V3\ProviderModuleBase.cs, Line: 120, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #334 Path: D:\a\1\s\src\Sonarr.Api.V3\Series\SeriesStatisticsResource.cs, Line: 36, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Sonarr.Http
+    #335 Path: D:\a\1\s\src\Sonarr.Http\Frontend\Mappers\HtmlMapperBase.cs, Line: 74, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #336 Path: D:\a\1\s\src\Sonarr.Http\Mapping\MappingValidation.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #337 Path: D:\a\1\s\src\Sonarr.Http\Validation\EmptyCollectionValidator.cs, Line: 20, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+--- Rules Summary ---
+R9: 282
+R8: 18
+R5: 16
+R4: 15
+R2: 4
+R7: 1
+R6: 1
+
+--- Summary ---
+Fixed ReSharper issues: 333
+Fixed SonarQube issues: 32
+Total fixed issues: 337
+
+Finished in: 33 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\NzbDrone.Core\Security\X509CertificateValidationService.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System.Linq;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using NLog;
+using NzbDrone.Common.Extensions;
+using NzbDrone.Core.Configuration;
+using NzbDrone.Core.Lifecycle;
+using NzbDrone.Core.Messaging.Events;
+
+namespace NzbDrone.Core.Security
+{
+    public class X509CertificateValidationService : IHandle<ApplicationStartedEvent>
+    {
+        private readonly IConfigService _configService;
+        private readonly Logger _logger;
+
+        public X509CertificateValidationService(IConfigService configService, Logger logger)
+        {
+            _configService = configService;
+            _logger = logger;
+        }
+
+        private bool ShouldByPassValidationError(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            var request = sender as HttpWebRequest;
+
+            if (request == null)
+            {
+                return true;
+            }
+
+            var cert2 = certificate as X509Certificate2;
+            if (cert2 != null && request != null && cert2.SignatureAlgorithm.FriendlyName == "md5RSA")
+            {
+                _logger.Error("https://{0} uses the obsolete md5 hash in it's https certificate, if that is your certificate, please (re)create certificate with better algorithm as soon as possible.", request.RequestUri.Authority);
+            }
+
+            if (sslPolicyErrors == SslPolicyErrors.None)
+            {
+                return true;
+            }
+
+            if (request.RequestUri.Host == "localhost" || request.RequestUri.Host == "127.0.0.1")
+            {
+                return true;
+            }
+
+            var ipAddresses = GetIPAddresses(request.RequestUri.Host);
+            var certificateValidation = _configService.CertificateValidation;
+
+            if (certificateValidation == CertificateValidationType.Disabled)
+            {
+                return true;
+            }
+
+            if (certificateValidation == CertificateValidationType.DisabledForLocalAddresses &&
+                ipAddresses.All(i => i.IsLocalAddress()))
+            {
+                return true;
+            }
+
+            _logger.Error("Certificate validation for {0} failed. {1}", request.Address, sslPolicyErrors);
+
+            return false;
+        }
+
+        private IPAddress[] GetIPAddresses(string host)
+        {
+            if (IPAddress.TryParse(host, out var ipAddress))
+            {
+                return new []{ ipAddress };
+            }
+
+            return Dns.GetHostEntry(host).AddressList;
+        }
+
+        public void Handle(ApplicationStartedEvent message)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = ShouldByPassValidationError;
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System.Linq;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using NLog;
+using NzbDrone.Common.Extensions;
+using NzbDrone.Core.Configuration;
+using NzbDrone.Core.Lifecycle;
+using NzbDrone.Core.Messaging.Events;
+
+namespace NzbDrone.Core.Security
+{
+    public class X509CertificateValidationService : IHandle<ApplicationStartedEvent>
+    {
+        private readonly IConfigService _configService;
+        private readonly Logger _logger;
+
+        public X509CertificateValidationService(IConfigService configService, Logger logger)
+        {
+            _configService = configService;
+            _logger = logger;
+        }
+
+        private bool ShouldByPassValidationError(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+
+            if (request == null)
+            {
+                return true;
+            }
+            if (certificate is X509Certificate2 cert2 && sender is HttpWebRequest request && cert2.SignatureAlgorithm.FriendlyName == "md5RSA")
+            {
+                _logger.Error("https://{0} uses the obsolete md5 hash in it's https certificate, if that is your certificate, please (re)create certificate with better algorithm as soon as possible.", request.RequestUri.Authority);
+            }
+
+            if (sslPolicyErrors == SslPolicyErrors.None)
+            {
+                return true;
+            }
+
+            if (request.RequestUri.Host == "localhost" || request.RequestUri.Host == "127.0.0.1")
+            {
+                return true;
+            }
+
+            var ipAddresses = GetIPAddresses(request.RequestUri.Host);
+            var certificateValidation = _configService.CertificateValidation;
+
+            if (certificateValidation == CertificateValidationType.Disabled)
+            {
+                return true;
+            }
+
+            if (certificateValidation == CertificateValidationType.DisabledForLocalAddresses &&
+                ipAddresses.All(i => i.IsLocalAddress()))
+            {
+                return true;
+            }
+
+            _logger.Error("Certificate validation for {0} failed. {1}", request.Address, sslPolicyErrors);
+
+            return false;
+        }
+
+        private IPAddress[] GetIPAddresses(string host)
+        {
+            if (IPAddress.TryParse(host, out var ipAddress))
+            {
+                return new []{ ipAddress };
+            }
+
+            return Dns.GetHostEntry(host).AddressList;
+        }
+
+        public void Handle(ApplicationStartedEvent message)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = ShouldByPassValidationError;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\NzbDrone.Core\Security\X509CertificateValidationService.cs(27,17): error CS0841: Cannot use local variable 'request' before it is declared
+######################################################################
+
+
+######################################################################
+Nr: 2 - TypeCheckAndCastRewriterR5
+Filepath: D:\a\1\s\src\LogentriesNLog\fastJSON\JSON.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Xml.Serialization;
+
+namespace LogentriesNLog.fastJSON
+{
+
+    internal class JSON
+    {
+        public readonly static JSON Instance = new JSON();
+
+        private JSON()
+        {
+            UseSerializerExtension = false;
+            SerializeNullValues = false;
+            UseOptimizedDatasetSchema = false;
+            UsingGlobalTypes = false;
+            UseUTCDateTime = true;
+        }
+        public bool UseOptimizedDatasetSchema = true;
+        public bool UseFastGuid = true;
+        public bool UseSerializerExtension = true;
+        public bool IndentOutput = false;
+        public bool SerializeNullValues = true;
+        public bool UseUTCDateTime = false;
+        public bool ShowReadOnlyProperties = false;
+        public bool UsingGlobalTypes = true;
+
+        public string ToJSON(object obj)
+        {
+            return ToJSON(obj, UseSerializerExtension, UseFastGuid, UseOptimizedDatasetSchema, SerializeNullValues);
+        }
+
+
+        public string ToJSON(object obj,
+                             bool enableSerializerExtensions,
+                             bool enableFastGuid,
+                             bool enableOptimizedDatasetSchema,
+                             bool serializeNullValues)
+        {
+            return new JSONSerializer(enableOptimizedDatasetSchema, enableFastGuid, enableSerializerExtensions, serializeNullValues, IndentOutput).ConvertToJSON(obj);
+        }
+
+
+        public T ToObject<T>(string json)
+        {
+            return (T)ToObject(json, typeof(T));
+        }
+
+
+        public object ToObject(string json, Type type)
+        {
+            var ht = new JsonParser(json).Decode() as Dictionary<string, object>;
+            if (ht == null) return null;
+            return ParseDictionary(ht, null, type);
+        }
+
+#if CUSTOMTYPE
+        internal SafeDictionary<Type, Serialize> _customSerializer = new SafeDictionary<Type, Serialize>();
+        internal SafeDictionary<Type, Deserialize> _customDeserializer = new SafeDictionary<Type, Deserialize>();
+
+        public void RegisterCustomType(Type type, Serialize serializer, Deserialize deserializer)
+        {
+            if (type != null && serializer != null && deserializer != null)
+            {
+                _customSerializer.Add(type, serializer);
+                _customDeserializer.Add(type, deserializer);
+                // reset property cache
+                _propertycache = new SafeDictionary<string, SafeDictionary<string, myPropInfo>>();
+            }
+        }
+
+        internal bool IsTypeRegistered(Type t)
+        {
+            Serialize s;
+            return _customSerializer.TryGetValue(t, out s);
+        }
+#endif
+
+        #region [   PROPERTY GET SET CACHE   ]
+
+        readonly SafeDictionary<Type, string> _tyname = new SafeDictionary<Type, string>();
+        internal string GetTypeAssemblyName(Type t)
+        {
+            string val = "";
+            if (_tyname.TryGetValue(t, out val))
+                return val;
+            string s = t.AssemblyQualifiedName;
+            _tyname.Add(t, s);
+            return s;
+        }
+
+        readonly SafeDictionary<string, Type> _typecache = new SafeDictionary<string, Type>();
+        private Type GetTypeFromCache(string typename)
+        {
+            Type val = null;
+            if (_typecache.TryGetValue(typename, out val))
+                return val;
+            Type t = Type.GetType(typename);
+            _typecache.Add(typename, t);
+            return t;
+        }
+
+        readonly SafeDictionary<Type, CreateObject> _constrcache = new SafeDictionary<Type, CreateObject>();
+        private delegate object CreateObject();
+        private object FastCreateInstance(Type objtype)
+        {
+            try
+            {
+                CreateObject c = null;
+                if (_constrcache.TryGetValue(objtype, out c))
+                {
+                    return c();
+                }
+                DynamicMethod dynMethod = new DynamicMethod("_", objtype, null, true);
+                ILGenerator ilGen = dynMethod.GetILGenerator();
+
+                ilGen.Emit(OpCodes.Newobj, objtype.GetConstructor(Type.EmptyTypes));
+                ilGen.Emit(OpCodes.Ret);
+                c = (CreateObject)dynMethod.CreateDelegate(typeof(CreateObject));
+                _constrcache.Add(objtype, c);
+                return c();
+            }
+            catch (Exception exc)
+            {
+                throw new Exception(string.Format("Failed to fast create instance for type '{0}' from assemebly '{1}'",
+                    objtype.FullName, objtype.AssemblyQualifiedName), exc);
+            }
+        }
+
+        private struct myPropInfo
+        {
+            public bool filled;
+            public Type pt;
+            public Type bt;
+            public Type changeType;
+            public bool isDictionary;
+            public bool isValueType;
+            public bool isGenericType;
+            public bool isArray;
+            public bool isByteArray;
+            public bool isGuid;
+#if !SILVERLIGHT
+            public bool isDataSet;
+            public bool isDataTable;
+            public bool isHashtable;
+#endif
+            public GenericSetter setter;
+            public bool isEnum;
+            public bool isDateTime;
+            public Type[] GenericTypes;
+            public bool isInt;
+            public bool isLong;
+            public bool isString;
+            public bool isBool;
+            public bool isClass;
+            public GenericGetter getter;
+            public bool isStringDictionary;
+            public string Name;
+#if CUSTOMTYPE
+            public bool isCustomType;
+#endif
+            public bool CanWrite;
+        }
+
+        readonly SafeDictionary<string, SafeDictionary<string, myPropInfo>> _propertycache = new SafeDictionary<string, SafeDictionary<string, myPropInfo>>();
+        private SafeDictionary<string, myPropInfo> Getproperties(Type type, string typename)
+        {
+            SafeDictionary<string, myPropInfo> sd = null;
+            if (_propertycache.TryGetValue(typename, out sd))
+            {
+                return sd;
+            }
+            sd = new SafeDictionary<string, myPropInfo>();
+            var pr = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            foreach (var p in pr)
+            {
+                myPropInfo d = CreateMyProp(p.PropertyType, p.Name);
+                d.CanWrite = p.CanWrite;
+                d.setter = CreateSetMethod(p);
+                d.getter = CreateGetMethod(p);
+                sd.Add(p.Name, d);
+            }
+
+            _propertycache.Add(typename, sd);
+            return sd;
+        }
+
+        private myPropInfo CreateMyProp(Type t, string name)
+        {
+            myPropInfo d = new myPropInfo();
+            d.filled = true;
+            d.CanWrite = true;
+            d.pt = t;
+            d.Name = name;
+            d.isDictionary = t.Name.Contains("Dictionary");
+            if (d.isDictionary)
+                d.GenericTypes = t.GetGenericArguments();
+            d.isValueType = t.IsValueType;
+            d.isGenericType = t.IsGenericType;
+            d.isArray = t.IsArray;
+            if (d.isArray)
+                d.bt = t.GetElementType();
+            if (d.isGenericType)
+                d.bt = t.GetGenericArguments()[0];
+            d.isByteArray = t == typeof(byte[]);
+            d.isGuid = (t == typeof(Guid) || t == typeof(Guid?));
+#if !SILVERLIGHT
+            d.isHashtable = t == typeof(Hashtable);
+            d.isDataSet = t == typeof(DataSet);
+            d.isDataTable = t == typeof(DataTable);
+#endif
+
+            d.changeType = GetChangeType(t);
+            d.isEnum = t.IsEnum;
+            d.isDateTime = t == typeof(DateTime) || t == typeof(DateTime?);
+            d.isInt = t == typeof(int) || t == typeof(int?);
+            d.isLong = t == typeof(long) || t == typeof(long?);
+            d.isString = t == typeof(string);
+            d.isBool = t == typeof(bool) || t == typeof(bool?);
+            d.isClass = t.IsClass;
+
+            if (d.isDictionary && d.GenericTypes.Length > 0 && d.GenericTypes[0] == typeof(string))
+                d.isStringDictionary = true;
+
+#if CUSTOMTYPE
+            if (IsTypeRegistered(t))
+                d.isCustomType = true;
+#endif
+            return d;
+        }
+
+        private delegate void GenericSetter(object target, object value);
+
+        private static GenericSetter CreateSetMethod(PropertyInfo propertyInfo)
+        {
+            MethodInfo setMethod = propertyInfo.GetSetMethod(nonPublic: true);
+            if (setMethod == null)
+                return null;
+
+            var arguments = new Type[2];
+            arguments[0] = arguments[1] = typeof(object);
+
+            DynamicMethod setter = new DynamicMethod("_", typeof(void), arguments, true);
+            ILGenerator il = setter.GetILGenerator();
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Castclass, propertyInfo.DeclaringType);
+            il.Emit(OpCodes.Ldarg_1);
+
+            if (propertyInfo.PropertyType.IsClass)
+                il.Emit(OpCodes.Castclass, propertyInfo.PropertyType);
+            else
+                il.Emit(OpCodes.Unbox_Any, propertyInfo.PropertyType);
+
+            il.EmitCall(OpCodes.Callvirt, setMethod, null);
+            il.Emit(OpCodes.Ret);
+
+            return (GenericSetter)setter.CreateDelegate(typeof(GenericSetter));
+        }
+
+        internal delegate object GenericGetter(object obj);
+
+
+        private GenericGetter CreateGetMethod(PropertyInfo propertyInfo)
+        {
+            MethodInfo getMethod = propertyInfo.GetGetMethod();
+            if (getMethod == null)
+                return null;
+
+            var arguments = new Type[1];
+            arguments[0] = typeof(object);
+
+            DynamicMethod getter = new DynamicMethod("_", typeof(object), arguments, true);
+            ILGenerator il = getter.GetILGenerator();
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Castclass, propertyInfo.DeclaringType);
+            il.EmitCall(OpCodes.Callvirt, getMethod, null);
+
+            if (!propertyInfo.PropertyType.IsClass)
+                il.Emit(OpCodes.Box, propertyInfo.PropertyType);
+
+            il.Emit(OpCodes.Ret);
+
+            return (GenericGetter)getter.CreateDelegate(typeof(GenericGetter));
+        }
+
+        readonly SafeDictionary<Type, List<Getters>> _getterscache = new SafeDictionary<Type, List<Getters>>();
+        internal List<Getters> GetGetters(Type type)
+        {
+            List<Getters> val = null;
+            if (_getterscache.TryGetValue(type, out val))
+                return val;
+
+            var props = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            var getters = new List<Getters>();
+            foreach (var p in props)
+            {
+                if (!p.CanWrite && ShowReadOnlyProperties == false) continue;
+
+                var att = p.GetCustomAttributes(typeof(XmlIgnoreAttribute), false);
+                if (att != null && att.Length > 0)
+                    continue;
+
+                GenericGetter g = CreateGetMethod(p);
+                if (g != null)
+                {
+                    Getters gg = new Getters();
+                    gg.Name = p.Name;
+                    gg.Getter = g;
+                    gg.propertyType = p.PropertyType;
+                    getters.Add(gg);
+                }
+            }
+
+
+            _getterscache.Add(type, getters);
+            return getters;
+        }
+
+        private object ChangeType(object value, Type conversionType)
+        {
+            if (conversionType == typeof(int))
+                return (int)CreateLong((string)value);
+
+            if (conversionType == typeof(long))
+                return CreateLong((string)value);
+
+            if (conversionType == typeof(string))
+                return value;
+
+            if (conversionType == typeof(Guid))
+                return CreateGuid((string)value);
+
+            if (conversionType.IsEnum)
+                return CreateEnum(conversionType, (string)value);
+
+            return Convert.ChangeType(value, conversionType, CultureInfo.InvariantCulture);
+        }
+        #endregion
+
+
+        private object ParseDictionary(Dictionary<string, object> d, Dictionary<string, object> globaltypes, Type type)
+        {
+            object tn = "";
+            if (d.TryGetValue("$types", out tn))
+            {
+                UsingGlobalTypes = true;
+                globaltypes = new Dictionary<string, object>();
+                foreach (var kv in (Dictionary<string, object>)tn)
+                {
+                    globaltypes.Add((string)kv.Value, kv.Key);
+                }
+            }
+
+            bool found = d.TryGetValue("$type", out tn);
+#if !SILVERLIGHT
+            if (found == false && type == typeof(Object))
+            {
+                return CreateDataset(d, globaltypes);
+            }
+#endif
+            if (found)
+            {
+                if (UsingGlobalTypes)
+                {
+                    object tname = "";
+                    if (globaltypes.TryGetValue((string)tn, out tname))
+                        tn = tname;
+                }
+                type = GetTypeFromCache((string)tn);
+            }
+
+            if (type == null)
+                throw new Exception("Cannot determine type");
+
+            string typename = type.FullName;
+            object o = FastCreateInstance(type);
+            var props = Getproperties(type, typename);
+            foreach (var name in d.Keys)
+            {
+                if (name == "$map")
+                {
+                    ProcessMap(o, props, (Dictionary<string, object>)d[name]);
+                    continue;
+                }
+                myPropInfo pi;
+                if (props.TryGetValue(name, out pi) == false)
+                    continue;
+                if (pi.filled)
+                {
+                    object v = d[name];
+
+                    if (v != null)
+                    {
+                        object oset = null;
+
+                        if (pi.isInt)
+                            oset = (int)CreateLong((string)v);
+#if CUSTOMTYPE
+                        else if (pi.isCustomType)
+                            oset = CreateCustom((string)v, pi.pt);
+#endif
+                        else if (pi.isLong)
+                            oset = CreateLong((string)v);
+
+                        else if (pi.isString)
+                            oset = v;
+
+                        else if (pi.isBool)
+                            oset = (bool)v;
+
+                        else if (pi.isGenericType && pi.isValueType == false && pi.isDictionary == false)
+#if SILVERLIGHT
+                            oset = CreateGenericList((List<object>)v, pi.pt, pi.bt, globaltypes);
+#else
+                            oset = CreateGenericList((ArrayList)v, pi.pt, pi.bt, globaltypes);
+#endif
+                        else if (pi.isByteArray)
+                            oset = Convert.FromBase64String((string)v);
+
+                        else if (pi.isArray && pi.isValueType == false)
+#if SILVERLIGHT
+                            oset = CreateArray((List<object>)v, pi.pt, pi.bt, globaltypes);
+#else
+                            oset = CreateArray((ArrayList)v, pi.pt, pi.bt, globaltypes);
+#endif
+                        else if (pi.isGuid)
+                            oset = CreateGuid((string)v);
+#if !SILVERLIGHT
+                        else if (pi.isDataSet)
+                            oset = CreateDataset((Dictionary<string, object>)v, globaltypes);
+
+                        else if (pi.isDataTable)
+                            oset = CreateDataTable((Dictionary<string, object>)v, globaltypes);
+#endif
+
+                        else if (pi.isStringDictionary)
+                            oset = CreateStringKeyDictionary((Dictionary<string, object>)v, pi.pt, pi.GenericTypes, globaltypes);
+
+#if !SILVERLIGHT
+                        else if (pi.isDictionary || pi.isHashtable)
+                            oset = CreateDictionary((ArrayList)v, pi.pt, pi.GenericTypes, globaltypes);
+#else
+                        else if (pi.isDictionary)
+                            oset = CreateDictionary((List<object>)v, pi.pt, pi.GenericTypes, globaltypes);
+#endif
+
+                        else if (pi.isEnum)
+                            oset = CreateEnum(pi.pt, (string)v);
+
+                        else if (pi.isDateTime)
+                            oset = CreateDateTime((string)v);
+
+                        else if (pi.isClass && v is Dictionary<string, object>)
+                            oset = ParseDictionary((Dictionary<string, object>)v, globaltypes, pi.pt);
+
+                        else if (pi.isValueType)
+                            oset = ChangeType(v, pi.changeType);
+
+#if SILVERLIGHT
+                        else if (v is List<object>)
+                            oset = CreateArray((List<object>)v, pi.pt, typeof(object), globaltypes);
+#else
+                        else if (v is ArrayList)
+                            oset = CreateArray((ArrayList)v, pi.pt, typeof(object), globaltypes);
+#endif
+                        else
+                            oset = v;
+
+                        if (pi.CanWrite)
+                            pi.setter(o, oset);
+                    }
+                }
+            }
+            return o;
+        }
+
+#if CUSTOMTYPE
+        private object CreateCustom(string v, Type type)
+        {
+            Deserialize d;
+            _customDeserializer.TryGetValue(type, out d);
+            return d(v);
+        }
+#endif
+
+        private void ProcessMap(object obj, SafeDictionary<string, myPropInfo> props, Dictionary<string, object> dic)
+        {
+            foreach (var kv in dic)
+            {
+                myPropInfo p = props[kv.Key];
+                object o = p.getter(obj);
+                Type t = Type.GetType((string)kv.Value);
+                if (t == typeof(Guid))
+                    p.setter(obj, CreateGuid((string)o));
+            }
+        }
+
+        private long CreateLong(string s)
+        {
+            long num = 0;
+            bool neg = false;
+            foreach (var cc in s)
+            {
+                if (cc == '-')
+                    neg = true;
+                else if (cc == '+')
+                    neg = false;
+                else
+                {
+                    num *= 10;
+                    num += (cc - '0');
+                }
+            }
+
+            return neg ? -num : num;
+        }
+
+        private object CreateEnum(Type pt, string v)
+        {
+            // TODO : optimize create enum
+#if !SILVERLIGHT
+            return Enum.Parse(pt, v);
+#else
+            return Enum.Parse(pt, v, true);
+#endif
+        }
+
+        private Guid CreateGuid(string s)
+        {
+            if (s.Length > 30)
+                return new Guid(s);
+            return new Guid(Convert.FromBase64String(s));
+        }
+
+        private DateTime CreateDateTime(string value)
+        {
+            bool utc = false;
+            //                   0123456789012345678
+            // datetime format = yyyy-MM-dd HH:mm:ss
+            int year = (int)CreateLong(value.Substring(0, 4));
+            int month = (int)CreateLong(value.Substring(5, 2));
+            int day = (int)CreateLong(value.Substring(8, 2));
+            int hour = (int)CreateLong(value.Substring(11, 2));
+            int min = (int)CreateLong(value.Substring(14, 2));
+            int sec = (int)CreateLong(value.Substring(17, 2));
+
+            if (value.EndsWith("Z"))
+                utc = true;
+
+            if (UseUTCDateTime == false && utc == false)
+                return new DateTime(year, month, day, hour, min, sec);
+            return new DateTime(year, month, day, hour, min, sec, DateTimeKind.Utc).ToLocalTime();
+        }
+
+#if SILVERLIGHT
+        private object CreateArray(List<object> data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+        {
+            Array col = Array.CreateInstance(bt, data.Count);
+            // create an array of objects
+            for (int i = 0; i < data.Count; i++)// each (object ob in data)
+            {
+                object ob = data[i];
+                if (ob is IDictionary)
+                    col.SetValue(ParseDictionary((Dictionary<string, object>)ob, globalTypes, bt), i);
+                else
+                    col.SetValue(ChangeType(ob, bt), i);
+            }
+
+            return col;
+        }
+#else
+        private object CreateArray(ArrayList data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+        {
+            ArrayList col = new ArrayList();
+            // create an array of objects
+            foreach (var ob in data)
+            {
+                if (ob is IDictionary)
+                    col.Add(ParseDictionary((Dictionary<string, object>)ob, globalTypes, bt));
+                else
+                    col.Add(ChangeType(ob, bt));
+            }
+            return col.ToArray(bt);
+        }
+#endif
+
+
+#if SILVERLIGHT
+        private object CreateGenericList(List<object> data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+#else
+        private object CreateGenericList(ArrayList data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+#endif
+        {
+            IList col = (IList)FastCreateInstance(pt);
+            // create an array of objects
+            foreach (var ob in data)
+            {
+                if (ob is IDictionary)
+                    col.Add(ParseDictionary((Dictionary<string, object>)ob, globalTypes, bt));
+#if SILVERLIGHT
+                else if (ob is List<object>)
+                    col.Add(((List<object>)ob).ToArray());
+#else
+                else if (ob is ArrayList)
+                    col.Add(((ArrayList)ob).ToArray());
+#endif
+                else
+                    col.Add(ChangeType(ob, bt));
+            }
+            return col;
+        }
+
+        private object CreateStringKeyDictionary(Dictionary<string, object> reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
+        {
+            var col = (IDictionary)FastCreateInstance(pt);
+            Type t1 = null;
+            Type t2 = null;
+            if (types != null)
+            {
+                t1 = types[0];
+                t2 = types[1];
+            }
+
+            foreach (var values in reader)
+            {
+                var key = values.Key;//ChangeType(values.Key, t1);
+                object val = null;
+                if (values.Value is Dictionary<string, object>)
+                    val = ParseDictionary((Dictionary<string, object>)values.Value, globalTypes, t2);
+                else
+                    val = ChangeType(values.Value, t2);
+                col.Add(key, val);
+            }
+
+            return col;
+        }
+
+#if SILVERLIGHT
+        private object CreateDictionary(List<object> reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
+#else
+        private object CreateDictionary(ArrayList reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
+#endif
+        {
+            IDictionary col = (IDictionary)FastCreateInstance(pt);
+            Type t1 = null;
+            Type t2 = null;
+            if (types != null)
+            {
+                t1 = types[0];
+                t2 = types[1];
+            }
+
+            foreach (Dictionary<string, object> values in reader)
+            {
+                object key = values["k"];
+                object val = values["v"];
+
+                if (key is Dictionary<string, object>)
+                    key = ParseDictionary((Dictionary<string, object>)key, globalTypes, t1);
+                else
+                    key = ChangeType(key, t1);
+
+                if (val is Dictionary<string, object>)
+                    val = ParseDictionary((Dictionary<string, object>)val, globalTypes, t2);
+                else
+                    val = ChangeType(val, t2);
+
+                col.Add(key, val);
+            }
+
+            return col;
+        }
+
+        private Type GetChangeType(Type conversionType)
+        {
+            if (conversionType.IsGenericType && conversionType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+                return conversionType.GetGenericArguments()[0];
+
+            return conversionType;
+        }
+#if !SILVERLIGHT
+        private DataSet CreateDataset(Dictionary<string, object> reader, Dictionary<string, object> globalTypes)
+        {
+            DataSet ds = new DataSet();
+            ds.EnforceConstraints = false;
+            ds.BeginInit();
+
+            // read dataset schema here
+            ReadSchema(reader, ds, globalTypes);
+
+            foreach (var pair in reader)
+            {
+                if (pair.Key == "$type" || pair.Key == "$schema") continue;
+
+                ArrayList rows = (ArrayList)pair.Value;
+                if (rows == null) continue;
+
+                DataTable dt = ds.Tables[pair.Key];
+                ReadDataTable(rows, dt);
+            }
+
+            ds.EndInit();
+
+            return ds;
+        }
+
+        private void ReadSchema(Dictionary<string, object> reader, DataSet ds, Dictionary<string, object> globalTypes)
+        {
+            var schema = reader["$schema"];
+
+            if (schema is string)
+            {
+                TextReader tr = new StringReader((string)schema);
+                ds.ReadXmlSchema(tr);
+            }
+            else
+            {
+                DatasetSchema ms = (DatasetSchema)ParseDictionary((Dictionary<string, object>)schema, globalTypes, typeof(DatasetSchema));
+                ds.DataSetName = ms.Name;
+                for (int i = 0; i < ms.Info.Count; i += 3)
+                {
+                    if (ds.Tables.Contains(ms.Info[i]) == false)
+                        ds.Tables.Add(ms.Info[i]);
+                    ds.Tables[ms.Info[i]].Columns.Add(ms.Info[i + 1], Type.GetType(ms.Info[i + 2]));
+                }
+            }
+        }
+
+        private void ReadDataTable(ArrayList rows, DataTable dt)
+        {
+            dt.BeginInit();
+            dt.BeginLoadData();
+            var guidcols = new List<int>();
+            var datecol = new List<int>();
+
+            foreach (DataColumn c in dt.Columns)
+            {
+                if (c.DataType == typeof(Guid) || c.DataType == typeof(Guid?))
+                    guidcols.Add(c.Ordinal);
+                if (UseUTCDateTime && (c.DataType == typeof(DateTime) || c.DataType == typeof(DateTime?)))
+                    datecol.Add(c.Ordinal);
+            }
+
+            foreach (ArrayList row in rows)
+            {
+                var v = new object[row.Count];
+                row.CopyTo(v, 0);
+                foreach (var i in guidcols)
+                {
+                    string s = (string)v[i];
+                    if (s != null && s.Length < 36)
+                        v[i] = new Guid(Convert.FromBase64String(s));
+                }
+                if (UseUTCDateTime)
+                {
+                    foreach (var i in datecol)
+                    {
+                        string s = (string)v[i];
+                        if (s != null)
+                            v[i] = CreateDateTime(s);
+                    }
+                }
+                dt.Rows.Add(v);
+            }
+
+            dt.EndLoadData();
+            dt.EndInit();
+        }
+
+        DataTable CreateDataTable(Dictionary<string, object> reader, Dictionary<string, object> globalTypes)
+        {
+            var dt = new DataTable();
+
+            // read dataset schema here
+            var schema = reader["$schema"];
+
+            if (schema is string)
+            {
+                TextReader tr = new StringReader((string)schema);
+                dt.ReadXmlSchema(tr);
+            }
+            else
+            {
+                var ms = (DatasetSchema)ParseDictionary((Dictionary<string, object>)schema, globalTypes, typeof(DatasetSchema));
+                dt.TableName = ms.Info[0];
+                for (int i = 0; i < ms.Info.Count; i += 3)
+                {
+                    dt.Columns.Add(ms.Info[i + 1], Type.GetType(ms.Info[i + 2]));
+                }
+            }
+
+            foreach (var pair in reader)
+            {
+                if (pair.Key == "$type" || pair.Key == "$schema")
+                    continue;
+
+                var rows = (ArrayList)pair.Value;
+                if (rows == null)
+                    continue;
+
+                if (!dt.TableName.Equals(pair.Key, StringComparison.InvariantCultureIgnoreCase))
+                    continue;
+
+                ReadDataTable(rows, dt);
+            }
+
+            return dt;
+        }
+#endif
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Xml.Serialization;
+
+namespace LogentriesNLog.fastJSON
+{
+
+    internal class JSON
+    {
+        public readonly static JSON Instance = new JSON();
+
+        private JSON()
+        {
+            UseSerializerExtension = false;
+            SerializeNullValues = false;
+            UseOptimizedDatasetSchema = false;
+            UsingGlobalTypes = false;
+            UseUTCDateTime = true;
+        }
+        public bool UseOptimizedDatasetSchema = true;
+        public bool UseFastGuid = true;
+        public bool UseSerializerExtension = true;
+        public bool IndentOutput = false;
+        public bool SerializeNullValues = true;
+        public bool UseUTCDateTime = false;
+        public bool ShowReadOnlyProperties = false;
+        public bool UsingGlobalTypes = true;
+
+        public string ToJSON(object obj)
+        {
+            return ToJSON(obj, UseSerializerExtension, UseFastGuid, UseOptimizedDatasetSchema, SerializeNullValues);
+        }
+
+
+        public string ToJSON(object obj,
+                             bool enableSerializerExtensions,
+                             bool enableFastGuid,
+                             bool enableOptimizedDatasetSchema,
+                             bool serializeNullValues)
+        {
+            return new JSONSerializer(enableOptimizedDatasetSchema, enableFastGuid, enableSerializerExtensions, serializeNullValues, IndentOutput).ConvertToJSON(obj);
+        }
+
+
+        public T ToObject<T>(string json)
+        {
+            return (T)ToObject(json, typeof(T));
+        }
+
+
+        public object ToObject(string json, Type type)
+        {
+            var ht = new JsonParser(json).Decode() as Dictionary<string, object>;
+            if (ht == null) return null;
+            return ParseDictionary(ht, null, type);
+        }
+
+#if CUSTOMTYPE
+        internal SafeDictionary<Type, Serialize> _customSerializer = new SafeDictionary<Type, Serialize>();
+        internal SafeDictionary<Type, Deserialize> _customDeserializer = new SafeDictionary<Type, Deserialize>();
+
+        public void RegisterCustomType(Type type, Serialize serializer, Deserialize deserializer)
+        {
+            if (type != null && serializer != null && deserializer != null)
+            {
+                _customSerializer.Add(type, serializer);
+                _customDeserializer.Add(type, deserializer);
+                // reset property cache
+                _propertycache = new SafeDictionary<string, SafeDictionary<string, myPropInfo>>();
+            }
+        }
+
+        internal bool IsTypeRegistered(Type t)
+        {
+            Serialize s;
+            return _customSerializer.TryGetValue(t, out s);
+        }
+#endif
+
+        #region [   PROPERTY GET SET CACHE   ]
+
+        readonly SafeDictionary<Type, string> _tyname = new SafeDictionary<Type, string>();
+        internal string GetTypeAssemblyName(Type t)
+        {
+            string val = "";
+            if (_tyname.TryGetValue(t, out val))
+                return val;
+            string s = t.AssemblyQualifiedName;
+            _tyname.Add(t, s);
+            return s;
+        }
+
+        readonly SafeDictionary<string, Type> _typecache = new SafeDictionary<string, Type>();
+        private Type GetTypeFromCache(string typename)
+        {
+            Type val = null;
+            if (_typecache.TryGetValue(typename, out val))
+                return val;
+            Type t = Type.GetType(typename);
+            _typecache.Add(typename, t);
+            return t;
+        }
+
+        readonly SafeDictionary<Type, CreateObject> _constrcache = new SafeDictionary<Type, CreateObject>();
+        private delegate object CreateObject();
+        private object FastCreateInstance(Type objtype)
+        {
+            try
+            {
+                CreateObject c = null;
+                if (_constrcache.TryGetValue(objtype, out c))
+                {
+                    return c();
+                }
+                DynamicMethod dynMethod = new DynamicMethod("_", objtype, null, true);
+                ILGenerator ilGen = dynMethod.GetILGenerator();
+
+                ilGen.Emit(OpCodes.Newobj, objtype.GetConstructor(Type.EmptyTypes));
+                ilGen.Emit(OpCodes.Ret);
+                c = (CreateObject)dynMethod.CreateDelegate(typeof(CreateObject));
+                _constrcache.Add(objtype, c);
+                return c();
+            }
+            catch (Exception exc)
+            {
+                throw new Exception(string.Format("Failed to fast create instance for type '{0}' from assemebly '{1}'",
+                    objtype.FullName, objtype.AssemblyQualifiedName), exc);
+            }
+        }
+
+        private struct myPropInfo
+        {
+            public bool filled;
+            public Type pt;
+            public Type bt;
+            public Type changeType;
+            public bool isDictionary;
+            public bool isValueType;
+            public bool isGenericType;
+            public bool isArray;
+            public bool isByteArray;
+            public bool isGuid;
+#if !SILVERLIGHT
+            public bool isDataSet;
+            public bool isDataTable;
+            public bool isHashtable;
+#endif
+            public GenericSetter setter;
+            public bool isEnum;
+            public bool isDateTime;
+            public Type[] GenericTypes;
+            public bool isInt;
+            public bool isLong;
+            public bool isString;
+            public bool isBool;
+            public bool isClass;
+            public GenericGetter getter;
+            public bool isStringDictionary;
+            public string Name;
+#if CUSTOMTYPE
+            public bool isCustomType;
+#endif
+            public bool CanWrite;
+        }
+
+        readonly SafeDictionary<string, SafeDictionary<string, myPropInfo>> _propertycache = new SafeDictionary<string, SafeDictionary<string, myPropInfo>>();
+        private SafeDictionary<string, myPropInfo> Getproperties(Type type, string typename)
+        {
+            SafeDictionary<string, myPropInfo> sd = null;
+            if (_propertycache.TryGetValue(typename, out sd))
+            {
+                return sd;
+            }
+            sd = new SafeDictionary<string, myPropInfo>();
+            var pr = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            foreach (var p in pr)
+            {
+                myPropInfo d = CreateMyProp(p.PropertyType, p.Name);
+                d.CanWrite = p.CanWrite;
+                d.setter = CreateSetMethod(p);
+                d.getter = CreateGetMethod(p);
+                sd.Add(p.Name, d);
+            }
+
+            _propertycache.Add(typename, sd);
+            return sd;
+        }
+
+        private myPropInfo CreateMyProp(Type t, string name)
+        {
+            myPropInfo d = new myPropInfo();
+            d.filled = true;
+            d.CanWrite = true;
+            d.pt = t;
+            d.Name = name;
+            d.isDictionary = t.Name.Contains("Dictionary");
+            if (d.isDictionary)
+                d.GenericTypes = t.GetGenericArguments();
+            d.isValueType = t.IsValueType;
+            d.isGenericType = t.IsGenericType;
+            d.isArray = t.IsArray;
+            if (d.isArray)
+                d.bt = t.GetElementType();
+            if (d.isGenericType)
+                d.bt = t.GetGenericArguments()[0];
+            d.isByteArray = t == typeof(byte[]);
+            d.isGuid = (t == typeof(Guid) || t == typeof(Guid?));
+#if !SILVERLIGHT
+            d.isHashtable = t == typeof(Hashtable);
+            d.isDataSet = t == typeof(DataSet);
+            d.isDataTable = t == typeof(DataTable);
+#endif
+
+            d.changeType = GetChangeType(t);
+            d.isEnum = t.IsEnum;
+            d.isDateTime = t == typeof(DateTime) || t == typeof(DateTime?);
+            d.isInt = t == typeof(int) || t == typeof(int?);
+            d.isLong = t == typeof(long) || t == typeof(long?);
+            d.isString = t == typeof(string);
+            d.isBool = t == typeof(bool) || t == typeof(bool?);
+            d.isClass = t.IsClass;
+
+            if (d.isDictionary && d.GenericTypes.Length > 0 && d.GenericTypes[0] == typeof(string))
+                d.isStringDictionary = true;
+
+#if CUSTOMTYPE
+            if (IsTypeRegistered(t))
+                d.isCustomType = true;
+#endif
+            return d;
+        }
+
+        private delegate void GenericSetter(object target, object value);
+
+        private static GenericSetter CreateSetMethod(PropertyInfo propertyInfo)
+        {
+            MethodInfo setMethod = propertyInfo.GetSetMethod(nonPublic: true);
+            if (setMethod == null)
+                return null;
+
+            var arguments = new Type[2];
+            arguments[0] = arguments[1] = typeof(object);
+
+            DynamicMethod setter = new DynamicMethod("_", typeof(void), arguments, true);
+            ILGenerator il = setter.GetILGenerator();
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Castclass, propertyInfo.DeclaringType);
+            il.Emit(OpCodes.Ldarg_1);
+
+            if (propertyInfo.PropertyType.IsClass)
+                il.Emit(OpCodes.Castclass, propertyInfo.PropertyType);
+            else
+                il.Emit(OpCodes.Unbox_Any, propertyInfo.PropertyType);
+
+            il.EmitCall(OpCodes.Callvirt, setMethod, null);
+            il.Emit(OpCodes.Ret);
+
+            return (GenericSetter)setter.CreateDelegate(typeof(GenericSetter));
+        }
+
+        internal delegate object GenericGetter(object obj);
+
+
+        private GenericGetter CreateGetMethod(PropertyInfo propertyInfo)
+        {
+            MethodInfo getMethod = propertyInfo.GetGetMethod();
+            if (getMethod == null)
+                return null;
+
+            var arguments = new Type[1];
+            arguments[0] = typeof(object);
+
+            DynamicMethod getter = new DynamicMethod("_", typeof(object), arguments, true);
+            ILGenerator il = getter.GetILGenerator();
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Castclass, propertyInfo.DeclaringType);
+            il.EmitCall(OpCodes.Callvirt, getMethod, null);
+
+            if (!propertyInfo.PropertyType.IsClass)
+                il.Emit(OpCodes.Box, propertyInfo.PropertyType);
+
+            il.Emit(OpCodes.Ret);
+
+            return (GenericGetter)getter.CreateDelegate(typeof(GenericGetter));
+        }
+
+        readonly SafeDictionary<Type, List<Getters>> _getterscache = new SafeDictionary<Type, List<Getters>>();
+        internal List<Getters> GetGetters(Type type)
+        {
+            List<Getters> val = null;
+            if (_getterscache.TryGetValue(type, out val))
+                return val;
+
+            var props = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            var getters = new List<Getters>();
+            foreach (var p in props)
+            {
+                if (!p.CanWrite && ShowReadOnlyProperties == false) continue;
+
+                var att = p.GetCustomAttributes(typeof(XmlIgnoreAttribute), false);
+                if (att != null && att.Length > 0)
+                    continue;
+
+                GenericGetter g = CreateGetMethod(p);
+                if (g != null)
+                {
+                    Getters gg = new Getters();
+                    gg.Name = p.Name;
+                    gg.Getter = g;
+                    gg.propertyType = p.PropertyType;
+                    getters.Add(gg);
+                }
+            }
+
+
+            _getterscache.Add(type, getters);
+            return getters;
+        }
+
+        private object ChangeType(object value, Type conversionType)
+        {
+            if (conversionType == typeof(int))
+                return (int)CreateLong((string)value);
+
+            if (conversionType == typeof(long))
+                return CreateLong((string)value);
+
+            if (conversionType == typeof(string))
+                return value;
+
+            if (conversionType == typeof(Guid))
+                return CreateGuid((string)value);
+
+            if (conversionType.IsEnum)
+                return CreateEnum(conversionType, (string)value);
+
+            return Convert.ChangeType(value, conversionType, CultureInfo.InvariantCulture);
+        }
+        #endregion
+
+
+        private object ParseDictionary(Dictionary<string, object> d, Dictionary<string, object> globaltypes, Type type)
+        {
+            object tn = "";
+            if (d.TryGetValue("$types", out tn))
+            {
+                UsingGlobalTypes = true;
+                globaltypes = new Dictionary<string, object>();
+                foreach (var kv in (Dictionary<string, object>)tn)
+                {
+                    globaltypes.Add((string)kv.Value, kv.Key);
+                }
+            }
+
+            bool found = d.TryGetValue("$type", out tn);
+#if !SILVERLIGHT
+            if (found == false && type == typeof(Object))
+            {
+                return CreateDataset(d, globaltypes);
+            }
+#endif
+            if (found)
+            {
+                if (UsingGlobalTypes)
+                {
+                    object tname = "";
+                    if (globaltypes.TryGetValue((string)tn, out tname))
+                        tn = tname;
+                }
+                type = GetTypeFromCache((string)tn);
+            }
+
+            if (type == null)
+                throw new Exception("Cannot determine type");
+
+            string typename = type.FullName;
+            object o = FastCreateInstance(type);
+            var props = Getproperties(type, typename);
+            foreach (var name in d.Keys)
+            {
+                if (name == "$map")
+                {
+                    ProcessMap(o, props, (Dictionary<string, object>)d[name]);
+                    continue;
+                }
+                myPropInfo pi;
+                if (props.TryGetValue(name, out pi) == false)
+                    continue;
+                if (pi.filled)
+                {
+                    object v = d[name];
+
+                    if (v != null)
+                    {
+                        object oset = null;
+
+                        if (pi.isInt)
+                            oset = (int)CreateLong((string)v);
+#if CUSTOMTYPE
+                        else if (pi.isCustomType)
+                            oset = CreateCustom((string)v, pi.pt);
+#endif
+                        else if (pi.isLong)
+                            oset = CreateLong((string)v);
+
+                        else if (pi.isString)
+                            oset = v;
+
+                        else if (pi.isBool)
+                            oset = (bool)v;
+
+                        else if (pi.isGenericType && pi.isValueType == false && pi.isDictionary == false)
+#if SILVERLIGHT
+                            oset = CreateGenericList((List<object>)v, pi.pt, pi.bt, globaltypes);
+#else
+                            oset = CreateGenericList((ArrayList)v, pi.pt, pi.bt, globaltypes);
+#endif
+                        else if (pi.isByteArray)
+                            oset = Convert.FromBase64String((string)v);
+
+                        else if (pi.isArray && pi.isValueType == false)
+#if SILVERLIGHT
+                            oset = CreateArray((List<object>)v, pi.pt, pi.bt, globaltypes);
+#else
+                            oset = CreateArray((ArrayList)v, pi.pt, pi.bt, globaltypes);
+#endif
+                        else if (pi.isGuid)
+                            oset = CreateGuid((string)v);
+#if !SILVERLIGHT
+                        else if (pi.isDataSet)
+                            oset = CreateDataset((Dictionary<string, object>)v, globaltypes);
+
+                        else if (pi.isDataTable)
+                            oset = CreateDataTable((Dictionary<string, object>)v, globaltypes);
+#endif
+
+                        else if (pi.isStringDictionary)
+                            oset = CreateStringKeyDictionary((Dictionary<string, object>)v, pi.pt, pi.GenericTypes, globaltypes);
+
+#if !SILVERLIGHT
+                        else if (pi.isDictionary || pi.isHashtable)
+                            oset = CreateDictionary((ArrayList)v, pi.pt, pi.GenericTypes, globaltypes);
+#else
+                        else if (pi.isDictionary)
+                            oset = CreateDictionary((List<object>)v, pi.pt, pi.GenericTypes, globaltypes);
+#endif
+
+                        else if (pi.isEnum)
+                            oset = CreateEnum(pi.pt, (string)v);
+
+                        else if (pi.isDateTime)
+                            oset = CreateDateTime((string)v);
+
+                        else if (pi.isClass && v is Dictionary<string, object>)
+                            oset = ParseDictionary((Dictionary<string, object>)v, globaltypes, pi.pt);
+
+                        else if (pi.isValueType)
+                            oset = ChangeType(v, pi.changeType);
+
+#if SILVERLIGHT
+                        else if (v is List<object>)
+                            oset = CreateArray((List<object>)v, pi.pt, typeof(object), globaltypes);
+#else
+                        else if (v is ArrayList arrayList)
+                            oset = CreateArray(arrayList, pi.pt, typeof(object), globaltypes);
+#endif
+                        else
+                            oset = v;
+
+                        if (pi.CanWrite)
+                            pi.setter(o, oset);
+                    }
+                }
+            }
+            return o;
+        }
+
+#if CUSTOMTYPE
+        private object CreateCustom(string v, Type type)
+        {
+            Deserialize d;
+            _customDeserializer.TryGetValue(type, out d);
+            return d(v);
+        }
+#endif
+
+        private void ProcessMap(object obj, SafeDictionary<string, myPropInfo> props, Dictionary<string, object> dic)
+        {
+            foreach (var kv in dic)
+            {
+                myPropInfo p = props[kv.Key];
+                object o = p.getter(obj);
+                Type t = Type.GetType((string)kv.Value);
+                if (t == typeof(Guid))
+                    p.setter(obj, CreateGuid((string)o));
+            }
+        }
+
+        private long CreateLong(string s)
+        {
+            long num = 0;
+            bool neg = false;
+            foreach (var cc in s)
+            {
+                if (cc == '-')
+                    neg = true;
+                else if (cc == '+')
+                    neg = false;
+                else
+                {
+                    num *= 10;
+                    num += (cc - '0');
+                }
+            }
+
+            return neg ? -num : num;
+        }
+
+        private object CreateEnum(Type pt, string v)
+        {
+            // TODO : optimize create enum
+#if !SILVERLIGHT
+            return Enum.Parse(pt, v);
+#else
+            return Enum.Parse(pt, v, true);
+#endif
+        }
+
+        private Guid CreateGuid(string s)
+        {
+            if (s.Length > 30)
+                return new Guid(s);
+            return new Guid(Convert.FromBase64String(s));
+        }
+
+        private DateTime CreateDateTime(string value)
+        {
+            bool utc = false;
+            //                   0123456789012345678
+            // datetime format = yyyy-MM-dd HH:mm:ss
+            int year = (int)CreateLong(value.Substring(0, 4));
+            int month = (int)CreateLong(value.Substring(5, 2));
+            int day = (int)CreateLong(value.Substring(8, 2));
+            int hour = (int)CreateLong(value.Substring(11, 2));
+            int min = (int)CreateLong(value.Substring(14, 2));
+            int sec = (int)CreateLong(value.Substring(17, 2));
+
+            if (value.EndsWith("Z"))
+                utc = true;
+
+            if (UseUTCDateTime == false && utc == false)
+                return new DateTime(year, month, day, hour, min, sec);
+            return new DateTime(year, month, day, hour, min, sec, DateTimeKind.Utc).ToLocalTime();
+        }
+
+#if SILVERLIGHT
+        private object CreateArray(List<object> data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+        {
+            Array col = Array.CreateInstance(bt, data.Count);
+            // create an array of objects
+            for (int i = 0; i < data.Count; i++)// each (object ob in data)
+            {
+                object ob = data[i];
+                if (ob is IDictionary)
+                    col.SetValue(ParseDictionary((Dictionary<string, object>)ob, globalTypes, bt), i);
+                else
+                    col.SetValue(ChangeType(ob, bt), i);
+            }
+
+            return col;
+        }
+#else
+        private object CreateArray(ArrayList data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+        {
+            ArrayList col = new ArrayList();
+            // create an array of objects
+            foreach (var ob in data)
+            {
+                if (ob is IDictionary)
+                    col.Add(ParseDictionary((Dictionary<string, object>)ob, globalTypes, bt));
+                else
+                    col.Add(ChangeType(ob, bt));
+            }
+            return col.ToArray(bt);
+        }
+#endif
+
+
+#if SILVERLIGHT
+        private object CreateGenericList(List<object> data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+#else
+        private object CreateGenericList(ArrayList data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+#endif
+        {
+            IList col = (IList)FastCreateInstance(pt);
+            // create an array of objects
+            foreach (var ob in data)
+            {
+                if (ob is IDictionary)
+                    col.Add(ParseDictionary((Dictionary<string, object>)ob, globalTypes, bt));
+#if SILVERLIGHT
+                else if (ob is List<object>)
+                    col.Add(((List<object>)ob).ToArray());
+#else
+                else if (ob is ArrayList arrayList)
+                    col.Add(arrayList.ToArray());
+#endif
+                else
+                    col.Add(ChangeType(ob, bt));
+            }
+            return col;
+        }
+
+        private object CreateStringKeyDictionary(Dictionary<string, object> reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
+        {
+            var col = (IDictionary)FastCreateInstance(pt);
+            Type t1 = null;
+            Type t2 = null;
+            if (types != null)
+            {
+                t1 = types[0];
+                t2 = types[1];
+            }
+
+            foreach (var values in reader)
+            {
+                var key = values.Key;//ChangeType(values.Key, t1);
+                object val = null;
+                if (values.Value is Dictionary<string, object>)
+                    val = ParseDictionary((Dictionary<string, object>)values.Value, globalTypes, t2);
+                else
+                    val = ChangeType(values.Value, t2);
+                col.Add(key, val);
+            }
+
+            return col;
+        }
+
+#if SILVERLIGHT
+        private object CreateDictionary(List<object> reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
+#else
+        private object CreateDictionary(ArrayList reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
+#endif
+        {
+            IDictionary col = (IDictionary)FastCreateInstance(pt);
+            Type t1 = null;
+            Type t2 = null;
+            if (types != null)
+            {
+                t1 = types[0];
+                t2 = types[1];
+            }
+
+            foreach (Dictionary<string, object> values in reader)
+            {
+                object key = values["k"];
+                object val = values["v"];
+
+                if (key is Dictionary<string, object> strings)
+                    key = ParseDictionary(strings, globalTypes, t1);
+                else
+                    key = ChangeType(key, t1);
+
+                if (val is Dictionary<string, object> strings)
+                    val = ParseDictionary(strings, globalTypes, t2);
+                else
+                    val = ChangeType(val, t2);
+
+                col.Add(key, val);
+            }
+
+            return col;
+        }
+
+        private Type GetChangeType(Type conversionType)
+        {
+            if (conversionType.IsGenericType && conversionType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+                return conversionType.GetGenericArguments()[0];
+
+            return conversionType;
+        }
+#if !SILVERLIGHT
+        private DataSet CreateDataset(Dictionary<string, object> reader, Dictionary<string, object> globalTypes)
+        {
+            DataSet ds = new DataSet();
+            ds.EnforceConstraints = false;
+            ds.BeginInit();
+
+            // read dataset schema here
+            ReadSchema(reader, ds, globalTypes);
+
+            foreach (var pair in reader)
+            {
+                if (pair.Key == "$type" || pair.Key == "$schema") continue;
+
+                ArrayList rows = (ArrayList)pair.Value;
+                if (rows == null) continue;
+
+                DataTable dt = ds.Tables[pair.Key];
+                ReadDataTable(rows, dt);
+            }
+
+            ds.EndInit();
+
+            return ds;
+        }
+
+        private void ReadSchema(Dictionary<string, object> reader, DataSet ds, Dictionary<string, object> globalTypes)
+        {
+            var schema = reader["$schema"];
+
+            if (schema is string s)
+            {
+                TextReader tr = new StringReader(s);
+                ds.ReadXmlSchema(tr);
+            }
+            else
+            {
+                DatasetSchema ms = (DatasetSchema)ParseDictionary((Dictionary<string, object>)schema, globalTypes, typeof(DatasetSchema));
+                ds.DataSetName = ms.Name;
+                for (int i = 0; i < ms.Info.Count; i += 3)
+                {
+                    if (ds.Tables.Contains(ms.Info[i]) == false)
+                        ds.Tables.Add(ms.Info[i]);
+                    ds.Tables[ms.Info[i]].Columns.Add(ms.Info[i + 1], Type.GetType(ms.Info[i + 2]));
+                }
+            }
+        }
+
+        private void ReadDataTable(ArrayList rows, DataTable dt)
+        {
+            dt.BeginInit();
+            dt.BeginLoadData();
+            var guidcols = new List<int>();
+            var datecol = new List<int>();
+
+            foreach (DataColumn c in dt.Columns)
+            {
+                if (c.DataType == typeof(Guid) || c.DataType == typeof(Guid?))
+                    guidcols.Add(c.Ordinal);
+                if (UseUTCDateTime && (c.DataType == typeof(DateTime) || c.DataType == typeof(DateTime?)))
+                    datecol.Add(c.Ordinal);
+            }
+
+            foreach (ArrayList row in rows)
+            {
+                var v = new object[row.Count];
+                row.CopyTo(v, 0);
+                foreach (var i in guidcols)
+                {
+                    string s = (string)v[i];
+                    if (s != null && s.Length < 36)
+                        v[i] = new Guid(Convert.FromBase64String(s));
+                }
+                if (UseUTCDateTime)
+                {
+                    foreach (var i in datecol)
+                    {
+                        string s = (string)v[i];
+                        if (s != null)
+                            v[i] = CreateDateTime(s);
+                    }
+                }
+                dt.Rows.Add(v);
+            }
+
+            dt.EndLoadData();
+            dt.EndInit();
+        }
+
+        DataTable CreateDataTable(Dictionary<string, object> reader, Dictionary<string, object> globalTypes)
+        {
+            var dt = new DataTable();
+
+            // read dataset schema here
+            var schema = reader["$schema"];
+
+            if (schema is string s)
+            {
+                TextReader tr = new StringReader(s);
+                dt.ReadXmlSchema(tr);
+            }
+            else
+            {
+                var ms = (DatasetSchema)ParseDictionary((Dictionary<string, object>)schema, globalTypes, typeof(DatasetSchema));
+                dt.TableName = ms.Info[0];
+                for (int i = 0; i < ms.Info.Count; i += 3)
+                {
+                    dt.Columns.Add(ms.Info[i + 1], Type.GetType(ms.Info[i + 2]));
+                }
+            }
+
+            foreach (var pair in reader)
+            {
+                if (pair.Key == "$type" || pair.Key == "$schema")
+                    continue;
+
+                var rows = (ArrayList)pair.Value;
+                if (rows == null)
+                    continue;
+
+                if (!dt.TableName.Equals(pair.Key, StringComparison.InvariantCultureIgnoreCase))
+                    continue;
+
+                ReadDataTable(rows, dt);
+            }
+
+            return dt;
+        }
+#endif
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\LogentriesNLog\fastJSON\JSON.cs(673,55): error CS0128: A local variable or function named 'strings' is already defined in this scope,D:\a\1\s\src\LogentriesNLog\fastJSON\JSON.cs(674,43): error CS0165: Use of unassigned local variable 'strings'
+######################################################################
+
+

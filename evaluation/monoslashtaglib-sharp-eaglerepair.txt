@@ -1,0 +1,32 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: TaglibSharp(net462)
+    #1 Path: D:\a\1\s\src\TaglibSharp\CombinedTag.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #2 Path: D:\a\1\s\src\TaglibSharp\CombinedTag.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #3 Path: D:\a\1\s\src\TaglibSharp\IFD\IFDStructure.cs, Line: 249, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #4 Path: D:\a\1\s\src\TaglibSharp\Matroska\File.cs, Line: 1345, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #5 Path: D:\a\1\s\src\TaglibSharp\Matroska\Tag.cs, Line: 1268, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #6 Path: D:\a\1\s\src\TaglibSharp\Mpeg4\AppleTag.cs, Line: 537, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #7 Path: D:\a\1\s\src\TaglibSharp\Riff\AviStream.cs, Line: 122, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+--- Rules Summary ---
+R10: 2
+R3: 1
+R2: 1
+R5: 1
+R8: 1
+R7: 1
+
+--- Summary ---
+Fixed ReSharper issues: 6
+Fixed SonarQube issues: 4
+Total fixed issues: 7
+
+Finished in: 18 s
+
+No errors reported.
+

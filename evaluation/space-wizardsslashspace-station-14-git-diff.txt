@@ -1,0 +1,256 @@
+diff --git a/Content.Client/GameObjects/Components/Storage/ClientStorageComponent.cs b/Content.Client/GameObjects/Components/Storage/ClientStorageComponent.cs
+index 4d6144794..ef97b3bac 100644
+--- a/Content.Client/GameObjects/Components/Storage/ClientStorageComponent.cs
++++ b/Content.Client/GameObjects/Components/Storage/ClientStorageComponent.cs
+@@ -300,12 +300,11 @@ public void BuildEntityList()
+                 //Sets information about entire storage container current capacity
+                 if (StorageEntity.StorageCapacityMax != 0)
+                 {
+-                    _information.Text = String.Format("Items: {0}, Stored: {1}/{2}", storageList.Count,
+-                        StorageEntity.StorageSizeUsed, StorageEntity.StorageCapacityMax);
++                    _information.Text = $"Items: {storageList.Count}, Stored: {StorageEntity.StorageSizeUsed}/{StorageEntity.StorageCapacityMax}";
+                 }
+                 else
+                 {
+-                    _information.Text = String.Format("Items: {0}", storageList.Count);
++                    _information.Text = $"Items: {storageList.Count}";
+                 }
+             }
+ 
+diff --git a/Content.Client/GameObjects/Components/Watercloset/ToiletVisualizer.cs b/Content.Client/GameObjects/Components/Watercloset/ToiletVisualizer.cs
+index 5231c7db4..0c3d72379 100644
+--- a/Content.Client/GameObjects/Components/Watercloset/ToiletVisualizer.cs
++++ b/Content.Client/GameObjects/Components/Watercloset/ToiletVisualizer.cs
+@@ -14,9 +14,7 @@ public override void OnChangeData(AppearanceComponent component)
+             if (!component.TryGetData(ToiletVisuals.LidOpen, out bool lidOpen)) lidOpen = false;
+             if (!component.TryGetData(ToiletVisuals.SeatUp, out bool seatUp)) seatUp = false;
+ 
+-            var state = string.Format("{0}_toilet_{1}",
+-                lidOpen ? "open" : "closed",
+-                seatUp ? "seat_up" : "seat_down");
++            var state = $"{(lidOpen ? "open" : "closed")}_toilet_{(seatUp ? "seat_up" : "seat_down")}";
+ 
+             sprite.LayerSetState(0, state);
+         }
+diff --git a/Content.Client/Graphics/Overlays/SingularityOverlay.cs b/Content.Client/Graphics/Overlays/SingularityOverlay.cs
+index 624cfae2e..d7d615b46 100644
+--- a/Content.Client/Graphics/Overlays/SingularityOverlay.cs
++++ b/Content.Client/Graphics/Overlays/SingularityOverlay.cs
+@@ -35,7 +35,7 @@ public SingularityOverlay()
+ 
+         public override bool OverwriteTargetFrameBuffer()
+         {
+-            return _singularities.Count() > 0;
++            return _singularities.Any();
+         }
+ 
+         protected override void Draw(DrawingHandleBase handle, OverlaySpace currentSpace)
+diff --git a/Content.Server/Administration/Commands/Rejuvenate.cs b/Content.Server/Administration/Commands/Rejuvenate.cs
+index 535096902..cad7ab307 100644
+--- a/Content.Server/Administration/Commands/Rejuvenate.cs
++++ b/Content.Server/Administration/Commands/Rejuvenate.cs
+@@ -29,8 +29,7 @@ public string Help
+ 
+         public void Execute(IConsoleShell shell, string argStr, string[] args)
+         {
+-            var player = shell.Player as IPlayerSession;
+-            if (args.Length < 1 && player != null) //Try to heal the users mob if applicable
++            if (args.Length < 1 && shell.Player is IPlayerSession player) //Try to heal the users mob if applicable
+             {
+                 shell.WriteLine(Loc.GetString("Healing the user's mob since no arguments were provided."));
+                 if (player.AttachedEntity == null)
+diff --git a/Content.Server/Atmos/Reactions/PlasmaFireReaction.cs b/Content.Server/Atmos/Reactions/PlasmaFireReaction.cs
+index 8dde9eb74..30e106c1e 100644
+--- a/Content.Server/Atmos/Reactions/PlasmaFireReaction.cs
++++ b/Content.Server/Atmos/Reactions/PlasmaFireReaction.cs
+@@ -18,7 +18,6 @@ public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, GridT
+             var energyReleased = 0f;
+             var oldHeatCapacity = mixture.HeatCapacity;
+             var temperature = mixture.Temperature;
+-            var location = holder as TileAtmosphere;
+ 
+             // More plasma released at higher temperatures
+             var temperatureScale = 0f;
+@@ -67,7 +66,7 @@ public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, GridT
+                     mixture.Temperature = ((temperature * oldHeatCapacity + energyReleased) / newHeatCapacity);
+             }
+ 
+-            if (location != null)
++            if (holder is TileAtmosphere location)
+             {
+                 temperature = mixture.Temperature;
+                 if (temperature > Atmospherics.FireMinimumTemperatureToExist)
+diff --git a/Content.Server/Atmos/Reactions/TritiumFireReaction.cs b/Content.Server/Atmos/Reactions/TritiumFireReaction.cs
+index e8a1a798e..d6d9673fa 100644
+--- a/Content.Server/Atmos/Reactions/TritiumFireReaction.cs
++++ b/Content.Server/Atmos/Reactions/TritiumFireReaction.cs
+@@ -17,7 +17,6 @@ public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, GridT
+             var energyReleased = 0f;
+             var oldHeatCapacity = mixture.HeatCapacity;
+             var temperature = mixture.Temperature;
+-            var location = holder as TileAtmosphere;
+             mixture.ReactionResults[GasReaction.Fire] = 0f;
+             var burnedFuel = 0f;
+             var initialTrit = mixture.GetMoles(Gas.Tritium);
+@@ -58,7 +57,7 @@ Atmospherics.MinimumTritiumOxyburnEnergy > (temperature * oldHeatCapacity))
+                     mixture.Temperature = ((temperature * oldHeatCapacity + energyReleased) / newHeatCapacity);
+             }
+ 
+-            if (location != null)
++            if (holder is TileAtmosphere location)
+             {
+                 temperature = mixture.Temperature;
+                 if (temperature > Atmospherics.FireMinimumTemperatureToExist)
+diff --git a/Content.Server/GameObjects/Components/Atmos/Piping/GasFilterComponent.cs b/Content.Server/GameObjects/Components/Atmos/Piping/GasFilterComponent.cs
+index 37d815736..0b3f578ef 100644
+--- a/Content.Server/GameObjects/Components/Atmos/Piping/GasFilterComponent.cs
++++ b/Content.Server/GameObjects/Components/Atmos/Piping/GasFilterComponent.cs
+@@ -156,9 +156,9 @@ private void SetPipes()
+ 
+             var pipeNodes = container.Nodes.OfType<PipeNode>();
+ 
+-            _inletPipe = pipeNodes.Where(pipe => pipe.PipeDirection == _initialInletDirection).FirstOrDefault();
+-            _filterOutletPipe = pipeNodes.Where(pipe => pipe.PipeDirection == _initialFilterOutletDirection).FirstOrDefault();
+-            _outletPipe = pipeNodes.Where(pipe => pipe.PipeDirection == _initialOutletDirection).FirstOrDefault();
++            _inletPipe = pipeNodes.FirstOrDefault(pipe => pipe.PipeDirection == _initialInletDirection);
++            _filterOutletPipe = pipeNodes.FirstOrDefault(pipe => pipe.PipeDirection == _initialFilterOutletDirection);
++            _outletPipe = pipeNodes.FirstOrDefault(pipe => pipe.PipeDirection == _initialOutletDirection);
+ 
+             if (_inletPipe == null || _filterOutletPipe == null || _outletPipe == null)
+             {
+diff --git a/Content.Server/GameObjects/Components/Atmos/Piping/Pumps/BasePumpComponent.cs b/Content.Server/GameObjects/Components/Atmos/Piping/Pumps/BasePumpComponent.cs
+index 7b9e5a325..92c1a371a 100644
+--- a/Content.Server/GameObjects/Components/Atmos/Piping/Pumps/BasePumpComponent.cs
++++ b/Content.Server/GameObjects/Components/Atmos/Piping/Pumps/BasePumpComponent.cs
+@@ -114,8 +114,8 @@ private void SetPipes()
+                 return;
+             }
+             var pipeNodes = container.Nodes.OfType<PipeNode>();
+-            _inletPipe = pipeNodes.Where(pipe => pipe.PipeDirection == _initialInletDirection).FirstOrDefault();
+-            _outletPipe = pipeNodes.Where(pipe => pipe.PipeDirection == _initialOutletDirection).FirstOrDefault();
++            _inletPipe = pipeNodes.FirstOrDefault(pipe => pipe.PipeDirection == _initialInletDirection);
++            _outletPipe = pipeNodes.FirstOrDefault(pipe => pipe.PipeDirection == _initialOutletDirection);
+             if (_inletPipe == null || _outletPipe == null)
+             {
+                 Logger.Error($"{nameof(BasePumpComponent)} on {Owner?.Prototype?.ID}, Uid {Owner?.Uid} could not find compatible {nameof(PipeNode)}s on its {nameof(NodeContainerComponent)}.");
+diff --git a/Content.Server/GameObjects/Components/Body/Surgery/BiologicalSurgeryDataComponent.cs b/Content.Server/GameObjects/Components/Body/Surgery/BiologicalSurgeryDataComponent.cs
+index 33645c5b3..bd5d4de1e 100644
+--- a/Content.Server/GameObjects/Components/Body/Surgery/BiologicalSurgeryDataComponent.cs
++++ b/Content.Server/GameObjects/Components/Body/Surgery/BiologicalSurgeryDataComponent.cs
+@@ -178,8 +178,7 @@ public bool CanAttachBodyPart(IBodyPart part)
+                 if (Parent.Mechanisms.Count > 0 &&
+                     toolType == SurgeryType.VesselCompression)
+                 {
+-                    if (_disconnectedOrgans.Except(Parent.Mechanisms).Count() != 0 ||
+-                        Parent.Mechanisms.Except(_disconnectedOrgans).Count() != 0)
++                    if (_disconnectedOrgans.Except(Parent.Mechanisms).Any() || Parent.Mechanisms.Except(_disconnectedOrgans).Any())
+                     {
+                         return LoosenOrganSurgery;
+                     }
+diff --git a/Content.Server/GameObjects/Components/Doors/AirlockComponent.cs b/Content.Server/GameObjects/Components/Doors/AirlockComponent.cs
+index 95c3b8231..21bfbedeb 100644
+--- a/Content.Server/GameObjects/Components/Doors/AirlockComponent.cs
++++ b/Content.Server/GameObjects/Components/Doors/AirlockComponent.cs
+@@ -194,10 +194,7 @@ private bool IsPowered()
+ 
+         private void UpdateBoltLightStatus()
+         {
+-            if (_appearanceComponent != null)
+-            {
+-                _appearanceComponent.SetData(DoorVisuals.BoltLights, BoltLightsVisible);
+-            }
++            _appearanceComponent?.SetData(DoorVisuals.BoltLights, BoltLightsVisible);
+         }
+ 
+         private void UpdateWiresStatus()
+@@ -278,10 +275,7 @@ private void UpdatePowerCutStatus()
+ 
+         private void PowerDeviceOnOnPowerStateChanged(PowerChangedMessage e)
+         {
+-            if (_appearanceComponent != null)
+-            {
+-                _appearanceComponent.SetData(DoorVisuals.Powered, e.Powered);
+-            }
++            _appearanceComponent?.SetData(DoorVisuals.Powered, e.Powered);
+ 
+             // BoltLights also got out
+             UpdateBoltLightStatus();
+diff --git a/Content.Server/GameObjects/Components/GUI/InventoryComponent.cs b/Content.Server/GameObjects/Components/GUI/InventoryComponent.cs
+index 790dae375..30e82e1ff 100644
+--- a/Content.Server/GameObjects/Components/GUI/InventoryComponent.cs
++++ b/Content.Server/GameObjects/Components/GUI/InventoryComponent.cs
+@@ -604,7 +604,7 @@ public override ComponentState GetComponentState(ICommonSession player)
+             var list = new List<KeyValuePair<Slots, EntityUid>>();
+             foreach (var (slot, container) in _slotContainers)
+             {
+-                if (container != null && container.ContainedEntity != null)
++                if (container?.ContainedEntity != null)
+                 {
+                     list.Add(new KeyValuePair<Slots, EntityUid>(slot, container.ContainedEntity.Uid));
+                 }
+diff --git a/Content.Shared/GameObjects/Components/Body/SharedBodyComponent.cs b/Content.Shared/GameObjects/Components/Body/SharedBodyComponent.cs
+index 29695fc61..b0123e99c 100644
+--- a/Content.Shared/GameObjects/Components/Body/SharedBodyComponent.cs
++++ b/Content.Shared/GameObjects/Components/Body/SharedBodyComponent.cs
+@@ -158,7 +158,7 @@ protected virtual void OnRemovePart(string slot, IBodyPart part)
+             }
+ 
+             // creadth: fall down if no legs
+-            if (part.PartType == BodyPartType.Leg && Parts.Count(x => x.Value.PartType == BodyPartType.Leg) == 0)
++            if (part.PartType == BodyPartType.Leg && !Parts.Any(x => x.Value.PartType == BodyPartType.Leg))
+             {
+                 EntitySystem.Get<SharedStandingStateSystem>().Down(Owner);
+             }
+@@ -166,7 +166,7 @@ protected virtual void OnRemovePart(string slot, IBodyPart part)
+             // creadth: immediately kill entity if last vital part removed
+             if (Owner.TryGetComponent(out IDamageableComponent? damageable))
+             {
+-                if (part.IsVital && Parts.Count(x => x.Value.PartType == part.PartType) == 0)
++                if (part.IsVital && !Parts.Any(x => x.Value.PartType == part.PartType))
+                 {
+                     damageable.ChangeDamage(DamageType.Bloodloss, 300, true); // TODO BODY KILL
+                 }
+diff --git a/Content.Shared/GameObjects/Components/Pulling/SharedPullableComponent.cs b/Content.Shared/GameObjects/Components/Pulling/SharedPullableComponent.cs
+index ab7b9b69a..7fffa5e7b 100644
+--- a/Content.Shared/GameObjects/Components/Pulling/SharedPullableComponent.cs
++++ b/Content.Shared/GameObjects/Components/Pulling/SharedPullableComponent.cs
+@@ -319,16 +319,10 @@ public override void HandleMessage(ComponentMessage message, IComponent? compone
+             switch (message)
+             {
+                 case PullStartedMessage msg:
+-                    if (pulledStatus != null)
+-                    {
+-                        pulledStatus.ShowAlert(AlertType.Pulled);
+-                    }
++                    pulledStatus?.ShowAlert(AlertType.Pulled);
+                     break;
+                 case PullStoppedMessage msg:
+-                    if (pulledStatus != null)
+-                    {
+-                        pulledStatus.ClearAlert(AlertType.Pulled);
+-                    }
++                    pulledStatus?.ClearAlert(AlertType.Pulled);
+                     break;
+             }
+         }
+diff --git a/Content.Tools/Merger.cs b/Content.Tools/Merger.cs
+index 1b5aaa4fe..4284ee316 100644
+--- a/Content.Tools/Merger.cs
++++ b/Content.Tools/Merger.cs
+@@ -305,8 +305,8 @@ public bool MapEntityProperty(YamlMappingNode node, string property, string path
+         {
+             if (node.Children.ContainsKey(property)) {
+                 var prop = node[property];
+-                if (prop is YamlScalarNode)
+-                    return MapEntityProperty((YamlScalarNode) prop, path + "/" + property);
++                if (prop is YamlScalarNode yamlScalarNode)
++                    return MapEntityProperty(yamlScalarNode, path + "/" + property);
+             }
+             return true;
+         }
+diff --git a/RobustToolbox b/RobustToolbox
+--- a/RobustToolbox
++++ b/RobustToolbox
+@@ -1 +1 @@
+-Subproject commit d6ec0785195636768cb161dbe789103fd135162d
++Subproject commit d6ec0785195636768cb161dbe789103fd135162d-dirty

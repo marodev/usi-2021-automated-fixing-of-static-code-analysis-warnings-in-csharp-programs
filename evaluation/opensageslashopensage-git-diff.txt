@@ -1,0 +1,238 @@
+diff --git a/src/OpenSage.Game/Diagnostics/MainView.cs b/src/OpenSage.Game/Diagnostics/MainView.cs
+index 1023863c..f93d8129 100644
+--- a/src/OpenSage.Game/Diagnostics/MainView.cs
++++ b/src/OpenSage.Game/Diagnostics/MainView.cs
+@@ -170,7 +170,7 @@ namespace OpenSage.Diagnostics
+                     if (ImGui.Button("Go!"))
+                     {
+                         var random = new Random();
+-                        var faction2 = _playableSides[random.Next(0, _playableSides.Count())];
++                        var faction2 = _playableSides[random.Next(0, _playableSides.Count)];
+ 
+                         if (_map.Item1.IsMultiplayer)
+                         {
+diff --git a/src/OpenSage.Game/Gui/Wnd/Controls/Control.cs b/src/OpenSage.Game/Gui/Wnd/Controls/Control.cs
+index fb4a3d66..e8dbbf8d 100644
+--- a/src/OpenSage.Game/Gui/Wnd/Controls/Control.cs
++++ b/src/OpenSage.Game/Gui/Wnd/Controls/Control.cs
+@@ -378,10 +378,7 @@ namespace OpenSage.Gui.Wnd.Controls
+                 image = HoverBackgroundImage ?? image;
+             }
+ 
+-            if (image != null)
+-            {
+-                image.Draw(drawingContext, ClientRectangle);
+-            }
++            image?.Draw(drawingContext, ClientRectangle);
+         }
+ 
+         private void DrawBorder(DrawingContext2D drawingContext)
+diff --git a/src/OpenSage.Game/Logic/Object/Behaviors/CastleBehavior.cs b/src/OpenSage.Game/Logic/Object/Behaviors/CastleBehavior.cs
+index 319e0ce5..01229d03 100644
+--- a/src/OpenSage.Game/Logic/Object/Behaviors/CastleBehavior.cs
++++ b/src/OpenSage.Game/Logic/Object/Behaviors/CastleBehavior.cs
+@@ -107,7 +107,7 @@ namespace OpenSage.Logic.Object
+ 
+             var nearbyUnits = context.GameContext.Quadtree.FindNearby(_gameObject, _gameObject.Transform, _moduleData.ScanDistance);
+ 
+-            if (nearbyUnits.Count() == 0)
++            if (!nearbyUnits.Any())
+             {
+                 _gameObject.Owner = _nativePlayer;
+                 return;
+diff --git a/src/OpenSage.Game/Logic/Object/Draw/W3dScriptedModelDraw.cs b/src/OpenSage.Game/Logic/Object/Draw/W3dScriptedModelDraw.cs
+index ba26671c..b0cec073 100644
+--- a/src/OpenSage.Game/Logic/Object/Draw/W3dScriptedModelDraw.cs
++++ b/src/OpenSage.Game/Logic/Object/Draw/W3dScriptedModelDraw.cs
+@@ -28,7 +28,7 @@ namespace OpenSage.Logic.Object
+                 return false;
+             }
+ 
+-            if (animationState != null && animationState.Script != null)
++            if (animationState?.Script != null)
+             {
+                 _context.Scene3D.Game.Lua.ExecuteDrawModuleLuaCode(this, animationState.Script);
+             }
+@@ -38,7 +38,7 @@ namespace OpenSage.Logic.Object
+ 
+         public void SetTransitionState(string state)
+         {
+-            var transitionState = _bfmeTransitionStates.Where(x => x.Name == state).FirstOrDefault();
++            var transitionState = _bfmeTransitionStates.FirstOrDefault(x => x.Name == state);
+             SetActiveAnimationState(transitionState, _context.Random);
+         }
+     }
+diff --git a/src/OpenSage.Game/Logic/Object/GameObject.cs b/src/OpenSage.Game/Logic/Object/GameObject.cs
+index 0d86c03d..10790205 100644
+--- a/src/OpenSage.Game/Logic/Object/GameObject.cs
++++ b/src/OpenSage.Game/Logic/Object/GameObject.cs
+@@ -373,7 +373,7 @@ namespace OpenSage.Logic.Object
+             Player owner,
+             GameObjectCollection parent)
+         {
+-            if (objectDefinition.BuildVariations != null && objectDefinition.BuildVariations.Count() > 0)
++            if (objectDefinition.BuildVariations != null && objectDefinition.BuildVariations.Any())
+             {
+                 objectDefinition = objectDefinition.BuildVariations[gameContext.Random.Next(0, objectDefinition.BuildVariations.Count())].Value;
+             }
+@@ -449,9 +449,9 @@ namespace OpenSage.Logic.Object
+                 // TODO: This will never be null once we've implemented all the behaviors.
+                 if (module != null)
+                 {
+-                    if (module is CreateModule)
++                    if (module is CreateModule createModule)
+                     {
+-                        ((CreateModule) module).Execute(_behaviorUpdateContext);
++                        createModule.Execute(_behaviorUpdateContext);
+                     }
+                     else
+                     {
+diff --git a/src/OpenSage.Game/Logic/Object/Update/ProductionUpdate.cs b/src/OpenSage.Game/Logic/Object/Update/ProductionUpdate.cs
+index dd198542..ae0a77d5 100644
+--- a/src/OpenSage.Game/Logic/Object/Update/ProductionUpdate.cs
++++ b/src/OpenSage.Game/Logic/Object/Update/ProductionUpdate.cs
+@@ -246,7 +246,7 @@ namespace OpenSage.Logic.Object
+ 
+             _productionExit ??= _gameObject.FindBehavior<IProductionExit>();
+ 
+-            if (_productionExit != null && _productionExit is ParkingPlaceBehaviour parkingPlace)
++            if (_productionExit is ParkingPlaceBehaviour parkingPlace)
+             {
+                 return parkingPlace.CanProduceObject(objectDefinition, ProductionQueue);
+             }
+@@ -271,7 +271,7 @@ namespace OpenSage.Logic.Object
+         private (int, float) GetCountAndProgress(ObjectDefinition objectDefinition)
+         {
+             var progress = 0.0f;
+-            var count = _productionQueue.Where(x => x.ObjectDefinition != null && objectDefinition.Name == x.ObjectDefinition.Name).Count();
++            var count = _productionQueue.Count(x => x.ObjectDefinition != null && objectDefinition.Name == x.ObjectDefinition.Name);
+             var currentJob = _productionQueue[0];
+             if (currentJob.ObjectDefinition != null && objectDefinition.Name == currentJob.ObjectDefinition.Name)
+             {
+@@ -284,7 +284,7 @@ namespace OpenSage.Logic.Object
+         private (int, float) GetCountAndProgress(UpgradeTemplate upgradeTemplate)
+         {
+             var progress = 0.0f;
+-            var count = _productionQueue.Where(x => x.UpgradeDefinition != null && upgradeTemplate.Name == x.UpgradeDefinition.Name).Count();
++            var count = _productionQueue.Count(x => x.UpgradeDefinition != null && upgradeTemplate.Name == x.UpgradeDefinition.Name);
+             var currentJob = _productionQueue[0];
+             if (currentJob.UpgradeDefinition != null && upgradeTemplate.Name == currentJob.UpgradeDefinition.Name)
+             {
+diff --git a/src/OpenSage.Game/Logic/Player.cs b/src/OpenSage.Game/Logic/Player.cs
+index 5c13e681..c4f6d7b0 100644
+--- a/src/OpenSage.Game/Logic/Player.cs
++++ b/src/OpenSage.Game/Logic/Player.cs
+@@ -160,10 +160,7 @@ namespace OpenSage.Logic
+                 else
+                 {
+                     var hordeContain = unit.FindBehavior<HordeContainBehavior>();
+-                    if (hordeContain != null)
+-                    {
+-                        hordeContain.SelectAll(false);
+-                    }
++                    hordeContain?.SelectAll(false);
+                 }
+             }
+             _selectedUnits.Clear();
+diff --git a/src/OpenSage.Game/Network/SkirmishManager.cs b/src/OpenSage.Game/Network/SkirmishManager.cs
+index bfddae63..c1747135 100644
+--- a/src/OpenSage.Game/Network/SkirmishManager.cs
++++ b/src/OpenSage.Game/Network/SkirmishManager.cs
+@@ -70,7 +70,7 @@ namespace OpenSage.Network
+             get
+             {
+                 //no unready human players, except for the host
+-                return SkirmishGame.Slots.Where(x => x.Index != 0 && x.State == SkirmishSlotState.Human && !x.Ready).Count() == 0;
++                return !SkirmishGame.Slots.Where(x => x.Index != 0 && x.State == SkirmishSlotState.Human && !x.Ready).Any();
+             }
+         }
+ 
+diff --git a/src/OpenSage.Game/Utilities/Triangulator.cs b/src/OpenSage.Game/Utilities/Triangulator.cs
+index 6a5be0cd..b05585c4 100644
+--- a/src/OpenSage.Game/Utilities/Triangulator.cs
++++ b/src/OpenSage.Game/Utilities/Triangulator.cs
+@@ -169,12 +169,12 @@ namespace OpenSage.Utilities
+ #if DEBUG
+             StringBuilder vString = new StringBuilder();
+             foreach (Vertex v in polygonVertices)
+-                vString.Append(string.Format("{0}, ", v));
++                vString.Append($"{v}, ");
+             Log("Shape Vertices: {0}", vString);
+ 
+             vString = new StringBuilder();
+             foreach (Vertex v in holePolygon)
+-                vString.Append(string.Format("{0}, ", v));
++                vString.Append($"{v}, ");
+             Log("Hole Vertices: {0}", vString);
+ #endif
+ 
+@@ -279,7 +279,7 @@ namespace OpenSage.Utilities
+ #if DEBUG
+             vString = new StringBuilder();
+             foreach (Vertex v in polygonVertices)
+-                vString.Append(string.Format("{0}, ", v));
++                vString.Append($"{v}, ");
+             Log("New Shape Vertices: {0}\n", vString);
+ #endif
+ 
+@@ -331,7 +331,7 @@ namespace OpenSage.Utilities
+ #if DEBUG
+             StringBuilder vString = new StringBuilder();
+             foreach (Vector2 v in vertices)
+-                vString.Append(string.Format("{0}, ", v));
++                vString.Append($"{v}, ");
+             Log("Original Vertices: {0}", vString);
+ #endif
+ 
+@@ -342,7 +342,7 @@ namespace OpenSage.Utilities
+ #if DEBUG
+             vString = new StringBuilder();
+             foreach (Vector2 v in newVerts)
+-                vString.Append(string.Format("{0}, ", v));
++                vString.Append($"{v}, ");
+             Log("New Vertices After Reversal: {0}\n", vString);
+ #endif
+ 
+@@ -414,17 +414,17 @@ namespace OpenSage.Utilities
+ #if DEBUG
+             StringBuilder rString = new StringBuilder();
+             foreach (Vertex v in reflexVertices)
+-                rString.Append(string.Format("{0}, ", v.Index));
++                rString.Append($"{v.Index}, ");
+             Log("Reflex Vertices: {0}", rString);
+ 
+             StringBuilder cString = new StringBuilder();
+             foreach (Vertex v in convexVertices)
+-                cString.Append(string.Format("{0}, ", v.Index));
++                cString.Append($"{v.Index}, ");
+             Log("Convex Vertices: {0}", cString);
+ 
+             StringBuilder eString = new StringBuilder();
+             foreach (Vertex v in earVertices)
+-                eString.Append(string.Format("{0}, ", v.Index));
++                eString.Append($"{v.Index}, ");
+             Log("Ear Vertices: {0}", eString);
+ #endif
+         }
+@@ -831,7 +831,7 @@ namespace OpenSage.Utilities
+ 
+             public override string ToString()
+             {
+-                return string.Format("{0} ({1})", Position, Index);
++                return $"{Position} ({Index})";
+             }
+         }
+     }
+diff --git a/src/OpenSage.Mods.Bfme/Gui/RadialCommandListOverlay.cs b/src/OpenSage.Mods.Bfme/Gui/RadialCommandListOverlay.cs
+index 2303227b..fd1d854f 100644
+--- a/src/OpenSage.Mods.Bfme/Gui/RadialCommandListOverlay.cs
++++ b/src/OpenSage.Mods.Bfme/Gui/RadialCommandListOverlay.cs
+@@ -124,7 +124,7 @@ namespace OpenSage.Mods.Bfme.Gui
+ 
+             var radialBorder = _game.GetMappedImage("RadialBorder");
+ 
+-            var numVisibleButtons = _buttons.Where(x => x.IsVisible).Count();
++            var numVisibleButtons = _buttons.Count(x => x.IsVisible);
+             var radius = (-1 + MathF.Sqrt(numVisibleButtons + 0.75f)) * (radialBorder.Coords.Width * 0.9f);
+             var deltaAngle = MathUtility.TwoPi / numVisibleButtons;
+ 

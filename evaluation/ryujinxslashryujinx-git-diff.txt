@@ -1,0 +1,453 @@
+diff --git a/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIO.cs b/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIO.cs
+index c4ce1887..6ae9ede7 100644
+--- a/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIO.cs
++++ b/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIO.cs
+@@ -32,9 +32,8 @@ namespace SoundIOSharp
+ 
+         public override bool Equals(object other)
+         {
+-            var d = other as SoundIO;
+ 
+-            return d != null && this.handle == d.handle;
++            return other is SoundIO d && this.handle == d.handle;
+         }
+ 
+         public override int GetHashCode()
+diff --git a/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIODevice.cs b/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIODevice.cs
+index 6e7c4964..48b7e400 100644
+--- a/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIODevice.cs
++++ b/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIODevice.cs
+@@ -25,9 +25,8 @@ namespace SoundIOSharp
+ 
+         public override bool Equals(object other)
+         {
+-            var d = other as SoundIODevice;
+ 
+-            return d != null && (this.handle == d.handle || Natives.soundio_device_equal (this.handle, d.handle));
++            return other is SoundIODevice d && (this.handle == d.handle || Natives.soundio_device_equal (this.handle, d.handle));
+         }
+ 
+         public override int GetHashCode()
+diff --git a/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIOInStream.cs b/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIOInStream.cs
+index df97d653..f6cf6c1d 100644
+--- a/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIOInStream.cs
++++ b/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIOInStream.cs
+@@ -22,9 +22,8 @@ namespace SoundIOSharp
+ 
+         public override bool Equals(object other)
+         {
+-            var d = other as SoundIOInStream;
+ 
+-            return d != null && (this.handle == d.handle);
++            return other is SoundIOInStream d && (this.handle == d.handle);
+         }
+ 
+         public override int GetHashCode()
+diff --git a/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIOOutStream.cs b/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIOOutStream.cs
+index 432ca42b..b181f484 100644
+--- a/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIOOutStream.cs
++++ b/Ryujinx.Audio.Backends.SoundIo/Native/libsoundio/SoundIOOutStream.cs
+@@ -21,9 +21,8 @@ namespace SoundIOSharp
+ 
+         public override bool Equals (object other)
+         {
+-            var d = other as SoundIOOutStream;
+ 
+-            return d != null && (this.handle == d.handle);
++            return other is SoundIOOutStream d && (this.handle == d.handle);
+         }
+ 
+         public override int GetHashCode ()
+diff --git a/Ryujinx.Audio.Backends.SoundIo/SoundIoHardwareDeviceDriver.cs b/Ryujinx.Audio.Backends.SoundIo/SoundIoHardwareDeviceDriver.cs
+index 00977fcb..dde172e0 100644
+--- a/Ryujinx.Audio.Backends.SoundIo/SoundIoHardwareDeviceDriver.cs
++++ b/Ryujinx.Audio.Backends.SoundIo/SoundIoHardwareDeviceDriver.cs
+@@ -85,15 +85,9 @@ namespace Ryujinx.Audio.Backends.SoundIo
+             }
+             finally
+             {
+-                if (stream != null)
+-                {
+-                    stream.Dispose();
+-                }
++                stream?.Dispose();
+ 
+-                if (context != null)
+-                {
+-                    context.Dispose();
+-                }
++                context?.Dispose();
+             }
+         }
+ 
+diff --git a/Ryujinx.Graphics.Gpu/Memory/Buffer.cs b/Ryujinx.Graphics.Gpu/Memory/Buffer.cs
+index cdd61b6d..25094991 100644
+--- a/Ryujinx.Graphics.Gpu/Memory/Buffer.cs
++++ b/Ryujinx.Graphics.Gpu/Memory/Buffer.cs
+@@ -201,10 +201,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
+         /// <param name="size">The size of the region</param>
+         public void ClearModified(ulong address, ulong size)
+         {
+-            if (_modifiedRanges != null)
+-            {
+-                _modifiedRanges.Clear(address, size);
+-            }
++            _modifiedRanges?.Clear(address, size);
+         }
+ 
+         /// <summary>
+diff --git a/Ryujinx.Graphics.Gpu/Shader/Cache/CacheCollection.cs b/Ryujinx.Graphics.Gpu/Shader/Cache/CacheCollection.cs
+index 2660e528..7e57b3ba 100644
+--- a/Ryujinx.Graphics.Gpu/Shader/Cache/CacheCollection.cs
++++ b/Ryujinx.Graphics.Gpu/Shader/Cache/CacheCollection.cs
+@@ -311,10 +311,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.Cache
+         public void EnsureArchiveUpToDate()
+         {
+             // First close previous opened instance if found.
+-            if (_cacheArchive != null)
+-            {
+-                _cacheArchive.Dispose();
+-            }
++            _cacheArchive?.Dispose();
+ 
+             string archivePath = GetArchivePath();
+ 
+diff --git a/Ryujinx.Graphics.OpenGL/Pipeline.cs b/Ryujinx.Graphics.OpenGL/Pipeline.cs
+index 28478a72..75d84a38 100644
+--- a/Ryujinx.Graphics.OpenGL/Pipeline.cs
++++ b/Ryujinx.Graphics.OpenGL/Pipeline.cs
+@@ -1204,10 +1204,7 @@ namespace Ryujinx.Graphics.OpenGL
+ 
+         private void PrepareForDispatch()
+         {
+-            if (_unit0Texture != null)
+-            {
+-                _unit0Texture.Bind(0);
+-            }
++            _unit0Texture?.Bind(0);
+         }
+ 
+         private void PreDraw()
+@@ -1216,10 +1213,7 @@ namespace Ryujinx.Graphics.OpenGL
+ 
+             _vertexArray.Validate();
+ 
+-            if (_unit0Texture != null)
+-            {
+-                _unit0Texture.Bind(0);
+-            }
++            _unit0Texture?.Bind(0);
+         }
+ 
+         private void PostDraw()
+@@ -1270,10 +1264,9 @@ namespace Ryujinx.Graphics.OpenGL
+ 
+         public bool TryHostConditionalRendering(ICounterEvent value, ulong compare, bool isEqual)
+         {
+-            if (value is CounterQueueEvent)
++            if (value is CounterQueueEvent evt)
+             {
+                 // Compare an event and a constant value.
+-                CounterQueueEvent evt = (CounterQueueEvent)value;
+ 
+                 // Easy host conditional rendering when the check matches what GL can do:
+                 //  - Event is of type samples passed.
+diff --git a/Ryujinx.Graphics.Shader/Translation/Optimizations/BindlessElimination.cs b/Ryujinx.Graphics.Shader/Translation/Optimizations/BindlessElimination.cs
+index 7352b18b..157fe17e 100644
+--- a/Ryujinx.Graphics.Shader/Translation/Optimizations/BindlessElimination.cs
++++ b/Ryujinx.Graphics.Shader/Translation/Optimizations/BindlessElimination.cs
+@@ -11,9 +11,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
+             {
+                 if (sourceBlock.Operations.Count > 0)
+                 {
+-                    Operation lastOp = sourceBlock.Operations.Last.Value as Operation;
+-
+-                    if (lastOp != null &&
++                    if (sourceBlock.Operations.Last.Value is Operation lastOp &&
+                         ((sourceBlock.Next == block && lastOp.Inst == Instruction.BranchIfFalse) ||
+                         (sourceBlock.Branch == block && lastOp.Inst == Instruction.BranchIfTrue)))
+                     {
+diff --git a/Ryujinx.HLE/FileSystem/Content/ContentManager.cs b/Ryujinx.HLE/FileSystem/Content/ContentManager.cs
+index 1630835d..a451def1 100644
+--- a/Ryujinx.HLE/FileSystem/Content/ContentManager.cs
++++ b/Ryujinx.HLE/FileSystem/Content/ContentManager.cs
+@@ -261,7 +261,7 @@ namespace Ryujinx.HLE.FileSystem.Content
+ 
+         public void ClearAocData() => _aocData.Clear();
+ 
+-        public int GetAocCount() => _aocData.Where(e => e.Value.Enabled).Count();
++        public int GetAocCount() => _aocData.Count(e => e.Value.Enabled);
+ 
+         public IList<ulong> GetAocTitleIds() => _aocData.Where(e => e.Value.Enabled).Select(e => e.Key).ToList();
+ 
+diff --git a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/ArrayType.cs b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/ArrayType.cs
+index 4b1041ab..f31a0701 100644
+--- a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/ArrayType.cs
++++ b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/ArrayType.cs
+@@ -46,10 +46,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler.Ast
+             {
+                 writer.Write(_dimensionString);
+             }
+-            else if (_dimensionExpression != null)
+-            {
+-                _dimensionExpression.Print(writer);
+-            }
++            else _dimensionExpression?.Print(writer);
+ 
+             writer.Write("]");
+ 
+diff --git a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/EncodedFunction.cs b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/EncodedFunction.cs
+index c7b6dab1..b15a3d97 100644
+--- a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/EncodedFunction.cs
++++ b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/EncodedFunction.cs
+@@ -46,32 +46,17 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler.Ast
+         {
+             writer.Write("(");
+ 
+-            if (_params != null)
+-            {
+-                _params.Print(writer);
+-            }
++            _params?.Print(writer);
+ 
+             writer.Write(")");
+ 
+-            if (_ret != null)
+-            {
+-                _ret.PrintRight(writer);
+-            }
++            _ret?.PrintRight(writer);
+ 
+-            if (_cv != null)
+-            {
+-                _cv.Print(writer);
+-            }
++            _cv?.Print(writer);
+ 
+-            if (_ref != null)
+-            {
+-                _ref.Print(writer);
+-            }
++            _ref?.Print(writer);
+ 
+-            if (_attrs != null)
+-            {
+-                _attrs.Print(writer);
+-            }
++            _attrs?.Print(writer);
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/InitListExpression.cs b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/InitListExpression.cs
+index 7155dd60..36953ccd 100644
+--- a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/InitListExpression.cs
++++ b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/InitListExpression.cs
+@@ -16,10 +16,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler.Ast
+ 
+         public override void PrintLeft(TextWriter writer)
+         {
+-            if (_typeNode != null)
+-            {
+-                _typeNode.Print(writer);
+-            }
++            _typeNode?.Print(writer);
+ 
+             writer.Write("{");
+             writer.Write(string.Join<BaseNode>(", ", _nodes.ToArray()));
+diff --git a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/PackedTemplateParameterExpansion.cs b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/PackedTemplateParameterExpansion.cs
+index c3645044..3f25fc1f 100644
+--- a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/PackedTemplateParameterExpansion.cs
++++ b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/PackedTemplateParameterExpansion.cs
+@@ -8,9 +8,9 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler.Ast
+ 
+         public override void PrintLeft(TextWriter writer)
+         {
+-            if (Child is PackedTemplateParameter)
++            if (Child is PackedTemplateParameter packedTemplateParameter)
+             {
+-                if (((PackedTemplateParameter)Child).Nodes.Count !=  0)
++                if (packedTemplateParameter.Nodes.Count !=  0)
+                 {
+                     Child.Print(writer);
+                 }
+diff --git a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/Qualifier.cs b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/Qualifier.cs
+index cb6dd6bf..b10228c6 100644
+--- a/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/Qualifier.cs
++++ b/Ryujinx.HLE/HOS/Diagnostics/Demangler/Ast/Qualifier.cs
+@@ -46,10 +46,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler.Ast
+ 
+         public override void PrintLeft(TextWriter writer)
+         {
+-            if (Child != null)
+-            {
+-                Child.PrintLeft(writer);
+-            }
++            Child?.PrintLeft(writer);
+ 
+             PrintQualifier(writer);
+         }
+@@ -61,10 +58,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler.Ast
+ 
+         public override void PrintRight(TextWriter writer)
+         {
+-            if (Child != null)
+-            {
+-                Child.PrintRight(writer);
+-            }
++            Child?.PrintRight(writer);
+         }
+     }
+ 
+@@ -111,10 +105,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler.Ast
+ 
+         public override void PrintRight(TextWriter writer)
+         {
+-            if (Child != null)
+-            {
+-                Child.PrintRight(writer);
+-            }
++            Child?.PrintRight(writer);
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Ryujinx.HLE/HOS/Kernel/Process/KProcess.cs b/Ryujinx.HLE/HOS/Kernel/Process/KProcess.cs
+index 429c23e3..75fd696a 100644
+--- a/Ryujinx.HLE/HOS/Kernel/Process/KProcess.cs
++++ b/Ryujinx.HLE/HOS/Kernel/Process/KProcess.cs
+@@ -1010,10 +1010,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
+ 
+         private void SignalExit()
+         {
+-            if (ResourceLimit != null)
+-            {
+-                ResourceLimit.Release(LimitableResource.Memory, GetMemoryUsage());
+-            }
++            ResourceLimit?.Release(LimitableResource.Memory, GetMemoryUsage());
+ 
+             KernelContext.CriticalSection.Enter();
+ 
+diff --git a/Ryujinx.HLE/HOS/Kernel/Threading/KScheduler.cs b/Ryujinx.HLE/HOS/Kernel/Threading/KScheduler.cs
+index e427f24d..fff4ee01 100644
+--- a/Ryujinx.HLE/HOS/Kernel/Threading/KScheduler.cs
++++ b/Ryujinx.HLE/HOS/Kernel/Threading/KScheduler.cs
+@@ -360,10 +360,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
+ 
+             currentThread.AddCpuTime(ticksDelta);
+ 
+-            if (currentProcess != null)
+-            {
+-                currentProcess.AddCpuTime(ticksDelta);
+-            }
++            currentProcess?.AddCpuTime(ticksDelta);
+ 
+             LastContextSwitchTime = currentTicks;
+ 
+@@ -609,10 +606,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
+             // Ensure that the idle thread is not blocked and can exit.
+             lock (_idleInterruptEventLock)
+             {
+-                if (_idleInterruptEvent != null)
+-                {
+-                    _idleInterruptEvent.Set();
+-                }
++                _idleInterruptEvent?.Set();
+             }
+         }
+     }
+diff --git a/Ryujinx.HLE/HOS/Services/Audio/AudioIn/AudioIn.cs b/Ryujinx.HLE/HOS/Services/Audio/AudioIn/AudioIn.cs
+index ee85ded9..5b6e24da 100644
+--- a/Ryujinx.HLE/HOS/Services/Audio/AudioIn/AudioIn.cs
++++ b/Ryujinx.HLE/HOS/Services/Audio/AudioIn/AudioIn.cs
+@@ -80,9 +80,9 @@ namespace Ryujinx.HLE.HOS.Services.Audio.AudioIn
+         {
+             IWritableEvent outEvent = _system.RegisterBufferEvent();
+ 
+-            if (outEvent is AudioKernelEvent)
++            if (outEvent is AudioKernelEvent audioKernelEvent)
+             {
+-                return ((AudioKernelEvent)outEvent).Event;
++                return audioKernelEvent.Event;
+             }
+             else
+             {
+diff --git a/Ryujinx.HLE/HOS/Services/Audio/AudioOut/AudioOut.cs b/Ryujinx.HLE/HOS/Services/Audio/AudioOut/AudioOut.cs
+index f2588452..04aeb072 100644
+--- a/Ryujinx.HLE/HOS/Services/Audio/AudioOut/AudioOut.cs
++++ b/Ryujinx.HLE/HOS/Services/Audio/AudioOut/AudioOut.cs
+@@ -80,9 +80,9 @@ namespace Ryujinx.HLE.HOS.Services.Audio.AudioOut
+         {
+             IWritableEvent outEvent = _system.RegisterBufferEvent();
+ 
+-            if (outEvent is AudioKernelEvent)
++            if (outEvent is AudioKernelEvent audioKernelEvent)
+             {
+-                return ((AudioKernelEvent)outEvent).Event;
++                return audioKernelEvent.Event;
+             }
+             else
+             {
+diff --git a/Ryujinx.HLE/HOS/Services/Audio/AudioRenderer/AudioRenderer.cs b/Ryujinx.HLE/HOS/Services/Audio/AudioRenderer/AudioRenderer.cs
+index d69bde03..98e4ab73 100644
+--- a/Ryujinx.HLE/HOS/Services/Audio/AudioRenderer/AudioRenderer.cs
++++ b/Ryujinx.HLE/HOS/Services/Audio/AudioRenderer/AudioRenderer.cs
+@@ -55,9 +55,9 @@ namespace Ryujinx.HLE.HOS.Services.Audio.AudioRenderer
+ 
+             if (resultCode == ResultCode.Success)
+             {
+-                if (outEvent is AudioKernelEvent)
++                if (outEvent is AudioKernelEvent audioKernelEvent)
+                 {
+-                    systemEvent = ((AudioKernelEvent)outEvent).Event;
++                    systemEvent = audioKernelEvent.Event;
+                 }
+                 else
+                 {
+diff --git a/Ryujinx.HLE/HOS/Services/Time/Clock/SystemClockCore.cs b/Ryujinx.HLE/HOS/Services/Time/Clock/SystemClockCore.cs
+index 865b1c09..6d60afd1 100644
+--- a/Ryujinx.HLE/HOS/Services/Time/Clock/SystemClockCore.cs
++++ b/Ryujinx.HLE/HOS/Services/Time/Clock/SystemClockCore.cs
+@@ -99,10 +99,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.Clock
+ 
+         public void RegisterOperationEvent(KWritableEvent writableEvent)
+         {
+-            if (_systemClockContextUpdateCallback != null)
+-            {
+-                _systemClockContextUpdateCallback.RegisterOperationEvent(writableEvent);
+-            }
++            _systemClockContextUpdateCallback?.RegisterOperationEvent(writableEvent);
+         }
+ 
+         public ResultCode SetSystemClockContext(SystemClockContext context)
+diff --git a/Ryujinx/Modules/Motion/Client.cs b/Ryujinx/Modules/Motion/Client.cs
+index 3f18fb7f..6e1f6237 100644
+--- a/Ryujinx/Modules/Motion/Client.cs
++++ b/Ryujinx/Modules/Motion/Client.cs
+@@ -160,7 +160,7 @@ namespace Ryujinx.Modules.Motion
+         {
+             if (_clients.TryGetValue(clientId, out UdpClient _client))
+             {
+-                if (_client != null && _client.Client != null && _client.Client.Connected)
++                if (_client?.Client != null && _client.Client.Connected)
+                 {
+                     try
+                     {
+@@ -199,7 +199,7 @@ namespace Ryujinx.Modules.Motion
+         {
+             if (_hosts.TryGetValue(clientId, out IPEndPoint endPoint) && _clients.TryGetValue(clientId, out UdpClient _client))
+             {
+-                if (_client != null && _client.Client != null && _client.Client.Connected)
++                if (_client?.Client != null && _client.Client.Connected)
+                 {
+                     _client.Client.ReceiveTimeout = timeout;
+ 
+@@ -238,7 +238,7 @@ namespace Ryujinx.Modules.Motion
+         {
+             if (_hosts.TryGetValue(clientId, out IPEndPoint endPoint) && _clients.TryGetValue(clientId, out UdpClient _client))
+             {
+-                if (_client != null && _client.Client != null && _client.Client.Connected)
++                if (_client?.Client != null && _client.Client.Connected)
+                 {
+                     try
+                     {

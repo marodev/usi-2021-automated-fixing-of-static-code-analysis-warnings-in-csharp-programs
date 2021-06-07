@@ -1,0 +1,289 @@
+diff --git a/AddIns/Snippets-MarkdownMonster-Addin/SnippetsAddin/SnippetsWindow.xaml.cs b/AddIns/Snippets-MarkdownMonster-Addin/SnippetsAddin/SnippetsWindow.xaml.cs
+index 6e70bbb0..0fed79a3 100644
+--- a/AddIns/Snippets-MarkdownMonster-Addin/SnippetsAddin/SnippetsWindow.xaml.cs
++++ b/AddIns/Snippets-MarkdownMonster-Addin/SnippetsAddin/SnippetsWindow.xaml.cs
+@@ -171,18 +171,15 @@ private void ListSnippets_KeyUp(object sender, KeyEventArgs e)
+             
+             if (e.Key == Key.Return || e.Key == Key.Space)
+             {
+-                var snippet = ListSnippets.SelectedItem as Snippet;
+-                if (snippet != null)
++                if (ListSnippets.SelectedItem is Snippet snippet)
+                     Model.Addin.InsertSnippet(snippet);
+             }
+         }
+ 
+         private void ListSnippets_SelectionChanged(object sender, SelectionChangedEventArgs e)
+         {
+-            var snippet = ListSnippets.SelectedItem as Snippet;
+-
+ 
+-            if (snippet != null)
++            if (ListSnippets.SelectedItem is Snippet snippet)
+             {
+                 try { 
+                     editor?.SetMarkdown(snippet.SnippetText);
+diff --git a/AddIns/WebLogAddin/MetaWebLogApi/MetaWebLogWordpressApiClient.cs b/AddIns/WebLogAddin/MetaWebLogApi/MetaWebLogWordpressApiClient.cs
+index 954305c3..fde90d4d 100644
+--- a/AddIns/WebLogAddin/MetaWebLogApi/MetaWebLogWordpressApiClient.cs
++++ b/AddIns/WebLogAddin/MetaWebLogApi/MetaWebLogWordpressApiClient.cs
+@@ -316,8 +316,8 @@ bool IsNewPost(object postId)
+             if (postId == null)
+                 return true;
+ 
+-            if (postId is string)
+-                return string.IsNullOrEmpty((string)postId);
++            if (postId is string s)
++                return string.IsNullOrEmpty(s);
+ 
+             if (postId is int && (int)postId < 1)
+                 return true;
+diff --git a/AddIns/WebLogAddin/MetaWebLogApi/helpers/EnumsHelper.cs b/AddIns/WebLogAddin/MetaWebLogApi/helpers/EnumsHelper.cs
+index 14b7eab6..c57cd213 100644
+--- a/AddIns/WebLogAddin/MetaWebLogApi/helpers/EnumsHelper.cs
++++ b/AddIns/WebLogAddin/MetaWebLogApi/helpers/EnumsHelper.cs
+@@ -16,7 +16,7 @@ public static CommentStatus GetCommentStatus(string commentStatus)
+             }
+             catch (ArgumentException)
+             {
+-                throw new ArgumentException(string.Format("Status value of '{0}' doesn't exist in the CommentStatus enum", commentStatus));
++                throw new ArgumentException($"Status value of '{commentStatus}' doesn't exist in the CommentStatus enum");
+             }
+         }
+     }
+diff --git a/AddIns/WebLogAddin/WebLogAddin.cs b/AddIns/WebLogAddin/WebLogAddin.cs
+index 4ba689a4..1b56ff2c 100644
+--- a/AddIns/WebLogAddin/WebLogAddin.cs
++++ b/AddIns/WebLogAddin/WebLogAddin.cs
+@@ -497,8 +497,8 @@ bool IsNewPost(object postId)
+ 			if (postId == null)
+ 				return true;
+ 
+-			if (postId is string)
+-				return string.IsNullOrEmpty((string) postId);
++			if (postId is string s)
++				return string.IsNullOrEmpty(s);
+ 
+ 			if (postId is int && (int)postId < 1)
+ 				return true;
+diff --git a/MarkdownMonster/Controls/ContextMenus/FolderBrowserContextMenu.cs b/MarkdownMonster/Controls/ContextMenus/FolderBrowserContextMenu.cs
+index 2b3d767d..b8e0e0e4 100644
+--- a/MarkdownMonster/Controls/ContextMenus/FolderBrowserContextMenu.cs
++++ b/MarkdownMonster/Controls/ContextMenus/FolderBrowserContextMenu.cs
+@@ -615,10 +615,9 @@ public void FileBrowserPasteFile()
+                 var dl = data.GetData(DataFormats.FileDrop) as string[];
+                 if (dl == null)
+                     return;
+-
+-                var ms = data.GetData("Preferred DropEffect") as MemoryStream;
+                 bool isCut = false;
+-                if (ms != null)
++
++                if (data.GetData("Preferred DropEffect") is MemoryStream ms)
+                 {
+                     var bytes = ms.ToArray();
+                     if (bytes.Length == 4 && bytes[0] == 2 && bytes[1] == 0)
+diff --git a/MarkdownMonster/Controls/DropdownButtonBehavior.cs b/MarkdownMonster/Controls/DropdownButtonBehavior.cs
+index 910987de..8a48c8f8 100644
+--- a/MarkdownMonster/Controls/DropdownButtonBehavior.cs
++++ b/MarkdownMonster/Controls/DropdownButtonBehavior.cs
+@@ -23,7 +23,7 @@ protected override void OnAttached()
+         void AssociatedObject_Click(object sender, System.Windows.RoutedEventArgs e)
+         {
+             Button source = sender as Button;
+-            if (source != null && source.ContextMenu != null)
++            if (source?.ContextMenu != null)
+             {
+                 if (!isContextMenuOpen)
+                 {
+@@ -48,10 +48,7 @@ void ContextMenu_Closed(object sender, RoutedEventArgs e)
+         {
+             isContextMenuOpen = false;
+             var contextMenu = sender as ContextMenu;
+-            if (contextMenu != null)
+-            {
+-                contextMenu.RemoveHandler(ContextMenu.ClosedEvent, new RoutedEventHandler(ContextMenu_Closed));
+-            }
++            contextMenu?.RemoveHandler(ContextMenu.ClosedEvent, new RoutedEventHandler(ContextMenu_Closed));
+         }
+     }
+ }
+diff --git a/MarkdownMonster/Controls/ElementHelper.cs b/MarkdownMonster/Controls/ElementHelper.cs
+index ce27c2a2..5929b2ac 100644
+--- a/MarkdownMonster/Controls/ElementHelper.cs
++++ b/MarkdownMonster/Controls/ElementHelper.cs
+@@ -58,26 +58,26 @@ public static class ElementHelper
+         public static void DetachElementFromParent(UIElement elementToDetach, DependencyObject parentElement)
+         {
+             if (parentElement == null) return;
+-            var contentControl = parentElement as ContentControl;
+-            if (contentControl != null)
++
++            if (parentElement is ContentControl contentControl)
+             {
+                 contentControl.Content = null;
+                 return;
+             }
+-            var itemsControl = parentElement as ItemsControl;
+-            if (itemsControl != null)
++
++            if (parentElement is ItemsControl itemsControl)
+             {
+                 itemsControl.Items.Remove(elementToDetach);
+                 return;
+             }
+-            var childControl = parentElement as Panel;
+-            if (childControl != null)
++
++            if (parentElement is Panel childControl)
+             {
+                 childControl.Children.Remove(elementToDetach);
+                 return;
+             }
+-            var contentPresenter = parentElement as ContentPresenter;
+-            if (contentPresenter != null)
++
++            if (parentElement is ContentPresenter contentPresenter)
+             {
+                 contentPresenter.Content = null;
+                 return;
+diff --git a/MarkdownMonster/Controls/SelectOnEntryExtension.cs b/MarkdownMonster/Controls/SelectOnEntryExtension.cs
+index 4400b346..463d4b65 100644
+--- a/MarkdownMonster/Controls/SelectOnEntryExtension.cs
++++ b/MarkdownMonster/Controls/SelectOnEntryExtension.cs
+@@ -17,8 +17,7 @@ private static void SelectOnEntryChanged(DependencyObject d, DependencyPropertyC
+         {
+             if ((bool)e.NewValue)
+             {
+-                var text = d as TextBoxBase;
+-                if (text != null)
++                if (d is TextBoxBase text)
+                     text.GotFocus += Text_GotFocus;
+             }
+         }
+diff --git a/MarkdownMonster/Windows/Git/GitCommitDialog.xaml.cs b/MarkdownMonster/Windows/Git/GitCommitDialog.xaml.cs
+index ce1459c1..3f9320e5 100644
+--- a/MarkdownMonster/Windows/Git/GitCommitDialog.xaml.cs
++++ b/MarkdownMonster/Windows/Git/GitCommitDialog.xaml.cs
+@@ -244,12 +244,9 @@ private void CheckBoxListItemChecked_Click(object sender, RoutedEventArgs e)
+             
+             var isChecked = checkBox.IsChecked;
+ 
+-            var checkItem = checkBox.DataContext as RepositoryStatusItem;
+-            if (checkItem != null)
++            if (checkBox.DataContext is RepositoryStatusItem checkItem)
+             {
+-                ListBoxItem selectedListBoxItem =
+-                    ListChangedItems.ItemContainerGenerator.ContainerFromItem(checkItem) as ListBoxItem;
+-                if (selectedListBoxItem != null)
++                if (                    ListChangedItems.ItemContainerGenerator.ContainerFromItem(checkItem) is ListBoxItem selectedListBoxItem)
+                     selectedListBoxItem.IsSelected = true;
+             }
+ 
+diff --git a/MarkdownMonster/Windows/PreviewBrowser/IEWebBrowserEditorHandler.cs b/MarkdownMonster/Windows/PreviewBrowser/IEWebBrowserEditorHandler.cs
+index 644884cd..f0faeb0f 100644
+--- a/MarkdownMonster/Windows/PreviewBrowser/IEWebBrowserEditorHandler.cs
++++ b/MarkdownMonster/Windows/PreviewBrowser/IEWebBrowserEditorHandler.cs
+@@ -132,8 +132,7 @@ uint Native.IDocHostUIHandler.FilterDataObject(IDataObject pDO, out IDataObject
+ 
+         public static void SetSilent(WebBrowser browser, bool silent)
+         {
+-            Native.IOleServiceProvider sp = browser.Document as Native.IOleServiceProvider;
+-            if (sp != null)
++            if (browser.Document is Native.IOleServiceProvider sp)
+             {
+                 Guid IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
+                 Guid IID_IWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
+diff --git a/MarkdownMonster/_Classes/AddInInterfaces/AddinManager.cs b/MarkdownMonster/_Classes/AddInInterfaces/AddinManager.cs
+index 3077cad2..8732b069 100644
+--- a/MarkdownMonster/_Classes/AddInInterfaces/AddinManager.cs
++++ b/MarkdownMonster/_Classes/AddInInterfaces/AddinManager.cs
+@@ -586,11 +586,8 @@ public async Task<List<AddinItem>> GetAddinListAsync(List<AddinItem> addinList =
+                             var versionFile = Path.Combine(addinFolder, ai.id, "version.json");
+                             if (File.Exists(versionFile))
+                             {
+-                                var addinItem = JsonSerializationUtils.DeserializeFromFile(
+-                                        versionFile, typeof(AddinItem), false)
+-                                    as AddinItem;
+-
+-                                if (addinItem != null)
++                                if (JsonSerializationUtils.DeserializeFromFile(
++                                        versionFile, typeof(AddinItem), false) is AddinItem addinItem)
+                                 {
+                                     var verInstalled = new Version(addinItem.version);
+                                     var verAddin = new Version(ai.version);
+diff --git a/MarkdownMonster/_Classes/Commands/AppCommands.cs b/MarkdownMonster/_Classes/Commands/AppCommands.cs
+index 73f039b6..a15303a4 100644
+--- a/MarkdownMonster/_Classes/Commands/AppCommands.cs
++++ b/MarkdownMonster/_Classes/Commands/AppCommands.cs
+@@ -1264,10 +1264,9 @@ void CloseAllDocuments()
+         {
+             CloseAllDocumentsCommand = new CommandBase((parameter, command) =>
+             {
+-                var parm = parameter as string;
+                 TabItem except = null;
+ 
+-                if (parm != null && parm == "AllBut")
++                if (parameter is string parm && parm == "AllBut")
+                     except = Model.Window.TabControl.SelectedItem as TabItem;
+ 
+                 Model.Window.CloseAllTabs(except);
+@@ -2221,7 +2220,6 @@ void Settings()
+             SettingsCommand = new CommandBase((parm, command) =>
+             {
+                 // optional parameter for text to jump to
+-                var searchFor = parm as string;
+ 
+                 try
+                 {
+@@ -2243,7 +2241,7 @@ void Settings()
+ 
+                     Model.Window.OpenTab(file, syntax: "json");
+ 
+-                    if (searchFor != null)
++                    if (parm is string searchFor)
+                     {
+                         Model.Window.Dispatcher.InvokeAsync(() => { Model.ActiveEditor.AceEditor.FindText(searchFor); },
+                             DispatcherPriority.ApplicationIdle);
+diff --git a/MarkdownMonster/_Classes/Configuration/ApplicationUpdater.cs b/MarkdownMonster/_Classes/Configuration/ApplicationUpdater.cs
+index ea241894..1aa1d6be 100644
+--- a/MarkdownMonster/_Classes/Configuration/ApplicationUpdater.cs
++++ b/MarkdownMonster/_Classes/Configuration/ApplicationUpdater.cs
+@@ -208,8 +208,7 @@ public bool IsNewVersionAvailable(bool checkDate = false, int timeout = 1500)
+ 
+             if (!string.IsNullOrEmpty(xml))
+             {
+-                var ver = SerializationUtils.DeSerializeObject(xml, typeof(VersionInfo)) as VersionInfo;
+-                if (ver != null)
++                if (SerializationUtils.DeSerializeObject(xml, typeof(VersionInfo)) is VersionInfo ver)
+                 {
+                     VersionInfo = ver;
+ 
+diff --git a/MarkdownMonster/_Classes/WebSockets/WebServerRequestHandler.cs b/MarkdownMonster/_Classes/WebSockets/WebServerRequestHandler.cs
+index 9e0ea756..d015a4bb 100644
+--- a/MarkdownMonster/_Classes/WebSockets/WebServerRequestHandler.cs
++++ b/MarkdownMonster/_Classes/WebSockets/WebServerRequestHandler.cs
+@@ -33,8 +33,8 @@ public static WebServerResult OnMarkdownMonsterOperationHandler(WebServerOperati
+                     if (tab != null)
+                     {
+                         mmApp.Model.Window.ActivateTab(tab);
+-                        var editor = tab.Tag as MarkdownDocumentEditor;
+-                        if (editor != null)
++
++                        if (tab.Tag is MarkdownDocumentEditor editor)
+                         {
+                             mmApp.Model.Window.Dispatcher.InvokeAsync(() =>
+                             {
+diff --git a/Tests/MarkdownMonster.Test/GitIntegrationTests.cs b/Tests/MarkdownMonster.Test/GitIntegrationTests.cs
+index f0a742c7..d64d4159 100644
+--- a/Tests/MarkdownMonster.Test/GitIntegrationTests.cs
++++ b/Tests/MarkdownMonster.Test/GitIntegrationTests.cs
+@@ -101,7 +101,7 @@ public void OpenRemoteRepoTest()
+             var destination = Repository.Init(localFolder,false);
+             var repo = new Repository(destination);
+             var branch = repo.CreateBranch("master");
+-            if (repo.Network.Remotes.Count() == 0)
++            if (!repo.Network.Remotes.Any())
+             {
+                 repo.Network.Remotes.Add("origin", remote);
+             }

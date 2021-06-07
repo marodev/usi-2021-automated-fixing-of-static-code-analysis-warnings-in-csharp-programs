@@ -1,0 +1,1335 @@
+diff --git a/src/OrchardCore.Modules/OrchardCore.AdminDashboard/Controllers/DashboardController.cs b/src/OrchardCore.Modules/OrchardCore.AdminDashboard/Controllers/DashboardController.cs
+index bed20d7e3..39951d778 100644
+--- a/src/OrchardCore.Modules/OrchardCore.AdminDashboard/Controllers/DashboardController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.AdminDashboard/Controllers/DashboardController.cs
+@@ -188,7 +188,7 @@ namespace OrchardCore.AdminDashboard.Controllers
+ 
+                 if (contentItem.IsPublished() == false)
+                 {
+-                    var publishedVersion = publishedItems.Where(p => p.ContentItemId == contentItem.ContentItemId).FirstOrDefault();
++                    var publishedVersion = publishedItems.FirstOrDefault(p => p.ContentItemId == contentItem.ContentItemId);
+                     var publishedMetaData = publishedVersion?.As<DashboardPart>();
+                     if (publishedVersion != null && publishedMetaData != null)
+                     {
+diff --git a/src/OrchardCore.Modules/OrchardCore.AdminMenu/AdminNodes/LinkAdminNodeNavigationBuilder.cs b/src/OrchardCore.Modules/OrchardCore.AdminMenu/AdminNodes/LinkAdminNodeNavigationBuilder.cs
+index 273719175..69d84dba7 100644
+--- a/src/OrchardCore.Modules/OrchardCore.AdminMenu/AdminNodes/LinkAdminNodeNavigationBuilder.cs
++++ b/src/OrchardCore.Modules/OrchardCore.AdminMenu/AdminNodes/LinkAdminNodeNavigationBuilder.cs
+@@ -58,7 +58,7 @@ namespace OrchardCore.AdminMenu.AdminNodes
+                 {
+                     try
+                     {
+-                        var treeBuilder = treeNodeBuilders.Where(x => x.Name == childTreeNode.GetType().Name).FirstOrDefault();
++                        var treeBuilder = treeNodeBuilders.FirstOrDefault(x => x.Name == childTreeNode.GetType().Name);
+                         await treeBuilder.BuildNavigationAsync(childTreeNode, itemBuilder, treeNodeBuilders);
+                     }
+                     catch (Exception e)
+diff --git a/src/OrchardCore.Modules/OrchardCore.AdminMenu/AdminNodes/PlaceholderAdminNodeNavigationBuilder.cs b/src/OrchardCore.Modules/OrchardCore.AdminMenu/AdminNodes/PlaceholderAdminNodeNavigationBuilder.cs
+index c1c77b6d7..ed4465bd0 100644
+--- a/src/OrchardCore.Modules/OrchardCore.AdminMenu/AdminNodes/PlaceholderAdminNodeNavigationBuilder.cs
++++ b/src/OrchardCore.Modules/OrchardCore.AdminMenu/AdminNodes/PlaceholderAdminNodeNavigationBuilder.cs
+@@ -54,7 +54,7 @@ namespace OrchardCore.AdminMenu.AdminNodes
+                 {
+                     try
+                     {
+-                        var treeBuilder = treeNodeBuilders.Where(x => x.Name == childTreeNode.GetType().Name).FirstOrDefault();
++                        var treeBuilder = treeNodeBuilders.FirstOrDefault(x => x.Name == childTreeNode.GetType().Name);
+                         await treeBuilder.BuildNavigationAsync(childTreeNode, itemBuilder, treeNodeBuilders);
+                     }
+                     catch (Exception e)
+diff --git a/src/OrchardCore.Modules/OrchardCore.AdminMenu/Controllers/MenuController.cs b/src/OrchardCore.Modules/OrchardCore.AdminMenu/Controllers/MenuController.cs
+index 4276411bb..b76d5857b 100644
+--- a/src/OrchardCore.Modules/OrchardCore.AdminMenu/Controllers/MenuController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.AdminMenu/Controllers/MenuController.cs
+@@ -69,7 +69,7 @@ namespace OrchardCore.AdminMenu.Controllers
+                 adminMenuList = adminMenuList.Where(x => x.Name.Contains(options.Search, StringComparison.OrdinalIgnoreCase)).ToList();
+             }
+ 
+-            var count = adminMenuList.Count();
++            var count = adminMenuList.Count;
+ 
+             var startIndex = pager.GetStartIndex();
+             var pageSize = pager.PageSize;
+diff --git a/src/OrchardCore.Modules/OrchardCore.AdminMenu/Services/AdminMenuNavigationProvidersCoordinator.cs b/src/OrchardCore.Modules/OrchardCore.AdminMenu/Services/AdminMenuNavigationProvidersCoordinator.cs
+index b011ffb16..3f40319a3 100644
+--- a/src/OrchardCore.Modules/OrchardCore.AdminMenu/Services/AdminMenuNavigationProvidersCoordinator.cs
++++ b/src/OrchardCore.Modules/OrchardCore.AdminMenu/Services/AdminMenuNavigationProvidersCoordinator.cs
+@@ -62,7 +62,7 @@ namespace OrchardCore.AdminMenu.Services
+         {
+             foreach (MenuItem node in tree.MenuItems)
+             {
+-                var nodeBuilder = _nodeBuilders.Where(x => x.Name == node.GetType().Name).FirstOrDefault();
++                var nodeBuilder = _nodeBuilders.FirstOrDefault(x => x.Name == node.GetType().Name);
+ 
+                 if (nodeBuilder != null)
+                 {
+diff --git a/src/OrchardCore.Modules/OrchardCore.ContentFields/Fields/UserNamesExtensions.cs b/src/OrchardCore.Modules/OrchardCore.ContentFields/Fields/UserNamesExtensions.cs
+index e9eb4fb88..8b76e4cc5 100644
+--- a/src/OrchardCore.Modules/OrchardCore.ContentFields/Fields/UserNamesExtensions.cs
++++ b/src/OrchardCore.Modules/OrchardCore.ContentFields/Fields/UserNamesExtensions.cs
+@@ -13,9 +13,8 @@ namespace OrchardCore.ContentFields.Fields
+         /// </remarks>
+         public static string[] GetUserNames(this UserPickerField userPickerField)
+         {
+-            var userNames = userPickerField.Content["UserNames"] as JArray;
+ 
+-            return userNames != null ? userNames.ToObject<string[]>() : Array.Empty<string>();
++            return userPickerField.Content["UserNames"] is JArray userNames ? userNames.ToObject<string[]>() : Array.Empty<string>();
+         }
+ 
+         /// <summary>
+diff --git a/src/OrchardCore.Modules/OrchardCore.ContentFields/GraphQL/Types/TimeSpanGraphType.cs b/src/OrchardCore.Modules/OrchardCore.ContentFields/GraphQL/Types/TimeSpanGraphType.cs
+index b310c2de5..57a4aa03a 100644
+--- a/src/OrchardCore.Modules/OrchardCore.ContentFields/GraphQL/Types/TimeSpanGraphType.cs
++++ b/src/OrchardCore.Modules/OrchardCore.ContentFields/GraphQL/Types/TimeSpanGraphType.cs
+@@ -28,8 +28,7 @@ namespace OrchardCore.ContentFields.GraphQL.Types
+ 
+         public override object ParseLiteral(IValue value)
+         {
+-            var str = value as StringValue;
+-            if (str != null)
++            if (value is StringValue str)
+             {
+                 return ParseValue(str.Value);
+             }
+diff --git a/src/OrchardCore.Modules/OrchardCore.ContentLocalization/Handlers/ContentLocalizationPartHandlerCoordinator.cs b/src/OrchardCore.Modules/OrchardCore.ContentLocalization/Handlers/ContentLocalizationPartHandlerCoordinator.cs
+index d1abe83e6..d9f98bc28 100644
+--- a/src/OrchardCore.Modules/OrchardCore.ContentLocalization/Handlers/ContentLocalizationPartHandlerCoordinator.cs
++++ b/src/OrchardCore.Modules/OrchardCore.ContentLocalization/Handlers/ContentLocalizationPartHandlerCoordinator.cs
+@@ -38,9 +38,8 @@ namespace OrchardCore.ContentLocalization.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     await _partHandlers.InvokeAsync((handler, context, part) => handler.LocalizingAsync(context, part), context, part, _logger);
+                 }
+@@ -57,9 +56,8 @@ namespace OrchardCore.ContentLocalization.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     await _partHandlers.InvokeAsync((handler, context, part) => handler.LocalizedAsync(context, part), context, part, _logger);
+                 }
+diff --git a/src/OrchardCore.Modules/OrchardCore.ContentLocalization/Security/LocalizeContentAuthorizationHandler.cs b/src/OrchardCore.Modules/OrchardCore.ContentLocalization/Security/LocalizeContentAuthorizationHandler.cs
+index 27f05425e..946fee917 100644
+--- a/src/OrchardCore.Modules/OrchardCore.ContentLocalization/Security/LocalizeContentAuthorizationHandler.cs
++++ b/src/OrchardCore.Modules/OrchardCore.ContentLocalization/Security/LocalizeContentAuthorizationHandler.cs
+@@ -31,11 +31,9 @@ namespace OrchardCore.ContentLocalization.Security
+                 return;
+             }
+ 
+-            var contentItem = context.Resource as ContentItem;
+-
+             Permission permission = null;
+ 
+-            if (contentItem != null)
++            if (context.Resource is ContentItem contentItem)
+             {
+                 if (OwnerVariationExists(requirement.Permission) && HasOwnership(context.User, contentItem))
+                 {
+diff --git a/src/OrchardCore.Modules/OrchardCore.ContentTypes/Services/ContentDefinitionService.cs b/src/OrchardCore.Modules/OrchardCore.ContentTypes/Services/ContentDefinitionService.cs
+index c17bba8b4..d3470bba2 100644
+--- a/src/OrchardCore.Modules/OrchardCore.ContentTypes/Services/ContentDefinitionService.cs
++++ b/src/OrchardCore.Modules/OrchardCore.ContentTypes/Services/ContentDefinitionService.cs
+@@ -490,7 +490,7 @@ namespace OrchardCore.ContentTypes.Services
+                 version = 2;
+             }
+ 
+-            return string.Format("{0}-{1}", name, version);
++            return $"{name}-{version}";
+         }
+     }
+ }
+diff --git a/src/OrchardCore.Modules/OrchardCore.Contents/AdminNodes/ContentTypesAdminNodeNavigationBuilder.cs b/src/OrchardCore.Modules/OrchardCore.Contents/AdminNodes/ContentTypesAdminNodeNavigationBuilder.cs
+index 07de68f5e..7b9917e95 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Contents/AdminNodes/ContentTypesAdminNodeNavigationBuilder.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Contents/AdminNodes/ContentTypesAdminNodeNavigationBuilder.cs
+@@ -73,7 +73,7 @@ namespace OrchardCore.Contents.AdminNodes
+             {
+                 try
+                 {
+-                    var treeBuilder = treeNodeBuilders.Where(x => x.Name == childNode.GetType().Name).FirstOrDefault();
++                    var treeBuilder = treeNodeBuilders.FirstOrDefault(x => x.Name == childNode.GetType().Name);
+                     await treeBuilder.BuildNavigationAsync(childNode, builder, treeNodeBuilders);
+                 }
+                 catch (Exception e)
+diff --git a/src/OrchardCore.Modules/OrchardCore.Contents/Handlers/FullTextAspectContentHandler.cs b/src/OrchardCore.Modules/OrchardCore.Contents/Handlers/FullTextAspectContentHandler.cs
+index 9a4cdc6b2..151fb2046 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Contents/Handlers/FullTextAspectContentHandler.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Contents/Handlers/FullTextAspectContentHandler.cs
+@@ -58,7 +58,7 @@ namespace OrchardCore.Contents.Handlers
+                     var contentManager = _serviceProvider.GetRequiredService<IContentManager>();
+                     var bodyAspect = await contentManager.PopulateAspectAsync<BodyAspect>(context.ContentItem);
+ 
+-                    if (bodyAspect != null && bodyAspect.Body != null)
++                    if (bodyAspect?.Body != null)
+                     {
+                         using (var sw = new StringWriter())
+                         {
+diff --git a/src/OrchardCore.Modules/OrchardCore.Demo/Services/TestDependency.cs b/src/OrchardCore.Modules/OrchardCore.Demo/Services/TestDependency.cs
+index 0bb8408a7..08a1e6555 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Demo/Services/TestDependency.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Demo/Services/TestDependency.cs
+@@ -17,7 +17,7 @@ namespace OrchardCore.Demo.Services
+ 
+         public string SayHi(string line)
+         {
+-            return string.Format("Hi from tenant {0} - {1}", _shellSettings.Name, line);
++            return $"Hi from tenant {_shellSettings.Name} - {line}";
+         }
+     }
+ }
+diff --git a/src/OrchardCore.Modules/OrchardCore.Deployment.Remote/Controllers/RemoteClientController.cs b/src/OrchardCore.Modules/OrchardCore.Deployment.Remote/Controllers/RemoteClientController.cs
+index 151f6a8bf..6ba0f2894 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Deployment.Remote/Controllers/RemoteClientController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Deployment.Remote/Controllers/RemoteClientController.cs
+@@ -71,7 +71,7 @@ namespace OrchardCore.Deployment.Remote.Controllers
+                 remoteClients = remoteClients.Where(x => x.ClientName.Contains(options.Search, StringComparison.OrdinalIgnoreCase)).ToList();
+             }
+ 
+-            var count = remoteClients.Count();
++            var count = remoteClients.Count;
+ 
+             var startIndex = pager.GetStartIndex();
+             var pageSize = pager.PageSize;
+diff --git a/src/OrchardCore.Modules/OrchardCore.Deployment.Remote/Controllers/RemoteInstanceController.cs b/src/OrchardCore.Modules/OrchardCore.Deployment.Remote/Controllers/RemoteInstanceController.cs
+index 697f7a3ca..29f3675cf 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Deployment.Remote/Controllers/RemoteInstanceController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Deployment.Remote/Controllers/RemoteInstanceController.cs
+@@ -66,7 +66,7 @@ namespace OrchardCore.Deployment.Remote.Controllers
+                 remoteInstances = remoteInstances.Where(x => x.Name.Contains(options.Search, StringComparison.OrdinalIgnoreCase)).ToList();
+             }
+ 
+-            var count = remoteInstances.Count();
++            var count = remoteInstances.Count;
+ 
+             var startIndex = pager.GetStartIndex();
+             var pageSize = pager.PageSize;
+diff --git a/src/OrchardCore.Modules/OrchardCore.Deployment/Controllers/ExportFileController.cs b/src/OrchardCore.Modules/OrchardCore.Deployment/Controllers/ExportFileController.cs
+index d68ac1e29..b25ff553f 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Deployment/Controllers/ExportFileController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Deployment/Controllers/ExportFileController.cs
+@@ -57,9 +57,8 @@ namespace OrchardCore.Deployment.Controllers
+                 archiveFileName = PathExtensions.Combine(Path.GetTempPath(), filename);
+ 
+                 var recipeDescriptor = new RecipeDescriptor();
+-                var recipeFileDeploymentStep = deploymentPlan.DeploymentSteps.FirstOrDefault(ds => ds.Name == nameof(RecipeFileDeploymentStep)) as RecipeFileDeploymentStep;
+ 
+-                if (recipeFileDeploymentStep != null)
++                if (deploymentPlan.DeploymentSteps.FirstOrDefault(ds => ds.Name == nameof(RecipeFileDeploymentStep)) is RecipeFileDeploymentStep recipeFileDeploymentStep)
+                 {
+                     recipeDescriptor.Name = recipeFileDeploymentStep.RecipeName;
+                     recipeDescriptor.DisplayName = recipeFileDeploymentStep.DisplayName;
+diff --git a/src/OrchardCore.Modules/OrchardCore.Feeds/Controllers/FeedController.cs b/src/OrchardCore.Modules/OrchardCore.Feeds/Controllers/FeedController.cs
+index 7ba015e59..691d3f058 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Feeds/Controllers/FeedController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Feeds/Controllers/FeedController.cs
+@@ -36,7 +36,7 @@ namespace OrchardCore.Feeds.Controllers
+ 
+             var bestFormatterMatch = _feedFormatProviders
+                 .Select(provider => provider.Match(context))
+-                .Where(match => match != null && match.FeedBuilder != null)
++                .Where(match => match?.FeedBuilder != null)
+                 .OrderByDescending(match => match.Priority)
+                 .FirstOrDefault();
+ 
+@@ -55,7 +55,7 @@ namespace OrchardCore.Feeds.Controllers
+             }
+ 
+             var bestQueryMatch = queryMatches
+-                .Where(match => match != null && match.FeedQuery != null)
++                .Where(match => match?.FeedQuery != null)
+                 .OrderByDescending(match => match.Priority)
+                 .FirstOrDefault();
+ 
+diff --git a/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ExportModelStateAttribute.cs b/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ExportModelStateAttribute.cs
+index 612f0b576..140bad127 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ExportModelStateAttribute.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ExportModelStateAttribute.cs
+@@ -12,8 +12,7 @@ namespace OrchardCore.Forms.Filters
+             // Only export if ModelState is not valid.
+             if (context.ModelState != null && !context.ModelState.IsValid && IsRedirect(context))
+             {
+-                var controller = context.Controller as Controller;
+-                if (controller != null)
++                if (context.Controller is Controller controller)
+                 {
+                     controller.TempData[Key] = ModelStateHelpers.SerializeModelState(context.ModelState);
+                 }
+diff --git a/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ImportModelStateAttribute.cs b/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ImportModelStateAttribute.cs
+index 4e8efd46c..35124e756 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ImportModelStateAttribute.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ImportModelStateAttribute.cs
+@@ -10,9 +10,8 @@ namespace OrchardCore.Forms.Filters
+         public override void OnActionExecuted(ActionExecutedContext context)
+         {
+             var controller = context.Controller as Controller;
+-            var serializedModelState = controller?.TempData[Key] as string;
+ 
+-            if (serializedModelState != null)
++            if (controller?.TempData[Key] is string serializedModelState)
+             {
+                 // Only Import if we are viewing.
+                 if (context.Result is ViewResult || context.Result is PageResult)
+diff --git a/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ImportModelStatePageFilter.cs b/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ImportModelStatePageFilter.cs
+index 392d552da..1b0bf7dc6 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ImportModelStatePageFilter.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Forms/Filters/ImportModelStatePageFilter.cs
+@@ -11,9 +11,7 @@ namespace OrchardCore.Forms.Filters
+         {
+             var pageModel = context.HandlerInstance as PageModel;
+ 
+-            var serializedModelState = pageModel?.TempData[ModelStateTransferAttribute.Key] as string;
+-
+-            if (serializedModelState != null)
++            if (pageModel?.TempData[ModelStateTransferAttribute.Key] is string serializedModelState)
+             {
+                 // Only Import if we are viewing.
+                 if (context.Result is PageResult)
+diff --git a/src/OrchardCore.Modules/OrchardCore.Lists/AdminNodes/ListsAdminNodeNavigationBuilder.cs b/src/OrchardCore.Modules/OrchardCore.Lists/AdminNodes/ListsAdminNodeNavigationBuilder.cs
+index 957f02f9e..50c424195 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Lists/AdminNodes/ListsAdminNodeNavigationBuilder.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Lists/AdminNodes/ListsAdminNodeNavigationBuilder.cs
+@@ -77,7 +77,7 @@ namespace OrchardCore.Lists.AdminNodes
+             {
+                 try
+                 {
+-                    var treeBuilder = treeNodeBuilders.Where(x => x.Name == childNode.GetType().Name).FirstOrDefault();
++                    var treeBuilder = treeNodeBuilders.FirstOrDefault(x => x.Name == childNode.GetType().Name);
+                     await treeBuilder.BuildNavigationAsync(childNode, builder, treeNodeBuilders);
+                 }
+                 catch (Exception e)
+diff --git a/src/OrchardCore.Modules/OrchardCore.Lucene/Controllers/AdminController.cs b/src/OrchardCore.Modules/OrchardCore.Lucene/Controllers/AdminController.cs
+index 7491aef5f..8df946fc2 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Lucene/Controllers/AdminController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Lucene/Controllers/AdminController.cs
+@@ -466,7 +466,7 @@ namespace OrchardCore.Lucene.Controllers
+ 
+         private void ValidateModel(LuceneIndexSettingsViewModel model)
+         {
+-            if (model.IndexedContentTypes == null || model.IndexedContentTypes.Count() < 1)
++            if (model.IndexedContentTypes == null || !model.IndexedContentTypes.Any())
+             {
+                 ModelState.AddModelError(nameof(LuceneIndexSettingsViewModel.IndexedContentTypes), S["At least one content type selection is required."]);
+             }
+diff --git a/src/OrchardCore.Modules/OrchardCore.Media/Fields/MediaFieldAnchorExtensions.cs b/src/OrchardCore.Modules/OrchardCore.Media/Fields/MediaFieldAnchorExtensions.cs
+index 186d35ff9..3d48ce3c8 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Media/Fields/MediaFieldAnchorExtensions.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Media/Fields/MediaFieldAnchorExtensions.cs
+@@ -10,9 +10,8 @@ namespace OrchardCore.Media.Fields
+         /// </summary>
+         public static Anchor[] GetAnchors(this MediaField mediaField)
+         {
+-            var anchors = mediaField.Content["Anchors"] as JArray;
+ 
+-            return anchors != null ? anchors.ToObject<Anchor[]>() : Array.Empty<Anchor>();
++            return mediaField.Content["Anchors"] is JArray anchors ? anchors.ToObject<Anchor[]>() : Array.Empty<Anchor>();
+         }
+ 
+         /// <summary>
+diff --git a/src/OrchardCore.Modules/OrchardCore.Menu/Drivers/MenuPartDisplayDriver.cs b/src/OrchardCore.Modules/OrchardCore.Menu/Drivers/MenuPartDisplayDriver.cs
+index 0b872e923..ec37e881d 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Menu/Drivers/MenuPartDisplayDriver.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Menu/Drivers/MenuPartDisplayDriver.cs
+@@ -72,9 +72,7 @@ namespace OrchardCore.Menu.Drivers
+         {
+             var contentItem = GetMenuItemAt(originalItems, item["index"].ToString().Split('-').Select(x => Convert.ToInt32(x)).ToArray());
+ 
+-            var children = item["children"] as JArray;
+-
+-            if (children != null)
++            if (item["children"] is JArray children)
+             {
+                 var menuItems = new JArray();
+ 
+diff --git a/src/OrchardCore.Modules/OrchardCore.Placements/Controllers/AdminController.cs b/src/OrchardCore.Modules/OrchardCore.Placements/Controllers/AdminController.cs
+index e49253ae4..71f815287 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Placements/Controllers/AdminController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Placements/Controllers/AdminController.cs
+@@ -76,7 +76,7 @@ namespace OrchardCore.Placements.Controllers
+                 shapeList = shapeList.Where(x => x.ShapeType.Contains(options.Search, StringComparison.OrdinalIgnoreCase)).ToList();
+             }
+ 
+-            var count = shapeList.Count();
++            var count = shapeList.Count;
+ 
+             shapeList = shapeList.OrderBy(x => x.ShapeType)
+                 .Skip(pager.GetStartIndex())
+diff --git a/src/OrchardCore.Modules/OrchardCore.Redis/Services/RedisService.cs b/src/OrchardCore.Modules/OrchardCore.Redis/Services/RedisService.cs
+index d315b5290..b860918e4 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Redis/Services/RedisService.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Redis/Services/RedisService.cs
+@@ -55,10 +55,7 @@ namespace OrchardCore.Redis.Services
+ 
+         public void Dispose()
+         {
+-            if (Connection != null)
+-            {
+-                Connection.Close();
+-            }
++            Connection?.Close();
+         }
+     }
+ }
+diff --git a/src/OrchardCore.Modules/OrchardCore.Sitemaps/Services/RazorPagesContentTypeProvider.cs b/src/OrchardCore.Modules/OrchardCore.Sitemaps/Services/RazorPagesContentTypeProvider.cs
+index 13f2012db..eb438e635 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Sitemaps/Services/RazorPagesContentTypeProvider.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Sitemaps/Services/RazorPagesContentTypeProvider.cs
+@@ -28,7 +28,7 @@ namespace OrchardCore.Sitemaps.Services
+         public Task<string> GetRouteAsync(SitemapBuilderContext context, ContentItem contentItem)
+         {
+             var option = _options.ContentTypeOptions.FirstOrDefault(o => o.ContentType == contentItem.ContentType);
+-            if (option != null && option.RouteValues != null)
++            if (option?.RouteValues != null)
+             {
+                 var pageName = String.IsNullOrEmpty(option.PageName) ? option.ContentType : option.PageName;
+ 
+diff --git a/src/OrchardCore.Modules/OrchardCore.Taxonomies/Drivers/TaxonomyPartDisplayDriver.cs b/src/OrchardCore.Modules/OrchardCore.Taxonomies/Drivers/TaxonomyPartDisplayDriver.cs
+index 180be8c09..6623d33d8 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Taxonomies/Drivers/TaxonomyPartDisplayDriver.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Taxonomies/Drivers/TaxonomyPartDisplayDriver.cs
+@@ -100,9 +100,7 @@ namespace OrchardCore.Taxonomies.Drivers
+         {
+             var contentItem = GetTaxonomyItemAt(originalItems.Terms, item["index"].ToString().Split('-').Select(x => Convert.ToInt32(x)).ToArray());
+ 
+-            var children = item["children"] as JArray;
+-
+-            if (children != null)
++            if (item["children"] is JArray children)
+             {
+                 var taxonomyItems = new JArray();
+ 
+diff --git a/src/OrchardCore.Modules/OrchardCore.Taxonomies/Drivers/TermPartContentDriver.cs b/src/OrchardCore.Modules/OrchardCore.Taxonomies/Drivers/TermPartContentDriver.cs
+index 3b601c66d..a6982e1d3 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Taxonomies/Drivers/TermPartContentDriver.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Taxonomies/Drivers/TermPartContentDriver.cs
+@@ -67,7 +67,7 @@ namespace OrchardCore.Taxonomies.Drivers
+ 
+                 var containedItems = await query.ListAsync();
+ 
+-                if (containedItems.Count() == 0)
++                if (!containedItems.Any())
+                 {
+                     return containedItems;
+                 }
+@@ -97,7 +97,7 @@ namespace OrchardCore.Taxonomies.Drivers
+ 
+                 var containedItems = await query.ListAsync();
+ 
+-                if (containedItems.Count() == 0)
++                if (!containedItems.Any())
+                 {
+                     return containedItems;
+                 }
+@@ -124,7 +124,7 @@ namespace OrchardCore.Taxonomies.Drivers
+ 
+                 var containedItems = await query.ListAsync();
+ 
+-                if (containedItems.Count() == 0)
++                if (!containedItems.Any())
+                 {
+                     return containedItems;
+                 }
+diff --git a/src/OrchardCore.Modules/OrchardCore.Taxonomies/Fields/TagNamesExtensions.cs b/src/OrchardCore.Modules/OrchardCore.Taxonomies/Fields/TagNamesExtensions.cs
+index fdeeba59c..5f9b2a135 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Taxonomies/Fields/TagNamesExtensions.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Taxonomies/Fields/TagNamesExtensions.cs
+@@ -11,9 +11,8 @@ namespace OrchardCore.Taxonomies.Fields
+         /// </summary>
+         public static string[] GetTagNames(this TaxonomyField taxonomyField)
+         {
+-            var tagNames = taxonomyField.Content["TagNames"] as JArray;
+ 
+-            return tagNames != null ? tagNames.ToObject<string[]>() : Array.Empty<string>();
++            return taxonomyField.Content["TagNames"] is JArray tagNames ? tagNames.ToObject<string[]>() : Array.Empty<string>();
+         }
+ 
+         /// <summary>
+diff --git a/src/OrchardCore.Modules/OrchardCore.Tenants/Controllers/AdminController.cs b/src/OrchardCore.Modules/OrchardCore.Tenants/Controllers/AdminController.cs
+index 4e9dc3e97..6791cd8a5 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Tenants/Controllers/AdminController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Tenants/Controllers/AdminController.cs
+@@ -141,7 +141,7 @@ namespace OrchardCore.Tenants.Controllers
+                     entries = entries.OrderByDescending(t => t.Name).ToList();
+                     break;
+             }
+-            var count = entries.Count();
++            var count = entries.Count;
+ 
+             var results = entries
+                 .Skip(pager.GetStartIndex())
+@@ -214,8 +214,8 @@ namespace OrchardCore.Tenants.Controllers
+             foreach (var tenantName in model.TenantNames ?? Enumerable.Empty<string>())
+             {
+                 var shellSettings = allSettings
+-                    .Where(x => String.Equals(x.Name, tenantName, StringComparison.OrdinalIgnoreCase))
+-                    .FirstOrDefault();
++                    .FirstOrDefault(x => String.Equals(x.Name, tenantName, StringComparison.OrdinalIgnoreCase))
++;
+ 
+                 if (shellSettings == null)
+                 {
+@@ -357,8 +357,8 @@ namespace OrchardCore.Tenants.Controllers
+             }
+ 
+             var shellSettings = _shellHost.GetAllSettings()
+-                .Where(x => String.Equals(x.Name, id, StringComparison.OrdinalIgnoreCase))
+-                .FirstOrDefault();
++                .FirstOrDefault(x => String.Equals(x.Name, id, StringComparison.OrdinalIgnoreCase))
++;
+ 
+             if (shellSettings == null)
+             {
+@@ -411,8 +411,8 @@ namespace OrchardCore.Tenants.Controllers
+             }
+ 
+             var shellSettings = _shellHost.GetAllSettings()
+-                .Where(x => String.Equals(x.Name, model.Name, StringComparison.OrdinalIgnoreCase))
+-                .FirstOrDefault();
++                .FirstOrDefault(x => String.Equals(x.Name, model.Name, StringComparison.OrdinalIgnoreCase))
++;
+ 
+             if (shellSettings == null)
+             {
+@@ -476,8 +476,8 @@ namespace OrchardCore.Tenants.Controllers
+             }
+ 
+             var shellSettings = _shellHost.GetAllSettings()
+-                .Where(s => String.Equals(s.Name, id, StringComparison.OrdinalIgnoreCase))
+-                .FirstOrDefault();
++                .FirstOrDefault(s => String.Equals(s.Name, id, StringComparison.OrdinalIgnoreCase))
++;
+ 
+             if (shellSettings == null)
+             {
+@@ -516,8 +516,8 @@ namespace OrchardCore.Tenants.Controllers
+             }
+ 
+             var shellSettings = _shellHost.GetAllSettings()
+-                .Where(x => String.Equals(x.Name, id, StringComparison.OrdinalIgnoreCase))
+-                .FirstOrDefault();
++                .FirstOrDefault(x => String.Equals(x.Name, id, StringComparison.OrdinalIgnoreCase))
++;
+ 
+             if (shellSettings == null)
+             {
+@@ -549,8 +549,8 @@ namespace OrchardCore.Tenants.Controllers
+             }
+ 
+             var shellSettings = _shellHost.GetAllSettings()
+-                .Where(x => String.Equals(x.Name, id, StringComparison.OrdinalIgnoreCase))
+-                .FirstOrDefault();
++                .FirstOrDefault(x => String.Equals(x.Name, id, StringComparison.OrdinalIgnoreCase))
++;
+ 
+             if (shellSettings == null)
+             {
+diff --git a/src/OrchardCore.Modules/OrchardCore.Twitter/Services/TwitterClientMessageHandler.cs b/src/OrchardCore.Modules/OrchardCore.Twitter/Services/TwitterClientMessageHandler.cs
+index 32a2fb159..96c1e547e 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Twitter/Services/TwitterClientMessageHandler.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Twitter/Services/TwitterClientMessageHandler.cs
+@@ -90,7 +90,7 @@ namespace OrchardCore.Twitter.Services
+ 
+             var baseString = string.Concat(request.Method.Method.ToUpperInvariant(), "&",
+                 Uri.EscapeDataString(request.RequestUri.AbsoluteUri.ToString()), "&",
+-                Uri.EscapeDataString(string.Join("&", sortedParameters.Select(c => string.Format("{0}={1}", c.Key, c.Value)))));
++                Uri.EscapeDataString(string.Join("&", sortedParameters.Select(c => $"{c.Key}={c.Value}"))));
+ 
+             var secret = string.Concat(settings.ConsumerSecret, "&", settings.AccessTokenSecret);
+             string signature;
+diff --git a/src/OrchardCore.Modules/OrchardCore.Users/Controllers/ControllerExtensions.cs b/src/OrchardCore.Modules/OrchardCore.Users/Controllers/ControllerExtensions.cs
+index 2f158d93b..e006f240d 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Users/Controllers/ControllerExtensions.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Users/Controllers/ControllerExtensions.cs
+@@ -69,9 +69,7 @@ namespace OrchardCore.Users.Controllers
+ 
+                 if (controller.ModelState.IsValid)
+                 {
+-                    var user = await userService.CreateUserAsync(new User { UserName = model.UserName, Email = model.Email, EmailConfirmed = !settings.UsersMustValidateEmail }, model.Password, (key, message) => controller.ModelState.AddModelError(key, message)) as User;
+-
+-                    if (user != null && controller.ModelState.IsValid)
++                    if (await userService.CreateUserAsync(new User{UserName = model.UserName, Email = model.Email, EmailConfirmed = !settings.UsersMustValidateEmail}, model.Password, (key, message) => controller.ModelState.AddModelError(key, message))is User user && controller.ModelState.IsValid)
+                     {
+                         if (settings.UsersMustValidateEmail)
+                         {
+diff --git a/src/OrchardCore.Modules/OrchardCore.Users/Controllers/RegistrationController.cs b/src/OrchardCore.Modules/OrchardCore.Users/Controllers/RegistrationController.cs
+index 0f1412c5f..a8369faa8 100644
+--- a/src/OrchardCore.Modules/OrchardCore.Users/Controllers/RegistrationController.cs
++++ b/src/OrchardCore.Modules/OrchardCore.Users/Controllers/RegistrationController.cs
+@@ -145,8 +145,7 @@ namespace OrchardCore.Users.Controllers
+                 return Forbid();
+             }
+ 
+-            var user = await _userManager.FindByIdAsync(id) as User;
+-            if (user != null)
++            if (await _userManager.FindByIdAsync(id)is User user)
+             {
+                 await this.SendEmailConfirmationTokenAsync(user, S["Confirm your account"]);
+ 
+diff --git a/src/OrchardCore/OrchardCore.Abstractions/Modules/Module.cs b/src/OrchardCore/OrchardCore.Abstractions/Modules/Module.cs
+index dc401a86b..853ab77ba 100644
+--- a/src/OrchardCore/OrchardCore.Abstractions/Modules/Module.cs
++++ b/src/OrchardCore/OrchardCore.Abstractions/Modules/Module.cs
+@@ -32,8 +32,8 @@ namespace OrchardCore.Modules
+                 var moduleInfos = Assembly.GetCustomAttributes<ModuleAttribute>();
+ 
+                 ModuleInfo =
+-                    moduleInfos.Where(f => !(f is ModuleMarkerAttribute)).FirstOrDefault() ??
+-                    moduleInfos.Where(f => f is ModuleMarkerAttribute).FirstOrDefault() ??
++                    moduleInfos.FirstOrDefault(f => !(f is ModuleMarkerAttribute))??
++                    moduleInfos.FirstOrDefault(f => f is ModuleMarkerAttribute)??
+                     new ModuleAttribute { Name = name };
+ 
+                 var features = Assembly.GetCustomAttributes<Manifest.FeatureAttribute>()
+diff --git a/src/OrchardCore/OrchardCore.Apis.GraphQL.Client/ContentTypeQueryResourceBuilder.cs b/src/OrchardCore/OrchardCore.Apis.GraphQL.Client/ContentTypeQueryResourceBuilder.cs
+index d0b3b6733..893dba174 100644
+--- a/src/OrchardCore/OrchardCore.Apis.GraphQL.Client/ContentTypeQueryResourceBuilder.cs
++++ b/src/OrchardCore/OrchardCore.Apis.GraphQL.Client/ContentTypeQueryResourceBuilder.cs
+@@ -59,10 +59,9 @@ namespace OrchardCore.Apis.GraphQL.Client
+                 throw new Exception($"Argument already exists: {argument}");
+             }
+             // Field-level argument exists
+-            else if (queryValues is IDictionary<string, string>)
++            else if (queryValues is IDictionary<string, string> strings)
+             {
+-                ((IDictionary<string, string>)queryValues)
+-                    .Add(fieldName.ToGraphQLStringFormat(), fieldValue);
++                strings.Add(fieldName.ToGraphQLStringFormat(), fieldValue);
+             }
+             else
+             {
+@@ -88,10 +87,9 @@ namespace OrchardCore.Apis.GraphQL.Client
+                 throw new Exception($"Argument already exists: {argument}");
+             }
+             // Field-level argument exists
+-            else if (queryValues is IDictionary<string, string>)
++            else if (queryValues is IDictionary<string, string> strings)
+             {
+-                ((IDictionary<string, string>)queryValues)
+-                    .Add(fieldName.ToGraphQLStringFormat(), $"{{ {fieldValue} }}");
++                strings.Add(fieldName.ToGraphQLStringFormat(), $"{{ {fieldValue} }}");
+             }
+             else
+             {
+diff --git a/src/OrchardCore/OrchardCore.ContentManagement.Abstractions/ContentExtensions.cs b/src/OrchardCore/OrchardCore.ContentManagement.Abstractions/ContentExtensions.cs
+index 36300ea28..25c7a8af6 100644
+--- a/src/OrchardCore/OrchardCore.ContentManagement.Abstractions/ContentExtensions.cs
++++ b/src/OrchardCore/OrchardCore.ContentManagement.Abstractions/ContentExtensions.cs
+@@ -162,9 +162,7 @@ namespace OrchardCore.ContentManagement
+         /// <returns>The current <see cref="ContentItem"/> instance.</returns>
+         public static ContentElement Apply(this ContentElement contentElement, string name, ContentElement element)
+         {
+-            var elementData = contentElement.Data[name] as JObject;
+-
+-            if (elementData != null)
++            if (contentElement.Data[name] is JObject elementData)
+             {
+                 elementData.Merge(JObject.FromObject(element), JsonMergeSettings);
+             }
+@@ -265,9 +263,7 @@ namespace OrchardCore.ContentManagement
+         {
+             foreach (var part in contentElement.Elements)
+             {
+-                var result = part.Value as TElement;
+-
+-                if (result != null)
++                if (part.Value is TElement result)
+                 {
+                     yield return result;
+                 }
+diff --git a/src/OrchardCore/OrchardCore.ContentManagement.Abstractions/Handlers/ContentItemAspectContext.cs b/src/OrchardCore/OrchardCore.ContentManagement.Abstractions/Handlers/ContentItemAspectContext.cs
+index 2ac802a60..dc829b4a9 100644
+--- a/src/OrchardCore/OrchardCore.ContentManagement.Abstractions/Handlers/ContentItemAspectContext.cs
++++ b/src/OrchardCore/OrchardCore.ContentManagement.Abstractions/Handlers/ContentItemAspectContext.cs
+@@ -13,9 +13,7 @@ namespace OrchardCore.ContentManagement.Handlers
+         /// </summary>
+         public async Task<ContentItemAspectContext> ForAsync<TAspect>(Func<TAspect, Task> action) where TAspect : class
+         {
+-            var aspect = Aspect as TAspect;
+-
+-            if (aspect != null)
++            if (Aspect is TAspect aspect)
+             {
+                 await action(aspect);
+             }
+diff --git a/src/OrchardCore/OrchardCore.ContentManagement.Display/ContentDisplay/ContentItemDisplayCoordinator.cs b/src/OrchardCore/OrchardCore.ContentManagement.Display/ContentDisplay/ContentItemDisplayCoordinator.cs
+index fd9f78769..fb59b595e 100644
+--- a/src/OrchardCore/OrchardCore.ContentManagement.Display/ContentDisplay/ContentItemDisplayCoordinator.cs
++++ b/src/OrchardCore/OrchardCore.ContentManagement.Display/ContentDisplay/ContentItemDisplayCoordinator.cs
+@@ -91,9 +91,8 @@ namespace OrchardCore.ContentManagement.Display
+                 var partTypeName = contentTypePartDefinition.PartDefinition.Name;
+                 var contentType = contentTypePartDefinition.ContentTypeDefinition.Name;
+                 var partActivator = _contentPartFactory.GetTypeActivator(partTypeName);
+-                var part = contentItem.Get(partActivator.Type, partName) as ContentPart;
+ 
+-                if (part != null)
++                if (contentItem.Get(partActivator.Type, partName) is ContentPart part)
+                 {
+                     var partDisplayDrivers = _contentPartDisplayDriverResolver.GetDisplayModeDrivers(partTypeName, contentTypePartDefinition.DisplayMode());
+                     foreach (var partDisplayDriver in partDisplayDrivers)
+diff --git a/src/OrchardCore/OrchardCore.ContentManagement.Display/Placement/ContentPlacementNodeFilterProviders.cs b/src/OrchardCore/OrchardCore.ContentManagement.Display/Placement/ContentPlacementNodeFilterProviders.cs
+index f5f0e05c3..b143ab4b9 100644
+--- a/src/OrchardCore/OrchardCore.ContentManagement.Display/Placement/ContentPlacementNodeFilterProviders.cs
++++ b/src/OrchardCore/OrchardCore.ContentManagement.Display/Placement/ContentPlacementNodeFilterProviders.cs
+@@ -80,8 +80,7 @@ namespace OrchardCore.ContentManagement.Display.Placement
+     {
+         protected bool HasContent(ShapePlacementContext context)
+         {
+-            var shape = context.ZoneShape as Shape;
+-            return shape != null && shape.Properties["ContentItem"] != null;
++            return context.ZoneShape is Shape shape && shape.Properties["ContentItem"] != null;
+         }
+ 
+         protected ContentItem GetContent(ShapePlacementContext context)
+diff --git a/src/OrchardCore/OrchardCore.ContentManagement/Handlers/ContentPartHandlerCoordinator.cs b/src/OrchardCore/OrchardCore.ContentManagement/Handlers/ContentPartHandlerCoordinator.cs
+index ca812336b..e305eb1a4 100644
+--- a/src/OrchardCore/OrchardCore.ContentManagement/Handlers/ContentPartHandlerCoordinator.cs
++++ b/src/OrchardCore/OrchardCore.ContentManagement/Handlers/ContentPartHandlerCoordinator.cs
+@@ -75,9 +75,8 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, partName) as ContentPart;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, partName) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.ActivatedAsync(context, part), context, part, _logger);
+@@ -99,9 +98,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.CreatingAsync(context, part), context, part, _logger);
+@@ -123,9 +120,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.CreatedAsync(context, part), context, part, _logger);
+@@ -147,9 +142,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.ImportingAsync(context, part), context, part, _logger);
+@@ -171,9 +164,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.ImportedAsync(context, part), context, part, _logger);
+@@ -195,8 +186,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.InitializingAsync(context, part), context, part, _logger);
+@@ -218,9 +208,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.InitializedAsync(context, part), context, part, _logger);
+@@ -287,9 +275,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.LoadedAsync(context, part), context, part, _logger);
+@@ -311,9 +297,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.ValidatingAsync(context, part), context, part, _logger);
+@@ -335,9 +319,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.ValidatedAsync(context, part), context, part, _logger);
+@@ -358,9 +340,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.DraftSavingAsync(context, part), context, part, _logger);
+@@ -381,9 +363,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.DraftSavedAsync(context, part), context, part, _logger);
+@@ -404,9 +386,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.PublishingAsync(context, part), context, part, _logger);
+@@ -427,9 +409,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.PublishedAsync(context, part), context, part, _logger);
+@@ -450,9 +432,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.RemovingAsync(context, part), context, part, _logger);
+@@ -473,9 +455,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.RemovedAsync(context, part), context, part, _logger);
+@@ -496,9 +478,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.UnpublishingAsync(context, part), context, part, _logger);
+@@ -519,9 +501,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.UnpublishedAsync(context, part), context, part, _logger);
+@@ -542,9 +524,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.UpdatingAsync(context, part), context, part, _logger);
+@@ -565,9 +547,9 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart; ;
++;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.UpdatedAsync(context, part), context, part, _logger);
+@@ -589,10 +571,7 @@ namespace OrchardCore.ContentManagement.Handlers
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+ 
+-                var buildingPart = context.BuildingContentItem.Get(activator.Type, partName) as ContentPart;
+-                var existingPart = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+-
+-                if (buildingPart != null && existingPart != null)
++                if (context.BuildingContentItem.Get(activator.Type, partName) is ContentPart buildingPart && context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart existingPart)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, existingPart, buildingPart) => handler.VersioningAsync(context, existingPart, buildingPart), context, existingPart, buildingPart, _logger);
+@@ -638,9 +617,8 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.GetContentItemAspectAsync(context, part), context, part, _logger);
+@@ -660,9 +638,8 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.ClonedAsync(context, part), context, part, _logger);
+@@ -682,9 +659,8 @@ namespace OrchardCore.ContentManagement.Handlers
+             {
+                 var partName = typePartDefinition.PartDefinition.Name;
+                 var activator = _contentPartFactory.GetTypeActivator(partName);
+-                var part = context.ContentItem.Get(activator.Type, typePartDefinition.Name) as ContentPart;
+ 
+-                if (part != null)
++                if (context.ContentItem.Get(activator.Type, typePartDefinition.Name) is ContentPart part)
+                 {
+                     var partHandlers = _contentPartHandlerResolver.GetHandlers(partName);
+                     await partHandlers.InvokeAsync((handler, context, part) => handler.CloningAsync(context, part), context, part, _logger);
+diff --git a/src/OrchardCore/OrchardCore.Data.Abstractions/ServiceCollectionExtensions.cs b/src/OrchardCore/OrchardCore.Data.Abstractions/ServiceCollectionExtensions.cs
+index ad8902927..e6f192c1a 100644
+--- a/src/OrchardCore/OrchardCore.Data.Abstractions/ServiceCollectionExtensions.cs
++++ b/src/OrchardCore/OrchardCore.Data.Abstractions/ServiceCollectionExtensions.cs
+@@ -26,8 +26,7 @@ namespace OrchardCore.Data
+                 var entry = services[i];
+                 if (entry.ImplementationInstance != null)
+                 {
+-                    var databaseProvider = entry.ImplementationInstance as DatabaseProvider;
+-                    if (databaseProvider != null && String.Equals(databaseProvider.Name, name, StringComparison.OrdinalIgnoreCase))
++                    if (entry.ImplementationInstance is DatabaseProvider databaseProvider && String.Equals(databaseProvider.Name, name, StringComparison.OrdinalIgnoreCase))
+                     {
+                         services.RemoveAt(i);
+                     }
+diff --git a/src/OrchardCore/OrchardCore.Data/Migration/DataMigrationManager.cs b/src/OrchardCore/OrchardCore.Data/Migration/DataMigrationManager.cs
+index 7680dac14..45a421362 100644
+--- a/src/OrchardCore/OrchardCore.Data/Migration/DataMigrationManager.cs
++++ b/src/OrchardCore/OrchardCore.Data/Migration/DataMigrationManager.cs
+@@ -107,10 +107,7 @@ namespace OrchardCore.Data.Migration
+                 var dataMigrationRecord = await GetDataMigrationRecordAsync(tempMigration);
+ 
+                 var uninstallMethod = GetUninstallMethod(migration);
+-                if (uninstallMethod != null)
+-                {
+-                    uninstallMethod.Invoke(migration, new object[0]);
+-                }
++                uninstallMethod?.Invoke(migration, new object[0]);
+ 
+                 var uninstallAsyncMethod = GetUninstallAsyncMethod(migration);
+                 if (uninstallAsyncMethod != null)
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement.Liquid/TagHelpers/LiquidTagHelperActivator.cs b/src/OrchardCore/OrchardCore.DisplayManagement.Liquid/TagHelpers/LiquidTagHelperActivator.cs
+index fefec04b0..9c3e79e96 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement.Liquid/TagHelpers/LiquidTagHelperActivator.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement.Liquid/TagHelpers/LiquidTagHelperActivator.cs
+@@ -52,7 +52,7 @@ namespace OrchardCore.DisplayManagement.Liquid.TagHelpers
+                 var allNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { property.Name };
+                 var htmlAttribute = property.GetCustomAttribute<HtmlAttributeNameAttribute>();
+ 
+-                if (htmlAttribute != null && htmlAttribute.Name != null)
++                if (htmlAttribute?.Name != null)
+                 {
+                     allNames.Add(htmlAttribute.Name.ToPascalCaseDash());
+ 
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement.Liquid/TagHelpers/LiquidTagHelperFactory.cs b/src/OrchardCore/OrchardCore.DisplayManagement.Liquid/TagHelpers/LiquidTagHelperFactory.cs
+index d7351dd51..e83368184 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement.Liquid/TagHelpers/LiquidTagHelperFactory.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement.Liquid/TagHelpers/LiquidTagHelperFactory.cs
+@@ -76,7 +76,7 @@ namespace OrchardCore.DisplayManagement.Liquid.TagHelpers
+         public LiquidTagHelperActivator GetActivator(string helper, IEnumerable<string> arguments)
+         {
+             EnsureMatchings();
+-            var matching = _matchings.Where(d => d.Match(helper, arguments)).FirstOrDefault() ?? LiquidTagHelperMatching.None;
++            var matching = _matchings.FirstOrDefault(d => d.Match(helper, arguments))?? LiquidTagHelperMatching.None;
+ 
+             if (matching != LiquidTagHelperMatching.None)
+             {
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement/Descriptors/ShapeAttributeStrategy/ShapeAttributeBindingStrategy.cs b/src/OrchardCore/OrchardCore.DisplayManagement/Descriptors/ShapeAttributeStrategy/ShapeAttributeBindingStrategy.cs
+index 39803136d..212a9b8a0 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement/Descriptors/ShapeAttributeStrategy/ShapeAttributeBindingStrategy.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement/Descriptors/ShapeAttributeStrategy/ShapeAttributeBindingStrategy.cs
+@@ -203,8 +203,7 @@ namespace OrchardCore.DisplayManagement.Descriptors.ShapeAttributeStrategy
+         {
+             var newHelper = viewContext.HttpContext.RequestServices.GetRequiredService<IHtmlHelper>();
+ 
+-            var contextable = newHelper as IViewContextAware;
+-            if (contextable != null)
++            if (newHelper is IViewContextAware contextable)
+             {
+                 var newViewContext = new ViewContext(viewContext, viewContext.View, viewData, viewContext.Writer);
+                 contextable.Contextualize(newViewContext);
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement/IShape.cs b/src/OrchardCore/OrchardCore.DisplayManagement/IShape.cs
+index 66eb0b6cf..7ca58fc60 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement/IShape.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement/IShape.cs
+@@ -72,8 +72,7 @@ namespace OrchardCore.DisplayManagement
+                 FindShapesInProperties(shape);
+             }
+ 
+-            var actualShape = shape as Shape;
+-            if (actualShape != null && actualShape.HasItems)
++            if (shape is Shape actualShape && actualShape.HasItems)
+             {
+                 var jItems = new JArray();
+                 // Because items can be mutated during shape execution.
+@@ -94,8 +93,7 @@ namespace OrchardCore.DisplayManagement
+         {
+             foreach (var property in shape.Properties.Values)
+             {
+-                var shapeProperty = property as Shape;
+-                if (shapeProperty != null && shapeProperty.HasItems)
++                if (property is Shape shapeProperty && shapeProperty.HasItems)
+                 {
+                     var shapeItems = shapeProperty.Items.ToArray();
+                     foreach (IShape item in shapeItems)
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement/ModelBinding/ModelBinderAccessorFilter.cs b/src/OrchardCore/OrchardCore.DisplayManagement/ModelBinding/ModelBinderAccessorFilter.cs
+index 0b1da17e9..9196fa674 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement/ModelBinding/ModelBinderAccessorFilter.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement/ModelBinding/ModelBinderAccessorFilter.cs
+@@ -13,8 +13,7 @@ namespace OrchardCore.DisplayManagement.ModelBinding
+ 
+         public void OnActionExecuting(ActionExecutingContext context)
+         {
+-            var controller = context.Controller as Controller;
+-            if (controller != null)
++            if (context.Controller is Controller controller)
+             {
+                 var modelBinderAccessor = context.HttpContext.RequestServices.GetRequiredService<IUpdateModelAccessor>();
+                 modelBinderAccessor.ModelUpdater = new ControllerModelUpdater(controller);
+@@ -27,9 +26,7 @@ namespace OrchardCore.DisplayManagement.ModelBinding
+ 
+         public void OnPageHandlerExecuting(PageHandlerExecutingContext context)
+         {
+-            var page = context.HandlerInstance as PageModel;
+-
+-            if (page != null)
++            if (context.HandlerInstance is PageModel page)
+             {
+                 var modelBinderAccessor = context.HttpContext.RequestServices.GetRequiredService<IUpdateModelAccessor>();
+                 modelBinderAccessor.ModelUpdater = new PageModelUpdater(page);
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement/Razor/RazorShapeTemplateViewEngine.cs b/src/OrchardCore/OrchardCore.DisplayManagement/Razor/RazorShapeTemplateViewEngine.cs
+index dd671ee41..754ae5084 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement/Razor/RazorShapeTemplateViewEngine.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement/Razor/RazorShapeTemplateViewEngine.cs
+@@ -78,10 +78,7 @@ namespace OrchardCore.DisplayManagement.Razor
+ 
+             if (viewEngines.Count == 0)
+             {
+-                throw new InvalidOperationException(string.Format("'{0}.{1}' must not be empty. At least one '{2}' is required to locate a view for rendering.",
+-                    typeof(MvcViewOptions).FullName,
+-                    nameof(MvcViewOptions.ViewEngines),
+-                    typeof(IViewEngine).FullName));
++                throw new InvalidOperationException($"'{typeof(MvcViewOptions).FullName}.{nameof(MvcViewOptions.ViewEngines)}' must not be empty. At least one '{typeof(IViewEngine).FullName}' is required to locate a view for rendering.");
+             }
+ 
+             var viewEngine = viewEngines[0];
+@@ -173,8 +170,7 @@ namespace OrchardCore.DisplayManagement.Razor
+         {
+             var newHelper = viewContext.HttpContext.RequestServices.GetRequiredService<IHtmlHelper>();
+ 
+-            var contextable = newHelper as IViewContextAware;
+-            if (contextable != null)
++            if (newHelper is IViewContextAware contextable)
+             {
+                 var newViewContext = new ViewContext(viewContext, viewContext.View, viewData, viewContext.Writer);
+                 contextable.Contextualize(newViewContext);
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/Composite.cs b/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/Composite.cs
+index a73b18581..dcbdbf2a1 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/Composite.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/Composite.cs
+@@ -68,9 +68,7 @@ namespace OrchardCore.DisplayManagement.Shapes
+         {
+             if (indexes.Length == 1)
+             {
+-                var stringIndex = indexes[0] as string;
+-
+-                if (stringIndex != null && TryGetMemberImpl(stringIndex, out result))
++                if (indexes[0] is string stringIndex && TryGetMemberImpl(stringIndex, out result))
+                 {
+                     return true;
+                 }
+@@ -91,9 +89,8 @@ namespace OrchardCore.DisplayManagement.Shapes
+             if (indexes.Length == 1)
+             {
+                 // try to access an existing member.
+-                var stringIndex = indexes[0] as string;
+ 
+-                if (stringIndex != null && TrySetMemberImpl(stringIndex, value))
++                if (indexes[0] is string stringIndex && TrySetMemberImpl(stringIndex, value))
+                 {
+                     return true;
+                 }
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/CoreShapes.cs b/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/CoreShapes.cs
+index 1acf71e27..7c32ef1e9 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/CoreShapes.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/CoreShapes.cs
+@@ -36,7 +36,7 @@ namespace OrchardCore.DisplayManagement.Shapes
+             var items = Items.ToList();
+ 
+             // var itemDisplayOutputs = Items.Select(item => Display(item)).Where(output => !string.IsNullOrWhiteSpace(output.ToHtmlString())).ToList();
+-            var count = items.Count();
++            var count = items.Count;
+             if (count < 1)
+             {
+                 return HtmlString.Empty;
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/Shape.cs b/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/Shape.cs
+index 2ec7965ef..c6ec6ad33 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/Shape.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/Shape.cs
+@@ -61,18 +61,17 @@ namespace OrchardCore.DisplayManagement.Shapes
+ 
+             _sorted = false;
+ 
+-            if (item is IHtmlContent)
++            if (item is IHtmlContent iHtmlContent)
+             {
+-                _items.Add(new PositionWrapper((IHtmlContent)item, position));
++                _items.Add(new PositionWrapper(iHtmlContent, position));
+             }
+-            else if (item is string)
++            else if (item is string s)
+             {
+-                _items.Add(new PositionWrapper((string)item, position));
++                _items.Add(new PositionWrapper(s, position));
+             }
+             else
+             {
+-                var shape = item as IPositioned;
+-                if (shape != null)
++                if (item is IPositioned shape)
+                 {
+                     if (position != null)
+                     {
+diff --git a/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/ShapeDebugView.cs b/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/ShapeDebugView.cs
+index 540a75e0c..4d44f9acf 100644
+--- a/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/ShapeDebugView.cs
++++ b/src/OrchardCore/OrchardCore.DisplayManagement/Shapes/ShapeDebugView.cs
+@@ -37,9 +37,9 @@ namespace OrchardCore.DisplayManagement.Shapes
+         {
+             public KeyValuePairs(string key, object value)
+             {
+-                if (_value is IShape)
++                if (_value is IShape iShape)
+                 {
+-                    _shapeType = ((IShape)_value).Metadata.Type;
++                    _shapeType = iShape.Metadata.Type;
+                 }
+ 
+                 _value = value;
+diff --git a/src/OrchardCore/OrchardCore.Infrastructure.Abstractions/Cache/CacheContext.cs b/src/OrchardCore/OrchardCore.Infrastructure.Abstractions/Cache/CacheContext.cs
+index 814f09c96..d59d0f500 100644
+--- a/src/OrchardCore/OrchardCore.Infrastructure.Abstractions/Cache/CacheContext.cs
++++ b/src/OrchardCore/OrchardCore.Infrastructure.Abstractions/Cache/CacheContext.cs
+@@ -68,10 +68,7 @@ namespace OrchardCore.Environment.Cache
+         /// </summary>
+         public CacheContext RemoveContext(string context)
+         {
+-            if (_contexts != null)
+-            {
+-                _contexts.Remove(context);
+-            }
++            _contexts?.Remove(context);
+ 
+             return this;
+         }
+@@ -93,10 +90,7 @@ namespace OrchardCore.Environment.Cache
+ 
+         public CacheContext RemoveTag(string tag)
+         {
+-            if (_tags != null)
+-            {
+-                _tags.Remove(tag);
+-            }
++            _tags?.Remove(tag);
+ 
+             return this;
+         }
+diff --git a/src/OrchardCore/OrchardCore.Infrastructure/Commands/Parameters/CommandParametersParser.cs b/src/OrchardCore/OrchardCore.Infrastructure/Commands/Parameters/CommandParametersParser.cs
+index 1d86afcc0..5d1a5f31d 100644
+--- a/src/OrchardCore/OrchardCore.Infrastructure/Commands/Parameters/CommandParametersParser.cs
++++ b/src/OrchardCore/OrchardCore.Infrastructure/Commands/Parameters/CommandParametersParser.cs
+@@ -23,7 +23,7 @@ namespace OrchardCore.Environment.Commands.Parameters
+ 
+                     if (string.IsNullOrEmpty(switchName))
+                     {
+-                        throw new ArgumentException(string.Format("Invalid switch syntax: \"{0}\". Valid syntax is /<switchName>[:<switchValue>].", arg));
++                        throw new ArgumentException($"Invalid switch syntax: \"{arg}\". Valid syntax is /<switchName>[:<switchValue>].");
+                     }
+ 
+                     switches.Add(switchName, switchValue);
+diff --git a/src/OrchardCore/OrchardCore.Infrastructure/Shells.Database/Configuration/DatabaseShellConfigurationSources.cs b/src/OrchardCore/OrchardCore.Infrastructure/Shells.Database/Configuration/DatabaseShellConfigurationSources.cs
+index 01edaa07c..bd8f56e9c 100644
+--- a/src/OrchardCore/OrchardCore.Infrastructure/Shells.Database/Configuration/DatabaseShellConfigurationSources.cs
++++ b/src/OrchardCore/OrchardCore.Infrastructure/Shells.Database/Configuration/DatabaseShellConfigurationSources.cs
+@@ -73,8 +73,7 @@ namespace OrchardCore.Shells.Database.Configuration
+                 }
+             });
+ 
+-            var configuration = configurations.GetValue(tenant) as JObject;
+-            if (configuration != null)
++            if (configurations.GetValue(tenant) is JObject configuration)
+             {
+                 builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(configuration.ToString(Formatting.None))));
+             }
+diff --git a/src/OrchardCore/OrchardCore.Localization.Core/PortableObject/PoParser.cs b/src/OrchardCore/OrchardCore.Localization.Core/PortableObject/PoParser.cs
+index 3d9954fac..00b0645be 100644
+--- a/src/OrchardCore/OrchardCore.Localization.Core/PortableObject/PoParser.cs
++++ b/src/OrchardCore/OrchardCore.Localization.Core/PortableObject/PoParser.cs
+@@ -85,10 +85,7 @@ namespace OrchardCore.Localization.PortableObject
+                     {
+                         escaped = true;
+                     }
+-                    else if (sb != null)
+-                    {
+-                        sb.Append(c);
+-                    }
++                    else sb?.Append(c);
+                 }
+             }
+             return sb == null ? str : sb.ToString();
+diff --git a/src/OrchardCore/OrchardCore.Sitemaps.Abstractions/Builders/SitemapSourceBuilderBase.cs b/src/OrchardCore/OrchardCore.Sitemaps.Abstractions/Builders/SitemapSourceBuilderBase.cs
+index 8e2809545..9eee86aba 100644
+--- a/src/OrchardCore/OrchardCore.Sitemaps.Abstractions/Builders/SitemapSourceBuilderBase.cs
++++ b/src/OrchardCore/OrchardCore.Sitemaps.Abstractions/Builders/SitemapSourceBuilderBase.cs
+@@ -10,8 +10,7 @@ namespace OrchardCore.Sitemaps.Builders
+     {
+         async Task ISitemapSourceBuilder.BuildAsync(SitemapSource source, SitemapBuilderContext context)
+         {
+-            var tSource = source as TSitemapSource;
+-            if (tSource != null)
++            if (source is TSitemapSource tSource)
+             {
+                 await BuildSourceAsync(tSource, context);
+             }
+diff --git a/src/OrchardCore/OrchardCore.Sitemaps.Abstractions/Builders/SitemapTypeBuilderBase.cs b/src/OrchardCore/OrchardCore.Sitemaps.Abstractions/Builders/SitemapTypeBuilderBase.cs
+index a345db817..15bd2cc20 100644
+--- a/src/OrchardCore/OrchardCore.Sitemaps.Abstractions/Builders/SitemapTypeBuilderBase.cs
++++ b/src/OrchardCore/OrchardCore.Sitemaps.Abstractions/Builders/SitemapTypeBuilderBase.cs
+@@ -10,8 +10,7 @@ namespace OrchardCore.Sitemaps.Builders
+     {
+         public async Task BuildAsync(SitemapType sitemap, SitemapBuilderContext context)
+         {
+-            var tSitemap = sitemap as TSitemapType;
+-            if (tSitemap != null)
++            if (sitemap is TSitemapType tSitemap)
+             {
+                 await BuildSitemapTypeAsync(tSitemap, context);
+             }
+diff --git a/src/OrchardCore/OrchardCore/Extensions/Features/FeatureHash.cs b/src/OrchardCore/OrchardCore/Extensions/Features/FeatureHash.cs
+index dcc81d88c..a9480ec8e 100644
+--- a/src/OrchardCore/OrchardCore/Extensions/Features/FeatureHash.cs
++++ b/src/OrchardCore/OrchardCore/Extensions/Features/FeatureHash.cs
+@@ -39,7 +39,7 @@ namespace OrchardCore.Environment.Extensions.Features
+ 
+         public async Task<int> GetFeatureHashAsync(string featureId)
+         {
+-            var cacheKey = string.Format("{0}:{1}", FeatureHashCacheKey, featureId);
++            var cacheKey = $"{FeatureHashCacheKey}:{featureId}";
+ 
+             if (!_memoryCache.TryGetValue<bool>(cacheKey, out var enabled))
+             {
+diff --git a/src/OrchardCore/OrchardCore/Modules/ModularBackgroundService.cs b/src/OrchardCore/OrchardCore/Modules/ModularBackgroundService.cs
+index 5da19dd0b..2d56de1d6 100644
+--- a/src/OrchardCore/OrchardCore/Modules/ModularBackgroundService.cs
++++ b/src/OrchardCore/OrchardCore/Modules/ModularBackgroundService.cs
+@@ -53,7 +53,7 @@ namespace OrchardCore.Modules
+                 _logger.LogInformation("'{ServiceName}' is stopping.", nameof(ModularBackgroundService));
+             });
+ 
+-            while (GetRunningShells().Count() < 1)
++            while (!GetRunningShells().Any())
+             {
+                 try
+                 {
+diff --git a/src/OrchardCore/OrchardCore/Shell/ShellSettingsManager.cs b/src/OrchardCore/OrchardCore/Shell/ShellSettingsManager.cs
+index 80b371f61..69d0dae76 100644
+--- a/src/OrchardCore/OrchardCore/Shell/ShellSettingsManager.cs
++++ b/src/OrchardCore/OrchardCore/Shell/ShellSettingsManager.cs
+@@ -239,7 +239,7 @@ namespace OrchardCore.Environment.Shell
+                 .AddConfiguration(_applicationConfiguration)
+                 .AddSourcesAsync(_tenantsConfigSources);
+ 
+-            if (lastProviders.Count() > 0)
++            if (lastProviders.Any())
+             {
+                 configurationBuilder.AddConfiguration(new ConfigurationRoot(lastProviders));
+             }

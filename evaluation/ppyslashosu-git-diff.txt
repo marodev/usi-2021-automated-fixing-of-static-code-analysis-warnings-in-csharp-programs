@@ -1,0 +1,18 @@
+diff --git a/.config/dotnet-tools.json b/.config/dotnet-tools.json
+index 58c24181d3..0e82c2298b 100644
+--- a/.config/dotnet-tools.json
++++ b/.config/dotnet-tools.json
+@@ -31,6 +31,12 @@
+       "commands": [
+         "CodeFileSanity"
+       ]
++    },
++    "eaglerepair.cli": {
++      "version": "0.0.27",
++      "commands": [
++        "eaglerepair"
++      ]
+     }
+   }
+ }
+\ No newline at end of file

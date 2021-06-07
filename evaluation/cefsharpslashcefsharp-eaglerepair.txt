@@ -1,0 +1,1397 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: CefSharp.netcore
+    #1 Path: D:\a\1\s\CefSharp\DevTools\DevToolsClient.cs, Line: 111, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: D:\a\1\s\CefSharp\DevTools\DevToolsClient.cs, Line: 127, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\CefSharp\DevTools\DevToolsClient.cs, Line: 145, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\CefSharp\DomNode.cs, Line: 50, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: D:\a\1\s\CefSharp\Internals\JavascriptObjectRepository.cs, Line: 214, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #6 Path: D:\a\1\s\CefSharp\Internals\JavascriptObjectRepository.cs, Line: 278, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\CefSharp\Internals\JavascriptObjectRepository.cs, Line: 412, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\CefSharp\Internals\JavascriptObjectRepository.cs, Line: 562, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\CefSharp\Internals\JavascriptObjectRepository.cs, Line: 596, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\CefSharp\ModelBinding\BindingMemberInfo.cs, Line: 70, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #11 Path: D:\a\1\s\CefSharp\SchemeHandler\FolderSchemeHandlerFactory.cs, Line: 101, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: D:\a\1\s\CefSharp\SchemeHandler\FolderSchemeHandlerFactory.cs, Line: 94, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: CefSharp.WinForms.netcore
+    #13 Path: D:\a\1\s\CefSharp.WinForms\ChromiumWebBrowser.cs, Line: 141, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: D:\a\1\s\CefSharp.WinForms\ChromiumWebBrowser.cs, Line: 170, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: CefSharp.Wpf.netcore
+    #15 Path: D:\a\1\s\CefSharp.Wpf\ChromiumWebBrowser.cs, Line: 1611, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #16 Path: D:\a\1\s\CefSharp.Wpf\ChromiumWebBrowser.cs, Line: 1628, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #17 Path: D:\a\1\s\CefSharp.Wpf\ChromiumWebBrowser.cs, Line: 1724, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #18 Path: D:\a\1\s\CefSharp.Wpf\ChromiumWebBrowser.cs, Line: 206, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\CefSharp.Wpf\ChromiumWebBrowser.cs, Line: 986, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #20 Path: D:\a\1\s\CefSharp.Wpf\Experimental\Accessibility\TabControlAutomationPeer.cs, Line: 35, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: CefSharp.Example.netcore
+    #21 Path: D:\a\1\s\CefSharp.Example\CefExample.cs, Line: 265, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #22 Path: D:\a\1\s\CefSharp.Example\Handlers\ExampleRequestHandler.cs, Line: 19, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: D:\a\1\s\CefSharp.Example\JavascriptBinding\BoundObject.cs, Line: 391, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: CefSharp.WinForms.Example.netcore
+    #24 Path: D:\a\1\s\CefSharp.WinForms.Example\AboutBox.cs, Line: 82, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\CefSharp.WinForms.Example\BrowserForm.cs, Line: 156, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #26 Path: D:\a\1\s\CefSharp.WinForms.Example\BrowserForm.cs, Line: 165, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #27 Path: D:\a\1\s\CefSharp.WinForms.Example\BrowserForm.cs, Line: 408, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #28 Path: D:\a\1\s\CefSharp.WinForms.Example\BrowserForm.cs, Line: 412, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\CefSharp.WinForms.Example\BrowserForm.cs, Line: 456, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\CefSharp.WinForms.Example\BrowserTabUserControl.cs, Line: 107, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\CefSharp.WinForms.Example\BrowserTabUserControl.cs, Line: 159, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\CefSharp.WinForms.Example\BrowserTabUserControl.cs, Line: 193, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #33 Path: D:\a\1\s\CefSharp.WinForms.Example\Minimal\SimpleBrowserForm.cs, Line: 29, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\CefSharp.WinForms.Example\Minimal\SimpleBrowserForm.cs, Line: 89, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: CefSharp.Wpf.Example.netcore
+    #35 Path: D:\a\1\s\CefSharp.Wpf.Example\Handlers\ExperimentalLifespanHandler.cs, Line: 79, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #36 Path: D:\a\1\s\CefSharp.Wpf.Example\Handlers\WpfBrowserProcessHandler.cs, Line: 35, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #37 Path: D:\a\1\s\CefSharp.Wpf.Example\SpawnBrowsersWindow.xaml.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\CefSharp.Wpf.Example\TouchKeyboardWin10MainWindow.xaml.cs, Line: 37, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #39 Path: D:\a\1\s\CefSharp.Wpf.Example\ViewModels\BrowserTabViewModel.cs, Line: 143, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\CefSharp.Wpf.Example\ViewModels\BrowserTabViewModel.cs, Line: 198, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #41 Path: D:\a\1\s\CefSharp.Wpf.Example\Views\BrowserTabView.xaml.cs, Line: 181, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #42 Path: D:\a\1\s\CefSharp.Wpf.Example\Views\BrowserTabView.xaml.cs, Line: 197, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+--- Rules Summary ---
+R9: 26
+R8: 8
+R7: 6
+R6: 1
+R5: 1
+
+--- Summary ---
+Fixed ReSharper issues: 42
+Fixed SonarQube issues: 2
+Total fixed issues: 42
+
+Finished in: 15 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\CefSharp.Wpf\Rendering\AllocHGlobalWritableBitmapRenderHandler.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Rect = CefSharp.Structs.Rect;
+
+namespace CefSharp.Wpf.Rendering
+{
+    /// <summary>
+    /// AllocHGlobalWritableBitmapRenderHandler - creates/updates an WritableBitmap
+    /// Uses <see cref="Marshal.AllocHGlobal"/> to allocate memory for
+    /// double buffering when the size matches or creates a new WritableBitmap
+    /// when required.
+    /// </summary>
+    /// <seealso cref="IRenderHandler" />
+    public class AllocHGlobalWritableBitmapRenderHandler : IRenderHandler
+    {
+        private readonly double dpiX;
+        private readonly double dpiY;
+        private readonly PaintElement view;
+        private readonly PaintElement popup;
+        private readonly DispatcherPriority dispatcherPriority;
+        private readonly object lockObject = new object();
+
+        /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllocHGlobalWritableBitmapRenderHandler"/> class.
+        /// </summary>
+        /// <param name="dpiX">The dpi x.</param>
+        /// <param name="dpiY">The dpi y.</param>
+        /// <param name="invalidateDirtyRect">if true then only the direct rectangle will be updated, otherwise the whole bitmap will be redrawn</param>
+        /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
+        public AllocHGlobalWritableBitmapRenderHandler(double dpiX, double dpiY, bool invalidateDirtyRect = true, DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        {
+            this.dpiX = dpiX;
+            this.dpiY = dpiY;
+            this.dispatcherPriority = dispatcherPriority;
+
+            view = new PaintElement(dpiX, dpiY, invalidateDirtyRect);
+            popup = new PaintElement(dpiX, dpiY, invalidateDirtyRect);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><see langword="true"/> if this instance is disposed; otherwise, <see langword="true"/>.</value>
+        public bool IsDisposed
+        {
+            get
+            {
+                return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
+            }
+        }
+
+        /// <summary>
+        /// Releases all resources used by the <see cref="AbstractRenderHandler"/> object
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources for the <see cref="AbstractRenderHandler"/>
+        /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
+            {
+                return;
+            }
+
+            if (!disposing)
+            {
+                return;
+            }
+
+            lock (lockObject)
+            {
+                view?.Dispose();
+                popup?.Dispose();
+            }
+        }
+
+        void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            //NOT USED
+        }
+
+        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
+        {
+            lock (lockObject)
+            {
+                if (IsDisposed || image.Dispatcher.HasShutdownStarted)
+                {
+                    return;
+                }
+
+                var paintElement = isPopup ? popup : view;
+                paintElement?.UpdateBuffer(dirtyRect, buffer, width, height, image);
+                paintElement?.UpdateImage(lockObject);
+            }
+        }
+
+        //TODO: No nested classes and better name for this class
+        /// <summary>
+        /// Details of the bitmap to be rendered
+        /// </summary>
+        private class PaintElement
+        {
+            private readonly double dpiX;
+            private readonly double dpiY;
+            private Image image;
+            private int width;
+            private int height;
+            private Rect dirtyRect;
+            private IntPtr buffer;
+            private int bufferSize;
+            private int imageSize;
+            private readonly bool invalidateDirtyRect;
+            internal bool IsDirty { get; set; }
+
+            internal PaintElement(double dpiX, double dpiY, bool invalidateDirtyRect)
+            {
+                this.dpiX = dpiX;
+                this.dpiY = dpiY;
+                this.invalidateDirtyRect = invalidateDirtyRect;
+            }
+
+            internal void Dispose()
+            {
+                image = null;
+
+                if (buffer != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(buffer);
+                    buffer = IntPtr.Zero;
+                }
+            }
+
+            internal void UpdateBuffer(Rect dirtyRect, IntPtr sourceBuffer, int width, int height, Image image)
+            {
+                imageSize = (width * height) * AbstractRenderHandler.BytesPerPixel;
+
+                if (bufferSize < imageSize)
+                {
+                    Marshal.FreeHGlobal(buffer);
+                    buffer = Marshal.AllocHGlobal(imageSize);
+                    bufferSize = imageSize;
+                }
+
+                this.width = width;
+                this.height = height;
+                this.dirtyRect = dirtyRect;
+
+                NativeMethodWrapper.MemoryCopy(buffer, sourceBuffer, imageSize);
+
+                this.image = image;
+                IsDirty = true;
+            }
+
+            internal void UpdateImage(object lockObject)
+            {
+                image.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    lock (lockObject)
+                    {
+                        //If OnPaint was called a couple of times before our BeginInvoke call
+                        //we can end up here with nothing to do.
+                        if (IsDirty && image != null)
+                        {
+                            var bitmap = image.Source as WriteableBitmap;
+                            var createNewBitmap = bitmap == null || bitmap.PixelWidth != width || bitmap.PixelHeight != height;
+                            if (createNewBitmap)
+                            {
+                                if (image.Source != null)
+                                {
+                                    image.Source = null;
+                                    GC.Collect(1);
+                                }
+
+                                image.Source = bitmap = new WriteableBitmap(width, height, dpiX, dpiY, AbstractRenderHandler.PixelFormat, null);
+                            }
+
+                            if (bitmap != null)
+                            {
+                                //By default we'll only update the dirty rect, for those that run into a MILERR_WIN32ERROR Exception (#2035)
+                                //it's desirably to either upgrade to a newer .Net version (only client runtime needs to be installed, not compiled
+                                //against a newer version. Or invalidate the whole bitmap
+                                if (invalidateDirtyRect)
+                                {
+                                    // Update the dirty region
+                                    var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+
+                                    bitmap.Lock();
+                                    bitmap.WritePixels(sourceRect, buffer, imageSize, width * AbstractRenderHandler.BytesPerPixel, sourceRect.X, sourceRect.Y);
+                                    bitmap.Unlock();
+                                }
+                                else
+                                {
+                                    // Update whole bitmap
+                                    var sourceRect = new Int32Rect(0, 0, width, height);
+
+                                    bitmap.Lock();
+                                    bitmap.WritePixels(sourceRect, buffer, imageSize, width * AbstractRenderHandler.BytesPerPixel, sourceRect.X, sourceRect.Y);
+                                    bitmap.Unlock();
+                                }
+                            }
+
+                            IsDirty = false;
+                        }
+                    }
+                }));
+            }
+        };
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Rect = CefSharp.Structs.Rect;
+
+namespace CefSharp.Wpf.Rendering
+{
+    /// <summary>
+    /// AllocHGlobalWritableBitmapRenderHandler - creates/updates an WritableBitmap
+    /// Uses <see cref="Marshal.AllocHGlobal"/> to allocate memory for
+    /// double buffering when the size matches or creates a new WritableBitmap
+    /// when required.
+    /// </summary>
+    /// <seealso cref="IRenderHandler" />
+    public class AllocHGlobalWritableBitmapRenderHandler : IRenderHandler
+    {
+        private readonly double dpiX;
+        private readonly double dpiY;
+        private readonly PaintElement view;
+        private readonly PaintElement popup;
+        private readonly DispatcherPriority dispatcherPriority;
+        private readonly object lockObject = new object();
+
+        /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllocHGlobalWritableBitmapRenderHandler"/> class.
+        /// </summary>
+        /// <param name="dpiX">The dpi x.</param>
+        /// <param name="dpiY">The dpi y.</param>
+        /// <param name="invalidateDirtyRect">if true then only the direct rectangle will be updated, otherwise the whole bitmap will be redrawn</param>
+        /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
+        public AllocHGlobalWritableBitmapRenderHandler(double dpiX, double dpiY, bool invalidateDirtyRect = true, DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        {
+            this.dpiX = dpiX;
+            this.dpiY = dpiY;
+            this.dispatcherPriority = dispatcherPriority;
+
+            view = new PaintElement(dpiX, dpiY, invalidateDirtyRect);
+            popup = new PaintElement(dpiX, dpiY, invalidateDirtyRect);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><see langword="true"/> if this instance is disposed; otherwise, <see langword="true"/>.</value>
+        public bool IsDisposed
+        {
+            get
+            {
+                return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
+            }
+        }
+
+        /// <summary>
+        /// Releases all resources used by the <see cref="AbstractRenderHandler"/> object
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources for the <see cref="AbstractRenderHandler"/>
+        /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
+            {
+                return;
+            }
+
+            if (!disposing)
+            {
+                return;
+            }
+
+            lock (lockObject)
+            {
+                view?.Dispose();
+                popup?.Dispose();
+            }
+        }
+
+        void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            //NOT USED
+        }
+
+        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
+        {
+            lock (lockObject)
+            {
+                if (IsDisposed || image.Dispatcher.HasShutdownStarted)
+                {
+                    return;
+                }
+
+                var paintElement = isPopup ? popup : view;
+                paintElement?.UpdateBuffer(dirtyRect, buffer, width, height, image);
+                paintElement?.UpdateImage(lockObject);
+            }
+        }
+
+        //TODO: No nested classes and better name for this class
+        /// <summary>
+        /// Details of the bitmap to be rendered
+        /// </summary>
+        private class PaintElement
+        {
+            private readonly double dpiX;
+            private readonly double dpiY;
+            private Image image;
+            private int width;
+            private int height;
+            private Rect dirtyRect;
+            private IntPtr buffer;
+            private int bufferSize;
+            private int imageSize;
+            private readonly bool invalidateDirtyRect;
+            internal bool IsDirty { get; set; }
+
+            internal PaintElement(double dpiX, double dpiY, bool invalidateDirtyRect)
+            {
+                this.dpiX = dpiX;
+                this.dpiY = dpiY;
+                this.invalidateDirtyRect = invalidateDirtyRect;
+            }
+
+            internal void Dispose()
+            {
+                image = null;
+
+                if (buffer != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(buffer);
+                    buffer = IntPtr.Zero;
+                }
+            }
+
+            internal void UpdateBuffer(Rect dirtyRect, IntPtr sourceBuffer, int width, int height, Image image)
+            {
+                imageSize = (width * height) * AbstractRenderHandler.BytesPerPixel;
+
+                if (bufferSize < imageSize)
+                {
+                    Marshal.FreeHGlobal(buffer);
+                    buffer = Marshal.AllocHGlobal(imageSize);
+                    bufferSize = imageSize;
+                }
+
+                this.width = width;
+                this.height = height;
+                this.dirtyRect = dirtyRect;
+
+                NativeMethodWrapper.MemoryCopy(buffer, sourceBuffer, imageSize);
+
+                this.image = image;
+                IsDirty = true;
+            }
+
+            internal void UpdateImage(object lockObject)
+            {
+                image.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    lock (lockObject)
+                    {
+                        //If OnPaint was called a couple of times before our BeginInvoke call
+                        //we can end up here with nothing to do.
+                        if (IsDirty && image != null)
+                        {
+                            var createNewBitmap = bitmap == null || bitmap.PixelWidth != width || bitmap.PixelHeight != height;
+                            if (createNewBitmap)
+                            {
+                                if (image.Source != null)
+                                {
+                                    image.Source = null;
+                                    GC.Collect(1);
+                                }
+
+                                image.Source = bitmap = new WriteableBitmap(width, height, dpiX, dpiY, AbstractRenderHandler.PixelFormat, null);
+                            }
+
+                            if (image.Source is WriteableBitmap bitmap)
+                            {
+                                //By default we'll only update the dirty rect, for those that run into a MILERR_WIN32ERROR Exception (#2035)
+                                //it's desirably to either upgrade to a newer .Net version (only client runtime needs to be installed, not compiled
+                                //against a newer version. Or invalidate the whole bitmap
+                                if (invalidateDirtyRect)
+                                {
+                                    // Update the dirty region
+                                    var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+
+                                    bitmap.Lock();
+                                    bitmap.WritePixels(sourceRect, buffer, imageSize, width * AbstractRenderHandler.BytesPerPixel, sourceRect.X, sourceRect.Y);
+                                    bitmap.Unlock();
+                                }
+                                else
+                                {
+                                    // Update whole bitmap
+                                    var sourceRect = new Int32Rect(0, 0, width, height);
+
+                                    bitmap.Lock();
+                                    bitmap.WritePixels(sourceRect, buffer, imageSize, width * AbstractRenderHandler.BytesPerPixel, sourceRect.X, sourceRect.Y);
+                                    bitmap.Unlock();
+                                }
+                            }
+
+                            IsDirty = false;
+                        }
+                    }
+                }));
+            }
+        };
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+D:\a\1\s\CefSharp.Wpf\Rendering\AllocHGlobalWritableBitmapRenderHandler.cs(18,25): warning CS0419: Ambiguous reference in cref attribute: 'Marshal.AllocHGlobal'. Assuming 'Marshal.AllocHGlobal(int)', but could have also matched other overloads including 'Marshal.AllocHGlobal(IntPtr)'.
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\CefSharp.Wpf\Rendering\AllocHGlobalWritableBitmapRenderHandler.cs(186,51): error CS0841: Cannot use local variable 'bitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\AllocHGlobalWritableBitmapRenderHandler.cs(186,69): error CS0841: Cannot use local variable 'bitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\AllocHGlobalWritableBitmapRenderHandler.cs(186,99): error CS0841: Cannot use local variable 'bitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\AllocHGlobalWritableBitmapRenderHandler.cs(195,48): error CS0841: Cannot use local variable 'bitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\AllocHGlobalWritableBitmapRenderHandler.cs(18,25): warning CS0419: Ambiguous reference in cref attribute: 'Marshal.AllocHGlobal'. Assuming 'Marshal.AllocHGlobal(int)', but could have also matched other overloads including 'Marshal.AllocHGlobal(IntPtr)'.
+######################################################################
+
+
+######################################################################
+Nr: 2 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\CefSharp.Wpf\Rendering\DirectWritableBitmapRenderHandler.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Rect = CefSharp.Structs.Rect;
+
+namespace CefSharp.Wpf.Rendering
+{
+    /// <summary>
+    /// DirectWritableBitmapRenderHandler - directly copyies the buffer
+    /// into writeableBitmap.BackBuffer. No additional copies or locking are used.
+    /// Can only be used when CEF UI thread and WPF UI thread are the same (MultiThreadedMessageLoop = false)
+    /// </summary>
+    /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
+    public class DirectWritableBitmapRenderHandler : IRenderHandler
+    {
+        private readonly double dpiX;
+        private readonly double dpiY;
+        private readonly bool invalidateDirtyRect;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WritableBitmapRenderHandler"/> class.
+        /// </summary>
+        /// <param name="dpiX">The dpi x.</param>
+        /// <param name="dpiY">The dpi y.</param>
+        /// <param name="invalidateDirtyRect">if true then only the direct rectangle will be updated, otherwise the whole bitmap will be redrawn</param>
+        /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
+        public DirectWritableBitmapRenderHandler(double dpiX, double dpiY, bool invalidateDirtyRect = true, DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        {
+            if (!Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+            {
+                throw new NotSupportedException("Can only be used when CEF is integrated into your WPF Message Loop (MultiThreadedMessageLoop = false).");
+            }
+
+            this.dpiX = dpiX;
+            this.dpiY = dpiY;
+            this.invalidateDirtyRect = invalidateDirtyRect;
+        }
+
+        void IDisposable.Dispose()
+        {
+
+        }
+
+        void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
+        {
+            var writeableBitmap = image.Source as WriteableBitmap;
+            if (writeableBitmap == null || writeableBitmap.PixelWidth != width || writeableBitmap.PixelHeight != height)
+            {
+                image.Source = writeableBitmap = new WriteableBitmap(width, height, dpiX, dpiY, AbstractRenderHandler.PixelFormat, null);
+            }
+
+            if (writeableBitmap != null)
+            {
+                writeableBitmap.Lock();
+
+                NativeMethodWrapper.MemoryCopy(writeableBitmap.BackBuffer, buffer, writeableBitmap.BackBufferStride * writeableBitmap.PixelHeight);
+
+                if (invalidateDirtyRect)
+                {
+                    writeableBitmap.AddDirtyRect(new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height));
+                }
+                else
+                {
+                    writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+                }
+                writeableBitmap.Unlock();
+            }
+        }
+    }
+}
+
+
+---- Transformed Tree ----
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Rect = CefSharp.Structs.Rect;
+
+namespace CefSharp.Wpf.Rendering
+{
+    /// <summary>
+    /// DirectWritableBitmapRenderHandler - directly copyies the buffer
+    /// into writeableBitmap.BackBuffer. No additional copies or locking are used.
+    /// Can only be used when CEF UI thread and WPF UI thread are the same (MultiThreadedMessageLoop = false)
+    /// </summary>
+    /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
+    public class DirectWritableBitmapRenderHandler : IRenderHandler
+    {
+        private readonly double dpiX;
+        private readonly double dpiY;
+        private readonly bool invalidateDirtyRect;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WritableBitmapRenderHandler"/> class.
+        /// </summary>
+        /// <param name="dpiX">The dpi x.</param>
+        /// <param name="dpiY">The dpi y.</param>
+        /// <param name="invalidateDirtyRect">if true then only the direct rectangle will be updated, otherwise the whole bitmap will be redrawn</param>
+        /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
+        public DirectWritableBitmapRenderHandler(double dpiX, double dpiY, bool invalidateDirtyRect = true, DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        {
+            if (!Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+            {
+                throw new NotSupportedException("Can only be used when CEF is integrated into your WPF Message Loop (MultiThreadedMessageLoop = false).");
+            }
+
+            this.dpiX = dpiX;
+            this.dpiY = dpiY;
+            this.invalidateDirtyRect = invalidateDirtyRect;
+        }
+
+        void IDisposable.Dispose()
+        {
+
+        }
+
+        void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
+        {
+            if (writeableBitmap == null || writeableBitmap.PixelWidth != width || writeableBitmap.PixelHeight != height)
+            {
+                image.Source = writeableBitmap = new WriteableBitmap(width, height, dpiX, dpiY, AbstractRenderHandler.PixelFormat, null);
+            }
+
+            if (image.Source is WriteableBitmap writeableBitmap)
+            {
+                writeableBitmap.Lock();
+
+                NativeMethodWrapper.MemoryCopy(writeableBitmap.BackBuffer, buffer, writeableBitmap.BackBufferStride * writeableBitmap.PixelHeight);
+
+                if (invalidateDirtyRect)
+                {
+                    writeableBitmap.AddDirtyRect(new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height));
+                }
+                else
+                {
+                    writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+                }
+                writeableBitmap.Unlock();
+            }
+        }
+    }
+}
+
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\CefSharp.Wpf\Rendering\DirectWritableBitmapRenderHandler.cs(57,17): error CS0841: Cannot use local variable 'writeableBitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\DirectWritableBitmapRenderHandler.cs(57,44): error CS0841: Cannot use local variable 'writeableBitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\DirectWritableBitmapRenderHandler.cs(57,83): error CS0841: Cannot use local variable 'writeableBitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\DirectWritableBitmapRenderHandler.cs(59,32): error CS0841: Cannot use local variable 'writeableBitmap' before it is declared
+######################################################################
+
+
+######################################################################
+Nr: 3 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Rect = CefSharp.Structs.Rect;
+
+namespace CefSharp.Wpf.Rendering.Experimental
+{
+    /// <summary>
+    /// RenderHandler implemenetation that updates the image/bitmap in the
+    /// <see cref="CompositionTarget.Rendering"/> event.
+    /// Initially based on https://github.com/cefsharp/CefSharp/issues/2888#issuecomment-528864931
+    /// </summary>
+    public class CompositionTargetRenderHandler : IRenderHandler
+    {
+        private PaintElement view;
+        private PaintElement popup;
+        private readonly object lockObj = new object();
+        private ChromiumWebBrowser browser;
+
+        public CompositionTargetRenderHandler(ChromiumWebBrowser browser, double dpiX, double dpiY)
+        {
+            this.browser = browser;
+            this.browser.IsVisibleChanged += BrowserIsVisibleChanged;
+
+            view = new PaintElement(dpiX, dpiY);
+            popup = new PaintElement(dpiX, dpiY);
+
+            if (browser.IsVisible)
+            {
+                //Can only subscribe/unsubscribe to CompositionTarget.Rendering
+                //from the UI Thread as it internally calls Dispatcher.CurrentDispatcher
+                //So calling on a different thread cheates a new Dispatcher
+                CompositionTarget.Rendering += OnRendering;
+            }
+        }
+
+        private void BrowserIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                CompositionTarget.Rendering += OnRendering;
+            }
+            else
+            {
+                CompositionTarget.Rendering -= OnRendering;
+            }
+        }
+
+        void IDisposable.Dispose()
+        {
+            CompositionTarget.Rendering -= OnRendering;
+
+            if (browser != null)
+            {
+                browser.IsVisibleChanged -= BrowserIsVisibleChanged;
+                browser = null;
+            }
+
+            lock (lockObj)
+            {
+                view?.Dispose();
+                view = null;
+                popup?.Dispose();
+                popup = null;
+            }
+        }
+
+        void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
+        {
+            if (image.Dispatcher.HasShutdownStarted)
+            {
+                return;
+            }
+
+            lock (lockObj)
+            {
+                var layer = isPopup ? popup : view;
+                layer?.OnPaint(dirtyRect, buffer, width, height, image);
+            }
+        }
+
+        private void OnRendering(object sender, EventArgs args)
+        {
+            lock (lockObj)
+            {
+                UpdateImage(view);
+                UpdateImage(popup);
+            }
+        }
+
+        private void UpdateImage(PaintElement element)
+        {
+            if (element.IsDirty && element.Image != null)
+            {
+                var bitmap = element.Image.Source as WriteableBitmap;
+                if (bitmap == null || bitmap.PixelWidth != element.Width || bitmap.PixelHeight != element.Height)
+                {
+                    element.Image.Source = bitmap = new WriteableBitmap(element.Width, element.Height, element.DpiX, element.DpiY, AbstractRenderHandler.PixelFormat, null);
+                }
+
+                if (bitmap != null)
+                {
+                    // Update the dirty region
+                    var dirtyRect = element.DirtyRect;
+                    var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+
+                    bitmap.Lock();
+                    bitmap.WritePixels(sourceRect, element.Buffer, element.ImageSize, element.Width * AbstractRenderHandler.BytesPerPixel, sourceRect.X, sourceRect.Y);
+                    bitmap.Unlock();
+                }
+
+                element.IsDirty = false; //We've processed this image, clear the reference
+            }
+        }
+
+        //TODO: No nested classes
+        /// <summary>
+        /// Details of the bitmap to be rendered
+        /// </summary>
+        private class PaintElement
+        {
+            internal double DpiX { get; private set; }
+            internal double DpiY { get; private set; }
+            internal Image Image { get; set; }
+            internal int Width { get; private set; }
+            internal int Height { get; private set; }
+            internal Rect DirtyRect { get; private set; }
+            internal IntPtr Buffer { get; private set; }
+            internal int BufferSize { get; private set; }
+            internal int ImageSize { get; private set; }
+            internal bool IsDirty { get; set; }
+
+            internal PaintElement(double dpiX, double dpiY)
+            {
+                DpiX = dpiX;
+                DpiY = dpiY;
+            }
+
+            internal void Dispose()
+            {
+                if (Buffer != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(Buffer);
+                    Buffer = IntPtr.Zero;
+                }
+            }
+
+            internal void OnPaint(Rect dirtyRect, IntPtr sourceBuffer, int width, int height, Image image)
+            {
+                ImageSize = (width * height) * AbstractRenderHandler.BytesPerPixel;
+
+                if (BufferSize < ImageSize)
+                {
+                    Marshal.FreeHGlobal(Buffer);
+                    Buffer = Marshal.AllocHGlobal(ImageSize);
+                    BufferSize = ImageSize;
+                }
+
+                Width = width;
+                Height = height;
+                DirtyRect = dirtyRect;
+
+                NativeMethodWrapper.MemoryCopy(Buffer, sourceBuffer, ImageSize);
+
+                Image = image;
+                IsDirty = true;
+            }
+        };
+
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Rect = CefSharp.Structs.Rect;
+
+namespace CefSharp.Wpf.Rendering.Experimental
+{
+    /// <summary>
+    /// RenderHandler implemenetation that updates the image/bitmap in the
+    /// <see cref="CompositionTarget.Rendering"/> event.
+    /// Initially based on https://github.com/cefsharp/CefSharp/issues/2888#issuecomment-528864931
+    /// </summary>
+    public class CompositionTargetRenderHandler : IRenderHandler
+    {
+        private PaintElement view;
+        private PaintElement popup;
+        private readonly object lockObj = new object();
+        private ChromiumWebBrowser browser;
+
+        public CompositionTargetRenderHandler(ChromiumWebBrowser browser, double dpiX, double dpiY)
+        {
+            this.browser = browser;
+            this.browser.IsVisibleChanged += BrowserIsVisibleChanged;
+
+            view = new PaintElement(dpiX, dpiY);
+            popup = new PaintElement(dpiX, dpiY);
+
+            if (browser.IsVisible)
+            {
+                //Can only subscribe/unsubscribe to CompositionTarget.Rendering
+                //from the UI Thread as it internally calls Dispatcher.CurrentDispatcher
+                //So calling on a different thread cheates a new Dispatcher
+                CompositionTarget.Rendering += OnRendering;
+            }
+        }
+
+        private void BrowserIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                CompositionTarget.Rendering += OnRendering;
+            }
+            else
+            {
+                CompositionTarget.Rendering -= OnRendering;
+            }
+        }
+
+        void IDisposable.Dispose()
+        {
+            CompositionTarget.Rendering -= OnRendering;
+
+            if (browser != null)
+            {
+                browser.IsVisibleChanged -= BrowserIsVisibleChanged;
+                browser = null;
+            }
+
+            lock (lockObj)
+            {
+                view?.Dispose();
+                view = null;
+                popup?.Dispose();
+                popup = null;
+            }
+        }
+
+        void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
+        {
+            if (image.Dispatcher.HasShutdownStarted)
+            {
+                return;
+            }
+
+            lock (lockObj)
+            {
+                var layer = isPopup ? popup : view;
+                layer?.OnPaint(dirtyRect, buffer, width, height, image);
+            }
+        }
+
+        private void OnRendering(object sender, EventArgs args)
+        {
+            lock (lockObj)
+            {
+                UpdateImage(view);
+                UpdateImage(popup);
+            }
+        }
+
+        private void UpdateImage(PaintElement element)
+        {
+            if (element.IsDirty && element.Image != null)
+            {
+                if (bitmap == null || bitmap.PixelWidth != element.Width || bitmap.PixelHeight != element.Height)
+                {
+                    element.Image.Source = bitmap = new WriteableBitmap(element.Width, element.Height, element.DpiX, element.DpiY, AbstractRenderHandler.PixelFormat, null);
+                }
+
+                if (element.Image.Source is WriteableBitmap bitmap)
+                {
+                    // Update the dirty region
+                    var dirtyRect = element.DirtyRect;
+                    var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+
+                    bitmap.Lock();
+                    bitmap.WritePixels(sourceRect, element.Buffer, element.ImageSize, element.Width * AbstractRenderHandler.BytesPerPixel, sourceRect.X, sourceRect.Y);
+                    bitmap.Unlock();
+                }
+
+                element.IsDirty = false; //We've processed this image, clear the reference
+            }
+        }
+
+        //TODO: No nested classes
+        /// <summary>
+        /// Details of the bitmap to be rendered
+        /// </summary>
+        private class PaintElement
+        {
+            internal double DpiX { get; private set; }
+            internal double DpiY { get; private set; }
+            internal Image Image { get; set; }
+            internal int Width { get; private set; }
+            internal int Height { get; private set; }
+            internal Rect DirtyRect { get; private set; }
+            internal IntPtr Buffer { get; private set; }
+            internal int BufferSize { get; private set; }
+            internal int ImageSize { get; private set; }
+            internal bool IsDirty { get; set; }
+
+            internal PaintElement(double dpiX, double dpiY)
+            {
+                DpiX = dpiX;
+                DpiY = dpiY;
+            }
+
+            internal void Dispose()
+            {
+                if (Buffer != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(Buffer);
+                    Buffer = IntPtr.Zero;
+                }
+            }
+
+            internal void OnPaint(Rect dirtyRect, IntPtr sourceBuffer, int width, int height, Image image)
+            {
+                ImageSize = (width * height) * AbstractRenderHandler.BytesPerPixel;
+
+                if (BufferSize < ImageSize)
+                {
+                    Marshal.FreeHGlobal(Buffer);
+                    Buffer = Marshal.AllocHGlobal(ImageSize);
+                    BufferSize = ImageSize;
+                }
+
+                Width = width;
+                Height = height;
+                DirtyRect = dirtyRect;
+
+                NativeMethodWrapper.MemoryCopy(Buffer, sourceBuffer, ImageSize);
+
+                Image = image;
+                IsDirty = true;
+            }
+        };
+
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs(28,16): warning CS1591: Missing XML comment for publicly visible type or member 'CompositionTargetRenderHandler.CompositionTargetRenderHandler(ChromiumWebBrowser, double, double)',D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs(11,1): hidden CS8019: Unnecessary using directive.
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs(108,21): error CS0841: Cannot use local variable 'bitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs(108,39): error CS0841: Cannot use local variable 'bitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs(108,77): error CS0841: Cannot use local variable 'bitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs(110,44): error CS0841: Cannot use local variable 'bitmap' before it is declared,D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs(28,16): warning CS1591: Missing XML comment for publicly visible type or member 'CompositionTargetRenderHandler.CompositionTargetRenderHandler(ChromiumWebBrowser, double, double)',D:\a\1\s\CefSharp.Wpf\Rendering\Experimental\CompositionTargetRenderHandler.cs(11,1): hidden CS8019: Unnecessary using directive.
+######################################################################
+
+
+######################################################################
+Nr: 4 - MergeSequentialChecksRewriterR2
+Filepath: D:\a\1\s\CefSharp.Wpf.Example\Handlers\ExperimentalLifespanHandler.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows;
+using System.Windows.Interop;
+
+namespace CefSharp.Wpf.Example.Handlers
+{
+    /// <summary>
+    /// LifeSpanHandler implementation that demos hosting a popup in a new ChromiumWebBrowser instance.
+    /// This example code is EXPERIMENTAL
+    /// </summary>
+    public class ExperimentalLifespanHandler : ILifeSpanHandler
+    {
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern int GetWindowTextLength(IntPtr hWnd);
+
+        private static string GetWindowTitle(IntPtr hWnd)
+        {
+            // Allocate correct string length first
+            int length = GetWindowTextLength(hWnd);
+            var sb = new StringBuilder(length + 1);
+            GetWindowText(hWnd, sb, sb.Capacity);
+            return sb.ToString();
+        }
+
+        bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
+        {
+            //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
+            //newBrowser = null;
+
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+            ChromiumWebBrowser popupChromiumWebBrowser = null;
+
+            var windowX = (windowInfo.X == int.MinValue) ? double.NaN : windowInfo.X;
+            var windowY = (windowInfo.Y == int.MinValue) ? double.NaN : windowInfo.Y;
+            var windowWidth = (windowInfo.Width == int.MinValue) ? double.NaN : windowInfo.Width;
+            var windowHeight = (windowInfo.Height == int.MinValue) ? double.NaN : windowInfo.Height;
+
+            chromiumWebBrowser.Dispatcher.Invoke(() =>
+            {
+                var owner = Window.GetWindow(chromiumWebBrowser);
+                popupChromiumWebBrowser = new ChromiumWebBrowser();
+
+                popupChromiumWebBrowser.SetAsPopup();
+                popupChromiumWebBrowser.LifeSpanHandler = this;
+
+                var popup = new Window
+                {
+                    Left = windowX,
+                    Top = windowY,
+                    Width = windowWidth,
+                    Height = windowHeight,
+                    Content = popupChromiumWebBrowser,
+                    Owner = owner,
+                    Title = targetFrameName
+                };
+
+                var windowInteropHelper = new WindowInteropHelper(popup);
+                //Create the handle Window handle (In WPF there's only one handle per window, not per control)
+                var handle = windowInteropHelper.EnsureHandle();
+
+                //The parentHandle value will be used to identify monitor info and to act as the parent window for dialogs,
+                //context menus, etc. If parentHandle is not provided then the main screen monitor will be used and some
+                //functionality that requires a parent window may not function correctly.
+                windowInfo.SetAsWindowless(handle);
+
+                popup.Closed += (o, e) =>
+                {
+                    var w = o as Window;
+                    if (w != null && w.Content is IWebBrowser)
+                    {
+                        (w.Content as IWebBrowser).Dispose();
+                        w.Content = null;
+                    }
+                };
+            });
+
+            newBrowser = popupChromiumWebBrowser;
+
+            return false;
+        }
+
+        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
+        {
+            if (!browser.IsDisposed && browser.IsPopup)
+            {
+                var windowTitle = GetWindowTitle(browser.GetHost().GetWindowHandle());
+
+                //CEF doesn't currently provide an option to determine if the new Popup is
+                //DevTools so we use a hackyworkaround to check the Window Title.
+                //DevTools is hosted in it's own popup, we don't perform any action here
+                if (windowTitle != "DevTools")
+                {
+                    var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+                    chromiumWebBrowser.Dispatcher.Invoke(() =>
+                    {
+                        var owner = Window.GetWindow(chromiumWebBrowser);
+
+                        if (owner != null && owner.Content == browserControl)
+                        {
+                            owner.Show();
+                        }
+                    });
+                }
+            }
+        }
+
+        bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
+        {
+            return false;
+        }
+
+        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
+        {
+            if (!browser.IsDisposed && browser.IsPopup)
+            {
+                //DevTools is hosted in it's own popup, we don't perform any action here
+                if (!browser.MainFrame.Url.Equals("devtools://devtools/devtools_app.html"))
+                {
+                    var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+                    chromiumWebBrowser.Dispatcher.Invoke(() =>
+                    {
+                        var owner = Window.GetWindow(chromiumWebBrowser);
+
+                        if (owner != null && owner.Content == browserControl)
+                        {
+                            owner.Close();
+                        }
+                    });
+                }
+            }
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows;
+using System.Windows.Interop;
+
+namespace CefSharp.Wpf.Example.Handlers
+{
+    /// <summary>
+    /// LifeSpanHandler implementation that demos hosting a popup in a new ChromiumWebBrowser instance.
+    /// This example code is EXPERIMENTAL
+    /// </summary>
+    public class ExperimentalLifespanHandler : ILifeSpanHandler
+    {
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern int GetWindowTextLength(IntPtr hWnd);
+
+        private static string GetWindowTitle(IntPtr hWnd)
+        {
+            // Allocate correct string length first
+            int length = GetWindowTextLength(hWnd);
+            var sb = new StringBuilder(length + 1);
+            GetWindowText(hWnd, sb, sb.Capacity);
+            return sb.ToString();
+        }
+
+        bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
+        {
+            //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
+            //newBrowser = null;
+
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+            ChromiumWebBrowser popupChromiumWebBrowser = null;
+
+            var windowX = (windowInfo.X == int.MinValue) ? double.NaN : windowInfo.X;
+            var windowY = (windowInfo.Y == int.MinValue) ? double.NaN : windowInfo.Y;
+            var windowWidth = (windowInfo.Width == int.MinValue) ? double.NaN : windowInfo.Width;
+            var windowHeight = (windowInfo.Height == int.MinValue) ? double.NaN : windowInfo.Height;
+
+            chromiumWebBrowser.Dispatcher.Invoke(() =>
+            {
+                var owner = Window.GetWindow(chromiumWebBrowser);
+                popupChromiumWebBrowser = new ChromiumWebBrowser();
+
+                popupChromiumWebBrowser.SetAsPopup();
+                popupChromiumWebBrowser.LifeSpanHandler = this;
+
+                var popup = new Window
+                {
+                    Left = windowX,
+                    Top = windowY,
+                    Width = windowWidth,
+                    Height = windowHeight,
+                    Content = popupChromiumWebBrowser,
+                    Owner = owner,
+                    Title = targetFrameName
+                };
+
+                var windowInteropHelper = new WindowInteropHelper(popup);
+                //Create the handle Window handle (In WPF there's only one handle per window, not per control)
+                var handle = windowInteropHelper.EnsureHandle();
+
+                //The parentHandle value will be used to identify monitor info and to act as the parent window for dialogs,
+                //context menus, etc. If parentHandle is not provided then the main screen monitor will be used and some
+                //functionality that requires a parent window may not function correctly.
+                windowInfo.SetAsWindowless(handle);
+
+                popup.Closed += (o, e) =>
+                {
+                    var w = o as Window;
+                    if (w?.Content is IWebBrowser)
+                    {
+                        (w.Content as IWebBrowser).Dispose();
+                        w.Content = null;
+                    }
+                };
+            });
+
+            newBrowser = popupChromiumWebBrowser;
+
+            return false;
+        }
+
+        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
+        {
+            if (!browser.IsDisposed && browser.IsPopup)
+            {
+                var windowTitle = GetWindowTitle(browser.GetHost().GetWindowHandle());
+
+                //CEF doesn't currently provide an option to determine if the new Popup is
+                //DevTools so we use a hackyworkaround to check the Window Title.
+                //DevTools is hosted in it's own popup, we don't perform any action here
+                if (windowTitle != "DevTools")
+                {
+                    var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+                    chromiumWebBrowser.Dispatcher.Invoke(() =>
+                    {
+                        var owner = Window.GetWindow(chromiumWebBrowser);
+
+                        if (owner != null && owner.Content == browserControl)
+                        {
+                            owner.Show();
+                        }
+                    });
+                }
+            }
+        }
+
+        bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
+        {
+            return false;
+        }
+
+        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
+        {
+            if (!browser.IsDisposed && browser.IsPopup)
+            {
+                //DevTools is hosted in it's own popup, we don't perform any action here
+                if (!browser.MainFrame.Url.Equals("devtools://devtools/devtools_app.html"))
+                {
+                    var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+                    chromiumWebBrowser.Dispatcher.Invoke(() =>
+                    {
+                        var owner = Window.GetWindow(chromiumWebBrowser);
+
+                        if (owner != null && owner.Content == browserControl)
+                        {
+                            owner.Close();
+                        }
+                    });
+                }
+            }
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\CefSharp.Wpf.Example\Handlers\ExperimentalLifespanHandler.cs(79,39): error CS8400: Feature 'type pattern' is not available in C# 8.0. Please use language version 9.0 or greater.
+######################################################################
+
+

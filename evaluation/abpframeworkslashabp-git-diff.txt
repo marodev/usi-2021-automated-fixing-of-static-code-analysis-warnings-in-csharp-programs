@@ -1,0 +1,130 @@
+diff --git a/framework/src/Volo.Abp.AspNetCore.Mvc.UI.Bundling/Volo/Abp/AspNetCore/Mvc/UI/Bundling/TagHelpers/AbpBundleItemTagHelperService.cs b/framework/src/Volo.Abp.AspNetCore.Mvc.UI.Bundling/Volo/Abp/AspNetCore/Mvc/UI/Bundling/TagHelpers/AbpBundleItemTagHelperService.cs
+index eca80c5fcf..8ad361fc21 100644
+--- a/framework/src/Volo.Abp.AspNetCore.Mvc.UI.Bundling/Volo/Abp/AspNetCore/Mvc/UI/Bundling/TagHelpers/AbpBundleItemTagHelperService.cs
++++ b/framework/src/Volo.Abp.AspNetCore.Mvc.UI.Bundling/Volo/Abp/AspNetCore/Mvc/UI/Bundling/TagHelpers/AbpBundleItemTagHelperService.cs
+@@ -18,8 +18,7 @@ namespace Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+ 
+         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+         {
+-            var tagHelperItems = context.Items.GetOrDefault(AbpTagHelperConsts.ContextBundleItemListKey) as List<BundleTagHelperItem>;
+-            if (tagHelperItems != null)
++            if (context.Items.GetOrDefault(AbpTagHelperConsts.ContextBundleItemListKey) is List<BundleTagHelperItem> tagHelperItems)
+             {
+                 output.SuppressOutput();
+                 tagHelperItems.Add(TagHelper.CreateBundleTagHelperItem());
+diff --git a/framework/src/Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Demo/Views/Components/Themes/Shared/TagHelpers/AbpComponentDemoSectionTagHelper.cs b/framework/src/Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Demo/Views/Components/Themes/Shared/TagHelpers/AbpComponentDemoSectionTagHelper.cs
+index 328024cc2b..5c67a8f469 100644
+--- a/framework/src/Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Demo/Views/Components/Themes/Shared/TagHelpers/AbpComponentDemoSectionTagHelper.cs
++++ b/framework/src/Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Demo/Views/Components/Themes/Shared/TagHelpers/AbpComponentDemoSectionTagHelper.cs
+@@ -120,10 +120,7 @@ namespace Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Demo.Views.Components.Themes.S
+ 
+                     return sourceBuilder.ToString();
+                 }
+-                else if (sourceBuilder != null)
+-                {
+-                    sourceBuilder.AppendLine(line);
+-                }
++                else sourceBuilder?.AppendLine(line);
+             }
+ 
+             throw new AbpException($"Could not find {Title} demo section inside {ViewPath}");
+diff --git a/framework/src/Volo.Abp.BackgroundWorkers.Quartz/Volo/Abp/BackgroundWorkers/Quartz/QuartzBackgroundWorkerAdapter.cs b/framework/src/Volo.Abp.BackgroundWorkers.Quartz/Volo/Abp/BackgroundWorkers/Quartz/QuartzBackgroundWorkerAdapter.cs
+index 0b75f389fe..ea29bbeeb5 100644
+--- a/framework/src/Volo.Abp.BackgroundWorkers.Quartz/Volo/Abp/BackgroundWorkers/Quartz/QuartzBackgroundWorkerAdapter.cs
++++ b/framework/src/Volo.Abp.BackgroundWorkers.Quartz/Volo/Abp/BackgroundWorkers/Quartz/QuartzBackgroundWorkerAdapter.cs
+@@ -75,10 +75,7 @@ namespace Volo.Abp.BackgroundWorkers.Quartz
+                 }
+                 case PeriodicBackgroundWorkerBase syncWorker:
+                 {
+-                    if (_doWorkMethod != null)
+-                    {
+-                        _doWorkMethod.Invoke(syncWorker, new object[] {workerContext});
+-                    }
++                    _doWorkMethod?.Invoke(syncWorker, new object[]{workerContext});
+ 
+                     break;
+                 }
+diff --git a/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Repositories/RepositoryExtensions.cs b/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Repositories/RepositoryExtensions.cs
+index 168fe2b0c0..03224a65e0 100644
+--- a/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Repositories/RepositoryExtensions.cs
++++ b/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Repositories/RepositoryExtensions.cs
+@@ -23,8 +23,7 @@ namespace Volo.Abp.Domain.Repositories
+             where TEntity : class, IEntity<TKey>
+             where TProperty : class
+         {
+-            var repo = ProxyHelper.UnProxy(repository) as ISupportsExplicitLoading<TEntity, TKey>;
+-            if (repo != null)
++            if (ProxyHelper.UnProxy(repository) is ISupportsExplicitLoading<TEntity, TKey> repo)
+             {
+                 await repo.EnsureCollectionLoadedAsync(entity, propertyExpression, cancellationToken);
+             }
+@@ -39,8 +38,7 @@ namespace Volo.Abp.Domain.Repositories
+             where TEntity : class, IEntity<TKey>
+             where TProperty : class
+         {
+-            var repo = ProxyHelper.UnProxy(repository) as ISupportsExplicitLoading<TEntity, TKey>;
+-            if (repo != null)
++            if (ProxyHelper.UnProxy(repository) is ISupportsExplicitLoading<TEntity, TKey> repo)
+             {
+                 await repo.EnsurePropertyLoadedAsync(entity, propertyExpression, cancellationToken);
+             }
+diff --git a/framework/src/Volo.Abp.ObjectExtending/Volo/Abp/ObjectExtending/Modularity/ExtensionPropertyConfigurationExtensions.cs b/framework/src/Volo.Abp.ObjectExtending/Volo/Abp/ObjectExtending/Modularity/ExtensionPropertyConfigurationExtensions.cs
+index 946fc04274..bd65d36485 100644
+--- a/framework/src/Volo.Abp.ObjectExtending/Volo/Abp/ObjectExtending/Modularity/ExtensionPropertyConfigurationExtensions.cs
++++ b/framework/src/Volo.Abp.ObjectExtending/Volo/Abp/ObjectExtending/Modularity/ExtensionPropertyConfigurationExtensions.cs
+@@ -20,8 +20,7 @@ namespace Volo.Abp.ObjectExtending.Modularity
+         public static Type GetLocalizationResourceTypeOrNull(
+             this ExtensionPropertyConfiguration property)
+         {
+-            if (property.DisplayName != null &&
+-                property.DisplayName is LocalizableString localizableString)
++            if (                property.DisplayName is LocalizableString localizableString)
+             {
+                 return localizableString.ResourceType;
+             }
+diff --git a/framework/src/Volo.Abp.Threading/Volo/Abp/Threading/AmbientDataContextAmbientScopeProvider.cs b/framework/src/Volo.Abp.Threading/Volo/Abp/Threading/AmbientDataContextAmbientScopeProvider.cs
+index 822361638e..1d83278bf1 100644
+--- a/framework/src/Volo.Abp.Threading/Volo/Abp/Threading/AmbientDataContextAmbientScopeProvider.cs
++++ b/framework/src/Volo.Abp.Threading/Volo/Abp/Threading/AmbientDataContextAmbientScopeProvider.cs
+@@ -62,8 +62,7 @@ namespace Volo.Abp.Threading
+ 
+         private ScopeItem GetCurrentItem(string contextKey)
+         {
+-            var objKey = _dataContext.GetData(contextKey) as string;
+-            return objKey != null ? ScopeDictionary.GetOrDefault(objKey) : null;
++            return _dataContext.GetData(contextKey) is string objKey ? ScopeDictionary.GetOrDefault(objKey) : null;
+         }
+ 
+         private class ScopeItem
+diff --git a/framework/src/Volo.Abp.Validation/Volo/Abp/Validation/StringValues/NumericValueValidator.cs b/framework/src/Volo.Abp.Validation/Volo/Abp/Validation/StringValues/NumericValueValidator.cs
+index e1b1972258..8e5fcbc83e 100644
+--- a/framework/src/Volo.Abp.Validation/Volo/Abp/Validation/StringValues/NumericValueValidator.cs
++++ b/framework/src/Volo.Abp.Validation/Volo/Abp/Validation/StringValues/NumericValueValidator.cs
+@@ -36,9 +36,9 @@ namespace Volo.Abp.Validation.StringValues
+                 return false;
+             }
+ 
+-            if (value is int)
++            if (value is int i)
+             {
+-                return IsValidInternal((int)value);
++                return IsValidInternal(i);
+             }
+ 
+             if (value is string)
+diff --git a/framework/test/Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo.Tests/Volo/Abp/AspNetCore/Mvc/UI/Bootstrap/Demo/AbpAspNetCoreMvcUiBootstrapDemoTestBase.cs b/framework/test/Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo.Tests/Volo/Abp/AspNetCore/Mvc/UI/Bootstrap/Demo/AbpAspNetCoreMvcUiBootstrapDemoTestBase.cs
+index 15473df986..d7a8a88c2a 100644
+--- a/framework/test/Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo.Tests/Volo/Abp/AspNetCore/Mvc/UI/Bootstrap/Demo/AbpAspNetCoreMvcUiBootstrapDemoTestBase.cs
++++ b/framework/test/Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo.Tests/Volo/Abp/AspNetCore/Mvc/UI/Bootstrap/Demo/AbpAspNetCoreMvcUiBootstrapDemoTestBase.cs
+@@ -18,10 +18,7 @@ namespace Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo
+         {
+             return CalculateContentRootPath(
+                 "Volo.Abp.sln",
+-                string.Format(
+-                    "test{0}Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo",
+-                    Path.DirectorySeparatorChar
+-                )
++                $"test{Path.DirectorySeparatorChar}Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo"
+             );
+         }
+ 

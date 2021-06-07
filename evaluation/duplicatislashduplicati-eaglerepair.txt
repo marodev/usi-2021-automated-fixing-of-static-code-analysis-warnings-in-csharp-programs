@@ -1,0 +1,1016 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Duplicati.Library.Utility
+    #1 Path: D:\a\1\s\Duplicati\Library\Utility\AsyncHttpRequest.cs, Line: 224, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: D:\a\1\s\Duplicati\Library\Utility\DirectStreamLink.cs, Line: 274, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #3 Path: D:\a\1\s\Duplicati\Library\Utility\FileBackedList.cs, Line: 135, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\Duplicati\Library\Utility\FilterExpression.cs, Line: 690, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: D:\a\1\s\Duplicati\Library\Utility\TempFile.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #6 Path: D:\a\1\s\Duplicati\Library\Utility\TempFile.cs, Line: 61, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\Duplicati\Library\Utility\UrlUtility.cs, Line: 146, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\Duplicati\Library\Utility\UrlUtility.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\Duplicati\Library\Utility\UrlUtility.cs, Line: 91, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Main
+    #10 Path: D:\a\1\s\Duplicati\Library\Main\BackendManager.cs, Line: 240, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: D:\a\1\s\Duplicati\Library\Main\BackendManager.cs, Line: 389, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: D:\a\1\s\Duplicati\Library\Main\BackendManager.cs, Line: 396, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: D:\a\1\s\Duplicati\Library\Main\BackendManager.cs, Line: 477, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: D:\a\1\s\Duplicati\Library\Main\BackendManager.cs, Line: 477, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\Duplicati\Library\Main\BackendManager.cs, Line: 749, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #16 Path: D:\a\1\s\Duplicati\Library\Main\BackendManager.cs, Line: 751, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #17 Path: D:\a\1\s\Duplicati\Library\Main\Controller.cs, Line: 359, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #18 Path: D:\a\1\s\Duplicati\Library\Main\Controller.cs, Line: 429, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\Duplicati\Library\Main\Controller.cs, Line: 429, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\Duplicati\Library\Main\Controller.cs, Line: 688, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #21 Path: D:\a\1\s\Duplicati\Library\Main\Controller.cs, Line: 690, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #22 Path: D:\a\1\s\Duplicati\Library\Main\Controller.cs, Line: 712, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: D:\a\1\s\Duplicati\Library\Main\Database\ExtensionMethods.cs, Line: 108, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\Duplicati\Library\Main\Database\ExtensionMethods.cs, Line: 149, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\Duplicati\Library\Main\Database\ExtensionMethods.cs, Line: 174, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #26 Path: D:\a\1\s\Duplicati\Library\Main\Database\ExtensionMethods.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #27 Path: D:\a\1\s\Duplicati\Library\Main\Database\ExtensionMethods.cs, Line: 56, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #28 Path: D:\a\1\s\Duplicati\Library\Main\Database\ExtensionMethods.cs, Line: 87, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalBackupDatabase.cs, Line: 329, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalBackupDatabase.cs, Line: 334, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalBackupDatabase.cs, Line: 819, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalBackupDatabase.cs, Line: 830, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalBackupDatabase.cs, Line: 842, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalDatabase.cs, Line: 1241, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalDatabase.cs, Line: 377, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #36 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalDatabase.cs, Line: 783, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalDatabase.cs, Line: 787, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalDatabase.cs, Line: 812, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalDatabase.cs, Line: 813, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalDeleteDatabase.cs, Line: 104, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #41 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalDeleteDatabase.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #42 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalPurgeDatabase.cs, Line: 163, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalPurgeDatabase.cs, Line: 46, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRecreateDatabase.cs, Line: 406, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #45 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 158, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 389, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 394, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 418, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #49 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 423, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #50 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 43, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #51 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 436, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #52 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 469, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #53 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 481, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #54 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 522, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #55 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 570, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #56 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 572, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #57 Path: D:\a\1\s\Duplicati\Library\Main\Database\LocalRepairDatabase.cs, Line: 576, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #58 Path: D:\a\1\s\Duplicati\Library\Main\DatabaseLocator.cs, Line: 130, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #59 Path: D:\a\1\s\Duplicati\Library\Main\DatabaseLocator.cs, Line: 145, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #60 Path: D:\a\1\s\Duplicati\Library\Main\Operation\Backup\BackendUploader.cs, Line: 449, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #61 Path: D:\a\1\s\Duplicati\Library\Main\Operation\Backup\BackendUploader.cs, Line: 451, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #62 Path: D:\a\1\s\Duplicati\Library\Main\Operation\Backup\FileProgressThrottler.cs, Line: 100, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #63 Path: D:\a\1\s\Duplicati\Library\Main\Operation\Backup\FileProgressThrottler.cs, Line: 120, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #64 Path: D:\a\1\s\Duplicati\Library\Main\Operation\BackupHandler.cs, Line: 413, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #65 Path: D:\a\1\s\Duplicati\Library\Main\Operation\BackupHandler.cs, Line: 474, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #66 Path: D:\a\1\s\Duplicati\Library\Main\Operation\Common\IndexVolumeCreator.cs, Line: 155, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #67 Path: D:\a\1\s\Duplicati\Library\Main\Operation\CompactHandler.cs, Line: 167, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #68 Path: D:\a\1\s\Duplicati\Library\Main\Operation\CompactHandler.cs, Line: 46, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #69 Path: D:\a\1\s\Duplicati\Library\Main\Operation\CreateBugReportHandler.cs, Line: 51, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #70 Path: D:\a\1\s\Duplicati\Library\Main\Operation\CreateBugReportHandler.cs, Line: 54, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #71 Path: D:\a\1\s\Duplicati\Library\Main\Operation\DeleteHandler.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #72 Path: D:\a\1\s\Duplicati\Library\Main\Operation\FilelistProcessor.cs, Line: 114, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #73 Path: D:\a\1\s\Duplicati\Library\Main\Operation\FilelistProcessor.cs, Line: 124, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #74 Path: D:\a\1\s\Duplicati\Library\Main\Operation\FilelistProcessor.cs, Line: 133, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #75 Path: D:\a\1\s\Duplicati\Library\Main\Operation\FilelistProcessor.cs, Line: 135, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #76 Path: D:\a\1\s\Duplicati\Library\Main\Operation\FilelistProcessor.cs, Line: 282, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #77 Path: D:\a\1\s\Duplicati\Library\Main\Operation\ListAffected.cs, Line: 39, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #78 Path: D:\a\1\s\Duplicati\Library\Main\Operation\ListBrokenFilesHandler.cs, Line: 114, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #79 Path: D:\a\1\s\Duplicati\Library\Main\Operation\ListBrokenFilesHandler.cs, Line: 45, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #80 Path: D:\a\1\s\Duplicati\Library\Main\Operation\ListChangesHandler.cs, Line: 113, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #81 Path: D:\a\1\s\Duplicati\Library\Main\Operation\ListChangesHandler.cs, Line: 88, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #82 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeBrokenFilesHandler.cs, Line: 155, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #83 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeBrokenFilesHandler.cs, Line: 164, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #84 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeBrokenFilesHandler.cs, Line: 44, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #85 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeBrokenFilesHandler.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #86 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeFilesHandler.cs, Line: 121, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #87 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeFilesHandler.cs, Line: 138, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #88 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeFilesHandler.cs, Line: 141, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #89 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeFilesHandler.cs, Line: 182, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #90 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeFilesHandler.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #91 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeFilesHandler.cs, Line: 72, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #92 Path: D:\a\1\s\Duplicati\Library\Main\Operation\PurgeFilesHandler.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #93 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RecreateDatabaseHandler.cs, Line: 126, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #94 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RecreateDatabaseHandler.cs, Line: 128, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #95 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RecreateDatabaseHandler.cs, Line: 130, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #96 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RecreateDatabaseHandler.cs, Line: 200, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #97 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RecreateDatabaseHandler.cs, Line: 379, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #98 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RecreateDatabaseHandler.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #99 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RecreateDatabaseHandler.cs, Line: 529, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #100 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RecreateDatabaseHandler.cs, Line: 60, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #101 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 101, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #102 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 136, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #103 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 138, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #104 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 142, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #105 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 172, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #106 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 218, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #107 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 221, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #108 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 224, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #109 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 333, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #110 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 419, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #111 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RepairHandler.cs, Line: 473, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #112 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RestoreHandler.cs, Line: 479, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #113 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RestoreHandler.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #114 Path: D:\a\1\s\Duplicati\Library\Main\Operation\RestoreHandler.cs, Line: 766, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #115 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 34, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #116 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 36, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #117 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 37, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #118 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 38, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #119 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 39, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #120 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 40, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #121 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #122 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 43, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #123 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 45, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #124 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 46, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #125 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 47, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #126 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #127 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #128 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 50, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #129 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 51, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #130 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 52, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #131 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 65, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #132 Path: D:\a\1\s\Duplicati\Library\Main\Operation\SystemInfoHandler.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #133 Path: D:\a\1\s\Duplicati\Library\Main\Operation\TestHandler.cs, Line: 47, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #134 Path: D:\a\1\s\Duplicati\Library\Main\Options.cs, Line: 1282, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #135 Path: D:\a\1\s\Duplicati\Library\Main\Options.cs, Line: 1909, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #136 Path: D:\a\1\s\Duplicati\Library\Main\Options.cs, Line: 1913, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #137 Path: D:\a\1\s\Duplicati\Library\Main\ResultClasses.cs, Line: 204, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #138 Path: D:\a\1\s\Duplicati\Library\Main\Utility.cs, Line: 161, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #139 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 131, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #140 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 146, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #141 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 150, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #142 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 156, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #143 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 164, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #144 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 170, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #145 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 174, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #146 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 176, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #147 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 184, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #148 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 188, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #149 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 202, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #150 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 212, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #151 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 278, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #152 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeReader.cs, Line: 63, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #153 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeWriter.cs, Line: 140, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #154 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\FilesetVolumeWriter.cs, Line: 145, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #155 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\IndexVolumeReader.cs, Line: 134, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #156 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\IndexVolumeReader.cs, Line: 99, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #157 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\InvalidManifestException.cs, Line: 12, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #158 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\VolumeReaderBase.cs, Line: 168, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #159 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\VolumeReaderBase.cs, Line: 177, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #160 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\VolumeReaderBase.cs, Line: 27, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #161 Path: D:\a\1\s\Duplicati\Library\Main\Volumes\VolumeWriterBase.cs, Line: 61, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.FTP
+    #162 Path: D:\a\1\s\Duplicati\Library\Backend\FTP\FTPBackend.cs, Line: 232, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #163 Path: D:\a\1\s\Duplicati\Library\Backend\FTP\FTPBackend.cs, Line: 241, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #164 Path: D:\a\1\s\Duplicati\Library\Backend\FTP\FTPBackend.cs, Line: 248, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Duplicati.Library.Compression
+    #165 Path: D:\a\1\s\Duplicati\Library\Compression\FileArchiveZip.cs, Line: 187, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #166 Path: D:\a\1\s\Duplicati\Library\Compression\FileArchiveZip.cs, Line: 337, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Logging
+    #167 Path: D:\a\1\s\Duplicati\Library\Logging\LogEntry.cs, Line: 130, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.S3
+    #168 Path: D:\a\1\s\Duplicati\Library\Backend\S3\S3Backend.cs, Line: 153, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #169 Path: D:\a\1\s\Duplicati\Library\Backend\S3\S3Backend.cs, Line: 374, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #170 Path: D:\a\1\s\Duplicati\Library\Backend\S3\S3Backend.cs, Line: 377, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #171 Path: D:\a\1\s\Duplicati\Library\Backend\S3\S3Backend.cs, Line: 387, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #172 Path: D:\a\1\s\Duplicati\Library\Backend\S3\S3Backend.cs, Line: 388, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #173 Path: D:\a\1\s\Duplicati\Library\Backend\S3\S3IAM.cs, Line: 210, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #174 Path: D:\a\1\s\Duplicati\Library\Backend\S3\S3IAM.cs, Line: 211, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #175 Path: D:\a\1\s\Duplicati\Library\Backend\S3\S3IAM.cs, Line: 92, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.CommandLine
+    #176 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 1094, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #177 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 1097, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #178 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 1101, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #179 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 526, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #180 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 568, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #181 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 575, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #182 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 617, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #183 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 650, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #184 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 668, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #185 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 671, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #186 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 672, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #187 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 677, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #188 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 682, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #189 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 686, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #190 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 687, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #191 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 688, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #192 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 690, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #193 Path: D:\a\1\s\Duplicati\CommandLine\Commands.cs, Line: 691, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #194 Path: D:\a\1\s\Duplicati\CommandLine\Help.cs, Line: 119, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #195 Path: D:\a\1\s\Duplicati\CommandLine\Help.cs, Line: 503, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #196 Path: D:\a\1\s\Duplicati\CommandLine\Help.cs, Line: 505, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.CommandLine.BackendTester
+    #197 Path: D:\a\1\s\Duplicati\CommandLine\BackendTester\Program.cs, Line: 284, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #198 Path: D:\a\1\s\Duplicati\CommandLine\BackendTester\Program.cs, Line: 404, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #199 Path: D:\a\1\s\Duplicati\CommandLine\BackendTester\Program.cs, Line: 425, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Duplicati.Library.DynamicLoader
+    #200 Path: D:\a\1\s\Duplicati\Library\DynamicLoader\DynamicLoader.cs, Line: 131, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Duplicati.Library.Snapshots
+    #201 Path: D:\a\1\s\Duplicati\Library\Snapshots\HyperVUtility.cs, Line: 108, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #202 Path: D:\a\1\s\Duplicati\Library\Snapshots\HyperVUtility.cs, Line: 109, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #203 Path: D:\a\1\s\Duplicati\Library\Snapshots\HyperVUtility.cs, Line: 224, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #204 Path: D:\a\1\s\Duplicati\Library\Snapshots\HyperVUtility.cs, Line: 225, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #205 Path: D:\a\1\s\Duplicati\Library\Snapshots\HyperVUtility.cs, Line: 234, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #206 Path: D:\a\1\s\Duplicati\Library\Snapshots\HyperVUtility.cs, Line: 258, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #207 Path: D:\a\1\s\Duplicati\Library\Snapshots\HyperVUtility.cs, Line: 284, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #208 Path: D:\a\1\s\Duplicati\Library\Snapshots\HyperVUtility.cs, Line: 37, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #209 Path: D:\a\1\s\Duplicati\Library\Snapshots\MSSQLUtility.cs, Line: 35, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Duplicati.Library.Modules.Builtin
+    #210 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\HyperVOptions.cs, Line: 162, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #211 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\HyperVOptions.cs, Line: 173, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #212 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\HyperVOptions.cs, Line: 187, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #213 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\MSSQLOptions.cs, Line: 160, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #214 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\MSSQLOptions.cs, Line: 171, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #215 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\MSSQLOptions.cs, Line: 185, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #216 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\ReportHelper.cs, Line: 389, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #217 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\RunScript.cs, Line: 203, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #218 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\SendJabberMessage.cs, Line: 220, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #219 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\SendMail.cs, Line: 222, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #220 Path: D:\a\1\s\Duplicati\Library\Modules\Builtin\Strings.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.OneDrive
+    #221 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 109, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #222 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 125, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #223 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 138, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #224 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 175, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #225 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 180, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #226 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 193, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #227 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 208, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #228 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 22, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #229 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 38, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #230 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\Exceptions.cs, Line: 96, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #231 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 208, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #232 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 209, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #233 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 311, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #234 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 321, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #235 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 331, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #236 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 357, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #237 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 392, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #238 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 414, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #239 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 443, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #240 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 605, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #241 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGraphBackend.cs, Line: 632, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #242 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\MicrosoftGroup.cs, Line: 44, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #243 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\OneDriveV2.cs, Line: 23, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #244 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\SharePointV2.cs, Line: 106, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #245 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\SharePointV2.cs, Line: 130, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #246 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\SharePointV2.cs, Line: 138, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #247 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\SharePointV2.cs, Line: 152, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #248 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\SharePointV2.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #249 Path: D:\a\1\s\Duplicati\Library\Backend\OneDrive\SharePointV2.cs, Line: 97, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.SSHv2
+    #250 Path: D:\a\1\s\Duplicati\Library\Backend\SSHv2\KeyGenerator.cs, Line: 207, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Server
+    #251 Path: D:\a\1\s\Duplicati\Server\Database\Connection.cs, Line: 1053, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #252 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 413, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #253 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 417, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #254 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 421, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #255 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 628, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #256 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 698, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #257 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 848, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #258 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 850, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #259 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 853, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #260 Path: D:\a\1\s\Duplicati\Server\Runner.cs, Line: 854, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #261 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTHandler.cs, Line: 195, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #262 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTHandler.cs, Line: 74, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #263 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\Backup.cs, Line: 167, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #264 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\Backup.cs, Line: 434, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #265 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\Backup.cs, Line: 614, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #266 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\Backup.cs, Line: 616, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #267 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\Backups.cs, Line: 278, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #268 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\Backups.cs, Line: 280, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #269 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\BugReport.cs, Line: 46, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #270 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\Filesystem.cs, Line: 98, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #271 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\HyperV.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #272 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\MSSQL.cs, Line: 64, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #273 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\ServerSettings.cs, Line: 107, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #274 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\ServerSettings.cs, Line: 109, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #275 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\UISettings.cs, Line: 58, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #276 Path: D:\a\1\s\Duplicati\Server\WebServer\RESTMethods\WebModule.cs, Line: 29, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #277 Path: D:\a\1\s\Duplicati\Server\WebServer\Server.cs, Line: 168, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #278 Path: D:\a\1\s\Duplicati\Server\WebServer\Server.cs, Line: 301, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #279 Path: D:\a\1\s\Duplicati\Server\WebServer\SynologyAuthenticationHandler.cs, Line: 225, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #280 Path: D:\a\1\s\Duplicati\Server\WebServer\SynologyAuthenticationHandler.cs, Line: 272, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.GUI.TrayIcon
+    #281 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\HttpServerConnection.cs, Line: 225, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #282 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\HttpServerConnection.cs, Line: 504, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #283 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\HttpServerConnection.cs, Line: 510, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #284 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\HttpServerConnection.cs, Line: 518, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #285 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\HttpServerConnection.cs, Line: 524, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #286 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\ImageLoader.cs, Line: 54, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #287 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\Program.cs, Line: 310, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #288 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\RumpsRunner.cs, Line: 121, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #289 Path: D:\a\1\s\Duplicati\GUI\Duplicati.GUI.TrayIcon\RumpsRunner.cs, Line: 148, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Server.Serialization
+    #290 Path: D:\a\1\s\Duplicati\Server\Duplicati.Server.Serialization\InterfaceResolver.cs, Line: 113, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #291 Path: D:\a\1\s\Duplicati\Server\Duplicati.Server.Serialization\InterfaceResolver.cs, Line: 50, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #292 Path: D:\a\1\s\Duplicati\Server\Duplicati.Server.Serialization\InterfaceResolver.cs, Line: 78, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #293 Path: D:\a\1\s\Duplicati\Server\Duplicati.Server.Serialization\InterfaceResolver.cs, Line: 86, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #294 Path: D:\a\1\s\Duplicati\Server\Duplicati.Server.Serialization\InterfaceResolver.cs, Line: 88, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.CommandLine.BackendTool
+    #295 Path: D:\a\1\s\Duplicati\CommandLine\BackendTool\Program.cs, Line: 102, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #296 Path: D:\a\1\s\Duplicati\CommandLine\BackendTool\Program.cs, Line: 113, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #297 Path: D:\a\1\s\Duplicati\CommandLine\BackendTool\Program.cs, Line: 124, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #298 Path: D:\a\1\s\Duplicati\CommandLine\BackendTool\Program.cs, Line: 134, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #299 Path: D:\a\1\s\Duplicati\CommandLine\BackendTool\Program.cs, Line: 146, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.SQLiteHelper
+    #300 Path: D:\a\1\s\Duplicati\Library\SQLiteHelper\DatabaseUpgrader.cs, Line: 104, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #301 Path: D:\a\1\s\Duplicati\Library\SQLiteHelper\DatabaseUpgrader.cs, Line: 85, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #302 Path: D:\a\1\s\Duplicati\Library\SQLiteHelper\DatabaseUpgrader.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #303 Path: D:\a\1\s\Duplicati\Library\SQLiteHelper\SQLiteLoader.cs, Line: 206, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Localization
+    #304 Path: D:\a\1\s\Duplicati\Library\Localization\MoLocalizationService.cs, Line: 75, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #305 Path: D:\a\1\s\Duplicati\Library\Localization\MoLocalizationService.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.AutoUpdater
+    #306 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\AutoUpdateSettings.cs, Line: 49, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #307 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\Program.cs, Line: 67, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #308 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\Program.cs, Line: 78, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #309 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 1019, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #310 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 342, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #311 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 460, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #312 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 475, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #313 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 480, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #314 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 486, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #315 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 495, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #316 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 555, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #317 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 636, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #318 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 650, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #319 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 654, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #320 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 665, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #321 Path: D:\a\1\s\Duplicati\Library\AutoUpdater\UpdaterManager.cs, Line: 667, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Service
+    #322 Path: D:\a\1\s\Duplicati\Service\Runner.cs, Line: 115, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #323 Path: D:\a\1\s\Duplicati\Service\Runner.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #324 Path: D:\a\1\s\Duplicati\Service\Runner.cs, Line: 78, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #325 Path: D:\a\1\s\Duplicati\Service\Runner.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.AzureBlob
+    #326 Path: D:\a\1\s\Duplicati\Library\Backend\AzureBlob\AzureBlobWrapper.cs, Line: 69, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #327 Path: D:\a\1\s\Duplicati\Library\Backend\AzureBlob\AzureBlobWrapper.cs, Line: 76, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.UnitTest
+    #328 Path: D:\a\1\s\Duplicati\UnitTest\CommandLineOperationsTests.cs, Line: 131, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #329 Path: D:\a\1\s\Duplicati\UnitTest\CommandLineOperationsTests.cs, Line: 151, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #330 Path: D:\a\1\s\Duplicati\UnitTest\CommandLineOperationsTests.cs, Line: 201, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #331 Path: D:\a\1\s\Duplicati\UnitTest\Issue1723.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #332 Path: D:\a\1\s\Duplicati\UnitTest\PurgeTesting.cs, Line: 178, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #333 Path: D:\a\1\s\Duplicati\UnitTest\PurgeTesting.cs, Line: 180, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #334 Path: D:\a\1\s\Duplicati\UnitTest\SVNCheckoutsTest.cs, Line: 100, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #335 Path: D:\a\1\s\Duplicati\UnitTest\SVNCheckoutsTest.cs, Line: 222, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #336 Path: D:\a\1\s\Duplicati\UnitTest\SVNCheckoutsTest.cs, Line: 236, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #337 Path: D:\a\1\s\Duplicati\UnitTest\SVNCheckoutsTest.cs, Line: 294, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #338 Path: D:\a\1\s\Duplicati\UnitTest\SVNCheckoutsTest.cs, Line: 74, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.OAuthHelper
+    #339 Path: D:\a\1\s\Duplicati\Library\Backend\OAuthHelper\JSONWebHelper.cs, Line: 165, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #340 Path: D:\a\1\s\Duplicati\Library\Backend\OAuthHelper\JSONWebHelper.cs, Line: 31, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #341 Path: D:\a\1\s\Duplicati\Library\Backend\OAuthHelper\MultipartItem.cs, Line: 140, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #342 Path: D:\a\1\s\Duplicati\Library\Backend\OAuthHelper\MultipartItem.cs, Line: 99, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #343 Path: D:\a\1\s\Duplicati\Library\Backend\OAuthHelper\OAuthHelper.cs, Line: 115, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.GoogleServices
+    #344 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCloudStorage.cs, Line: 210, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #345 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCloudStorage.cs, Line: 212, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #346 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCommon.cs, Line: 166, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #347 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCommon.cs, Line: 195, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #348 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCommon.cs, Line: 200, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #349 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCommon.cs, Line: 206, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #350 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCommon.cs, Line: 47, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #351 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCommon.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #352 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleCommon.cs, Line: 76, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #353 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleDrive.cs, Line: 441, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #354 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleDrive.cs, Line: 442, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #355 Path: D:\a\1\s\Duplicati\Library\Backend\GoogleServices\GoogleDrive.cs, Line: 443, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.OpenStack
+    #356 Path: D:\a\1\s\Duplicati\Library\Backend\OpenStack\OpenStackStorage.cs, Line: 534, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #357 Path: D:\a\1\s\Duplicati\Library\Backend\OpenStack\OpenStackStorage.cs, Line: 564, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #358 Path: D:\a\1\s\Duplicati\Library\Backend\OpenStack\OpenStackStorage.cs, Line: 614, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.CommandLine.RecoveryTool
+    #359 Path: D:\a\1\s\Duplicati\CommandLine\RecoveryTool\List.cs, Line: 93, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #360 Path: D:\a\1\s\Duplicati\CommandLine\RecoveryTool\Restore.cs, Line: 100, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #361 Path: D:\a\1\s\Duplicati\CommandLine\RecoveryTool\Restore.cs, Line: 355, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #362 Path: D:\a\1\s\Duplicati\CommandLine\RecoveryTool\Restore.cs, Line: 412, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #363 Path: D:\a\1\s\Duplicati\CommandLine\RecoveryTool\Restore.cs, Line: 455, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #364 Path: D:\a\1\s\Duplicati\CommandLine\RecoveryTool\Restore.cs, Line: 98, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.Backblaze
+    #365 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 123, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #366 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 129, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #367 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 146, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #368 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 203, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #369 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 290, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #370 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 292, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #371 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 320, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #372 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 389, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #373 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2.cs, Line: 413, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #374 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2AuthHelper.cs, Line: 150, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #375 Path: D:\a\1\s\Duplicati\Library\Backend\Backblaze\B2AuthHelper.cs, Line: 90, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.Box
+    #376 Path: D:\a\1\s\Duplicati\Library\Backend\Box\BoxBackend.cs, Line: 140, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #377 Path: D:\a\1\s\Duplicati\Library\Backend\Box\BoxBackend.cs, Line: 175, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #378 Path: D:\a\1\s\Duplicati\Library\Backend\Box\BoxBackend.cs, Line: 247, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #379 Path: D:\a\1\s\Duplicati\Library\Backend\Box\BoxBackend.cs, Line: 280, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #380 Path: D:\a\1\s\Duplicati\Library\Backend\Box\BoxBackend.cs, Line: 285, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #381 Path: D:\a\1\s\Duplicati\Library\Backend\Box\BoxBackend.cs, Line: 76, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.UsageReporter
+    #382 Path: D:\a\1\s\Duplicati\Library\UsageReporter\OSInfoHelper.cs, Line: 139, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #383 Path: D:\a\1\s\Duplicati\Library\UsageReporter\OSInfoHelper.cs, Line: 89, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #384 Path: D:\a\1\s\Duplicati\Library\UsageReporter\ReportSet.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #385 Path: D:\a\1\s\Duplicati\Library\UsageReporter\ReportSet.cs, Line: 70, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.SharePoint
+    #386 Path: D:\a\1\s\Duplicati\Library\Backend\SharePoint\SharePointBackend.cs, Line: 271, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: WindowsService
+    #387 Path: D:\a\1\s\Duplicati\Service\Runner.cs, Line: 115, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #388 Path: D:\a\1\s\Duplicati\Service\Runner.cs, Line: 71, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #389 Path: D:\a\1\s\Duplicati\Service\Runner.cs, Line: 78, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #390 Path: D:\a\1\s\Duplicati\Service\Runner.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.Dropbox
+    #391 Path: D:\a\1\s\Duplicati\Library\Backend\Dropbox\Dropbox.cs, Line: 126, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #392 Path: D:\a\1\s\Duplicati\Library\Backend\Dropbox\Dropbox.cs, Line: 191, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.Jottacloud
+    #393 Path: D:\a\1\s\Duplicati\Library\Backend\Jottacloud\Jottacloud.cs, Line: 183, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #394 Path: D:\a\1\s\Duplicati\Library\Backend\Jottacloud\Jottacloud.cs, Line: 301, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #395 Path: D:\a\1\s\Duplicati\Library\Backend\Jottacloud\Jottacloud.cs, Line: 485, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.Sia
+    #396 Path: D:\a\1\s\Duplicati\Library\Backend\Sia\Sia.cs, Line: 324, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #397 Path: D:\a\1\s\Duplicati\Library\Backend\Sia\Sia.cs, Line: 363, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #398 Path: D:\a\1\s\Duplicati\Library\Backend\Sia\Sia.cs, Line: 409, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #399 Path: D:\a\1\s\Duplicati\Library\Backend\Sia\Sia.cs, Line: 79, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #400 Path: D:\a\1\s\Duplicati\Library\Backend\Sia\Sia.cs, Line: 98, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.Rclone
+    #401 Path: D:\a\1\s\Duplicati\Library\Backend\Rclone\Rclone.cs, Line: 106, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #402 Path: D:\a\1\s\Duplicati\Library\Backend\Rclone\Rclone.cs, Line: 184, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #403 Path: D:\a\1\s\Duplicati\Library\Backend\Rclone\Rclone.cs, Line: 202, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #404 Path: D:\a\1\s\Duplicati\Library\Backend\Rclone\Rclone.cs, Line: 240, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #405 Path: D:\a\1\s\Duplicati\Library\Backend\Rclone\Rclone.cs, Line: 252, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #406 Path: D:\a\1\s\Duplicati\Library\Backend\Rclone\Rclone.cs, Line: 265, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #407 Path: D:\a\1\s\Duplicati\Library\Backend\Rclone\Rclone.cs, Line: 311, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Common
+    #408 Path: D:\a\1\s\Duplicati\Library\Common\IO\SystemIOLinux.cs, Line: 186, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #409 Path: D:\a\1\s\Duplicati\Library\Common\IO\SystemIOWindows.cs, Line: 519, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #410 Path: D:\a\1\s\Duplicati\Library\Common\IO\SystemIOWindows.cs, Line: 537, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #411 Path: D:\a\1\s\Duplicati\Library\Common\IO\VssBackupComponents.cs, Line: 97, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Duplicati.Library.Backend.Tardigrade
+    #412 Path: D:\a\1\s\Duplicati\Library\Backend\Tardigrade\TardigradeFile.cs, Line: 32, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #413 Path: D:\a\1\s\Duplicati\Library\Backend\Tardigrade\TardigradeFile.cs, Line: 42, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+--- Rules Summary ---
+R9: 390
+R7: 7
+R4: 6
+R8: 6
+R2: 2
+R3: 2
+
+--- Summary ---
+Fixed ReSharper issues: 411
+Fixed SonarQube issues: 8
+Total fixed issues: 413
+
+Finished in: 19 s
+
+######################################################################
+Nr: 1 - TypeCheckAndCastRewriterR5
+Filepath: D:\a\1\s\Duplicati\Library\Modules\Builtin\CheckMonoSSL.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+
+namespace Duplicati.Library.Modules.Builtin
+{
+    public class CheckMonoSSL : Duplicati.Library.Interface.IGenericModule, Duplicati.Library.Interface.IWebModule
+    {
+		private static readonly string LOGTAG = Logging.Log.LogTagFromType<CheckMonoSSL>();
+
+        public CheckMonoSSL()
+        {
+        }
+
+        private int CheckStore(StoreName storename, StoreLocation storelocation)
+        {
+            X509Store store = null;
+            try
+            {
+                store = new X509Store(storename, storelocation);
+                store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
+                return store.Certificates.Count;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                if (store != null)
+                    try { store.Close(); }
+                    catch { }
+            }
+
+            return 0;
+        }
+
+        // Prevent inlining, so we can catch loader errors from the caller
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        private int CheckMonoCerts()
+        {
+            // The __MonoCS__ compiler directive is no longer supported.
+            // We would like to query the x509 store, but this will make it
+            // hard to compile the project on Windows.
+            // For this reason, we use reflection to extract the counts
+
+            // Code without reflection looks like:
+
+            //return
+            //    Mono.Security.X509.X509StoreManager.LocalMachine.TrustedRoot.Certificates.Count +
+            //    Mono.Security.X509.X509StoreManager.CurrentUser.TrustedRoot.Certificates.Count +
+            //    Mono.Security.X509.X509StoreManager.TrustedRootCertificates.Count +
+            //    0;
+
+            System.Reflection.Assembly asm = null;
+
+            try { asm = System.Reflection.Assembly.Load("Mono.Security"); }
+            catch { }
+
+            var x509Store = asm?.GetType("Mono.Security.X509.X509StoreManager");
+            if (x509Store == null)
+                return 0;
+
+            var localMachine = x509Store.GetProperty("LocalMachine")?.GetValue(null);
+            var currentUser = x509Store.GetProperty("CurrentUser")?.GetValue(null);
+            var trustedRoot = x509Store.GetProperty("TrustedRootCertificates")?.GetValue(null);
+
+            var count = 0;
+
+            var tr = localMachine?.GetType().GetProperty("TrustedRoot")?.GetValue(localMachine);
+            var crt = tr?.GetType().GetProperty("Certificates").GetValue(tr);
+            var cnt = crt?.GetType().GetProperty("Count")?.GetValue(crt);
+            if (cnt is int)
+                count += (int)cnt;
+
+            tr = currentUser?.GetType().GetProperty("TrustedRoot")?.GetValue(currentUser);
+            crt = tr?.GetType().GetProperty("Certificates").GetValue(tr);
+            cnt = crt?.GetType().GetProperty("Count")?.GetValue(crt);
+            if (cnt is int)
+                count += (int)cnt;
+
+
+            cnt = trustedRoot?.GetType().GetProperty("Count")?.GetValue(trustedRoot);
+            if (cnt is int)
+                count += (int)cnt;
+
+            return count;
+
+        }
+
+        private int CheckForInstalledCerts()
+        {
+            var count =
+                CheckStore(StoreName.Root, StoreLocation.CurrentUser) +
+                CheckStore(StoreName.AuthRoot, StoreLocation.CurrentUser) +
+                CheckStore(StoreName.CertificateAuthority, StoreLocation.CurrentUser) +
+                CheckStore(StoreName.Root, StoreLocation.LocalMachine) +
+                CheckStore(StoreName.AuthRoot, StoreLocation.LocalMachine) +
+                CheckStore(StoreName.CertificateAuthority, StoreLocation.LocalMachine);
+
+            try { count += CheckMonoCerts(); }
+            catch { }
+
+            return count;
+        }
+
+#region IGenericModule implementation
+
+        public string Key { get { return "check-mono-ssl"; } }
+        public string DisplayName { get { return Strings.CheckMonoSSL.Displayname; } }
+        public string Description { get { return Strings.CheckMonoSSL.Description; } }
+        public bool LoadAsDefault { get { return true; } }
+        public IList<Duplicati.Library.Interface.ICommandLineArgument> SupportedCommands { get { return null; } }
+
+        public void Configure(IDictionary<string, string> commandlineOptions)
+        {
+            //Ensure the setup is valid, could throw an exception
+            if (!commandlineOptions.ContainsKey("main-action") || !Library.Utility.Utility.IsMono)
+                return;
+
+            if (CheckForInstalledCerts() == 0)
+            {
+                // Do not output this warning, recent Mono packages seems to work
+                if (Library.Utility.Utility.MonoVersion < new Version(6, 0))
+                    Duplicati.Library.Logging.Log.WriteWarningMessage(LOGTAG, "MissingCerts", null, Strings.CheckMonoSSL.ErrorMessage);
+            }
+        }
+#endregion
+
+#region IWebModule implementation
+
+        private const string KEY_CONFIGTYPE = "mono-ssl-config";
+        private const ConfigType DEFAULT_CONFIG_TYPE = ConfigType.List;
+
+        private enum ConfigType
+        {
+            List,
+            Install,
+            Test
+        }
+
+
+        public IDictionary<string, string> Execute(IDictionary<string, string> options)
+        {
+            string k;
+            options.TryGetValue(KEY_CONFIGTYPE, out k);
+
+            ConfigType ct;
+            if (!Enum.TryParse<ConfigType>(k, true, out ct))
+                ct = DEFAULT_CONFIG_TYPE;
+
+            var d = new Dictionary<string, string>();
+
+            switch (ct)
+            {
+                case ConfigType.Install:
+
+                    try
+                    {
+                        var path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "mozroots.exe");
+                        var pi = new System.Diagnostics.ProcessStartInfo(path, "--import --sync --quiet")
+                        {
+                            UseShellExecute = false
+                        };
+                        var p = System.Diagnostics.Process.Start(pi);
+                        p.WaitForExit((int)TimeSpan.FromMinutes(5).TotalMilliseconds);
+                    }
+                    catch(Exception ex)
+                    {
+                        d["error"] = ex.ToString();
+                    }
+
+                    d["count"] = CheckForInstalledCerts().ToString();
+                    break;
+
+                case ConfigType.Test:
+                    try
+                    {
+                        var req = System.Net.WebRequest.CreateHttp("https://updates.duplicati.com");
+                        req.Method = "HEAD";
+                        req.AllowAutoRedirect = false;
+
+                        using (var resp = (System.Net.HttpWebResponse)req.GetResponse())
+                        {
+                            d["status"] = resp.StatusDescription;
+                            d["status_code"] = ((int)resp.StatusCode).ToString();
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        d["error"] = ex.ToString();
+                    }
+                    break;
+
+                case ConfigType.List:
+                default:
+                    d["count"] = CheckForInstalledCerts().ToString();
+                    d["mono"] = Library.Utility.Utility.IsMono.ToString();
+                    d["message"] = Strings.CheckMonoSSL.ErrorMessage;
+                    break;
+            }
+
+            return d;
+        }
+
+#endregion
+    }
+}
+
+
+---- Transformed Tree ----
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+
+namespace Duplicati.Library.Modules.Builtin
+{
+    public class CheckMonoSSL : Duplicati.Library.Interface.IGenericModule, Duplicati.Library.Interface.IWebModule
+    {
+		private static readonly string LOGTAG = Logging.Log.LogTagFromType<CheckMonoSSL>();
+
+        public CheckMonoSSL()
+        {
+        }
+
+        private int CheckStore(StoreName storename, StoreLocation storelocation)
+        {
+            X509Store store = null;
+            try
+            {
+                store = new X509Store(storename, storelocation);
+                store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
+                return store.Certificates.Count;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                if (store != null)
+                    try { store.Close(); }
+                    catch { }
+            }
+
+            return 0;
+        }
+
+        // Prevent inlining, so we can catch loader errors from the caller
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        private int CheckMonoCerts()
+        {
+            // The __MonoCS__ compiler directive is no longer supported.
+            // We would like to query the x509 store, but this will make it
+            // hard to compile the project on Windows.
+            // For this reason, we use reflection to extract the counts
+
+            // Code without reflection looks like:
+
+            //return
+            //    Mono.Security.X509.X509StoreManager.LocalMachine.TrustedRoot.Certificates.Count +
+            //    Mono.Security.X509.X509StoreManager.CurrentUser.TrustedRoot.Certificates.Count +
+            //    Mono.Security.X509.X509StoreManager.TrustedRootCertificates.Count +
+            //    0;
+
+            System.Reflection.Assembly asm = null;
+
+            try { asm = System.Reflection.Assembly.Load("Mono.Security"); }
+            catch { }
+
+            var x509Store = asm?.GetType("Mono.Security.X509.X509StoreManager");
+            if (x509Store == null)
+                return 0;
+
+            var localMachine = x509Store.GetProperty("LocalMachine")?.GetValue(null);
+            var currentUser = x509Store.GetProperty("CurrentUser")?.GetValue(null);
+            var trustedRoot = x509Store.GetProperty("TrustedRootCertificates")?.GetValue(null);
+
+            var count = 0;
+
+            var tr = localMachine?.GetType().GetProperty("TrustedRoot")?.GetValue(localMachine);
+            var crt = tr?.GetType().GetProperty("Certificates").GetValue(tr);
+            var cnt = crt?.GetType().GetProperty("Count")?.GetValue(crt);
+            if (cnt is int i)
+                count += i;
+
+            tr = currentUser?.GetType().GetProperty("TrustedRoot")?.GetValue(currentUser);
+            crt = tr?.GetType().GetProperty("Certificates").GetValue(tr);
+            cnt = crt?.GetType().GetProperty("Count")?.GetValue(crt);
+            if (cnt is int i)
+                count += i;
+
+
+            cnt = trustedRoot?.GetType().GetProperty("Count")?.GetValue(trustedRoot);
+            if (cnt is int i)
+                count += i;
+
+            return count;
+
+        }
+
+        private int CheckForInstalledCerts()
+        {
+            var count =
+                CheckStore(StoreName.Root, StoreLocation.CurrentUser) +
+                CheckStore(StoreName.AuthRoot, StoreLocation.CurrentUser) +
+                CheckStore(StoreName.CertificateAuthority, StoreLocation.CurrentUser) +
+                CheckStore(StoreName.Root, StoreLocation.LocalMachine) +
+                CheckStore(StoreName.AuthRoot, StoreLocation.LocalMachine) +
+                CheckStore(StoreName.CertificateAuthority, StoreLocation.LocalMachine);
+
+            try { count += CheckMonoCerts(); }
+            catch { }
+
+            return count;
+        }
+
+#region IGenericModule implementation
+
+        public string Key { get { return "check-mono-ssl"; } }
+        public string DisplayName { get { return Strings.CheckMonoSSL.Displayname; } }
+        public string Description { get { return Strings.CheckMonoSSL.Description; } }
+        public bool LoadAsDefault { get { return true; } }
+        public IList<Duplicati.Library.Interface.ICommandLineArgument> SupportedCommands { get { return null; } }
+
+        public void Configure(IDictionary<string, string> commandlineOptions)
+        {
+            //Ensure the setup is valid, could throw an exception
+            if (!commandlineOptions.ContainsKey("main-action") || !Library.Utility.Utility.IsMono)
+                return;
+
+            if (CheckForInstalledCerts() == 0)
+            {
+                // Do not output this warning, recent Mono packages seems to work
+                if (Library.Utility.Utility.MonoVersion < new Version(6, 0))
+                    Duplicati.Library.Logging.Log.WriteWarningMessage(LOGTAG, "MissingCerts", null, Strings.CheckMonoSSL.ErrorMessage);
+            }
+        }
+#endregion
+
+#region IWebModule implementation
+
+        private const string KEY_CONFIGTYPE = "mono-ssl-config";
+        private const ConfigType DEFAULT_CONFIG_TYPE = ConfigType.List;
+
+        private enum ConfigType
+        {
+            List,
+            Install,
+            Test
+        }
+
+
+        public IDictionary<string, string> Execute(IDictionary<string, string> options)
+        {
+            string k;
+            options.TryGetValue(KEY_CONFIGTYPE, out k);
+
+            ConfigType ct;
+            if (!Enum.TryParse<ConfigType>(k, true, out ct))
+                ct = DEFAULT_CONFIG_TYPE;
+
+            var d = new Dictionary<string, string>();
+
+            switch (ct)
+            {
+                case ConfigType.Install:
+
+                    try
+                    {
+                        var path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "mozroots.exe");
+                        var pi = new System.Diagnostics.ProcessStartInfo(path, "--import --sync --quiet")
+                        {
+                            UseShellExecute = false
+                        };
+                        var p = System.Diagnostics.Process.Start(pi);
+                        p.WaitForExit((int)TimeSpan.FromMinutes(5).TotalMilliseconds);
+                    }
+                    catch(Exception ex)
+                    {
+                        d["error"] = ex.ToString();
+                    }
+
+                    d["count"] = CheckForInstalledCerts().ToString();
+                    break;
+
+                case ConfigType.Test:
+                    try
+                    {
+                        var req = System.Net.WebRequest.CreateHttp("https://updates.duplicati.com");
+                        req.Method = "HEAD";
+                        req.AllowAutoRedirect = false;
+
+                        using (var resp = (System.Net.HttpWebResponse)req.GetResponse())
+                        {
+                            d["status"] = resp.StatusDescription;
+                            d["status_code"] = ((int)resp.StatusCode).ToString();
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        d["error"] = ex.ToString();
+                    }
+                    break;
+
+                case ConfigType.List:
+                default:
+                    d["count"] = CheckForInstalledCerts().ToString();
+                    d["mono"] = Library.Utility.Utility.IsMono.ToString();
+                    d["message"] = Strings.CheckMonoSSL.ErrorMessage;
+                    break;
+            }
+
+            return d;
+        }
+
+#endregion
+    }
+}
+
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\Duplicati\Library\Modules\Builtin\CheckMonoSSL.cs(94,28): error CS0128: A local variable or function named 'i' is already defined in this scope,D:\a\1\s\Duplicati\Library\Modules\Builtin\CheckMonoSSL.cs(99,28): error CS0128: A local variable or function named 'i' is already defined in this scope,D:\a\1\s\Duplicati\Library\Modules\Builtin\CheckMonoSSL.cs(95,26): error CS0165: Use of unassigned local variable 'i'
+######################################################################
+
+

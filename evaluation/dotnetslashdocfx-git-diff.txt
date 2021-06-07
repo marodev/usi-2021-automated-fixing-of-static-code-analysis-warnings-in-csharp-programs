@@ -1,0 +1,347 @@
+diff --git a/src/Microsoft.DocAsCode.Build.Common/ModelAttributeHandlers/Handlers/BaseModelAttributeHandler.cs b/src/Microsoft.DocAsCode.Build.Common/ModelAttributeHandlers/Handlers/BaseModelAttributeHandler.cs
+index 0b6295455..34dcf1045 100644
+--- a/src/Microsoft.DocAsCode.Build.Common/ModelAttributeHandlers/Handlers/BaseModelAttributeHandler.cs
++++ b/src/Microsoft.DocAsCode.Build.Common/ModelAttributeHandlers/Handlers/BaseModelAttributeHandler.cs
+@@ -90,7 +90,7 @@ namespace Microsoft.DocAsCode.Build.Common
+ 
+         protected virtual bool ShouldHandle(object currentObj, object declaringObject, PropInfo currentPropInfo, HandleModelAttributesContext context)
+         {
+-            return currentPropInfo != null && currentPropInfo.Attr != null;
++            return currentPropInfo?.Attr != null;
+         }
+ 
+         /// <summary>
+diff --git a/src/Microsoft.DocAsCode.Build.Engine/TemplateProcessors/ViewRenderers/LiquidTemplateRenderer.cs b/src/Microsoft.DocAsCode.Build.Engine/TemplateProcessors/ViewRenderers/LiquidTemplateRenderer.cs
+index 0cddd0f7d..ae88f3458 100644
+--- a/src/Microsoft.DocAsCode.Build.Engine/TemplateProcessors/ViewRenderers/LiquidTemplateRenderer.cs
++++ b/src/Microsoft.DocAsCode.Build.Engine/TemplateProcessors/ViewRenderers/LiquidTemplateRenderer.cs
+@@ -92,9 +92,9 @@ namespace Microsoft.DocAsCode.Build.Engine
+         {
+             model = ConvertToObjectHelper.ConvertJObjectToObject(model);
+             model = ConvertToObjectHelper.ConvertExpandoObjectToObject(model);
+-            if (model is IDictionary<string, object>)
++            if (model is IDictionary<string, object> strings)
+             {
+-                return _template.Render(DotLiquid.Hash.FromDictionary((IDictionary<string, object>)model));
++                return _template.Render(DotLiquid.Hash.FromDictionary(strings));
+             }
+ 
+             return _template.Render(DotLiquid.Hash.FromAnonymousObject(model));
+diff --git a/src/Microsoft.DocAsCode.Build.Engine/XRefMaps/XRefArchive.cs b/src/Microsoft.DocAsCode.Build.Engine/XRefMaps/XRefArchive.cs
+index ec6b0d359..3375e1533 100644
+--- a/src/Microsoft.DocAsCode.Build.Engine/XRefMaps/XRefArchive.cs
++++ b/src/Microsoft.DocAsCode.Build.Engine/XRefMaps/XRefArchive.cs
+@@ -86,10 +86,7 @@ namespace Microsoft.DocAsCode.Build.Engine
+             }
+             catch (Exception) when (fs != null)
+             {
+-                if (archive != null)
+-                {
+-                    archive.Dispose();
+-                }
++                archive?.Dispose();
+                 fs.Close();
+                 throw;
+             }
+diff --git a/src/Microsoft.DocAsCode.Build.Engine/XRefMaps/XRefMap.cs b/src/Microsoft.DocAsCode.Build.Engine/XRefMaps/XRefMap.cs
+index 4d7683a4f..148547a35 100644
+--- a/src/Microsoft.DocAsCode.Build.Engine/XRefMaps/XRefMap.cs
++++ b/src/Microsoft.DocAsCode.Build.Engine/XRefMaps/XRefMap.cs
+@@ -50,10 +50,7 @@ namespace Microsoft.DocAsCode.Build.Engine
+             {
+                 return;
+             }
+-            if (References != null)
+-            {
+-                References.Sort(XRefSpecUidComparer.Instance);
+-            }
++            References?.Sort(XRefSpecUidComparer.Instance);
+             Sorted = true;
+         }
+ 
+diff --git a/src/Microsoft.DocAsCode.Build.Engine/XrefClient.cs b/src/Microsoft.DocAsCode.Build.Engine/XrefClient.cs
+index 62b1020ad..376053cb5 100644
+--- a/src/Microsoft.DocAsCode.Build.Engine/XrefClient.cs
++++ b/src/Microsoft.DocAsCode.Build.Engine/XrefClient.cs
+@@ -62,10 +62,7 @@ namespace Microsoft.DocAsCode.Build.Engine
+             }
+             finally
+             {
+-                if (_semaphore != null)
+-                {
+-                    _semaphore.Release();
+-                }
++                _semaphore?.Release();
+             }
+         }
+ 
+diff --git a/src/Microsoft.DocAsCode.Build.SchemaDriven/Models/JsonPointer.cs b/src/Microsoft.DocAsCode.Build.SchemaDriven/Models/JsonPointer.cs
+index 689126b0a..913ca4892 100644
+--- a/src/Microsoft.DocAsCode.Build.SchemaDriven/Models/JsonPointer.cs
++++ b/src/Microsoft.DocAsCode.Build.SchemaDriven/Models/JsonPointer.cs
+@@ -53,7 +53,7 @@ namespace Microsoft.DocAsCode.Build.SchemaDriven
+         public static bool TryCreate(string raw, out JsonPointer pointer)
+         {
+             pointer = null;
+-            if (raw != null && raw.Length > 0 && raw[0] != '/')
++            if (!string.IsNullOrEmpty(raw) && raw[0] != '/')
+             {
+                 return false;
+             }
+diff --git a/src/Microsoft.DocAsCode.Common/Path/RelativePath.cs b/src/Microsoft.DocAsCode.Common/Path/RelativePath.cs
+index 53e5e1da9..655f4a9ab 100644
+--- a/src/Microsoft.DocAsCode.Common/Path/RelativePath.cs
++++ b/src/Microsoft.DocAsCode.Common/Path/RelativePath.cs
+@@ -58,8 +58,7 @@ namespace Microsoft.DocAsCode.Common
+         public static bool IsRelativePath(string path)
+         {
+             // TODO : to merge with the PathUtility one
+-            return path != null &&
+-                path.Length > 0 &&
++            return !string.IsNullOrEmpty(path) &&
+                 path[0] != '/' &&
+                 path[0] != '\\' &&
+                 path.IndexOfAny(PathUtility.InvalidPathChars) == -1;
+diff --git a/src/Microsoft.DocAsCode.Common/XrefUtility.cs b/src/Microsoft.DocAsCode.Common/XrefUtility.cs
+index 8137547da..2bb831e75 100644
+--- a/src/Microsoft.DocAsCode.Common/XrefUtility.cs
++++ b/src/Microsoft.DocAsCode.Common/XrefUtility.cs
+@@ -12,9 +12,9 @@ namespace Microsoft.DocAsCode.Common
+ 
+             if (spec.TryGetValue(key, out var objValue) && objValue != null)
+             {
+-                if (objValue is string)
++                if (objValue is string s)
+                 {
+-                    value = (string)objValue;
++                    value = s;
+                     return true;
+                 }
+                 else
+diff --git a/src/Microsoft.DocAsCode.Dfm/DfmContextExtensions.cs b/src/Microsoft.DocAsCode.Dfm/DfmContextExtensions.cs
+index d7458ac23..614623a53 100644
+--- a/src/Microsoft.DocAsCode.Dfm/DfmContextExtensions.cs
++++ b/src/Microsoft.DocAsCode.Dfm/DfmContextExtensions.cs
+@@ -94,10 +94,7 @@ namespace Microsoft.DocAsCode.Dfm
+                 throw new ArgumentNullException(nameof(file));
+             }
+             var dependency = (HashSet<string>)context.Variables[DependencyKey];
+-            if (dependency != null)
+-            {
+-                dependency.Add(file);
+-            }
++            dependency?.Add(file);
+         }
+ 
+         public static void ReportDependency(this IMarkdownContext context, IEnumerable<string> files)
+@@ -111,10 +108,7 @@ namespace Microsoft.DocAsCode.Dfm
+                 throw new ArgumentNullException(nameof(files));
+             }
+             var dependency = (HashSet<string>)context.Variables[DependencyKey];
+-            if (dependency != null)
+-            {
+-                dependency.UnionWith(files);
+-            }
++            dependency?.UnionWith(files);
+         }
+ 
+         public static bool GetIsInclude(this IMarkdownContext context)
+diff --git a/src/Microsoft.DocAsCode.MarkdigEngine.Extensions/CodeSnippet/HtmlCodeSnippetRenderer.cs b/src/Microsoft.DocAsCode.MarkdigEngine.Extensions/CodeSnippet/HtmlCodeSnippetRenderer.cs
+index f9148112b..38c980510 100644
+--- a/src/Microsoft.DocAsCode.MarkdigEngine.Extensions/CodeSnippet/HtmlCodeSnippetRenderer.cs
++++ b/src/Microsoft.DocAsCode.MarkdigEngine.Extensions/CodeSnippet/HtmlCodeSnippetRenderer.cs
+@@ -1,3 +1,4 @@
++using System.Linq;
+ // Copyright (c) Microsoft. All rights reserved.
+ // Licensed under the MIT license. See LICENSE file in the project root for full license information.
+ 
+@@ -425,9 +426,9 @@ namespace Microsoft.DocAsCode.MarkdigEngine.Extensions
+ 
+         private bool IsLineInRange(int lineNumber, List<CodeRange> allCodeRanges)
+         {
+-            if (allCodeRanges.Count() == 0) return true;
++            if (!allCodeRanges.Any()) return true;
+ 
+-            for (int rangeNumber = 0; rangeNumber < allCodeRanges.Count(); rangeNumber++)
++            for (int rangeNumber = 0; rangeNumber < allCodeRanges.Count; rangeNumber++)
+             {
+                 var range = allCodeRanges[rangeNumber];
+                 if (lineNumber >= range.Start && lineNumber <= range.End)
+diff --git a/src/Microsoft.DocAsCode.MarkdigEngine.Extensions/Rewriter/MarkdownDocumentVisitor.cs b/src/Microsoft.DocAsCode.MarkdigEngine.Extensions/Rewriter/MarkdownDocumentVisitor.cs
+index 82668ab67..c6fe2830a 100644
+--- a/src/Microsoft.DocAsCode.MarkdigEngine.Extensions/Rewriter/MarkdownDocumentVisitor.cs
++++ b/src/Microsoft.DocAsCode.MarkdigEngine.Extensions/Rewriter/MarkdownDocumentVisitor.cs
+@@ -57,7 +57,7 @@ namespace Microsoft.DocAsCode.MarkdigEngine.Extensions
+                 }
+ 
+                 var rewrittenToken = _rewriter.Rewrite(block);
+-                if (rewrittenToken != null && rewrittenToken is Block rewrittenBlock)
++                if (rewrittenToken is Block rewrittenBlock)
+                 {
+                     blocks[i] = rewrittenBlock;
+                     block = rewrittenBlock;
+diff --git a/src/Microsoft.DocAsCode.MarkdownLite/MarkdownEngine.cs b/src/Microsoft.DocAsCode.MarkdownLite/MarkdownEngine.cs
+index 2c932c6cf..c72c314f7 100644
+--- a/src/Microsoft.DocAsCode.MarkdownLite/MarkdownEngine.cs
++++ b/src/Microsoft.DocAsCode.MarkdownLite/MarkdownEngine.cs
+@@ -130,10 +130,7 @@ namespace Microsoft.DocAsCode.MarkdownLite
+                             (e, t) => t.RewriteId(idTable))));
+             }
+ 
+-            if (TokenTreeValidator != null)
+-            {
+-                TokenTreeValidator.Validate(tokens);
+-            }
++            TokenTreeValidator?.Validate(tokens);
+ 
+             var renderer = Renderer;
+             foreach (var token in tokens)
+diff --git a/src/Microsoft.DocAsCode.Metadata.ManagedReference.Common/Incremental/CacheBase.cs b/src/Microsoft.DocAsCode.Metadata.ManagedReference.Common/Incremental/CacheBase.cs
+index 595198ead..c4c56eb0d 100644
+--- a/src/Microsoft.DocAsCode.Metadata.ManagedReference.Common/Incremental/CacheBase.cs
++++ b/src/Microsoft.DocAsCode.Metadata.ManagedReference.Common/Incremental/CacheBase.cs
+@@ -232,14 +232,8 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
+             {
+                 if (disposing)
+                 {
+-                    if (_fileEnumerator != null)
+-                    {
+-                        _fileEnumerator.Dispose();
+-                    }
+-                    if (_stream != null)
+-                    {
+-                        _stream.Dispose();
+-                    }
++                    _fileEnumerator?.Dispose();
++                    _stream?.Dispose();
+                 }
+ 
+                 base.Dispose(disposing);
+diff --git a/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/CodeAnalysisSymbolExtensions.cs b/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/CodeAnalysisSymbolExtensions.cs
+index df5666e0b..969bffc2c 100644
+--- a/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/CodeAnalysisSymbolExtensions.cs
++++ b/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/CodeAnalysisSymbolExtensions.cs
+@@ -30,7 +30,7 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
+         /// <returns>related symbol in the compilation</returns>
+         public static ISymbol FindSymbol(this INamespaceOrTypeSymbol container, ISymbol symbol)
+         {
+-            return FindCore(container, GetQualifiedNameList(symbol)).Where(m => VisitorHelper.GetCommentId(m) == VisitorHelper.GetCommentId(symbol)).FirstOrDefault();
++            return FindCore(container, GetQualifiedNameList(symbol)).FirstOrDefault(m => VisitorHelper.GetCommentId(m) == VisitorHelper.GetCommentId(symbol));
+         }
+ 
+         private static IEnumerable<ISymbol> FindCore(INamespaceOrTypeSymbol container, List<string> parts)
+diff --git a/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/Visitors/CSYamlModelGenerator.cs b/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/Visitors/CSYamlModelGenerator.cs
+index d01f08a35..77418c474 100644
+--- a/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/Visitors/CSYamlModelGenerator.cs
++++ b/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/Visitors/CSYamlModelGenerator.cs
+@@ -926,10 +926,10 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
+                         value,
+                         namedType.EnumUnderlyingType));
+             }
+-            if (value is ITypeSymbol)
++            if (value is ITypeSymbol iTypeSymbol)
+             {
+                 return SyntaxFactory.TypeOfExpression(
+-                    GetTypeSyntax((ITypeSymbol)value));
++                    GetTypeSyntax(iTypeSymbol));
+             }
+             Debug.Fail("Unknown default value!");
+             return null;
+diff --git a/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/Visitors/VBYamlModelGenerator.cs b/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/Visitors/VBYamlModelGenerator.cs
+index 731f11dfd..a44d0e0bb 100644
+--- a/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/Visitors/VBYamlModelGenerator.cs
++++ b/src/Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn/Visitors/VBYamlModelGenerator.cs
+@@ -1346,10 +1346,10 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
+                         namedType.EnumUnderlyingType),
+                     enumType);
+             }
+-            if (value is ITypeSymbol)
++            if (value is ITypeSymbol iTypeSymbol)
+             {
+                 return SyntaxFactory.GetTypeExpression(
+-                    GetTypeSyntax((ITypeSymbol)value));
++                    GetTypeSyntax(iTypeSymbol));
+             }
+             Debug.Fail("Unknown default value!");
+             return null;
+diff --git a/src/Microsoft.DocAsCode.YamlSerialization/NodeDeserializers/EmitGenericCollectionNodeDeserializer.cs b/src/Microsoft.DocAsCode.YamlSerialization/NodeDeserializers/EmitGenericCollectionNodeDeserializer.cs
+index 4358a70d7..43a5d07f0 100644
+--- a/src/Microsoft.DocAsCode.YamlSerialization/NodeDeserializers/EmitGenericCollectionNodeDeserializer.cs
++++ b/src/Microsoft.DocAsCode.YamlSerialization/NodeDeserializers/EmitGenericCollectionNodeDeserializer.cs
+@@ -81,7 +81,6 @@ namespace Microsoft.DocAsCode.YamlSerialization.NodeDeserializers
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public static void DeserializeHelper<TItem>(IParser reader, Type expectedType, Func<IParser, Type, object> nestedObjectDeserializer, ICollection<TItem> result)
+         {
+-            var list = result as IList<TItem>;
+ 
+             reader.Expect<SequenceStart>();
+             while (!reader.Accept<SequenceEnd>())
+@@ -93,7 +92,7 @@ namespace Microsoft.DocAsCode.YamlSerialization.NodeDeserializers
+                 {
+                     result.Add(TypeConverter.ChangeType<TItem>(value));
+                 }
+-                else if (list != null)
++                else if (result is IList<TItem> list)
+                 {
+                     var index = list.Count;
+                     result.Add(default(TItem));
+diff --git a/test/Microsoft.DocAsCode.Build.Engine.Tests/FileMetadataHelperTest.cs b/test/Microsoft.DocAsCode.Build.Engine.Tests/FileMetadataHelperTest.cs
+index 25081cec4..872953c30 100644
+--- a/test/Microsoft.DocAsCode.Build.Engine.Tests/FileMetadataHelperTest.cs
++++ b/test/Microsoft.DocAsCode.Build.Engine.Tests/FileMetadataHelperTest.cs
+@@ -110,9 +110,9 @@ namespace Microsoft.DocAsCode.Build.Engine.Tests
+ 
+             var actualResults = FileMetadataHelper.GetChangedGlobs(left, right).ToList();
+             Assert.NotNull(actualResults);
+-            Assert.Equal(12, actualResults.Count());
++            Assert.Equal(12, actualResults.Count);
+             var patterns = patternsA.Concat(patternsB).ToList();
+-            for (var index = 0; index < patterns.Count(); index++)
++            for (var index = 0; index < patterns.Count; index++)
+             {
+                 Assert.Equal(patterns[index], actualResults[index].Raw);
+             }
+@@ -141,7 +141,7 @@ namespace Microsoft.DocAsCode.Build.Engine.Tests
+ 
+             var actualResults = FileMetadataHelper.GetChangedGlobs(left, right).ToList();
+             Assert.NotNull(actualResults);
+-            Assert.Equal(2, actualResults.Count());
++            Assert.Equal(2, actualResults.Count);
+             Assert.Equal(patterns[0], actualResults[0].Raw);
+             Assert.Equal(patterns[2], actualResults[1].Raw);
+         }
+@@ -228,7 +228,7 @@ namespace Microsoft.DocAsCode.Build.Engine.Tests
+ 
+             var actualResults = FileMetadataHelper.GetChangedGlobs(left, right).ToList();
+             Assert.NotNull(actualResults);
+-            Assert.Equal(3, actualResults.Count());
++            Assert.Equal(3, actualResults.Count);
+             Assert.Equal(patterns[5], actualResults[0].Raw);
+             Assert.Equal(patterns[2], actualResults[1].Raw);
+             Assert.Equal(patterns[4], actualResults[2].Raw);
+diff --git a/test/Microsoft.DocAsCode.Build.SchemaDriven.Tests/MarkdownFragmentsValidationTest.cs b/test/Microsoft.DocAsCode.Build.SchemaDriven.Tests/MarkdownFragmentsValidationTest.cs
+index 33533ae5b..347dda13d 100644
+--- a/test/Microsoft.DocAsCode.Build.SchemaDriven.Tests/MarkdownFragmentsValidationTest.cs
++++ b/test/Microsoft.DocAsCode.Build.SchemaDriven.Tests/MarkdownFragmentsValidationTest.cs
+@@ -67,7 +67,7 @@ namespace Microsoft.DocAsCode.Build.SchemaDriven.Tests
+             var logs = _listener.Items;
+             var warningLogs = logs.Where(l => l.Code == WarningCodes.Overwrite.InvalidMarkdownFragments).ToList();
+             Assert.True(File.Exists(_rawModelFilePath));
+-            Assert.Equal(5, warningLogs.Count());
++            Assert.Equal(5, warningLogs.Count);
+             Assert.Equal(
+                 @"Markdown property `depot_name` is not allowed inside a YAML code block
+ You cannot overwrite a readonly property: `site_name`, please add an `editable` tag on this property or mark its contentType as `markdown` in schema if you want to overwrite this property
+diff --git a/test/Microsoft.DocAsCode.Metadata.ManagedReference.Tests/CodeAnalysisSymbolExtensionUnitTest.cs b/test/Microsoft.DocAsCode.Metadata.ManagedReference.Tests/CodeAnalysisSymbolExtensionUnitTest.cs
+index bfe6f695e..d9f3677fc 100644
+--- a/test/Microsoft.DocAsCode.Metadata.ManagedReference.Tests/CodeAnalysisSymbolExtensionUnitTest.cs
++++ b/test/Microsoft.DocAsCode.Metadata.ManagedReference.Tests/CodeAnalysisSymbolExtensionUnitTest.cs
+@@ -72,7 +72,7 @@ namespace ext
+             }
+             {
+                 var methods = @type2[1].GetMembers("Eat").OfType<IMethodSymbol>().ToList();
+-                Assert.Equal(2, methods.Count());
++                Assert.Equal(2, methods.Count);
+                 var found = c2.FindSymbol<INamedTypeSymbol>(@type1[1]);
+                 Assert.Equal("Monkey", found.Name);
+                 Assert.Equal(found, methods[1].Parameters[0].Type.OriginalDefinition);

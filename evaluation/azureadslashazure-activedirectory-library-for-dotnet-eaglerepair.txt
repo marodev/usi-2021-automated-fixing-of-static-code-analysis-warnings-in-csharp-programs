@@ -1,0 +1,68 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Microsoft.Identity.Client(MonoAndroid10.0)
+    #1 Path: D:\a\1\s\src\client\Microsoft.Identity.Client\Cache\Items\MsalItemWithAdditionalFields.cs, Line: 54, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\src\client\Microsoft.Identity.Client\json\Serialization\DefaultContractResolver.cs, Line: 1451, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: D:\a\1\s\src\client\Microsoft.Identity.Client\Platforms\Android\Broker\AndroidBrokerHelper.cs, Line: 220, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: DesktopTestApp
+    #4 Path: D:\a\1\s\tests\devapps\DesktopTestApp\MainForm.cs, Line: 326, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Microsoft.Identity.Test.Unit(net472)
+    #5 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\BrokerTests\WamAadPluginTests.cs, Line: 101, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #6 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\BrokerTests\WamAadPluginTests.cs, Line: 140, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #7 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\BrokerTests\WamAadPluginTests.cs, Line: 180, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #8 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\BrokerTests\WamAadPluginTests.cs, Line: 226, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #9 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\BrokerTests\WamAadPluginTests.cs, Line: 273, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #10 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\BrokerTests\WamAadPluginTests.cs, Line: 320, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #11 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\BrokerTests\WamAadPluginTests.cs, Line: 77, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #12 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\PublicApiTests\ConfidentialClientApplicationTests.cs, Line: 525, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #13 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\PublicApiTests\ConfidentialClientApplicationTests.cs, Line: 526, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #14 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\TelemetryTests\ErrorStoreTests.cs, Line: 75, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #15 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\TelemetryTests\ErrorStoreTests.cs, Line: 87, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #16 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Unit\TelemetryTests\ErrorStoreTests.cs, Line: 91, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.Identity.Test.Integration.NetFx
+    #17 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Integration.netfx\HeadlessTests\ConfidentialClientIntegrationTests.cs, Line: 310, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #18 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Integration.netfx\HeadlessTests\ConfidentialClientIntegrationTests.cs, Line: 370, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.Identity.Test.Integration.NetCore
+    #19 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Integration.NetFx\HeadlessTests\ConfidentialClientIntegrationTests.cs, Line: 310, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #20 Path: D:\a\1\s\tests\Microsoft.Identity.Test.Integration.NetFx\HeadlessTests\ConfidentialClientIntegrationTests.cs, Line: 370, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.Identity.Client.Desktop(net461)
+    #21 Path: D:\a\1\s\src\client\Microsoft.Identity.Client\Platforms\Features\WamBroker\AadPlugin.cs, Line: 92, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #22 Path: D:\a\1\s\src\client\Microsoft.Identity.Client\Platforms\Features\WebView2WebUi\WebView2WebUi.cs, Line: 88, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #23 Path: D:\a\1\s\src\client\Microsoft.Identity.Client\Platforms\Features\WebView2WebUi\WinFormsPanelWithWebView2.cs, Line: 126, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #24 Path: D:\a\1\s\src\client\Microsoft.Identity.Client\Platforms\Features\WebView2WebUi\WinFormsPanelWithWebView2.cs, Line: 52, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+--- Rules Summary ---
+R4: 17
+R5: 3
+R8: 2
+R2: 1
+R3: 1
+
+--- Summary ---
+Fixed ReSharper issues: 23
+Fixed SonarQube issues: 21
+Total fixed issues: 24
+
+Finished in: 58 s
+
+No errors reported.
+

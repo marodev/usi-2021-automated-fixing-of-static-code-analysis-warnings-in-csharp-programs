@@ -1,0 +1,3515 @@
+diff --git a/src/ElmSharp/ElmSharp/Color.cs b/src/ElmSharp/ElmSharp/Color.cs
+index 279e15d6f..0066c9261 100644
+--- a/src/ElmSharp/ElmSharp/Color.cs
++++ b/src/ElmSharp/ElmSharp/Color.cs
+@@ -166,9 +166,9 @@ namespace ElmSharp
+         /// <since_tizen> preview </since_tizen>
+         public override bool Equals(object obj)
+         {
+-            if (obj is Color)
++            if (obj is Color color)
+             {
+-                return EqualsInner(this, (Color)obj);
++                return EqualsInner(this, color);
+             }
+             return base.Equals(obj);
+         }
+@@ -230,13 +230,13 @@ namespace ElmSharp
+             switch (ret.Length)
+             {
+                 case 3: //#rgb => ffrrggbb
+-                    ret = string.Format("ff{0}{1}{2}{3}{4}{5}", ret[0], ret[0], ret[1], ret[1], ret[2], ret[2]);
++                    ret = $"ff{ret[0]}{ret[0]}{ret[1]}{ret[1]}{ret[2]}{ret[2]}";
+                     break;
+                 case 4: //#argb => aarrggbb
+-                    ret = string.Format("{0}{1}{2}{3}{4}{5}{6}{7}", ret[0], ret[0], ret[1], ret[1], ret[2], ret[2], ret[3], ret[3]);
++                    ret = $"{ret[0]}{ret[0]}{ret[1]}{ret[1]}{ret[2]}{ret[2]}{ret[3]}{ret[3]}";
+                     break;
+                 case 6: //#rrggbb => ffrrggbb
+-                    ret = string.Format("ff{0}", ret);
++                    ret = $"ff{ret}";
+                     break;
+             }
+             return FromUint(Convert.ToUInt32(ret.Replace("#", ""), 16));
+diff --git a/src/Tizen.Applications.Common/Tizen.Applications.CoreBackend/EventType.cs b/src/Tizen.Applications.Common/Tizen.Applications.CoreBackend/EventType.cs
+index 0165eb510..0272d37a8 100644
+--- a/src/Tizen.Applications.Common/Tizen.Applications.CoreBackend/EventType.cs
++++ b/src/Tizen.Applications.Common/Tizen.Applications.CoreBackend/EventType.cs
+@@ -131,8 +131,7 @@ namespace Tizen.Applications.CoreBackend
+         /// <since_tizen> 3 </since_tizen>
+         public override bool Equals(object obj)
+         {
+-            EventType other = obj as EventType;
+-            return other != null && other._typeName == this._typeName;
++            return obj is EventType other && other._typeName == this._typeName;
+         }
+ 
+         /// <summary>
+diff --git a/src/Tizen.Applications.Common/Tizen.Applications/Application.cs b/src/Tizen.Applications.Common/Tizen.Applications/Application.cs
+index dd21e5b8e..881b9b70e 100644
+--- a/src/Tizen.Applications.Common/Tizen.Applications/Application.cs
++++ b/src/Tizen.Applications.Common/Tizen.Applications/Application.cs
+@@ -145,10 +145,7 @@ namespace Tizen.Applications
+             {
+                 if (disposing)
+                 {
+-                    if (_applicationInfo != null)
+-                    {
+-                        _applicationInfo.Dispose();
+-                    }
++                    _applicationInfo?.Dispose();
+                 }
+ 
+                 _disposedValue = true;
+diff --git a/src/Tizen.Applications.Common/Tizen.Applications/ApplicationManager.cs b/src/Tizen.Applications.Common/Tizen.Applications/ApplicationManager.cs
+index 4a3e0322d..428b31021 100755
+--- a/src/Tizen.Applications.Common/Tizen.Applications/ApplicationManager.cs
++++ b/src/Tizen.Applications.Common/Tizen.Applications/ApplicationManager.cs
+@@ -667,9 +667,8 @@ namespace Tizen.Applications
+         private const string LogTag = "Tizen.Applications";
+         internal static void Fetch(this ApplicationInfoFilter filter, Interop.ApplicationManager.AppInfoFilterCallback callback)
+         {
+-            if (filter is ApplicationInfoMetadataFilter)
++            if (filter is ApplicationInfoMetadataFilter metaFilter)
+             {
+-                ApplicationInfoMetadataFilter metaFilter = (ApplicationInfoMetadataFilter)filter;
+                 metaFilter.Fetch(callback);
+                 return;
+             }
+@@ -744,7 +743,7 @@ namespace Tizen.Applications
+                 }
+                 else
+                 {
+-                    Log.Warn(LogTag, string.Format("'{0}' is not supported key for the filter.", item.Key));
++                    Log.Warn(LogTag, $"'{item.Key}' is not supported key for the filter.");
+                 }
+                 if (err != Interop.ApplicationManager.ErrorCode.None)
+                 {
+@@ -795,7 +794,7 @@ namespace Tizen.Applications
+ 
+         internal static Exception GetException(Interop.ApplicationManager.ErrorCode err, string message)
+         {
+-            string errMessage = String.Format("{0} err = {1}", message, err);
++            string errMessage = $"{message} err = {err}";
+             switch (err)
+             {
+                 case Interop.ApplicationManager.ErrorCode.InvalidParameter:
+diff --git a/src/Tizen.Applications.ComponentBased.ComponentManager/Tizen.Applications/ComponentManager.cs b/src/Tizen.Applications.ComponentBased.ComponentManager/Tizen.Applications/ComponentManager.cs
+index 4824e6f4e..0b32ad690 100755
+--- a/src/Tizen.Applications.ComponentBased.ComponentManager/Tizen.Applications/ComponentManager.cs
++++ b/src/Tizen.Applications.ComponentBased.ComponentManager/Tizen.Applications/ComponentManager.cs
+@@ -170,7 +170,7 @@ namespace Tizen.Applications.ComponentBased
+         {
+             internal static Exception GetException(Interop.ComponentManager.ErrorCode err, string message)
+             {
+-                string errMessage = string.Format("{0} err = {1}", message, err);
++                string errMessage = $"{message} err = {err}";
+                 switch (err)
+                 {
+                     case Interop.ComponentManager.ErrorCode.InvalidParameter:
+diff --git a/src/Tizen.Applications.ComponentBased.Port/Tizen.Applications.ComponentBased.Port/ComponentPort.cs b/src/Tizen.Applications.ComponentBased.Port/Tizen.Applications.ComponentBased.Port/ComponentPort.cs
+index 33779c547..c242b6657 100755
+--- a/src/Tizen.Applications.ComponentBased.Port/Tizen.Applications.ComponentBased.Port/ComponentPort.cs
++++ b/src/Tizen.Applications.ComponentBased.Port/Tizen.Applications.ComponentBased.Port/ComponentPort.cs
+@@ -364,11 +364,11 @@ namespace Tizen.Applications.ComponentBased
+                 string foundAssemblyName = GetAssemblyName(typeName);
+                 if (foundAssemblyName.Length != 0)
+                 {
+-                    returntype = Type.GetType(String.Format("{0}, {1}", typeName, foundAssemblyName));
++                    returntype = Type.GetType($"{typeName}, {foundAssemblyName}");
+                 }
+                 else
+                 {
+-                    returntype = Type.GetType(String.Format("{0}, {1}", typeName, assemblyName));
++                    returntype = Type.GetType($"{typeName}, {assemblyName}");
+                 }
+                 return returntype;
+             }
+@@ -378,7 +378,7 @@ namespace Tizen.Applications.ComponentBased
+         {
+             internal static Exception GetException(Interop.ComponentPort.ErrorCode err, string message)
+             {
+-                string errMessage = string.Format("{0} err = {1}", message, err);
++                string errMessage = $"{message} err = {err}";
+                 switch (err)
+                 {
+                     case Interop.ComponentPort.ErrorCode.InvalidParameter:
+diff --git a/src/Tizen.Applications.ComponentBased.Port/Tizen.Applications.ComponentBased.Port/Parcel.cs b/src/Tizen.Applications.ComponentBased.Port/Tizen.Applications.ComponentBased.Port/Parcel.cs
+index 4f2db8ac6..6f9aa8705 100755
+--- a/src/Tizen.Applications.ComponentBased.Port/Tizen.Applications.ComponentBased.Port/Parcel.cs
++++ b/src/Tizen.Applications.ComponentBased.Port/Tizen.Applications.ComponentBased.Port/Parcel.cs
+@@ -109,7 +109,7 @@ namespace Tizen.Applications.ComponentBased
+         {
+             internal static Exception GetException(Interop.Parcel.ErrorCode err, string message)
+             {
+-                string errMessage = string.Format("{0} err = {1}", message, err);
++                string errMessage = $"{message} err = {err}";
+                 switch (err)
+                 {
+                     case Interop.Parcel.ErrorCode.NoData:
+diff --git a/src/Tizen.Applications.DataControl/Tizen.Applications.DataControl/MatrixCursor.cs b/src/Tizen.Applications.DataControl/Tizen.Applications.DataControl/MatrixCursor.cs
+index 37563ae2c..f93802a05 100755
+--- a/src/Tizen.Applications.DataControl/Tizen.Applications.DataControl/MatrixCursor.cs
++++ b/src/Tizen.Applications.DataControl/Tizen.Applications.DataControl/MatrixCursor.cs
+@@ -622,10 +622,7 @@ namespace Tizen.Applications.DataControl
+                 {
+                     FileInfo fi = new FileInfo(_cursorPath);
+ 
+-                    if (_fs != null)
+-                    {
+-                        _fs.Dispose();
+-                    }
++                    _fs?.Dispose();
+ 
+                     if (fi.Exists)
+                     {
+diff --git a/src/Tizen.Applications.NotificationEventListener/Tizen.Applications.NotificationEventListener/NotificationButtonActionArgsBinder.cs b/src/Tizen.Applications.NotificationEventListener/Tizen.Applications.NotificationEventListener/NotificationButtonActionArgsBinder.cs
+index 87fa94aa4..c82b44993 100755
+--- a/src/Tizen.Applications.NotificationEventListener/Tizen.Applications.NotificationEventListener/NotificationButtonActionArgsBinder.cs
++++ b/src/Tizen.Applications.NotificationEventListener/Tizen.Applications.NotificationEventListener/NotificationButtonActionArgsBinder.cs
+@@ -51,8 +51,7 @@ namespace Tizen.Applications.NotificationEventListener
+ 
+             if (isExisted)
+             {
+-                NotificationEventArgs.ActiveStyleArgs activeStyle = eventargs.Style["Active"] as NotificationEventArgs.ActiveStyleArgs;
+-                if (activeStyle != null)
++                if (eventargs.Style["Active"] is NotificationEventArgs.ActiveStyleArgs activeStyle)
+                 {
+                     activeStyle.Button.Add(button);
+                 }
+diff --git a/src/Tizen.Applications.NotificationEventListener/Tizen.Applications.NotificationEventListener/NotificationReplyActionArgsBinder.cs b/src/Tizen.Applications.NotificationEventListener/Tizen.Applications.NotificationEventListener/NotificationReplyActionArgsBinder.cs
+index e45b21e23..3bdd6256a 100755
+--- a/src/Tizen.Applications.NotificationEventListener/Tizen.Applications.NotificationEventListener/NotificationReplyActionArgsBinder.cs
++++ b/src/Tizen.Applications.NotificationEventListener/Tizen.Applications.NotificationEventListener/NotificationReplyActionArgsBinder.cs
+@@ -94,8 +94,7 @@ namespace Tizen.Applications.NotificationEventListener
+ 
+             if (isExisted)
+             {
+-                NotificationEventArgs.ActiveStyleArgs activeStyle = eventargs.Style["Active"] as NotificationEventArgs.ActiveStyleArgs;
+-                if (activeStyle != null)
++                if (eventargs.Style["Active"] is NotificationEventArgs.ActiveStyleArgs activeStyle)
+                 {
+                     activeStyle.Reply = reply;
+                 }
+diff --git a/src/Tizen.Applications.PackageManager/Tizen.Applications/Package.cs b/src/Tizen.Applications.PackageManager/Tizen.Applications/Package.cs
+index 6b19f5af7..45ac83c88 100644
+--- a/src/Tizen.Applications.PackageManager/Tizen.Applications/Package.cs
++++ b/src/Tizen.Applications.PackageManager/Tizen.Applications/Package.cs
+@@ -190,19 +190,19 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.Package.PackageInfoCreate(Id, out packageInfoHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to create native handle for package info of {0}. err = {1}", Id, err));
++                Log.Warn(LogTag, $"Failed to create native handle for package info of {Id}. err = {err}");
+             }
+ 
+             err = Interop.Package.PackageInfoForeachAppInfo(packageInfoHandle, (Interop.Package.AppType)type, cb, IntPtr.Zero);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to application info of {0}. err = {1}", Id, err));
++                Log.Warn(LogTag, $"Failed to application info of {Id}. err = {err}");
+             }
+ 
+             err = Interop.Package.PackageInfoDestroy(packageInfoHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to destroy native handle for package info of {0}. err = {1}", Id, err));
++                Log.Warn(LogTag, $"Failed to destroy native handle for package info of {Id}. err = {err}");
+             }
+             return appInfoList;
+         }
+@@ -385,7 +385,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.Package.PackageInfoCreate(packageId, out packageInfoHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                throw PackageManagerErrorFactory.GetException(err, string.Format("Failed to create native handle for package info of {0}", packageId));
++                throw PackageManagerErrorFactory.GetException(err, $"Failed to create native handle for package info of {packageId}");
+             }
+ 
+             Package package = CreatePackage(packageInfoHandle, packageId);
+@@ -393,7 +393,7 @@ namespace Tizen.Applications
+             err = Interop.Package.PackageInfoDestroy(packageInfoHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to destroy native handle for package info of {0}. err = {1}", packageId, err));
++                Log.Warn(LogTag, $"Failed to destroy native handle for package info of {packageId}. err = {err}");
+             }
+             return package;
+         }
+@@ -421,7 +421,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.Package.PackageInfoForeachPrivilegeInfo(packageInfoHandle, privilegeInfoCb, IntPtr.Zero);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get privilage info. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to get privilage info. err = {err}");
+             }
+             return privileges;
+         }
+@@ -453,7 +453,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.Package.PackageInfoForeachDependencyInfo(packageInfoHandle, dependencyInfoCb, IntPtr.Zero);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get dependency info. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to get dependency info. err = {err}");
+             }
+             return dependencies;
+         }
+@@ -470,7 +470,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.Package.PackageInfoForeachDependencyInfoDependsOn(packageInfoHandle, dependencyInfoCb, IntPtr.Zero);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get dependency info. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to get dependency info. err = {err}");
+             }
+             return dependencies;
+         }
+diff --git a/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageArchive.cs b/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageArchive.cs
+index 451382bb9..54fe7e441 100644
+--- a/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageArchive.cs
++++ b/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageArchive.cs
+@@ -164,7 +164,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.PackageArchive.PackageArchiveInfoCreate(archivePath, out packageArchiveInfoHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                throw PackageManagerErrorFactory.GetException(err, string.Format("Failed to create native handle for package archive info of {0}", archivePath));
++                throw PackageManagerErrorFactory.GetException(err, $"Failed to create native handle for package archive info of {archivePath}");
+             }
+ 
+             PackageArchive packageArchive = CreatePackageArchive(packageArchiveInfoHandle, archivePath);
+@@ -172,7 +172,7 @@ namespace Tizen.Applications
+             err = Interop.PackageArchive.PackageArchiveInfoDestroy(packageArchiveInfoHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to destroy native handle for package archive info of {0}. err = {1}", archivePath, err));
++                Log.Warn(LogTag, $"Failed to destroy native handle for package archive info of {archivePath}. err = {err}");
+             }
+             return packageArchive;
+         }
+@@ -189,7 +189,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.PackageArchive.PackageArchiveInfoForeachDirectDependency(handle, dependencyInfoCb, IntPtr.Zero);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get dependency info. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to get dependency info. err = {err}");
+             }
+             return dependencies;
+         }
+diff --git a/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageCertificate.cs b/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageCertificate.cs
+index 89a8f9e82..a950db9ad 100755
+--- a/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageCertificate.cs
++++ b/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageCertificate.cs
+@@ -70,7 +70,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.Package.PackageInfoForeachCertificateInfo(packageInfoHandle, certificateInfoCb, IntPtr.Zero);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get certificate info. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to get certificate info. err = {err}");
+             }
+ 
+             Dictionary<CertificateType, PackageCertificate> certificates = new Dictionary<CertificateType, PackageCertificate>();
+diff --git a/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageManager.cs b/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageManager.cs
+index 6625136fa..6244f6f20 100755
+--- a/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageManager.cs
++++ b/src/Tizen.Applications.PackageManager/Tizen.Applications/PackageManager.cs
+@@ -207,7 +207,7 @@ namespace Tizen.Applications
+                     var err = Interop.PackageManager.PackageManagerCreate(out s_handle);
+                     if (err != Interop.PackageManager.ErrorCode.None)
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to create package manager handle. err = {0}", err));
++                        Log.Warn(LogTag, $"Failed to create package manager handle. err = {err}");
+                     }
+                 }
+                 return s_handle;
+@@ -226,7 +226,7 @@ namespace Tizen.Applications
+                         RequestPackageCount[id] -= 1;
+                         if (RequestPackageCount[id] < 1)
+                         {
+-                            Log.Debug(LogTag, string.Format("release request handle for id : {0}", id));
++                            Log.Debug(LogTag, $"release request handle for id : {id}");
+                             RequestHandles[id].Dispose();
+                             RequestHandles.Remove(id);
+                             RequestCallbacks.Remove(id);
+@@ -262,7 +262,7 @@ namespace Tizen.Applications
+             var err = Interop.PackageManager.PackageManagerGetPackageIdByAppId(applicationId, out packageId);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get package Id of {0}. err = {1}", applicationId, err));
++                Log.Warn(LogTag, $"Failed to get package Id of {applicationId}. err = {err}");
+                 if (err != Interop.PackageManager.ErrorCode.InvalidParameter)
+                 {
+                     throw PackageManagerErrorFactory.GetException(err, "Failed to get package Id");
+@@ -302,7 +302,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.PackageManager.PackageManagerClearCacheDir(packageId);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to clear cache directory for {0}. err = {1}", packageId, err));
++                Log.Warn(LogTag, $"Failed to clear cache directory for {packageId}. err = {err}");
+                 throw PackageManagerErrorFactory.GetException(err, "Failed to clear cache directory");
+             }
+         }
+@@ -322,7 +322,7 @@ namespace Tizen.Applications
+             var err = Interop.PackageManager.PackageManagerClearAllCacheDir();
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to clear all cache directories. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to clear all cache directories. err = {err}");
+                 throw PackageManagerErrorFactory.GetException(err, "Failed to clear all cache directories");
+             }
+         }
+@@ -347,7 +347,7 @@ namespace Tizen.Applications
+             Interop.PackageManager.ErrorCode err = Interop.PackageManager.PackageManagerClearDataDir(packageId);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to clear data directory for {0}. err = {1}", packageId, err));
++                Log.Warn(LogTag, $"Failed to clear data directory for {packageId}. err = {err}");
+                 throw PackageManagerErrorFactory.GetException(err, "Failed to clear data directory");
+             }
+         }
+@@ -378,18 +378,18 @@ namespace Tizen.Applications
+             var err = Interop.PackageManager.PackageManagerFilterCreate(out filterHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to create package filter handle. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to create package filter handle. err = {err}");
+                 return packageList;
+             }
+ 
+-            if (filter != null && filter.Filters != null)
++            if (filter?.Filters != null)
+             {
+                 foreach (KeyValuePair<string, bool> entry in filter?.Filters)
+                 {
+                     err = Interop.PackageManager.PackageManagerFilterAdd(filterHandle, entry.Key, entry.Value);
+                     if (err != Interop.PackageManager.ErrorCode.None)
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to configure package filter. err = {0}", err));
++                        Log.Warn(LogTag, $"Failed to configure package filter. err = {err}");
+                         break;
+                     }
+                 }
+@@ -406,14 +406,14 @@ namespace Tizen.Applications
+                 err = Interop.PackageManager.PackageManagerFilterForeachPackageInfo(filterHandle, cb, IntPtr.Zero);
+                 if (err != Interop.PackageManager.ErrorCode.None)
+                 {
+-                    Log.Warn(LogTag, string.Format("Failed to get package Informations. err = {0}", err));
++                    Log.Warn(LogTag, $"Failed to get package Informations. err = {err}");
+                 }
+             }
+ 
+             err = Interop.PackageManager.PackageManagerFilterDestroy(filterHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to destroy package filter handle. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to destroy package filter handle. err = {err}");
+             }
+             return packageList;
+         }
+@@ -661,7 +661,7 @@ namespace Tizen.Applications
+             var err = Interop.PackageManager.PackageManagerRequestCreate(out RequestHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to install packages. Error in creating package manager request handle. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to install packages. Error in creating package manager request handle. err = {err}");
+                 return false;
+             }
+ 
+@@ -672,7 +672,7 @@ namespace Tizen.Applications
+                     err = Interop.PackageManager.PackageManagerRequestSetType(RequestHandle, type.ToString().ToLower());
+                     if (err != Interop.PackageManager.ErrorCode.None)
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to install packages. Error in setting request package type. err = {0}", err));
++                        Log.Warn(LogTag, $"Failed to install packages. Error in setting request package type. err = {err}");
+                         RequestHandle.Dispose();
+                         return false;
+                     }
+@@ -683,7 +683,7 @@ namespace Tizen.Applications
+                     err = Interop.PackageManager.PackageManagerRequestSetTepPath(RequestHandle, expansionPackagePath);
+                     if (err != Interop.PackageManager.ErrorCode.None)
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to install package. Error in setting request package mode. err = {0}", err));
++                        Log.Warn(LogTag, $"Failed to install package. Error in setting request package mode. err = {err}");
+                         RequestHandle.Dispose();
+                         return false;
+                     }
+@@ -712,7 +712,7 @@ namespace Tizen.Applications
+                         }
+                         else
+                         {
+-                            Log.Warn(LogTag, string.Format("Failed to install packages. err = {0}",  err));
++                            Log.Warn(LogTag, $"Failed to install packages. err = {err}");
+                             RequestHandle.Dispose();
+                             return false;
+                         }
+@@ -738,7 +738,7 @@ namespace Tizen.Applications
+                         }
+                         else
+                         {
+-                            Log.Warn(LogTag, string.Format("Failed to install package {0}. err = {1}", packagePaths, err));
++                            Log.Warn(LogTag, $"Failed to install package {packagePaths}. err = {err}");
+                             RequestHandle.Dispose();
+                             return false;
+                         }
+@@ -762,7 +762,7 @@ namespace Tizen.Applications
+                         err = installPackages(RequestHandle, packagePaths.ToArray(), packagePaths.Count, out requestId);
+                         if (err != Interop.PackageManager.ErrorCode.None)
+                         {
+-                            Log.Warn(LogTag, string.Format("Failed to install package {0}. err = {1}", packagePaths, err));
++                            Log.Warn(LogTag, $"Failed to install package {packagePaths}. err = {err}");
+                             RequestHandle.Dispose();
+                             return false;
+                         }
+@@ -781,7 +781,7 @@ namespace Tizen.Applications
+                         err = install(RequestHandle, packagePaths[0], out requestId);
+                         if (err != Interop.PackageManager.ErrorCode.None)
+                         {
+-                            Log.Warn(LogTag, string.Format("Failed to install package {0}. err = {1}", packagePaths, err));
++                            Log.Warn(LogTag, $"Failed to install package {packagePaths}. err = {err}");
+                             RequestHandle.Dispose();
+                             return false;
+                         }
+@@ -873,7 +873,7 @@ namespace Tizen.Applications
+             var err = Interop.PackageManager.PackageManagerRequestCreate(out RequestHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to uninstall package {0}. Error in creating package manager request handle. err = {1}", packageId, err));
++                Log.Warn(LogTag, $"Failed to uninstall package {packageId}. Error in creating package manager request handle. err = {err}");
+                 return false;
+             }
+ 
+@@ -882,7 +882,7 @@ namespace Tizen.Applications
+                 err = Interop.PackageManager.PackageManagerRequestSetType(RequestHandle, type.ToString().ToLower());
+                 if (err != Interop.PackageManager.ErrorCode.None)
+                 {
+-                    Log.Warn(LogTag, string.Format("Failed to uninstall package {0}. Error in setting request package type. err = {1}", packageId, err));
++                    Log.Warn(LogTag, $"Failed to uninstall package {packageId}. Error in setting request package type. err = {err}");
+                     RequestHandle.Dispose();
+                     return false;
+                 }
+@@ -899,7 +899,7 @@ namespace Tizen.Applications
+                     }
+                     else
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to uninstall package {0}. err = {1}", packageId, err));
++                        Log.Warn(LogTag, $"Failed to uninstall package {packageId}. err = {err}");
+                         RequestHandle.Dispose();
+                         return false;
+                     }
+@@ -909,7 +909,7 @@ namespace Tizen.Applications
+                     err = Interop.PackageManager.PackageManagerRequestUninstall(RequestHandle, packageId, out requestId);
+                     if (err != Interop.PackageManager.ErrorCode.None)
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to uninstall package. err = {0}", err));
++                        Log.Warn(LogTag, $"Failed to uninstall package. err = {err}");
+                         RequestHandle.Dispose();
+                         return false;
+                     }
+@@ -1003,7 +1003,7 @@ namespace Tizen.Applications
+             var err = Interop.PackageManager.PackageManagerRequestCreate(out RequestHandle);
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to create package manager request handle. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to create package manager request handle. err = {err}");
+                 return false;
+             }
+ 
+@@ -1013,7 +1013,7 @@ namespace Tizen.Applications
+                 err = Interop.PackageManager.PackageManagerRequestSetType(RequestHandle, type.ToString().ToLower());
+                 if (err != Interop.PackageManager.ErrorCode.None)
+                 {
+-                    Log.Warn(LogTag, string.Format("Failed to move package. Error in setting request package type. err = {0}", err));
++                    Log.Warn(LogTag, $"Failed to move package. Error in setting request package type. err = {err}");
+                     RequestHandle.Dispose();
+                     return false;
+                 }
+@@ -1030,7 +1030,7 @@ namespace Tizen.Applications
+                     }
+                     else
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to move package to requested location. err = {0}", err));
++                        Log.Warn(LogTag, $"Failed to move package to requested location. err = {err}");
+                         RequestHandle.Dispose();
+                         result = false;
+                     }
+@@ -1040,7 +1040,7 @@ namespace Tizen.Applications
+                     err = Interop.PackageManager.PackageManagerRequestMove(RequestHandle, packageId, (Interop.PackageManager.StorageType)newStorage);
+                     if (err != Interop.PackageManager.ErrorCode.None)
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to move package to requested location. err = {0}", err));
++                        Log.Warn(LogTag, $"Failed to move package to requested location. err = {err}");
+                         RequestHandle.Dispose();
+                         result = false;
+                     }
+@@ -1245,10 +1245,10 @@ namespace Tizen.Applications
+                 if (err == Interop.PackageManager.ErrorCode.None)
+                 {
+                     s_eventStatus = eventStatus;
+-                    Log.Debug(LogTag, string.Format("New Event Status flag: {0}", s_eventStatus));
++                    Log.Debug(LogTag, $"New Event Status flag: {s_eventStatus}");
+                     return;
+                 }
+-                Log.Debug(LogTag, string.Format("Failed to set flag for {0} event. err = {1}", eventStatus, err));
++                Log.Debug(LogTag, $"Failed to set flag for {eventStatus} event. err = {err}");
+             }
+         }
+ 
+@@ -1272,10 +1272,10 @@ namespace Tizen.Applications
+                 if (err == Interop.PackageManager.ErrorCode.None)
+                 {
+                     s_eventStatus = eventStatus;
+-                    Log.Debug(LogTag, string.Format("New Event Status flag: {0}", s_eventStatus));
++                    Log.Debug(LogTag, $"New Event Status flag: {s_eventStatus}");
+                     return;
+                 }
+-                Log.Debug(LogTag, string.Format("Failed to set flag for {0} event. err = {1}", eventStatus, err));
++                Log.Debug(LogTag, $"Failed to set flag for {eventStatus} event. err = {err}");
+             }
+         }
+ 
+@@ -1295,7 +1295,7 @@ namespace Tizen.Applications
+             }
+             if (err != Interop.PackageManager.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to register callback for package manager event. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to register callback for package manager event. err = {err}");
+             }
+         }
+ 
+@@ -1362,7 +1362,7 @@ namespace Tizen.Applications
+     {
+         internal static Exception GetException(Interop.PackageManager.ErrorCode err, string message)
+         {
+-            string errMessage = string.Format("{0} err = {1}", message, err);
++            string errMessage = $"{message} err = {err}";
+             switch (err)
+             {
+                 case Interop.PackageManager.ErrorCode.InvalidParameter:
+diff --git a/src/Tizen.Applications.Preference/Tizen.Applications/Preference.cs b/src/Tizen.Applications.Preference/Tizen.Applications/Preference.cs
+index fd5bbc4ef..6c94658ba 100755
+--- a/src/Tizen.Applications.Preference/Tizen.Applications/Preference.cs
++++ b/src/Tizen.Applications.Preference/Tizen.Applications/Preference.cs
+@@ -184,36 +184,36 @@ namespace Tizen.Applications
+         public static void Set(string key, object value)
+         {
+             int ret = 0;
+-            if (value is int)
++            if (value is int i)
+             {
+-                ret = Interop.Preference.SetInt(key, (int)value);
++                ret = Interop.Preference.SetInt(key, i);
+                 if (ret != (int)PreferenceErrorFactory.PreferenceError.None)
+                 {
+                     Log.Error(LogTag, "Failed to find key");
+                     throw PreferenceErrorFactory.GetException(ret);
+                 }
+             }
+-            else if (value is double)
++            else if (value is double d)
+             {
+-                ret = Interop.Preference.SetDouble(key, (double)value);
++                ret = Interop.Preference.SetDouble(key, d);
+                 if (ret != (int)PreferenceErrorFactory.PreferenceError.None)
+                 {
+                     Log.Error(LogTag, "Failed to find key");
+                     throw PreferenceErrorFactory.GetException(ret);
+                 }
+             }
+-            else if (value is string)
++            else if (value is string s)
+             {
+-                ret = Interop.Preference.SetString(key, (string)value);
++                ret = Interop.Preference.SetString(key, s);
+                 if (ret != (int)PreferenceErrorFactory.PreferenceError.None)
+                 {
+                     Log.Error(LogTag, "Failed to find key");
+                     throw PreferenceErrorFactory.GetException(ret);
+                 }
+             }
+-            else if (value is bool)
++            else if (value is bool b)
+             {
+-                ret = Interop.Preference.SetBoolean(key, (bool)value);
++                ret = Interop.Preference.SetBoolean(key, b);
+                 if (ret != (int)PreferenceErrorFactory.PreferenceError.None)
+                 {
+                     Log.Error(LogTag, "Failed to find key");
+diff --git a/src/Tizen.Applications.ThemeManager/Interop/Interop.ThemeManager.cs b/src/Tizen.Applications.ThemeManager/Interop/Interop.ThemeManager.cs
+index 2b5d756ca..7021cfd6a 100755
+--- a/src/Tizen.Applications.ThemeManager/Interop/Interop.ThemeManager.cs
++++ b/src/Tizen.Applications.ThemeManager/Interop/Interop.ThemeManager.cs
+@@ -41,7 +41,7 @@ internal static partial class Interop
+         {
+             internal static Exception GetException(Interop.ThemeManager.ErrorCode err, string message)
+             {
+-                string errMessage = string.Format("{0} err = {1}", message, err);
++                string errMessage = $"{message} err = {err}";
+                 Log.Warn(LogTag, errMessage);
+                 switch (err)
+                 {
+diff --git a/src/Tizen.Applications.WatchfaceComplication/Tizen.Applications/Complication.cs b/src/Tizen.Applications.WatchfaceComplication/Tizen.Applications/Complication.cs
+index eb7be0f47..aac0dae5e 100644
+--- a/src/Tizen.Applications.WatchfaceComplication/Tizen.Applications/Complication.cs
++++ b/src/Tizen.Applications.WatchfaceComplication/Tizen.Applications/Complication.cs
+@@ -159,7 +159,7 @@ namespace Tizen.Applications.WatchfaceComplication
+             set
+             {
+                 _allowedList = value;
+-                if (_allowedList == null || _allowedList.Count() == 0)
++                if (_allowedList == null || !_allowedList.Any())
+                 {
+                     Interop.WatchfaceComplication.ClearAllowedList(_handle);
+                 }
+diff --git a/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/MediaInfoCommand.cs b/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/MediaInfoCommand.cs
+index 38f7d93ea..6fd446738 100644
+--- a/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/MediaInfoCommand.cs
++++ b/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/MediaInfoCommand.cs
+@@ -583,10 +583,7 @@ namespace Tizen.Content.MediaContent
+             }
+             finally
+             {
+-                if (handle != null)
+-                {
+-                    handle.Dispose();
+-                }
++                handle?.Dispose();
+             }
+         }
+ 
+diff --git a/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/PlaylistCommand.cs b/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/PlaylistCommand.cs
+index 226534d6f..56cadc16c 100644
+--- a/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/PlaylistCommand.cs
++++ b/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/PlaylistCommand.cs
+@@ -659,7 +659,7 @@ namespace Tizen.Content.MediaContent
+                 throw new ArgumentNullException(nameof(mediaIds));
+             }
+ 
+-            if (mediaIds.Count() == 0)
++            if (!mediaIds.Any())
+             {
+                 throw new ArgumentException("mediaIds has no element.", nameof(mediaIds));
+             }
+@@ -762,7 +762,7 @@ namespace Tizen.Content.MediaContent
+                 throw new ArgumentNullException(nameof(memberIds));
+             }
+ 
+-            if (memberIds.Count() == 0)
++            if (!memberIds.Any())
+             {
+                 throw new ArgumentException("memberIds has no element.", nameof(memberIds));
+             }
+@@ -856,7 +856,7 @@ namespace Tizen.Content.MediaContent
+                 throw new ArgumentNullException(nameof(orders));
+             }
+ 
+-            if (orders.Count() == 0)
++            if (!orders.Any())
+             {
+                 throw new ArgumentException("memberIds has no element.", nameof(orders));
+             }
+diff --git a/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/TagCommand.cs b/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/TagCommand.cs
+index 25ebe802b..4e1249a30 100644
+--- a/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/TagCommand.cs
++++ b/src/Tizen.Content.MediaContent/Tizen.Content.MediaContent/TagCommand.cs
+@@ -353,7 +353,7 @@ namespace Tizen.Content.MediaContent
+                 throw new ArgumentNullException(nameof(mediaIds));
+             }
+ 
+-            if (mediaIds.Count() == 0)
++            if (!mediaIds.Any())
+             {
+                 throw new ArgumentException("mediaIds has no element.", nameof(mediaIds));
+             }
+diff --git a/src/Tizen.MachineLearning.Inference/Tizen.MachineLearning.Inference/Pipeline.cs b/src/Tizen.MachineLearning.Inference/Tizen.MachineLearning.Inference/Pipeline.cs
+index d6abcaea3..efee069aa 100755
+--- a/src/Tizen.MachineLearning.Inference/Tizen.MachineLearning.Inference/Pipeline.cs
++++ b/src/Tizen.MachineLearning.Inference/Tizen.MachineLearning.Inference/Pipeline.cs
+@@ -692,7 +692,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckGetParam(propertyName);
+ 
+                 NNStreamerError ret = Interop.Pipeline.GetPropertyBool(Handle, propertyName, out int value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                 retValue = value == 0 ? false : true;
+             }
+@@ -711,7 +711,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckGetParam(propertyName);
+ 
+                 NNStreamerError ret = Interop.Pipeline.GetPropertyString(Handle, propertyName, out string value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                 retValue = value;
+             }
+@@ -730,7 +730,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckGetParam(propertyName);
+ 
+                 NNStreamerError ret = Interop.Pipeline.GetPropertyInt32(Handle, propertyName, out int value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                 retValue = value;
+             }
+@@ -749,7 +749,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckGetParam(propertyName);
+ 
+                 NNStreamerError ret = Interop.Pipeline.GetPropertyInt64(Handle, propertyName, out long value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                 retValue = value;
+             }
+@@ -768,7 +768,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckGetParam(propertyName);
+ 
+                 NNStreamerError ret = Interop.Pipeline.GetPropertyUInt32(Handle, propertyName, out uint value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                 retValue = value;
+             }
+@@ -787,7 +787,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckGetParam(propertyName);
+ 
+                 NNStreamerError ret = Interop.Pipeline.GetPropertyUInt64(Handle, propertyName, out ulong value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                 retValue = value;
+             }
+@@ -806,7 +806,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckGetParam(propertyName);
+ 
+                 NNStreamerError ret = Interop.Pipeline.GetPropertyDouble(Handle, propertyName, out double value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                 retValue = value;
+             }
+@@ -829,49 +829,49 @@ namespace Tizen.MachineLearning.Inference
+                 if (typeof(bool).IsAssignableFrom(typeof(T)))
+                 {
+                     ret = Interop.Pipeline.GetPropertyBool(Handle, propertyName, out int value);
+-                    NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                    NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                     return (T)Convert.ChangeType(value == 0 ? false : true, typeof(T));
+                 }
+                 else if (typeof(string).IsAssignableFrom(typeof(T)))
+                 {
+                     ret = Interop.Pipeline.GetPropertyString(Handle, propertyName, out string value);
+-                    NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                    NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                     return (T)Convert.ChangeType(value, typeof(T));
+                 }
+                 else if (typeof(int).IsAssignableFrom(typeof(T)))
+                 {
+                     ret = Interop.Pipeline.GetPropertyInt32(Handle, propertyName, out int value);
+-                    NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                    NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                     return (T)Convert.ChangeType(value, typeof(T));
+                 }
+                 else if (typeof(long).IsAssignableFrom(typeof(T)))
+                 {
+                     ret = Interop.Pipeline.GetPropertyInt64(Handle, propertyName, out long value);
+-                    NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                    NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                     return (T)Convert.ChangeType(value, typeof(T));
+                 }
+                 else if (typeof(uint).IsAssignableFrom(typeof(T)))
+                 {
+                     ret = Interop.Pipeline.GetPropertyUInt32(Handle, propertyName, out uint value);
+-                    NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                    NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                     return (T)Convert.ChangeType(value, typeof(T));
+                 }
+                 else if (typeof(ulong).IsAssignableFrom(typeof(T)))
+                 {
+                     ret = Interop.Pipeline.GetPropertyUInt64(Handle, propertyName, out ulong value);
+-                    NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                    NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                     return (T)Convert.ChangeType(value, typeof(T));
+                 }
+                 else if (typeof(double).IsAssignableFrom(typeof(T)))
+                 {
+                     ret = Interop.Pipeline.GetPropertyDouble(Handle, propertyName, out double value);
+-                    NNStreamer.CheckException(ret, string.Format("Failed to get {0} property.", propertyName));
++                    NNStreamer.CheckException(ret, $"Failed to get {propertyName} property.");
+ 
+                     return (T)Convert.ChangeType(value, typeof(T));
+                 }
+@@ -894,7 +894,7 @@ namespace Tizen.MachineLearning.Inference
+                 int setValue = value ? 1 : 0;
+ 
+                 NNStreamerError ret = Interop.Pipeline.SetPropertyBool(Handle, propertyName, setValue);
+-                NNStreamer.CheckException(ret, string.Format("Failed to set {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to set {propertyName} property.");
+             }
+ 
+             /// <summary>
+@@ -911,7 +911,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckSetParam(propertyName, value);
+ 
+                 NNStreamerError ret = Interop.Pipeline.SetPropertyString(Handle, propertyName, value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to set {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to set {propertyName} property.");
+             }
+ 
+             /// <summary>
+@@ -928,7 +928,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckSetParam(propertyName, value);
+ 
+                 NNStreamerError ret = Interop.Pipeline.SetPropertyInt32(Handle, propertyName, value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to set {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to set {propertyName} property.");
+             }
+ 
+             /// <summary>
+@@ -945,7 +945,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckSetParam(propertyName, value);
+ 
+                 NNStreamerError ret = Interop.Pipeline.SetPropertyInt64(Handle, propertyName, value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to set {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to set {propertyName} property.");
+             }
+ 
+             /// <summary>
+@@ -962,7 +962,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckSetParam(propertyName, value);
+ 
+                 NNStreamerError ret = Interop.Pipeline.SetPropertyUInt32(Handle, propertyName, value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to set {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to set {propertyName} property.");
+             }
+ 
+             /// <summary>
+@@ -979,7 +979,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckSetParam(propertyName, value);
+ 
+                 NNStreamerError ret = Interop.Pipeline.SetPropertyUInt64(Handle, propertyName, value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to set {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to set {propertyName} property.");
+             }
+ 
+             /// <summary>
+@@ -996,7 +996,7 @@ namespace Tizen.MachineLearning.Inference
+                 CheckSetParam(propertyName, value);
+ 
+                 NNStreamerError ret = Interop.Pipeline.SetPropertyDouble(Handle, propertyName, value);
+-                NNStreamer.CheckException(ret, string.Format("Failed to set {0} property.", propertyName));
++                NNStreamer.CheckException(ret, $"Failed to set {propertyName} property.");
+             }
+         }
+     }
+diff --git a/src/Tizen.Maps/Tizen.Maps/MapView.cs b/src/Tizen.Maps/Tizen.Maps/MapView.cs
+index d25e4b760..fb11e18d9 100755
+--- a/src/Tizen.Maps/Tizen.Maps/MapView.cs
++++ b/src/Tizen.Maps/Tizen.Maps/MapView.cs
+@@ -309,7 +309,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("ZoomLevel is changed from {0} to {1}", handle.ZoomLevel, value));
++                Log.Info($"ZoomLevel is changed from {handle.ZoomLevel} to {value}");
+                 handle.ZoomLevel = value;
+             }
+         }
+@@ -332,7 +332,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("MinimumZoomLevel is changed from {0} to {1}", handle.MinimumZoomLevel, value));
++                Log.Info($"MinimumZoomLevel is changed from {handle.MinimumZoomLevel} to {value}");
+                 handle.MinimumZoomLevel = value;
+             }
+         }
+@@ -355,7 +355,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("MaximumZoomLevel is changed from {0} to {1}", handle.MaximumZoomLevel, value));
++                Log.Info($"MaximumZoomLevel is changed from {handle.MaximumZoomLevel} to {value}");
+                 handle.MaximumZoomLevel = value;
+             }
+         }
+@@ -378,7 +378,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Orientation is changed from {0} to {1}", handle.Orientation, value));
++                Log.Info($"Orientation is changed from {handle.Orientation} to {value}");
+                 handle.Orientation = value;
+             }
+         }
+@@ -400,7 +400,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("MapType is changed from {0} to {1}", handle.MapType, value));
++                Log.Info($"MapType is changed from {handle.MapType} to {value}");
+                 handle.MapType = (Interop.ViewType)value;
+             }
+         }
+@@ -422,7 +422,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Showing the 3D buildings is {0}", (value ? "enabled" : "disabled")));
++                Log.Info($"Showing the 3D buildings is {(value ? "enabled" : "disabled")}");
+                 handle.BuildingsEnabled = value;
+             }
+         }
+@@ -444,7 +444,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Showing the traffic is {0}", (value ? "enabled" : "disabled")));
++                Log.Info($"Showing the traffic is {(value ? "enabled" : "disabled")}");
+                 handle.TrafficEnabled = value;
+             }
+         }
+@@ -466,7 +466,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Showing the public transit is {0}", (value ? "enabled" : "disabled")));
++                Log.Info($"Showing the public transit is {(value ? "enabled" : "disabled")}");
+                 handle.PublicTransitEnabled = value;
+             }
+         }
+@@ -488,7 +488,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Showing the scale-bar is {0}", (value ? "enabled" : "disabled")));
++                Log.Info($"Showing the scale-bar is {(value ? "enabled" : "disabled")}");
+                 handle.ScaleBarEnabled = value;
+             }
+         }
+@@ -517,7 +517,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Language is changed from {0} to {1}", handle.Language, value));
++                Log.Info($"Language is changed from {handle.Language} to {value}");
+                 handle.Language = value;
+             }
+         }
+@@ -540,7 +540,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Center is changed from {0} to {1}", handle.Center.ToString(), value.ToString()));
++                Log.Info($"Center is changed from {handle.Center.ToString()} to {value.ToString()}");
+                 handle.Center = value.handle;
+             }
+         }
+diff --git a/src/Tizen.Maps/Tizen.Maps/Polygon.cs b/src/Tizen.Maps/Tizen.Maps/Polygon.cs
+index 67a606df1..84e0040c1 100755
+--- a/src/Tizen.Maps/Tizen.Maps/Polygon.cs
++++ b/src/Tizen.Maps/Tizen.Maps/Polygon.cs
+@@ -88,7 +88,7 @@ namespace Tizen.Maps
+             {
+                 var coordinates = value.ToList();
+                 var err = Interop.ErrorCode.InvalidParameter;
+-                if (coordinates == null || coordinates.Count() < 3)
++                if (coordinates == null || coordinates.Count < 3)
+                 {
+                     err.ThrowIfFailed("given coordinates list should contain at least 3 coordinates");
+                 }
+diff --git a/src/Tizen.Maps/Tizen.Maps/Polyline.cs b/src/Tizen.Maps/Tizen.Maps/Polyline.cs
+index 79f9b3a2f..d3ccf9a10 100755
+--- a/src/Tizen.Maps/Tizen.Maps/Polyline.cs
++++ b/src/Tizen.Maps/Tizen.Maps/Polyline.cs
+@@ -42,7 +42,7 @@ namespace Tizen.Maps
+         public Polyline(List<Geocoordinates> coordinates, Color color, int width) : base()
+         {
+             var err = Interop.ErrorCode.InvalidParameter;
+-            if (coordinates == null || coordinates.Count() < 2)
++            if (coordinates == null || coordinates.Count < 2)
+             {
+                 err.ThrowIfFailed("given coordinates list should contain at least 2 coordinates");
+             }
+@@ -89,7 +89,7 @@ namespace Tizen.Maps
+             {
+                 var coordinates = value.ToList();
+                 var err = Interop.ErrorCode.InvalidParameter;
+-                if (coordinates == null || coordinates.Count() < 2)
++                if (coordinates == null || coordinates.Count < 2)
+                 {
+                     err.ThrowIfFailed("given coordinates list should contain at least 2 coordinates");
+                 }
+diff --git a/src/Tizen.Maps/Tizen.Maps/SearchPreference.cs b/src/Tizen.Maps/Tizen.Maps/SearchPreference.cs
+index 18afd092c..8101bf977 100755
+--- a/src/Tizen.Maps/Tizen.Maps/SearchPreference.cs
++++ b/src/Tizen.Maps/Tizen.Maps/SearchPreference.cs
+@@ -67,7 +67,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Language is changed from {0} to {1}", handle.Language, value));
++                Log.Info($"Language is changed from {handle.Language} to {value}");
+                 handle.Language = value;
+             }
+         }
+@@ -85,7 +85,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("MaxResult is changed from {0} to {1}", handle.MaxResult, value));
++                Log.Info($"MaxResult is changed from {handle.MaxResult} to {value}");
+                 handle.MaxResult = value;
+             }
+         }
+@@ -102,7 +102,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Unit is changed from {0} to {1}", handle.Unit, value));
++                Log.Info($"Unit is changed from {handle.Unit} to {value}");
+                 handle.Unit = (Interop.DistanceUnit)value;
+             }
+         }
+@@ -119,7 +119,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("CountryCode is changed from {0} to {1}", handle.CountryCode, value));
++                Log.Info($"CountryCode is changed from {handle.CountryCode} to {value}");
+                 handle.CountryCode = value;
+             }
+         }
+@@ -146,7 +146,7 @@ namespace Tizen.Maps
+                 {
+                     _properties[prop.Key] = prop.Value;
+                     handle.SetProperty(prop.Key, prop.Value);
+-                    Log.Info(string.Format("Properties is changed to [{0}, {1}]", prop.Key, prop.Value));
++                    Log.Info($"Properties is changed to [{prop.Key}, {prop.Value}]");
+                 }
+             }
+         }
+@@ -163,7 +163,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("Optimization is changed from {0} to {1}", handle.Optimization, value));
++                Log.Info($"Optimization is changed from {handle.Optimization} to {value}");
+                 handle.Optimization = (Interop.RouteOptimization)value;
+             }
+         }
+@@ -180,7 +180,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("TransportMode is changed from {0} to {1}", handle.TransportMode, value));
++                Log.Info($"TransportMode is changed from {handle.TransportMode} to {value}");
+                 handle.TransportMode = (Interop.RouteTransportMode)value;
+             }
+         }
+@@ -197,7 +197,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("RouteFeatureWeight is changed from {0} to {1}", handle.FeatureWeight, value));
++                Log.Info($"RouteFeatureWeight is changed from {handle.FeatureWeight} to {value}");
+                 handle.FeatureWeight = (Interop.RouteFeatureWeight)value;
+             }
+         }
+@@ -214,7 +214,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("RouteFeature is changed from {0} to {1}", handle.Feature, value));
++                Log.Info($"RouteFeature is changed from {handle.Feature} to {value}");
+                 handle.Feature = (Interop.RouteRequestFeature)value;
+             }
+         }
+@@ -231,7 +231,7 @@ namespace Tizen.Maps
+             }
+             set
+             {
+-                Log.Info(string.Format("SearchAlternativeRoutes is {0}", (value ? "enabled" : "disabled")));
++                Log.Info($"SearchAlternativeRoutes is {(value ? "enabled" : "disabled")}");
+                 handle.AlternativesEnabled = value;
+             }
+         }
+diff --git a/src/Tizen.Multimedia.Camera/Camera/Camera.cs b/src/Tizen.Multimedia.Camera/Camera/Camera.cs
+index bfb39a5fa..7a4883049 100644
+--- a/src/Tizen.Multimedia.Camera/Camera/Camera.cs
++++ b/src/Tizen.Multimedia.Camera/Camera/Camera.cs
+@@ -991,10 +991,7 @@ namespace Tizen.Multimedia
+ 
+                 var eventHandler = _mediaPacketPreview;
+ 
+-                if (eventHandler != null)
+-                {
+-                    eventHandler.Invoke(this, new MediaPacketPreviewEventArgs(packet));
+-                }
++                eventHandler?.Invoke(this, new MediaPacketPreviewEventArgs(packet));
+ 
+                 packet.Dispose();
+             };
+diff --git a/src/Tizen.Multimedia.MediaPlayer/Player/Player.cs b/src/Tizen.Multimedia.MediaPlayer/Player/Player.cs
+index 3b3e2c2e1..8953fa6da 100644
+--- a/src/Tizen.Multimedia.MediaPlayer/Player/Player.cs
++++ b/src/Tizen.Multimedia.MediaPlayer/Player/Player.cs
+@@ -556,15 +556,9 @@ namespace Tizen.Multimedia
+         {
+             ValidatePlayerState(PlayerState.Idle);
+ 
+-            if (source != null)
+-            {
+-                source.AttachTo(this);
+-            }
++            source?.AttachTo(this);
+ 
+-            if (_source != null)
+-            {
+-                _source.DetachFrom(this);
+-            }
++            _source?.DetachFrom(this);
+ 
+             _source = source;
+         }
+diff --git a/src/Tizen.Multimedia.Radio/Radio/Radio.cs b/src/Tizen.Multimedia.Radio/Radio/Radio.cs
+index 9ab613bf6..194780582 100755
+--- a/src/Tizen.Multimedia.Radio/Radio/Radio.cs
++++ b/src/Tizen.Multimedia.Radio/Radio/Radio.cs
+@@ -410,10 +410,7 @@ namespace Tizen.Multimedia
+         {
+             if (!_disposed)
+             {
+-                if (_handle != null)
+-                {
+-                    _handle.Dispose();
+-                }
++                _handle?.Dispose();
+                 _disposed = true;
+             }
+         }
+diff --git a/src/Tizen.Multimedia.Recorder/Recorder/Recorder.cs b/src/Tizen.Multimedia.Recorder/Recorder/Recorder.cs
+index b3fba7e9f..adec26c41 100755
+--- a/src/Tizen.Multimedia.Recorder/Recorder/Recorder.cs
++++ b/src/Tizen.Multimedia.Recorder/Recorder/Recorder.cs
+@@ -88,10 +88,7 @@ namespace Tizen.Multimedia
+         {
+             if (!_disposed)
+             {
+-                if (_handle != null)
+-                {
+-                    _handle.Dispose();
+-                }
++                _handle?.Dispose();
+ 
+                 _disposed = true;
+             }
+diff --git a/src/Tizen.Multimedia.Util/ImageUtil/ImageDecoder.cs b/src/Tizen.Multimedia.Util/ImageUtil/ImageDecoder.cs
+index 431644c44..4e78286ab 100644
+--- a/src/Tizen.Multimedia.Util/ImageUtil/ImageDecoder.cs
++++ b/src/Tizen.Multimedia.Util/ImageUtil/ImageDecoder.cs
+@@ -262,10 +262,7 @@ namespace Tizen.Multimedia.Util
+         {
+             if (!_disposed)
+             {
+-                if (_handle != null)
+-                {
+-                    _handle.Dispose();
+-                }
++                _handle?.Dispose();
+                 _disposed = true;
+             }
+         }
+diff --git a/src/Tizen.Multimedia.Util/ImageUtil/ImageEncoder.cs b/src/Tizen.Multimedia.Util/ImageUtil/ImageEncoder.cs
+index 758dce580..45fe3a06b 100644
+--- a/src/Tizen.Multimedia.Util/ImageUtil/ImageEncoder.cs
++++ b/src/Tizen.Multimedia.Util/ImageUtil/ImageEncoder.cs
+@@ -226,10 +226,7 @@ namespace Tizen.Multimedia.Util
+         {
+             if (!_disposed)
+             {
+-                if (_handle != null)
+-                {
+-                    _handle.Dispose();
+-                }
++                _handle?.Dispose();
+                 _disposed = true;
+             }
+         }
+@@ -453,7 +450,7 @@ namespace Tizen.Multimedia.Util
+                 throw new ArgumentNullException(nameof(frames));
+             }
+ 
+-            if (frames.Count() == 0)
++            if (!frames.Any())
+             {
+                 throw new ArgumentException("frames is a empty collection", nameof(frames));
+             }
+diff --git a/src/Tizen.Multimedia/AudioManager/AudioDucking.cs b/src/Tizen.Multimedia/AudioManager/AudioDucking.cs
+index 3934a9268..b59b68571 100644
+--- a/src/Tizen.Multimedia/AudioManager/AudioDucking.cs
++++ b/src/Tizen.Multimedia/AudioManager/AudioDucking.cs
+@@ -158,10 +158,7 @@ namespace Tizen.Multimedia
+                 return;
+             }
+ 
+-            if (_handle != null)
+-            {
+-                _handle.Dispose();
+-            }
++            _handle?.Dispose();
+ 
+             _disposed = true;
+             GC.SuppressFinalize(this);
+diff --git a/src/Tizen.Multimedia/AudioManager/AudioStreamPolicy.cs b/src/Tizen.Multimedia/AudioManager/AudioStreamPolicy.cs
+index 9d450f638..dda26acab 100644
+--- a/src/Tizen.Multimedia/AudioManager/AudioStreamPolicy.cs
++++ b/src/Tizen.Multimedia/AudioManager/AudioStreamPolicy.cs
+@@ -445,10 +445,7 @@ namespace Tizen.Multimedia
+ 
+             if (disposing)
+             {
+-                if (_handle != null)
+-                {
+-                    _handle.Dispose();
+-                }
++                _handle?.Dispose();
+                 _disposed = true;
+             }
+         }
+diff --git a/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleView.Helper.cs b/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleView.Helper.cs
+index 35ab2138b..50b3f43ae 100755
+--- a/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleView.Helper.cs
++++ b/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleView.Helper.cs
+@@ -220,8 +220,7 @@ namespace Tizen.NUI.Components
+ 
+             private bool OnTouchEvent(object source, View.TouchEventArgs e)
+             {
+-                View itemView = source as View;
+-                if (itemView != null && itemViewTable.ContainsKey(itemView.ID))
++                if (source is View itemView && itemViewTable.ContainsKey(itemView.ID))
+                 {
+                     FlexibleViewViewHolder holder = itemViewTable[itemView.ID];
+ 
+diff --git a/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleView.cs b/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleView.cs
+index ee3f35d6f..e65d211a9 100755
+--- a/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleView.cs
++++ b/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleView.cs
+@@ -681,10 +681,7 @@ namespace Tizen.NUI.Components
+ 
+         private bool OnShowTimerTick(object source, EventArgs e)
+         {
+-            if (mScrollBar != null)
+-            {
+-                mScrollBar.Hide();
+-            }
++            mScrollBar?.Hide();
+ 
+             return false;
+         }
+diff --git a/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleViewLayoutManager.cs b/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleViewLayoutManager.cs
+index 1384b94aa..19be66ad7 100755
+--- a/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleViewLayoutManager.cs
++++ b/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleViewLayoutManager.cs
+@@ -243,10 +243,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void RelayoutRequest()
+         {
+-            if (mFlexibleView != null)
+-            {
+-                mFlexibleView.LayoutManagerRelayoutRequest();
+-            }
++            mFlexibleView?.LayoutManagerRelayoutRequest();
+         }
+ 
+         /// <summary>
+@@ -277,10 +274,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void ChangeFocus(int focusPosition)
+         {
+-            if (mFlexibleView != null)
+-            {
+-                mFlexibleView.DispatchFocusChanged(focusPosition);
+-            }
++            mFlexibleView?.DispatchFocusChanged(focusPosition);
+         }
+ 
+         /// <summary>
+diff --git a/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleViewRecycler.cs b/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleViewRecycler.cs
+index 8c3a7c5cd..fc2757bcf 100755
+--- a/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleViewRecycler.cs
++++ b/src/Tizen.NUI.Components/Controls/FlexibleView/FlexibleViewRecycler.cs
+@@ -130,10 +130,7 @@ namespace Tizen.NUI.Components
+         public void Clear()
+         {
+             mAttachedScrap.Clear();
+-            if (mChangedScrap != null)
+-            {
+-                mChangedScrap.Clear();
+-            }
++            mChangedScrap?.Clear();
+         }
+ 
+         internal void ScrapView(FlexibleViewViewHolder itemView)
+diff --git a/src/Tizen.NUI.Components/Controls/Navigation/AppBar.cs b/src/Tizen.NUI.Components/Controls/Navigation/AppBar.cs
+index 5014dbbe7..69e37d889 100755
+--- a/src/Tizen.NUI.Components/Controls/Navigation/AppBar.cs
++++ b/src/Tizen.NUI.Components/Controls/Navigation/AppBar.cs
+@@ -373,14 +373,10 @@ namespace Tizen.NUI.Components
+             backButton.Clicked += (object sender, ClickedEventArgs args) =>
+             {
+                 //The page of app bar is popped when default back button is clicked.
+-                var page = GetParent() as Page;
+-                if (page != null)
++                if (GetParent() is Page page)
+                 {
+                     var navigator = page.GetParent() as Navigator;
+-                    if (navigator != null)
+-                    {
+-                        navigator.Pop();
+-                    }
++                    navigator?.Pop();
+                 }
+             };
+ 
+diff --git a/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultGridItem.cs b/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultGridItem.cs
+index 72a29b31f..3dd045e00 100755
+--- a/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultGridItem.cs
++++ b/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultGridItem.cs
+@@ -260,7 +260,7 @@ namespace Tizen.NUI.Components
+         {
+ 
+             base.ApplyStyle(viewStyle);
+-            if (viewStyle != null && viewStyle is DefaultGridItemStyle defaultStyle)
++            if (viewStyle is DefaultGridItemStyle defaultStyle)
+             {
+                 if (itemCaption != null)
+                     itemCaption.ApplyStyle(defaultStyle.Caption);
+diff --git a/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultLinearItem.cs b/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultLinearItem.cs
+index 6fbb8d244..d674eed41 100755
+--- a/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultLinearItem.cs
++++ b/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultLinearItem.cs
+@@ -287,7 +287,7 @@ namespace Tizen.NUI.Components
+         {
+ 
+             base.ApplyStyle(viewStyle);
+-            if (viewStyle != null && viewStyle is DefaultLinearItemStyle defaultStyle)
++            if (viewStyle is DefaultLinearItemStyle defaultStyle)
+             {
+                 if (itemLabel != null)
+                     itemLabel.ApplyStyle(defaultStyle.Label);
+diff --git a/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultTitleItem.cs b/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultTitleItem.cs
+index b57da304c..55ab9d83a 100755
+--- a/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultTitleItem.cs
++++ b/src/Tizen.NUI.Components/Controls/RecyclerView/Item/DefaultTitleItem.cs
+@@ -213,7 +213,7 @@ namespace Tizen.NUI.Components
+         {
+ 
+             base.ApplyStyle(viewStyle);
+-            if (viewStyle != null && viewStyle is DefaultTitleItemStyle defaultStyle)
++            if (viewStyle is DefaultTitleItemStyle defaultStyle)
+             {
+                 if (itemLabel != null)
+                     itemLabel.ApplyStyle(defaultStyle.Label);
+diff --git a/src/Tizen.NUI.Components/Controls/RecyclerView/RecyclerView.cs b/src/Tizen.NUI.Components/Controls/RecyclerView/RecyclerView.cs
+index 100072fb4..a1a442403 100755
+--- a/src/Tizen.NUI.Components/Controls/RecyclerView/RecyclerView.cs
++++ b/src/Tizen.NUI.Components/Controls/RecyclerView/RecyclerView.cs
+@@ -117,10 +117,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void NotifyItemChanged(IItemSource source, int startIndex)
+         {
+-            if (InternalItemsLayouter != null)
+-            {
+-                InternalItemsLayouter.NotifyItemChanged(source, startIndex);
+-            }
++            InternalItemsLayouter?.NotifyItemChanged(source, startIndex);
+         }
+ 
+         /// <summary>
+@@ -131,10 +128,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void NotifyItemInserted(IItemSource source, int startIndex)
+         {
+-            if (InternalItemsLayouter != null)
+-            {
+-                InternalItemsLayouter.NotifyItemInserted(source, startIndex);
+-            }
++            InternalItemsLayouter?.NotifyItemInserted(source, startIndex);
+         }
+ 
+         /// <summary>
+@@ -146,10 +140,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void NotifyItemMoved(IItemSource source, int fromPosition, int toPosition)
+         {
+-            if (InternalItemsLayouter != null)
+-            {
+-                InternalItemsLayouter.NotifyItemMoved(source, fromPosition, toPosition);
+-            }
++            InternalItemsLayouter?.NotifyItemMoved(source, fromPosition, toPosition);
+         }
+ 
+         /// <summary>
+@@ -161,10 +152,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void NotifyItemRangeChanged(IItemSource source, int start, int end)
+         {
+-            if (InternalItemsLayouter != null)
+-            {
+-                InternalItemsLayouter.NotifyItemRangeChanged(source, start, end);
+-            }
++            InternalItemsLayouter?.NotifyItemRangeChanged(source, start, end);
+         }
+ 
+         /// <summary>
+@@ -176,10 +164,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void NotifyItemRangeInserted(IItemSource source, int startIndex, int count)
+         {
+-            if (InternalItemsLayouter != null)
+-            {
+-                InternalItemsLayouter.NotifyItemRangeInserted(source, startIndex, count);
+-            }
++            InternalItemsLayouter?.NotifyItemRangeInserted(source, startIndex, count);
+         }
+ 
+         /// <summary>
+@@ -191,10 +176,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void NotifyItemRangeRemoved(IItemSource source, int startIndex, int count)
+         {
+-            if (InternalItemsLayouter != null)
+-            {
+-                InternalItemsLayouter.NotifyItemRangeRemoved(source, startIndex, count);
+-            }
++            InternalItemsLayouter?.NotifyItemRangeRemoved(source, startIndex, count);
+         }
+ 
+         /// <summary>
+@@ -205,10 +187,7 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void NotifyItemRemoved(IItemSource source, int startIndex)
+         {
+-            if (InternalItemsLayouter != null)
+-            {
+-                InternalItemsLayouter.NotifyItemRemoved(source, startIndex);
+-            }
++            InternalItemsLayouter?.NotifyItemRemoved(source, startIndex);
+         }
+ 
+         /// <summary>
+diff --git a/src/Tizen.NUI.Components/Controls/SelectGroup.cs b/src/Tizen.NUI.Components/Controls/SelectGroup.cs
+index 01c638dc4..397791fe7 100755
+--- a/src/Tizen.NUI.Components/Controls/SelectGroup.cs
++++ b/src/Tizen.NUI.Components/Controls/SelectGroup.cs
+@@ -160,8 +160,7 @@ namespace Tizen.NUI.Components
+ 
+         private void OnSelectedChanged(object sender, SelectedChangedEventArgs args)
+         {
+-            SelectButton selection = sender as SelectButton;
+-            if (selection != null)
++            if (sender is SelectButton selection)
+             {
+                 if (args.IsSelected == true)
+                 {
+diff --git a/src/Tizen.NUI.Components/Controls/Slider.Internal.cs b/src/Tizen.NUI.Components/Controls/Slider.Internal.cs
+index a6096314d..f6f54e1dc 100755
+--- a/src/Tizen.NUI.Components/Controls/Slider.Internal.cs
++++ b/src/Tizen.NUI.Components/Controls/Slider.Internal.cs
+@@ -108,10 +108,7 @@ namespace Tizen.NUI.Components
+                     HeightResizePolicy = ResizePolicyType.Fixed
+                 };
+ 
+-                if (bgTrackImage != null)
+-                {
+-                    bgTrackImage.Add(slidedTrackImage);
+-                }
++                bgTrackImage?.Add(slidedTrackImage);
+             }
+ 
+             return slidedTrackImage;
+@@ -127,10 +124,7 @@ namespace Tizen.NUI.Components
+                     HeightResizePolicy = ResizePolicyType.Fixed
+                 };
+ 
+-                if (bgTrackImage != null)
+-                {
+-                    bgTrackImage.Add(warningTrackImage);
+-                }
++                bgTrackImage?.Add(warningTrackImage);
+ 
+                 if (warningSlidedTrackImage != null)
+                 {
+@@ -156,10 +150,7 @@ namespace Tizen.NUI.Components
+                     HeightResizePolicy = ResizePolicyType.Fixed
+                 };
+ 
+-                if (warningTrackImage != null)
+-                {
+-                    warningTrackImage.Add(warningSlidedTrackImage);
+-                }
++                warningTrackImage?.Add(warningSlidedTrackImage);
+             }
+ 
+             return warningSlidedTrackImage;
+@@ -241,10 +232,7 @@ namespace Tizen.NUI.Components
+                     PivotPoint = NUI.PivotPoint.Center,
+                     PositionUsesPivotPoint = true
+                 };
+-                if (bgTrackImage != null)
+-                {
+-                    bgTrackImage.Add(thumbImage);
+-                }
++                bgTrackImage?.Add(thumbImage);
+                 thumbImage.RaiseToTop();
+                 thumbImage.TouchEvent += OnTouchEventForThumb;
+             }
+@@ -285,10 +273,7 @@ namespace Tizen.NUI.Components
+                     WidthResizePolicy = ResizePolicyType.Fixed,
+                     HeightResizePolicy = ResizePolicyType.Fixed
+                 };
+-                if (valueIndicatorImage != null)
+-                {
+-                    valueIndicatorImage.Add(valueIndicatorText);
+-                }
++                valueIndicatorImage?.Add(valueIndicatorText);
+             }
+ 
+             return valueIndicatorText;
+diff --git a/src/Tizen.NUI.Components/Controls/Slider.cs b/src/Tizen.NUI.Components/Controls/Slider.cs
+index 24c9d747a..fd14dbb79 100755
+--- a/src/Tizen.NUI.Components/Controls/Slider.cs
++++ b/src/Tizen.NUI.Components/Controls/Slider.cs
+@@ -1495,60 +1495,24 @@ namespace Tizen.NUI.Components
+             IndicatorType type = CurrentIndicatorType();
+             if (type == IndicatorType.None)
+             {
+-                if (lowIndicatorImage != null)
+-                {
+-                    lowIndicatorImage.Hide();
+-                }
+-                if (highIndicatorImage != null)
+-                {
+-                    highIndicatorImage.Hide();
+-                }
+-                if (lowIndicatorText != null)
+-                {
+-                    lowIndicatorText.Hide();
+-                }
+-                if (highIndicatorText != null)
+-                {
+-                    highIndicatorText.Hide();
+-                }
++                lowIndicatorImage?.Hide();
++                highIndicatorImage?.Hide();
++                lowIndicatorText?.Hide();
++                highIndicatorText?.Hide();
+             }
+             else if (type == IndicatorType.Image)
+             {
+-                if (lowIndicatorImage != null)
+-                {
+-                    lowIndicatorImage.Show();
+-                }
+-                if (highIndicatorImage != null)
+-                {
+-                    highIndicatorImage.Show();
+-                }
+-                if (lowIndicatorText != null)
+-                {
+-                    lowIndicatorText.Hide();
+-                }
+-                if (highIndicatorText != null)
+-                {
+-                    highIndicatorText.Hide();
+-                }
++                lowIndicatorImage?.Show();
++                highIndicatorImage?.Show();
++                lowIndicatorText?.Hide();
++                highIndicatorText?.Hide();
+             }
+             else if (type == IndicatorType.Text)
+             {
+-                if (lowIndicatorText != null)
+-                {
+-                    lowIndicatorText.Show();
+-                }
+-                if (highIndicatorText != null)
+-                {
+-                    highIndicatorText.Show();
+-                }
+-                if (lowIndicatorImage != null)
+-                {
+-                    lowIndicatorImage.Hide();
+-                }
+-                if (highIndicatorImage != null)
+-                {
+-                    highIndicatorImage.Hide();
+-                }
++                lowIndicatorText?.Show();
++                highIndicatorText?.Show();
++                lowIndicatorImage?.Hide();
++                highIndicatorImage?.Hide();
+             }
+         }
+ 
+diff --git a/src/Tizen.NUI.Components/Controls/Tab.cs b/src/Tizen.NUI.Components/Controls/Tab.cs
+index e46163958..cdcf3a03b 100755
+--- a/src/Tizen.NUI.Components/Controls/Tab.cs
++++ b/src/Tizen.NUI.Components/Controls/Tab.cs
+@@ -631,10 +631,7 @@ namespace Tizen.NUI.Components
+             }
+             else
+             {
+-                if (underline != null)
+-                {
+-                    underline.Hide();
+-                }
++                underline?.Hide();
+             }
+         }
+ 
+diff --git a/src/Tizen.NUI.Components/Controls/TabView.cs b/src/Tizen.NUI.Components/Controls/TabView.cs
+index 0aa9d83af..32ab19025 100755
+--- a/src/Tizen.NUI.Components/Controls/TabView.cs
++++ b/src/Tizen.NUI.Components/Controls/TabView.cs
+@@ -112,15 +112,9 @@ namespace Tizen.NUI.Components
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public void AddTab(TabButton tabButton, View view)
+         {
+-            if (TabBar != null)
+-            {
+-                TabBar.AddTabButton(tabButton);
+-            }
++            TabBar?.AddTabButton(tabButton);
+ 
+-            if (Content != null)
+-            {
+-                Content.AddView(view);
+-            }
++            Content?.AddView(view);
+         }
+ 
+         /// <summary>
+diff --git a/src/Tizen.NUI.Components/Utils/Utility.cs b/src/Tizen.NUI.Components/Utils/Utility.cs
+index ec704ec62..932e2c216 100755
+--- a/src/Tizen.NUI.Components/Utils/Utility.cs
++++ b/src/Tizen.NUI.Components/Utils/Utility.cs
+@@ -27,11 +27,7 @@ namespace Tizen.NUI.Components
+             View parent = child?.GetParent() as View;
+             if (child != null)
+             {
+-                if (parent != null)
+-                {
+-                    parent.Remove(child);
+-
+-                }
++                parent?.Remove(child);
+ 
+                 child.Dispose();
+                 child = null;
+diff --git a/src/Tizen.NUI/src/internal/Application/NUIComponentCoreBackend.cs b/src/Tizen.NUI/src/internal/Application/NUIComponentCoreBackend.cs
+index 33b6301a8..16e646ac5 100755
+--- a/src/Tizen.NUI/src/internal/Application/NUIComponentCoreBackend.cs
++++ b/src/Tizen.NUI/src/internal/Application/NUIComponentCoreBackend.cs
+@@ -92,10 +92,7 @@ namespace Tizen.NUI
+         /// </summary>
+         public void Dispose()
+         {
+-            if (application != null)
+-            {
+-                application.Dispose();
+-            }
++            application?.Dispose();
+         }
+ 
+         /// <summary>
+@@ -103,10 +100,7 @@ namespace Tizen.NUI
+         /// </summary>
+         public void Exit()
+         {
+-            if (application != null)
+-            {
+-                application.Quit();
+-            }
++            application?.Quit();
+         }
+ 
+         /// <summary>
+diff --git a/src/Tizen.NUI/src/internal/Application/NUICoreBackend.cs b/src/Tizen.NUI/src/internal/Application/NUICoreBackend.cs
+index 0cc935c1b..7cc76209f 100755
+--- a/src/Tizen.NUI/src/internal/Application/NUICoreBackend.cs
++++ b/src/Tizen.NUI/src/internal/Application/NUICoreBackend.cs
+@@ -102,14 +102,8 @@ namespace Tizen.NUI
+         /// </summary>
+         public void Dispose()
+         {
+-            if (application != null)
+-            {
+-                application.Dispose();
+-            }
+-            if (windowRectangle != null)
+-            {
+-                windowRectangle.Dispose();
+-            }
++            application?.Dispose();
++            windowRectangle?.Dispose();
+         }
+ 
+         /// <summary>
+@@ -117,10 +111,7 @@ namespace Tizen.NUI
+         /// </summary>
+         public void Exit()
+         {
+-            if (application != null)
+-            {
+-                application.Quit();
+-            }
++            application?.Quit();
+         }
+ 
+         /// <summary>
+diff --git a/src/Tizen.NUI/src/internal/Common/BackKeyManager.cs b/src/Tizen.NUI/src/internal/Common/BackKeyManager.cs
+index b51cf3c5f..30cadeec6 100755
+--- a/src/Tizen.NUI/src/internal/Common/BackKeyManager.cs
++++ b/src/Tizen.NUI/src/internal/Common/BackKeyManager.cs
+@@ -75,8 +75,7 @@ namespace Tizen.NUI
+                 if (parent2 == null)
+                 {
+                     // parent1 is in DefaultLayer.
+-                    Layer comparison2AsLayer = comparison2 as Layer;
+-                    if (comparison2AsLayer != null)
++                    if (comparison2 is Layer comparison2AsLayer)
+                     {
+                         result = comparison2AsLayer.Depth > NUIApplication.GetDefaultWindow().GetDefaultLayer().Depth;
+                     }
+@@ -84,8 +83,7 @@ namespace Tizen.NUI
+                 else
+                 {
+                     // parent2 is in DefaultLayer.
+-                    Layer comparison1AsLayer = comparison1 as Layer;
+-                    if (comparison1AsLayer != null)
++                    if (comparison1 is Layer comparison1AsLayer)
+                     {
+                         result = NUIApplication.GetDefaultWindow().GetDefaultLayer().Depth < comparison1AsLayer.Depth;
+                     }
+@@ -99,22 +97,16 @@ namespace Tizen.NUI
+ 
+                     if (comparison1.GetType().FullName.Contains("Layer"))
+                     {
+-                        // If comparison1 is Layer, comparison2 is also Layer because only window can have Layer as child in NUI.
+-                        // Compare Depth
+-                        Layer comparison1AsLayer = comparison1 as Layer;
+-                        Layer comparison2AsLayer = comparison2 as Layer;
+-                        if (comparison1AsLayer != null && comparison2AsLayer != null)
++                        // If comparison1 is Layer, comparison2 is also Layer because only window can have Layer as child in NUI.                        // Compare Depth
++                        if (comparison1 is Layer comparison1AsLayer && comparison2 is Layer comparison2AsLayer)
+                         {
+                             result = comparison1AsLayer.Depth < comparison2AsLayer.Depth;
+                         }
+                     }
+                     else
+                     {
+-                        // If comparison1 is View, comparison2 is also View because only window can have Layer as child in NUI.
+-                        // Compare SiblingOrder
+-                        View comparison1AsView = comparison1 as View;
+-                        View comparison2AsView = comparison2 as View;
+-                        if (comparison1AsView != null && comparison2AsView != null)
++                        // If comparison1 is View, comparison2 is also View because only window can have Layer as child in NUI.                        // Compare SiblingOrder
++                        if (comparison1 is View comparison1AsView && comparison2 is View comparison2AsView)
+                         {
+                             result = comparison1AsView.SiblingOrder < comparison2AsView.SiblingOrder;
+                         }
+diff --git a/src/Tizen.NUI/src/internal/Common/DisposeQueue.cs b/src/Tizen.NUI/src/internal/Common/DisposeQueue.cs
+index 6bb216a09..aa55d5449 100755
+--- a/src/Tizen.NUI/src/internal/Common/DisposeQueue.cs
++++ b/src/Tizen.NUI/src/internal/Common/DisposeQueue.cs
+@@ -63,10 +63,7 @@ namespace Tizen.NUI
+                 disposables.Add(disposable);
+             }
+ 
+-            if (eventThreadCallback != null)
+-            {
+-                eventThreadCallback.Trigger();
+-            }
++            eventThreadCallback?.Trigger();
+         }
+ 
+         public void ProcessDisposables()
+diff --git a/src/Tizen.NUI/src/internal/FrameBroker/DefaultFrameBroker.cs b/src/Tizen.NUI/src/internal/FrameBroker/DefaultFrameBroker.cs
+index 1665e1bde..b50dc8597 100755
+--- a/src/Tizen.NUI/src/internal/FrameBroker/DefaultFrameBroker.cs
++++ b/src/Tizen.NUI/src/internal/FrameBroker/DefaultFrameBroker.cs
+@@ -159,13 +159,7 @@ namespace Tizen.NUI
+ 
+         private void ResetImage()
+         {
+-            if (providerImage != null)
+-            {
+-                providerImage.Hide();
+-                //providerImage.Unparent();
+-                //providerImage.Dispose();
+-                //providerImage = null;
+-            }
++            providerImage?.Hide();
+         }
+     }
+ }
+diff --git a/src/Tizen.NUI/src/internal/Layouting/LayoutController.cs b/src/Tizen.NUI/src/internal/Layouting/LayoutController.cs
+index ed80ca8b4..9082f7815 100755
+--- a/src/Tizen.NUI/src/internal/Layouting/LayoutController.cs
++++ b/src/Tizen.NUI/src/internal/Layouting/LayoutController.cs
+@@ -77,8 +77,7 @@ namespace Tizen.NUI
+             ILayoutParent layoutParent = layoutItem.GetParent();
+             if (layoutParent != null)
+             {
+-                LayoutGroup layoutGroup = layoutParent as LayoutGroup;
+-                if (layoutGroup != null && !layoutGroup.LayoutRequested)
++                if (layoutParent is LayoutGroup layoutGroup && !layoutGroup.LayoutRequested)
+                 {
+                     layoutGroup.RequestLayout();
+                 }
+@@ -192,8 +191,8 @@ namespace Tizen.NUI
+                 Container parentNode = root.GetParent();
+                 Size2D rootSize;
+                 Position2D rootPosition = root.Position2D;
+-                View parentView = parentNode as View;
+-                if (parentView != null)
++
++                if (parentNode is View parentView)
+                 {
+                     // Get parent View's Size.  If using Legacy size negotiation then should have been set already.
+                     rootSize = new Size2D(parentView.Size2D.Width, parentView.Size2D.Height);
+@@ -335,8 +334,8 @@ namespace Tizen.NUI
+                     {
+                         // Check again incase the parent has already been removed.
+                         ILayoutParent layoutParent = item.GetParent();
+-                        LayoutGroup layoutGroup = layoutParent as LayoutGroup;
+-                        if (layoutGroup != null)
++
++                        if (layoutParent is LayoutGroup layoutGroup)
+                         {
+                             layoutGroup.Owner?.RemoveChild(item.Owner);
+                         }
+@@ -532,12 +531,11 @@ namespace Tizen.NUI
+                 ILayoutParent layoutParent = layoutPositionData.Item.GetParent();
+                 if (layoutParent != null)
+                 {
+-                    // Item doesn't have it's own transitions for this condition so copy parents if
+-                    // has a parent with transitions.
+-                    LayoutGroup layoutGroup = layoutParent as LayoutGroup;
++                    // Item doesn't have it's own transitions for this condition so copy parents if                    // has a parent with transitions.
+                     TransitionList parentTransitionList;
++
+                     // Note TryGetValue returns null if key not matched.
+-                    if (layoutGroup != null && layoutGroup.Owner.LayoutTransitions.TryGetValue(conditionForAnimators, out parentTransitionList))
++                    if (layoutParent is LayoutGroup layoutGroup && layoutGroup.Owner.LayoutTransitions.TryGetValue(conditionForAnimators, out parentTransitionList))
+                     {
+                         // Copy parent transitions to temporary TransitionList. List contains transitions for the current condition.
+                         LayoutTransitionsHelper.CopyTransitions(parentTransitionList,
+diff --git a/src/Tizen.NUI/src/internal/Widget/WidgetApplication.cs b/src/Tizen.NUI/src/internal/Widget/WidgetApplication.cs
+index f080fe5ae..9d921e85a 100755
+--- a/src/Tizen.NUI/src/internal/Widget/WidgetApplication.cs
++++ b/src/Tizen.NUI/src/internal/Widget/WidgetApplication.cs
+@@ -133,8 +133,7 @@ namespace Tizen.NUI
+             {
+                 if (widgetInfo[widgetType] == widgetName)
+                 {
+-                    Widget widget = Activator.CreateInstance(widgetType) as Widget;
+-                    if (widget != null)
++                    if (Activator.CreateInstance(widgetType) is Widget widget)
+                     {
+                         return widget.GetIntPtr();
+                     }
+diff --git a/src/Tizen.NUI/src/internal/Xaml/CreateValuesVisitor.cs b/src/Tizen.NUI/src/internal/Xaml/CreateValuesVisitor.cs
+index 772ed8b85..f8e20ab04 100755
+--- a/src/Tizen.NUI/src/internal/Xaml/CreateValuesVisitor.cs
++++ b/src/Tizen.NUI/src/internal/Xaml/CreateValuesVisitor.cs
+@@ -124,9 +124,9 @@ namespace Tizen.NUI.Xaml
+                                 Application.AddResourceChangedCallback(value, (value as Element).OnResourcesChanged);
+                             }
+ 
+-                            if (value is BindableObject)
++                            if (value is BindableObject bindableObject)
+                             {
+-                                ((BindableObject)value).IsCreateByXaml = true;
++                                bindableObject.IsCreateByXaml = true;
+                             }
+                         }
+                     }
+@@ -252,9 +252,9 @@ namespace Tizen.NUI.Xaml
+                         Application.AddResourceChangedCallback(ret, (ret as Element).OnResourcesChanged);
+                     }
+ 
+-                    if (ret is BindableObject)
++                    if (ret is BindableObject bindableObject)
+                     {
+-                        ((BindableObject)ret).IsCreateByXaml = true;
++                        bindableObject.IsCreateByXaml = true;
+                     }
+                 }
+                 return ret;
+@@ -340,7 +340,7 @@ namespace Tizen.NUI.Xaml
+                         String msg = "";
+                         if (propname != null)
+                         {
+-                            msg = String.Format("The Property {0} is required to create a {1} object.", propname, ctorInfo.DeclaringType.FullName);
++                            msg = $"The Property {propname} is required to create a {ctorInfo.DeclaringType.FullName} object.";
+                         }
+                         else
+                         {
+@@ -383,9 +383,9 @@ namespace Tizen.NUI.Xaml
+                         Application.AddResourceChangedCallback(value, (value as Element).OnResourcesChanged);
+                     }
+ 
+-                    if (value is BindableObject)
++                    if (value is BindableObject bindableObject)
+                     {
+-                        ((BindableObject)value).IsCreateByXaml = true;
++                        bindableObject.IsCreateByXaml = true;
+                     }
+                 }
+             }
+diff --git a/src/Tizen.NUI/src/internal/Xaml/ExpandMarkupsVisitor.cs b/src/Tizen.NUI/src/internal/Xaml/ExpandMarkupsVisitor.cs
+index d08cf08e6..11cbd439c 100755
+--- a/src/Tizen.NUI/src/internal/Xaml/ExpandMarkupsVisitor.cs
++++ b/src/Tizen.NUI/src/internal/Xaml/ExpandMarkupsVisitor.cs
+@@ -68,9 +68,8 @@ namespace Tizen.NUI.Xaml
+                 return;
+ 
+             var markupString = markupnode.MarkupString;
+-            var node =
+-                ParseExpression(ref markupString, markupnode.NamespaceResolver, markupnode) as IElementNode;
+-            if (node != null)
++
++            if (                ParseExpression(ref markupString, markupnode.NamespaceResolver, markupnode) is IElementNode node)
+             {
+                 ((IElementNode)parentNode).Properties[propertyName] = node;
+                 node.Parent = parentNode;
+@@ -126,8 +125,8 @@ namespace Tizen.NUI.Xaml
+                 if (nsResolver == null)
+                     throw new ArgumentException(nameof(nsResolver));
+                 IXmlLineInfo xmlLineInfo = null;
+-                var xmlLineInfoProvider = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) as IXmlLineInfoProvider;
+-                if (xmlLineInfoProvider != null)
++
++                if (serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider xmlLineInfoProvider)
+                     xmlLineInfo = xmlLineInfoProvider.XmlLineInfo;
+ 
+                 var split = match.Split(':');
+@@ -164,9 +163,8 @@ namespace Tizen.NUI.Xaml
+                     //The order of lookup is to look for the Extension-suffixed class name first and then look for the class name without the Extension suffix.
+                     if (!typeResolver.TryResolve(match + "Extension", out type) && !typeResolver.TryResolve(match, out type))
+                     {
+-                        var lineInfoProvider = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) as IXmlLineInfoProvider;
+-                        var lineInfo = (lineInfoProvider != null) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
+-                        throw new XamlParseException(String.Format("MarkupExtension not found for {0}", match), lineInfo);
++                        var lineInfo = (serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider lineInfoProvider) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
++                        throw new XamlParseException($"MarkupExtension not found for {match}", lineInfo);
+                     }
+                 }
+ 
+diff --git a/src/Tizen.NUI/src/internal/Xaml/MarkupExtensionParser.cs b/src/Tizen.NUI/src/internal/Xaml/MarkupExtensionParser.cs
+index f817d20c7..2ddb1c5b6 100755
+--- a/src/Tizen.NUI/src/internal/Xaml/MarkupExtensionParser.cs
++++ b/src/Tizen.NUI/src/internal/Xaml/MarkupExtensionParser.cs
+@@ -45,18 +45,16 @@ namespace Tizen.NUI.Xaml
+                 //The order of lookup is to look for the Extension-suffixed class name first and then look for the class name without the Extension suffix.
+                 if (!typeResolver.TryResolve(match + "Extension", out type) && !typeResolver.TryResolve(match, out type))
+                 {
+-                    var lineInfoProvider = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) as IXmlLineInfoProvider;
+-                    var lineInfo = (lineInfoProvider != null) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
+-                    throw new XamlParseException(String.Format("MarkupExtension not found for {0}", match), lineInfo);
++                    var lineInfo = (serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider lineInfoProvider) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
++                    throw new XamlParseException($"MarkupExtension not found for {match}", lineInfo);
+                 }
+                 markupExtension = Activator.CreateInstance(type) as IMarkupExtension;
+             }
+ 
+             if (markupExtension == null)
+             {
+-                var lineInfoProvider = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) as IXmlLineInfoProvider;
+-                var lineInfo = (lineInfoProvider != null) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
+-                throw new XamlParseException(String.Format("Missing public default constructor for MarkupExtension {0}", match),
++                var lineInfo = (serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider lineInfoProvider) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
++                throw new XamlParseException($"Missing public default constructor for MarkupExtension {match}",
+                     lineInfo);
+             }
+ 
+diff --git a/src/Tizen.NUI/src/internal/Xaml/NamescopingVisitor.cs b/src/Tizen.NUI/src/internal/Xaml/NamescopingVisitor.cs
+index dc57346a3..a95debf76 100755
+--- a/src/Tizen.NUI/src/internal/Xaml/NamescopingVisitor.cs
++++ b/src/Tizen.NUI/src/internal/Xaml/NamescopingVisitor.cs
+@@ -71,9 +71,8 @@ namespace Tizen.NUI.Xaml
+ 
+         static bool IsDataTemplate(INode node, INode parentNode)
+         {
+-            var parentElement = parentNode as IElementNode;
+             INode createContent;
+-            if (parentElement != null && parentElement.Properties.TryGetValue(XmlName._CreateContent, out createContent) &&
++            if (parentNode is IElementNode parentElement && parentElement.Properties.TryGetValue(XmlName._CreateContent, out createContent) &&
+                 createContent == node)
+                 return true;
+             return false;
+@@ -81,8 +80,7 @@ namespace Tizen.NUI.Xaml
+ 
+         static bool IsStyle(INode parentNode)
+         {
+-            var pnode = parentNode as ElementNode;
+-            return pnode != null && pnode.XmlType.Name == "Style";
++            return parentNode is ElementNode pnode && pnode.XmlType.Name == "Style";
+         }
+ 
+         static bool IsVisualStateGroupList(ElementNode node)
+diff --git a/src/Tizen.NUI/src/internal/Xaml/RegisterXNamesVisitor.cs b/src/Tizen.NUI/src/internal/Xaml/RegisterXNamesVisitor.cs
+index ca9ec1370..3d8aa4c2e 100755
+--- a/src/Tizen.NUI/src/internal/Xaml/RegisterXNamesVisitor.cs
++++ b/src/Tizen.NUI/src/internal/Xaml/RegisterXNamesVisitor.cs
+@@ -51,8 +51,8 @@ namespace Tizen.NUI.Xaml
+                     throw;
+                 throw new XamlParseException($"An element with the name \"{(string)node.Value}\" already exists in this NameScope", node);
+             }
+-            var element = Values[parentNode] as Element;
+-            if (element != null)
++
++            if (Values[parentNode] is Element element)
+                 element.StyleId = element.StyleId ?? (string)node.Value;
+         }
+ 
+@@ -74,9 +74,8 @@ namespace Tizen.NUI.Xaml
+ 
+         static bool IsXNameProperty(ValueNode node, INode parentNode)
+         {
+-            var parentElement = parentNode as IElementNode;
+             INode xNameNode;
+-            if (parentElement != null && parentElement.Properties.TryGetValue(XmlName.xName, out xNameNode) && xNameNode == node)
++            if (parentNode is IElementNode parentElement && parentElement.Properties.TryGetValue(XmlName.xName, out xNameNode) && xNameNode == node)
+                 return true;
+             return false;
+         }
+diff --git a/src/Tizen.NUI/src/internal/Xaml/XamlLoader.cs b/src/Tizen.NUI/src/internal/Xaml/XamlLoader.cs
+index 37078b669..08acd36c1 100755
+--- a/src/Tizen.NUI/src/internal/Xaml/XamlLoader.cs
++++ b/src/Tizen.NUI/src/internal/Xaml/XamlLoader.cs
+@@ -91,7 +91,7 @@ namespace Tizen.NUI.Xaml
+             {
+                 var xaml = GetXamlForType(callingType);
+                 if (string.IsNullOrEmpty(xaml))
+-                    throw new XamlParseException(string.Format("Can't get xaml from type {0}", callingType), new XmlLineInfo());
++                    throw new XamlParseException($"Can't get xaml from type {callingType}", new XmlLineInfo());
+                 Load(view, xaml);
+             }
+             catch (XamlParseException e)
+@@ -105,7 +105,7 @@ namespace Tizen.NUI.Xaml
+         {
+             var xaml = GetAnimationXaml(path);
+             if (string.IsNullOrEmpty(xaml))
+-                throw new XamlParseException(string.Format("No embeddedresource found for {0}", path), new XmlLineInfo());
++                throw new XamlParseException($"No embeddedresource found for {path}", new XmlLineInfo());
+             Type type = typeof(T);
+             T ret = (T)type.Assembly.CreateInstance(type.FullName);
+ 
+@@ -323,15 +323,15 @@ namespace Tizen.NUI.Xaml
+                 reader.Close();
+                 reader.Dispose();
+                 Tizen.Log.Fatal("NUI", "File is exist!, try with xaml: " + xaml);
+-                var pattern = String.Format("x:Class *= *\"{0}\"", type.FullName);
++                var pattern = $"x:Class *= *\"{type.FullName}\"";
+                 var regex = new Regex(pattern, RegexOptions.ECMAScript);
+-                if (regex.IsMatch(xaml) || xaml.Contains(String.Format("x:Class=\"{0}\"", type.FullName)))
++                if (regex.IsMatch(xaml) || xaml.Contains($"x:Class=\"{type.FullName}\""))
+                 {
+                     return xaml;
+                 }
+                 else
+                 {
+-                    throw new XamlParseException(string.Format("Can't find type {0}", type.FullName), new XmlLineInfo());
++                    throw new XamlParseException($"Can't find type {type.FullName}", new XmlLineInfo());
+                 }
+             }
+             else
+@@ -341,7 +341,7 @@ namespace Tizen.NUI.Xaml
+                 var resourceId = XamlResourceIdAttribute.GetResourceIdForType(type);
+                 if (null == resourceId)
+                 {
+-                    throw new XamlParseException(string.Format("Can't find type {0} in embedded resource", type.FullName), new XmlLineInfo());
++                    throw new XamlParseException($"Can't find type {type.FullName} in embedded resource", new XmlLineInfo());
+                 }
+                 else
+                 {
+@@ -357,7 +357,7 @@ namespace Tizen.NUI.Xaml
+                     }
+                     else
+                     {
+-                        throw new XamlParseException(string.Format("Can't get xaml stream {0} in embedded resource", type.FullName), new XmlLineInfo());
++                        throw new XamlParseException($"Can't get xaml stream {type.FullName} in embedded resource", new XmlLineInfo());
+                     }
+                 }
+             }
+@@ -467,9 +467,9 @@ namespace Tizen.NUI.Xaml
+ 
+                 var xaml = reader.ReadToEnd();
+ 
+-                var pattern = String.Format("x:Class *= *\"{0}\"", type.FullName);
++                var pattern = $"x:Class *= *\"{type.FullName}\"";
+                 var regex = new Regex(pattern, RegexOptions.ECMAScript);
+-                if (regex.IsMatch(xaml) || xaml.Contains(String.Format("x:Class=\"{0}\"", type.FullName)))
++                if (regex.IsMatch(xaml) || xaml.Contains($"x:Class=\"{type.FullName}\""))
+                     return xaml;
+             }
+             return null;
+@@ -515,24 +515,24 @@ namespace Tizen.NUI.Xaml
+                 NUILog.Debug($"File is exist!, try with xaml: {xaml}");
+ 
+                 // Layer
+-                var pattern = String.Format("x:Class *= *\"{0}\"", "Tizen.NUI.Layer");
++                var pattern = $"x:Class *= *\"{"Tizen.NUI.Layer"}\"";
+                 var regex = new Regex(pattern, RegexOptions.ECMAScript);
+-                if (regex.IsMatch(xaml) || xaml.Contains(String.Format("x:Class=\"{0}\"", "Tizen.NUI.Layer")))
++                if (regex.IsMatch(xaml) || xaml.Contains($"x:Class=\"{"Tizen.NUI.Layer"}\""))
+                 {
+                     reader.Dispose();
+                     return xaml;
+                 }
+                 // View
+-                pattern = String.Format("x:Class *= *\"{0}\"", "Tizen.NUI.BaseComponents.View");
++                pattern = $"x:Class *= *\"{"Tizen.NUI.BaseComponents.View"}\"";
+                 regex = new Regex(pattern, RegexOptions.ECMAScript);
+-                if (regex.IsMatch(xaml) || xaml.Contains(String.Format("x:Class=\"{0}\"", "Tizen.NUI.BaseComponents.View")))
++                if (regex.IsMatch(xaml) || xaml.Contains($"x:Class=\"{"Tizen.NUI.BaseComponents.View"}\""))
+                 {
+                     reader.Dispose();
+                     return xaml;
+                 }
+ 
+                 reader.Dispose();
+-                throw new XamlParseException(string.Format("Can't find type {0}", "Tizen.NUI.XamlMainPage nor View nor Layer"), new XmlLineInfo());
++                throw new XamlParseException($"Can't find type {"Tizen.NUI.XamlMainPage nor View nor Layer"}", new XmlLineInfo());
+             }
+             return null;
+         }
+diff --git a/src/Tizen.NUI/src/internal/Xaml/XamlNode.cs b/src/Tizen.NUI/src/internal/Xaml/XamlNode.cs
+index ef695b27e..ef127bf0e 100755
+--- a/src/Tizen.NUI/src/internal/Xaml/XamlNode.cs
++++ b/src/Tizen.NUI/src/internal/Xaml/XamlNode.cs
+@@ -174,9 +174,8 @@ namespace Tizen.NUI.Xaml
+ 
+         bool IsDataTemplate(INode parentNode)
+         {
+-            var parentElement = parentNode as IElementNode;
+             INode createContent;
+-            if (parentElement != null &&
++            if (parentNode is IElementNode parentElement &&
+                 parentElement.Properties.TryGetValue(XmlName._CreateContent, out createContent) &&
+                 createContent == this)
+                 return true;
+diff --git a/src/Tizen.NUI/src/internal/XamlBinding/BindingExpression.cs b/src/Tizen.NUI/src/internal/XamlBinding/BindingExpression.cs
+index 44e721b43..f3ba7497a 100755
+--- a/src/Tizen.NUI/src/internal/XamlBinding/BindingExpression.cs
++++ b/src/Tizen.NUI/src/internal/XamlBinding/BindingExpression.cs
+@@ -140,8 +140,7 @@ namespace Tizen.NUI.Binding
+                 if (!part.IsSelf && current != null)
+                 {
+                     // Allow the object instance itself to provide its own TypeInfo 
+-                    var reflectable = current as IReflectableType;
+-                    System.Reflection.TypeInfo currentType = reflectable != null ? reflectable.GetTypeInfo() : current.GetType().GetTypeInfo();
++                    System.Reflection.TypeInfo currentType = current is IReflectableType reflectable ? reflectable.GetTypeInfo() : current.GetType().GetTypeInfo();
+                     if (part.LastGetter == null || !part.LastGetter.DeclaringType.GetTypeInfo().IsAssignableFrom(currentType))
+                         SetupPart(currentType, part);
+ 
+@@ -160,8 +159,7 @@ namespace Tizen.NUI.Binding
+ 
+                 if (mode == BindingMode.OneWay || mode == BindingMode.TwoWay)
+                 {
+-                    var inpc = current as INotifyPropertyChanged;
+-                    if (inpc != null && !ReferenceEquals(current, previous))
++                    if (current is INotifyPropertyChanged inpc && !ReferenceEquals(current, previous))
+                         part.Subscribe(inpc);
+                 }
+ 
+@@ -516,8 +514,8 @@ namespace Tizen.NUI.Binding
+             public void SubscribeTo(INotifyPropertyChanged source, PropertyChangedEventHandler listener)
+             {
+                 source.PropertyChanged += _handler;
+-                var bo = source as BindableObject;
+-                if (bo != null)
++
++                if (source is BindableObject bo)
+                     bo.BindingContextChanged += _bchandler;
+                 _source.SetTarget(source);
+                 _listener.SetTarget(listener);
+@@ -528,8 +526,8 @@ namespace Tizen.NUI.Binding
+                 INotifyPropertyChanged source;
+                 if (_source.TryGetTarget(out source) && source != null)
+                     source.PropertyChanged -= _handler;
+-                var bo = source as BindableObject;
+-                if (bo != null)
++
++                if (source is BindableObject bo)
+                     bo.BindingContextChanged -= _bchandler;
+ 
+                 _source.SetTarget(null);
+@@ -624,7 +622,7 @@ namespace Tizen.NUI.Binding
+                     {
+                         if (name.Contains("["))
+                         {
+-                            if (name != string.Format("{0}[{1}]", part.IndexerName, part.Content))
++                            if (name != $"{part.IndexerName}[{part.Content}]")
+                                 return;
+                         }
+                         else if (name != part.IndexerName)
+diff --git a/src/Tizen.NUI/src/internal/XamlBinding/EnumerableExtensions.cs b/src/Tizen.NUI/src/internal/XamlBinding/EnumerableExtensions.cs
+index 552ea94e9..306b475b6 100755
+--- a/src/Tizen.NUI/src/internal/XamlBinding/EnumerableExtensions.cs
++++ b/src/Tizen.NUI/src/internal/XamlBinding/EnumerableExtensions.cs
+@@ -33,8 +33,7 @@ namespace Tizen.NUI.Binding
+ 
+             foreach (IGestureRecognizer item in gestures)
+             {
+-                var gesture = item as T;
+-                if (gesture != null && predicate(gesture))
++                if (item is T gesture && predicate(gesture))
+                 {
+                     yield return gesture;
+                 }
+diff --git a/src/Tizen.NUI/src/internal/XamlBinding/FlowDirection.cs b/src/Tizen.NUI/src/internal/XamlBinding/FlowDirection.cs
+index 6c861f80d..433caed79 100755
+--- a/src/Tizen.NUI/src/internal/XamlBinding/FlowDirection.cs
++++ b/src/Tizen.NUI/src/internal/XamlBinding/FlowDirection.cs
+@@ -43,7 +43,7 @@ namespace Tizen.NUI.Binding
+                 if (value.Equals("inherit", StringComparison.OrdinalIgnoreCase))
+                     return FlowDirection.MatchParent;
+             }
+-            throw new InvalidOperationException(string.Format("Cannot convert \"{0}\" into {1}", value, typeof(FlowDirection)));
++            throw new InvalidOperationException($"Cannot convert \"{value}\" into {typeof(FlowDirection)}");
+         }
+     }
+ }
+diff --git a/src/Tizen.NUI/src/internal/XamlBinding/RectangleTypeConverter.cs b/src/Tizen.NUI/src/internal/XamlBinding/RectangleTypeConverter.cs
+index b2b0aa845..5062ab3c5 100755
+--- a/src/Tizen.NUI/src/internal/XamlBinding/RectangleTypeConverter.cs
++++ b/src/Tizen.NUI/src/internal/XamlBinding/RectangleTypeConverter.cs
+@@ -37,7 +37,7 @@ namespace Tizen.NUI.Binding
+                     return new Rectangle((int)x, (int)y, (int)w, (int)h);
+             }
+ 
+-            throw new InvalidOperationException(string.Format("Cannot convert \"{0}\" into {1}", value, typeof(Rectangle)));
++            throw new InvalidOperationException($"Cannot convert \"{value}\" into {typeof(Rectangle)}");
+         }
+ 
+         public override string ConvertToString(object value)
+diff --git a/src/Tizen.NUI/src/internal/XamlBinding/ResourcesExtensions.cs b/src/Tizen.NUI/src/internal/XamlBinding/ResourcesExtensions.cs
+index b0ccc27c8..2bb9df121 100755
+--- a/src/Tizen.NUI/src/internal/XamlBinding/ResourcesExtensions.cs
++++ b/src/Tizen.NUI/src/internal/XamlBinding/ResourcesExtensions.cs
+@@ -27,8 +27,7 @@ namespace Tizen.NUI.Binding
+             Dictionary<string, object> resources = null;
+             while (element != null)
+             {
+-                var ve = element as IResourcesProvider;
+-                if (ve != null && ve.IsResourcesCreated)
++                if (element is IResourcesProvider ve && ve.IsResourcesCreated)
+                 {
+                     resources = resources ?? new Dictionary<string, object>();
+                     if (null == resources)
+@@ -45,7 +44,7 @@ namespace Tizen.NUI.Binding
+                 }
+ 
+                 var app = element as Application;
+-                if (app != null && app.SystemResources != null)
++                if (app?.SystemResources != null)
+                 {
+                     resources = resources ?? new Dictionary<string, object>(8);
+                     if (null == resources)
+@@ -66,13 +65,12 @@ namespace Tizen.NUI.Binding
+         {
+             while (element != null)
+             {
+-                var ve = element as IResourcesProvider;
+-                if (ve != null && ve.IsResourcesCreated && ve.XamlResources != null && ve.XamlResources.TryGetValue(key, out value))
++                if (element is IResourcesProvider ve && ve.IsResourcesCreated && ve.XamlResources != null && ve.XamlResources.TryGetValue(key, out value))
+                 {
+                     return true;
+                 }
+                 var app = element as Application;
+-                if (app != null && app.SystemResources != null && app.SystemResources.TryGetValue(key, out value))
++                if (app?.SystemResources != null && app.SystemResources.TryGetValue(key, out value))
+                 {
+                     return true;
+                 }
+diff --git a/src/Tizen.NUI/src/public/Animation/Animation.cs b/src/Tizen.NUI/src/public/Animation/Animation.cs
+index 81daefa31..fc63c179c 100755
+--- a/src/Tizen.NUI/src/public/Animation/Animation.cs
++++ b/src/Tizen.NUI/src/public/Animation/Animation.cs
+@@ -1104,13 +1104,11 @@ namespace Tizen.NUI
+             if (value == null)
+                 return null;
+ 
+-            var str = value as string;
+-            if (str != null)
++            if (value is string str)
+             {
+                 //If there's a [TypeConverter], use it
+                 object converter = getConverter?.Invoke();
+-                var xfTypeConverter = converter as Tizen.NUI.Binding.TypeConverter;
+-                if (xfTypeConverter != null)
++                if (converter is Tizen.NUI.Binding.TypeConverter xfTypeConverter)
+                     return value = xfTypeConverter.ConvertFromInvariantString(str);
+                 var converterType = converter?.GetType();
+                 if (converterType != null)
+diff --git a/src/Tizen.NUI/src/public/Animation/TransitionOptions.cs b/src/Tizen.NUI/src/public/Animation/TransitionOptions.cs
+index a30aff0a3..00e55f36f 100755
+--- a/src/Tizen.NUI/src/public/Animation/TransitionOptions.cs
++++ b/src/Tizen.NUI/src/public/Animation/TransitionOptions.cs
+@@ -228,15 +228,9 @@ namespace Tizen.NUI
+         {
+             if (!disposed)
+             {
+-                if (frameBroker != null)
+-                {
+-                    frameBroker.Dispose();
+-                }
++                frameBroker?.Dispose();
+ 
+-                if (frameProvider != null)
+-                {
+-                    frameProvider.Dispose();
+-                }
++                frameProvider?.Dispose();
+                 disposed = true;
+             }
+         }
+diff --git a/src/Tizen.NUI/src/public/Application/NUIFrameComponent.cs b/src/Tizen.NUI/src/public/Application/NUIFrameComponent.cs
+index 37bc4528d..a0e27eb5c 100755
+--- a/src/Tizen.NUI/src/public/Application/NUIFrameComponent.cs
++++ b/src/Tizen.NUI/src/public/Application/NUIFrameComponent.cs
+@@ -47,8 +47,7 @@ namespace Tizen.NUI
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public override IWindowInfo CreateWindowInfo()
+         {
+-            ComponentApplication instance = ComponentApplication.Instance as ComponentApplication;
+-            if (instance != null)
++            if (ComponentApplication.Instance is ComponentApplication instance)
+             {
+                 if (!defaultWindowSet)
+                 {
+diff --git a/src/Tizen.NUI/src/public/BaseComponents/LottieAnimationView.cs b/src/Tizen.NUI/src/public/BaseComponents/LottieAnimationView.cs
+index 7e95108a8..82db2eaca 100755
+--- a/src/Tizen.NUI/src/public/BaseComponents/LottieAnimationView.cs
++++ b/src/Tizen.NUI/src/public/BaseComponents/LottieAnimationView.cs
+@@ -843,8 +843,7 @@ namespace Tizen.NUI.BaseComponents
+ 
+             if (targetView != IntPtr.Zero)
+             {
+-                View v = Registry.GetManagedBaseHandleFromNativePtr(targetView) as View;
+-                if (v != null)
++                if (Registry.GetManagedBaseHandleFromNativePtr(targetView) is View v)
+                 {
+                     tlog.Fatal(tag, $"targetView is not null! name={v.Name}");
+                 }
+diff --git a/src/Tizen.NUI/src/public/BaseComponents/ViewAccessibilityEvent.cs b/src/Tizen.NUI/src/public/BaseComponents/ViewAccessibilityEvent.cs
+index 766a3be2d..ec08fb416 100755
+--- a/src/Tizen.NUI/src/public/BaseComponents/ViewAccessibilityEvent.cs
++++ b/src/Tizen.NUI/src/public/BaseComponents/ViewAccessibilityEvent.cs
+@@ -51,9 +51,9 @@ namespace Tizen.NUI.BaseComponents
+         [EditorBrowsable(EditorBrowsableState.Never)]
+         public override bool Equals(System.Object obj)
+         {
+-            if (obj is GestureInfoType)
++            if (obj is GestureInfoType gestureInfoType)
+             {
+-                return this.Equals((GestureInfoType)obj);
++                return this.Equals(gestureInfoType);
+             }
+             return false;
+         }
+diff --git a/src/Tizen.NUI/src/public/CustomView/CustomViewRegistry.cs b/src/Tizen.NUI/src/public/CustomView/CustomViewRegistry.cs
+index 4b03d8977..d795d723d 100755
+--- a/src/Tizen.NUI/src/public/CustomView/CustomViewRegistry.cs
++++ b/src/Tizen.NUI/src/public/CustomView/CustomViewRegistry.cs
+@@ -369,8 +369,7 @@ namespace Tizen.NUI
+         private IntPtr GetPropertyValue(IntPtr refObjectPtr, string propertyName)
+         {
+             // Get the C# control that maps to the C++ control
+-            View view = Registry.GetManagedBaseHandleFromRefObject(refObjectPtr) as View;
+-            if (view != null)
++            if (Registry.GetManagedBaseHandleFromRefObject(refObjectPtr) is View view)
+             {
+                 // call the get property function
+                 System.Object val = view.GetType().GetProperty(propertyName).GetAccessors()[0].Invoke(view, null);
+@@ -398,8 +397,7 @@ namespace Tizen.NUI
+             PropertyValue propValue = new PropertyValue(propertyValuePtr, false);
+ 
+             // Get the C# control that maps to the C++ control
+-            View view = Registry.GetManagedBaseHandleFromRefObject(refObjectPtr) as View;
+-            if (view != null)
++            if (Registry.GetManagedBaseHandleFromRefObject(refObjectPtr) is View view)
+             {
+                 System.Reflection.PropertyInfo propertyInfo = view.GetType().GetProperty(propertyName);
+                 // We know the property name, we know it's type, we just need to convert from a DALi property value to native C# type
+diff --git a/src/Tizen.NUI/src/public/Layouting/LayoutGroup.cs b/src/Tizen.NUI/src/public/Layouting/LayoutGroup.cs
+index 42ee43f7e..69f650f98 100755
+--- a/src/Tizen.NUI/src/public/Layouting/LayoutGroup.cs
++++ b/src/Tizen.NUI/src/public/Layouting/LayoutGroup.cs
+@@ -157,12 +157,9 @@ namespace Tizen.NUI
+         {
+             if (Owner != null)
+             {
+-                var ownerParent = Owner.GetParent() as View;
+-                if (ownerParent != null)
++                if (Owner.GetParent() is View ownerParent)
+                 {
+-                    var parent = ownerParent.Layout as LayoutGroup;
+-
+-                    if (parent != null && parent.LayoutChildren.Count > order)
++                    if (ownerParent.Layout is LayoutGroup parent && parent.LayoutChildren.Count > order)
+                     {
+                         parent.LayoutChildren.Remove(this);
+                         parent.LayoutChildren.Insert(order, this);
+diff --git a/src/Tizen.NUI/src/public/Layouting/LayoutItem.cs b/src/Tizen.NUI/src/public/Layouting/LayoutItem.cs
+index a963d0045..23e1ceee2 100755
+--- a/src/Tizen.NUI/src/public/Layouting/LayoutItem.cs
++++ b/src/Tizen.NUI/src/public/Layouting/LayoutItem.cs
+@@ -344,8 +344,7 @@ namespace Tizen.NUI
+             flags = flags | LayoutFlags.ForceLayout;
+             if (parent != null)
+             {
+-                LayoutGroup layoutGroup = parent as LayoutGroup;
+-                if (layoutGroup != null && !layoutGroup.LayoutRequested)
++                if (parent is LayoutGroup layoutGroup && !layoutGroup.LayoutRequested)
+                 {
+                     layoutGroup.RequestLayout();
+                 }
+@@ -576,7 +575,7 @@ namespace Tizen.NUI
+ 
+                 View ownerView = Owner.GetParent() as View;
+ 
+-                if (ownerView != null && ownerView.Layout != null && ownerView.Layout.LayoutWithTransition)
++                if (ownerView?.Layout != null && ownerView.Layout.LayoutWithTransition)
+                 {
+                     NUIApplication.GetDefaultWindow().LayoutController.AddTransitionDataEntry(layoutPositionData);
+                 }
+diff --git a/src/Tizen.NUI/src/public/Layouting/LayoutLength.cs b/src/Tizen.NUI/src/public/Layouting/LayoutLength.cs
+index a412195f1..c6810ed85 100755
+--- a/src/Tizen.NUI/src/public/Layouting/LayoutLength.cs
++++ b/src/Tizen.NUI/src/public/Layouting/LayoutLength.cs
+@@ -108,9 +108,9 @@ namespace Tizen.NUI
+         /// <since_tizen> 6 </since_tizen>
+         public override bool Equals(object obj)
+         {
+-            if (obj is LayoutLength)
++            if (obj is LayoutLength layoutLength)
+             {
+-                return this.Equals((LayoutLength)obj);
++                return this.Equals(layoutLength);
+             }
+             return false;
+         }
+diff --git a/src/Tizen.NUI/src/public/Window/GLWindowEvent.cs b/src/Tizen.NUI/src/public/Window/GLWindowEvent.cs
+index 6e1f65d20..83fef506c 100755
+--- a/src/Tizen.NUI/src/public/Window/GLWindowEvent.cs
++++ b/src/Tizen.NUI/src/public/Window/GLWindowEvent.cs
+@@ -390,10 +390,7 @@ namespace Tizen.NUI
+ 
+             VisibilityChangedEventArgs e = new VisibilityChangedEventArgs();
+             e.Visibility = visibility;
+-            if (visibilityChangedEventHandler != null)
+-            {
+-                visibilityChangedEventHandler.Invoke(this, e);
+-            }
++            visibilityChangedEventHandler?.Invoke(this, e);
+         }
+ 
+         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+diff --git a/src/Tizen.NUI/src/public/Window/Window.cs b/src/Tizen.NUI/src/public/Window/Window.cs
+index 2738663fa..b96e43ef5 100755
+--- a/src/Tizen.NUI/src/public/Window/Window.cs
++++ b/src/Tizen.NUI/src/public/Window/Window.cs
+@@ -1399,19 +1399,13 @@ namespace Tizen.NUI
+                 //Release your own managed resources here.
+                 //You should release all of your own disposable objects here.
+ 
+-                if (rootLayer != null)
+-                {
+-                    rootLayer.Dispose();
+-                }
++                rootLayer?.Dispose();
+ 
+                 localController?.Dispose();
+ 
+                 foreach (var layer in childLayers)
+                 {
+-                    if (layer != null)
+-                    {
+-                        layer.Dispose();
+-                    }
++                    layer?.Dispose();
+                 }
+ 
+                 childLayers.Clear();
+diff --git a/src/Tizen.NUI/src/public/Window/WindowEvent.cs b/src/Tizen.NUI/src/public/Window/WindowEvent.cs
+index 91b5849dd..df19dad02 100755
+--- a/src/Tizen.NUI/src/public/Window/WindowEvent.cs
++++ b/src/Tizen.NUI/src/public/Window/WindowEvent.cs
+@@ -1025,10 +1025,7 @@ namespace Tizen.NUI
+ 
+             VisibilityChangedEventArgs e = new VisibilityChangedEventArgs();
+             e.Visibility = visibility;
+-            if (VisibilityChangedEventHandler != null)
+-            {
+-                VisibilityChangedEventHandler.Invoke(this, e);
+-            }
++            VisibilityChangedEventHandler?.Invoke(this, e);
+         }
+ 
+         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+diff --git a/src/Tizen.NUI/src/public/Xaml/MarkupExtensions/DynamicResourceExtension.cs b/src/Tizen.NUI/src/public/Xaml/MarkupExtensions/DynamicResourceExtension.cs
+index b7482522e..c16cfb8a3 100755
+--- a/src/Tizen.NUI/src/public/Xaml/MarkupExtensions/DynamicResourceExtension.cs
++++ b/src/Tizen.NUI/src/public/Xaml/MarkupExtensions/DynamicResourceExtension.cs
+@@ -42,8 +42,7 @@ namespace Tizen.NUI.Xaml
+         {
+             if (Key == null)
+             {
+-                var lineInfoProvider = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) as IXmlLineInfoProvider;
+-                var lineInfo = (lineInfoProvider != null) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
++                var lineInfo = (serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider lineInfoProvider) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
+                 throw new XamlParseException("DynamicResource markup require a Key", lineInfo);
+             }
+             return new DynamicResource(Key);
+diff --git a/src/Tizen.NUI/src/public/Xaml/MarkupExtensions/ReferenceExtension.cs b/src/Tizen.NUI/src/public/Xaml/MarkupExtensions/ReferenceExtension.cs
+index f2111e665..b76b5519a 100755
+--- a/src/Tizen.NUI/src/public/Xaml/MarkupExtensions/ReferenceExtension.cs
++++ b/src/Tizen.NUI/src/public/Xaml/MarkupExtensions/ReferenceExtension.cs
+@@ -42,7 +42,7 @@ namespace Tizen.NUI.Xaml
+             if (valueProvider == null)
+                 throw new ArgumentException("serviceProvider does not provide an IProvideValueTarget");
+             var namescopeprovider = serviceProvider.GetService(typeof(INameScopeProvider)) as INameScopeProvider;
+-            if (namescopeprovider != null && namescopeprovider.NameScope != null)
++            if (namescopeprovider?.NameScope != null)
+             {
+                 var value = namescopeprovider.NameScope.FindByName(Name);
+                 if (value != null)
+diff --git a/src/Tizen.NUI/src/public/Xaml/StaticResourceExtension.cs b/src/Tizen.NUI/src/public/Xaml/StaticResourceExtension.cs
+index 523275d73..ec5ba5672 100755
+--- a/src/Tizen.NUI/src/public/Xaml/StaticResourceExtension.cs
++++ b/src/Tizen.NUI/src/public/Xaml/StaticResourceExtension.cs
+@@ -41,8 +41,7 @@ namespace Tizen.NUI.Xaml
+                 throw new ArgumentNullException(nameof(serviceProvider));
+             if (Key == null)
+             {
+-                var lineInfoProvider = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) as IXmlLineInfoProvider;
+-                var lineInfo = (lineInfoProvider != null) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
++                var lineInfo = (serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider lineInfoProvider) ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
+                 throw new XamlParseException("you must specify a key in {StaticResource}", lineInfo);
+             }
+             var valueProvider = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideParentValues;
+diff --git a/src/Tizen.NUI/src/public/Xaml/XamlParseException.cs b/src/Tizen.NUI/src/public/Xaml/XamlParseException.cs
+index da1c3f5a8..e6e325e59 100755
+--- a/src/Tizen.NUI/src/public/Xaml/XamlParseException.cs
++++ b/src/Tizen.NUI/src/public/Xaml/XamlParseException.cs
+@@ -85,7 +85,7 @@ namespace Tizen.NUI.Xaml
+         {
+             if (xmlinfo == null || !xmlinfo.HasLineInfo())
+                 return message;
+-            return string.Format("Position {0}:{1}. {2}", xmlinfo.LineNumber, xmlinfo.LinePosition, message);
++            return $"Position {xmlinfo.LineNumber}:{xmlinfo.LinePosition}. {message}";
+         }
+     }
+ }
+diff --git a/src/Tizen.NUI/src/public/Xaml/XamlServiceProvider.cs b/src/Tizen.NUI/src/public/Xaml/XamlServiceProvider.cs
+index b49b4cb3c..ee3be3294 100755
+--- a/src/Tizen.NUI/src/public/Xaml/XamlServiceProvider.cs
++++ b/src/Tizen.NUI/src/public/Xaml/XamlServiceProvider.cs
+@@ -35,7 +35,7 @@ namespace Tizen.NUI.Xaml
+         internal XamlServiceProvider(INode node, HydrationContext context)
+         {
+             object targetObject;
+-            if (node != null && node.Parent != null && context.Values.TryGetValue(node.Parent, out targetObject))
++            if (node?.Parent != null && context.Values.TryGetValue(node.Parent, out targetObject))
+                 IProvideValueTarget = new XamlValueTargetProvider(targetObject, node, context, null);
+             if (context != null)
+                 IRootObjectProvider = new XamlRootObjectProvider(context.RootElement);
+@@ -276,15 +276,14 @@ namespace Tizen.NUI.Xaml
+             IXmlLineInfo xmlLineInfo = null;
+             if (serviceProvider != null)
+             {
+-                var lineInfoProvider = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) as IXmlLineInfoProvider;
+-                if (lineInfoProvider != null)
++                if (serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider lineInfoProvider)
+                     xmlLineInfo = lineInfoProvider.XmlLineInfo;
+             }
+ 
+             var namespaceuri = namespaceResolver.LookupNamespace(prefix);
+             if (namespaceuri == null)
+             {
+-                exception = new XamlParseException(string.Format("No xmlns declaration for prefix \"{0}\"", prefix), xmlLineInfo);
++                exception = new XamlParseException($"No xmlns declaration for prefix \"{prefix}\"", xmlLineInfo);
+                 return null;
+             }
+ 
+diff --git a/src/Tizen.NUI/src/public/XamlBinding/BindableObject.cs b/src/Tizen.NUI/src/public/XamlBinding/BindableObject.cs
+index 66de5e55b..227e035e4 100755
+--- a/src/Tizen.NUI/src/public/XamlBinding/BindableObject.cs
++++ b/src/Tizen.NUI/src/public/XamlBinding/BindableObject.cs
+@@ -255,7 +255,7 @@ namespace Tizen.NUI.Binding
+             if (true == isCreateByXaml)
+             {
+                 if (property.IsReadOnly)
+-                    throw new InvalidOperationException(string.Format("The BindableProperty \"{0}\" is readonly.", property.PropertyName));
++                    throw new InvalidOperationException($"The BindableProperty \"{property.PropertyName}\" is readonly.");
+ 
+                 SetValueCore(property, value, SetValueFlags.ClearOneWayBindings | SetValueFlags.ClearDynamicResource,
+                     SetValuePrivateFlags.ManuallySet | SetValuePrivateFlags.CheckAccess, true);
+@@ -307,7 +307,7 @@ namespace Tizen.NUI.Binding
+             if (bpContext != null && oldContext == null)
+                 oldContext = bpContext.Value;
+ 
+-            if (bpContext != null && bpContext.Binding != null)
++            if (bpContext?.Binding != null)
+             {
+                 bpContext.Binding.Context = value;
+                 bindable.inheritedContext = null;
+@@ -382,7 +382,7 @@ namespace Tizen.NUI.Binding
+                 throw new ArgumentNullException(nameof(targetProperty));
+ 
+             BindablePropertyContext bpcontext = GetContext(targetProperty);
+-            return bpcontext != null && bpcontext.Binding != null;
++            return bpcontext?.Binding != null;
+         }
+ 
+         /// <summary>
+@@ -691,12 +691,11 @@ namespace Tizen.NUI.Binding
+         static void BindingContextPropertyBindingChanging(BindableObject bindable, BindingBase oldBindingBase, BindingBase newBindingBase)
+         {
+             object context = bindable.inheritedContext;
+-            var oldBinding = oldBindingBase as Binding;
+-            var newBinding = newBindingBase as Binding;
+ 
+-            if (context == null && oldBinding != null)
++            if (context == null && oldBindingBase is Binding oldBinding)
+                 context = oldBinding.Context;
+-            if (context != null && newBinding != null)
++
++            if (context != null && newBindingBase is Binding newBinding)
+                 newBinding.Context = context;
+         }
+ 
+@@ -713,7 +712,7 @@ namespace Tizen.NUI.Binding
+                 throw new ArgumentNullException(nameof(property));
+ 
+             if (checkAccess && property.IsReadOnly)
+-                throw new InvalidOperationException(string.Format("The BindableProperty \"{0}\" is readonly.", property.PropertyName));
++                throw new InvalidOperationException($"The BindableProperty \"{property.PropertyName}\" is readonly.");
+ 
+             BindablePropertyContext bpcontext = GetContext(property);
+             if (bpcontext == null)
+@@ -808,7 +807,7 @@ namespace Tizen.NUI.Binding
+                 throw new ArgumentNullException(nameof(property));
+ 
+             if (checkAccess && property.IsReadOnly)
+-                throw new InvalidOperationException(string.Format("The BindableProperty \"{0}\" is readonly.", property.PropertyName));
++                throw new InvalidOperationException($"The BindableProperty \"{property.PropertyName}\" is readonly.");
+ 
+             if (fromStyle && !CanBeSetFromStyle(property))
+                 return;
+diff --git a/src/Tizen.NUI/src/public/XamlBinding/BindableProperty.cs b/src/Tizen.NUI/src/public/XamlBinding/BindableProperty.cs
+index 896f1bf1e..b6349da8a 100755
+--- a/src/Tizen.NUI/src/public/XamlBinding/BindableProperty.cs
++++ b/src/Tizen.NUI/src/public/XamlBinding/BindableProperty.cs
+@@ -513,8 +513,7 @@ namespace Tizen.NUI.Binding
+ 
+             Expression expr = getter.Body;
+ 
+-            var unary = expr as UnaryExpression;
+-            if (unary != null)
++            if (expr is UnaryExpression unary)
+                 expr = unary.Operand;
+ 
+             var member = expr as MemberExpression;
+@@ -562,8 +561,7 @@ namespace Tizen.NUI.Binding
+ 
+             Expression expr = staticgetter.Body;
+ 
+-            var unary = expr as UnaryExpression;
+-            if (unary != null)
++            if (expr is UnaryExpression unary)
+                 expr = unary.Operand;
+ 
+             var methodcall = expr as MethodCallExpression;
+diff --git a/src/Tizen.NUI/src/public/XamlBinding/BindablePropertyConverter.cs b/src/Tizen.NUI/src/public/XamlBinding/BindablePropertyConverter.cs
+index 58e2d7ef6..7350abc9e 100755
+--- a/src/Tizen.NUI/src/public/XamlBinding/BindablePropertyConverter.cs
++++ b/src/Tizen.NUI/src/public/XamlBinding/BindablePropertyConverter.cs
+@@ -56,7 +56,7 @@ namespace Tizen.NUI.Binding
+             {
+                 if (parentValuesProvider == null)
+                 {
+-                    string msg = string.Format("Can't resolve {0}", parts[0]);
++                    string msg = $"Can't resolve {parts[0]}";
+                     throw new XamlParseException(msg, lineinfo);
+                 }
+                 object parent = parentValuesProvider.ParentObjects.Skip(1).FirstOrDefault();
+@@ -83,7 +83,7 @@ namespace Tizen.NUI.Binding
+             {
+                 if (!typeResolver.TryResolve(parts[0], out type))
+                 {
+-                    string msg = string.Format("Can't resolve {0}", parts[0]);
++                    string msg = $"Can't resolve {parts[0]}";
+                     throw new XamlParseException(msg, lineinfo);
+                 }
+                 return ConvertFrom(type, parts[1], lineinfo);
+diff --git a/src/Tizen.NUI/src/public/XamlBinding/Element.cs b/src/Tizen.NUI/src/public/XamlBinding/Element.cs
+index 9eb3f3943..99c6ae692 100755
+--- a/src/Tizen.NUI/src/public/XamlBinding/Element.cs
++++ b/src/Tizen.NUI/src/public/XamlBinding/Element.cs
+@@ -497,8 +497,7 @@ namespace Tizen.NUI.Binding
+                 foreach (BindableProperty changedResource in changedResources)
+                     OnResourceChanged(changedResource, value.Value);
+ 
+-                var bindableObject = value.Value as BindableObject;
+-                if (bindableObject != null && (bindableObject as Element)?.Parent == null)
++                if (value.Value is BindableObject bindableObject && (bindableObject as Element)?.Parent == null)
+                 {
+                     if (!bindableResources.Contains(bindableObject))
+                         bindableResources.Add(bindableObject);
+diff --git a/src/Tizen.NUI/src/public/XamlBinding/Internals/NameScope.cs b/src/Tizen.NUI/src/public/XamlBinding/Internals/NameScope.cs
+index 62cfa2669..d0895eb9f 100755
+--- a/src/Tizen.NUI/src/public/XamlBinding/Internals/NameScope.cs
++++ b/src/Tizen.NUI/src/public/XamlBinding/Internals/NameScope.cs
+@@ -58,7 +58,7 @@ namespace Tizen.NUI.Binding.Internals
+             }
+             catch (ArgumentException)
+             {
+-                throw new XamlParseException(string.Format("An element with the name \"{0}\" already exists in this NameScope", name), xmlLineInfo);
++                throw new XamlParseException($"An element with the name \"{name}\" already exists in this NameScope", xmlLineInfo);
+             }
+         }
+ 
+diff --git a/src/Tizen.NUI/src/public/XamlBinding/Setter.cs b/src/Tizen.NUI/src/public/XamlBinding/Setter.cs
+index 4ab183c67..8a9e14c60 100755
+--- a/src/Tizen.NUI/src/public/XamlBinding/Setter.cs
++++ b/src/Tizen.NUI/src/public/XamlBinding/Setter.cs
+@@ -49,8 +49,7 @@ namespace Tizen.NUI.Binding
+         {
+             if (Property == null)
+             {
+-                var lineInfoProvider = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) as IXmlLineInfoProvider;
+-                IXmlLineInfo lineInfo = lineInfoProvider != null ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
++                IXmlLineInfo lineInfo = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider lineInfoProvider ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
+                 throw new XamlParseException("Property not set", lineInfo);
+             }
+             var valueconverter = serviceProvider.GetService(typeof(IValueConverterProvider)) as IValueConverterProvider;
+@@ -78,11 +77,9 @@ namespace Tizen.NUI.Binding
+                 originalValues.Add(target, originalValue);
+             }
+ 
+-            var dynamicResource = Value as DynamicResource;
+-            var binding = Value as BindingBase;
+-            if (binding != null)
++            if (Value is BindingBase binding)
+                 target.SetBinding(Property, binding.Clone(), fromStyle);
+-            else if (dynamicResource != null)
++            else if (Value is DynamicResource dynamicResource)
+                 target.SetDynamicResource(Property, dynamicResource.Key, fromStyle);
+             else
+             {
+diff --git a/src/Tizen.NUI/src/public/XamlBinding/Transition.cs b/src/Tizen.NUI/src/public/XamlBinding/Transition.cs
+index a2cceab7d..ddfcb6c96 100755
+--- a/src/Tizen.NUI/src/public/XamlBinding/Transition.cs
++++ b/src/Tizen.NUI/src/public/XamlBinding/Transition.cs
+@@ -194,7 +194,7 @@ namespace Tizen.NUI
+             }
+             else
+             {
+-                throw new XamlParseException(string.Format("Behaviors don't have key {0}", behaviorKey), new XmlLineInfo());
++                throw new XamlParseException($"Behaviors don't have key {behaviorKey}", new XmlLineInfo());
+             }
+         }
+ 
+@@ -228,7 +228,7 @@ namespace Tizen.NUI
+             }
+             else
+             {
+-                throw new XamlParseException(string.Format("Behaviors don't have key {0}", behaviorKey), new XmlLineInfo());
++                throw new XamlParseException($"Behaviors don't have key {behaviorKey}", new XmlLineInfo());
+             }
+         }
+ 
+diff --git a/src/Tizen.NUI/src/public/XamlBinding/TypedBinding.cs b/src/Tizen.NUI/src/public/XamlBinding/TypedBinding.cs
+index 1f52cb86d..d7fa502db 100755
+--- a/src/Tizen.NUI/src/public/XamlBinding/TypedBinding.cs
++++ b/src/Tizen.NUI/src/public/XamlBinding/TypedBinding.cs
+@@ -219,7 +219,7 @@ namespace Tizen.NUI.Binding.Internals
+         // ApplyCore  100000 (w/o INPC, w/o unnapply)	: 20ms.
+         internal void ApplyCore(object sourceObject, BindableObject target, BindableProperty property, bool fromTarget = false)
+         {
+-            var isTSource = sourceObject != null && sourceObject is TSource;
++            var isTSource = sourceObject is TSource;
+             var mode = this.GetRealizedMode(property);
+             if ((mode == BindingMode.OneWay || mode == BindingMode.OneTime) && fromTarget)
+                 return;
+diff --git a/src/Tizen.Network.Bluetooth/Tizen.Network.Bluetooth/BluetoothGattImpl.cs b/src/Tizen.Network.Bluetooth/Tizen.Network.Bluetooth/BluetoothGattImpl.cs
+index 559a14b04..9ba779c28 100644
+--- a/src/Tizen.Network.Bluetooth/Tizen.Network.Bluetooth/BluetoothGattImpl.cs
++++ b/src/Tizen.Network.Bluetooth/Tizen.Network.Bluetooth/BluetoothGattImpl.cs
+@@ -77,7 +77,7 @@ namespace Tizen.Network.Bluetooth
+             int err = Interop.Bluetooth.BtGattServerGetService(_handle, uuid, out serviceHandle);
+             if (err.IsFailed())
+             {
+-                GattUtil.Error(err, string.Format("Failed to get service with UUID ({0})", uuid));
++                GattUtil.Error(err, $"Failed to get service with UUID ({uuid})");
+                 return null;
+             }
+ 
+@@ -110,7 +110,7 @@ namespace Tizen.Network.Bluetooth
+         internal void SendResponse(int requestId, int request_type, int status, byte[] value, int offset)
+         {
+             int err = Interop.Bluetooth.BtGattServerSendResponse(requestId, request_type, offset, status, value, value.Length);
+-            GattUtil.ThrowForError(err, string.Format("Failed to send response for request Id {0}", requestId));
++            GattUtil.ThrowForError(err, $"Failed to send response for request Id {requestId}");
+         }
+ 
+         void SendIndicationCallback(int result, string clientAddress, IntPtr serverHandle, IntPtr characteristicHandle, bool completed, IntPtr userData)
+@@ -145,7 +145,7 @@ namespace Tizen.Network.Bluetooth
+             int err = Interop.Bluetooth.BtGattServerNotify(characteristic.GetHandle(), _sendIndicationCallback, clientAddress, (IntPtr)requestId);
+             if (err.IsFailed())
+             {
+-                GattUtil.Error(err, string.Format("Failed to send value changed indication for characteristic uuid {0}", characteristic.Uuid));
++                GattUtil.Error(err, $"Failed to send value changed indication for characteristic uuid {characteristic.Uuid}");
+                 task.SetResult(false);
+                 _sendIndicationTaskSource.Remove(requestId);
+                 BluetoothErrorFactory.ThrowBluetoothException(err);
+@@ -212,7 +212,7 @@ namespace Tizen.Network.Bluetooth
+             int err = Interop.Bluetooth.BtGattClientGetService(_handle, uuid, out serviceHandle);
+             if (err.IsFailed())
+             {
+-                GattUtil.Error(err, string.Format("Failed to get service with UUID ({0})", uuid));
++                GattUtil.Error(err, $"Failed to get service with UUID ({uuid})");
+                 return null;
+             }
+ 
+@@ -357,7 +357,7 @@ namespace Tizen.Network.Bluetooth
+         internal void AddCharacteristic(BluetoothGattCharacteristic characteristic)
+         {
+             int err = Interop.Bluetooth.BtGattServiceAddCharacteristic(_handle, characteristic.GetHandle());
+-            GattUtil.ThrowForError(err, string.Format("Failed to add characteristic with UUID ({0})", characteristic.Uuid));
++            GattUtil.ThrowForError(err, $"Failed to add characteristic with UUID ({characteristic.Uuid})");
+         }
+ 
+         internal BluetoothGattCharacteristic GetCharacteristic(BluetoothGattService service, string uuid)
+@@ -366,15 +366,12 @@ namespace Tizen.Network.Bluetooth
+             int err = Interop.Bluetooth.BtGattServiceGetCharacteristic(_handle, uuid, out attributeHandle);
+             if (err.IsFailed())
+             {
+-                GattUtil.Error(err, string.Format("Failed to get Characteristic with UUID ({0})", uuid));
++                GattUtil.Error(err, $"Failed to get Characteristic with UUID ({uuid})");
+                 return null;
+             }
+ 
+             BluetoothGattCharacteristic Characteristic = BluetoothGattCharacteristicImpl.CreateBluetoothGattGattCharacteristic(attributeHandle, uuid);
+-            if (Characteristic != null)
+-            {
+-                Characteristic.SetParent(service);
+-            }
++            Characteristic?.SetParent(service);
+             return Characteristic;
+         }
+ 
+@@ -402,7 +399,7 @@ namespace Tizen.Network.Bluetooth
+         internal void AddIncludeService(BluetoothGattService includedService)
+         {
+             int err = Interop.Bluetooth.BtGattServiceAddIncludedService(_handle, includedService.GetHandle());
+-            GattUtil.ThrowForError(err, string.Format("Failed to add service with UUID ({0})", includedService.Uuid));
++            GattUtil.ThrowForError(err, $"Failed to add service with UUID ({includedService.Uuid})");
+         }
+ 
+         internal BluetoothGattService GetIncludeService(BluetoothGattService parentService, string uuid)
+@@ -411,7 +408,7 @@ namespace Tizen.Network.Bluetooth
+             int err = Interop.Bluetooth.BtGattServiceGetIncludedService(_handle, uuid, out attributeHandle);
+             if (err.IsFailed())
+             {
+-                GattUtil.Error(err, string.Format("Failed to get included service with UUID ({0})", uuid));
++                GattUtil.Error(err, $"Failed to get included service with UUID ({uuid})");
+                 return null;
+             }
+ 
+@@ -522,7 +519,7 @@ namespace Tizen.Network.Bluetooth
+         internal void AddDescriptor(BluetoothGattDescriptor descriptor)
+         {
+             int err = Interop.Bluetooth.BtGattCharacteristicAddDescriptor(_handle, descriptor.GetHandle());
+-            GattUtil.ThrowForError(err, string.Format("Failed to add descriptor with UUID ({0})", descriptor.Uuid));
++            GattUtil.ThrowForError(err, $"Failed to add descriptor with UUID ({descriptor.Uuid})");
+         }
+ 
+         internal BluetoothGattDescriptor GetDescriptor(BluetoothGattCharacteristic characteristic, string uuid)
+@@ -531,14 +528,11 @@ namespace Tizen.Network.Bluetooth
+             int err = Interop.Bluetooth.BtGattCharacteristicGetDescriptor(_handle, uuid, out handle);
+             if (err.IsFailed())
+             {
+-                GattUtil.Error(err, string.Format("Failed to get descriptor with UUID ({0})", uuid));
++                GattUtil.Error(err, $"Failed to get descriptor with UUID ({uuid})");
+                 return null;
+             }
+             BluetoothGattDescriptor descriptor = BluetoothGattDescriptorImpl.CreateBluetoothGattDescriptor(handle, uuid);
+-            if (descriptor != null)
+-            {
+-                descriptor.SetParent(characteristic);
+-            }
++            descriptor?.SetParent(characteristic);
+             return descriptor;
+         }
+ 
+@@ -581,7 +575,7 @@ namespace Tizen.Network.Bluetooth
+         {
+             int permission;
+             int err = Interop.Bluetooth.BtGattDescriptorGetPermissions(handle, out permission);
+-            GattUtil.ThrowForError(err, string.Format("Failed to get permissions with UUID ({0})", uuid));
++            GattUtil.ThrowForError(err, $"Failed to get permissions with UUID ({uuid})");
+ 
+             if (uuid == "")
+             {
+@@ -797,7 +791,7 @@ namespace Tizen.Network.Bluetooth
+         {
+             if (err.IsFailed())
+             {
+-                Log.Error(Globals.LogTag, string.Format("{0}, err: {1}", message, (BluetoothError)err), file, func, line);
++                Log.Error(Globals.LogTag, $"{message}, err: {(BluetoothError)err}", file, func, line);
+             }
+         }
+ 
+@@ -805,7 +799,7 @@ namespace Tizen.Network.Bluetooth
+         {
+             if (err.IsFailed())
+             {
+-                Log.Error(Globals.LogTag, string.Format("{0}, err: {1}", message, (BluetoothError)err), file, func, line);
++                Log.Error(Globals.LogTag, $"{message}, err: {(BluetoothError)err}", file, func, line);
+                 BluetoothErrorFactory.ThrowBluetoothException(err);
+             }
+         }
+diff --git a/src/Tizen.Network.IoTConnectivity/Tizen.Network.IoTConnectivity/Attributes.cs b/src/Tizen.Network.IoTConnectivity/Tizen.Network.IoTConnectivity/Attributes.cs
+index af7411702..197c7a5b8 100755
+--- a/src/Tizen.Network.IoTConnectivity/Tizen.Network.IoTConnectivity/Attributes.cs
++++ b/src/Tizen.Network.IoTConnectivity/Tizen.Network.IoTConnectivity/Attributes.cs
+@@ -213,18 +213,17 @@ namespace Tizen.Network.IoTConnectivity
+         public void Add(string key, object value)
+         {
+             int ret = 0;
+-            if (value is int)
++            if (value is int i)
+             {
+-                ret = Interop.IoTConnectivity.Common.Attributes.AddInt(_resourceAttributesHandle, key, (int)value);
++                ret = Interop.IoTConnectivity.Common.Attributes.AddInt(_resourceAttributesHandle, key, i);
+                 if (ret != (int)IoTConnectivityError.None)
+                 {
+                     Log.Error(IoTConnectivityErrorFactory.LogTag, "Failed to add int");
+                     throw IoTConnectivityErrorFactory.GetException(ret);
+                 }
+             }
+-            else if (value is Attributes)
++            else if (value is Attributes attribs)
+             {
+-                Attributes attribs = (Attributes)value;
+                 ret = Interop.IoTConnectivity.Common.Attributes.AddAttributes(_resourceAttributesHandle, key, attribs._resourceAttributesHandle);
+                 if (ret != (int)IoTConnectivityError.None)
+                 {
+@@ -232,27 +231,27 @@ namespace Tizen.Network.IoTConnectivity
+                     throw IoTConnectivityErrorFactory.GetException(ret);
+                 }
+             }
+-            else if (value is string)
++            else if (value is string s)
+             {
+-                ret = Interop.IoTConnectivity.Common.Attributes.AddStr(_resourceAttributesHandle, key, (string)value);
++                ret = Interop.IoTConnectivity.Common.Attributes.AddStr(_resourceAttributesHandle, key, s);
+                 if (ret != (int)IoTConnectivityError.None)
+                 {
+                     Log.Error(IoTConnectivityErrorFactory.LogTag, "Failed to add string");
+                     throw IoTConnectivityErrorFactory.GetException(ret);
+                 }
+             }
+-            else if (value is double)
++            else if (value is double d)
+             {
+-                ret = Interop.IoTConnectivity.Common.Attributes.AddDouble(_resourceAttributesHandle, key, (double)value);
++                ret = Interop.IoTConnectivity.Common.Attributes.AddDouble(_resourceAttributesHandle, key, d);
+                 if (ret != (int)IoTConnectivityError.None)
+                 {
+                     Log.Error(IoTConnectivityErrorFactory.LogTag, "Failed to add double");
+                     throw IoTConnectivityErrorFactory.GetException(ret);
+                 }
+             }
+-            else if (value is bool)
++            else if (value is bool b)
+             {
+-                ret = Interop.IoTConnectivity.Common.Attributes.AddBool(_resourceAttributesHandle, key, (bool)value);
++                ret = Interop.IoTConnectivity.Common.Attributes.AddBool(_resourceAttributesHandle, key, b);
+                 if (ret != (int)IoTConnectivityError.None)
+                 {
+                     Log.Error(IoTConnectivityErrorFactory.LogTag, "Failed to add bool");
+diff --git a/src/Tizen.Network.IoTConnectivity/Tizen.Network.IoTConnectivity/ResourceOptions.cs b/src/Tizen.Network.IoTConnectivity/Tizen.Network.IoTConnectivity/ResourceOptions.cs
+index 23279a7e9..a2996759d 100755
+--- a/src/Tizen.Network.IoTConnectivity/Tizen.Network.IoTConnectivity/ResourceOptions.cs
++++ b/src/Tizen.Network.IoTConnectivity/Tizen.Network.IoTConnectivity/ResourceOptions.cs
+@@ -468,7 +468,7 @@ namespace Tizen.Network.IoTConnectivity
+ 
+         private bool IsValid(ushort key, string value)
+         {
+-            return (key > IdMin && key < IdMax && value.Length <= DataMax && _options.Count() < MaxSize);
++            return (key > IdMin && key < IdMax && value.Length <= DataMax && _options.Count < MaxSize);
+         }
+     }
+ }
+diff --git a/src/Tizen.Security.SecureRepository/Interop/Interop.CkmcErrors.cs b/src/Tizen.Security.SecureRepository/Interop/Interop.CkmcErrors.cs
+index b15ce6498..d6d6b3fd3 100644
+--- a/src/Tizen.Security.SecureRepository/Interop/Interop.CkmcErrors.cs
++++ b/src/Tizen.Security.SecureRepository/Interop/Interop.CkmcErrors.cs
+@@ -38,11 +38,9 @@ internal static partial class Interop
+                 return;
+             case (int)KeyManagerError.InvalidParameter:
+             case (int)KeyManagerError.InvalidFormat:
+-                throw new ArgumentException(string.Format("[{0}] {1}, error={2}",
+-                    LogTag, msg, ErrorFacts.GetErrorMessage(err)));
++                throw new ArgumentException($"[{LogTag}] {msg}, error={ErrorFacts.GetErrorMessage(err)}");
+             default:
+-                throw new InvalidOperationException(string.Format("[{0}] {1}, error={2}",
+-                    LogTag, msg, ErrorFacts.GetErrorMessage(err)));
++                throw new InvalidOperationException($"[{LogTag}] {msg}, error={ErrorFacts.GetErrorMessage(err)}");
+         }
+     }
+ }
+diff --git a/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/Crypto/AesCtrCipherParameters.cs b/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/Crypto/AesCtrCipherParameters.cs
+index 222f8bfd1..439ab5452 100644
+--- a/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/Crypto/AesCtrCipherParameters.cs
++++ b/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/Crypto/AesCtrCipherParameters.cs
+@@ -49,7 +49,7 @@ namespace Tizen.Security.SecureRepository.Crypto
+             {
+                 if (value < 0)
+                     throw new ArgumentOutOfRangeException(
+-                        string.Format("invalid value{0} on CounterLength", value));
++                        $"invalid value{value} on CounterLength");
+                 Add(CipherParameterName.CounterLength, value);
+             }
+         }
+diff --git a/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/Crypto/AesGcmCipherParameters.cs b/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/Crypto/AesGcmCipherParameters.cs
+index be09b0205..9402a94ff 100644
+--- a/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/Crypto/AesGcmCipherParameters.cs
++++ b/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/Crypto/AesGcmCipherParameters.cs
+@@ -51,7 +51,7 @@ namespace Tizen.Security.SecureRepository.Crypto
+                     value != 112 && value != 120 && value != 128)
+                 {
+                     throw new ArgumentOutOfRangeException(
+-                        string.Format("invalid value{0} on TagLength", value));
++                        $"invalid value{value} on TagLength");
+                 }
+                 else
+                 {
+diff --git a/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/KeyManager.cs b/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/KeyManager.cs
+index f1e3bac0c..6493ee4bb 100644
+--- a/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/KeyManager.cs
++++ b/src/Tizen.Security.SecureRepository/Tizen.Security.SecureRepository/KeyManager.cs
+@@ -159,7 +159,7 @@ namespace Tizen.Security.SecureRepository
+             Policy privateKeyPolicy, Policy publicKeyPolicy)
+         {
+             if (size != 1024 && size != 2048 && size != 4096)
+-                throw new ArgumentException(string.Format("Invalid key size({0})", size));
++                throw new ArgumentException($"Invalid key size({size})");
+             else if (privateKeyAlias == null || publicKeyAlias == null ||
+                 privateKeyPolicy == null || publicKeyPolicy == null)
+                 throw new ArgumentNullException("alias and policy should not be null");
+@@ -206,7 +206,7 @@ namespace Tizen.Security.SecureRepository
+             Policy privateKeyPolicy, Policy publicKeyPolicy)
+         {
+             if (size != 1024 && size != 2048 && size != 3072 && size != 4096)
+-                throw new ArgumentException(string.Format("Invalid key size({0})", size));
++                throw new ArgumentException($"Invalid key size({size})");
+             else if (privateKeyAlias == null || publicKeyAlias == null ||
+                 privateKeyPolicy == null || publicKeyPolicy == null)
+                 throw new ArgumentNullException("alias and policy should not be null");
+@@ -286,7 +286,7 @@ namespace Tizen.Security.SecureRepository
+         static public void CreateAesKey(int size, string keyAlias, Policy policy)
+         {
+             if (size != 128 && size != 192 && size != 256)
+-                throw new ArgumentException(string.Format("Invalid key size({0})", size));
++                throw new ArgumentException($"Invalid key size({size})");
+             else if (keyAlias == null || policy == null)
+                 throw new ArgumentNullException("alias and policy should not be null");
+ 
+diff --git a/src/Tizen.Security.TEEC/Interop/Interop.Errors.cs b/src/Tizen.Security.TEEC/Interop/Interop.Errors.cs
+index f79c033af..af121baf8 100644
+--- a/src/Tizen.Security.TEEC/Interop/Interop.Errors.cs
++++ b/src/Tizen.Security.TEEC/Interop/Interop.Errors.cs
+@@ -28,15 +28,12 @@ internal static partial class Interop
+                 return ;
+             case (uint)LibteecError.NotImplemented:
+             case (uint)LibteecError.NotSupported:
+-                throw new NotSupportedException(string.Format("[{0}] {1} error=0x{2}",
+-                        LogTag, msg, err.ToString("X")));
++                throw new NotSupportedException($"[{LogTag}] {msg} error=0x{err.ToString("X")}");
+             case (uint)LibteecError.CommunicationFailed:
+             case (uint)LibteecError.Generic:
+-                throw new Exception(string.Format("[{0}] {1} error=0x{2}",
+-                        LogTag, msg, err.ToString("X")));
++                throw new Exception($"[{LogTag}] {msg} error=0x{err.ToString("X")}");
+             default:
+-                throw new InvalidOperationException(string.Format("[{0}] {1}, error=0x{2}",
+-                        LogTag, msg, err.ToString("X")));
++                throw new InvalidOperationException($"[{LogTag}] {msg}, error=0x{err.ToString("X")}");
+ 
+         }
+     }
+diff --git a/src/Tizen.Security.TEEC/Tizen.Security.TEEC/Libteec.cs b/src/Tizen.Security.TEEC/Tizen.Security.TEEC/Libteec.cs
+index 40719ee48..516bd27bb 100644
+--- a/src/Tizen.Security.TEEC/Tizen.Security.TEEC/Libteec.cs
++++ b/src/Tizen.Security.TEEC/Tizen.Security.TEEC/Libteec.cs
+@@ -617,7 +617,7 @@ namespace Tizen.Security.TEEC
+             }
+ 
+             //MAYBE map origin of return code to specyfic Exception
+-            Interop.CheckNThrowException(ret, string.Format("OpenSession('{0}')", destination));
++            Interop.CheckNThrowException(ret, $"OpenSession('{destination}')");
+             opened = true;
+         }
+         internal void Open64(Guid destination, uint loginMethod, byte[] connectionData, Parameter[] paramlist)
+@@ -650,7 +650,7 @@ namespace Tizen.Security.TEEC
+             }
+ 
+             //MAYBE map origin of return code to specyfic Exception
+-            Interop.CheckNThrowException(ret, string.Format("OpenSession('{0}')", destination));
++            Interop.CheckNThrowException(ret, $"OpenSession('{destination}')");
+             opened = true;
+         }
+ 
+@@ -728,7 +728,7 @@ namespace Tizen.Security.TEEC
+             }
+ 
+             //MAYBE map origin of return code to specific Exception
+-            Interop.CheckNThrowException(ret, string.Format("InvokeCommand({0})", commandID));
++            Interop.CheckNThrowException(ret, $"InvokeCommand({commandID})");
+         }
+ 
+         /// <summary>
+@@ -794,7 +794,7 @@ namespace Tizen.Security.TEEC
+         {
+             if (!TeeFeature.IsEnabled())
+                 unchecked {
+-                    Interop.CheckNThrowException((int)Interop.LibteecError.NotSupported, string.Format("InitializeContext('{0}')", name));
++                    Interop.CheckNThrowException((int)Interop.LibteecError.NotSupported, $"InitializeContext('{name}')");
+                 }
+ 
+             context_imp = Marshal.AllocHGlobal(Marshal.SizeOf<Interop.TEEC_Context>());
+@@ -802,7 +802,7 @@ namespace Tizen.Security.TEEC
+                 name = null;
+             try {
+                 int ret = Interop.Libteec.InitializeContext(name, context_imp);
+-                Interop.CheckNThrowException(ret, string.Format("InitializeContext('{0}')", name));
++                Interop.CheckNThrowException(ret, $"InitializeContext('{name}')");
+                 initialized = true;
+             }
+             catch (global::System.DllNotFoundException e)
+diff --git a/src/Tizen.System.Feedback/Feedback/Feedback.cs b/src/Tizen.System.Feedback/Feedback/Feedback.cs
+index de14cd41f..9c4ee8a00 100755
+--- a/src/Tizen.System.Feedback/Feedback/Feedback.cs
++++ b/src/Tizen.System.Feedback/Feedback/Feedback.cs
+@@ -143,7 +143,7 @@ namespace Tizen.System
+             Interop.Feedback.FeedbackError res = (Interop.Feedback.FeedbackError)Interop.Feedback.Initialize();
+             if (res != Interop.Feedback.FeedbackError.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to initialize feedback. err = {0}", res));
++                Log.Warn(LogTag, $"Failed to initialize feedback. err = {res}");
+                 switch (res)
+                 {
+                     case Interop.Feedback.FeedbackError.NotSupported:
+@@ -162,7 +162,7 @@ namespace Tizen.System
+             Interop.Feedback.FeedbackError res = (Interop.Feedback.FeedbackError)Interop.Feedback.Deinitialize();
+             if (res != Interop.Feedback.FeedbackError.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to deinitialize feedback. err = {0}", res));
++                Log.Warn(LogTag, $"Failed to deinitialize feedback. err = {res}");
+                 switch (res)
+                 {
+                     case Interop.Feedback.FeedbackError.NotInitialized:
+@@ -214,7 +214,7 @@ namespace Tizen.System
+ 
+             if (res != Interop.Feedback.FeedbackError.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get supported information. err = {0}", res));
++                Log.Warn(LogTag, $"Failed to get supported information. err = {res}");
+                 switch (res)
+                 {
+                     case Interop.Feedback.FeedbackError.NotInitialized:
+@@ -272,7 +272,7 @@ namespace Tizen.System
+ 
+             if (res != Interop.Feedback.FeedbackError.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to play feedback. err = {0}", res));
++                Log.Warn(LogTag, $"Failed to play feedback. err = {res}");
+                 switch (res)
+                 {
+                     case Interop.Feedback.FeedbackError.NotInitialized:
+@@ -318,7 +318,7 @@ namespace Tizen.System
+ 
+             if (res != Interop.Feedback.FeedbackError.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to stop feedback. err = {0}", res));
++                Log.Warn(LogTag, $"Failed to stop feedback. err = {res}");
+                 switch (res)
+                 {
+                     case Interop.Feedback.FeedbackError.NotInitialized:
+diff --git a/src/Tizen.System.Information/SystemInfo/SystemInfo.cs b/src/Tizen.System.Information/SystemInfo/SystemInfo.cs
+index 7fbe5d264..dc88b0733 100755
+--- a/src/Tizen.System.Information/SystemInfo/SystemInfo.cs
++++ b/src/Tizen.System.Information/SystemInfo/SystemInfo.cs
+@@ -37,14 +37,14 @@ namespace Tizen.System
+                 return Interop.SystemInfo.SystemInfoType.platform;
+             }
+ 
+-            Log.Debug(InformationErrorFactory.LogTag, string.Format("Key {0} not in platform system info", key));
++            Log.Debug(InformationErrorFactory.LogTag, $"Key {key} not in platform system info");
+             err = Interop.SystemInfo.SystemInfoGetCustomType(key, out valueType);
+             if (err == InformationError.None)
+             {
+                 return Interop.SystemInfo.SystemInfoType.Custom;
+             }
+ 
+-            Log.Debug(InformationErrorFactory.LogTag, string.Format("Key {0} not in custom system info", key));
++            Log.Debug(InformationErrorFactory.LogTag, $"Key {key} not in custom system info");
+             return Interop.SystemInfo.SystemInfoType.None;
+         }
+ 
+@@ -157,7 +157,7 @@ namespace Tizen.System
+ 
+             if (err != InformationError.None)
+             {
+-                Log.Warn(InformationErrorFactory.LogTag, string.Format("Failed to get value for key: {0}. err = {1}", key, err));
++                Log.Warn(InformationErrorFactory.LogTag, $"Failed to get value for key: {key}. err = {err}");
+                 return false;
+             }
+ 
+@@ -192,7 +192,7 @@ namespace Tizen.System
+ 
+             if (err != InformationError.None)
+             {
+-                Log.Warn(InformationErrorFactory.LogTag, string.Format("Failed to get value for key: {0}. err = {1}", key, err));
++                Log.Warn(InformationErrorFactory.LogTag, $"Failed to get value for key: {key}. err = {err}");
+                 return false;
+             }
+ 
+@@ -227,7 +227,7 @@ namespace Tizen.System
+ 
+             if (err != InformationError.None)
+             {
+-                Log.Warn(InformationErrorFactory.LogTag, string.Format("Failed to get value for key: {0}. err = {1}", key, err));
++                Log.Warn(InformationErrorFactory.LogTag, $"Failed to get value for key: {key}. err = {err}");
+                 return false;
+             }
+ 
+@@ -262,7 +262,7 @@ namespace Tizen.System
+ 
+             if (err != InformationError.None)
+             {
+-                Log.Warn(InformationErrorFactory.LogTag, string.Format("Failed to get value for key: {0}. err = {1}", key, err));
++                Log.Warn(InformationErrorFactory.LogTag, $"Failed to get value for key: {key}. err = {err}");
+                 return false;
+             }
+ 
+diff --git a/src/Tizen.System.Storage/Storage/Storage.cs b/src/Tizen.System.Storage/Storage/Storage.cs
+index 643e6d0a8..ffea688c7 100644
+--- a/src/Tizen.System.Storage/Storage/Storage.cs
++++ b/src/Tizen.System.Storage/Storage/Storage.cs
+@@ -46,7 +46,7 @@ namespace Tizen.System
+             Interop.Storage.ErrorCode err = Interop.Storage.StorageGetTotalSpace(Id, out _totalSpace);
+             if (err != Interop.Storage.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get total storage space for storage Id: {0}. err = {1}", Id, err));
++                Log.Warn(LogTag, $"Failed to get total storage space for storage Id: {Id}. err = {err}");
+             }
+ 
+             s_stateChangedEventCallback = (id, state, userData) =>
+@@ -75,7 +75,7 @@ namespace Tizen.System
+             Interop.Storage.ErrorCode err = Interop.Storage.StorageGetTotalSpace(Id, out _totalSpace);
+             if (err != Interop.Storage.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get total storage space for storage Id: {0}. err = {1}", Id, err));
++                Log.Warn(LogTag, $"Failed to get total storage space for storage Id: {Id}. err = {err}");
+             }
+ 
+             s_stateChangedEventCallback = (id, state, userData) =>
+@@ -96,7 +96,7 @@ namespace Tizen.System
+             Interop.Storage.ErrorCode err = Interop.Storage.StorageSetStateChanged(Id, s_stateChangedEventCallback, IntPtr.Zero);
+             if (err != Interop.Storage.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to Register state changed event callback for storage Id: {0}. err = {1}", Id, err));
++                Log.Warn(LogTag, $"Failed to Register state changed event callback for storage Id: {Id}. err = {err}");
+             }
+         }
+ 
+@@ -105,7 +105,7 @@ namespace Tizen.System
+             Interop.Storage.ErrorCode err = Interop.Storage.StorageUnsetStateChanged(Id, s_stateChangedEventCallback);
+             if (err != Interop.Storage.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to Register state changed event callback for storage Id: {0}. err = {1}", Id, err));
++                Log.Warn(LogTag, $"Failed to Register state changed event callback for storage Id: {Id}. err = {err}");
+             }
+         }
+ 
+@@ -189,7 +189,7 @@ namespace Tizen.System
+                     Interop.Storage.ErrorCode err = Interop.Storage.StorageGetState(Id, out _state);
+                     if (err != Interop.Storage.ErrorCode.None)
+                     {
+-                        Log.Warn(LogTag, string.Format("Failed to get storage state for storage Id: {0}. err = {1}", Id, err));
++                        Log.Warn(LogTag, $"Failed to get storage state for storage Id: {Id}. err = {err}");
+                     }
+                 }
+                 return (StorageState)_state;
+@@ -209,7 +209,7 @@ namespace Tizen.System
+                 Interop.Storage.ErrorCode err = Interop.Storage.StorageGetTypeDev(Id, out _storagetype, out _devicetype);
+                 if (err != Interop.Storage.ErrorCode.None)
+                 {
+-                    Log.Warn(LogTag, string.Format("Failed to get storage device type for storage Id: {0}. err = {1}", Id, err));
++                    Log.Warn(LogTag, $"Failed to get storage device type for storage Id: {Id}. err = {err}");
+                 }
+                 return (StorageDevice)_devicetype;
+             }
+@@ -306,7 +306,7 @@ namespace Tizen.System
+                 Interop.Storage.ErrorCode err = Interop.Storage.StorageGetAvailableSpace(Id, out available);
+                 if (err != Interop.Storage.ErrorCode.None)
+                 {
+-                    Log.Warn(LogTag, string.Format("Failed to get available storage stace for storage Id: {0}. err = {1}", Id, err));
++                    Log.Warn(LogTag, $"Failed to get available storage stace for storage Id: {Id}. err = {err}");
+                 }
+ 
+                 return available;
+@@ -326,7 +326,7 @@ namespace Tizen.System
+                 Interop.Storage.ErrorCode err = Interop.Storage.StorageGetAvailableSpace(Id, out available);
+                 if (err != Interop.Storage.ErrorCode.None)
+                 {
+-                    Log.Warn(LogTag, string.Format("Failed to get available storage stace for storage Id: {0}. err = {1}", Id, err));
++                    Log.Warn(LogTag, $"Failed to get available storage stace for storage Id: {Id}. err = {err}");
+                 }
+ 
+                 return available;
+@@ -368,7 +368,7 @@ namespace Tizen.System
+             Interop.Storage.ErrorCode err = Interop.Storage.StorageGetAbsoluteDirectory(Id, (Interop.Storage.DirectoryType)dirType, out path);
+             if (err != Interop.Storage.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to get package Id. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to get package Id. err = {err}");
+                 switch (err)
+                 {
+                     case Interop.Storage.ErrorCode.InvalidParameter:
+diff --git a/src/Tizen.System.Storage/Storage/StorageManager.cs b/src/Tizen.System.Storage/Storage/StorageManager.cs
+index 444bb064c..ccf9120ef 100644
+--- a/src/Tizen.System.Storage/Storage/StorageManager.cs
++++ b/src/Tizen.System.Storage/Storage/StorageManager.cs
+@@ -45,7 +45,7 @@ namespace Tizen.System
+                 Interop.Storage.ErrorCode err = Interop.Storage.StorageManagerGetForeachDeviceSupported(cb, IntPtr.Zero);
+                 if (err != Interop.Storage.ErrorCode.None)
+                 {
+-                    Log.Warn(LogTag, string.Format("Failed to get storage list. err = {0}", err));
++                    Log.Warn(LogTag, $"Failed to get storage list. err = {err}");
+                 }
+                 return storageList;
+             }
+@@ -68,7 +68,7 @@ namespace Tizen.System
+             Interop.Storage.ErrorCode err = Interop.Storage.StorageSetChanged((int)type, s_ChangedEventCallback, IntPtr.Zero);
+             if (err != Interop.Storage.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to Register changed event callback for external storage. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to Register changed event callback for external storage. err = {err}");
+ 
+                 switch (err)
+                 {
+@@ -86,7 +86,7 @@ namespace Tizen.System
+             Interop.Storage.ErrorCode err = Interop.Storage.StorageUnsetChanged((int)type, s_ChangedEventCallback);
+             if (err != Interop.Storage.ErrorCode.None)
+             {
+-                Log.Warn(LogTag, string.Format("Failed to Unreegister changed event callback for external storage. err = {0}", err));
++                Log.Warn(LogTag, $"Failed to Unreegister changed event callback for external storage. err = {err}");
+ 
+                 switch (err)
+                 {
+diff --git a/src/Tizen.System.Usb/Usb/UsbManager.cs b/src/Tizen.System.Usb/Usb/UsbManager.cs
+index ce46663c3..2a4dd808f 100755
+--- a/src/Tizen.System.Usb/Usb/UsbManager.cs
++++ b/src/Tizen.System.Usb/Usb/UsbManager.cs
+@@ -93,10 +93,7 @@ namespace Tizen.System.Usb
+         {
+             Interop.HostDeviceHandle handle = new Interop.HostDeviceHandle(devHandle);
+             UsbDevice device = new UsbDevice(this, handle);
+-            if (DeviceHotPlugged != null)
+-            {
+-                DeviceHotPlugged.Invoke(this, new HotPluggedEventArgs(device, HotplugEventType.Attach));
+-            }
++            DeviceHotPlugged?.Invoke(this, new HotPluggedEventArgs(device, HotplugEventType.Attach));
+ 
+             //AvailableDevices.Remove(device);
+             // do we need to dispose device here ?
+@@ -106,10 +103,7 @@ namespace Tizen.System.Usb
+             {
+             Interop.HostDeviceHandle handle = new Interop.HostDeviceHandle(devHandle);
+             UsbDevice device = new UsbDevice(this, handle);
+-            if (DeviceHotPlugged != null)
+-            {
+-                DeviceHotPlugged.Invoke(this, new HotPluggedEventArgs(device, HotplugEventType.Detach));
+-            }
++            DeviceHotPlugged?.Invoke(this, new HotPluggedEventArgs(device, HotplugEventType.Detach));
+ 
+             //AvailableDevices.Remove(device);
+             // do we need to dispose device here ?
+diff --git a/src/Tizen.System/Device/IR.cs b/src/Tizen.System/Device/IR.cs
+index 67b027462..df8bd571e 100755
+--- a/src/Tizen.System/Device/IR.cs
++++ b/src/Tizen.System/Device/IR.cs
+@@ -84,7 +84,7 @@ namespace Tizen.System
+         public static void Transmit(int carrierFreequency, IList<int> pattern)
+         {
+             int[] patternArray = pattern.ToArray();
+-            DeviceError res = (DeviceError)Interop.Device.DeviceIRTransmit(carrierFreequency, patternArray, pattern.Count());
++            DeviceError res = (DeviceError)Interop.Device.DeviceIRTransmit(carrierFreequency, patternArray, pattern.Count);
+             if (res != DeviceError.None)
+             {
+                 throw DeviceExceptionFactory.CreateException(res, "unable to trasmit IR command.");
+diff --git a/src/Tizen.System/Device/PerformanceControlType.cs b/src/Tizen.System/Device/PerformanceControlType.cs
+index 63122f7f8..27d876e90 100644
+--- a/src/Tizen.System/Device/PerformanceControlType.cs
++++ b/src/Tizen.System/Device/PerformanceControlType.cs
+@@ -66,8 +66,7 @@ namespace Tizen.System
+         /// Determines whether this instance and a specified object.
+         /// </summary>
+         public override bool Equals(object obj) {
+-            PerformanceControlType other = obj as PerformanceControlType;
+-            return other != null && other._typeName == this._typeName;
++            return obj is PerformanceControlType other && other._typeName == this._typeName;
+         }
+     }
+ }
+diff --git a/src/Tizen/Tizen.Common/Color.cs b/src/Tizen/Tizen.Common/Color.cs
+index 278651f36..85c3ac34c 100644
+--- a/src/Tizen/Tizen.Common/Color.cs
++++ b/src/Tizen/Tizen.Common/Color.cs
+@@ -355,9 +355,9 @@ namespace Tizen.Common
+         /// <since_tizen> 3 </since_tizen>
+         public override bool Equals(object obj)
+         {
+-            if (obj is Color)
++            if (obj is Color color)
+             {
+-                return Equals((Color)obj);
++                return Equals(color);
+             }
+             return false;
+         }
+@@ -369,7 +369,7 @@ namespace Tizen.Common
+         /// <since_tizen> 3 </since_tizen>
+         public override string ToString()
+         {
+-            return string.Format("Color [R={0}, G={1}, B={2}, A={3}]", R, G, B, A);
++            return $"Color [R={R}, G={G}, B={B}, A={A}]";
+         }
+ 
+         /// <summary>

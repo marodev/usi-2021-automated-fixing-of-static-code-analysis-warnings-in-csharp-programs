@@ -1,0 +1,240 @@
+diff --git a/.config/dotnet-tools.json b/.config/dotnet-tools.json
+index 045bdaf..0d9152a 100644
+--- a/.config/dotnet-tools.json
++++ b/.config/dotnet-tools.json
+@@ -7,6 +7,18 @@
+       "commands": [
+         "paket"
+       ]
++    },
++    "jetbrains.resharper.globaltools": {
++      "version": "2020.3.3",
++      "commands": [
++        "jb"
++      ]
++    },
++    "eaglerepair.cli": {
++      "version": "0.0.27",
++      "commands": [
++        "eaglerepair"
++      ]
+     }
+   }
+ }
+\ No newline at end of file
+diff --git a/MaterialDesignThemes.Wpf/Converters/PointValueConverter.cs b/MaterialDesignThemes.Wpf/Converters/PointValueConverter.cs
+index 7f0a341..89a7723 100644
+--- a/MaterialDesignThemes.Wpf/Converters/PointValueConverter.cs
++++ b/MaterialDesignThemes.Wpf/Converters/PointValueConverter.cs
+@@ -23,9 +23,8 @@ public object Convert(object[] values, Type targetType, object parameter, Cultur
+ 
+         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+         {
+-            if (value is Point)
++            if (value is Point point)
+             {
+-                var point = (Point)value;
+                 return new object[] { point.X, point.Y };
+             }
+ 
+diff --git a/MaterialDesignThemes.Wpf/Converters/SnackbarMessageTypeConverter.cs b/MaterialDesignThemes.Wpf/Converters/SnackbarMessageTypeConverter.cs
+index 856d07c..ac04de4 100644
+--- a/MaterialDesignThemes.Wpf/Converters/SnackbarMessageTypeConverter.cs
++++ b/MaterialDesignThemes.Wpf/Converters/SnackbarMessageTypeConverter.cs
+@@ -13,8 +13,7 @@ public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceT
+ 
+         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+         {
+-            var s = value as string;
+-            if (s != null)
++            if (value is string s)
+             {
+                 return new SnackbarMessage
+                 {
+diff --git a/MaterialDesignThemes.Wpf/DataGridTextColumn.cs b/MaterialDesignThemes.Wpf/DataGridTextColumn.cs
+index a78d037..c094d8e 100644
+--- a/MaterialDesignThemes.Wpf/DataGridTextColumn.cs
++++ b/MaterialDesignThemes.Wpf/DataGridTextColumn.cs
+@@ -7,8 +7,7 @@ public class DataGridTextColumn : System.Windows.Controls.DataGridTextColumn
+     {
+         protected override object? PrepareCellForEdit(FrameworkElement? editingElement, RoutedEventArgs editingEventArgs)
+         {
+-            var textBox = editingElement as TextBox;
+-            if (textBox != null)
++            if (editingElement is TextBox textBox)
+             {
+                 textBox.MaxLength = MaxLength;
+                 textBox.SelectionStart = textBox.Text.Length;
+diff --git a/MaterialDesignThemes.Wpf/Plane3D.cs b/MaterialDesignThemes.Wpf/Plane3D.cs
+index 2331d42..3a8ea65 100644
+--- a/MaterialDesignThemes.Wpf/Plane3D.cs
++++ b/MaterialDesignThemes.Wpf/Plane3D.cs
+@@ -232,20 +232,14 @@ private class LayoutInvalidationCatcher : Decorator
+             protected override Size MeasureOverride(Size constraint)
+             {
+                 Plane3D? pl = Parent as Plane3D;
+-                if (pl != null)
+-                {
+-                    pl.InvalidateMeasure();
+-                }
++                pl?.InvalidateMeasure();
+                 return base.MeasureOverride(constraint);
+             }
+ 
+             protected override Size ArrangeOverride(Size arrangeSize)
+             {
+                 Plane3D? pl = Parent as Plane3D;
+-                if (pl != null)
+-                {
+-                    pl.InvalidateArrange();
+-                }
++                pl?.InvalidateArrange();
+                 return base.ArrangeOverride(arrangeSize);
+             }
+         }
+diff --git a/MaterialDesignThemes.Wpf/PopupEx.cs b/MaterialDesignThemes.Wpf/PopupEx.cs
+index c9aafc6..6af6d78 100644
+--- a/MaterialDesignThemes.Wpf/PopupEx.cs
++++ b/MaterialDesignThemes.Wpf/PopupEx.cs
+@@ -130,8 +130,7 @@ private void HostWindow_StateChanged(object? sender, EventArgs e)
+             if (_hostWindow != null && _hostWindow.WindowState != WindowState.Minimized)
+             {
+                 // special handling for validation popup
+-                var target = PlacementTarget as FrameworkElement;
+-                var holder = target != null ? target.DataContext as AdornedElementPlaceholder : null;
++                var holder = PlacementTarget is FrameworkElement target ? target.DataContext as AdornedElementPlaceholder : null;
+                 if (holder != null && holder.AdornedElement != null)
+                 {
+                     PopupAnimation = PopupAnimation.None;
+diff --git a/MaterialDesignThemes.Wpf/Ripple.cs b/MaterialDesignThemes.Wpf/Ripple.cs
+index c66fee6..f2c5dbf 100644
+--- a/MaterialDesignThemes.Wpf/Ripple.cs
++++ b/MaterialDesignThemes.Wpf/Ripple.cs
+@@ -41,20 +41,18 @@ private static void MouseButtonEventHandler(object sender, MouseButtonEventArgs
+             foreach (var ripple in PressedInstances)
+             {
+                 // adjust the transition scale time according to the current animated scale
+-                var scaleTrans = ripple.Template.FindName("ScaleTransform", ripple) as ScaleTransform;
+-                if (scaleTrans != null)
++                if (ripple.Template.FindName("ScaleTransform", ripple) is ScaleTransform scaleTrans)
+                 {
+                     double currentScale = scaleTrans.ScaleX;
+                     var newTime = TimeSpan.FromMilliseconds(300 * (1.0 - currentScale));
+ 
+                     // change the scale animation according to the current scale
+-                    var scaleXKeyFrame = ripple.Template.FindName("MousePressedToNormalScaleXKeyFrame", ripple) as EasingDoubleKeyFrame;
+-                    if (scaleXKeyFrame != null)
++                    if (ripple.Template.FindName("MousePressedToNormalScaleXKeyFrame", ripple) is EasingDoubleKeyFrame scaleXKeyFrame)
+                     {
+                         scaleXKeyFrame.KeyTime = KeyTime.FromTimeSpan(newTime);
+                     }
+-                    var scaleYKeyFrame = ripple.Template.FindName("MousePressedToNormalScaleYKeyFrame", ripple) as EasingDoubleKeyFrame;
+-                    if (scaleYKeyFrame != null)
++
++                    if (ripple.Template.FindName("MousePressedToNormalScaleYKeyFrame", ripple) is EasingDoubleKeyFrame scaleYKeyFrame)
+                     {
+                         scaleYKeyFrame.KeyTime = KeyTime.FromTimeSpan(newTime);
+                     }
+diff --git a/MaterialDesignThemes.Wpf/SnackbarMessage.cs b/MaterialDesignThemes.Wpf/SnackbarMessage.cs
+index 07db088..c12a1cf 100644
+--- a/MaterialDesignThemes.Wpf/SnackbarMessage.cs
++++ b/MaterialDesignThemes.Wpf/SnackbarMessage.cs
+@@ -113,8 +113,7 @@ public override void OnApplyTemplate()
+         {
+             _templateCleanupAction();
+ 
+-            var buttonBase = GetTemplateChild(ActionButtonPartName) as ButtonBase;
+-            if (buttonBase != null)
++            if (GetTemplateChild(ActionButtonPartName) is ButtonBase buttonBase)
+             {
+                 buttonBase.Click += ButtonBaseOnClick;
+ 
+diff --git a/MaterialDesignThemes.Wpf/TextFieldAssist.cs b/MaterialDesignThemes.Wpf/TextFieldAssist.cs
+index c7fa5e0..441e4af 100644
+--- a/MaterialDesignThemes.Wpf/TextFieldAssist.cs
++++ b/MaterialDesignThemes.Wpf/TextFieldAssist.cs
+@@ -402,8 +402,8 @@ private static void HasClearButtonChanged(DependencyObject d, DependencyProperty
+         private static void SetClearHandler(Control box)
+         {
+             var bValue = GetHasClearButton(box);
+-            var clearButton = box.Template.FindName("PART_ClearButton", box) as Button;
+-            if (clearButton != null)
++
++            if (box.Template.FindName("PART_ClearButton", box) is Button clearButton)
+             {
+                 RoutedEventHandler handler = (sender, args) =>
+                 {
+diff --git a/MaterialDesignThemes.Wpf/Transitions/IndexedItemOffsetMultiplierExtension.cs b/MaterialDesignThemes.Wpf/Transitions/IndexedItemOffsetMultiplierExtension.cs
+index b120bd3..6b77f4b 100644
+--- a/MaterialDesignThemes.Wpf/Transitions/IndexedItemOffsetMultiplierExtension.cs
++++ b/MaterialDesignThemes.Wpf/Transitions/IndexedItemOffsetMultiplierExtension.cs
+@@ -70,8 +70,7 @@ public override object ProvideValue(IServiceProvider serviceProvider)
+ 
+             if (multiplier == -1) //still not found, repeat now using datacontext
+             {
+-                var frameworkElement = element as FrameworkElement;
+-                if (frameworkElement != null)
++                if (element is FrameworkElement frameworkElement)
+                 {
+                     multiplier = itemsControl.Items.IndexOf(frameworkElement.DataContext);
+                 }
+diff --git a/mdresgen/Program.cs b/mdresgen/Program.cs
+index d78708e..3449152 100644
+--- a/mdresgen/Program.cs
++++ b/mdresgen/Program.cs
+@@ -206,7 +206,7 @@ private static void GenerateJson(XElement xDocument)
+                 ).ToString();
+ 
+             //var javaScript = $"var swatches={json};";
+-            var javaScript = string.Format("var swatches={0};", json);
++            var javaScript = $"var swatches={json};";
+ 
+             File.WriteAllText(file, javaScript);
+         }
+@@ -229,17 +229,14 @@ private static JObject CreateJsonColourPair(XElement liElement)
+             if (!ClassNameToForegroundIndex.TryGetValue(liClass, out foregroundColour))
+                 throw new Exception("Unable to map foreground color from class " + liClass);
+ 
+-            var foreGroundColorHex = string.Format("#{0}{1}{2}",
+-                ByteToHex(foregroundColour.R),
+-                ByteToHex(foregroundColour.G),
+-                ByteToHex(foregroundColour.B));
++            var foreGroundColorHex = $"#{ByteToHex(foregroundColour.R)}{ByteToHex(foregroundColour.G)}{ByteToHex(foregroundColour.B)}";
+ 
+             var foregroundOpacity = Math.Round(foregroundColour.A / (255.0), 2);
+ 
+             return new JObject(
+-                new JProperty("backgroundName", string.Format("{0}{1}", prefix, name)),
++                new JProperty("backgroundName", $"{prefix}{name}"),
+                 new JProperty("backgroundColour", hex),
+-                new JProperty("foregroundName", string.Format("{0}{1}Foreground", prefix, name)),
++                new JProperty("foregroundName", $"{prefix}{name}Foreground"),
+                 new JProperty("foregroundColour", foreGroundColorHex),
+                 new JProperty("foregroundOpacity", foregroundOpacity)
+                 );
+@@ -295,7 +292,7 @@ private static bool AddColour(XElement liElement, XNamespace defaultNamespace, X
+ 
+             var backgroundColourElement = new XElement(defaultNamespace + "Color", hex);
+             // new XAttribute()
+-            backgroundColourElement.Add(new XAttribute(xNamespace + "Key", string.Format("{0}{1}{2}", swatchName, prefix, name)));
++            backgroundColourElement.Add(new XAttribute(xNamespace + "Key", $"{swatchName}{prefix}{name}"));
+             doc.Add(backgroundColourElement);
+ 
+             var liClass = liElement.Attribute("class")!.Value;
+@@ -303,14 +300,10 @@ private static bool AddColour(XElement liElement, XNamespace defaultNamespace, X
+             if (!ClassNameToForegroundIndex.TryGetValue(liClass, out foregroundColour))
+                 throw new Exception("Unable to map foreground color from class " + liClass);
+ 
+-            var foreGroundColorHex = string.Format("#{0}{1}{2}{3}",
+-                ByteToHex(foregroundColour.A),
+-                ByteToHex(foregroundColour.R),
+-                ByteToHex(foregroundColour.G),
+-                ByteToHex(foregroundColour.B));
++            var foreGroundColorHex = $"#{ByteToHex(foregroundColour.A)}{ByteToHex(foregroundColour.R)}{ByteToHex(foregroundColour.G)}{ByteToHex(foregroundColour.B)}";
+ 
+             var foregroundColourElement = new XElement(defaultNamespace + "Color", foreGroundColorHex);
+-            foregroundColourElement.Add(new XAttribute(xNamespace + "Key", string.Format("{0}{1}{2}Foreground", swatchName, prefix, name)));
++            foregroundColourElement.Add(new XAttribute(xNamespace + "Key", $"{swatchName}{prefix}{name}Foreground"));
+             doc.Add(foregroundColourElement);
+ 
+             return true;

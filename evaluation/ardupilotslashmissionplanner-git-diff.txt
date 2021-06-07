@@ -1,0 +1,1532 @@
+diff --git a/Controls/ConnectionStats.cs b/Controls/ConnectionStats.cs
+index ebc98555..3d088a77 100644
+--- a/Controls/ConnectionStats.cs
++++ b/Controls/ConnectionStats.cs
+@@ -155,9 +155,9 @@ namespace MissionPlanner.Controls
+         private static string ToHumanReadableByteCount(int i)
+         {
+             if (i > 1024 * 1024)
+-                return string.Format("{0:0.00}Mb", i / (float)(1024 * 1024));
++                return $"{i / (float)(1024 * 1024):0.00}Mb";
+             if (i > 1024)
+-                return string.Format("{0:0.00}K", i / (float)1024);
++                return $"{i / (float)1024:0.00}K";
+             return string.Format("{0:####}", i);
+         }
+ 
+diff --git a/Controls/MAVLinkInspector.cs b/Controls/MAVLinkInspector.cs
+index 6314a0a1..8562333f 100644
+--- a/Controls/MAVLinkInspector.cs
++++ b/Controls/MAVLinkInspector.cs
+@@ -398,7 +398,7 @@ namespace MissionPlanner.Controls
+                     int a = 0;
+                     foreach (var subitem in (IEnumerable) item)
+                     {
+-                        if (subitem is IConvertible)
++                        if (subitem is IConvertible iConvertible)
+                         {
+                             while (zg1.GraphPane.CurveList.Count < (a + 1))
+                             {
+@@ -407,15 +407,15 @@ namespace MissionPlanner.Controls
+                             }
+ 
+                             zg1.GraphPane.CurveList[a].AddPoint(new XDate(msg.rxtime),
+-                                ((IConvertible) subitem).ToDouble(null));
++                                iConvertible.ToDouble(null));
+                             a++;
+                         }
+                     }
+                 }
+-                else if (item is IConvertible)
++                else if (item is IConvertible iConvertible)
+                 {
+                     line.AddPoint(new XDate(msg.rxtime),
+-                        ((IConvertible) item).ToDouble(null));
++                        iConvertible.ToDouble(null));
+                 }
+                 else
+                 {
+diff --git a/Controls/OpenGLtest.cs b/Controls/OpenGLtest.cs
+index dca0e319..be27b94a 100644
+--- a/Controls/OpenGLtest.cs
++++ b/Controls/OpenGLtest.cs
+@@ -141,15 +141,13 @@ namespace MissionPlanner.Controls
+                                     foreach (var tp in type.Overlays)
+                                     {
+                                         Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
+-                                        GMapImage tile =
+-                                            ((PureImageCache)Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p,
+-                                                zoom) as GMapImage;
+ 
+                                         //GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage;
+                                         //GMapImage tile = type.GetTileImage(p, zoom) as GMapImage;
+                                         //tile.Img.Save(zoom + "-" + p.X + "-" + p.Y + ".bmp");
+ 
+-                                        if (tile != null)
++                                        if (                                            ((PureImageCache)Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p,
++                                                zoom) is GMapImage tile)
+                                         {
+                                             using (tile)
+                                             {
+diff --git a/Controls/OpenGLtest2.cs b/Controls/OpenGLtest2.cs
+index cd366707..c6e4a5e5 100644
+--- a/Controls/OpenGLtest2.cs
++++ b/Controls/OpenGLtest2.cs
+@@ -1479,7 +1479,7 @@ void main(void) {
+ 
+             public override string ToString()
+             {
+-                return String.Format("{1}-{0} {2}", point, zoom, textureReady);
++                return $"{point}-{zoom} {textureReady}";
+             }
+ 
+             public void Draw(Matrix4 Projection, Matrix4 ModelView)
+diff --git a/Controls/RAW_Sensor.cs b/Controls/RAW_Sensor.cs
+index 6d379e20..73fbb94b 100644
+--- a/Controls/RAW_Sensor.cs
++++ b/Controls/RAW_Sensor.cs
+@@ -149,9 +149,7 @@ namespace MissionPlanner.Controls
+ 
+             if (sw != null && sw.BaseStream.CanWrite)
+             {
+-                sw.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6}", DateTime.Now.ToString(),
+-                    MainV2.comPort.MAV.cs.ax, MainV2.comPort.MAV.cs.ay, MainV2.comPort.MAV.cs.az,
+-                    MainV2.comPort.MAV.cs.gx, MainV2.comPort.MAV.cs.gy, MainV2.comPort.MAV.cs.gz));
++                sw.WriteLine($"{DateTime.Now.ToString()},{MainV2.comPort.MAV.cs.ax},{MainV2.comPort.MAV.cs.ay},{MainV2.comPort.MAV.cs.az},{MainV2.comPort.MAV.cs.gx},{MainV2.comPort.MAV.cs.gy},{MainV2.comPort.MAV.cs.gz}");
+             }
+ 
+             double time = (Environment.TickCount - tickStart) / 1000.0;
+diff --git a/Controls/SB.cs b/Controls/SB.cs
+index 6f5f25ea..28563d7a 100644
+--- a/Controls/SB.cs
++++ b/Controls/SB.cs
+@@ -39,15 +39,7 @@ namespace MissionPlanner.Controls
+ 
+             submitButton.Click += (sender, args) =>
+             {
+-                var url = String.Format(
+-                    "https://discuss.cubepilot.org:444/CubeSB?BRD_TYPE={0}&SerialNo={1}&INS_ACC_ID={2}&INS_ACC2_ID={3}&INS_ACC3_ID={4}&INS_GYR_ID={5}&INS_GYR2_ID={6}&INS_GYR3_ID={7}&Baro1={8}&Baro2={9}&Name={10}&Email={11}",
+-                    MainV2.comPort.MAV.param["BRD_TYPE"], MainV2.comPort.MAV.SerialString,
+-                    MainV2.comPort.MAV.param["INS_ACC_ID"], MainV2.comPort.MAV.param["INS_ACC2_ID"],
+-                    MainV2.comPort.MAV.param["INS_ACC3_ID"],
+-                    MainV2.comPort.MAV.param["INS_GYR_ID"], MainV2.comPort.MAV.param["INS_GYR2_ID"],
+-                    MainV2.comPort.MAV.param["INS_GYR3_ID"],
+-                    MainV2.comPort.MAV.cs.press_abs, MainV2.comPort.MAV.cs.press_abs2, nameTextBox.Text,
+-                    emailTextBox.Text);
++                var url = $"https://discuss.cubepilot.org:444/CubeSB?BRD_TYPE={MainV2.comPort.MAV.param["BRD_TYPE"]}&SerialNo={MainV2.comPort.MAV.SerialString}&INS_ACC_ID={MainV2.comPort.MAV.param["INS_ACC_ID"]}&INS_ACC2_ID={MainV2.comPort.MAV.param["INS_ACC2_ID"]}&INS_ACC3_ID={MainV2.comPort.MAV.param["INS_ACC3_ID"]}&INS_GYR_ID={MainV2.comPort.MAV.param["INS_GYR_ID"]}&INS_GYR2_ID={MainV2.comPort.MAV.param["INS_GYR2_ID"]}&INS_GYR3_ID={MainV2.comPort.MAV.param["INS_GYR3_ID"]}&Baro1={MainV2.comPort.MAV.cs.press_abs}&Baro2={MainV2.comPort.MAV.cs.press_abs2}&Name={nameTextBox.Text}&Email={emailTextBox.Text}";
+ 
+                 System.Diagnostics.Process.Start(url);
+             };
+diff --git a/Controls/SerialOutputMD.cs b/Controls/SerialOutputMD.cs
+index 745712c3..d3c6c1a4 100644
+--- a/Controls/SerialOutputMD.cs
++++ b/Controls/SerialOutputMD.cs
+@@ -122,7 +122,7 @@ namespace MissionPlanner.Controls
+                     int week, seconds;
+                     GetGPSTime(out week, out seconds);
+ 
+-                    writeline(string.Format("#4,{0},{1},{2},{3},", counter / 10, seconds, week, 25));
++                    writeline($"#4,{counter / 10},{seconds},{week},{25},");
+ 
+                     //    writeline("#4,counter/2,111732000,1595,0,");
+ 
+@@ -131,22 +131,15 @@ namespace MissionPlanner.Controls
+                     GetGeo(out x, out y, out z, MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng,
+                         MainV2.comPort.MAV.cs.alt);
+ 
+-                    writeline(string.Format("#5,{0},{1},{2},{3},{4},", x * 100, y * 100, z * 100,
+-                        MainV2.comPort.MAV.cs.gpshdop + 0.01, MainV2.comPort.MAV.cs.satcount));
++                    writeline($"#5,{x * 100},{y * 100},{z * 100},{MainV2.comPort.MAV.cs.gpshdop + 0.01},{MainV2.comPort.MAV.cs.satcount},");
+ 
+-                    writeline(string.Format("#6,{0},{1},{2},{3},",
+-                        MainV2.comPort.MAV.cs.groundspeed * Math.Sin(MainV2.comPort.MAV.cs.groundcourse * MathHelper.deg2rad),
+-                        MainV2.comPort.MAV.cs.groundspeed * Math.Cos(MainV2.comPort.MAV.cs.groundcourse * MathHelper.deg2rad),
+-                        MainV2.comPort.MAV.cs.verticalspeed, 2));
++                    writeline($"#6,{MainV2.comPort.MAV.cs.groundspeed * Math.Sin(MainV2.comPort.MAV.cs.groundcourse * MathHelper.deg2rad)},{MainV2.comPort.MAV.cs.groundspeed * Math.Cos(MainV2.comPort.MAV.cs.groundcourse * MathHelper.deg2rad)},{MainV2.comPort.MAV.cs.verticalspeed},{2},");
+ 
+-                    writeline(string.Format("#7,{0},{1},{2},", MainV2.comPort.MAV.cs.roll * MathHelper.deg2rad,
+-                        MainV2.comPort.MAV.cs.pitch * MathHelper.deg2rad, MainV2.comPort.MAV.cs.yaw * MathHelper.deg2rad));
++                    writeline($"#7,{MainV2.comPort.MAV.cs.roll * MathHelper.deg2rad},{MainV2.comPort.MAV.cs.pitch * MathHelper.deg2rad},{MainV2.comPort.MAV.cs.yaw * MathHelper.deg2rad},");
+ 
+-                    writeline(string.Format("#8,{0},{1},{2},", MainV2.comPort.MAV.cs.alt, MainV2.comPort.MAV.cs.alt,
+-                        MainV2.comPort.MAV.cs.press_temp));
++                    writeline($"#8,{MainV2.comPort.MAV.cs.alt},{MainV2.comPort.MAV.cs.alt},{MainV2.comPort.MAV.cs.press_temp},");
+ 
+-                    writeline(string.Format("#9,{0},{1},{2},", MainV2.comPort.MAV.cs.mx, MainV2.comPort.MAV.cs.my,
+-                        MainV2.comPort.MAV.cs.mz));
++                    writeline($"#9,{MainV2.comPort.MAV.cs.mx},{MainV2.comPort.MAV.cs.my},{MainV2.comPort.MAV.cs.mz},");
+ 
+                     //  writeline(string.Format("#10,{0},{1},{2},", 1.354,-1.549,0.972));
+ 
+diff --git a/Controls/UAVCANInspector.cs b/Controls/UAVCANInspector.cs
+index be288e28..2a66ec00 100644
+--- a/Controls/UAVCANInspector.cs
++++ b/Controls/UAVCANInspector.cs
+@@ -408,7 +408,7 @@ namespace MissionPlanner.Controls
+                             var label = msgidfield + "." + newitem.Key;
+                             var lines = zg1.GraphPane.CurveList.Where(ci =>
+                                 ci.Label.Text == label || ci.Label.Text.StartsWith(label + " "));
+-                            if (lines.Count() == 0)
++                            if (!lines.Any())
+                             {
+                                 line = new LineItem(label, new RollingPointPairList(history), color[a % color.Length],
+                                     SymbolType.None);
+@@ -455,7 +455,7 @@ namespace MissionPlanner.Controls
+                 int a = 0;
+                 foreach (var subitem in (IEnumerable) item)
+                 {
+-                    if (subitem is IConvertible)
++                    if (subitem is IConvertible iConvertible)
+                     {
+                         while (zg1.GraphPane.CurveList.Count < (a + 1))
+                         {
+@@ -465,15 +465,15 @@ namespace MissionPlanner.Controls
+                         }
+ 
+                         zg1.GraphPane.CurveList[a].AddPoint(new XDate(DateTime.Now),
+-                            ((IConvertible) subitem).ToDouble(null));
++                            iConvertible.ToDouble(null));
+                         a++;
+                     }
+                 }
+             }
+-            else if (item is IConvertible)
++            else if (item is IConvertible iConvertible)
+             {
+                 line.AddPoint(new XDate(DateTime.Now),
+-                    ((IConvertible) item).ToDouble(null));
++                    iConvertible.ToDouble(null));
+             } 
+             else if (item.GetType().IsClass)
+             {
+diff --git a/Controls/Video.cs b/Controls/Video.cs
+index 533b3257..b736886b 100644
+--- a/Controls/Video.cs
++++ b/Controls/Video.cs
+@@ -47,10 +47,7 @@ namespace MissionPlanner.Controls
+                                     but.Size = TextRenderer.MeasureText(but.Text + "   ", but.Font);
+                                     but.Click += delegate (object o, EventArgs args)
+                                     {
+-                                        GStreamer.StartA(String.Format(
+-                                            "rtspsrc location=rtsp://{0}:{1}{2}?width={3}&height={4} ! application/x-rtp ! rtpjpegdepay ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+-                                            zeroconfHost.IPAddress, service.Value.Port, service.Value.PTR, width,
+-                                            height));
++                                        GStreamer.StartA($"rtspsrc location=rtsp://{zeroconfHost.IPAddress}:{service.Value.Port}{service.Value.PTR}?width={width}&height={height} ! application/x-rtp ! rtpjpegdepay ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
+                                     };
+                                     flowLayoutPanel1.Controls.Add(but);
+                                 }
+diff --git a/Controls/fftui.cs b/Controls/fftui.cs
+index 086dff1c..db850130 100644
+--- a/Controls/fftui.cs
++++ b/Controls/fftui.cs
+@@ -532,7 +532,7 @@ namespace MissionPlanner.Controls
+ 
+         private string zedGraphControl_PointValueEvent(ZedGraphControl sender, GraphPane pane, CurveItem curve, int iPt)
+         {
+-            return String.Format("{0} hz/{1} rpm", curve[iPt].X, curve[iPt].X * 60.0);
++            return $"{curve[iPt].X} hz/{curve[iPt].X * 60.0} rpm";
+         }
+ 
+         private void but_fftimu_Click(object sender, EventArgs e)
+diff --git a/GCSViews/ConfigurationView/ConfigADSB.cs b/GCSViews/ConfigurationView/ConfigADSB.cs
+index 1cc56c50..0c7b9938 100644
+--- a/GCSViews/ConfigurationView/ConfigADSB.cs
++++ b/GCSViews/ConfigurationView/ConfigADSB.cs
+@@ -602,7 +602,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+                 for (var i = 0; i < descriptionParts.Length; i++)
+                 {
+                     // what we are adding to the string
+-                    var appendtext = string.Format("{0} ", descriptionParts[i]);
++                    var appendtext = $"{descriptionParts[i]} ";
+                     returnDescription.Append(appendtext);
+ 
+                     if (i != 0 && i % (width / 40) == 0)
+diff --git a/GCSViews/ConfigurationView/ConfigArducopter.cs b/GCSViews/ConfigurationView/ConfigArducopter.cs
+index ad5ae5ab..6760f68d 100644
+--- a/GCSViews/ConfigurationView/ConfigArducopter.cs
++++ b/GCSViews/ConfigurationView/ConfigArducopter.cs
+@@ -178,17 +178,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+             {
+                 foreach (Control control2 in control1.Controls)
+                 {
+-                    if (control2 is MavlinkNumericUpDown)
++                    if (control2 is MavlinkNumericUpDown mavlinkNumericUpDown)
+                     {
+-                        var ParamName = ((MavlinkNumericUpDown) control2).ParamName;
++                        var ParamName = mavlinkNumericUpDown.ParamName;
+                         toolTip1.SetToolTip(control2,
+                             ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                 ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                     }
+ 
+-                    if (control2 is MavlinkComboBox)
++                    if (control2 is MavlinkComboBox mavlinkComboBox)
+                     {
+-                        var ParamName = ((MavlinkComboBox) control2).ParamName;
++                        var ParamName = mavlinkComboBox.ParamName;
+                         toolTip1.SetToolTip(control2,
+                             ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                 ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+diff --git a/GCSViews/ConfigurationView/ConfigArduplane.cs b/GCSViews/ConfigurationView/ConfigArduplane.cs
+index 8c8e1e26..d5d880c7 100644
+--- a/GCSViews/ConfigurationView/ConfigArduplane.cs
++++ b/GCSViews/ConfigurationView/ConfigArduplane.cs
+@@ -105,16 +105,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+             {
+                 foreach (Control control2 in control1.Controls)
+                 {
+-                    if (control2 is MavlinkNumericUpDown)
++                    if (control2 is MavlinkNumericUpDown mavlinkNumericUpDown)
+                     {
+-                        var ParamName = ((MavlinkNumericUpDown)control2).ParamName;
++                        var ParamName = mavlinkNumericUpDown.ParamName;
+                         toolTip1.SetToolTip(control2,
+                             ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                 ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                     }
+-                    if (control2 is MavlinkComboBox)
++                    if (control2 is MavlinkComboBox mavlinkComboBox)
+                     {
+-                        var ParamName = ((MavlinkComboBox)control2).ParamName;
++                        var ParamName = mavlinkComboBox.ParamName;
+                         toolTip1.SetToolTip(control2,
+                             ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                 ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+diff --git a/GCSViews/ConfigurationView/ConfigArdurover.cs b/GCSViews/ConfigurationView/ConfigArdurover.cs
+index 85ed0a8a..9ecba287 100644
+--- a/GCSViews/ConfigurationView/ConfigArdurover.cs
++++ b/GCSViews/ConfigurationView/ConfigArdurover.cs
+@@ -88,16 +88,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+             {
+                 foreach (Control control2 in control1.Controls)
+                 {
+-                    if (control2 is MavlinkNumericUpDown)
++                    if (control2 is MavlinkNumericUpDown mavlinkNumericUpDown)
+                     {
+-                        var ParamName = ((MavlinkNumericUpDown)control2).ParamName;
++                        var ParamName = mavlinkNumericUpDown.ParamName;
+                         toolTip1.SetToolTip(control2,
+                             ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                 ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                     }
+-                    if (control2 is MavlinkComboBox)
++                    if (control2 is MavlinkComboBox mavlinkComboBox)
+                     {
+-                        var ParamName = ((MavlinkComboBox)control2).ParamName;
++                        var ParamName = mavlinkComboBox.ParamName;
+                         toolTip1.SetToolTip(control2,
+                             ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                 ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+diff --git a/GCSViews/ConfigurationView/ConfigFrameClassType.cs b/GCSViews/ConfigurationView/ConfigFrameClassType.cs
+index b6a125e5..8a3ee197 100644
+--- a/GCSViews/ConfigurationView/ConfigFrameClassType.cs
++++ b/GCSViews/ConfigurationView/ConfigFrameClassType.cs
+@@ -71,7 +71,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+             // get list of valid types
+             var validtypes = ArduPilot.Common.ValidList.Where(a => { return a.Item1 == work_frame_class; });
+ 
+-            if (validtypes.Count() == 0 || validtypes.Count() == 1 && validtypes.First().Item2 == null)
++            if (!validtypes.Any() || validtypes.Count() == 1 && validtypes.First().Item2 == null)
+             {
+                 // no valid types
+                 groupBox2.Enabled = false;
+diff --git a/GCSViews/ConfigurationView/ConfigFriendlyParams.cs b/GCSViews/ConfigurationView/ConfigFriendlyParams.cs
+index 7d049434..49da32ac 100644
+--- a/GCSViews/ConfigurationView/ConfigFriendlyParams.cs
++++ b/GCSViews/ConfigurationView/ConfigFriendlyParams.cs
+@@ -608,7 +608,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+                 for (var i = 0; i < descriptionParts.Length; i++)
+                 {
+                     // what we are adding to the string
+-                    var appendtext = string.Format("{0} ", descriptionParts[i]);
++                    var appendtext = $"{descriptionParts[i]} ";
+                     returnDescription.Append(appendtext);
+ 
+                     if (i != 0 && i % (width / 40) == 0)
+diff --git a/GCSViews/ConfigurationView/ConfigHWBT.cs b/GCSViews/ConfigurationView/ConfigHWBT.cs
+index 90284cbf..08f089e2 100644
+--- a/GCSViews/ConfigurationView/ConfigHWBT.cs
++++ b/GCSViews/ConfigurationView/ConfigHWBT.cs
+@@ -45,13 +45,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+             {
+                 "AT",
+                 "AT+VERSION",
+-                string.Format("AT+ROLE={0}\r\n", 0),
+-                string.Format("AT+NAME={0}\r\n", txt_name.Text),
+-                string.Format("AT+NAME{0}", txt_name.Text),
+-                string.Format("AT+BAUD={0}\r\n", cmb_baud.Text),
+-                string.Format("AT+BAUD{0}", baudmap[int.Parse(cmb_baud.Text)]),
+-                string.Format("AT+PSWD={0}\r\n", txt_pin.Text),
+-                string.Format("AT+PIN{0}", txt_pin.Text),
++                $"AT+ROLE={0}\r\n",
++                $"AT+NAME={txt_name.Text}\r\n",
++                $"AT+NAME{txt_name.Text}",
++                $"AT+BAUD={cmb_baud.Text}\r\n",
++                $"AT+BAUD{baudmap[int.Parse(cmb_baud.Text)]}",
++                $"AT+PSWD={txt_pin.Text}\r\n",
++                $"AT+PIN{txt_pin.Text}",
+                 "AT+RESET"
+             };
+ 
+diff --git a/GCSViews/ConfigurationView/ConfigPlanner.cs b/GCSViews/ConfigurationView/ConfigPlanner.cs
+index 2c54da1c..e76e10f5 100644
+--- a/GCSViews/ConfigurationView/ConfigPlanner.cs
++++ b/GCSViews/ConfigurationView/ConfigPlanner.cs
+@@ -896,7 +896,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+ 
+             public override string ToString()
+             {
+-                return Width + " x " + Height + string.Format(" {0:0.00} fps ", 10000000.0 / Fps) + Standard;
++                return Width + " x " + Height + $" {10000000.0 / Fps:0.00} fps " + Standard;
+             }
+         }
+ 
+@@ -910,10 +910,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+             }
+             else
+             {
+-                if (temp != null)
+-                {
+-                    temp.Close();
+-                }
++                temp?.Close();
+             }
+         }
+ 
+diff --git a/GCSViews/ConfigurationView/ConfigRadioOutput.cs b/GCSViews/ConfigurationView/ConfigRadioOutput.cs
+index 817720db..3b4d6983 100644
+--- a/GCSViews/ConfigurationView/ConfigRadioOutput.cs
++++ b/GCSViews/ConfigurationView/ConfigRadioOutput.cs
+@@ -25,7 +25,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+ 
+         private void setup(int servono)
+         {
+-            var servo = String.Format("SERVO{0}", servono);
++            var servo = $"SERVO{servono}";
+ 
+             var label = new Label()
+                 {Text = servono.ToString(), AutoSize = true, TextAlign = System.Drawing.ContentAlignment.MiddleCenter};
+diff --git a/GCSViews/ConfigurationView/ConfigRawParamsTree.cs b/GCSViews/ConfigurationView/ConfigRawParamsTree.cs
+index 459a073f..51c2bebe 100644
+--- a/GCSViews/ConfigurationView/ConfigRawParamsTree.cs
++++ b/GCSViews/ConfigurationView/ConfigRawParamsTree.cs
+@@ -528,7 +528,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+ 
+             if (chk_modified.Checked)
+             {
+-                var filter = String.Format("({0})", String.Join("|", _changes.Keys.Select(a => a.ToString())));
++                var filter = $"({String.Join("|", _changes.Keys.Select(a => a.ToString()))})";
+ 
+                 Params.ModelFilter = TextMatchFilter.Regex(Params, filter);
+                 Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter)Params.ModelFilter);
+@@ -679,7 +679,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+                 return "";
+             });
+ 
+-            if (e != null && e.ListView != null && e.ListView.Items.Count > 0)
++            if (e?.ListView != null && e.ListView.Items.Count > 0)
+             {
+                 var it = ((data)e.Model);
+                 if (_changes.ContainsKey(it.paramname) || shortv.Contains(it.paramname))
+@@ -689,9 +689,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+                 else
+                     e.Item.BackColor = BackColor;
+             }
+-
+-            var item = e.Model as data;
+-            if (item != null)
++
++            if (e.Model is data item)
+             {
+                 //olvColumn4.WordWrap = true;
+                 //olvColumn5.WordWrap = true;
+diff --git a/GCSViews/ConfigurationView/ConfigSerialInjectGPS.cs b/GCSViews/ConfigurationView/ConfigSerialInjectGPS.cs
+index 673723f5..9aae6499 100644
+--- a/GCSViews/ConfigurationView/ConfigSerialInjectGPS.cs
++++ b/GCSViews/ConfigurationView/ConfigSerialInjectGPS.cs
+@@ -948,8 +948,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+                         baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]);
+ 
+                     status_line3 =
+-                        (String.Format("{0} {1} {2} - {3}", baseposllh[0] * Utilities.rtcm3.R2D,
+-                            baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2], DateTime.Now.ToString("HH:mm:ss")));
++                        ($"{baseposllh[0] * Utilities.rtcm3.R2D} {baseposllh[1] * Utilities.rtcm3.R2D} {baseposllh[2]} - {DateTime.Now.ToString("HH:mm:ss")}");
+ 
+                     if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
+                         Instance.but_save_basepos.Enabled = true;
+@@ -969,8 +968,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+                         baseposllh[2]);
+ 
+                     status_line3 =
+-                       (String.Format("{0} {1} {2} - {3}", baseposllh[0] * Utilities.rtcm3.R2D,
+-                           baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2], DateTime.Now.ToString("HH:mm:ss")));
++                       ($"{baseposllh[0] * Utilities.rtcm3.R2D} {baseposllh[1] * Utilities.rtcm3.R2D} {baseposllh[2]} - {DateTime.Now.ToString("HH:mm:ss")}");
+ 
+                     if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
+                         Instance.but_save_basepos.Enabled = true;
+@@ -1042,8 +1040,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+             {
+             }
+ 
+-            updateLabel(String.Format("{0,10} bps", bps),
+-                String.Format("{0,10} bps sent", bpsusefull), status_line3,
++            updateLabel($"{bps, 10} bps",
++                $"{bpsusefull, 10} bps sent", status_line3,
+                 sb.ToString());
+             bps = 0;
+             bpsusefull = 0;
+@@ -1140,8 +1138,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+                 DialogResult.OK)
+             {
+                 var basepos = MainV2.comPort.MAV.cs.MovingBase;
+-                Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}", basepos.Lat.ToString(CultureInfo.InvariantCulture), basepos.Lng.ToString(CultureInfo.InvariantCulture), basepos.Alt.ToString(CultureInfo.InvariantCulture),
+-                    location);
++                Settings.Instance["base_pos"] = $"{basepos.Lat.ToString(CultureInfo.InvariantCulture)},{basepos.Lng.ToString(CultureInfo.InvariantCulture)},{basepos.Alt.ToString(CultureInfo.InvariantCulture)},{location}";
+ 
+                 baseposList.Add(new PointLatLngAlt(basepos) { Tag = location });
+ 
+@@ -1181,11 +1178,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+         {
+             if (e.ColumnIndex == Use.Index)
+             {
+-                Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}",
+-                    dg_basepos[Lat.Index, e.RowIndex].Value.ToInvariantString(),
+-                    dg_basepos[Long.Index, e.RowIndex].Value.ToInvariantString(),
+-                    dg_basepos[Alt.Index, e.RowIndex].Value.ToInvariantString(),
+-                    dg_basepos[BaseName1.Index, e.RowIndex].Value);
++                Settings.Instance["base_pos"] = $"{dg_basepos[Lat.Index, e.RowIndex].Value.ToInvariantString()},{dg_basepos[Long.Index, e.RowIndex].Value.ToInvariantString()},{dg_basepos[Alt.Index, e.RowIndex].Value.ToInvariantString()},{dg_basepos[BaseName1.Index, e.RowIndex].Value}";
+ 
+                 loadBasePOS();
+ 
+diff --git a/GCSViews/ConfigurationView/ConfigTerminal.cs b/GCSViews/ConfigurationView/ConfigTerminal.cs
+index 9e449a6e..afea3523 100644
+--- a/GCSViews/ConfigurationView/ConfigTerminal.cs
++++ b/GCSViews/ConfigurationView/ConfigTerminal.cs
+@@ -558,12 +558,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+                             comPort_DataReceived(null, null);
+                         }
+ 
+-                        if (comPort is MAVLinkSerialPort)
++                        if (comPort is MAVLinkSerialPort mAVLinkSerialPort)
+                         {
+                             if (lastsend.AddMilliseconds(500) > DateTime.Now)
+                             {
+                                 // 20 hz
+-                                ((MAVLinkSerialPort)comPort).timeout = 50;
++                                mAVLinkSerialPort.timeout = 50;
+                             }
+                             else
+                             {
+diff --git a/GCSViews/ConfigurationView/ConfigTradHeli4.cs b/GCSViews/ConfigurationView/ConfigTradHeli4.cs
+index 5fd82681..657d7487 100644
+--- a/GCSViews/ConfigurationView/ConfigTradHeli4.cs
++++ b/GCSViews/ConfigurationView/ConfigTradHeli4.cs
+@@ -165,7 +165,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+         private void setup(MavlinkCheckBox rev1, MavlinkComboBox func1,
+             MavlinkNumericUpDown min1, MavlinkNumericUpDown trim1, MavlinkNumericUpDown max1, int servono)
+         {
+-            var servo = String.Format("SERVO{0}", servono);
++            var servo = $"SERVO{servono}";
+ 
+             rev1.setup(1, 0, servo + "_REVERSED", MainV2.comPort.MAV.param);
+             func1.setup(ParameterMetaDataRepository.GetParameterOptionsInt(servo + "_FUNCTION",
+diff --git a/GCSViews/ConfigurationView/ConfigUAVCAN.cs b/GCSViews/ConfigurationView/ConfigUAVCAN.cs
+index 3d82d6f0..259fd47a 100644
+--- a/GCSViews/ConfigurationView/ConfigUAVCAN.cs
++++ b/GCSViews/ConfigurationView/ConfigUAVCAN.cs
+@@ -214,7 +214,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
+ 
+                         var nodes = allnodes.Where((a) => a.ID == frame.SourceNode);
+ 
+-                        if (nodes.Count() > 0 && nodes.First().Name == "?")
++                        if (nodes.Any() && nodes.First().Name == "?")
+                         {
+                             var statetracking = new UAVCAN.uavcan.statetracking();
+                             // get node info
+diff --git a/GCSViews/FlightData.cs b/GCSViews/FlightData.cs
+index 5615fd55..c5b595c7 100644
+--- a/GCSViews/FlightData.cs
++++ b/GCSViews/FlightData.cs
+@@ -2058,7 +2058,7 @@ namespace MissionPlanner.GCSViews
+ 
+         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+         {
+-            if (CurrentGMapMarker == null || !(CurrentGMapMarker is GMapMarkerPOI))
++            if (!(CurrentGMapMarker is GMapMarkerPOI))
+                 return;
+ 
+             POI.POIDelete((GMapMarkerPOI) CurrentGMapMarker);
+@@ -2589,9 +2589,7 @@ namespace MissionPlanner.GCSViews
+ 
+             Settings.Instance["herelinkip"] = ipaddr;
+ 
+-            string url = String.Format(
+-                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+-                ipaddr);
++            string url = $"rtspsrc location=rtsp://{ipaddr}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink";
+ 
+             GStreamer.LookForGstreamer();
+ 
+@@ -3199,7 +3197,7 @@ namespace MissionPlanner.GCSViews
+                                     var travdist = 0.0;
+                                     if (overlay.pointlist.Count > 0)
+                                     {
+-                                        var lastplla = overlay.pointlist.Where(a => a != null).FirstOrDefault();
++                                        var lastplla = overlay.pointlist.FirstOrDefault(a => a != null);
+                                         foreach (var plla in overlay.pointlist)
+                                         {
+                                             i++;
+@@ -3250,7 +3248,7 @@ namespace MissionPlanner.GCSViews
+                                 CurrentState.multiplieralt);
+ 
+                             var fence = mymap.Overlays.Where(a => a.Id == "fence");
+-                            if (fence.Count() > 0)
++                            if (fence.Any())
+                                 mymap.Overlays.Remove(fence.First());
+                             mymap.Overlays.Add(fenceoverlay.overlay);
+ 
+@@ -5164,14 +5162,13 @@ namespace MissionPlanner.GCSViews
+             int y = 10;
+ 
+             var list = MainV2.comPort.MAV.cs.GetItemList(true);
+-            var cs = bindingSourceStatusTab.Current as CurrentState;
+             var br = new SolidBrush(tabStatus.ForeColor);
+ 
+             foreach (var field in list)
+             {
+                 g.DrawString(field, this.Font, br, new RectangleF(x, y, 95, 15));
+ 
+-                if (cs != null)
++                if (bindingSourceStatusTab.Current is CurrentState cs)
+                     g.DrawString(typeof(CurrentState).GetProperty(field).GetValue(cs)?.ToString(), this.Font,
+                         br, new RectangleF(x + 95, y, 50, 15));
+ 
+diff --git a/GCSViews/FlightPlanner.cs b/GCSViews/FlightPlanner.cs
+index 6623df81..f09dfb95 100644
+--- a/GCSViews/FlightPlanner.cs
++++ b/GCSViews/FlightPlanner.cs
+@@ -1419,7 +1419,7 @@ namespace MissionPlanner.GCSViews
+                         }
+                         fenceoverlay.overlay.Markers.Select(a => a.IsHitTestVisible = false).ToArray();
+                         var fence = MainMap.Overlays.Where(a => a.Id == "fence");
+-                        if (fence.Count() > 0)
++                        if (fence.Any())
+                             MainMap.Overlays.Remove(fence.First());
+                         MainMap.Overlays.Add(fenceoverlay.overlay);
+ 
+@@ -2022,9 +2022,9 @@ namespace MissionPlanner.GCSViews
+             var fence = MainMap.Overlays.Where(a => a.Id == "fence");
+             var rally = MainMap.Overlays.Where(a => a.Id == "rally");
+ 
+-            if (wp.Count() > 0) MainMap.Overlays.Remove(wp.First());
+-            if (fence.Count() > 0) MainMap.Overlays.Remove(fence.First());
+-            if (rally.Count() > 0) MainMap.Overlays.Remove(rally.First());
++            if (wp.Any()) MainMap.Overlays.Remove(wp.First());
++            if (fence.Any()) MainMap.Overlays.Remove(fence.First());
++            if (rally.Any()) MainMap.Overlays.Remove(rally.First());
+ 
+             // update the displayed items
+             if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+@@ -4622,7 +4622,7 @@ namespace MissionPlanner.GCSViews
+ 
+         public void poieditToolStripMenuItem_Click(object sender, EventArgs e)
+         {
+-            if (CurrentGMapMarker == null || !(CurrentGMapMarker is GMapMarkerPOI))
++            if (!(CurrentGMapMarker is GMapMarkerPOI))
+                 return;
+ 
+             POI.POIEdit(CurrentPOIMarker);
+@@ -4686,14 +4686,7 @@ namespace MissionPlanner.GCSViews
+ 
+         private void processKML(Element Element)
+         {
+-            Document doc = Element as Document;
+-            Placemark pm = Element as Placemark;
+-            Folder folder = Element as Folder;
+-            Polygon polygon = Element as Polygon;
+-            LineString ls = Element as LineString;
+-            MultipleGeometry geom = Element as MultipleGeometry;
+-
+-            if (doc != null)
++            if (Element is Document doc)
+             {
+                 foreach (var feat in doc.Features)
+                 {
+@@ -4701,7 +4694,7 @@ namespace MissionPlanner.GCSViews
+                     //processKML((Element)feat);
+                 }
+             }
+-            else if (folder != null)
++            else if (Element is Folder folder)
+             {
+                 foreach (Feature feat in folder.Features)
+                 {
+@@ -4709,10 +4702,10 @@ namespace MissionPlanner.GCSViews
+                     //processKML(feat);
+                 }
+             }
+-            else if (pm != null)
++            else if (Element is Placemark pm)
+             {
+             }
+-            else if (polygon != null)
++            else if (Element is Polygon polygon)
+             {
+                 GMapPolygon kmlpolygon = new GMapPolygon(new List<PointLatLng>(), "kmlpolygon");
+ 
+@@ -4726,7 +4719,7 @@ namespace MissionPlanner.GCSViews
+ 
+                 kmlpolygonsoverlay.Polygons.Add(kmlpolygon);
+             }
+-            else if (ls != null)
++            else if (Element is LineString ls)
+             {
+                 GMapRoute kmlroute = new GMapRoute(new List<PointLatLng>(), "kmlroute");
+ 
+@@ -4739,7 +4732,7 @@ namespace MissionPlanner.GCSViews
+ 
+                 kmlpolygonsoverlay.Routes.Add(kmlroute);
+             }
+-            else if (geom != null)
++            else if (Element is MultipleGeometry geom)
+             {
+                 foreach (var geometry in geom.Geometry)
+                 {
+@@ -4760,13 +4753,7 @@ namespace MissionPlanner.GCSViews
+                 log.Error(ex);
+             }
+ 
+-            Document doc = element as Document;
+-            Placemark pm = element as Placemark;
+-            Folder folder = element as Folder;
+-            Polygon polygon = element as Polygon;
+-            LineString ls = element as LineString;
+-
+-            if (doc != null)
++            if (element is Document doc)
+             {
+                 foreach (var feat in doc.Features)
+                 {
+@@ -4774,7 +4761,7 @@ namespace MissionPlanner.GCSViews
+                     //processKML((Element)feat);
+                 }
+             }
+-            else if (folder != null)
++            else if (element is Folder folder)
+             {
+                 foreach (Feature feat in folder.Features)
+                 {
+@@ -4782,7 +4769,7 @@ namespace MissionPlanner.GCSViews
+                     //processKML(feat);
+                 }
+             }
+-            else if (pm != null)
++            else if (element is Placemark pm)
+             {
+                 if (pm.Geometry is SharpKml.Dom.Point)
+                 {
+@@ -4790,10 +4777,10 @@ namespace MissionPlanner.GCSViews
+                     POI.POIAdd(new PointLatLngAlt(point.Latitude, point.Longitude), pm.Name);
+                 }
+             }
+-            else if (polygon != null)
++            else if (element is Polygon polygon)
+             {
+             }
+-            else if (ls != null)
++            else if (element is LineString ls)
+             {
+                 foreach (var loc in ls.Coordinates)
+                 {
+@@ -6281,8 +6268,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
+         {
+             log.Info("updateMapType invoke req? " + comboBoxMapType.InvokeRequired);
+ 
+-            if (sender is System.Timers.Timer)
+-                ((System.Timers.Timer)sender).Stop();
++            if (sender is System.Timers.Timer timer)
++                timer.Stop();
+ 
+             string mapType = Settings.Instance["MapType"];
+             if (!string.IsNullOrEmpty(mapType))
+@@ -6405,13 +6392,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
+         {
+             System.Diagnostics.Debug.WriteLine("add marker " + marker.Tag.ToString());
+             groupmarkers.Add(int.Parse(marker.Tag.ToString()));
+-            if (marker is GMapMarkerWP)
++            if (marker is GMapMarkerWP gMapMarkerWP)
+             {
+-                ((GMapMarkerWP)marker).selected = true;
++                gMapMarkerWP.selected = true;
+             }
+-            if (marker is GMapMarkerRect)
++            if (marker is GMapMarkerRect gMapMarkerRect)
+             {
+-                ((GMapMarkerWP)((GMapMarkerRect)marker).InnerMarker).selected = true;
++                ((GMapMarkerWP)gMapMarkerRect.InnerMarker).selected = true;
+             }
+         }
+ 
+@@ -6842,7 +6829,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
+                         a.id == type && (a.p1 == 0 || a.p1 == oldcount));
+                     //&& i >= rowno - oldcount && i <= rowno + oldcount
+ 
+-                    while (list.Count() > 0)
++                    while (list.Any())
+                     {
+                         var length = (int) list.First().p1;
+                         if (length == 0)
+@@ -6856,7 +6843,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
+                             return cnt <= length;
+                         }).ToList();
+ 
+-                        if (sublist.Count() == newcount)
++                        if (sublist.Count == newcount)
+                         {
+                             foreach (var locationwp in sublist)
+                             {
+@@ -6890,7 +6877,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
+                     var list = currentlist.Where((a, i) =>
+                         a.id == type && a.p1 == oldcount);
+ 
+-                    while (list.Count() > 0)
++                    while (list.Any())
+                     {
+                         var length = (int)list.First().p1;
+                         if (length == 0)
+@@ -7266,7 +7253,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
+                     }
+                     szListLayerName.Add(name);
+ 
+-                    szLayerSelection += string.Format("{0}: {1}\n ", iSelect, title);
++                    szLayerSelection += $"{iSelect}: {title}\n ";
+                     //mixing control and formatting is not optimal...
+                     iSelect++;
+                 }
+diff --git a/GCSViews/SITL.cs b/GCSViews/SITL.cs
+index 1bbffc6d..ee897c08 100644
+--- a/GCSViews/SITL.cs
++++ b/GCSViews/SITL.cs
+@@ -217,8 +217,7 @@ namespace MissionPlanner.GCSViews
+ 
+         string BuildHomeLocation(PointLatLng homelocation, int heading = 0)
+         {
+-            return String.Format("{0},{1},{2},{3}", homelocation.Lat.ToString(CultureInfo.InvariantCulture), homelocation.Lng.ToString(CultureInfo.InvariantCulture),
+-                srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt.ToString(CultureInfo.InvariantCulture), heading.ToString(CultureInfo.InvariantCulture));
++            return $"{homelocation.Lat.ToString(CultureInfo.InvariantCulture)},{homelocation.Lng.ToString(CultureInfo.InvariantCulture)},{srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt.ToString(CultureInfo.InvariantCulture)},{heading.ToString(CultureInfo.InvariantCulture)}";
+         }
+ 
+         private async Task<string> CheckandGetSITLImage(string filename)
+@@ -481,7 +480,7 @@ namespace MissionPlanner.GCSViews
+ 
+             ProcessStartInfo exestart = new ProcessStartInfo();
+             exestart.FileName = exepath;
+-            exestart.Arguments = String.Format("-M{0} -O{1} -s{2} --uartA tcp:0 {3}", model, homelocation, speedup, extraargs);
++            exestart.Arguments = $"-M{model} -O{homelocation} -s{speedup} --uartA tcp:0 {extraargs}";
+             exestart.WorkingDirectory = simdir;
+             exestart.WindowStyle = ProcessWindowStyle.Minimized;
+             exestart.UseShellExecute = true;
+@@ -652,16 +651,11 @@ namespace MissionPlanner.GCSViews
+ 
+                 if (max == a)
+                 {
+-                    extra += String.Format(
+-                        " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+-                        a, "", a + 1, BuildHomeLocation(home, (int)NUM_heading.Value), model);
++                    extra += $" -M{a} -s1 --home {""} --instance {a + 1} --uartA tcp:0 {BuildHomeLocation(home, (int)NUM_heading.Value)} -P SYSID_THISMAV={model} ";
+                 }
+                 else
+                 {
+-                    extra += String.Format(
+-                        " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+-                        a, "" /*"--uartD tcpclient:127.0.0.1:" + (5770 + 10 * a)*/, a + 1,
+-                        BuildHomeLocation(home, (int)NUM_heading.Value), model);
++                    extra += $" -M{a} -s1 --home {"" /*"--uartD tcpclient:127.0.0.1:" + (5770 + 10 * a)*/} --instance {a + 1} --uartA tcp:0 {BuildHomeLocation(home, (int)NUM_heading.Value)} -P SYSID_THISMAV={model} ";
+                 }
+ 
+                 string simdir = sitldirectory + model + (a + 1) + Path.DirectorySeparatorChar;
+@@ -770,16 +764,11 @@ SIM_DRIFT_TIME=0
+ 
+                 if (max == a)
+                 {
+-                    extra += String.Format(
+-                        " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+-                        a, "", a + 1, BuildHomeLocation(home, (int)NUM_heading.Value), model);
++                    extra += $" -M{a} -s1 --home {""} --instance {a + 1} --uartA tcp:0 {BuildHomeLocation(home, (int)NUM_heading.Value)} -P SYSID_THISMAV={model} ";
+                 }
+                 else
+                 {
+-                    extra += String.Format(
+-                        " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+-                        a, "--uartD tcpclient:127.0.0.1:" + (5772 + 10 * a), a + 1,
+-                        BuildHomeLocation(home, (int)NUM_heading.Value), model);
++                    extra += $" -M{a} -s1 --home {"--uartD tcpclient:127.0.0.1:" + (5772 + 10 * a)} --instance {a + 1} --uartA tcp:0 {BuildHomeLocation(home, (int)NUM_heading.Value)} -P SYSID_THISMAV={model} ";
+                 }
+ 
+                 string simdir = sitldirectory + model + (a + 1) + Path.DirectorySeparatorChar;
+diff --git a/Grid/GridUI.cs b/Grid/GridUI.cs
+index 2ef61e5f..7f07e331 100644
+--- a/Grid/GridUI.cs
++++ b/Grid/GridUI.cs
+@@ -365,21 +365,21 @@ namespace MissionPlanner.Grid
+             {
+                 if (plugin.Host.config.ContainsKey(key))
+                 {
+-                    if (item is NumericUpDown)
++                    if (item is NumericUpDown numericUpDown)
+                     {
+-                        ((NumericUpDown)item).Value = decimal.Parse(plugin.Host.config[key].ToString());
++                        numericUpDown.Value = decimal.Parse(plugin.Host.config[key].ToString());
+                     }
+-                    else if (item is ComboBox)
++                    else if (item is ComboBox comboBox)
+                     {
+-                        ((ComboBox)item).Text = plugin.Host.config[key].ToString();
++                        comboBox.Text = plugin.Host.config[key].ToString();
+                     }
+-                    else if (item is CheckBox)
++                    else if (item is CheckBox checkBox)
+                     {
+-                        ((CheckBox)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
++                        checkBox.Checked = bool.Parse(plugin.Host.config[key].ToString());
+                     }
+-                    else if (item is RadioButton)
++                    else if (item is RadioButton radioButton)
+                     {
+-                        ((RadioButton)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
++                        radioButton.Checked = bool.Parse(plugin.Host.config[key].ToString());
+                     }
+                 }
+             }
+diff --git a/Log/LogBrowse.cs b/Log/LogBrowse.cs
+index bcc389af..3061b13b 100644
+--- a/Log/LogBrowse.cs
++++ b/Log/LogBrowse.cs
+@@ -3020,8 +3020,7 @@ main()
+             var e = ei as MouseEventArgs;
+             if ((item.Name != null) && (item.Name.StartsWith("route_")))
+             {
+-                LogRouteInfo lri = item.Tag as LogRouteInfo;
+-                if (lri != null)
++                if (item.Tag is LogRouteInfo lri)
+                 {
+                     //cerco il punto più vicino
+                     MissionPlanner.Utilities.PointLatLngAlt pt2 =
+diff --git a/Log/LogIndex.cs b/Log/LogIndex.cs
+index 98b1ff15..51e0785d 100644
+--- a/Log/LogIndex.cs
++++ b/Log/LogIndex.cs
+@@ -335,7 +335,7 @@ namespace MissionPlanner.Log
+ 
+         private void btnDeleteLog_Click(object sender, EventArgs e)
+         {
+-            if (CustomMessageBox.Show(string.Format("Do you really want to delete {0} logs?", objectListView1.SelectedIndices.Count), MessageBoxButtons: CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
++            if (CustomMessageBox.Show($"Do you really want to delete {objectListView1.SelectedIndices.Count} logs?", MessageBoxButtons: CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+             {
+                 foreach (int i in objectListView1.SelectedIndices)
+                 {
+@@ -358,7 +358,7 @@ namespace MissionPlanner.Log
+                         }
+                         catch (Exception ex)
+                         {
+-                            CustomMessageBox.Show(string.Format("Error has been occured when trying to delete {0}\r\n{1}", log.fullname, ex.Message));
++                            CustomMessageBox.Show($"Error has been occured when trying to delete {log.fullname}\r\n{ex.Message}");
+                         }
+                     }
+ 
+@@ -389,7 +389,7 @@ namespace MissionPlanner.Log
+ 
+             }
+ 
+-            lbStats.Text = string.Format("Selected: {2}; TimeInAir: {0}; DistTraveled: {1}m", ToHours(timeInAir), (int)distTraveled, objectListView1.SelectedIndices.Count);
++            lbStats.Text = $"Selected: {ToHours(timeInAir)}; TimeInAir: {(int)distTraveled}; DistTraveled: {objectListView1.SelectedIndices.Count}m";
+         }
+ 
+         private static string ToHours(float seconds)
+diff --git a/Log/MavlinkLog.cs b/Log/MavlinkLog.cs
+index 7d441078..445a2b57 100644
+--- a/Log/MavlinkLog.cs
++++ b/Log/MavlinkLog.cs
+@@ -403,9 +403,9 @@ namespace MissionPlanner.Log
+                         continue;
+                     }
+ 
+-                    if (data is MAVLink.mavlink_heartbeat_t)
++                    if (data is MAVLink.mavlink_heartbeat_t mavlink_heartbeat_t)
+                     {
+-                        if (((MAVLink.mavlink_heartbeat_t) data).type == (byte) MAVLink.MAV_TYPE.GCS)
++                        if (mavlink_heartbeat_t.type == (byte) MAVLink.MAV_TYPE.GCS)
+                             continue;
+                     }
+ 
+@@ -600,7 +600,7 @@ namespace MissionPlanner.Log
+             // if it doesn't compile, show errors in the window
+             CompilerResults results = CodeGen.CompileAssembly();
+ 
+-            if (results != null && results.CompiledAssembly != null)
++            if (results?.CompiledAssembly != null)
+             {
+                 string field = "custom mavlink_custom_t"; // reverse bellow
+ 
+diff --git a/MainV2.cs b/MainV2.cs
+index aed898b0..73a8e921 100644
+--- a/MainV2.cs
++++ b/MainV2.cs
+@@ -1250,7 +1250,7 @@ namespace MissionPlanner
+                 try
+                 {
+                     // dont rebroadcast something that came from the drone
+-                    if (sender != null && sender is MAVLinkInterface)
++                    if (sender is MAVLinkInterface)
+                         return;
+ 
+                     MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
+@@ -2450,10 +2450,7 @@ namespace MissionPlanner
+                            this.MenuConnect.Image.Tag = "Connect";
+                            this.MenuConnect.Text = Strings.CONNECTc;
+                            _connectionControl.IsConnected(false);
+-                           if (_connectionStats != null)
+-                           {
+-                               _connectionStats.StopUpdates();
+-                           }
++                           _connectionStats?.StopUpdates();
+                        });
+                     }
+ 
+diff --git a/NoFly/NoFly.cs b/NoFly/NoFly.cs
+index fda91c47..968b5689 100644
+--- a/NoFly/NoFly.cs
++++ b/NoFly/NoFly.cs
+@@ -95,14 +95,7 @@ namespace MissionPlanner.NoFly
+             {
+             }
+ 
+-            SharpKml.Dom.Document doc = Element as SharpKml.Dom.Document;
+-            SharpKml.Dom.Placemark pm = Element as SharpKml.Dom.Placemark;
+-            SharpKml.Dom.Folder folder = Element as SharpKml.Dom.Folder;
+-            SharpKml.Dom.Polygon polygon = Element as SharpKml.Dom.Polygon;
+-            SharpKml.Dom.LineString ls = Element as SharpKml.Dom.LineString;
+-            MultipleGeometry geom = Element as MultipleGeometry;
+-
+-            if (doc != null)
++            if (Element is SharpKml.Dom.Document doc)
+             {
+                 foreach (var feat in doc.Features)
+                 {
+@@ -110,7 +103,7 @@ namespace MissionPlanner.NoFly
+                     //processKML((Element)feat);
+                 }
+             }
+-            else if (folder != null)
++            else if (Element is SharpKml.Dom.Folder folder)
+             {
+                 foreach (SharpKml.Dom.Feature feat in folder.Features)
+                 {
+@@ -118,10 +111,10 @@ namespace MissionPlanner.NoFly
+                     //processKML(feat);
+                 }
+             }
+-            else if (pm != null)
++            else if (Element is SharpKml.Dom.Placemark pm)
+             {
+             }
+-            else if (polygon != null)
++            else if (Element is SharpKml.Dom.Polygon polygon)
+             {
+                 GMapPolygon kmlpolygon = new GMapPolygon(new List<PointLatLng>(), "kmlpolygon");
+ 
+@@ -136,7 +129,7 @@ namespace MissionPlanner.NoFly
+ 
+                 kmlpolygonsoverlay.Polygons.Add(kmlpolygon);
+             }
+-            else if (ls != null)
++            else if (Element is SharpKml.Dom.LineString ls)
+             {
+                 GMapRoute kmlroute = new GMapRoute(new List<PointLatLng>(), "kmlroute");
+ 
+@@ -149,7 +142,7 @@ namespace MissionPlanner.NoFly
+ 
+                 kmlpolygonsoverlay.Routes.Add(kmlroute);
+             }
+-            else if (geom != null)
++            else if (Element is MultipleGeometry geom)
+             {
+                 foreach (var geometry in geom.Geometry)
+                 {
+diff --git a/Program.cs b/Program.cs
+index 94519370..a40cdc1b 100644
+--- a/Program.cs
++++ b/Program.cs
+@@ -699,7 +699,7 @@ namespace MissionPlanner
+                 {
+                     string data = "";
+                     foreach (System.Collections.DictionaryEntry de in ex.Data)
+-                        data += String.Format("-> {0}: {1}", de.Key, de.Value);
++                        data += $"-> {de.Key}: {de.Value}";
+ 
+                     string message = "";
+ 
+diff --git a/Radio/IHex.cs b/Radio/IHex.cs
+index 940c5781..625e3038 100644
+--- a/Radio/IHex.cs
++++ b/Radio/IHex.cs
+@@ -34,7 +34,7 @@ namespace MissionPlanner.Radio
+             Clear();
+             merge_index.Clear();
+ 
+-            log(string.Format("reading from {0}\n", Path.GetFileName(fromPath)));
++            log($"reading from {Path.GetFileName(fromPath)}\n");
+ 
+             while (!sr.EndOfStream)
+             {
+@@ -82,7 +82,7 @@ namespace MissionPlanner.Radio
+             }
+             if (Count < 1)
+                 throw new Exception("no data in IntelHex file");
+-            log(string.Format("read {0} bytes from {1}\n", loadedSize, fromPath));
++            log($"read {loadedSize} bytes from {fromPath}\n");
+ 
+             sr.Close();
+         }
+diff --git a/Radio/Sikradio.cs b/Radio/Sikradio.cs
+index f5491281..0f12737b 100644
+--- a/Radio/Sikradio.cs
++++ b/Radio/Sikradio.cs
+@@ -134,10 +134,7 @@ S15: MAX_WINDOW=131
+         public void Disconnect()
+         {
+             var S = _Session;
+-            if (S != null)
+-            {
+-                S.PutIntoTransparentMode();
+-            }
++            S?.PutIntoTransparentMode();
+             EndSession();
+         }
+ 
+@@ -1635,28 +1632,24 @@ red LED solid - in firmware update mode");
+                 foreach (Control control in form.Controls)
+                 {
+                     control.Enabled = false;
+-                    if (control is TextBox)
++                    if (control is TextBox textBox)
+                     {
+-                        TextBox textBox = (TextBox)control;
+                         textBox.Text = null;
+                     }
+ 
+-                    if (control is ComboBox)
++                    if (control is ComboBox comboBox)
+                     {
+-                        ComboBox comboBox = (ComboBox)control;
+                         if (comboBox.Items.Count > 0)
+                             comboBox.SelectedIndex = 0;
+                     }
+ 
+-                    if (control is CheckBox)
++                    if (control is CheckBox checkBox)
+                     {
+-                        CheckBox checkBox = (CheckBox)control;
+                         checkBox.Checked = false;
+                     }
+ 
+-                    if (control is ListBox)
++                    if (control is ListBox listBox)
+                     {
+-                        ListBox listBox = (ListBox)control;
+                         listBox.ClearSelected();
+                     }
+                 }
+diff --git a/Radio/Uploader.cs b/Radio/Uploader.cs
+index c250dd87..7e38ebed 100644
+--- a/Radio/Uploader.cs
++++ b/Radio/Uploader.cs
+@@ -116,7 +116,7 @@ namespace MissionPlanner.Radio
+             {
+                 if (cmdSync())
+                     break;
+-                log(string.Format("sync({0}) failed\n", i), 1);
++                log($"sync({i}) failed\n", 1);
+             }
+             if (!cmdSync())
+             {
+@@ -205,7 +205,7 @@ namespace MissionPlanner.Radio
+                 if (to_send > PROG_MULTI_MAX)
+                     to_send = PROG_MULTI_MAX;
+ 
+-                log(string.Format("multi {0}/{1}\n", offset, to_send), 1);
++                log($"multi {offset}/{to_send}\n", 1);
+                 cmdProgramMulti(data, offset, to_send);
+                 offset += to_send;
+ 
+@@ -228,7 +228,7 @@ namespace MissionPlanner.Radio
+                 if (to_verf > READ_MULTI_MAX)
+                     to_verf = READ_MULTI_MAX;
+ 
+-                log(string.Format("multi {0}/{1}\n", offset, to_verf), 1);
++                log($"multi {offset}/{to_verf}\n", 1);
+                 cmdVerifyMulti(data, offset, to_verf);
+                 offset += to_verf;
+ 
+diff --git a/SikRadio/Config.cs b/SikRadio/Config.cs
+index d11c1cf2..7fd81ed2 100644
+--- a/SikRadio/Config.cs
++++ b/SikRadio/Config.cs
+@@ -234,10 +234,7 @@ namespace SikRadio
+         {
+             if (_Connected)
+             {
+-                if (_CurrentForm != null)
+-                {
+-                    _CurrentForm.Disconnect();
+-                }
++                _CurrentForm?.Disconnect();
+                 Disconnect();
+                 _Connected = false;
+                 btnConnect.Text = "Connect";
+@@ -252,10 +249,7 @@ namespace SikRadio
+             {
+                 if (Connect())
+                 {
+-                    if (_CurrentForm != null)
+-                    {
+-                        _CurrentForm.Connect();
+-                    }
++                    _CurrentForm?.Connect();
+                     _Connected = true;
+                     btnConnect.Text = "Disconnect";
+                     if (_CurrentForm != null)
+@@ -270,10 +264,7 @@ namespace SikRadio
+ 
+         private void Config_FormClosing(object sender, FormClosingEventArgs e)
+         {
+-            if (_CurrentForm != null)
+-            {
+-                _CurrentForm.Disconnect();
+-            }
++            _CurrentForm?.Disconnect();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/SikRadio/RFD900.cs b/SikRadio/RFD900.cs
+index fa8e589c..074fe5d6 100644
+--- a/SikRadio/RFD900.cs
++++ b/SikRadio/RFD900.cs
+@@ -466,7 +466,7 @@ namespace RFD.RFD900
+             while (true)
+             {
+                 string Temp = GetStringUntil(Line, ref n, new char[] { ',', '}' });
+-                if (Temp != null && Temp.Length > 0)
++                if (!string.IsNullOrEmpty(Temp))
+                 {
+                     Options.Add(Temp);
+                 }
+diff --git a/Swarm/FollowPathControl.cs b/Swarm/FollowPathControl.cs
+index fcf1de36..72a29860 100644
+--- a/Swarm/FollowPathControl.cs
++++ b/Swarm/FollowPathControl.cs
+@@ -85,34 +85,22 @@ namespace MissionPlanner.Swarm
+ 
+         private void BUT_Arm_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.Arm();
+-            }
++            SwarmInterface?.Arm();
+         }
+ 
+         private void BUT_Disarm_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.Disarm();
+-            }
++            SwarmInterface?.Disarm();
+         }
+ 
+         private void BUT_Takeoff_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.Takeoff();
+-            }
++            SwarmInterface?.Takeoff();
+         }
+ 
+         private void BUT_Land_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.Land();
+-            }
++            SwarmInterface?.Land();
+         }
+ 
+         private void BUT_leader_Click(object sender, EventArgs e)
+diff --git a/Swarm/FormationControl.cs b/Swarm/FormationControl.cs
+index f52d9056..78b5a759 100644
+--- a/Swarm/FormationControl.cs
++++ b/Swarm/FormationControl.cs
+@@ -143,34 +143,22 @@ namespace MissionPlanner.Swarm
+ 
+         private void BUT_Arm_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.Arm();
+-            }
++            SwarmInterface?.Arm();
+         }
+ 
+         private void BUT_Disarm_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.Disarm();
+-            }
++            SwarmInterface?.Disarm();
+         }
+ 
+         private void BUT_Takeoff_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.Takeoff();
+-            }
++            SwarmInterface?.Takeoff();
+         }
+ 
+         private void BUT_Land_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.Land();
+-            }
++            SwarmInterface?.Land();
+         }
+ 
+         private void BUT_leader_Click(object sender, EventArgs e)
+@@ -357,10 +345,7 @@ namespace MissionPlanner.Swarm
+ 
+         private void but_guided_Click(object sender, EventArgs e)
+         {
+-            if (SwarmInterface != null)
+-            {
+-                SwarmInterface.GuidedMode();
+-            }
++            SwarmInterface?.GuidedMode();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Swarm/Sequence/LayoutEditor.cs b/Swarm/Sequence/LayoutEditor.cs
+index f7e78bf0..ea0687f8 100644
+--- a/Swarm/Sequence/LayoutEditor.cs
++++ b/Swarm/Sequence/LayoutEditor.cs
+@@ -442,7 +442,7 @@ namespace MissionPlanner.Swarm.Sequence
+ 
+ 
+ 
+-            label1.Text = String.Format("{1} : {0}", step, layoutname);
++            label1.Text = $"{step} : {layoutname}";
+ 
+             // get the layout
+             var layout = workingSequence.Layouts.Find(a => a.Id == layoutname);
+diff --git a/Swarm/WaypointLeader/WPControl.cs b/Swarm/WaypointLeader/WPControl.cs
+index 35d85412..137cfc02 100644
+--- a/Swarm/WaypointLeader/WPControl.cs
++++ b/Swarm/WaypointLeader/WPControl.cs
+@@ -207,7 +207,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
+                             }
+                             ((Status)ctl).Armed.Text = MAV.cs.armed.ToString();
+                             ((Status)ctl).Mode.Text = MAV.cs.mode;
+-                            ((Status)ctl).MAV.Text = String.Format("MAV {0}-{1}", MAV.sysid, MAV.compid);
++                            ((Status)ctl).MAV.Text = $"MAV {MAV.sysid}-{MAV.compid}";
+                             ((Status)ctl).Guided.Text = MAV.GuidedMode.x / 1e7 + "," + MAV.GuidedMode.y / 1e7 + "," +
+                                                          MAV.GuidedMode.z;
+                             ((Status)ctl).Location1.Text = MAV.cs.lat.ToString("0.00000") + "," + MAV.cs.lng.ToString("0.00000") + "," +
+@@ -215,10 +215,10 @@ namespace MissionPlanner.Swarm.WaypointLeader
+                             ((Status)ctl).Speed.Text = MAV.cs.groundspeed.ToString("0.00");
+ 
+                             if (MAV == DG.airmaster)
+-                                ((Status)ctl).MAV.Text = String.Format("MAV {0}-{1} airmaster", MAV.sysid, MAV.compid);
++                                ((Status)ctl).MAV.Text = $"MAV {MAV.sysid}-{MAV.compid} airmaster";
+ 
+                             if (MAV == DG.groundmaster)
+-                                ((Status)ctl).MAV.Text = String.Format("MAV {0}-{1} groundmaster", MAV.sysid, MAV.compid);
++                                ((Status)ctl).MAV.Text = $"MAV {MAV.sysid}-{MAV.compid} groundmaster";
+ 
+                             if (MAV == DG.airmaster || MAV == DG.groundmaster)
+                             {
+diff --git a/Utilities/AltitudeAngel/MapAdapter.cs b/Utilities/AltitudeAngel/MapAdapter.cs
+index ce3565e6..304d7bec 100644
+--- a/Utilities/AltitudeAngel/MapAdapter.cs
++++ b/Utilities/AltitudeAngel/MapAdapter.cs
+@@ -108,9 +108,9 @@ namespace MissionPlanner.Utilities.AltitudeAngel
+ 
+         string createMessage(object item)
+         {
+-            if (item is Feature)
++            if (item is Feature feature)
+             {
+-                var prop = ((Feature)item).Properties;
++                var prop = feature.Properties;
+ 
+                 var display = prop["display"] as Newtonsoft.Json.Linq.JObject;
+ 
+@@ -133,7 +133,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
+                     text = section1["text"].ToString();
+                 }
+ 
+-                var st = String.Format("{0} is categorised as a {1}\n\n{2}", display["title"], title, text);
++                var st = $"{display["title"]} is categorised as a {title}\n\n{text}";
+ 
+                 return st;
+             }
+diff --git a/Utilities/ExtensionsMP.cs b/Utilities/ExtensionsMP.cs
+index c6a6df26..2c8352c5 100644
+--- a/Utilities/ExtensionsMP.cs
++++ b/Utilities/ExtensionsMP.cs
+@@ -81,9 +81,9 @@ namespace MissionPlanner.Utilities
+             var app = new Xamarin.Forms.Application() { MainPage = ctl };
+             f.LoadApplication(app);
+             ThemeManager.ApplyThemeTo(f);
+-            if (ctl is IClose)
++            if (ctl is IClose iClose)
+             {
+-                ((IClose)ctl).CloseAction = () => f.Close();
++                iClose.CloseAction = () => f.Close();
+             }
+ 
+             f.ShowDialog();
+diff --git a/Utilities/SSHTerminal.cs b/Utilities/SSHTerminal.cs
+index 4b35de08..6626a4e5 100644
+--- a/Utilities/SSHTerminal.cs
++++ b/Utilities/SSHTerminal.cs
+@@ -1021,7 +1021,7 @@ namespace MissionPlanner.Utilities
+             int index = TXT_terminal.SelectionStart;
+             int line = TXT_terminal.GetLineFromCharIndex(index);
+             int charIndex = TXT_terminal.GetFirstCharIndexOfCurrentLine();
+-            if (TXT_terminal.Lines.Count() == 0 || TXT_terminal.Lines.Count() <= line) { return; };
++            if (!TXT_terminal.Lines.Any() || TXT_terminal.Lines.Count() <= line) { return; };
+             var distance = index - charIndex;
+ 
+             var length = TXT_terminal.Lines[line].Length;
+diff --git a/Utilities/ThemeManager.cs b/Utilities/ThemeManager.cs
+index e4951b0e..d9865ccb 100644
+--- a/Utilities/ThemeManager.cs
++++ b/Utilities/ThemeManager.cs
+@@ -306,8 +306,8 @@ namespace MissionPlanner.Utilities
+         /// <param name="control"></param>
+         public static void ApplyThemeTo(Control control)
+         {
+-            if (control is ContainerControl)
+-                ((ContainerControl)control).AutoScaleMode = AutoScaleMode.None;
++            if (control is ContainerControl containerControl)
++                containerControl.AutoScaleMode = AutoScaleMode.None;
+ 
+             if (control.GetType().IsDefined(typeof(PreventThemingAttribute)))
+                 return;
+@@ -648,9 +648,9 @@ mc:Ignorable=""d""
+                                  "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""" Height=""" + ctl.Height +
+                                  @""">" + ctl.Text + "</Image>");
+                 }
+-                else if (ctl is TrackBar)
++                else if (ctl is TrackBar trackBar)
+                 {
+-                    if (((TrackBar)ctl).Orientation == Orientation.Horizontal)
++                    if (trackBar.Orientation == Orientation.Horizontal)
+                         st.WriteLine(@"<Slider Name=""" + ctl.Name +
+                                      @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" +
+                                      ctl.Location.X + "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width +
+diff --git a/plugins/FaceMap/FaceMapUI.cs b/plugins/FaceMap/FaceMapUI.cs
+index 2536936e..117a2123 100644
+--- a/plugins/FaceMap/FaceMapUI.cs
++++ b/plugins/FaceMap/FaceMapUI.cs
+@@ -390,21 +390,21 @@ namespace MissionPlanner
+             {
+                 if (plugin.Host.config.ContainsKey(key))
+                 {
+-                    if (item is NumericUpDown)
++                    if (item is NumericUpDown numericUpDown)
+                     {
+-                        ((NumericUpDown)item).Value = decimal.Parse(plugin.Host.config[key].ToString());
++                        numericUpDown.Value = decimal.Parse(plugin.Host.config[key].ToString());
+                     }
+-                    else if (item is ComboBox)
++                    else if (item is ComboBox comboBox)
+                     {
+-                        ((ComboBox)item).Text = plugin.Host.config[key].ToString();
++                        comboBox.Text = plugin.Host.config[key].ToString();
+                     }
+-                    else if (item is CheckBox)
++                    else if (item is CheckBox checkBox)
+                     {
+-                        ((CheckBox)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
++                        checkBox.Checked = bool.Parse(plugin.Host.config[key].ToString());
+                     }
+-                    else if (item is RadioButton)
++                    else if (item is RadioButton radioButton)
+                     {
+-                        ((RadioButton)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
++                        radioButton.Checked = bool.Parse(plugin.Host.config[key].ToString());
+                     }
+                 }
+             }
+diff --git a/plugins/example4-herelink.cs b/plugins/example4-herelink.cs
+index fc9c0612..fbcb4804 100644
+--- a/plugins/example4-herelink.cs
++++ b/plugins/example4-herelink.cs
+@@ -185,9 +185,7 @@ namespace CameraControl
+ 
+             Settings.Instance["herelinkip"] = ipaddr;
+ 
+-            string url = String.Format(
+-                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+-                ipaddr);
++            string url = $"rtspsrc location=rtsp://{ipaddr}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink";
+ 
+             GStreamer.LookForGstreamer();
+ 
+@@ -217,9 +215,7 @@ namespace CameraControl
+ 
+             Settings.Instance["herelinkip"] = ipaddr;
+ 
+-            string url = String.Format(
+-                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph265depay ! h265parse ! queue ! avdec_h265 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+-                ipaddr);
++            string url = $"rtspsrc location=rtsp://{ipaddr}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph265depay ! h265parse ! queue ! avdec_h265 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink";
+ 
+             GStreamer.LookForGstreamer();
+ 
+diff --git a/temp.cs b/temp.cs
+index f93b720b..e490bd80 100644
+--- a/temp.cs
++++ b/temp.cs
+@@ -316,10 +316,7 @@ namespace MissionPlanner
+                     client.Close();
+                 }
+ 
+-                if (listener != null)
+-                {
+-                    listener.Stop();
+-                }
++                listener?.Stop();
+                 return;
+             }
+ 
+diff --git a/test/FirmwareSelection.xaml.cs b/test/FirmwareSelection.xaml.cs
+index ed4e76f5..fb012577 100644
+--- a/test/FirmwareSelection.xaml.cs
++++ b/test/FirmwareSelection.xaml.cs
+@@ -118,7 +118,7 @@ namespace MissionPlanner.test
+                 Result.SelectedIndex = 0;
+             }
+ 
+-            if (FWList.Count() == 0)
++            if (!FWList.Any())
+             {
+                 Result.Items.Add("No options to show");
+                 Result.SelectedIndex = 0;

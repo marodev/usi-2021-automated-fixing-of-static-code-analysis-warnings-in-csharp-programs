@@ -1,0 +1,166 @@
+diff --git a/src/Microsoft.CodeAnalysis.Analyzers/Core/MetaAnalyzers/ReportDiagnosticAnalyzer.cs b/src/Microsoft.CodeAnalysis.Analyzers/Core/MetaAnalyzers/ReportDiagnosticAnalyzer.cs
+index 43469a53d..1309956ce 100644
+--- a/src/Microsoft.CodeAnalysis.Analyzers/Core/MetaAnalyzers/ReportDiagnosticAnalyzer.cs
++++ b/src/Microsoft.CodeAnalysis.Analyzers/Core/MetaAnalyzers/ReportDiagnosticAnalyzer.cs
+@@ -156,7 +156,7 @@ private ImmutableArray<IFieldSymbol> GetSupportedDescriptors(Compilation compila
+                         .OfType<IPropertySymbol>()
+                         .FirstOrDefault(p => p.OverriddenProperty != null &&
+                             p.OverriddenProperty.Equals(supportedDiagnosticBaseProperty));
+-                    if (supportedDiagnosticsProperty != null && supportedDiagnosticsProperty.GetMethod != null)
++                    if (supportedDiagnosticsProperty?.GetMethod != null)
+                     {
+                         SyntaxReference syntaxRef = supportedDiagnosticsProperty.GetMethod.DeclaringSyntaxReferences.FirstOrDefault();
+                         if (syntaxRef != null)
+diff --git a/src/NetAnalyzers/Core/Microsoft.CodeQuality.Analyzers/ApiDesignGuidelines/EnumShouldNotHaveDuplicatedValues.cs b/src/NetAnalyzers/Core/Microsoft.CodeQuality.Analyzers/ApiDesignGuidelines/EnumShouldNotHaveDuplicatedValues.cs
+index c64c9645e..6582e5e90 100644
+--- a/src/NetAnalyzers/Core/Microsoft.CodeQuality.Analyzers/ApiDesignGuidelines/EnumShouldNotHaveDuplicatedValues.cs
++++ b/src/NetAnalyzers/Core/Microsoft.CodeQuality.Analyzers/ApiDesignGuidelines/EnumShouldNotHaveDuplicatedValues.cs
+@@ -86,8 +86,8 @@ public sealed override void Initialize(AnalysisContext context)
+ 
+                     var onlyReferencesOneField = GetFilteredDescendants(fieldInitializerOperation, op => op.Kind != OperationKind.Binary)
+                         .OfType<IFieldReferenceOperation>()
+-                        .Where(fro => fro.Field.ContainingType.Equals(enumSymbol))
+-                        .Any();
++                        .Any(fro => fro.Field.ContainingType.Equals(enumSymbol))
++;
+                     if (onlyReferencesOneField)
+                     {
+                         return;
+diff --git a/src/NetAnalyzers/Core/Microsoft.CodeQuality.Analyzers/ApiDesignGuidelines/MarkAssembliesWithComVisible.cs b/src/NetAnalyzers/Core/Microsoft.CodeQuality.Analyzers/ApiDesignGuidelines/MarkAssembliesWithComVisible.cs
+index c00966f7a..ae2ae7af4 100644
+--- a/src/NetAnalyzers/Core/Microsoft.CodeQuality.Analyzers/ApiDesignGuidelines/MarkAssembliesWithComVisible.cs
++++ b/src/NetAnalyzers/Core/Microsoft.CodeQuality.Analyzers/ApiDesignGuidelines/MarkAssembliesWithComVisible.cs
+@@ -90,8 +90,8 @@ private static bool AssemblyHasPublicTypes(IAssemblySymbol assembly)
+                     .GlobalNamespace
+                     .GetMembers()
+                     .OfType<INamedTypeSymbol>()
+-                    .Where(s => s.DeclaredAccessibility == Accessibility.Public)
+-                    .Any();
++                    .Any(s => s.DeclaredAccessibility == Accessibility.Public)
++;
+         }
+     }
+ }
+diff --git a/src/NetAnalyzers/Core/Microsoft.NetCore.Analyzers/Security/DoNotCallDangerousMethodsInDeserialization.cs b/src/NetAnalyzers/Core/Microsoft.NetCore.Analyzers/Security/DoNotCallDangerousMethodsInDeserialization.cs
+index 57e8e1221..9bfb2fcb5 100644
+--- a/src/NetAnalyzers/Core/Microsoft.NetCore.Analyzers/Security/DoNotCallDangerousMethodsInDeserialization.cs
++++ b/src/NetAnalyzers/Core/Microsoft.NetCore.Analyzers/Security/DoNotCallDangerousMethodsInDeserialization.cs
+@@ -259,10 +259,7 @@ public sealed override void Initialize(AnalysisContext context)
+ 
+                                     foreach (var (DangerousMethod, IntermediateMethods) in entry.Value)
+                                     {
+-                                        if (IntermediateMethods != null)
+-                                        {
+-                                            IntermediateMethods.Dispose();
+-                                        }
++                                        IntermediateMethods?.Dispose();
+                                     }
+                                 }
+                             }
+diff --git a/src/Tools/Metrics/Program.cs b/src/Tools/Metrics/Program.cs
+index 4665dda92..dfa5c2ed4 100644
+--- a/src/Tools/Metrics/Program.cs
++++ b/src/Tools/Metrics/Program.cs
+@@ -253,10 +253,7 @@ ErrorCode writeOutput()
+ #pragma warning restore CA1031 // Do not catch general exception types
+                 finally
+                 {
+-                    if (metricFile != null)
+-                    {
+-                        metricFile.Close();
+-                    }
++                    metricFile?.Close();
+                 }
+             }
+         }
+diff --git a/src/Utilities/Compiler/Extensions/IOperationExtensions.cs b/src/Utilities/Compiler/Extensions/IOperationExtensions.cs
+index c2c028094..4fa0d1bd4 100644
+--- a/src/Utilities/Compiler/Extensions/IOperationExtensions.cs
++++ b/src/Utilities/Compiler/Extensions/IOperationExtensions.cs
+@@ -142,10 +142,7 @@ public static ImmutableArray<IOperation> WithoutFullyImplicitOperations(this Imm
+                         builder.AddRange(operations, i);
+                     }
+                 }
+-                else if (builder != null)
+-                {
+-                    builder.Add(operation);
+-                }
++                else builder?.Add(operation);
+             }
+ 
+             return builder != null ? builder.ToImmutable() : operations;
+diff --git a/src/Utilities/FlowAnalysis/Extensions/ControlFlowBranchExtensions.cs b/src/Utilities/FlowAnalysis/Extensions/ControlFlowBranchExtensions.cs
+index 17c57cb60..c0cbbf616 100644
+--- a/src/Utilities/FlowAnalysis/Extensions/ControlFlowBranchExtensions.cs
++++ b/src/Utilities/FlowAnalysis/Extensions/ControlFlowBranchExtensions.cs
+@@ -5,8 +5,7 @@ namespace Microsoft.CodeAnalysis.FlowAnalysis
+     internal static class ControlFlowBranchExtensions
+     {
+         public static bool IsBackEdge(this ControlFlowBranch controlFlowBranch)
+-            => controlFlowBranch != null &&
+-               controlFlowBranch.Source != null &&
++            => controlFlowBranch?.Source != null &&
+                controlFlowBranch.Destination != null &&
+                controlFlowBranch.Source.Ordinal >= controlFlowBranch.Destination.Ordinal;
+     }
+diff --git a/src/Utilities/FlowAnalysis/FlowAnalysis/Analysis/TaintedDataAnalysis/HardcodedBytesSources.cs b/src/Utilities/FlowAnalysis/FlowAnalysis/Analysis/TaintedDataAnalysis/HardcodedBytesSources.cs
+index c9f913f40..ca16a0ffc 100644
+--- a/src/Utilities/FlowAnalysis/FlowAnalysis/Analysis/TaintedDataAnalysis/HardcodedBytesSources.cs
++++ b/src/Utilities/FlowAnalysis/FlowAnalysis/Analysis/TaintedDataAnalysis/HardcodedBytesSources.cs
+@@ -43,9 +43,7 @@ static HardcodedBytesSources()
+                 taintedMethodsNeedsValueContentAnalysis: new (MethodMatcher, (ValueContentCheck, string)[])[]{
+                     (
+                         (methodName, arguments) =>
+-                            methodName == "GetBytes" &&
+-                            arguments.Count() == 5 &&
+-                            arguments[0].Parameter.Type.SpecialType == SpecialType.System_String,
++methodName == "GetBytes" && arguments.Count() == 5 && arguments[0].Parameter.Type.SpecialType == SpecialType.System_String,
+                         new (ValueContentCheck, string)[]{
+                             (
+                                 (argumentPointsTos, argumentValueContents) =>
+@@ -56,9 +54,7 @@ static HardcodedBytesSources()
+                     ),
+                     (
+                         (methodName, arguments) =>
+-                            methodName == "GetBytes" &&
+-                            arguments.Count() == 1 &&
+-                            arguments[0].Parameter.Type.SpecialType == SpecialType.System_String,
++methodName == "GetBytes" && arguments.Count() == 1 && arguments[0].Parameter.Type.SpecialType == SpecialType.System_String,
+                         new (ValueContentCheck, string)[]{
+                             (
+                                 (argumentPointsTos, argumentValueContents) =>
+@@ -71,19 +67,14 @@ static HardcodedBytesSources()
+                 transferMethods: new (MethodMatcher, (string, string)[])[]{
+                     (
+                         (methodName, arguments) =>
+-                            methodName == "GetBytes" &&
+-                            arguments.Count() == 5 &&
+-                            arguments[0].Parameter.Type is IArrayTypeSymbol arrayTypeSymbol &&
+-                            arrayTypeSymbol.ElementType.SpecialType == SpecialType.System_Char,
++methodName == "GetBytes" && arguments.Count() == 5 && arguments[0].Parameter.Type is IArrayTypeSymbol arrayTypeSymbol && arrayTypeSymbol.ElementType.SpecialType == SpecialType.System_Char,
+                         new (string, string)[]{
+                             ("chars", "bytes"),
+                         }
+                     ),
+                     (
+                         (methodName, arguments) =>
+-                            methodName == "GetBytes" &&
+-                            arguments.Count() == 5 &&
+-                            arguments[0].Parameter.Type.SpecialType == SpecialType.System_String,
++methodName == "GetBytes" && arguments.Count() == 5 && arguments[0].Parameter.Type.SpecialType == SpecialType.System_String,
+                         new (string, string)[]{
+                             ("chars", "bytes"),
+                         }
+diff --git a/src/Utilities/FlowAnalysis/FlowAnalysis/Framework/DataFlow/DataFlowOperationVisitor.cs b/src/Utilities/FlowAnalysis/FlowAnalysis/Framework/DataFlow/DataFlowOperationVisitor.cs
+index d8fc5744a..7033d4f9d 100644
+--- a/src/Utilities/FlowAnalysis/FlowAnalysis/Framework/DataFlow/DataFlowOperationVisitor.cs
++++ b/src/Utilities/FlowAnalysis/FlowAnalysis/Framework/DataFlow/DataFlowOperationVisitor.cs
+@@ -2167,7 +2167,7 @@ protected bool TryGetInterproceduralAnalysisResult(IOperation operation, [NotNul
+             }
+ 
+             // Check if we are already at the maximum allowed interprocedural call chain length.
+-            int currentMethodCallCount = currentMethodsBeingAnalyzed.Where(m => !(m.OwningSymbol is IMethodSymbol ms && ms.IsLambdaOrLocalFunctionOrDelegate())).Count();
++            int currentMethodCallCount = currentMethodsBeingAnalyzed.Count(m => !(m.OwningSymbol is IMethodSymbol ms && ms.IsLambdaOrLocalFunctionOrDelegate()));
+             int currentLambdaOrLocalFunctionCallCount = currentMethodsBeingAnalyzed.Count - currentMethodCallCount;
+ 
+             if (currentMethodCallCount >= MaxInterproceduralMethodCallChain ||

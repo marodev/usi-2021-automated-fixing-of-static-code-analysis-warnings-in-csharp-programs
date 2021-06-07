@@ -1,0 +1,1187 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Nest(net461)
+    #1 Path: /home/vsts/work/1/s/src/Nest/CommonAbstractions/Infer/TaskId/TaskId.cs, Line: 58, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #2 Path: /home/vsts/work/1/s/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/InterfaceGenericDictionaryResolver.cs, Line: 181, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: /home/vsts/work/1/s/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/InterfaceGenericDictionaryResolver.cs, Line: 225, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #4 Path: /home/vsts/work/1/s/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/IsADictionaryFormatterResolver.cs, Line: 137, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: /home/vsts/work/1/s/src/Nest/CommonAbstractions/SerializationBehavior/JsonFormatters/IsADictionaryFormatterResolver.cs, Line: 204, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #6 Path: /home/vsts/work/1/s/src/Nest/Document/Multiple/Bulk/BulkRequest.cs, Line: 156, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #7 Path: /home/vsts/work/1/s/src/Nest/QueryDsl/MultiTermQueryRewrite/RewriteMultiTerm.cs, Line: 218, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #8 Path: /home/vsts/work/1/s/src/Nest/Search/MultiSearch/MultiSearchResponse.cs, Line: 26, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #9 Path: /home/vsts/work/1/s/src/Nest/Utf8Json/Formatters/DictionaryFormatter.cs, Line: 56, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #10 Path: /home/vsts/work/1/s/src/Nest/Utf8Json/Formatters/EnumFormatter.cs, Line: 95, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #11 Path: /home/vsts/work/1/s/src/Nest/Utf8Json/Formatters/EnumFormatter.cs, Line: 96, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #12 Path: /home/vsts/work/1/s/src/Nest/Utf8Json/Internal/Emit/MetaType.cs, Line: 162, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #13 Path: /home/vsts/work/1/s/src/Nest/XPack/Security/RoleMapping/Rules/Role/RoleMappingRuleBase.cs, Line: 58, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #14 Path: /home/vsts/work/1/s/src/Nest/XPack/Security/RoleMapping/Rules/Role/RoleMappingRuleBase.cs, Line: 64, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #15 Path: /home/vsts/work/1/s/src/Nest/XPack/Watcher/Action/Actions.cs, Line: 31, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Tests
+    #16 Path: /home/vsts/work/1/s/tests/Tests/ClientConcepts/ConnectionPooling/Sniffing/RoleDetection.doc.cs, Line: 167, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #17 Path: /home/vsts/work/1/s/tests/Tests/QueryDsl/BoolDsl/BoolApiTests.cs, Line: 75, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #18 Path: /home/vsts/work/1/s/tests/Tests/Search/MultiSearch/MultiSearchLowLevelPostDataTests.cs, Line: 90, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: ApiGenerator
+    #19 Path: /home/vsts/work/1/s/src/ApiGenerator/Domain/Specification/UrlInformation.cs, Line: 105, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: DocGenerator
+    #20 Path: /home/vsts/work/1/s/src/DocGenerator/XmlDocs/XmlDocsVisitor.cs, Line: 143, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #21 Path: /home/vsts/work/1/s/src/DocGenerator/XmlDocs/XmlDocsVisitor.cs, Line: 47, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+--- Rules Summary ---
+R8: 11
+R4: 6
+R2: 3
+R3: 1
+
+--- Summary ---
+Fixed ReSharper issues: 18
+Fixed SonarQube issues: 7
+Total fixed issues: 21
+
+Finished in: 27 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: /home/vsts/work/1/s/src/Nest/QueryDsl/Span/Containing/SpanContainingQuery.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Runtime.Serialization;
+using Nest.Utf8Json;
+
+namespace Nest
+{
+	[InterfaceDataContract]
+	[ReadAs(typeof(SpanContainingQuery))]
+	public interface ISpanContainingQuery : ISpanSubQuery
+	{
+		[DataMember(Name ="big")]
+		ISpanQuery Big { get; set; }
+
+		[DataMember(Name ="little")]
+		ISpanQuery Little { get; set; }
+	}
+
+	public class SpanContainingQuery : QueryBase, ISpanContainingQuery
+	{
+		public ISpanQuery Big { get; set; }
+		public ISpanQuery Little { get; set; }
+		protected override bool Conditionless => IsConditionless(this);
+
+		internal override void InternalWrapInContainer(IQueryContainer c) => c.SpanContaining = this;
+
+		internal static bool IsConditionless(ISpanContainingQuery q)
+		{
+			var exclude = q.Little as IQuery;
+			var include = q.Big as IQuery;
+
+			return exclude == null && include == null
+				|| include == null && exclude.Conditionless
+				|| exclude == null && include.Conditionless
+				|| exclude != null && exclude.Conditionless && include != null && include.Conditionless;
+		}
+	}
+
+	public class SpanContainingQueryDescriptor<T>
+		: QueryDescriptorBase<SpanContainingQueryDescriptor<T>, ISpanContainingQuery>
+			, ISpanContainingQuery where T : class
+	{
+		protected override bool Conditionless => SpanContainingQuery.IsConditionless(this);
+		ISpanQuery ISpanContainingQuery.Big { get; set; }
+		ISpanQuery ISpanContainingQuery.Little { get; set; }
+
+		public SpanContainingQueryDescriptor<T> Little(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Little = v);
+
+		public SpanContainingQueryDescriptor<T> Big(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Big = v);
+	}
+}
+
+---- Transformed Tree ----
+using System;
+using System.Runtime.Serialization;
+using Nest.Utf8Json;
+
+namespace Nest
+{
+	[InterfaceDataContract]
+	[ReadAs(typeof(SpanContainingQuery))]
+	public interface ISpanContainingQuery : ISpanSubQuery
+	{
+		[DataMember(Name ="big")]
+		ISpanQuery Big { get; set; }
+
+		[DataMember(Name ="little")]
+		ISpanQuery Little { get; set; }
+	}
+
+	public class SpanContainingQuery : QueryBase, ISpanContainingQuery
+	{
+		public ISpanQuery Big { get; set; }
+		public ISpanQuery Little { get; set; }
+		protected override bool Conditionless => IsConditionless(this);
+
+		internal override void InternalWrapInContainer(IQueryContainer c) => c.SpanContaining = this;
+
+		internal static bool IsConditionless(ISpanContainingQuery q)
+		{
+
+			return exclude == null && include == null
+				|| include == null && exclude.Conditionless
+				|| exclude == null && include.Conditionless
+				|| q.Little is IQuery exclude && exclude.Conditionless && q.Big is IQuery include && include.Conditionless;
+		}
+	}
+
+	public class SpanContainingQueryDescriptor<T>
+		: QueryDescriptorBase<SpanContainingQueryDescriptor<T>, ISpanContainingQuery>
+			, ISpanContainingQuery where T : class
+	{
+		protected override bool Conditionless => SpanContainingQuery.IsConditionless(this);
+		ISpanQuery ISpanContainingQuery.Big { get; set; }
+		ISpanQuery ISpanContainingQuery.Little { get; set; }
+
+		public SpanContainingQueryDescriptor<T> Little(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Little = v);
+
+		public SpanContainingQueryDescriptor<T> Big(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Big = v);
+	}
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Containing/SpanContainingQuery.cs(33,11): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Containing/SpanContainingQuery.cs(33,30): error CS0841: Cannot use local variable 'include' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Containing/SpanContainingQuery.cs(34,8): error CS0841: Cannot use local variable 'include' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Containing/SpanContainingQuery.cs(34,27): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Containing/SpanContainingQuery.cs(35,8): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Containing/SpanContainingQuery.cs(35,27): error CS0841: Cannot use local variable 'include' before it is declared
+######################################################################
+
+
+######################################################################
+Nr: 2 - UsePatternMatchingRewriterR8
+Filepath: /home/vsts/work/1/s/src/Nest/QueryDsl/Span/Not/SpanNotQuery.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Runtime.Serialization;
+using Nest.Utf8Json;
+
+namespace Nest
+{
+	[InterfaceDataContract]
+	[ReadAs(typeof(SpanNotQuery))]
+	public interface ISpanNotQuery : ISpanSubQuery
+	{
+		[DataMember(Name ="dist")]
+		int? Dist { get; set; }
+
+		[DataMember(Name ="exclude")]
+		ISpanQuery Exclude { get; set; }
+
+		[DataMember(Name ="include")]
+		ISpanQuery Include { get; set; }
+
+		[DataMember(Name ="post")]
+		int? Post { get; set; }
+
+		[DataMember(Name ="pre")]
+		int? Pre { get; set; }
+	}
+
+	public class SpanNotQuery : QueryBase, ISpanNotQuery
+	{
+		public int? Dist { get; set; }
+		public ISpanQuery Exclude { get; set; }
+		public ISpanQuery Include { get; set; }
+		public int? Post { get; set; }
+		public int? Pre { get; set; }
+		protected override bool Conditionless => IsConditionless(this);
+
+		internal override void InternalWrapInContainer(IQueryContainer c) => c.SpanNot = this;
+
+		internal static bool IsConditionless(ISpanNotQuery q)
+		{
+			var exclude = q.Exclude as IQuery;
+			var include = q.Include as IQuery;
+
+			return exclude == null && include == null
+				|| include == null && exclude.Conditionless
+				|| exclude == null && include.Conditionless
+				|| exclude != null && exclude.Conditionless && include != null && include.Conditionless;
+		}
+	}
+
+	public class SpanNotQueryDescriptor<T>
+		: QueryDescriptorBase<SpanNotQueryDescriptor<T>, ISpanNotQuery>
+			, ISpanNotQuery where T : class
+	{
+		protected override bool Conditionless => SpanNotQuery.IsConditionless(this);
+		int? ISpanNotQuery.Dist { get; set; }
+		ISpanQuery ISpanNotQuery.Exclude { get; set; }
+		ISpanQuery ISpanNotQuery.Include { get; set; }
+		int? ISpanNotQuery.Post { get; set; }
+		int? ISpanNotQuery.Pre { get; set; }
+
+		public SpanNotQueryDescriptor<T> Include(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Include = v);
+
+		public SpanNotQueryDescriptor<T> Exclude(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Exclude = v);
+
+		public SpanNotQueryDescriptor<T> Pre(int? pre) => Assign(pre, (a, v) => a.Pre = v);
+
+		public SpanNotQueryDescriptor<T> Post(int? post) => Assign(post, (a, v) => a.Post = v);
+
+		public SpanNotQueryDescriptor<T> Dist(int? dist) => Assign(dist, (a, v) => a.Dist = v);
+	}
+}
+
+---- Transformed Tree ----
+using System;
+using System.Runtime.Serialization;
+using Nest.Utf8Json;
+
+namespace Nest
+{
+	[InterfaceDataContract]
+	[ReadAs(typeof(SpanNotQuery))]
+	public interface ISpanNotQuery : ISpanSubQuery
+	{
+		[DataMember(Name ="dist")]
+		int? Dist { get; set; }
+
+		[DataMember(Name ="exclude")]
+		ISpanQuery Exclude { get; set; }
+
+		[DataMember(Name ="include")]
+		ISpanQuery Include { get; set; }
+
+		[DataMember(Name ="post")]
+		int? Post { get; set; }
+
+		[DataMember(Name ="pre")]
+		int? Pre { get; set; }
+	}
+
+	public class SpanNotQuery : QueryBase, ISpanNotQuery
+	{
+		public int? Dist { get; set; }
+		public ISpanQuery Exclude { get; set; }
+		public ISpanQuery Include { get; set; }
+		public int? Post { get; set; }
+		public int? Pre { get; set; }
+		protected override bool Conditionless => IsConditionless(this);
+
+		internal override void InternalWrapInContainer(IQueryContainer c) => c.SpanNot = this;
+
+		internal static bool IsConditionless(ISpanNotQuery q)
+		{
+
+			return exclude == null && include == null
+				|| include == null && exclude.Conditionless
+				|| exclude == null && include.Conditionless
+				|| q.Exclude is IQuery exclude && exclude.Conditionless && q.Include is IQuery include && include.Conditionless;
+		}
+	}
+
+	public class SpanNotQueryDescriptor<T>
+		: QueryDescriptorBase<SpanNotQueryDescriptor<T>, ISpanNotQuery>
+			, ISpanNotQuery where T : class
+	{
+		protected override bool Conditionless => SpanNotQuery.IsConditionless(this);
+		int? ISpanNotQuery.Dist { get; set; }
+		ISpanQuery ISpanNotQuery.Exclude { get; set; }
+		ISpanQuery ISpanNotQuery.Include { get; set; }
+		int? ISpanNotQuery.Post { get; set; }
+		int? ISpanNotQuery.Pre { get; set; }
+
+		public SpanNotQueryDescriptor<T> Include(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Include = v);
+
+		public SpanNotQueryDescriptor<T> Exclude(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Exclude = v);
+
+		public SpanNotQueryDescriptor<T> Pre(int? pre) => Assign(pre, (a, v) => a.Pre = v);
+
+		public SpanNotQueryDescriptor<T> Post(int? post) => Assign(post, (a, v) => a.Post = v);
+
+		public SpanNotQueryDescriptor<T> Dist(int? dist) => Assign(dist, (a, v) => a.Dist = v);
+	}
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Not/SpanNotQuery.cs(45,11): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Not/SpanNotQuery.cs(45,30): error CS0841: Cannot use local variable 'include' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Not/SpanNotQuery.cs(46,8): error CS0841: Cannot use local variable 'include' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Not/SpanNotQuery.cs(46,27): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Not/SpanNotQuery.cs(47,8): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Not/SpanNotQuery.cs(47,27): error CS0841: Cannot use local variable 'include' before it is declared
+######################################################################
+
+
+######################################################################
+Nr: 3 - UsePatternMatchingRewriterR8
+Filepath: /home/vsts/work/1/s/src/Nest/QueryDsl/Span/Within/SpanWithinQuery.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Runtime.Serialization;
+using Nest.Utf8Json;
+
+namespace Nest
+{
+	[InterfaceDataContract]
+	[ReadAs(typeof(SpanWithinQuery))]
+	public interface ISpanWithinQuery : ISpanSubQuery
+	{
+		[DataMember(Name ="big")]
+		ISpanQuery Big { get; set; }
+
+		[DataMember(Name ="little")]
+		ISpanQuery Little { get; set; }
+	}
+
+	public class SpanWithinQuery : QueryBase, ISpanWithinQuery
+	{
+		public ISpanQuery Big { get; set; }
+		public ISpanQuery Little { get; set; }
+		protected override bool Conditionless => IsConditionless(this);
+
+		internal override void InternalWrapInContainer(IQueryContainer c) => c.SpanWithin = this;
+
+		internal static bool IsConditionless(ISpanWithinQuery q)
+		{
+			var exclude = q.Little as IQuery;
+			var include = q.Big as IQuery;
+
+			return exclude == null && include == null
+				|| include == null && exclude.Conditionless
+				|| exclude == null && include.Conditionless
+				|| exclude != null && exclude.Conditionless && include != null && include.Conditionless;
+		}
+	}
+
+	public class SpanWithinQueryDescriptor<T>
+		: QueryDescriptorBase<SpanWithinQueryDescriptor<T>, ISpanWithinQuery>
+			, ISpanWithinQuery where T : class
+	{
+		protected override bool Conditionless => SpanWithinQuery.IsConditionless(this);
+		ISpanQuery ISpanWithinQuery.Big { get; set; }
+		ISpanQuery ISpanWithinQuery.Little { get; set; }
+
+		public SpanWithinQueryDescriptor<T> Little(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Little = v);
+
+		public SpanWithinQueryDescriptor<T> Big(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Big = v);
+	}
+}
+
+---- Transformed Tree ----
+using System;
+using System.Runtime.Serialization;
+using Nest.Utf8Json;
+
+namespace Nest
+{
+	[InterfaceDataContract]
+	[ReadAs(typeof(SpanWithinQuery))]
+	public interface ISpanWithinQuery : ISpanSubQuery
+	{
+		[DataMember(Name ="big")]
+		ISpanQuery Big { get; set; }
+
+		[DataMember(Name ="little")]
+		ISpanQuery Little { get; set; }
+	}
+
+	public class SpanWithinQuery : QueryBase, ISpanWithinQuery
+	{
+		public ISpanQuery Big { get; set; }
+		public ISpanQuery Little { get; set; }
+		protected override bool Conditionless => IsConditionless(this);
+
+		internal override void InternalWrapInContainer(IQueryContainer c) => c.SpanWithin = this;
+
+		internal static bool IsConditionless(ISpanWithinQuery q)
+		{
+
+			return exclude == null && include == null
+				|| include == null && exclude.Conditionless
+				|| exclude == null && include.Conditionless
+				|| q.Little is IQuery exclude && exclude.Conditionless && q.Big is IQuery include && include.Conditionless;
+		}
+	}
+
+	public class SpanWithinQueryDescriptor<T>
+		: QueryDescriptorBase<SpanWithinQueryDescriptor<T>, ISpanWithinQuery>
+			, ISpanWithinQuery where T : class
+	{
+		protected override bool Conditionless => SpanWithinQuery.IsConditionless(this);
+		ISpanQuery ISpanWithinQuery.Big { get; set; }
+		ISpanQuery ISpanWithinQuery.Little { get; set; }
+
+		public SpanWithinQueryDescriptor<T> Little(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Little = v);
+
+		public SpanWithinQueryDescriptor<T> Big(Func<SpanQueryDescriptor<T>, ISpanQuery> selector) =>
+			Assign(selector(new SpanQueryDescriptor<T>()), (a, v) => a.Big = v);
+	}
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Within/SpanWithinQuery.cs(33,11): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Within/SpanWithinQuery.cs(33,30): error CS0841: Cannot use local variable 'include' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Within/SpanWithinQuery.cs(34,8): error CS0841: Cannot use local variable 'include' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Within/SpanWithinQuery.cs(34,27): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Within/SpanWithinQuery.cs(35,8): error CS0841: Cannot use local variable 'exclude' before it is declared,/home/vsts/work/1/s/src/Nest/QueryDsl/Span/Within/SpanWithinQuery.cs(35,27): error CS0841: Cannot use local variable 'include' before it is declared
+######################################################################
+
+
+######################################################################
+Nr: 4 - UsePatternMatchingRewriterR8
+Filepath: /home/vsts/work/1/s/src/DocGenerator/AsciiDoc/GeneratedAsciidocVisitor.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using AsciiDocNet;
+using DocGenerator.XmlDocs;
+using Elastic.Transport;
+using Elasticsearch.Net;
+using Microsoft.CodeAnalysis;
+using Nest;
+using NuDoq;
+using Container = AsciiDocNet.Container;
+using Document = AsciiDocNet.Document;
+using Exception = System.Exception;
+
+namespace DocGenerator.AsciiDoc
+{
+	/// <summary>
+	/// Visits the "raw" asciidoc generated using Roslyn and adds attribute entries,
+	/// section titles, rearranges sections, etc.
+	/// </summary>
+	public class GeneratedAsciidocVisitor : NoopVisitor
+	{
+		private static readonly Dictionary<string, string> Ids = new Dictionary<string, string>();
+		private readonly FileInfo _destination;
+		private readonly Dictionary<string, Project> _projects;
+
+		private readonly FileInfo _source;
+		private Document _document;
+		private Document _newDocument;
+		private bool _topLevel = true;
+		private int _topSectionTitleLevel;
+
+		public GeneratedAsciidocVisitor(FileInfo source, FileInfo destination, Dictionary<string, Project> projects)
+		{
+			_source = source;
+			_destination = destination;
+			_projects = projects;
+		}
+
+		public Document Convert(Document document)
+		{
+			_document = document;
+			document.Accept(this);
+			return _newDocument;
+		}
+
+		public override void VisitDocument(Document document)
+		{
+			_newDocument = new Document
+			{
+				Title = document.Title,
+				DocType = document.DocType
+			};
+
+			foreach (var authorInfo in document.Authors) _newDocument.Authors.Add(authorInfo);
+
+			RemoveDocDirectoryAttribute(_newDocument);
+			RemoveDocDirectoryAttribute(document);
+
+			foreach (var attributeEntry in document.Attributes) _newDocument.Attributes.Add(attributeEntry);
+
+			if (document.Attributes.All(a => a.Name != "ref_current"))
+				_newDocument.Attributes.Add(new AttributeEntry("ref_current",
+					$"https://www.elastic.co/guide/en/elasticsearch/reference/{Program.DocVersion}"));
+
+			var github = "https://github.com/elastic/elasticsearch-net";
+			if (document.Attributes.All(a => a.Name != "github")) _newDocument.Attributes.Add(new AttributeEntry("github", github));
+
+			if (document.Attributes.All(a => a.Name != "nuget"))
+				_newDocument.Attributes.Add(new AttributeEntry("nuget", "https://www.nuget.org/packages"));
+
+			var originalFile = Regex.Replace(_source.FullName.Replace("\\", "/"), @"^(.*Tests/)",
+				$"{github}/tree/{Program.BranchName}/src/Tests/Tests/");
+
+			var eol = Environment.NewLine;
+			_newDocument.Insert(0, new Comment
+			{
+				Style = CommentStyle.MultiLine,
+				Text = $"IMPORTANT NOTE{eol}=============={eol}This file has been generated from {originalFile}. {eol}" +
+					$"If you wish to submit a PR for any spelling mistakes, typos or grammatical errors for this file,{eol}" +
+					"please modify the original csharp file found at the link and submit the PR with that change. Thanks!"
+			});
+
+			_topSectionTitleLevel = _source.Directory.Name.Equals("request", StringComparison.OrdinalIgnoreCase) &&
+				_source.Directory.Parent != null &&
+				_source.Directory.Parent.Name.Equals("search", StringComparison.OrdinalIgnoreCase)
+					? 2
+					: 3;
+
+			// see if the document has some kind of top level title and add one with an anchor if not.
+			// Used to add titles to *Usage test files
+			if (document.Title == null && document.Count > 0)
+			{
+				var sectionTitle = document[0] as SectionTitle;
+
+				// capture existing top level
+				if (sectionTitle != null && sectionTitle.Level <= 3)
+					_topSectionTitleLevel = sectionTitle.Level;
+
+				if (sectionTitle == null || sectionTitle.Level > 3)
+				{
+					var id = Path.GetFileNameWithoutExtension(_destination.Name);
+					var title = id.LowercaseHyphenToPascal();
+					sectionTitle = new SectionTitle(title, _topSectionTitleLevel);
+					sectionTitle.Attributes.Add(new Anchor(id));
+					_newDocument.Add(sectionTitle);
+				}
+			}
+
+			base.VisitDocument(document);
+		}
+
+		public override void VisitContainer(Container elements)
+		{
+			if (_topLevel)
+			{
+				_topLevel = false;
+				for (var index = 0; index < elements.Count; index++)
+				{
+					var element = elements[index];
+					var source = element as Source;
+
+					if (source != null)
+					{
+						// remove empty source blocks
+						if (string.IsNullOrWhiteSpace(source.Text)) continue;
+
+						var method = source.Attributes.OfType<NamedAttribute>().FirstOrDefault(a => a.Name == "method");
+						if (method == null)
+						{
+							_newDocument.Add(source);
+							continue;
+						}
+
+						// if there is a section title since the last source block, don't add one
+						var lastSourceBlock = _newDocument.LastOrDefault(e => e is Source);
+						var lastSectionTitle = _newDocument.OfType<SectionTitle>().LastOrDefault(e => e.Level == _topSectionTitleLevel + 1);
+						if (lastSourceBlock != null && lastSectionTitle != null)
+						{
+							var lastSectionTitleIndex = _newDocument.IndexOf(lastSectionTitle);
+							var lastSourceBlockIndex = _newDocument.IndexOf(lastSourceBlock);
+							if (lastSectionTitleIndex > lastSourceBlockIndex)
+							{
+								_newDocument.Add(source);
+								continue;
+							}
+						}
+
+						switch (method.Value)
+						{
+							case "fluent":
+							case "queryfluent":
+							case "fluentaggs":
+								if (!LastSectionTitleMatches(text => text.StartsWith("Fluent DSL", StringComparison.OrdinalIgnoreCase)))
+									_newDocument.Add(CreateSubsectionTitle("Fluent DSL example"));
+
+								_newDocument.Add(source);
+								break;
+							case "initializer":
+							case "queryinitializer":
+							case "initializeraggs":
+								_newDocument.Add(CreateSubsectionTitle("Object Initializer syntax example"));
+								_newDocument.Add(source);
+								break;
+							case "expectresponse":
+								// Don't add the Handlng Response section title if it was the last title (it might be defined in the doc already)
+								if (!LastSectionTitleMatches(text => text.Equals("Handling responses", StringComparison.OrdinalIgnoreCase)))
+									_newDocument.Add(CreateSubsectionTitle("Handling Responses"));
+								_newDocument.Add(source);
+								break;
+							default:
+								_newDocument.Add(source);
+								break;
+						}
+					}
+					else
+						_newDocument.Add(element);
+				}
+			}
+
+			base.VisitContainer(elements);
+		}
+
+		public override void VisitSource(Source source)
+		{
+			// remove method attributes as the elastic doc generation doesn't like them; it
+			// expects a linenumbering in the index 2 position of a source block
+			var methodAttribute = source.Attributes.FirstOrDefault(a => a.Name == "method");
+			if (methodAttribute != null) source.Attributes.Remove(methodAttribute);
+
+			// Replace tabs with spaces and remove C# comment escaping from callouts
+			// (elastic docs generation does not like this callout format)
+			source.Text = Regex.Replace(source.Text.Replace("\t", "    "), @"//[ \t]*\<(\d+)\>[^\r\n]*", "<$1>");
+
+			base.VisitSource(source);
+		}
+
+		public override void VisitSectionTitle(SectionTitle sectionTitle)
+		{
+			// Generate an anchor for all top level section titles
+			if (_document.IndexOf(sectionTitle) == 0 && !sectionTitle.Attributes.HasAnchor)
+			{
+				var builder = new StringBuilder();
+				using (var writer = new AsciiDocVisitor(new StringWriter(builder))) writer.VisitInlineContainer(sectionTitle);
+
+				var title = builder.ToString().PascalToHyphen();
+				sectionTitle.Attributes.Add(new Anchor(title));
+			}
+
+			if (sectionTitle.Attributes.HasAnchor)
+			{
+				// Check for duplicate ids across documents
+				var key = sectionTitle.Attributes.Anchor.Id;
+				if (Ids.TryGetValue(key, out var existingFile))
+					throw new Exception($"duplicate id {key} in {_destination.FullName}. Id already exists in {existingFile}");
+
+				Ids.Add(key, _destination.FullName);
+			}
+
+			base.VisitSectionTitle(sectionTitle);
+		}
+
+		public override void VisitAttributeEntry(AttributeEntry attributeEntry)
+		{
+			if (attributeEntry.Name != "xml-docs") return;
+
+			var configuration = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).Parent?.Name;
+
+			string XmlFile(string xmlName)
+			{
+				//Elastic.Transport xml lives in Elasticsearch.Net
+				var project = xmlName == "Elastic.Transport" ? "Elasticsearch.Net" : xmlName;
+				if (configuration == null)
+					return Path.Combine(Program.InputDirPath, project, "netstandard2.0", $"{xmlName}.xml");
+
+				return Path.Combine(Program.InputDirPath, project, "bin", configuration, "netstandard2.0",
+					$"{xmlName}.xml");
+			}
+
+			var value = attributeEntry.Value;
+
+			if (string.IsNullOrEmpty(value))
+			{
+				base.VisitAttributeEntry(attributeEntry);
+				return;
+			}
+
+			var parts = value.Split(':');
+			var assemblyName = parts[0];
+			var typeName = parts[1];
+
+			string xmlDocsFile;
+			Assembly assembly;
+			string assemblyNamespace;
+
+			//TODO: tidy this up
+			switch (assemblyName.ToLowerInvariant())
+			{
+				case "elasticsearch.net":
+					xmlDocsFile = Path.GetFullPath(XmlFile("Elasticsearch.Net"));
+					assembly = typeof(ElasticLowLevelClient).Assembly;
+					assemblyNamespace = typeof(ElasticLowLevelClient).Namespace;
+					break;
+				case "elastic.transport":
+					xmlDocsFile = Path.GetFullPath(XmlFile("Elastic.Transport"));
+					assembly = typeof(CloudConnectionPool).Assembly;
+					assemblyNamespace = typeof(CloudConnectionPool).Namespace;
+					break;
+				default:
+					xmlDocsFile = Path.GetFullPath(XmlFile("Nest"));
+					assembly = typeof(ElasticClient).Assembly;
+					assemblyNamespace = typeof(ElasticClient).Namespace;
+					break;
+			}
+
+			// build xml documentation file on the fly if it doesn't exist
+			if (!File.Exists(xmlDocsFile) && _projects.ContainsKey(assemblyName))
+			{
+				Console.WriteLine($"Can not find {xmlDocsFile} attempting to build");
+				var project = _projects[assemblyName];
+
+				var compilation = project.GetCompilationAsync().Result;
+
+				using (var peStream = new MemoryStream())
+				using (var commentStream = File.Create(xmlDocsFile))
+				{
+					var emitResult = compilation.Emit(peStream, null, commentStream);
+
+					if (!emitResult.Success)
+					{
+						var failures = emitResult.Diagnostics.Where(diagnostic =>
+							diagnostic.IsWarningAsError ||
+							diagnostic.Severity == DiagnosticSeverity.Error);
+
+						var builder = new StringBuilder($"Unable to emit compilation for: {assemblyName}");
+						foreach (var diagnostic in failures.Take(50)) builder.AppendLine($"{diagnostic.Id}: {diagnostic.GetMessage()}");
+
+						builder.AppendLine(new string('-', 30));
+
+						throw new Exception(builder.ToString());
+					}
+				}
+			}
+			if (!File.Exists(xmlDocsFile))
+				throw new Exception($"Can not find xml docs: '{xmlDocsFile}'");
+
+			var assemblyMembers = DocReader.Read(assembly, xmlDocsFile);
+			var type = assembly.GetType(assemblyNamespace + "." + typeName);
+			var visitor = new XmlDocsVisitor(type);
+
+			visitor.VisitAssembly(assemblyMembers);
+			if (visitor.LabeledListItems.Any())
+			{
+				var labeledList = new LabeledList();
+				foreach (var item in visitor.LabeledListItems
+					.OrderBy(l => l.Label)
+					.GroupBy(l => l.Label)
+					.Select(x => x.First()))
+					labeledList.Items.Add(item);
+
+				_newDocument.Insert(_newDocument.IndexOf(attributeEntry), labeledList);
+			}
+		}
+
+		private void RemoveDocDirectoryAttribute(Document document)
+		{
+			var directoryAttribute = document.Attributes.FirstOrDefault(a => a.Name == "docdir");
+			if (directoryAttribute != null) document.Attributes.Remove(directoryAttribute);
+		}
+
+		private bool LastSectionTitleMatches(Func<string, bool> predicate)
+		{
+			var lastSectionTitle = _newDocument.OfType<SectionTitle>().LastOrDefault(e => e.Level == _topSectionTitleLevel + 1);
+			if (lastSectionTitle != null && lastSectionTitle.Level == _topSectionTitleLevel + 1)
+			{
+				var builder = new StringBuilder();
+				using (var visitor = new AsciiDocVisitor(new StringWriter(builder))) visitor.VisitInlineContainer(lastSectionTitle);
+
+				return predicate(builder.ToString());
+			}
+
+			return false;
+		}
+
+		private SectionTitle CreateSubsectionTitle(string title)
+		{
+			var level = _topSectionTitleLevel + 1;
+			var sectionTitle = new SectionTitle(title, level);
+
+			// levels 1-3 need to be floating so the Elasticsearch docs generation does not
+			// split into separate file
+			if (level < 4)
+				sectionTitle.IsFloating = true;
+
+			return sectionTitle;
+		}
+	}
+}
+
+---- Transformed Tree ----
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using AsciiDocNet;
+using DocGenerator.XmlDocs;
+using Elastic.Transport;
+using Elasticsearch.Net;
+using Microsoft.CodeAnalysis;
+using Nest;
+using NuDoq;
+using Container = AsciiDocNet.Container;
+using Document = AsciiDocNet.Document;
+using Exception = System.Exception;
+
+namespace DocGenerator.AsciiDoc
+{
+	/// <summary>
+	/// Visits the "raw" asciidoc generated using Roslyn and adds attribute entries,
+	/// section titles, rearranges sections, etc.
+	/// </summary>
+	public class GeneratedAsciidocVisitor : NoopVisitor
+	{
+		private static readonly Dictionary<string, string> Ids = new Dictionary<string, string>();
+		private readonly FileInfo _destination;
+		private readonly Dictionary<string, Project> _projects;
+
+		private readonly FileInfo _source;
+		private Document _document;
+		private Document _newDocument;
+		private bool _topLevel = true;
+		private int _topSectionTitleLevel;
+
+		public GeneratedAsciidocVisitor(FileInfo source, FileInfo destination, Dictionary<string, Project> projects)
+		{
+			_source = source;
+			_destination = destination;
+			_projects = projects;
+		}
+
+		public Document Convert(Document document)
+		{
+			_document = document;
+			document.Accept(this);
+			return _newDocument;
+		}
+
+		public override void VisitDocument(Document document)
+		{
+			_newDocument = new Document
+			{
+				Title = document.Title,
+				DocType = document.DocType
+			};
+
+			foreach (var authorInfo in document.Authors) _newDocument.Authors.Add(authorInfo);
+
+			RemoveDocDirectoryAttribute(_newDocument);
+			RemoveDocDirectoryAttribute(document);
+
+			foreach (var attributeEntry in document.Attributes) _newDocument.Attributes.Add(attributeEntry);
+
+			if (document.Attributes.All(a => a.Name != "ref_current"))
+				_newDocument.Attributes.Add(new AttributeEntry("ref_current",
+					$"https://www.elastic.co/guide/en/elasticsearch/reference/{Program.DocVersion}"));
+
+			var github = "https://github.com/elastic/elasticsearch-net";
+			if (document.Attributes.All(a => a.Name != "github")) _newDocument.Attributes.Add(new AttributeEntry("github", github));
+
+			if (document.Attributes.All(a => a.Name != "nuget"))
+				_newDocument.Attributes.Add(new AttributeEntry("nuget", "https://www.nuget.org/packages"));
+
+			var originalFile = Regex.Replace(_source.FullName.Replace("\\", "/"), @"^(.*Tests/)",
+				$"{github}/tree/{Program.BranchName}/src/Tests/Tests/");
+
+			var eol = Environment.NewLine;
+			_newDocument.Insert(0, new Comment
+			{
+				Style = CommentStyle.MultiLine,
+				Text = $"IMPORTANT NOTE{eol}=============={eol}This file has been generated from {originalFile}. {eol}" +
+					$"If you wish to submit a PR for any spelling mistakes, typos or grammatical errors for this file,{eol}" +
+					"please modify the original csharp file found at the link and submit the PR with that change. Thanks!"
+			});
+
+			_topSectionTitleLevel = _source.Directory.Name.Equals("request", StringComparison.OrdinalIgnoreCase) &&
+				_source.Directory.Parent != null &&
+				_source.Directory.Parent.Name.Equals("search", StringComparison.OrdinalIgnoreCase)
+					? 2
+					: 3;
+
+			// see if the document has some kind of top level title and add one with an anchor if not.
+			// Used to add titles to *Usage test files
+			if (document.Title == null && document.Count > 0)
+			{
+				// capture existing top level
+				if (document[0] is SectionTitle sectionTitle && sectionTitle.Level <= 3)
+					_topSectionTitleLevel = sectionTitle.Level;
+
+				if (sectionTitle == null || sectionTitle.Level > 3)
+				{
+					var id = Path.GetFileNameWithoutExtension(_destination.Name);
+					var title = id.LowercaseHyphenToPascal();
+					sectionTitle = new SectionTitle(title, _topSectionTitleLevel);
+					sectionTitle.Attributes.Add(new Anchor(id));
+					_newDocument.Add(sectionTitle);
+				}
+			}
+
+			base.VisitDocument(document);
+		}
+
+		public override void VisitContainer(Container elements)
+		{
+			if (_topLevel)
+			{
+				_topLevel = false;
+				for (var index = 0; index < elements.Count; index++)
+				{
+					var element = elements[index];
+
+					if (element is Source source)
+					{
+						// remove empty source blocks
+						if (string.IsNullOrWhiteSpace(source.Text)) continue;
+
+						var method = source.Attributes.OfType<NamedAttribute>().FirstOrDefault(a => a.Name == "method");
+						if (method == null)
+						{
+							_newDocument.Add(source);
+							continue;
+						}
+
+						// if there is a section title since the last source block, don't add one
+						var lastSourceBlock = _newDocument.LastOrDefault(e => e is Source);
+						var lastSectionTitle = _newDocument.OfType<SectionTitle>().LastOrDefault(e => e.Level == _topSectionTitleLevel + 1);
+						if (lastSourceBlock != null && lastSectionTitle != null)
+						{
+							var lastSectionTitleIndex = _newDocument.IndexOf(lastSectionTitle);
+							var lastSourceBlockIndex = _newDocument.IndexOf(lastSourceBlock);
+							if (lastSectionTitleIndex > lastSourceBlockIndex)
+							{
+								_newDocument.Add(source);
+								continue;
+							}
+						}
+
+						switch (method.Value)
+						{
+							case "fluent":
+							case "queryfluent":
+							case "fluentaggs":
+								if (!LastSectionTitleMatches(text => text.StartsWith("Fluent DSL", StringComparison.OrdinalIgnoreCase)))
+									_newDocument.Add(CreateSubsectionTitle("Fluent DSL example"));
+
+								_newDocument.Add(source);
+								break;
+							case "initializer":
+							case "queryinitializer":
+							case "initializeraggs":
+								_newDocument.Add(CreateSubsectionTitle("Object Initializer syntax example"));
+								_newDocument.Add(source);
+								break;
+							case "expectresponse":
+								// Don't add the Handlng Response section title if it was the last title (it might be defined in the doc already)
+								if (!LastSectionTitleMatches(text => text.Equals("Handling responses", StringComparison.OrdinalIgnoreCase)))
+									_newDocument.Add(CreateSubsectionTitle("Handling Responses"));
+								_newDocument.Add(source);
+								break;
+							default:
+								_newDocument.Add(source);
+								break;
+						}
+					}
+					else
+						_newDocument.Add(element);
+				}
+			}
+
+			base.VisitContainer(elements);
+		}
+
+		public override void VisitSource(Source source)
+		{
+			// remove method attributes as the elastic doc generation doesn't like them; it
+			// expects a linenumbering in the index 2 position of a source block
+			var methodAttribute = source.Attributes.FirstOrDefault(a => a.Name == "method");
+			if (methodAttribute != null) source.Attributes.Remove(methodAttribute);
+
+			// Replace tabs with spaces and remove C# comment escaping from callouts
+			// (elastic docs generation does not like this callout format)
+			source.Text = Regex.Replace(source.Text.Replace("\t", "    "), @"//[ \t]*\<(\d+)\>[^\r\n]*", "<$1>");
+
+			base.VisitSource(source);
+		}
+
+		public override void VisitSectionTitle(SectionTitle sectionTitle)
+		{
+			// Generate an anchor for all top level section titles
+			if (_document.IndexOf(sectionTitle) == 0 && !sectionTitle.Attributes.HasAnchor)
+			{
+				var builder = new StringBuilder();
+				using (var writer = new AsciiDocVisitor(new StringWriter(builder))) writer.VisitInlineContainer(sectionTitle);
+
+				var title = builder.ToString().PascalToHyphen();
+				sectionTitle.Attributes.Add(new Anchor(title));
+			}
+
+			if (sectionTitle.Attributes.HasAnchor)
+			{
+				// Check for duplicate ids across documents
+				var key = sectionTitle.Attributes.Anchor.Id;
+				if (Ids.TryGetValue(key, out var existingFile))
+					throw new Exception($"duplicate id {key} in {_destination.FullName}. Id already exists in {existingFile}");
+
+				Ids.Add(key, _destination.FullName);
+			}
+
+			base.VisitSectionTitle(sectionTitle);
+		}
+
+		public override void VisitAttributeEntry(AttributeEntry attributeEntry)
+		{
+			if (attributeEntry.Name != "xml-docs") return;
+
+			var configuration = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).Parent?.Name;
+
+			string XmlFile(string xmlName)
+			{
+				//Elastic.Transport xml lives in Elasticsearch.Net
+				var project = xmlName == "Elastic.Transport" ? "Elasticsearch.Net" : xmlName;
+				if (configuration == null)
+					return Path.Combine(Program.InputDirPath, project, "netstandard2.0", $"{xmlName}.xml");
+
+				return Path.Combine(Program.InputDirPath, project, "bin", configuration, "netstandard2.0",
+					$"{xmlName}.xml");
+			}
+
+			var value = attributeEntry.Value;
+
+			if (string.IsNullOrEmpty(value))
+			{
+				base.VisitAttributeEntry(attributeEntry);
+				return;
+			}
+
+			var parts = value.Split(':');
+			var assemblyName = parts[0];
+			var typeName = parts[1];
+
+			string xmlDocsFile;
+			Assembly assembly;
+			string assemblyNamespace;
+
+			//TODO: tidy this up
+			switch (assemblyName.ToLowerInvariant())
+			{
+				case "elasticsearch.net":
+					xmlDocsFile = Path.GetFullPath(XmlFile("Elasticsearch.Net"));
+					assembly = typeof(ElasticLowLevelClient).Assembly;
+					assemblyNamespace = typeof(ElasticLowLevelClient).Namespace;
+					break;
+				case "elastic.transport":
+					xmlDocsFile = Path.GetFullPath(XmlFile("Elastic.Transport"));
+					assembly = typeof(CloudConnectionPool).Assembly;
+					assemblyNamespace = typeof(CloudConnectionPool).Namespace;
+					break;
+				default:
+					xmlDocsFile = Path.GetFullPath(XmlFile("Nest"));
+					assembly = typeof(ElasticClient).Assembly;
+					assemblyNamespace = typeof(ElasticClient).Namespace;
+					break;
+			}
+
+			// build xml documentation file on the fly if it doesn't exist
+			if (!File.Exists(xmlDocsFile) && _projects.ContainsKey(assemblyName))
+			{
+				Console.WriteLine($"Can not find {xmlDocsFile} attempting to build");
+				var project = _projects[assemblyName];
+
+				var compilation = project.GetCompilationAsync().Result;
+
+				using (var peStream = new MemoryStream())
+				using (var commentStream = File.Create(xmlDocsFile))
+				{
+					var emitResult = compilation.Emit(peStream, null, commentStream);
+
+					if (!emitResult.Success)
+					{
+						var failures = emitResult.Diagnostics.Where(diagnostic =>
+							diagnostic.IsWarningAsError ||
+							diagnostic.Severity == DiagnosticSeverity.Error);
+
+						var builder = new StringBuilder($"Unable to emit compilation for: {assemblyName}");
+						foreach (var diagnostic in failures.Take(50)) builder.AppendLine($"{diagnostic.Id}: {diagnostic.GetMessage()}");
+
+						builder.AppendLine(new string('-', 30));
+
+						throw new Exception(builder.ToString());
+					}
+				}
+			}
+			if (!File.Exists(xmlDocsFile))
+				throw new Exception($"Can not find xml docs: '{xmlDocsFile}'");
+
+			var assemblyMembers = DocReader.Read(assembly, xmlDocsFile);
+			var type = assembly.GetType(assemblyNamespace + "." + typeName);
+			var visitor = new XmlDocsVisitor(type);
+
+			visitor.VisitAssembly(assemblyMembers);
+			if (visitor.LabeledListItems.Any())
+			{
+				var labeledList = new LabeledList();
+				foreach (var item in visitor.LabeledListItems
+					.OrderBy(l => l.Label)
+					.GroupBy(l => l.Label)
+					.Select(x => x.First()))
+					labeledList.Items.Add(item);
+
+				_newDocument.Insert(_newDocument.IndexOf(attributeEntry), labeledList);
+			}
+		}
+
+		private void RemoveDocDirectoryAttribute(Document document)
+		{
+			var directoryAttribute = document.Attributes.FirstOrDefault(a => a.Name == "docdir");
+			if (directoryAttribute != null) document.Attributes.Remove(directoryAttribute);
+		}
+
+		private bool LastSectionTitleMatches(Func<string, bool> predicate)
+		{
+			var lastSectionTitle = _newDocument.OfType<SectionTitle>().LastOrDefault(e => e.Level == _topSectionTitleLevel + 1);
+			if (lastSectionTitle != null && lastSectionTitle.Level == _topSectionTitleLevel + 1)
+			{
+				var builder = new StringBuilder();
+				using (var visitor = new AsciiDocVisitor(new StringWriter(builder))) visitor.VisitInlineContainer(lastSectionTitle);
+
+				return predicate(builder.ToString());
+			}
+
+			return false;
+		}
+
+		private SectionTitle CreateSubsectionTitle(string title)
+		{
+			var level = _topSectionTitleLevel + 1;
+			var sectionTitle = new SectionTitle(title, level);
+
+			// levels 1-3 need to be floating so the Elasticsearch docs generation does not
+			// split into separate file
+			if (level < 4)
+				sectionTitle.IsFloating = true;
+
+			return sectionTitle;
+		}
+	}
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+/home/vsts/work/1/s/src/DocGenerator/AsciiDoc/GeneratedAsciidocVisitor.cs(106,9): error CS0165: Use of unassigned local variable 'sectionTitle'
+######################################################################
+
+

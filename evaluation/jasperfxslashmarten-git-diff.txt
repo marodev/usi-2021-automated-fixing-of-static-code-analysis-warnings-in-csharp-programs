@@ -1,0 +1,555 @@
+diff --git a/src/Marten.Schema.Testing/Identity/Sequences/Bug_255_Hilo_table_being_erroneously_recreated.cs b/src/Marten.Schema.Testing/Identity/Sequences/Bug_255_Hilo_table_being_erroneously_recreated.cs
+index 646f17be..256e0bd4 100644
+--- a/src/Marten.Schema.Testing/Identity/Sequences/Bug_255_Hilo_table_being_erroneously_recreated.cs
++++ b/src/Marten.Schema.Testing/Identity/Sequences/Bug_255_Hilo_table_being_erroneously_recreated.cs
+@@ -48,8 +48,7 @@ namespace Marten.Schema.Testing.Identity.Sequences
+ 
+             logger.Sql.Each(x => Console.WriteLine(x));
+ 
+-            logger.Sql.Where(x => x.Contains("mt_hilo") && x.Contains("CREATE TABLE")).Count()
+-                .ShouldBe(1);
++            logger.Sql.Count(x => x.Contains("mt_hilo") && x.Contains("CREATE TABLE"))                .ShouldBe(1);
+         }
+     }
+ 
+diff --git a/src/Marten.Testing/Acceptance/full_text_index.cs b/src/Marten.Testing/Acceptance/full_text_index.cs
+index 56793d61..652c1b92 100644
+--- a/src/Marten.Testing/Acceptance/full_text_index.cs
++++ b/src/Marten.Testing/Acceptance/full_text_index.cs
+@@ -212,7 +212,7 @@ namespace Marten.Testing.Acceptance
+ 
+             #endregion sample_using_full_text_query_through_query_session
+ 
+-            result.Count().ShouldBe(1);
++            result.Count.ShouldBe(1);
+         }
+ 
+         [PgVersionTargetedFact(MinimumVersion = "10.0")]
+diff --git a/src/Marten.Testing/Bugs/Bug_582_and_592_Skip_and_Take_in_compiled_queries.cs b/src/Marten.Testing/Bugs/Bug_582_and_592_Skip_and_Take_in_compiled_queries.cs
+index ee25a511..052421fb 100644
+--- a/src/Marten.Testing/Bugs/Bug_582_and_592_Skip_and_Take_in_compiled_queries.cs
++++ b/src/Marten.Testing/Bugs/Bug_582_and_592_Skip_and_Take_in_compiled_queries.cs
+@@ -24,8 +24,8 @@ namespace Marten.Testing.Bugs
+                 var page1 = query.Query(new PageOfTargets { Start = 10, Take = 17 }).ToList();
+                 var page2 = query.Query(new PageOfTargets { Start = 50, Take = 11 }).ToList();
+ 
+-                page1.Count().ShouldBe(17);
+-                page2.Count().ShouldBe(11);
++                page1.Count.ShouldBe(17);
++                page2.Count.ShouldBe(11);
+ 
+                 foreach (var target in page1)
+                 {
+@@ -51,8 +51,8 @@ namespace Marten.Testing.Bugs
+                 var page1 = query.Query(new PageOfTargets { Start = 10, Take = 17 }).ToList();
+                 var page2 = query.Query(new PageOfTargets { Start = 50, Take = 11 }).ToList();
+ 
+-                page1.Count().ShouldBe(17);
+-                page2.Count().ShouldBe(11);
++                page1.Count.ShouldBe(17);
++                page2.Count.ShouldBe(11);
+ 
+                 foreach (var target in page1)
+                 {
+diff --git a/src/Marten.Testing/CoreFunctionality/document_session_persist_and_load_single_documents_Tests.cs b/src/Marten.Testing/CoreFunctionality/document_session_persist_and_load_single_documents_Tests.cs
+index a1cdc98c..5d559cb5 100644
+--- a/src/Marten.Testing/CoreFunctionality/document_session_persist_and_load_single_documents_Tests.cs
++++ b/src/Marten.Testing/CoreFunctionality/document_session_persist_and_load_single_documents_Tests.cs
+@@ -126,7 +126,7 @@ namespace Marten.Testing.CoreFunctionality
+             using (var session = theStore.OpenSession())
+             {
+                 var users = session.LoadMany<User>(user2.Id, user3.Id, user4.Id);
+-                users.Count().ShouldBe(3);
++                users.Count.ShouldBe(3);
+             }
+         }
+ 
+@@ -158,7 +158,7 @@ namespace Marten.Testing.CoreFunctionality
+             using (var session = store.OpenSession())
+             {
+                 var users = await session.LoadManyAsync<User>(user2.Id, user3.Id, user4.Id).ConfigureAwait(false);
+-                users.Count().ShouldBe(3);
++                users.Count.ShouldBe(3);
+             }
+             #endregion sample_load_by_id_array_async
+         }
+diff --git a/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_Tests.cs b/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_Tests.cs
+index 28f83739..9281cdb3 100644
+--- a/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_Tests.cs
++++ b/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_Tests.cs
+@@ -60,7 +60,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = session.Events.FetchStream(id);
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -91,7 +91,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = await session.Events.FetchStreamAsync(id);
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -123,7 +123,7 @@ namespace Marten.Testing.Events
+                     var streamEvents = await session.Events.QueryAllRawEvents()
+                         .Where(x => x.StreamId == id).OrderBy(x => x.Version).ToListAsync();
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -155,7 +155,7 @@ namespace Marten.Testing.Events
+                     var streamEvents = session.Events.QueryAllRawEvents()
+                         .Where(x => x.StreamId == id).OrderBy(x => x.Version).ToList();
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -364,7 +364,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = session.Events.FetchStream(id);
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -394,7 +394,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = session.Events.FetchStream(id);
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -433,7 +433,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = session.Events.FetchStream(id);
+ 
+-                    streamEvents.Count().ShouldBe(3);
++                    streamEvents.Count.ShouldBe(3);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<QuestStarted>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersJoined>();
+@@ -465,7 +465,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = session.Events.FetchStream(id);
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -495,7 +495,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = session.Events.FetchStream(id);
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -528,7 +528,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = session.Events.FetchStream(id);
+ 
+-                    streamEvents.Count().ShouldBe(2);
++                    streamEvents.Count.ShouldBe(2);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -569,7 +569,7 @@ namespace Marten.Testing.Events
+ 
+                     var streamEvents = session.Events.FetchStream(id);
+ 
+-                    streamEvents.Count().ShouldBe(3);
++                    streamEvents.Count.ShouldBe(3);
+                     streamEvents.ElementAt(0).Data.ShouldBeOfType<QuestStarted>();
+                     streamEvents.ElementAt(0).Version.ShouldBe(1);
+                     streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersJoined>();
+diff --git a/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_with_non_typed_streams_Tests.cs b/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_with_non_typed_streams_Tests.cs
+index 549a7c5c..bd767205 100644
+--- a/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_with_non_typed_streams_Tests.cs
++++ b/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_with_non_typed_streams_Tests.cs
+@@ -97,7 +97,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = await Queryable.Where<IEvent>(session.Events.QueryAllRawEvents(), x => x.StreamId == id).OrderBy(x => x.Version).ToListAsync();
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -125,7 +125,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = Queryable.Where<IEvent>(session.Events.QueryAllRawEvents(), x => x.StreamId == id).OrderBy(x => x.Version).ToList();
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+diff --git a/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs b/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs
+index 5023d918..8bb30539 100644
+--- a/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs
++++ b/src/Marten.Testing/Events/end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs
+@@ -35,7 +35,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = session.Events.FetchStream(id);
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -63,7 +63,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = await session.Events.FetchStreamAsync(id);
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -92,7 +92,7 @@ namespace Marten.Testing.Events
+                 var streamEvents = await session.Events.QueryAllRawEvents()
+                                                 .Where(x => x.StreamKey == id).OrderBy(x => x.Version).ToListAsync();
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -121,7 +121,7 @@ namespace Marten.Testing.Events
+                 var streamEvents = session.Events.QueryAllRawEvents()
+                                           .Where(x => x.StreamKey == id).OrderBy(x => x.Version).ToList();
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -298,7 +298,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = session.Events.FetchStream(id);
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -324,7 +324,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = session.Events.FetchStream(id);
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -358,7 +358,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = session.Events.FetchStream(id);
+ 
+-                streamEvents.Count().ShouldBe(3);
++                streamEvents.Count.ShouldBe(3);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<QuestStarted>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersJoined>();
+@@ -384,7 +384,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = session.Events.FetchStream(id);
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -408,7 +408,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = session.Events.FetchStream(id);
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -436,7 +436,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = session.Events.FetchStream(id);
+ 
+-                streamEvents.Count().ShouldBe(2);
++                streamEvents.Count.ShouldBe(2);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<MembersJoined>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersDeparted>();
+@@ -469,7 +469,7 @@ namespace Marten.Testing.Events
+ 
+                 var streamEvents = session.Events.FetchStream(id);
+ 
+-                streamEvents.Count().ShouldBe(3);
++                streamEvents.Count.ShouldBe(3);
+                 streamEvents.ElementAt(0).Data.ShouldBeOfType<QuestStarted>();
+                 streamEvents.ElementAt(0).Version.ShouldBe(1);
+                 streamEvents.ElementAt(1).Data.ShouldBeOfType<MembersJoined>();
+diff --git a/src/Marten.Testing/Linq/query_with_inheritance.cs b/src/Marten.Testing/Linq/query_with_inheritance.cs
+index db8df763..683cfa88 100644
+--- a/src/Marten.Testing/Linq/query_with_inheritance.cs
++++ b/src/Marten.Testing/Linq/query_with_inheritance.cs
+@@ -191,7 +191,7 @@ namespace Marten.Testing.Linq
+             theSession.SaveChanges();
+ 
+             var list = theSession.Query<IPapaSmurf>().ToList();
+-            list.Count().ShouldBe(3);
++            list.Count.ShouldBe(3);
+             list.Count(s => s.Ability == "Invent").ShouldBe(1);
+         }
+ 
+@@ -207,7 +207,7 @@ namespace Marten.Testing.Linq
+             await theSession.SaveChangesAsync().ConfigureAwait(false);
+ 
+             var list = await theSession.Query<IPapaSmurf>().ToListAsync().ConfigureAwait(false);
+-            list.Count().ShouldBe(3);
++            list.Count.ShouldBe(3);
+             list.Count(s => s.Ability == "Invent").ShouldBe(1);
+         }
+ 
+diff --git a/src/Marten.Testing/Linq/query_with_inner_query_with_CollectionToArrayJsonConverter_onProperty.cs b/src/Marten.Testing/Linq/query_with_inner_query_with_CollectionToArrayJsonConverter_onProperty.cs
+index fc35f6b4..a4555d93 100644
+--- a/src/Marten.Testing/Linq/query_with_inner_query_with_CollectionToArrayJsonConverter_onProperty.cs
++++ b/src/Marten.Testing/Linq/query_with_inner_query_with_CollectionToArrayJsonConverter_onProperty.cs
+@@ -93,9 +93,8 @@ namespace Marten.Testing.Linq
+             x => x.IList.Contains(SearchPhrase),
+             x => x.ICollection.Contains(SearchPhrase),
+             x => x.IReadonlyCollection.Contains(SearchPhrase),
+-            x => x.IReadonlyCollection.Where(e => e == SearchPhrase).Any(),
+-            x => x.IReadonlyCollectionOfInnerClasses.Where(e => e.Flatten == "onetwo").Any() || x.IReadonlyCollectionOfInnerClasses.Where(e => e.Flatten == "twothree").Any()
+-        };
++            x => x.IReadonlyCollection.Any(e => e == SearchPhrase),
++            x => x.IReadonlyCollectionOfInnerClasses.Any(e => e.Flatten == "onetwo")|| x.IReadonlyCollectionOfInnerClasses.Any(e => e.Flatten == "twothree")        };
+ 
+         [Theory]
+         [MemberData(nameof(Predicates))]
+diff --git a/src/Marten.Testing/Linq/query_with_inner_query_with_global_CollectionStorage_WithArray.cs b/src/Marten.Testing/Linq/query_with_inner_query_with_global_CollectionStorage_WithArray.cs
+index af70a312..7aa8497a 100644
+--- a/src/Marten.Testing/Linq/query_with_inner_query_with_global_CollectionStorage_WithArray.cs
++++ b/src/Marten.Testing/Linq/query_with_inner_query_with_global_CollectionStorage_WithArray.cs
+@@ -117,9 +117,9 @@ namespace Marten.Testing.Linq
+             x => x.IList.Contains(SearchPhrase),
+             x => x.ICollection.Contains(SearchPhrase),
+             x => x.IReadonlyCollection.Contains(SearchPhrase),
+-            x => x.IReadonlyCollection.Where(e => e == SearchPhrase).Any(),
++            x => x.IReadonlyCollection.Any(e => e == SearchPhrase),
+             x => x.IReadonlyCollectionOfInnerClasses.Any(e => e.Flatten == "12") || x.IReadonlyCollectionOfInnerClasses.Any(e => e.Flatten == "23"),
+-            x => x.IReadonlyCollectionOfInnerClasses.Where(e => e.Flatten == "12").Any() || x.IReadonlyCollectionOfInnerClasses.Where(e => e.Flatten == "23").Any(),
++            x => x.IReadonlyCollectionOfInnerClasses.Any(e => e.Flatten == "12")|| x.IReadonlyCollectionOfInnerClasses.Any(e => e.Flatten == "23"),
+             x => x.ArrayWithInt.Contains(IntSearchPhrase),
+             x => x.EnumerableWithInt.Contains(IntSearchPhrase),
+             x => x.IEnumerableWithIntFromArray.Contains(IntSearchPhrase),
+@@ -128,7 +128,7 @@ namespace Marten.Testing.Linq
+             x => x.IListWithInt.Contains(IntSearchPhrase),
+             x => x.ICollectionWithInt.Contains(IntSearchPhrase),
+             x => x.IReadonlyCollectionWithInt.Contains(IntSearchPhrase),
+-            x => x.IReadonlyCollectionWithInt.Where(e => e == IntSearchPhrase).Any(),
++            x => x.IReadonlyCollectionWithInt.Any(e => e == IntSearchPhrase),
+         };
+ 
+         [Theory]
+diff --git a/src/Marten.Testing/Linq/query_with_select_many.cs b/src/Marten.Testing/Linq/query_with_select_many.cs
+index 491f396a..0481b838 100644
+--- a/src/Marten.Testing/Linq/query_with_select_many.cs
++++ b/src/Marten.Testing/Linq/query_with_select_many.cs
+@@ -39,8 +39,7 @@ namespace Marten.Testing.Linq
+                 distinct.OrderBy(x => x).ShouldHaveTheSameElementsAs("a", "b", "c", "d", "e", "f");
+ 
+                 var names = query.Query<Product>().SelectMany(x => x.Tags).ToList();
+-                names
+-                    .Count().ShouldBe(9);
++                names.Count.ShouldBe(9);
+             }
+         }
+         #endregion sample_can_do_simple_select_many_against_simple_array
+@@ -116,8 +115,7 @@ namespace Marten.Testing.Linq
+                 distinct.OrderBy(x => x).ShouldHaveTheSameElementsAs("a", "b", "c", "d", "e", "f");
+ 
+                 var names = query.Query<ProductWithList>().SelectMany(x => x.Tags).ToList();
+-                names
+-                    .Count().ShouldBe(9);
++                names.Count.ShouldBe(9);
+             }
+         }
+ 
+@@ -250,8 +248,7 @@ namespace Marten.Testing.Linq
+                 distinct.OrderBy(x => x).ShouldHaveTheSameElementsAs(1, 2, 3, 4, 5);
+ 
+                 var names = query.Query<ProductWithNumbers>().SelectMany(x => x.Tags).ToList();
+-                names
+-                    .Count().ShouldBe(9);
++                names.Count.ShouldBe(9);
+             }
+         }
+ 
+@@ -276,8 +273,7 @@ namespace Marten.Testing.Linq
+                 distinct.OrderBy(x => x).ShouldHaveTheSameElementsAs(1, 2, 3, 4, 5);
+ 
+                 var names = query.Query<ProductWithNumbers>().SelectMany(x => x.Tags).ToList();
+-                names
+-                    .Count().ShouldBe(9);
++                names.Count.ShouldBe(9);
+             }
+         }
+ 
+diff --git a/src/Marten.Testing/Linq/using_custom_Linq_parser_plugins_Tests.cs b/src/Marten.Testing/Linq/using_custom_Linq_parser_plugins_Tests.cs
+index c948393b..ddd514ee 100644
+--- a/src/Marten.Testing/Linq/using_custom_Linq_parser_plugins_Tests.cs
++++ b/src/Marten.Testing/Linq/using_custom_Linq_parser_plugins_Tests.cs
+@@ -48,7 +48,7 @@ namespace Marten.Testing.Linq
+                     targets.Add(new ColorTarget {Color = "Red"});
+                 }
+ 
+-                var count = targets.Where(x => x.IsBlue()).Count();
++                var count = targets.Count(x => x.IsBlue());
+ 
+                 targets.Each(x => x.Id = Guid.NewGuid());
+ 
+diff --git a/src/Marten.Testing/Services/BatchedQuerying/batched_querying_acceptance_Tests.cs b/src/Marten.Testing/Services/BatchedQuerying/batched_querying_acceptance_Tests.cs
+index b1bcdff1..1b0084ff 100644
+--- a/src/Marten.Testing/Services/BatchedQuerying/batched_querying_acceptance_Tests.cs
++++ b/src/Marten.Testing/Services/BatchedQuerying/batched_querying_acceptance_Tests.cs
+@@ -386,7 +386,7 @@ namespace Marten.Testing.Services.BatchedQuerying
+ 
+             var list = await task;
+ 
+-            list.Count().ShouldBe(2);
++            list.Count.ShouldBe(2);
+             list.Any(x => x.Id == target1.Id).ShouldBeTrue();
+             list.Any(x => x.Id == target3.Id).ShouldBeTrue();
+         }
+@@ -419,7 +419,7 @@ namespace Marten.Testing.Services.BatchedQuerying
+ 
+             var list = await task;
+ 
+-            list.Count().ShouldBe(2);
++            list.Count.ShouldBe(2);
+             list.Any(x => x.Id == target1.Id).ShouldBeTrue();
+             list.Any(x => x.Id == target3.Id).ShouldBeTrue();
+         }
+diff --git a/src/Marten/Linq/Parsing/Methods/StringEquals.cs b/src/Marten/Linq/Parsing/Methods/StringEquals.cs
+index a9f0dbf6..78f39c69 100644
+--- a/src/Marten/Linq/Parsing/Methods/StringEquals.cs
++++ b/src/Marten/Linq/Parsing/Methods/StringEquals.cs
+@@ -7,7 +7,7 @@ namespace Marten.Linq.Parsing.Methods
+     internal class StringEquals: StringComparisonParser
+     {
+         public StringEquals() : base(
+-            ReflectionHelper.GetMethod<string>(s => s.Equals(string.Empty)),
++            ReflectionHelper.GetMethod<string>(s => string.IsNullOrEmpty(s)),
+             ReflectionHelper.GetMethod<string>(s => s.Equals(string.Empty, StringComparison.CurrentCulture)),
+             ReflectionHelper.GetMethod(() => string.Equals(string.Empty, string.Empty)),
+             ReflectionHelper.GetMethod(() => string.Equals(string.Empty, string.Empty, StringComparison.CurrentCulture)))
+diff --git a/src/Marten/Pagination/PagedList.cs b/src/Marten/Pagination/PagedList.cs
+index 7010e09b..a5b5ef2d 100644
+--- a/src/Marten/Pagination/PagedList.cs
++++ b/src/Marten/Pagination/PagedList.cs
+@@ -35,7 +35,7 @@ namespace Marten.Pagination
+         /// </summary>
+         public long Count
+         {
+-            get { return _items.Count(); }
++            get { return _items.Count; }
+         }
+ 
+         /// <summary>
+diff --git a/src/Marten/Schema/DocumentMapping.cs b/src/Marten/Schema/DocumentMapping.cs
+index d9208f2f..2914585e 100644
+--- a/src/Marten/Schema/DocumentMapping.cs
++++ b/src/Marten/Schema/DocumentMapping.cs
+@@ -374,11 +374,10 @@ namespace Marten.Schema
+ 
+         private bool idMemberIsSettable()
+         {
+-            var field = IdMember as FieldInfo;
+-            if (field != null)
++            if (IdMember is FieldInfo field)
+                 return field.IsPublic;
+-            var property = IdMember as PropertyInfo;
+-            if (property != null)
++
++            if (IdMember is PropertyInfo property)
+                 return property.CanWrite && property.SetMethod != null;
+             return false;
+         }
+diff --git a/src/Marten/Services/Json/SystemTextJsonExtensions.cs b/src/Marten/Services/Json/SystemTextJsonExtensions.cs
+index 8adb4aca..925676ac 100644
+--- a/src/Marten/Services/Json/SystemTextJsonExtensions.cs
++++ b/src/Marten/Services/Json/SystemTextJsonExtensions.cs
+@@ -361,8 +361,7 @@ namespace Marten.Services.Json
+             {
+                 if (_value.TryGetValue(binder.Name, out result))
+                 {
+-                    JsonDynamicObject dynamicObj = result as JsonDynamicObject;
+-                    if (dynamicObj != null)
++                    if (result is JsonDynamicObject dynamicObj)
+                     {
+                         return dynamicObj.TryConvert(binder.ReturnType, out result);
+                     }
+@@ -511,8 +510,7 @@ namespace Marten.Services.Json
+ 
+             public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
+             {
+-                JsonDynamicType dynamicType = value as JsonDynamicType;
+-                if (dynamicType != null)
++                if (value is JsonDynamicType dynamicType)
+                 {
+                     value = dynamicType.Value;
+                 }
+diff --git a/src/Marten/Util/FastExpressionCompiler.cs b/src/Marten/Util/FastExpressionCompiler.cs
+index 3c5f13f2..8330c746 100644
+--- a/src/Marten/Util/FastExpressionCompiler.cs
++++ b/src/Marten/Util/FastExpressionCompiler.cs
+@@ -643,7 +643,7 @@ namespace Marten.Util
+                     closure.Add(lambdaInfo);
+ 
+                     // if nested parameter is no matched with any outer parameter, that ensure it goes to outer closure
+-                    if (nestedClosure != null && nestedClosure.UsedParamExpressions != null)
++                    if (nestedClosure?.UsedParamExpressions != null)
+                     {
+                         var nestedClosedParams = nestedClosure.UsedParamExpressions;
+                         for (var i = 0; i < nestedClosedParams.Count; i++)
+@@ -1061,8 +1061,7 @@ namespace Marten.Util
+                     if (!TryEmit(((MemberAssignment)binding).Expression, ps, il, closure))
+                         return false;
+ 
+-                    var prop = binding.Member as PropertyInfo;
+-                    if (prop != null)
++                    if (binding.Member is PropertyInfo prop)
+                     {
+                         var propSetMethodName = "set_" + prop.Name;
+                         var setMethod = prop.DeclaringType.GetTypeInfo()
+@@ -1122,15 +1121,13 @@ namespace Marten.Util
+                     ForValueTypeStoreAndLoadValueAddress(il, memberOwnerExpr.Type);
+                 }
+ 
+-                var field = e.Member as FieldInfo;
+-                if (field != null)
++                if (e.Member is FieldInfo field)
+                 {
+                     il.Emit(field.IsStatic ? OpCodes.Ldsfld : OpCodes.Ldfld, field);
+                     return true;
+                 }
+ 
+-                var prop = e.Member as PropertyInfo;
+-                if (prop != null)
++                if (e.Member is PropertyInfo prop)
+                 {
+                     var propGetMethodName = "get_" + prop.Name;
+                     var getMethod = prop.DeclaringType.GetTypeInfo()

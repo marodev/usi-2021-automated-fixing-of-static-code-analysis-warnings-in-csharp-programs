@@ -1,0 +1,1423 @@
+diff --git a/DvdLib/Ifo/Dvd.cs b/DvdLib/Ifo/Dvd.cs
+index b4a11ed5d..7490f55ab 100644
+--- a/DvdLib/Ifo/Dvd.cs
++++ b/DvdLib/Ifo/Dvd.cs
+@@ -76,7 +76,7 @@ namespace DvdLib.Ifo
+ 
+         private void ReadVTS(ushort vtsNum, IReadOnlyList<FileInfo> allFiles)
+         {
+-            var filename = string.Format("VTS_{0:00}_0.IFO", vtsNum);
++            var filename = $"VTS_{vtsNum:00}_0.IFO";
+ 
+             var vtsPath = allFiles.FirstOrDefault(i => string.Equals(i.Name, filename, StringComparison.OrdinalIgnoreCase)) ??
+                 allFiles.FirstOrDefault(i => string.Equals(i.Name, Path.ChangeExtension(filename, ".bup"), StringComparison.OrdinalIgnoreCase));
+@@ -154,10 +154,7 @@ namespace DvdLib.Ifo
+                         uint vtsPgcOffset = vtsRead.ReadUInt32();
+ 
+                         var t = Titles.FirstOrDefault(vtst => vtst.IsVTSTitle(vtsNum, titleNum));
+-                        if (t != null)
+-                        {
+-                            t.AddPgc(vtsRead, startByte + vtsPgcOffset, entryPgc, pgcNum);
+-                        }
++                        t?.AddPgc(vtsRead, startByte + vtsPgcOffset, entryPgc, pgcNum);
+                     }
+                 }
+             }
+diff --git a/Emby.Server.Implementations/Data/SqliteItemRepository.cs b/Emby.Server.Implementations/Data/SqliteItemRepository.cs
+index d78b93bd7..afa481342 100644
+--- a/Emby.Server.Implementations/Data/SqliteItemRepository.cs
++++ b/Emby.Server.Implementations/Data/SqliteItemRepository.cs
+@@ -1735,11 +1735,9 @@ namespace Emby.Server.Implementations.Data
+ 
+                 index++;
+             }
+-
+-            var hasSeries = item as IHasSeries;
+             if (hasSeriesFields)
+             {
+-                if (hasSeries != null)
++                if (item is IHasSeries hasSeries)
+                 {
+                     if (!reader.IsDBNull(index))
+                     {
+@@ -1870,7 +1868,7 @@ namespace Emby.Server.Implementations.Data
+ 
+             if (HasField(query, ItemFields.SeriesPresentationUniqueKey))
+             {
+-                if (hasSeries != null)
++                if (item is IHasSeries hasSeries)
+                 {
+                     if (!reader.IsDBNull(index))
+                     {
+@@ -3980,10 +3978,7 @@ namespace Emby.Server.Implementations.Data
+                     var paramName = "@ArtistIds" + index;
+ 
+                     clauses.Add("(guid in (select itemid from itemvalues where CleanValue = (select CleanName from TypedBaseItems where guid=" + paramName + ") and Type<=1))");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, artistId.ToByteArray());
+-                    }
++                    statement?.TryBind(paramName, artistId.ToByteArray());
+ 
+                     index++;
+                 }
+@@ -4001,10 +3996,7 @@ namespace Emby.Server.Implementations.Data
+                     var paramName = "@ArtistIds" + index;
+ 
+                     clauses.Add("(guid in (select itemid from itemvalues where CleanValue = (select CleanName from TypedBaseItems where guid=" + paramName + ") and Type=1))");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, artistId.ToByteArray());
+-                    }
++                    statement?.TryBind(paramName, artistId.ToByteArray());
+ 
+                     index++;
+                 }
+@@ -4022,10 +4014,7 @@ namespace Emby.Server.Implementations.Data
+                     var paramName = "@ArtistIds" + index;
+ 
+                     clauses.Add("((select CleanName from TypedBaseItems where guid=" + paramName + ") in (select CleanValue from itemvalues where ItemId=Guid and Type=0) AND (select CleanName from TypedBaseItems where guid=" + paramName + ") not in (select CleanValue from itemvalues where ItemId=Guid and Type=1))");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, artistId.ToByteArray());
+-                    }
++                    statement?.TryBind(paramName, artistId.ToByteArray());
+ 
+                     index++;
+                 }
+@@ -4043,10 +4032,7 @@ namespace Emby.Server.Implementations.Data
+                     var paramName = "@AlbumIds" + index;
+ 
+                     clauses.Add("Album in (select Name from typedbaseitems where guid=" + paramName + ")");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, albumId.ToByteArray());
+-                    }
++                    statement?.TryBind(paramName, albumId.ToByteArray());
+ 
+                     index++;
+                 }
+@@ -4064,10 +4050,7 @@ namespace Emby.Server.Implementations.Data
+                     var paramName = "@ExcludeArtistId" + index;
+ 
+                     clauses.Add("(guid not in (select itemid from itemvalues where CleanValue = (select CleanName from TypedBaseItems where guid=" + paramName + ") and Type<=1))");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, artistId.ToByteArray());
+-                    }
++                    statement?.TryBind(paramName, artistId.ToByteArray());
+ 
+                     index++;
+                 }
+@@ -4085,10 +4068,7 @@ namespace Emby.Server.Implementations.Data
+                     var paramName = "@GenreId" + index;
+ 
+                     clauses.Add("(guid in (select itemid from itemvalues where CleanValue = (select CleanName from TypedBaseItems where guid=" + paramName + ") and Type=2))");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, genreId.ToByteArray());
+-                    }
++                    statement?.TryBind(paramName, genreId.ToByteArray());
+ 
+                     index++;
+                 }
+@@ -4104,10 +4084,7 @@ namespace Emby.Server.Implementations.Data
+                 foreach (var item in query.Genres)
+                 {
+                     clauses.Add("@Genre" + index + " in (select CleanValue from itemvalues where ItemId=Guid and Type=2)");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind("@Genre" + index, GetCleanValue(item));
+-                    }
++                    statement?.TryBind("@Genre" + index, GetCleanValue(item));
+ 
+                     index++;
+                 }
+@@ -4123,10 +4100,7 @@ namespace Emby.Server.Implementations.Data
+                 foreach (var item in tags)
+                 {
+                     clauses.Add("@Tag" + index + " in (select CleanValue from itemvalues where ItemId=Guid and Type=4)");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind("@Tag" + index, GetCleanValue(item));
+-                    }
++                    statement?.TryBind("@Tag" + index, GetCleanValue(item));
+ 
+                     index++;
+                 }
+@@ -4142,10 +4116,7 @@ namespace Emby.Server.Implementations.Data
+                 foreach (var item in excludeTags)
+                 {
+                     clauses.Add("@ExcludeTag" + index + " not in (select CleanValue from itemvalues where ItemId=Guid and Type=4)");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind("@ExcludeTag" + index, GetCleanValue(item));
+-                    }
++                    statement?.TryBind("@ExcludeTag" + index, GetCleanValue(item));
+ 
+                     index++;
+                 }
+@@ -4164,10 +4135,7 @@ namespace Emby.Server.Implementations.Data
+ 
+                     clauses.Add("(guid in (select itemid from itemvalues where CleanValue = (select CleanName from TypedBaseItems where guid=" + paramName + ") and Type=3))");
+ 
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, studioId.ToByteArray());
+-                    }
++                    statement?.TryBind(paramName, studioId.ToByteArray());
+ 
+                     index++;
+                 }
+@@ -4183,10 +4151,7 @@ namespace Emby.Server.Implementations.Data
+                 foreach (var item in query.OfficialRatings)
+                 {
+                     clauses.Add("OfficialRating=@OfficialRating" + index);
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind("@OfficialRating" + index, item);
+-                    }
++                    statement?.TryBind("@OfficialRating" + index, item);
+ 
+                     index++;
+                 }
+@@ -4198,19 +4163,13 @@ namespace Emby.Server.Implementations.Data
+             if (query.MinParentalRating.HasValue)
+             {
+                 whereClauses.Add("InheritedParentalRatingValue>=@MinParentalRating");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@MinParentalRating", query.MinParentalRating.Value);
+-                }
++                statement?.TryBind("@MinParentalRating", query.MinParentalRating.Value);
+             }
+ 
+             if (query.MaxParentalRating.HasValue)
+             {
+                 whereClauses.Add("InheritedParentalRatingValue<=@MaxParentalRating");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@MaxParentalRating", query.MaxParentalRating.Value);
+-                }
++                statement?.TryBind("@MaxParentalRating", query.MaxParentalRating.Value);
+             }
+ 
+             if (query.HasParentalRating.HasValue)
+@@ -4264,37 +4223,25 @@ namespace Emby.Server.Implementations.Data
+             if (!string.IsNullOrWhiteSpace(query.HasNoAudioTrackWithLanguage))
+             {
+                 whereClauses.Add("((select language from MediaStreams where MediaStreams.ItemId=A.Guid and MediaStreams.StreamType='Audio' and MediaStreams.Language=@HasNoAudioTrackWithLanguage limit 1) is null)");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@HasNoAudioTrackWithLanguage", query.HasNoAudioTrackWithLanguage);
+-                }
++                statement?.TryBind("@HasNoAudioTrackWithLanguage", query.HasNoAudioTrackWithLanguage);
+             }
+ 
+             if (!string.IsNullOrWhiteSpace(query.HasNoInternalSubtitleTrackWithLanguage))
+             {
+                 whereClauses.Add("((select language from MediaStreams where MediaStreams.ItemId=A.Guid and MediaStreams.StreamType='Subtitle' and MediaStreams.IsExternal=0 and MediaStreams.Language=@HasNoInternalSubtitleTrackWithLanguage limit 1) is null)");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@HasNoInternalSubtitleTrackWithLanguage", query.HasNoInternalSubtitleTrackWithLanguage);
+-                }
++                statement?.TryBind("@HasNoInternalSubtitleTrackWithLanguage", query.HasNoInternalSubtitleTrackWithLanguage);
+             }
+ 
+             if (!string.IsNullOrWhiteSpace(query.HasNoExternalSubtitleTrackWithLanguage))
+             {
+                 whereClauses.Add("((select language from MediaStreams where MediaStreams.ItemId=A.Guid and MediaStreams.StreamType='Subtitle' and MediaStreams.IsExternal=1 and MediaStreams.Language=@HasNoExternalSubtitleTrackWithLanguage limit 1) is null)");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@HasNoExternalSubtitleTrackWithLanguage", query.HasNoExternalSubtitleTrackWithLanguage);
+-                }
++                statement?.TryBind("@HasNoExternalSubtitleTrackWithLanguage", query.HasNoExternalSubtitleTrackWithLanguage);
+             }
+ 
+             if (!string.IsNullOrWhiteSpace(query.HasNoSubtitleTrackWithLanguage))
+             {
+                 whereClauses.Add("((select language from MediaStreams where MediaStreams.ItemId=A.Guid and MediaStreams.StreamType='Subtitle' and MediaStreams.Language=@HasNoSubtitleTrackWithLanguage limit 1) is null)");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@HasNoSubtitleTrackWithLanguage", query.HasNoSubtitleTrackWithLanguage);
+-                }
++                statement?.TryBind("@HasNoSubtitleTrackWithLanguage", query.HasNoSubtitleTrackWithLanguage);
+             }
+ 
+             if (query.HasSubtitles.HasValue)
+@@ -4344,10 +4291,7 @@ namespace Emby.Server.Implementations.Data
+             if (query.Years.Length == 1)
+             {
+                 whereClauses.Add("ProductionYear=@Years");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@Years", query.Years[0].ToString(CultureInfo.InvariantCulture));
+-                }
++                statement?.TryBind("@Years", query.Years[0].ToString(CultureInfo.InvariantCulture));
+             }
+             else if (query.Years.Length > 1)
+             {
+@@ -4360,10 +4304,7 @@ namespace Emby.Server.Implementations.Data
+             if (isVirtualItem.HasValue)
+             {
+                 whereClauses.Add("IsVirtualItem=@IsVirtualItem");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@IsVirtualItem", isVirtualItem.Value);
+-                }
++                statement?.TryBind("@IsVirtualItem", isVirtualItem.Value);
+             }
+ 
+             if (query.IsSpecialSeason.HasValue)
+@@ -4394,10 +4335,7 @@ namespace Emby.Server.Implementations.Data
+             if (queryMediaTypes.Length == 1)
+             {
+                 whereClauses.Add("MediaType=@MediaTypes");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@MediaTypes", queryMediaTypes[0]);
+-                }
++                statement?.TryBind("@MediaTypes", queryMediaTypes[0]);
+             }
+             else if (queryMediaTypes.Length > 1)
+             {
+@@ -4414,10 +4352,7 @@ namespace Emby.Server.Implementations.Data
+                 foreach (var id in query.ItemIds)
+                 {
+                     includeIds.Add("Guid = @IncludeId" + index);
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind("@IncludeId" + index, id);
+-                    }
++                    statement?.TryBind("@IncludeId" + index, id);
+ 
+                     index++;
+                 }
+@@ -4433,10 +4368,7 @@ namespace Emby.Server.Implementations.Data
+                 foreach (var id in query.ExcludeItemIds)
+                 {
+                     excludeIds.Add("Guid <> @ExcludeId" + index);
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind("@ExcludeId" + index, id);
+-                    }
++                    statement?.TryBind("@ExcludeId" + index, id);
+ 
+                     index++;
+                 }
+@@ -4458,10 +4390,7 @@ namespace Emby.Server.Implementations.Data
+ 
+                     var paramName = "@ExcludeProviderId" + index;
+                     excludeIds.Add("(ProviderIds is null or ProviderIds not like " + paramName + ")");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, "%" + pair.Key + "=" + pair.Value + "%");
+-                    }
++                    statement?.TryBind(paramName, "%" + pair.Key + "=" + pair.Value + "%");
+ 
+                     index++;
+ 
+@@ -4501,10 +4430,7 @@ namespace Emby.Server.Implementations.Data
+                     hasProviderIds.Add("ProviderIds like " + paramName);
+ 
+                     // this replaces the placeholder with a value, here: %key=val%
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind(paramName, "%" + pair.Key + "=" + pair.Value + "%");
+-                    }
++                    statement?.TryBind(paramName, "%" + pair.Key + "=" + pair.Value + "%");
+ 
+                     index++;
+ 
+@@ -4542,10 +4468,7 @@ namespace Emby.Server.Implementations.Data
+                 if (enableItemsByName && includedItemByNameTypes.Count == 1)
+                 {
+                     whereClauses.Add("(TopParentId=@TopParentId or Type=@IncludedItemByNameType)");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind("@IncludedItemByNameType", includedItemByNameTypes[0]);
+-                    }
++                    statement?.TryBind("@IncludedItemByNameType", includedItemByNameTypes[0]);
+                 }
+                 else if (enableItemsByName && includedItemByNameTypes.Count > 1)
+                 {
+@@ -4557,10 +4480,7 @@ namespace Emby.Server.Implementations.Data
+                     whereClauses.Add("(TopParentId=@TopParentId)");
+                 }
+ 
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@TopParentId", queryTopParentIds[0].ToString("N", CultureInfo.InvariantCulture));
+-                }
++                statement?.TryBind("@TopParentId", queryTopParentIds[0].ToString("N", CultureInfo.InvariantCulture));
+             }
+             else if (queryTopParentIds.Length > 1)
+             {
+@@ -4569,10 +4489,7 @@ namespace Emby.Server.Implementations.Data
+                 if (enableItemsByName && includedItemByNameTypes.Count == 1)
+                 {
+                     whereClauses.Add("(Type=@IncludedItemByNameType or TopParentId in (" + val + "))");
+-                    if (statement != null)
+-                    {
+-                        statement.TryBind("@IncludedItemByNameType", includedItemByNameTypes[0]);
+-                    }
++                    statement?.TryBind("@IncludedItemByNameType", includedItemByNameTypes[0]);
+                 }
+                 else if (enableItemsByName && includedItemByNameTypes.Count > 1)
+                 {
+@@ -4589,10 +4506,7 @@ namespace Emby.Server.Implementations.Data
+             {
+                 whereClauses.Add("Guid in (select itemId from AncestorIds where AncestorId=@AncestorId)");
+ 
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@AncestorId", query.AncestorIds[0]);
+-                }
++                statement?.TryBind("@AncestorId", query.AncestorIds[0]);
+             }
+ 
+             if (query.AncestorIds.Length > 1)
+@@ -4605,29 +4519,20 @@ namespace Emby.Server.Implementations.Data
+             {
+                 var inClause = "select guid from TypedBaseItems where PresentationUniqueKey=@AncestorWithPresentationUniqueKey";
+                 whereClauses.Add(string.Format(CultureInfo.InvariantCulture, "Guid in (select itemId from AncestorIds where AncestorId in ({0}))", inClause));
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@AncestorWithPresentationUniqueKey", query.AncestorWithPresentationUniqueKey);
+-                }
++                statement?.TryBind("@AncestorWithPresentationUniqueKey", query.AncestorWithPresentationUniqueKey);
+             }
+ 
+             if (!string.IsNullOrWhiteSpace(query.SeriesPresentationUniqueKey))
+             {
+                 whereClauses.Add("SeriesPresentationUniqueKey=@SeriesPresentationUniqueKey");
+ 
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@SeriesPresentationUniqueKey", query.SeriesPresentationUniqueKey);
+-                }
++                statement?.TryBind("@SeriesPresentationUniqueKey", query.SeriesPresentationUniqueKey);
+             }
+ 
+             if (query.BlockUnratedItems.Length == 1)
+             {
+                 whereClauses.Add("(InheritedParentalRatingValue > 0 or UnratedType <> @UnratedType)");
+-                if (statement != null)
+-                {
+-                    statement.TryBind("@UnratedType", query.BlockUnratedItems[0].ToString());
+-                }
++                statement?.TryBind("@UnratedType", query.BlockUnratedItems[0].ToString());
+             }
+ 
+             if (query.BlockUnratedItems.Length > 1)
+diff --git a/Emby.Server.Implementations/Dto/DtoService.cs b/Emby.Server.Implementations/Dto/DtoService.cs
+index 54b18a8c8..039e0aa09 100644
+--- a/Emby.Server.Implementations/Dto/DtoService.cs
++++ b/Emby.Server.Implementations/Dto/DtoService.cs
+@@ -747,8 +747,7 @@ namespace Emby.Server.Implementations.Dto
+                 dto.Tags = item.Tags;
+             }
+ 
+-            var hasAspectRatio = item as IHasAspectRatio;
+-            if (hasAspectRatio != null)
++            if (item is IHasAspectRatio hasAspectRatio)
+             {
+                 dto.AspectRatio = hasAspectRatio.AspectRatio;
+             }
+@@ -910,15 +909,13 @@ namespace Emby.Server.Implementations.Dto
+                 dto.CommunityRating = item.CommunityRating;
+             }
+ 
+-            var supportsPlaceHolders = item as ISupportsPlaceHolders;
+-            if (supportsPlaceHolders != null && supportsPlaceHolders.IsPlaceHolder)
++            if (item is ISupportsPlaceHolders supportsPlaceHolders && supportsPlaceHolders.IsPlaceHolder)
+             {
+                 dto.IsPlaceHolder = supportsPlaceHolders.IsPlaceHolder;
+             }
+ 
+             // Add audio info
+-            var audio = item as Audio;
+-            if (audio != null)
++            if (item is Audio audio)
+             {
+                 dto.Album = audio.Album;
+                 if (audio.ExtraType.HasValue)
+@@ -991,8 +988,7 @@ namespace Emby.Server.Implementations.Dto
+                     }).Where(i => i != null).ToArray();
+             }
+ 
+-            var hasAlbumArtist = item as IHasAlbumArtist;
+-            if (hasAlbumArtist != null)
++            if (item is IHasAlbumArtist hasAlbumArtist)
+             {
+                 dto.AlbumArtist = hasAlbumArtist.AlbumArtists.FirstOrDefault();
+ 
+@@ -1042,8 +1038,7 @@ namespace Emby.Server.Implementations.Dto
+             }
+ 
+             // Add video info
+-            var video = item as Video;
+-            if (video != null)
++            if (item is Video video)
+             {
+                 dto.VideoType = video.VideoType;
+                 dto.Video3DFormat = video.Video3DFormat;
+@@ -1082,9 +1077,8 @@ namespace Emby.Server.Implementations.Dto
+             if (options.ContainsField(ItemFields.MediaStreams))
+             {
+                 // Add VideoInfo
+-                var iHasMediaSources = item as IHasMediaSources;
+ 
+-                if (iHasMediaSources != null)
++                if (item is IHasMediaSources iHasMediaSources)
+                 {
+                     MediaStream[] mediaStreams;
+ 
+diff --git a/Emby.Server.Implementations/Images/PlaylistImageProvider.cs b/Emby.Server.Implementations/Images/PlaylistImageProvider.cs
+index 0ce1b91e8..a4c106e87 100644
+--- a/Emby.Server.Implementations/Images/PlaylistImageProvider.cs
++++ b/Emby.Server.Implementations/Images/PlaylistImageProvider.cs
+@@ -29,9 +29,7 @@ namespace Emby.Server.Implementations.Images
+                 {
+                     var subItem = i.Item2;
+ 
+-                    var episode = subItem as Episode;
+-
+-                    if (episode != null)
++                    if (subItem is Episode episode)
+                     {
+                         var series = episode.Series;
+                         if (series != null && series.HasImage(ImageType.Primary))
+diff --git a/Emby.Server.Implementations/Library/LibraryManager.cs b/Emby.Server.Implementations/Library/LibraryManager.cs
+index d9ffe64b3..f1261f3d2 100644
+--- a/Emby.Server.Implementations/Library/LibraryManager.cs
++++ b/Emby.Server.Implementations/Library/LibraryManager.cs
+@@ -762,9 +762,7 @@ namespace Emby.Server.Implementations.Library
+                 }
+             }
+ 
+-            var dbItem = GetItemById(folder.Id) as BasePluginFolder;
+-
+-            if (dbItem != null && string.Equals(dbItem.Path, folder.Path, StringComparison.OrdinalIgnoreCase))
++            if (GetItemById(folder.Id) is BasePluginFolder dbItem && string.Equals(dbItem.Path, folder.Path, StringComparison.OrdinalIgnoreCase))
+             {
+                 folder = dbItem;
+             }
+@@ -1698,9 +1696,8 @@ namespace Emby.Server.Implementations.Library
+                     else
+                     {
+                         // Pull the saved db item that will include metadata
+-                        var dbItem = GetItemById(video.Id) as Video;
+ 
+-                        if (dbItem != null)
++                        if (GetItemById(video.Id) is Video dbItem)
+                         {
+                             video = dbItem;
+                         }
+@@ -2756,9 +2753,8 @@ namespace Emby.Server.Implementations.Library
+                 .Select(video =>
+                 {
+                     // Try to retrieve it from the db. If we don't find it, use the resolved version
+-                    var dbItem = GetItemById(video.Id) as Video;
+ 
+-                    if (dbItem != null)
++                    if (GetItemById(video.Id) is Video dbItem)
+                     {
+                         video = dbItem;
+                     }
+diff --git a/Emby.Server.Implementations/Library/MediaSourceManager.cs b/Emby.Server.Implementations/Library/MediaSourceManager.cs
+index c63eb7017..476bee648 100644
+--- a/Emby.Server.Implementations/Library/MediaSourceManager.cs
++++ b/Emby.Server.Implementations/Library/MediaSourceManager.cs
+@@ -586,8 +586,7 @@ namespace Emby.Server.Implementations.Library
+         {
+             var info = _openStreams.Values.FirstOrDefault(i =>
+             {
+-                var liveStream = i as ILiveStream;
+-                if (liveStream != null)
++                if (i is ILiveStream liveStream)
+                 {
+                     return string.Equals(liveStream.UniqueId, uniqueId, StringComparison.OrdinalIgnoreCase);
+                 }
+diff --git a/Emby.Server.Implementations/Library/MusicManager.cs b/Emby.Server.Implementations/Library/MusicManager.cs
+index 658c53f28..f8bae4fd1 100644
+--- a/Emby.Server.Implementations/Library/MusicManager.cs
++++ b/Emby.Server.Implementations/Library/MusicManager.cs
+@@ -100,8 +100,7 @@ namespace Emby.Server.Implementations.Library
+ 
+         public List<BaseItem> GetInstantMixFromItem(BaseItem item, User user, DtoOptions dtoOptions)
+         {
+-            var genre = item as MusicGenre;
+-            if (genre != null)
++            if (item is MusicGenre genre)
+             {
+                 return GetInstantMixFromGenreIds(new[] { item.Id }, user, dtoOptions);
+             }
+diff --git a/Emby.Server.Implementations/ScheduledTasks/ScheduledTaskWorker.cs b/Emby.Server.Implementations/ScheduledTasks/ScheduledTaskWorker.cs
+index b302303f8..983e5d170 100644
+--- a/Emby.Server.Implementations/ScheduledTasks/ScheduledTaskWorker.cs
++++ b/Emby.Server.Implementations/ScheduledTasks/ScheduledTaskWorker.cs
+@@ -348,9 +348,7 @@ namespace Emby.Server.Implementations.ScheduledTasks
+         {
+             var trigger = (ITaskTrigger)sender;
+ 
+-            var configurableTask = ScheduledTask as IConfigurableScheduledTask;
+-
+-            if (configurableTask != null && !configurableTask.IsEnabled)
++            if (ScheduledTask is IConfigurableScheduledTask configurableTask && !configurableTask.IsEnabled)
+             {
+                 return;
+             }
+diff --git a/Emby.Server.Implementations/ScheduledTasks/Triggers/DailyTrigger.cs b/Emby.Server.Implementations/ScheduledTasks/Triggers/DailyTrigger.cs
+index 3b40320ab..9fe34e31f 100644
+--- a/Emby.Server.Implementations/ScheduledTasks/Triggers/DailyTrigger.cs
++++ b/Emby.Server.Implementations/ScheduledTasks/Triggers/DailyTrigger.cs
+@@ -68,10 +68,7 @@ namespace Emby.Server.Implementations.ScheduledTasks
+         /// </summary>
+         private void DisposeTimer()
+         {
+-            if (Timer != null)
+-            {
+-                Timer.Dispose();
+-            }
++            Timer?.Dispose();
+         }
+ 
+         /// <summary>
+diff --git a/Emby.Server.Implementations/ScheduledTasks/Triggers/IntervalTrigger.cs b/Emby.Server.Implementations/ScheduledTasks/Triggers/IntervalTrigger.cs
+index b04fd7c7e..97c9f8c7b 100644
+--- a/Emby.Server.Implementations/ScheduledTasks/Triggers/IntervalTrigger.cs
++++ b/Emby.Server.Implementations/ScheduledTasks/Triggers/IntervalTrigger.cs
+@@ -87,10 +87,7 @@ namespace Emby.Server.Implementations.ScheduledTasks
+         /// </summary>
+         private void DisposeTimer()
+         {
+-            if (Timer != null)
+-            {
+-                Timer.Dispose();
+-            }
++            Timer?.Dispose();
+         }
+ 
+         /// <summary>
+diff --git a/Emby.Server.Implementations/ScheduledTasks/Triggers/WeeklyTrigger.cs b/Emby.Server.Implementations/ScheduledTasks/Triggers/WeeklyTrigger.cs
+index 0c0ebec08..421a1e9db 100644
+--- a/Emby.Server.Implementations/ScheduledTasks/Triggers/WeeklyTrigger.cs
++++ b/Emby.Server.Implementations/ScheduledTasks/Triggers/WeeklyTrigger.cs
+@@ -94,10 +94,7 @@ namespace Emby.Server.Implementations.ScheduledTasks
+         /// </summary>
+         private void DisposeTimer()
+         {
+-            if (Timer != null)
+-            {
+-                Timer.Dispose();
+-            }
++            Timer?.Dispose();
+         }
+ 
+         /// <summary>
+diff --git a/Emby.Server.Implementations/TV/TVSeriesManager.cs b/Emby.Server.Implementations/TV/TVSeriesManager.cs
+index 839b62448..d47f7fb4b 100644
+--- a/Emby.Server.Implementations/TV/TVSeriesManager.cs
++++ b/Emby.Server.Implementations/TV/TVSeriesManager.cs
+@@ -43,9 +43,7 @@ namespace Emby.Server.Implementations.TV
+             string presentationUniqueKey = null;
+             if (!string.IsNullOrEmpty(request.SeriesId))
+             {
+-                var series = _libraryManager.GetItemById(request.SeriesId) as Series;
+-
+-                if (series != null)
++                if (_libraryManager.GetItemById(request.SeriesId) is Series series)
+                 {
+                     presentationUniqueKey = GetUniqueSeriesKey(series);
+                 }
+@@ -95,9 +93,7 @@ namespace Emby.Server.Implementations.TV
+             int? limit = null;
+             if (!string.IsNullOrEmpty(request.SeriesId))
+             {
+-                var series = _libraryManager.GetItemById(request.SeriesId) as Series;
+-
+-                if (series != null)
++                if (_libraryManager.GetItemById(request.SeriesId) is Series series)
+                 {
+                     presentationUniqueKey = GetUniqueSeriesKey(series);
+                     limit = 1;
+diff --git a/MediaBrowser.Controller/Drawing/ImageStream.cs b/MediaBrowser.Controller/Drawing/ImageStream.cs
+index 46f58ec15..3a98beb67 100644
+--- a/MediaBrowser.Controller/Drawing/ImageStream.cs
++++ b/MediaBrowser.Controller/Drawing/ImageStream.cs
+@@ -22,10 +22,7 @@ namespace MediaBrowser.Controller.Drawing
+ 
+         public void Dispose()
+         {
+-            if (Stream != null)
+-            {
+-                Stream.Dispose();
+-            }
++            Stream?.Dispose();
+         }
+     }
+ }
+diff --git a/MediaBrowser.Controller/Entities/BaseItemExtensions.cs b/MediaBrowser.Controller/Entities/BaseItemExtensions.cs
+index c65477d39..8db8c145e 100644
+--- a/MediaBrowser.Controller/Entities/BaseItemExtensions.cs
++++ b/MediaBrowser.Controller/Entities/BaseItemExtensions.cs
+@@ -87,10 +87,7 @@ namespace MediaBrowser.Controller.Entities
+                 }
+ 
+                 var p = destProps.Find(x => x.Name == sourceProp.Name);
+-                if (p != null)
+-                {
+-                    p.SetValue(dest, v);
+-                }
++                p?.SetValue(dest, v);
+             }
+         }
+ 
+diff --git a/MediaBrowser.Controller/Entities/CollectionFolder.cs b/MediaBrowser.Controller/Entities/CollectionFolder.cs
+index 65fd1654c..046ab9fb1 100644
+--- a/MediaBrowser.Controller/Entities/CollectionFolder.cs
++++ b/MediaBrowser.Controller/Entities/CollectionFolder.cs
+@@ -355,9 +355,7 @@ namespace MediaBrowser.Controller.Entities
+ 
+             if (result.Count == 0)
+             {
+-                var folder = LibraryManager.FindByPath(path, true) as Folder;
+-
+-                if (folder != null)
++                if (LibraryManager.FindByPath(path, true) is Folder folder)
+                 {
+                     result.Add(folder);
+                 }
+diff --git a/MediaBrowser.Controller/Entities/Folder.cs b/MediaBrowser.Controller/Entities/Folder.cs
+index cac5026f7..a39964e3e 100644
+--- a/MediaBrowser.Controller/Entities/Folder.cs
++++ b/MediaBrowser.Controller/Entities/Folder.cs
+@@ -431,8 +431,6 @@ namespace MediaBrowser.Controller.Entities
+                     ProviderManager.OnRefreshProgress(this, ProgressHelpers.ScannedSubfolders);
+                 }
+ 
+-                var container = this as IMetadataContainer;
+-
+                 var innerProgress = new ActionableProgress<double>();
+ 
+                 var folder = this;
+@@ -448,7 +446,7 @@ namespace MediaBrowser.Controller.Entities
+                     }
+                 });
+ 
+-                if (container != null)
++                if (this is IMetadataContainer container)
+                 {
+                     await RefreshAllMetadataForContainer(container, refreshOptions, innerProgress, cancellationToken).ConfigureAwait(false);
+                 }
+@@ -479,8 +477,7 @@ namespace MediaBrowser.Controller.Entities
+             await ProviderManager.RunMetadataRefresh(
+                 async () =>
+                 {
+-                    var series = container as Series;
+-                    if (series != null)
++                    if (container is Series series)
+                     {
+                         await series.RefreshMetadata(refreshOptions, cancellationToken).ConfigureAwait(false);
+                     }
+@@ -492,9 +489,7 @@ namespace MediaBrowser.Controller.Entities
+ 
+         private async Task RefreshChildMetadata(BaseItem child, MetadataRefreshOptions refreshOptions, bool recursive, IProgress<double> progress, CancellationToken cancellationToken)
+         {
+-            var container = child as IMetadataContainer;
+-
+-            if (container != null)
++            if (child is IMetadataContainer container)
+             {
+                 await RefreshAllMetadataForContainer(container, refreshOptions, progress, cancellationToken).ConfigureAwait(false);
+             }
+@@ -1638,8 +1633,7 @@ namespace MediaBrowser.Controller.Entities
+                 if (item.IsVirtualItem)
+                 {
+                     // The querying doesn't support virtual unaired
+-                    var episode = item as Episode;
+-                    if (episode != null && episode.IsUnaired)
++                    if (item is Episode episode && episode.IsUnaired)
+                     {
+                         continue;
+                     }
+diff --git a/MediaBrowser.Controller/Entities/Movies/BoxSet.cs b/MediaBrowser.Controller/Entities/Movies/BoxSet.cs
+index 05e4229ca..507f400f1 100644
+--- a/MediaBrowser.Controller/Entities/Movies/BoxSet.cs
++++ b/MediaBrowser.Controller/Entities/Movies/BoxSet.cs
+@@ -217,8 +217,7 @@ namespace MediaBrowser.Controller.Entities.Movies
+ 
+         private IEnumerable<BaseItem> FlattenItems(BaseItem item, List<Guid> expandedFolders)
+         {
+-            var boxset = item as BoxSet;
+-            if (boxset != null)
++            if (item is BoxSet boxset)
+             {
+                 if (!expandedFolders.Contains(item.Id))
+                 {
+diff --git a/MediaBrowser.Controller/Entities/TV/Series.cs b/MediaBrowser.Controller/Entities/TV/Series.cs
+index a410c1b66..75a912177 100644
+--- a/MediaBrowser.Controller/Entities/TV/Series.cs
++++ b/MediaBrowser.Controller/Entities/TV/Series.cs
+@@ -320,9 +320,7 @@ namespace MediaBrowser.Controller.Entities.TV
+ 
+                 var skipItem = false;
+ 
+-                var episode = item as Episode;
+-
+-                if (episode != null
++                if (item is Episode episode
+                     && refreshOptions.MetadataRefreshMode != MetadataRefreshMode.FullRefresh
+                     && !refreshOptions.ReplaceAllMetadata
+                     && episode.IsMissingEpisode
+diff --git a/MediaBrowser.Controller/Entities/UserView.cs b/MediaBrowser.Controller/Entities/UserView.cs
+index b1da4d64c..2c1c53f29 100644
+--- a/MediaBrowser.Controller/Entities/UserView.cs
++++ b/MediaBrowser.Controller/Entities/UserView.cs
+@@ -125,8 +125,7 @@ namespace MediaBrowser.Controller.Entities
+                 return false;
+             }
+ 
+-            var supportsUserSpecific = folder as ISupportsUserSpecificView;
+-            if (supportsUserSpecific != null && supportsUserSpecific.EnableUserSpecificView)
++            if (folder is ISupportsUserSpecificView supportsUserSpecific && supportsUserSpecific.EnableUserSpecificView)
+             {
+                 return true;
+             }
+diff --git a/MediaBrowser.Controller/Entities/UserViewBuilder.cs b/MediaBrowser.Controller/Entities/UserViewBuilder.cs
+index 4e33a6bbd..a4b8201a0 100644
+--- a/MediaBrowser.Controller/Entities/UserViewBuilder.cs
++++ b/MediaBrowser.Controller/Entities/UserViewBuilder.cs
+@@ -750,8 +750,7 @@ namespace MediaBrowser.Controller.Entities
+                 var val = query.HasTrailer.Value;
+                 var trailerCount = 0;
+ 
+-                var hasTrailers = item as IHasTrailers;
+-                if (hasTrailers != null)
++                if (item is IHasTrailers hasTrailers)
+                 {
+                     trailerCount = hasTrailers.GetTrailerIds().Count;
+                 }
+@@ -974,18 +973,16 @@ namespace MediaBrowser.Controller.Entities
+                 return GetMediaFolders(null)
+                     .Where(i =>
+                     {
+-                        var folder = i as ICollectionFolder;
+ 
+-                        return folder != null && viewTypes.Contains(folder.CollectionType ?? string.Empty, StringComparer.OrdinalIgnoreCase);
++                        return i is ICollectionFolder folder && viewTypes.Contains(folder.CollectionType ?? string.Empty, StringComparer.OrdinalIgnoreCase);
+                     }).ToArray();
+             }
+ 
+             return GetMediaFolders(user)
+                 .Where(i =>
+                 {
+-                    var folder = i as ICollectionFolder;
+ 
+-                    return folder != null && viewTypes.Contains(folder.CollectionType ?? string.Empty, StringComparer.OrdinalIgnoreCase);
++                    return i is ICollectionFolder folder && viewTypes.Contains(folder.CollectionType ?? string.Empty, StringComparer.OrdinalIgnoreCase);
+                 }).ToArray();
+         }
+ 
+diff --git a/MediaBrowser.Controller/Entities/Video.cs b/MediaBrowser.Controller/Entities/Video.cs
+index 6320b01b8..0d179d5d9 100644
+--- a/MediaBrowser.Controller/Entities/Video.cs
++++ b/MediaBrowser.Controller/Entities/Video.cs
+@@ -515,8 +515,7 @@ namespace MediaBrowser.Controller.Entities
+ 
+             if (!string.IsNullOrEmpty(PrimaryVersionId))
+             {
+-                var primary = LibraryManager.GetItemById(PrimaryVersionId) as Video;
+-                if (primary != null)
++                if (LibraryManager.GetItemById(PrimaryVersionId) is Video primary)
+                 {
+                     var existingIds = list.Select(i => i.Item1.Id).ToList();
+                     list.Add(new Tuple<BaseItem, MediaSourceType>(primary, MediaSourceType.Grouping));
+diff --git a/MediaBrowser.LocalMetadata/Images/LocalImageProvider.cs b/MediaBrowser.LocalMetadata/Images/LocalImageProvider.cs
+index 84c3ed8b0..4056401b1 100644
+--- a/MediaBrowser.LocalMetadata/Images/LocalImageProvider.cs
++++ b/MediaBrowser.LocalMetadata/Images/LocalImageProvider.cs
+@@ -181,9 +181,7 @@ namespace MediaBrowser.LocalMetadata.Images
+         {
+             if (supportParentSeriesFiles)
+             {
+-                var season = item as Season;
+-
+-                if (season != null)
++                if (item is Season season)
+                 {
+                     PopulateSeasonImagesFromSeriesFolder(season, images, directoryService);
+                 }
+diff --git a/MediaBrowser.LocalMetadata/Parsers/BaseItemXmlParser.cs b/MediaBrowser.LocalMetadata/Parsers/BaseItemXmlParser.cs
+index b0afb834b..6db16abe8 100644
+--- a/MediaBrowser.LocalMetadata/Parsers/BaseItemXmlParser.cs
++++ b/MediaBrowser.LocalMetadata/Parsers/BaseItemXmlParser.cs
+@@ -468,8 +468,7 @@ namespace MediaBrowser.LocalMetadata.Parsers
+                 {
+                     var val = reader.ReadElementContentAsString();
+ 
+-                    var hasDisplayOrder = item as IHasDisplayOrder;
+-                    if (hasDisplayOrder != null)
++                    if (item is IHasDisplayOrder hasDisplayOrder)
+                     {
+                         if (!string.IsNullOrWhiteSpace(val))
+                         {
+diff --git a/MediaBrowser.LocalMetadata/Savers/BaseXmlSaver.cs b/MediaBrowser.LocalMetadata/Savers/BaseXmlSaver.cs
+index a337521c6..3fc3a8dce 100644
+--- a/MediaBrowser.LocalMetadata/Savers/BaseXmlSaver.cs
++++ b/MediaBrowser.LocalMetadata/Savers/BaseXmlSaver.cs
+@@ -296,8 +296,7 @@ namespace MediaBrowser.LocalMetadata.Savers
+                 writer.WriteEndElement();
+             }
+ 
+-            var hasDisplayOrder = item as IHasDisplayOrder;
+-            if (hasDisplayOrder != null && !string.IsNullOrEmpty(hasDisplayOrder.DisplayOrder))
++            if (item is IHasDisplayOrder hasDisplayOrder && !string.IsNullOrEmpty(hasDisplayOrder.DisplayOrder))
+             {
+                 writer.WriteElementString("DisplayOrder", hasDisplayOrder.DisplayOrder);
+             }
+@@ -312,8 +311,7 @@ namespace MediaBrowser.LocalMetadata.Savers
+                 writer.WriteElementString("ProductionYear", item.ProductionYear.Value.ToString(_usCulture));
+             }
+ 
+-            var hasAspectRatio = item as IHasAspectRatio;
+-            if (hasAspectRatio != null)
++            if (item is IHasAspectRatio hasAspectRatio)
+             {
+                 if (!string.IsNullOrEmpty(hasAspectRatio.AspectRatio))
+                 {
+@@ -420,20 +418,17 @@ namespace MediaBrowser.LocalMetadata.Savers
+                 writer.WriteEndElement();
+             }
+ 
+-            var boxset = item as BoxSet;
+-            if (boxset != null)
++            if (item is BoxSet boxset)
+             {
+                 AddLinkedChildren(boxset, writer, "CollectionItems", "CollectionItem");
+             }
+ 
+-            var playlist = item as Playlist;
+-            if (playlist != null && !Playlist.IsPlaylistFile(playlist.Path))
++            if (item is Playlist playlist && !Playlist.IsPlaylistFile(playlist.Path))
+             {
+                 AddLinkedChildren(playlist, writer, "PlaylistItems", "PlaylistItem");
+             }
+ 
+-            var hasShares = item as IHasShares;
+-            if (hasShares != null)
++            if (item is IHasShares hasShares)
+             {
+                 AddShares(hasShares, writer);
+             }
+diff --git a/MediaBrowser.MediaEncoding/BdInfo/BdInfoExaminer.cs b/MediaBrowser.MediaEncoding/BdInfo/BdInfoExaminer.cs
+index 9108d9649..6ebaa4fff 100644
+--- a/MediaBrowser.MediaEncoding/BdInfo/BdInfoExaminer.cs
++++ b/MediaBrowser.MediaEncoding/BdInfo/BdInfoExaminer.cs
+@@ -61,33 +61,25 @@ namespace MediaBrowser.MediaEncoding.BdInfo
+ 
+             foreach (var stream in playlist.SortedStreams)
+             {
+-                var videoStream = stream as TSVideoStream;
+-
+-                if (videoStream != null)
++                if (stream is TSVideoStream videoStream)
+                 {
+                     AddVideoStream(mediaStreams, videoStream);
+                     continue;
+                 }
+ 
+-                var audioStream = stream as TSAudioStream;
+-
+-                if (audioStream != null)
++                if (stream is TSAudioStream audioStream)
+                 {
+                     AddAudioStream(mediaStreams, audioStream);
+                     continue;
+                 }
+ 
+-                var textStream = stream as TSTextStream;
+-
+-                if (textStream != null)
++                if (stream is TSTextStream textStream)
+                 {
+                     AddSubtitleStream(mediaStreams, textStream);
+                     continue;
+                 }
+ 
+-                var graphicsStream = stream as TSGraphicsStream;
+-
+-                if (graphicsStream != null)
++                if (stream is TSGraphicsStream graphicsStream)
+                 {
+                     AddSubtitleStream(mediaStreams, graphicsStream);
+                 }
+diff --git a/MediaBrowser.MediaEncoding/Probing/ProbeResultNormalizer.cs b/MediaBrowser.MediaEncoding/Probing/ProbeResultNormalizer.cs
+index b9cb49cf2..74cb9e9d3 100644
+--- a/MediaBrowser.MediaEncoding/Probing/ProbeResultNormalizer.cs
++++ b/MediaBrowser.MediaEncoding/Probing/ProbeResultNormalizer.cs
+@@ -81,7 +81,7 @@ namespace MediaBrowser.MediaEncoding.Probing
+             {
+                 var tagStream = data.Streams.FirstOrDefault(i => string.Equals(i.CodecType, tagStreamType, StringComparison.OrdinalIgnoreCase));
+ 
+-                if (tagStream != null && tagStream.Tags != null)
++                if (tagStream?.Tags != null)
+                 {
+                     foreach (var pair in tagStream.Tags)
+                     {
+@@ -1016,7 +1016,7 @@ namespace MediaBrowser.MediaEncoding.Probing
+ 
+         private int? GetBPSFromTags(MediaStreamInfo streamInfo)
+         {
+-            if (streamInfo != null && streamInfo.Tags != null)
++            if (streamInfo?.Tags != null)
+             {
+                 var bps = GetDictionaryValue(streamInfo.Tags, "BPS-eng") ?? GetDictionaryValue(streamInfo.Tags, "BPS");
+                 if (!string.IsNullOrEmpty(bps)
+@@ -1031,7 +1031,7 @@ namespace MediaBrowser.MediaEncoding.Probing
+ 
+         private double? GetRuntimeSecondsFromTags(MediaStreamInfo streamInfo)
+         {
+-            if (streamInfo != null && streamInfo.Tags != null)
++            if (streamInfo?.Tags != null)
+             {
+                 var duration = GetDictionaryValue(streamInfo.Tags, "DURATION-eng") ?? GetDictionaryValue(streamInfo.Tags, "DURATION");
+                 if (!string.IsNullOrEmpty(duration) && TimeSpan.TryParse(duration, out var parsedDuration))
+@@ -1045,7 +1045,7 @@ namespace MediaBrowser.MediaEncoding.Probing
+ 
+         private long? GetNumberOfBytesFromTags(MediaStreamInfo streamInfo)
+         {
+-            if (streamInfo != null && streamInfo.Tags != null)
++            if (streamInfo?.Tags != null)
+             {
+                 var numberOfBytes = GetDictionaryValue(streamInfo.Tags, "NUMBER_OF_BYTES-eng") ?? GetDictionaryValue(streamInfo.Tags, "NUMBER_OF_BYTES");
+                 if (!string.IsNullOrEmpty(numberOfBytes)
+diff --git a/MediaBrowser.Model/Dlna/StreamBuilder.cs b/MediaBrowser.Model/Dlna/StreamBuilder.cs
+index bf33691c7..b12b7eb91 100644
+--- a/MediaBrowser.Model/Dlna/StreamBuilder.cs
++++ b/MediaBrowser.Model/Dlna/StreamBuilder.cs
+@@ -297,7 +297,7 @@ namespace MediaBrowser.Model.Dlna
+             int? inputAudioSampleRate = audioStream?.SampleRate;
+             int? inputAudioBitDepth = audioStream?.BitDepth;
+ 
+-            if (directPlayMethods.Count() > 0)
++            if (directPlayMethods.Any())
+             {
+                 string audioCodec = audioStream?.Codec;
+ 
+diff --git a/MediaBrowser.Providers/Manager/ImageSaver.cs b/MediaBrowser.Providers/Manager/ImageSaver.cs
+index 9dd87aef5..c49d72761 100644
+--- a/MediaBrowser.Providers/Manager/ImageSaver.cs
++++ b/MediaBrowser.Providers/Manager/ImageSaver.cs
+@@ -358,7 +358,6 @@ namespace MediaBrowser.Providers.Manager
+         /// </exception>
+         private string GetStandardSavePath(BaseItem item, ImageType type, int? imageIndex, string mimeType, bool saveLocally)
+         {
+-            var season = item as Season;
+             var extension = MimeTypes.ToExtension(mimeType);
+ 
+             if (string.IsNullOrWhiteSpace(extension))
+@@ -368,7 +367,7 @@ namespace MediaBrowser.Providers.Manager
+ 
+             if (type == ImageType.Thumb && saveLocally)
+             {
+-                if (season != null && season.IndexNumber.HasValue)
++                if (item is Season season && season.IndexNumber.HasValue)
+                 {
+                     var seriesFolder = season.SeriesPath;
+ 
+@@ -391,7 +390,7 @@ namespace MediaBrowser.Providers.Manager
+ 
+             if (type == ImageType.Banner && saveLocally)
+             {
+-                if (season != null && season.IndexNumber.HasValue)
++                if (item is Season season && season.IndexNumber.HasValue)
+                 {
+                     var seriesFolder = season.SeriesPath;
+ 
+@@ -511,7 +510,6 @@ namespace MediaBrowser.Providers.Manager
+         /// <exception cref="ArgumentNullException">imageIndex.</exception>
+         private string[] GetCompatibleSavePaths(BaseItem item, ImageType type, int? imageIndex, string mimeType)
+         {
+-            var season = item as Season;
+ 
+             var extension = MimeTypes.ToExtension(mimeType);
+ 
+@@ -530,7 +528,7 @@ namespace MediaBrowser.Providers.Manager
+                         return new[] { GetSavePathForItemInMixedFolder(item, type, "fanart", extension) };
+                     }
+ 
+-                    if (season != null && season.IndexNumber.HasValue)
++                    if (item is Season season && season.IndexNumber.HasValue)
+                     {
+                         var seriesFolder = season.SeriesPath;
+ 
+@@ -573,7 +571,7 @@ namespace MediaBrowser.Providers.Manager
+ 
+             if (type == ImageType.Primary)
+             {
+-                if (season != null && season.IndexNumber.HasValue)
++                if (item is Season season && season.IndexNumber.HasValue)
+                 {
+                     var seriesFolder = season.SeriesPath;
+ 
+diff --git a/MediaBrowser.Providers/Manager/ItemImageProvider.cs b/MediaBrowser.Providers/Manager/ItemImageProvider.cs
+index ffc6889fa..cbe05fbe7 100644
+--- a/MediaBrowser.Providers/Manager/ItemImageProvider.cs
++++ b/MediaBrowser.Providers/Manager/ItemImageProvider.cs
+@@ -411,8 +411,7 @@ namespace MediaBrowser.Providers.Manager
+                 changed = true;
+             }
+ 
+-            var hasScreenshots = item as IHasScreenshots;
+-            if (hasScreenshots != null)
++            if (item is IHasScreenshots hasScreenshots)
+             {
+                 if (UpdateMultiImages(item, images, ImageType.Screenshot))
+                 {
+diff --git a/MediaBrowser.Providers/Manager/MetadataService.cs b/MediaBrowser.Providers/Manager/MetadataService.cs
+index 8b3ca17ca..1305a4a6b 100644
+--- a/MediaBrowser.Providers/Manager/MetadataService.cs
++++ b/MediaBrowser.Providers/Manager/MetadataService.cs
+@@ -329,8 +329,7 @@ namespace MediaBrowser.Providers.Manager
+                     return true;
+                 }
+ 
+-                var folder = item as Folder;
+-                if (folder != null)
++                if (item is Folder folder)
+                 {
+                     return folder.SupportsDateLastMediaAdded || folder.SupportsCumulativeRunTimeTicks;
+                 }
+@@ -384,8 +383,7 @@ namespace MediaBrowser.Providers.Manager
+ 
+         private ItemUpdateType UpdateCumulativeRunTimeTicks(TItemType item, IList<BaseItem> children)
+         {
+-            var folder = item as Folder;
+-            if (folder != null && folder.SupportsCumulativeRunTimeTicks)
++            if (item is Folder folder && folder.SupportsCumulativeRunTimeTicks)
+             {
+                 long ticks = 0;
+ 
+@@ -411,8 +409,7 @@ namespace MediaBrowser.Providers.Manager
+         {
+             var updateType = ItemUpdateType.None;
+ 
+-            var folder = item as Folder;
+-            if (folder != null && folder.SupportsDateLastMediaAdded)
++            if (item is Folder folder && folder.SupportsDateLastMediaAdded)
+             {
+                 var dateLastMediaAdded = DateTime.MinValue;
+                 var any = false;
+@@ -625,8 +622,7 @@ namespace MediaBrowser.Providers.Manager
+                 providers = providers
+                     .Where(i =>
+                     {
+-                        var hasFileChangeMonitor = i as IHasItemChangeMonitor;
+-                        if (hasFileChangeMonitor != null)
++                        if (i is IHasItemChangeMonitor hasFileChangeMonitor)
+                         {
+                             return HasChanged(item, hasFileChangeMonitor, options.DirectoryService);
+                         }
+diff --git a/MediaBrowser.Providers/MediaInfo/AudioImageProvider.cs b/MediaBrowser.Providers/MediaInfo/AudioImageProvider.cs
+index 64ad1bddf..b859fc9de 100644
+--- a/MediaBrowser.Providers/MediaInfo/AudioImageProvider.cs
++++ b/MediaBrowser.Providers/MediaInfo/AudioImageProvider.cs
+@@ -137,9 +137,7 @@ namespace MediaBrowser.Providers.MediaInfo
+                 return false;
+             }
+ 
+-            var audio = item as Audio;
+-
+-            return audio != null;
++            return item is Audio audio;
+         }
+     }
+ }
+diff --git a/MediaBrowser.Providers/MediaInfo/SubtitleDownloader.cs b/MediaBrowser.Providers/MediaInfo/SubtitleDownloader.cs
+index 912aedb0d..44ab5aa5b 100644
+--- a/MediaBrowser.Providers/MediaInfo/SubtitleDownloader.cs
++++ b/MediaBrowser.Providers/MediaInfo/SubtitleDownloader.cs
+@@ -172,9 +172,7 @@ namespace MediaBrowser.Providers.MediaInfo
+                 SubtitleFetcherOrder = subtitleFetcherOrder
+             };
+ 
+-            var episode = video as Episode;
+-
+-            if (episode != null)
++            if (video is Episode episode)
+             {
+                 request.IndexNumberEnd = episode.IndexNumberEnd;
+                 request.SeriesName = episode.SeriesName;
+diff --git a/MediaBrowser.Providers/MediaInfo/VideoImageProvider.cs b/MediaBrowser.Providers/MediaInfo/VideoImageProvider.cs
+index c36c3af6a..30af6710a 100644
+--- a/MediaBrowser.Providers/MediaInfo/VideoImageProvider.cs
++++ b/MediaBrowser.Providers/MediaInfo/VideoImageProvider.cs
+@@ -154,9 +154,7 @@ namespace MediaBrowser.Providers.MediaInfo
+                 return false;
+             }
+ 
+-            var video = item as Video;
+-
+-            if (video != null && !video.IsPlaceHolder && video.IsCompleteMedia)
++            if (item is Video video && !video.IsPlaceHolder && video.IsCompleteMedia)
+             {
+                 return true;
+             }
+diff --git a/MediaBrowser.Providers/Plugins/AudioDb/AlbumImageProvider.cs b/MediaBrowser.Providers/Plugins/AudioDb/AlbumImageProvider.cs
+index cd9e47743..1284eb463 100644
+--- a/MediaBrowser.Providers/Plugins/AudioDb/AlbumImageProvider.cs
++++ b/MediaBrowser.Providers/Plugins/AudioDb/AlbumImageProvider.cs
+@@ -61,7 +61,7 @@ namespace MediaBrowser.Providers.Plugins.AudioDb
+                 await using FileStream jsonStream = File.OpenRead(path);
+                 var obj = await JsonSerializer.DeserializeAsync<AudioDbAlbumProvider.RootObject>(jsonStream, _jsonOptions, cancellationToken).ConfigureAwait(false);
+ 
+-                if (obj != null && obj.album != null && obj.album.Count > 0)
++                if (obj?.album != null && obj.album.Count > 0)
+                 {
+                     return GetImages(obj.album[0]);
+                 }
+diff --git a/MediaBrowser.Providers/Plugins/AudioDb/AlbumProvider.cs b/MediaBrowser.Providers/Plugins/AudioDb/AlbumProvider.cs
+index f463a3566..f90f18cd9 100644
+--- a/MediaBrowser.Providers/Plugins/AudioDb/AlbumProvider.cs
++++ b/MediaBrowser.Providers/Plugins/AudioDb/AlbumProvider.cs
+@@ -68,7 +68,7 @@ namespace MediaBrowser.Providers.Plugins.AudioDb
+                 await using FileStream jsonStream = File.OpenRead(path);
+                 var obj = await JsonSerializer.DeserializeAsync<RootObject>(jsonStream, _jsonOptions, cancellationToken).ConfigureAwait(false);
+ 
+-                if (obj != null && obj.album != null && obj.album.Count > 0)
++                if (obj?.album != null && obj.album.Count > 0)
+                 {
+                     result.Item = new MusicAlbum();
+                     result.HasMetadata = true;
+diff --git a/MediaBrowser.Providers/Plugins/AudioDb/ArtistImageProvider.cs b/MediaBrowser.Providers/Plugins/AudioDb/ArtistImageProvider.cs
+index 36700d191..5f3c7dc06 100644
+--- a/MediaBrowser.Providers/Plugins/AudioDb/ArtistImageProvider.cs
++++ b/MediaBrowser.Providers/Plugins/AudioDb/ArtistImageProvider.cs
+@@ -63,7 +63,7 @@ namespace MediaBrowser.Providers.Plugins.AudioDb
+                 await using FileStream jsonStream = File.OpenRead(path);
+                 var obj = await JsonSerializer.DeserializeAsync<AudioDbArtistProvider.RootObject>(jsonStream, _jsonOptions, cancellationToken).ConfigureAwait(false);
+ 
+-                if (obj != null && obj.artists != null && obj.artists.Count > 0)
++                if (obj?.artists != null && obj.artists.Count > 0)
+                 {
+                     return GetImages(obj.artists[0]);
+                 }
+diff --git a/MediaBrowser.Providers/Plugins/AudioDb/ArtistProvider.cs b/MediaBrowser.Providers/Plugins/AudioDb/ArtistProvider.cs
+index 7a15adb8e..dce511292 100644
+--- a/MediaBrowser.Providers/Plugins/AudioDb/ArtistProvider.cs
++++ b/MediaBrowser.Providers/Plugins/AudioDb/ArtistProvider.cs
+@@ -69,7 +69,7 @@ namespace MediaBrowser.Providers.Plugins.AudioDb
+                 await using FileStream jsonStream = File.OpenRead(path);
+                 var obj = await JsonSerializer.DeserializeAsync<RootObject>(jsonStream, _jsonOptions, cancellationToken).ConfigureAwait(false);
+ 
+-                if (obj != null && obj.artists != null && obj.artists.Count > 0)
++                if (obj?.artists != null && obj.artists.Count > 0)
+                 {
+                     result.Item = new MusicArtist();
+                     result.HasMetadata = true;
+diff --git a/MediaBrowser.Providers/Plugins/Omdb/OmdbItemProvider.cs b/MediaBrowser.Providers/Plugins/Omdb/OmdbItemProvider.cs
+index 97fcbfb6f..2037913bb 100644
+--- a/MediaBrowser.Providers/Plugins/Omdb/OmdbItemProvider.cs
++++ b/MediaBrowser.Providers/Plugins/Omdb/OmdbItemProvider.cs
+@@ -75,12 +75,12 @@ namespace MediaBrowser.Providers.Plugins.Omdb
+ 
+         private async Task<IEnumerable<RemoteSearchResult>> GetSearchResultsInternal(ItemLookupInfo searchInfo, string type, bool isSearch, CancellationToken cancellationToken)
+         {
+-            var episodeSearchInfo = searchInfo as EpisodeInfo;
+ 
+             var imdbId = searchInfo.GetProviderId(MetadataProvider.Imdb);
+ 
+             var urlQuery = "plot=full&r=json";
+-            if (type == "episode" && episodeSearchInfo != null)
++
++            if (type == "episode" && searchInfo is EpisodeInfo episodeSearchInfo)
+             {
+                 episodeSearchInfo.SeriesProviderIds.TryGetValue(MetadataProvider.Imdb.ToString(), out imdbId);
+             }
+@@ -143,7 +143,7 @@ namespace MediaBrowser.Providers.Plugins.Omdb
+             if (isSearch)
+             {
+                 var searchResultList = await JsonSerializer.DeserializeAsync<SearchResultList>(stream, _jsonOptions, cancellationToken).ConfigureAwait(false);
+-                if (searchResultList != null && searchResultList.Search != null)
++                if (searchResultList?.Search != null)
+                 {
+                     resultList.AddRange(searchResultList.Search);
+                 }
+@@ -167,7 +167,7 @@ namespace MediaBrowser.Providers.Plugins.Omdb
+                     SearchProviderName = Name
+                 };
+ 
+-                if (episodeSearchInfo != null && episodeSearchInfo.IndexNumberEnd.HasValue)
++                if (searchInfo is EpisodeInfo episodeSearchInfo && episodeSearchInfo.IndexNumberEnd.HasValue)
+                 {
+                     item.IndexNumberEnd = episodeSearchInfo.IndexNumberEnd.Value;
+                 }
+diff --git a/MediaBrowser.Providers/Plugins/Omdb/OmdbProvider.cs b/MediaBrowser.Providers/Plugins/Omdb/OmdbProvider.cs
+index e3301ff32..a3ca6bf37 100644
+--- a/MediaBrowser.Providers/Plugins/Omdb/OmdbProvider.cs
++++ b/MediaBrowser.Providers/Plugins/Omdb/OmdbProvider.cs
+@@ -527,7 +527,7 @@ namespace MediaBrowser.Providers.Plugins.Omdb
+                 if (Ratings != null)
+                 {
+                     var rating = Ratings.FirstOrDefault(i => string.Equals(i.Source, "Rotten Tomatoes", StringComparison.OrdinalIgnoreCase));
+-                    if (rating != null && rating.Value != null)
++                    if (rating?.Value != null)
+                     {
+                         var value = rating.Value.TrimEnd('%');
+                         if (float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var score))
+diff --git a/MediaBrowser.XbmcMetadata/Parsers/BaseNfoParser.cs b/MediaBrowser.XbmcMetadata/Parsers/BaseNfoParser.cs
+index 6f164caf3..ab665e77c 100644
+--- a/MediaBrowser.XbmcMetadata/Parsers/BaseNfoParser.cs
++++ b/MediaBrowser.XbmcMetadata/Parsers/BaseNfoParser.cs
+@@ -638,8 +638,7 @@ namespace MediaBrowser.XbmcMetadata.Parsers
+                     {
+                         var val = reader.ReadElementContentAsString();
+ 
+-                        var hasDisplayOrder = item as IHasDisplayOrder;
+-                        if (hasDisplayOrder != null)
++                        if (item is IHasDisplayOrder hasDisplayOrder)
+                         {
+                             if (!string.IsNullOrWhiteSpace(val))
+                             {
+@@ -916,9 +915,7 @@ namespace MediaBrowser.XbmcMetadata.Parsers
+                             {
+                                 var val = reader.ReadElementContentAsString();
+ 
+-                                var video = item as Video;
+-
+-                                if (video != null)
++                                if (item is Video video)
+                                 {
+                                     if (string.Equals("HSBS", val, StringComparison.OrdinalIgnoreCase))
+                                     {
+diff --git a/RSSDP/HttpRequestParser.cs b/RSSDP/HttpRequestParser.cs
+index 4114195a6..07075a70a 100644
+--- a/RSSDP/HttpRequestParser.cs
++++ b/RSSDP/HttpRequestParser.cs
+@@ -33,10 +33,7 @@ namespace Rssdp.Infrastructure
+             }
+             finally
+             {
+-                if (retVal != null)
+-                {
+-                    retVal.Dispose();
+-                }
++                retVal?.Dispose();
+             }
+         }
+ 
+diff --git a/RSSDP/HttpResponseParser.cs b/RSSDP/HttpResponseParser.cs
+index 0dd4bb45a..be398b86f 100644
+--- a/RSSDP/HttpResponseParser.cs
++++ b/RSSDP/HttpResponseParser.cs
+@@ -33,10 +33,7 @@ namespace Rssdp.Infrastructure
+             }
+             catch
+             {
+-                if (retVal != null)
+-                {
+-                    retVal.Dispose();
+-                }
++                retVal?.Dispose();
+ 
+                 throw;
+             }
+diff --git a/RSSDP/SsdpDevice.cs b/RSSDP/SsdpDevice.cs
+index 4005d836d..8fa4e4c03 100644
+--- a/RSSDP/SsdpDevice.cs
++++ b/RSSDP/SsdpDevice.cs
+@@ -134,11 +134,7 @@ namespace Rssdp
+         {
+             get
+             {
+-                return String.Format("urn:{0}:{3}:{1}:{2}",
+-                this.DeviceTypeNamespace ?? String.Empty,
+-                this.DeviceType ?? String.Empty,
+-                this.DeviceVersion,
+-                this.DeviceClass ?? "device");
++                return $"urn:{this.DeviceTypeNamespace ?? String.Empty}:{this.DeviceType ?? String.Empty}:{this.DeviceVersion}:{this.DeviceClass ?? "device"}";
+             }
+         }
+ 
+diff --git a/RSSDP/SsdpDevicePublisher.cs b/RSSDP/SsdpDevicePublisher.cs
+index c9e795d56..ca4c493fc 100644
+--- a/RSSDP/SsdpDevicePublisher.cs
++++ b/RSSDP/SsdpDevicePublisher.cs
+@@ -233,7 +233,7 @@ namespace Rssdp.Infrastructure
+         {
+             if (String.IsNullOrEmpty(searchTarget))
+             {
+-                WriteTrace(String.Format("Invalid search request received From {0}, Target is null/empty.", remoteEndPoint.ToString()));
++                WriteTrace($"Invalid search request received From {remoteEndPoint.ToString()}, Target is null/empty.");
+                 return;
+             }
+ 
+@@ -340,7 +340,7 @@ namespace Rssdp.Infrastructure
+ 
+         private string GetUsn(string udn, string fullDeviceType)
+         {
+-            return String.Format("{0}::{1}", udn, fullDeviceType);
++            return $"{udn}::{fullDeviceType}";
+         }
+ 
+         private async void SendSearchResponse(
+@@ -363,7 +363,7 @@ namespace Rssdp.Infrastructure
+             values["DATE"] = DateTime.UtcNow.ToString("r");
+             values["CACHE-CONTROL"] = "max-age = " + rootDevice.CacheLifetime.TotalSeconds;
+             values["ST"] = searchTarget;
+-            values["SERVER"] = string.Format("{0}/{1} UPnP/1.0 RSSDP/{2}", _OSName, _OSVersion, ServerVersion);
++            values["SERVER"] = $"{_OSName}/{_OSVersion} UPnP/1.0 RSSDP/{ServerVersion}";
+             values["USN"] = uniqueServiceName;
+             values["LOCATION"] = rootDevice.Location.ToString();
+ 
+@@ -497,7 +497,7 @@ namespace Rssdp.Infrastructure
+             values["DATE"] = DateTime.UtcNow.ToString("r");
+             values["CACHE-CONTROL"] = "max-age = " + rootDevice.CacheLifetime.TotalSeconds;
+             values["LOCATION"] = rootDevice.Location.ToString();
+-            values["SERVER"] = string.Format("{0}/{1} UPnP/1.0 RSSDP/{2}", _OSName, _OSVersion, ServerVersion);
++            values["SERVER"] = $"{_OSName}/{_OSVersion} UPnP/1.0 RSSDP/{ServerVersion}";
+             values["NTS"] = "ssdp:alive";
+             values["NT"] = notificationType;
+             values["USN"] = uniqueServiceName;
+@@ -522,7 +522,7 @@ namespace Rssdp.Infrastructure
+             }
+ 
+             tasks.Add(SendByeByeNotification(device, device.Udn, device.Udn, cancellationToken));
+-            tasks.Add(SendByeByeNotification(device, String.Format("urn:{0}", device.FullDeviceType), GetUsn(device.Udn, device.FullDeviceType), cancellationToken));
++            tasks.Add(SendByeByeNotification(device, $"urn:{device.FullDeviceType}", GetUsn(device.Udn, device.FullDeviceType), cancellationToken));
+ 
+             foreach (var childDevice in device.Devices)
+             {
+@@ -542,7 +542,7 @@ namespace Rssdp.Infrastructure
+             // If needed later for non-server devices, these headers will need to be dynamic
+             values["HOST"] = "239.255.255.250:1900";
+             values["DATE"] = DateTime.UtcNow.ToString("r");
+-            values["SERVER"] = string.Format("{0}/{1} UPnP/1.0 RSSDP/{2}", _OSName, _OSVersion, ServerVersion);
++            values["SERVER"] = $"{_OSName}/{_OSVersion} UPnP/1.0 RSSDP/{ServerVersion}";
+             values["NTS"] = "ssdp:byebye";
+             values["NT"] = notificationType;
+             values["USN"] = uniqueServiceName;
+@@ -558,10 +558,7 @@ namespace Rssdp.Infrastructure
+         {
+             var timer = _RebroadcastAliveNotificationsTimer;
+             _RebroadcastAliveNotificationsTimer = null;
+-            if (timer != null)
+-            {
+-                timer.Dispose();
+-            }
++            timer?.Dispose();
+         }
+ 
+         private TimeSpan GetMinimumNonZeroCacheLifetime()
+@@ -607,8 +604,7 @@ namespace Rssdp.Infrastructure
+ 
+         private void WriteTrace(string text, SsdpDevice device)
+         {
+-            var rootDevice = device as SsdpRootDevice;
+-            if (rootDevice != null)
++            if (device is SsdpRootDevice rootDevice)
+             {
+                 WriteTrace(text + " " + device.DeviceType + " - " + device.Uuid + " - " + rootDevice.Location);
+             }

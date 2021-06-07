@@ -1,0 +1,199 @@
+diff --git a/benchmarks/Dapper.Tests.Performance/Massive/Massive.cs b/benchmarks/Dapper.Tests.Performance/Massive/Massive.cs
+index f452a95..c42ddbb 100644
+--- a/benchmarks/Dapper.Tests.Performance/Massive/Massive.cs
++++ b/benchmarks/Dapper.Tests.Performance/Massive/Massive.cs
+@@ -28,7 +28,7 @@ public static void AddParams(this DbCommand cmd, params object[] args)
+         public static void AddParam(this DbCommand cmd, object item)
+         {
+             var p = cmd.CreateParameter();
+-            p.ParameterName = string.Format("@{0}", cmd.Parameters.Count);
++            p.ParameterName = $"@{cmd.Parameters.Count}";
+             if (item == null)
+             {
+                 p.Value = DBNull.Value;
+@@ -355,10 +355,10 @@ public virtual DbCommand CreateUpdateCommand(object o, object key)
+         /// </summary>
+         public virtual DbCommand CreateDeleteCommand(string where = "", object key = null, params object[] args)
+         {
+-            var sql = string.Format("DELETE FROM {0} ", TableName);
++            var sql = $"DELETE FROM {TableName} ";
+             if (key != null)
+             {
+-                sql += string.Format("WHERE {0}=@0", PrimaryKeyField);
++                sql += $"WHERE {PrimaryKeyField}=@0";
+                 args = new object[] { key };
+             }
+             else if (!string.IsNullOrEmpty(where))
+@@ -419,7 +419,7 @@ public virtual IEnumerable<dynamic> All(string where = "", string orderBy = "",
+         public virtual dynamic Paged(string where = "", string orderBy = "", string columns = "*", int pageSize = 20, int currentPage = 1, params object[] args)
+         {
+             dynamic result = new ExpandoObject();
+-            var countSQL = string.Format("SELECT COUNT({0}) FROM {1}", PrimaryKeyField, TableName);
++            var countSQL = $"SELECT COUNT({PrimaryKeyField}) FROM {TableName}";
+             if (string.IsNullOrEmpty(orderBy))
+                 orderBy = PrimaryKeyField;
+ 
+@@ -432,7 +432,7 @@ public virtual dynamic Paged(string where = "", string orderBy = "", string colu
+             }
+             var sql = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {2}) AS Row, {0} FROM {3} {4}) AS Paged ", columns, pageSize, orderBy, TableName, where);
+             var pageStart = (currentPage - 1) * pageSize;
+-            sql += string.Format(" WHERE Row >={0} AND Row <={1}", pageStart, pageStart + pageSize);
++            sql += $" WHERE Row >={pageStart} AND Row <={pageStart + pageSize}";
+             countSQL += where;
+             result.TotalRecords = Scalar(countSQL, args);
+             result.TotalPages = result.TotalRecords / pageSize;
+diff --git a/benchmarks/Dapper.Tests.Performance/PetaPoco/PetaPoco.cs b/benchmarks/Dapper.Tests.Performance/PetaPoco/PetaPoco.cs
+index add3df7..459086e 100644
+--- a/benchmarks/Dapper.Tests.Performance/PetaPoco/PetaPoco.cs
++++ b/benchmarks/Dapper.Tests.Performance/PetaPoco/PetaPoco.cs
+@@ -243,7 +243,7 @@ public static string ProcessParams(string _sql, object[] args_src, List<object>
+                 {
+                     // Numbered parameter
+                     if (paramIndex < 0 || paramIndex >= args_src.Length)
+-                        throw new ArgumentOutOfRangeException(string.Format("Parameter '@{0}' specified but only {1} parameters supplied (in `{2}`)", paramIndex, args_src.Length, _sql));
++                        throw new ArgumentOutOfRangeException($"Parameter '@{paramIndex}' specified but only {args_src.Length} parameters supplied (in `{_sql}`)");
+                     args_dest.Add(args_src[paramIndex]);
+                 }
+                 else
+@@ -262,7 +262,7 @@ public static string ProcessParams(string _sql, object[] args_src, List<object>
+                     }
+ 
+                     if (!found)
+-                        throw new ArgumentException(string.Format("Parameter '@{0}' specified but none of the passed arguments have a property with this name (in '{1}')", param, _sql));
++                        throw new ArgumentException($"Parameter '@{param}' specified but none of the passed arguments have a property with this name (in '{_sql}')");
+                 }
+ 
+                 return "@" + (args_dest.Count - 1).ToString();
+@@ -274,7 +274,7 @@ public static string ProcessParams(string _sql, object[] args_src, List<object>
+         private static void AddParam(DbCommand cmd, object item, string ParameterPrefix)
+         {
+             var p = cmd.CreateParameter();
+-            p.ParameterName = string.Format("{0}{1}", ParameterPrefix, cmd.Parameters.Count);
++            p.ParameterName = $"{ParameterPrefix}{cmd.Parameters.Count}";
+             if (item == null)
+             {
+                 p.Value = DBNull.Value;
+@@ -335,7 +335,7 @@ public DbCommand CreateCommand(DbConnection connection, string sql, params objec
+             foreach (var item in args)
+             {
+                 var p = cmd.CreateParameter();
+-                p.ParameterName = string.Format("{0}{1}", _paramPrefix, cmd.Parameters.Count);
++                p.ParameterName = $"{_paramPrefix}{cmd.Parameters.Count}";
+                 if (item == null)
+                 {
+                     p.Value = DBNull.Value;
+@@ -444,7 +444,7 @@ private string AddSelectClause<T>(string sql)
+ 
+             // Get the poco data for this type
+             var pd = PocoData.ForType(typeof(T));
+-            return string.Format("SELECT {0} FROM {1} {2}", pd.QueryColumns, pd.TableName, sql);
++            return $"SELECT {pd.QueryColumns} FROM {pd.TableName} {sql}";
+         }
+ 
+         public bool EnableAutoSelect { get; set; }
+@@ -628,13 +628,12 @@ public Page<T> Page<T>(long page, long itemsPerPage, string sql, params object[]
+             {
+                 // Ugh really?
+                 sqlSelectRemoved = rxOrderBy.Replace(sqlSelectRemoved, "");
+-                sqlPage = string.Format("SELECT * FROM (SELECT ROW_NUMBER() OVER ({0}) AS __rn, {1}) as __paged WHERE __rn>{2} AND __rn<={3}",
+-                                        sqlOrderBy, sqlSelectRemoved, (page - 1) * itemsPerPage, page * itemsPerPage);
++                sqlPage = $"SELECT * FROM (SELECT ROW_NUMBER() OVER ({sqlOrderBy}) AS __rn, {sqlSelectRemoved}) as __paged WHERE __rn>{(page - 1) * itemsPerPage} AND __rn<={page * itemsPerPage}";
+             }
+             else
+             {
+                 // Nice
+-                sqlPage = string.Format("{0}\nLIMIT {1} OFFSET {2}", sql, itemsPerPage, (page - 1) * itemsPerPage);
++                sqlPage = $"{sql}\nLIMIT {itemsPerPage} OFFSET {(page - 1) * itemsPerPage}";
+             }
+ 
+             // Get the records
+@@ -766,15 +765,11 @@ public object Insert(string tableName, string primaryKeyName, object poco)
+                                 continue;
+ 
+                             names.Add(i.Key);
+-                            values.Add(string.Format("{0}{1}", _paramPrefix, index++));
++                            values.Add($"{_paramPrefix}{index++}");
+                             AddParam(cmd, i.Value.PropertyInfo.GetValue(poco, null), _paramPrefix);
+                         }
+ 
+-                        cmd.CommandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2}); SELECT @@IDENTITY AS NewID;",
+-                                tableName,
+-                                string.Join(",", names.ToArray()),
+-                                string.Join(",", values.ToArray())
+-                                );
++                        cmd.CommandText = $"INSERT INTO {tableName} ({string.Join(",", names.ToArray())}) VALUES ({string.Join(",", values.ToArray())}); SELECT @@IDENTITY AS NewID;";
+ 
+                         _lastSql = cmd.CommandText;
+                         _lastArgs = values.ToArray();
+@@ -848,13 +843,7 @@ public int Update(string tableName, string primaryKeyName, object poco, object p
+                             AddParam(cmd, i.Value.PropertyInfo.GetValue(poco, null), _paramPrefix);
+                         }
+ 
+-                        cmd.CommandText = string.Format("UPDATE {0} SET {1} WHERE {2} = {3}{4}",
+-                                tableName,
+-                                sb.ToString(),
+-                                primaryKeyName,
+-                                _paramPrefix,
+-                                index++
+-                                );
++                        cmd.CommandText = $"UPDATE {tableName} SET {sb.ToString()} WHERE {primaryKeyName} = {_paramPrefix}{index++}";
+                         AddParam(cmd, primaryKeyValue, _paramPrefix);
+ 
+                         _lastSql = cmd.CommandText;
+@@ -895,13 +884,13 @@ public int Update(object poco, object primaryKeyValue)
+         public int Update<T>(string sql, params object[] args)
+         {
+             var pd = PocoData.ForType(typeof(T));
+-            return Execute(string.Format("UPDATE {0} {1}", pd.TableName, sql), args);
++            return Execute($"UPDATE {pd.TableName} {sql}", args);
+         }
+ 
+         public int Update<T>(Sql sql)
+         {
+             var pd = PocoData.ForType(typeof(T));
+-            return Execute(new Sql(string.Format("UPDATE {0}", pd.TableName)).Append(sql));
++            return Execute(new Sql($"UPDATE {pd.TableName}").Append(sql));
+         }
+ 
+         public int Delete(string tableName, string primaryKeyName, object poco)
+@@ -922,7 +911,7 @@ public int Delete(string tableName, string primaryKeyName, object poco, object p
+             }
+ 
+             // Do it
+-            var sql = string.Format("DELETE FROM {0} WHERE {1}=@0", tableName, primaryKeyName);
++            var sql = $"DELETE FROM {tableName} WHERE {primaryKeyName}=@0";
+             return Execute(sql, primaryKeyValue);
+         }
+ 
+@@ -935,13 +924,13 @@ public int Delete(object poco)
+         public int Delete<T>(string sql, params object[] args)
+         {
+             var pd = PocoData.ForType(typeof(T));
+-            return Execute(string.Format("DELETE FROM {0} {1}", pd.TableName, sql), args);
++            return Execute($"DELETE FROM {pd.TableName} {sql}", args);
+         }
+ 
+         public int Delete<T>(Sql sql)
+         {
+             var pd = PocoData.ForType(typeof(T));
+-            return Execute(new Sql(string.Format("DELETE FROM {0}", pd.TableName)).Append(sql));
++            return Execute(new Sql($"DELETE FROM {pd.TableName}").Append(sql));
+         }
+ 
+         // Check if a poco represents a new record
+diff --git a/tests/Dapper.Tests/Helpers/SqlServerTypesLoader.cs b/tests/Dapper.Tests/Helpers/SqlServerTypesLoader.cs
+index dc50f83..dcccd27 100644
+--- a/tests/Dapper.Tests/Helpers/SqlServerTypesLoader.cs
++++ b/tests/Dapper.Tests/Helpers/SqlServerTypesLoader.cs
+@@ -47,10 +47,7 @@ private static void LoadNativeAssembly(string nativeBinaryPath, string assemblyN
+             var ptr = LoadLibrary(path);
+             if (ptr == IntPtr.Zero)
+             {
+-                throw new Exception(string.Format(
+-                    "Error loading {0} (ErrorCode: {1})",
+-                    assemblyName,
+-                    Marshal.GetLastWin32Error()));
++                throw new Exception($"Error loading {assemblyName} (ErrorCode: {Marshal.GetLastWin32Error()})");
+             }
+         }
+     }

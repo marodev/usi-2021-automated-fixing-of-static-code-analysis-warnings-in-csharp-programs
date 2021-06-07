@@ -1,0 +1,16 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+--- Rules Summary ---
+
+
+--- Summary ---
+Fixed ReSharper issues: 0
+Fixed SonarQube issues: 0
+Total fixed issues: 0
+
+Finished in: 5 s
+
+No errors reported.
+

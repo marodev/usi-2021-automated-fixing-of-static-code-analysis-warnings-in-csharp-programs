@@ -1,0 +1,53 @@
+diff --git a/src/NSwag.CodeGeneration.CSharp/CSharpControllerGenerator.cs b/src/NSwag.CodeGeneration.CSharp/CSharpControllerGenerator.cs
+index 7074ba084..9f7bd5336 100644
+--- a/src/NSwag.CodeGeneration.CSharp/CSharpControllerGenerator.cs
++++ b/src/NSwag.CodeGeneration.CSharp/CSharpControllerGenerator.cs
+@@ -53,8 +53,7 @@ protected override IEnumerable<CodeArtifact> GenerateAllClientTypes()
+         {
+             var artifacts = base.GenerateAllClientTypes().ToList();
+ 
+-            if (Settings.ControllerTarget == CSharpControllerTarget.AspNet &&
+-                _document.Operations.Count(operation => operation.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.Header)) > 0)
++            if (Settings.ControllerTarget == CSharpControllerTarget.AspNet && _document.Operations.Any(operation => operation.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.Header)))
+             {
+                 var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.AspNet.FromHeaderAttribute", new object());
+                 artifacts.Add(new CodeArtifact("FromHeaderAttribute", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Utility, template));
+diff --git a/src/NSwag.CodeGeneration.TypeScript/Models/TypeScriptOperationModel.cs b/src/NSwag.CodeGeneration.TypeScript/Models/TypeScriptOperationModel.cs
+index bf9e0f792..272dbb996 100644
+--- a/src/NSwag.CodeGeneration.TypeScript/Models/TypeScriptOperationModel.cs
++++ b/src/NSwag.CodeGeneration.TypeScript/Models/TypeScriptOperationModel.cs
+@@ -124,7 +124,7 @@ public override string ExceptionType
+         {
+             get
+             {
+-                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
++                if (!_operation.ActualResponses.Any(r => !HttpUtilities.IsSuccessStatusCode(r.Key)))
+                 {
+                     return "string";
+                 }
+diff --git a/src/NSwag.Core/OpenApiParameter.cs b/src/NSwag.Core/OpenApiParameter.cs
+index 4f1ec64bf..8d910e4e9 100644
+--- a/src/NSwag.Core/OpenApiParameter.cs
++++ b/src/NSwag.Core/OpenApiParameter.cs
+@@ -284,7 +284,7 @@ public bool HasBinaryBodyWithMultipleMimeTypes
+                 {
+                     var consumes = parent?.RequestBody?.Content;
+                     return consumes?.Any() == true &&
+-                           (consumes.Count() > 1 ||
++                           (consumes.Count > 1 ||
+                             consumes.Any(p => p.Key.Contains("*")));
+                 }
+             }
+diff --git a/src/NSwag.Generation.WebApi/Processors/OperationConsumesProcessor.cs b/src/NSwag.Generation.WebApi/Processors/OperationConsumesProcessor.cs
+index c8deb0843..b9d6062fb 100644
+--- a/src/NSwag.Generation.WebApi/Processors/OperationConsumesProcessor.cs
++++ b/src/NSwag.Generation.WebApi/Processors/OperationConsumesProcessor.cs
+@@ -37,7 +37,7 @@ public bool Process(OperationProcessorContext context)
+                     .SingleOrDefault(a => a.GetType().Name == "ConsumesAttribute");
+             }
+ 
+-            if (consumesAttribute != null && consumesAttribute.ContentTypes != null)
++            if (consumesAttribute?.ContentTypes != null)
+             {
+                 if (context.OperationDescription.Operation.Consumes == null)
+                 {

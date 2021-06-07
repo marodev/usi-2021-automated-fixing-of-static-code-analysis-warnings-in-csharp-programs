@@ -1,0 +1,93 @@
+diff --git a/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/Automation/VisualBasic/VisualBasicNamespaceImportsList.cs b/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/Automation/VisualBasic/VisualBasicNamespaceImportsList.cs
+index c7fe4f1c8..9b21e8f99 100644
+--- a/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/Automation/VisualBasic/VisualBasicNamespaceImportsList.cs
++++ b/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/Automation/VisualBasic/VisualBasicNamespaceImportsList.cs
+@@ -170,7 +170,7 @@ internal string Item(int lIndex)
+         {
+             if (lIndex < 1)
+             {
+-                throw new ArgumentException(string.Format("{0} - Index value is less than One.", lIndex), nameof(lIndex));
++                throw new ArgumentException($"{lIndex} - Index value is less than One.", nameof(lIndex));
+             }
+ 
+             TryInitialize();
+@@ -181,7 +181,7 @@ internal string Item(int lIndex)
+ 
+             if (lIndex > list.Count)
+             {
+-                throw new ArgumentException(string.Format("{0} - Index value is greater than the length of the namespace import list.", lIndex), nameof(lIndex));
++                throw new ArgumentException($"{lIndex} - Index value is greater than the length of the namespace import list.", nameof(lIndex));
+             }
+ 
+             return list[lIndex - 1];
+@@ -191,7 +191,7 @@ internal bool IsPresent(int indexInt)
+         {
+             if (indexInt < 1)
+             {
+-                throw new ArgumentException(string.Format("{0} - Index value is less than One.", indexInt), nameof(indexInt));
++                throw new ArgumentException($"{indexInt} - Index value is less than One.", nameof(indexInt));
+             }
+ 
+             TryInitialize();
+@@ -200,7 +200,7 @@ internal bool IsPresent(int indexInt)
+ 
+             if (indexInt > AppliedValue.Value.Count)
+             {
+-                throw new ArgumentException(string.Format("{0} - Index value is greater than the length of the namespace import list.", indexInt), nameof(indexInt));
++                throw new ArgumentException($"{indexInt} - Index value is greater than the length of the namespace import list.", nameof(indexInt));
+             }
+ 
+             return true;
+diff --git a/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/Automation/VisualBasic/VisualBasicVSImports.cs b/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/Automation/VisualBasic/VisualBasicVSImports.cs
+index 40c73ba7b..a600019bf 100644
+--- a/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/Automation/VisualBasic/VisualBasicVSImports.cs
++++ b/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/Automation/VisualBasic/VisualBasicVSImports.cs
+@@ -74,7 +74,7 @@ public void Add(string bstrImport)
+             }
+             else
+             {
+-                throw new ArgumentException(string.Format("{0} - Namespace is already imported", bstrImport), nameof(bstrImport));
++                throw new ArgumentException($"{bstrImport} - Namespace is already imported", nameof(bstrImport));
+             }
+         }
+ 
+@@ -112,7 +112,7 @@ public void Remove(object index)
+             }
+             else
+             {
+-                throw new ArgumentException(string.Format("{0} - index is neither an Int nor a String, or the Namepsace was not found", index), nameof(index));
++                throw new ArgumentException($"{index} - index is neither an Int nor a String, or the Namepsace was not found", nameof(index));
+             }
+         }
+ 
+diff --git a/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/PropertyPages/DebugPageViewModel.cs b/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/PropertyPages/DebugPageViewModel.cs
+index be0151cec..9bce87932 100644
+--- a/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/PropertyPages/DebugPageViewModel.cs
++++ b/src/Microsoft.VisualStudio.ProjectSystem.Managed.VS/ProjectSystem/VS/PropertyPages/DebugPageViewModel.cs
+@@ -27,7 +27,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
+ {
+     internal partial class DebugPageViewModel : PropertyPageViewModel, INotifyDataErrorInfo
+     {
+-        private readonly string _executableFilter = string.Format("{0} (*.exe)|*.exe|{1} (*.*)|*.*", PropertyPageResources.ExecutableFiles, PropertyPageResources.AllFiles);
++        private readonly string _executableFilter = $"{PropertyPageResources.ExecutableFiles} (*.exe)|*.exe|{PropertyPageResources.AllFiles} (*.*)|*.*";
+         private IDisposable _debugProfileProviderLink;
+         private bool _removeEnvironmentVariablesRow;
+         private bool _debugTargetsCoreInitialized;
+@@ -105,7 +105,7 @@ private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e
+         {
+             if (!IgnoreEvents)
+             {
+-                if (SelectedDebugProfile != null && SelectedDebugProfile is IWritablePersistOption writablePersist)
++                if (SelectedDebugProfile is IWritablePersistOption writablePersist)
+                 {
+                     writablePersist.DoNotPersist = false;
+                 }
+@@ -1038,7 +1038,7 @@ internal string GetNewProfileName()
+         {
+             for (int i = 1; i < int.MaxValue; i++)
+             {
+-                string profileName = string.Format("{0}{1}", PropertyPageResources.NewProfileSeedName, i.ToString());
++                string profileName = $"{PropertyPageResources.NewProfileSeedName}{i.ToString()}";
+                 if (IsNewProfileNameValid(profileName))
+                 {
+                     return profileName;

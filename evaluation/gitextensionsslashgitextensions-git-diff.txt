@@ -1,0 +1,895 @@
+diff --git a/Externals/EasyHook b/Externals/EasyHook
+--- a/Externals/EasyHook
++++ b/Externals/EasyHook
+@@ -1 +1 @@
+-Subproject commit 0296f95158a7da669b44aaa264d8793c478ef648
++Subproject commit 0296f95158a7da669b44aaa264d8793c478ef648-dirty
+diff --git a/Externals/Git.hub b/Externals/Git.hub
+--- a/Externals/Git.hub
++++ b/Externals/Git.hub
+@@ -1 +1 @@
+-Subproject commit 3ebf19b8fc2ab8a24f54aab64921c88577fff05d
++Subproject commit 3ebf19b8fc2ab8a24f54aab64921c88577fff05d-dirty
+diff --git a/Externals/ICSharpCode.TextEditor b/Externals/ICSharpCode.TextEditor
+--- a/Externals/ICSharpCode.TextEditor
++++ b/Externals/ICSharpCode.TextEditor
+@@ -1 +1 @@
+-Subproject commit 467710117fe6a1df2e96791b51f550a04fccba74
++Subproject commit 467710117fe6a1df2e96791b51f550a04fccba74-dirty
+diff --git a/Externals/NetSpell.SpellChecker/TraceWriter.cs b/Externals/NetSpell.SpellChecker/TraceWriter.cs
+index 59f2f915f..a49a8a46f 100644
+--- a/Externals/NetSpell.SpellChecker/TraceWriter.cs
++++ b/Externals/NetSpell.SpellChecker/TraceWriter.cs
+@@ -77,6 +77,6 @@ private static string GetCallingMethod(StackTrace stack)
+         StackFrame frame = stack.GetFrame(0);
+         string className = frame.GetMethod().DeclaringType.ToString();
+         string functionName = frame.GetMethod().Name;
+-        return string.Format("{0}.{1}", className, functionName);
++        return $"{className}.{functionName}";
+     }
+ }
+diff --git a/GitCommands/CommitDataManager.cs b/GitCommands/CommitDataManager.cs
+index 390f8d2b6..a9e0ba927 100644
+--- a/GitCommands/CommitDataManager.cs
++++ b/GitCommands/CommitDataManager.cs
+@@ -174,8 +174,8 @@ public CommitData CreateFromRevision(GitRevision revision, IReadOnlyList<ObjectI
+             }
+ 
+             return new CommitData(revision.ObjectId, revision.TreeGuid, revision.ParentIds,
+-                string.Format("{0} <{1}>", revision.Author, revision.AuthorEmail), revision.AuthorDate,
+-                string.Format("{0} <{1}>", revision.Committer, revision.CommitterEmail), revision.CommitDate,
++                $"{revision.Author} <{revision.AuthorEmail}>", revision.AuthorDate,
++                $"{revision.Committer} <{revision.CommitterEmail}>", revision.CommitDate,
+                 revision.Body ?? revision.Subject)
+             { ChildIds = children };
+         }
+diff --git a/GitCommands/Git/GitBranchNameOptions.cs b/GitCommands/Git/GitBranchNameOptions.cs
+index 206d0968f..ff5360f97 100644
+--- a/GitCommands/Git/GitBranchNameOptions.cs
++++ b/GitCommands/Git/GitBranchNameOptions.cs
+@@ -19,7 +19,7 @@ public GitBranchNameOptions(string? replacementToken)
+ 
+                 if (!GitBranchNameNormaliser.IsValidChar(replacementToken[0]))
+                 {
+-                    throw new ArgumentOutOfRangeException(nameof(replacementToken), string.Format("Replacement token invalid: '{0}'", replacementToken));
++                    throw new ArgumentOutOfRangeException(nameof(replacementToken), $"Replacement token invalid: '{replacementToken}'");
+                 }
+             }
+ 
+diff --git a/GitExtUtils/GitUI/ControlUtil.cs b/GitExtUtils/GitUI/ControlUtil.cs
+index 3504d9ff7..32d09275d 100644
+--- a/GitExtUtils/GitUI/ControlUtil.cs
++++ b/GitExtUtils/GitUI/ControlUtil.cs
+@@ -63,7 +63,7 @@ public static class ControlUtil
+         public static T? FindDescendantOfType<T>(this Control control, Func<T, bool> predicate,
+             Func<Control, bool>? skip = null)
+         {
+-            return FindDescendants(control, skip).OfType<T>().Where(predicate).FirstOrDefault();
++            return FindDescendants(control, skip).OfType<T>().FirstOrDefault(predicate);
+         }
+ 
+         /// <summary>
+diff --git a/GitExtensions/Program.cs b/GitExtensions/Program.cs
+index bba26761b..06cfe47a5 100644
+--- a/GitExtensions/Program.cs
++++ b/GitExtensions/Program.cs
+@@ -280,7 +280,7 @@ private static void HandleConfigurationException(ConfigurationException ce)
+                             }
+                             else
+                             {
+-                                MessageBox.Show(string.Format("Could not delete all files and folders in {0}!", localSettingsPath), "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
++                                MessageBox.Show($"Could not delete all files and folders in {localSettingsPath}!", "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                             }
+                         }
+                     }
+diff --git a/GitUI/BranchTreePanel/RepoObjectsTree.SettingsContextMenu.cs b/GitUI/BranchTreePanel/RepoObjectsTree.SettingsContextMenu.cs
+index 271452485..c9885e6ac 100644
+--- a/GitUI/BranchTreePanel/RepoObjectsTree.SettingsContextMenu.cs
++++ b/GitUI/BranchTreePanel/RepoObjectsTree.SettingsContextMenu.cs
+@@ -62,7 +62,7 @@ private void ReorderTreeNode(TreeNode node, bool up)
+                 swapIndex = up ? swapIndex - 1 : swapIndex + 1;
+ 
+                 // If there are no visible nodes to swap with, we're done
+-                if (swapIndex < 0 || swapIndex >= treeToIndex.Count())
++                if (swapIndex < 0 || swapIndex >= treeToIndex.Count)
+                 {
+                     return;
+                 }
+diff --git a/GitUI/BuildServerIntegration/BuildServerWatcher.cs b/GitUI/BuildServerIntegration/BuildServerWatcher.cs
+index faa7c774d..82fe679ce 100644
+--- a/GitUI/BuildServerIntegration/BuildServerWatcher.cs
++++ b/GitUI/BuildServerIntegration/BuildServerWatcher.cs
+@@ -356,7 +356,7 @@ public void Dispose()
+ 
+         private static IsolatedStorageFileStream GetBuildServerOptionsIsolatedStorageStream(IBuildServerAdapter buildServerAdapter, FileAccess fileAccess, FileShare fileShare)
+         {
+-            var fileName = string.Format("BuildServer-{0}.options", Convert.ToBase64String(Encoding.UTF8.GetBytes(buildServerAdapter.UniqueKey)));
++            var fileName = $"BuildServer-{Convert.ToBase64String(Encoding.UTF8.GetBytes(buildServerAdapter.UniqueKey))}.options";
+             return new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, fileAccess, fileShare);
+         }
+     }
+diff --git a/GitUI/CommandsDialogs/AboutBoxDialog/FormContributors.cs b/GitUI/CommandsDialogs/AboutBoxDialog/FormContributors.cs
+index e1c636e3a..b9a638731 100644
+--- a/GitUI/CommandsDialogs/AboutBoxDialog/FormContributors.cs
++++ b/GitUI/CommandsDialogs/AboutBoxDialog/FormContributors.cs
+@@ -37,9 +37,7 @@ void InitialiseComponent()
+                 }
+ 
+                 const string NEWLINES = @"\r\n?|\n";
+-                textBoxes[0].Text = string.Format("{0}:\r\n{1}\r\n\r\n{2}:\r\n{3}",
+-                    _team.Text, Regex.Replace(Resources.Team, NEWLINES, " "),
+-                    _contributors.Text, Regex.Replace(Resources.Coders, NEWLINES, " "));
++                textBoxes[0].Text = $"{_team.Text}:\r\n{Regex.Replace(Resources.Team, NEWLINES, " ")}\r\n\r\n{_contributors.Text}:\r\n{Regex.Replace(Resources.Coders, NEWLINES, " ")}";
+                 textBoxes[1].Text = Regex.Replace(Resources.Translators, NEWLINES, " ");
+                 textBoxes[2].Text = Regex.Replace(Resources.Designers, NEWLINES, " ");
+ 
+diff --git a/GitUI/CommandsDialogs/BrowseDialog/FormUpdates.cs b/GitUI/CommandsDialogs/BrowseDialog/FormUpdates.cs
+index 8e1ec67ca..61bfc7585 100644
+--- a/GitUI/CommandsDialogs/BrowseDialog/FormUpdates.cs
++++ b/GitUI/CommandsDialogs/BrowseDialog/FormUpdates.cs
+@@ -203,7 +203,7 @@ private void btnUpdateNow_Click(object sender, EventArgs e)
+                     Process process = new();
+                     process.StartInfo.UseShellExecute = false;
+                     process.StartInfo.FileName = "msiexec.exe";
+-                    process.StartInfo.Arguments = string.Format("/i \"{0}\\{1}\" /qb LAUNCH=1", Environment.GetEnvironmentVariable("TEMP"), fileName);
++                    process.StartInfo.Arguments = $"/i \"{Environment.GetEnvironmentVariable("TEMP")}\\{fileName}\" /qb LAUNCH=1";
+                     process.Start();
+ 
+                     progressBar1.Visible = false;
+diff --git a/GitUI/CommandsDialogs/FormAddFiles.cs b/GitUI/CommandsDialogs/FormAddFiles.cs
+index fe1a6f3b6..0838271ca 100644
+--- a/GitUI/CommandsDialogs/FormAddFiles.cs
++++ b/GitUI/CommandsDialogs/FormAddFiles.cs
+@@ -21,13 +21,13 @@ public FormAddFiles(GitUICommands commands, string? addFile = null)
+ 
+         private void ShowFilesClick(object sender, EventArgs e)
+         {
+-            string arguments = string.Format("add --dry-run{0} \"{1}\"", force.Checked ? " -f" : "", Filter.Text);
++            string arguments = $"add --dry-run{(force.Checked ? " -f" : "")} \"{Filter.Text}\"";
+             FormProcess.ShowDialog(this, process: null, arguments, Module.WorkingDir, input: null, useDialogSettings: false);
+         }
+ 
+         private void AddFilesClick(object sender, EventArgs e)
+         {
+-            string arguments = string.Format("add{0} \"{1}\"", force.Checked ? " -f" : "", Filter.Text);
++            string arguments = $"add{(force.Checked ? " -f" : "")} \"{Filter.Text}\"";
+             if (FormProcess.ShowDialog(this, process: null, arguments, Module.WorkingDir, input: null, useDialogSettings: false))
+             {
+                 Close();
+diff --git a/GitUI/CommandsDialogs/FormArchive.cs b/GitUI/CommandsDialogs/FormArchive.cs
+index 3c2a49175..3e0c3f0d3 100644
+--- a/GitUI/CommandsDialogs/FormArchive.cs
++++ b/GitUI/CommandsDialogs/FormArchive.cs
+@@ -124,7 +124,7 @@ private void Save_Click(object sender, EventArgs e)
+ 
+             // TODO (feature): if there is a tag on the revision use the tag name as suggestion
+             // TODO (feature): let user decide via GUI
+-            string filenameSuggestion = string.Format("{0}_{1}", new DirectoryInfo(Module.WorkingDir).Name, revision);
++            string filenameSuggestion = $"{new DirectoryInfo(Module.WorkingDir).Name}_{revision}";
+             if (checkBoxPathFilter.Checked && textBoxPaths.Lines.Length == 1 && !string.IsNullOrWhiteSpace(textBoxPaths.Lines[0]))
+             {
+                 filenameSuggestion += "_" + textBoxPaths.Lines[0].Trim().Replace(".", "_");
+@@ -132,7 +132,7 @@ private void Save_Click(object sender, EventArgs e)
+ 
+             using var saveFileDialog = new SaveFileDialog
+             {
+-                Filter = string.Format("{0}|*.{1}", fileFilterCaption, fileFilterEnding),
++                Filter = $"{fileFilterCaption}|*.{fileFilterEnding}",
+                 Title = _saveFileDialogCaption.Text,
+                 FileName = filenameSuggestion
+             };
+@@ -140,7 +140,7 @@ private void Save_Click(object sender, EventArgs e)
+             {
+                 string format = GetSelectedOutputFormat() == OutputFormat.Zip ? "zip" : "tar";
+ 
+-                var arguments = string.Format("archive --format={0} {1} --output \"{2}\" {3}", format, revision, saveFileDialog.FileName, GetPathArgumentFromGui());
++                var arguments = $"archive --format={format} {revision} --output \"{saveFileDialog.FileName}\" {GetPathArgumentFromGui()}";
+                 FormProcess.ShowDialog(this, process: null, arguments, Module.WorkingDir, input: null, useDialogSettings: true);
+                 Close();
+             }
+diff --git a/GitUI/CommandsDialogs/FormBrowse.cs b/GitUI/CommandsDialogs/FormBrowse.cs
+index 44982d0e7..9b8be1017 100644
+--- a/GitUI/CommandsDialogs/FormBrowse.cs
++++ b/GitUI/CommandsDialogs/FormBrowse.cs
+@@ -493,7 +493,7 @@ Brush UpdateCommitButtonAndGetBrush(IReadOnlyList<GitItemStatus>? status, bool s
+ 
+                     if (status is not null)
+                     {
+-                        toolStripButtonCommit.Text = string.Format("{0} ({1})", _commitButtonText, status.Count);
++                        toolStripButtonCommit.Text = $"{_commitButtonText} ({status.Count})";
+                         toolStripButtonCommit.AutoSize = true;
+                     }
+                     else
+diff --git a/GitUI/CommandsDialogs/FormCleanupRepository.cs b/GitUI/CommandsDialogs/FormCleanupRepository.cs
+index 25bd4ec45..8e9819c2d 100644
+--- a/GitUI/CommandsDialogs/FormCleanupRepository.cs
++++ b/GitUI/CommandsDialogs/FormCleanupRepository.cs
+@@ -93,7 +93,7 @@ private CleanMode GetCleanMode()
+             // 1. get all lines from text box which are not empty
+             // 2. wrap lines with ""
+             // 3. join together with space as separator
+-            return string.Join(" ", textBoxPaths.Lines.Where(a => !string.IsNullOrEmpty(a)).Select(a => string.Format("\"{0}\"", a)));
++            return string.Join(" ", textBoxPaths.Lines.Where(a => !string.IsNullOrEmpty(a)).Select(a => $"\"{a}\""));
+         }
+ 
+         private void Cancel_Click(object sender, EventArgs e)
+diff --git a/GitUI/CommandsDialogs/FormCommit.cs b/GitUI/CommandsDialogs/FormCommit.cs
+index 8d712ef88..3c05b097a 100644
+--- a/GitUI/CommandsDialogs/FormCommit.cs
++++ b/GitUI/CommandsDialogs/FormCommit.cs
+@@ -1603,7 +1603,7 @@ private void Unstaged_Enter(object sender, EnterEventArgs e)
+             {
+                 _currentFilesList = Unstaged;
+                 _skipUpdate = false;
+-                if (!e.ByMouse && Unstaged.AllItems.Count() != 0 && Unstaged.SelectedIndex == -1)
++                if (!e.ByMouse && Unstaged.AllItems.Any() && Unstaged.SelectedIndex == -1)
+                 {
+                     Unstaged.SelectedIndex = 0;
+                 }
+@@ -1868,7 +1868,7 @@ private void Staged_Enter(object sender, EnterEventArgs e)
+             {
+                 _currentFilesList = Staged;
+                 _skipUpdate = false;
+-                if (!e.ByMouse && Staged.AllItems.Count() != 0 && Staged.SelectedIndex == -1)
++                if (!e.ByMouse && Staged.AllItems.Any() && Staged.SelectedIndex == -1)
+                 {
+                     Staged.SelectedIndex = 0;
+                 }
+diff --git a/GitUI/CommandsDialogs/FormDeleteTag.cs b/GitUI/CommandsDialogs/FormDeleteTag.cs
+index 579d7acb3..052302d54 100644
+--- a/GitUI/CommandsDialogs/FormDeleteTag.cs
++++ b/GitUI/CommandsDialogs/FormDeleteTag.cs
+@@ -61,7 +61,7 @@ private void OkClick(object sender, EventArgs e)
+ 
+         private void RemoveRemoteTag(string tagName)
+         {
+-            var pushCmd = string.Format("push \"{0}\" :refs/tags/{1}", remotesComboboxControl1.SelectedRemote, tagName);
++            var pushCmd = $"push \"{remotesComboboxControl1.SelectedRemote}\" :refs/tags/{tagName}";
+ 
+             ScriptManager.RunEventScripts(this, ScriptEvent.BeforePush);
+ 
+diff --git a/GitUI/CommandsDialogs/FormPull.cs b/GitUI/CommandsDialogs/FormPull.cs
+index 9e5f04788..d48162ebe 100644
+--- a/GitUI/CommandsDialogs/FormPull.cs
++++ b/GitUI/CommandsDialogs/FormPull.cs
+@@ -875,7 +875,7 @@ private string CalculateRemoteBranchNameBasedOnBranchesText()
+                 return Branches.Text;
+             }
+ 
+-            string remoteBranchName = Module.GetSetting(string.Format("branch.{0}.merge", _branch));
++            string remoteBranchName = Module.GetSetting($"branch.{_branch}.merge");
+             if (!string.IsNullOrEmpty(remoteBranchName))
+             {
+                 var args = new GitArgumentBuilder("name-rev")
+diff --git a/GitUI/CommandsDialogs/FormVerify.SortableLostObjectsList.cs b/GitUI/CommandsDialogs/FormVerify.SortableLostObjectsList.cs
+index 577a3f80c..d8c6d9121 100644
+--- a/GitUI/CommandsDialogs/FormVerify.SortableLostObjectsList.cs
++++ b/GitUI/CommandsDialogs/FormVerify.SortableLostObjectsList.cs
+@@ -58,7 +58,7 @@ public static Comparison<LostObject> Create(PropertyDescriptor propertyDescripto
+                         return isReversedComparing ? (x, y) => comparer(y, x) : comparer;
+                     }
+ 
+-                    throw new NotSupportedException(string.Format("Custom sort by {0} property is not supported.", propertyDescriptor.Name));
++                    throw new NotSupportedException($"Custom sort by {propertyDescriptor.Name} property is not supported.");
+                 }
+ 
+                 /// <summary>
+diff --git a/GitUI/CommandsDialogs/RepoHosting/DiscussionHtmlCreator.cs b/GitUI/CommandsDialogs/RepoHosting/DiscussionHtmlCreator.cs
+index c7646e510..7a0ab2645 100644
+--- a/GitUI/CommandsDialogs/RepoHosting/DiscussionHtmlCreator.cs
++++ b/GitUI/CommandsDialogs/RepoHosting/DiscussionHtmlCreator.cs
+@@ -85,7 +85,7 @@ private static string CssData
+ 
+                     // TODO: is it safe to rename the keys ('SF.DialogFont', 'SF.DialogFontSize') to 'SF.MessageBoxFont' or not?
+                     _systemInfoReplacement.Add(new KeyValuePair<string, string>("SF.DialogFont", SystemFonts.MessageBoxFont.Name));
+-                    _systemInfoReplacement.Add(new KeyValuePair<string, string>("SF.DialogFontSize", string.Format("{0}pt", SystemFonts.MessageBoxFont.SizeInPoints)));
++                    _systemInfoReplacement.Add(new KeyValuePair<string, string>("SF.DialogFontSize", $"{SystemFonts.MessageBoxFont.SizeInPoints}pt"));
+ 
+                     _systemInfoReplacement.Sort((p1, p2) => p2.Key.CompareTo(p1.Key)); // Required.
+                 }
+diff --git a/GitUI/CommandsDialogs/RepoHosting/ViewPullRequestsForm.cs b/GitUI/CommandsDialogs/RepoHosting/ViewPullRequestsForm.cs
+index f79ba59e4..156997366 100644
+--- a/GitUI/CommandsDialogs/RepoHosting/ViewPullRequestsForm.cs
++++ b/GitUI/CommandsDialogs/RepoHosting/ViewPullRequestsForm.cs
+@@ -407,8 +407,7 @@ private void _fetchBtn_Click(object sender, EventArgs e)
+                 return;
+             }
+ 
+-            var cmd = string.Format("fetch --no-tags --progress {0} {1}:{2}",
+-                _currentPullRequestInfo.HeadRepo.CloneReadOnlyUrl, _currentPullRequestInfo.HeadRef, _currentPullRequestInfo.FetchBranch);
++            var cmd = $"fetch --no-tags --progress {_currentPullRequestInfo.HeadRepo.CloneReadOnlyUrl} {_currentPullRequestInfo.HeadRef}:{_currentPullRequestInfo.FetchBranch}";
+             var success = FormProcess.ShowDialog(this, process: AppSettings.GitCommand, arguments: cmd, Module.WorkingDir, input: null, useDialogSettings: true);
+             if (!success)
+             {
+@@ -467,7 +466,7 @@ private void _addAsRemoteAndFetch_Click(object sender, EventArgs e)
+ 
+                 UICommands.RepoChangedNotifier.Notify();
+ 
+-                cmd = string.Format("checkout {0}/{1}", remoteName, remoteRef);
++                cmd = $"checkout {remoteName}/{remoteRef}";
+                 success = FormProcess.ShowDialog(this, process: AppSettings.GitCommand, arguments: cmd, Module.WorkingDir, input: null, useDialogSettings: true);
+                 if (success)
+                 {
+diff --git a/GitUI/CommandsDialogs/RevisionDiffControl.cs b/GitUI/CommandsDialogs/RevisionDiffControl.cs
+index e5e88b214..2ad3308ee 100644
+--- a/GitUI/CommandsDialogs/RevisionDiffControl.cs
++++ b/GitUI/CommandsDialogs/RevisionDiffControl.cs
+@@ -330,7 +330,7 @@ private ContextMenuSelectionInfo GetSelectionInfo()
+             // Combined diff, range diff etc are for display only, no manipulations
+             bool isStatusOnly = selectedItems.Any(item => item.Item.IsRangeDiff || item.Item.IsStatusOnly);
+             bool isDisplayOnlyDiff = parentIds.Contains(ObjectId.CombinedDiffId) || isStatusOnly;
+-            int selectedGitItemCount = selectedItems.Count();
++            int selectedGitItemCount = selectedItems.Count;
+ 
+             // No changes to files in bare repos
+             bool isBareRepository = Module.IsBareRepository();
+@@ -851,7 +851,7 @@ private ContextMenuDiffToolInfo GetContextMenuDiffToolInfo()
+         {
+             // Some items are not supported if more than one revision is selected
+             var revisions = DiffFiles.SelectedItems.SecondRevs().ToList();
+-            var selectedRev = revisions.Count() != 1 ? null : revisions.FirstOrDefault();
++            var selectedRev = revisions.Count != 1 ? null : revisions.FirstOrDefault();
+ 
+             var parentIds = DiffFiles.SelectedItems.FirstIds().ToList();
+             bool firstIsParent = _gitRevisionTester.AllFirstAreParentsToSelected(parentIds, selectedRev);
+diff --git a/GitUI/CommandsDialogs/SettingsDialog/Pages/AppearanceFontsSettingsPage.cs b/GitUI/CommandsDialogs/SettingsDialog/Pages/AppearanceFontsSettingsPage.cs
+index b8e6e042f..05a718725 100644
+--- a/GitUI/CommandsDialogs/SettingsDialog/Pages/AppearanceFontsSettingsPage.cs
++++ b/GitUI/CommandsDialogs/SettingsDialog/Pages/AppearanceFontsSettingsPage.cs
+@@ -115,7 +115,7 @@ private void SetCurrentMonospaceFont(Font newFont)
+ 
+         private static void SetFontButtonText(Font font, Button button)
+         {
+-            button.Text = string.Format("{0}, {1}", font.FontFamily.Name, (int)(font.Size + 0.5f));
++            button.Text = $"{font.FontFamily.Name}, {(int)(font.Size + 0.5f)}";
+             button.Font = font;
+         }
+     }
+diff --git a/GitUI/CustomDiffMergeToolProvider.cs b/GitUI/CustomDiffMergeToolProvider.cs
+index 7383f8941..6544f02b9 100644
+--- a/GitUI/CustomDiffMergeToolProvider.cs
++++ b/GitUI/CustomDiffMergeToolProvider.cs
+@@ -49,7 +49,7 @@ public void LoadCustomDiffMergeTools(GitModule module, IList<CustomDiffMergeTool
+                     .GetToolsAsync(module, delay))
+                     .ToList();
+ 
+-                if (tools.Count() <= 1)
++                if (tools.Count <= 1)
+                 {
+                     // No need to show the menu
+                     return;
+diff --git a/GitUI/Editor/Diff/DiffViewerLineNumberControl.cs b/GitUI/Editor/Diff/DiffViewerLineNumberControl.cs
+index 03107b26a..05913f739 100644
+--- a/GitUI/Editor/Diff/DiffViewerLineNumberControl.cs
++++ b/GitUI/Editor/Diff/DiffViewerLineNumberControl.cs
+@@ -103,7 +103,7 @@ public override void Paint(Graphics g, Rectangle rect)
+                             break;
+                     }
+ 
+-                    Debug.Assert(brush is not null, string.Format("brush is not null, unknow diff line style {0}", diffLine.LineType));
++                    Debug.Assert(brush is not null, $"brush is not null, unknow diff line style {diffLine.LineType}");
+                     g.FillRectangle(brush, new Rectangle(0, backgroundRectangle.Top, leftWidth, backgroundRectangle.Height));
+ 
+                     g.FillRectangle(brush, new Rectangle(leftWidth, backgroundRectangle.Top, rightWidth, backgroundRectangle.Height));
+diff --git a/GitUI/GitUICommands.cs b/GitUI/GitUICommands.cs
+index 68e0c6fa6..83a400288 100644
+--- a/GitUI/GitUICommands.cs
++++ b/GitUI/GitUICommands.cs
+@@ -1281,7 +1281,7 @@ private void WrapRepoHostingCall(string name, IRepositoryHostPlugin gitHoster, A
+                 catch (Exception ex)
+                 {
+                     MessageBox.Show(
+-                        string.Format("ERROR: {0} failed. Message: {1}\r\n\r\n{2}", name, ex.Message, ex.StackTrace),
++                        $"ERROR: {name} failed. Message: {ex.Message}\r\n\r\n{ex.StackTrace}",
+                         "Error! :(", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                 }
+             }
+diff --git a/GitUI/HelperDialogs/FormRemoteProcess.cs b/GitUI/HelperDialogs/FormRemoteProcess.cs
+index ad5a4816a..9e6895200 100644
+--- a/GitUI/HelperDialogs/FormRemoteProcess.cs
++++ b/GitUI/HelperDialogs/FormRemoteProcess.cs
+@@ -103,7 +103,7 @@ protected override bool HandleOnExit(ref bool isError)
+                         if (!string.IsNullOrEmpty(loadedKey) && !string.IsNullOrEmpty(Remote) &&
+                             string.IsNullOrEmpty(Commands.Module.GetSetting("remote.{0}.puttykeyfile")))
+                         {
+-                            Commands.Module.SetPathSetting(string.Format("remote.{0}.puttykeyfile", Remote), loadedKey);
++                            Commands.Module.SetPathSetting($"remote.{Remote}.puttykeyfile", loadedKey);
+                         }
+ 
+                         // Retry the command.
+diff --git a/GitUI/NBugReports/ExceptionDetails.cs b/GitUI/NBugReports/ExceptionDetails.cs
+index ae9141ec4..0fc8d9435 100644
+--- a/GitUI/NBugReports/ExceptionDetails.cs
++++ b/GitUI/NBugReports/ExceptionDetails.cs
+@@ -113,7 +113,7 @@ private void DisplayExceptionDetails(TreeNode node)
+             {
+                 foreach (var pair in exception.Data)
+                 {
+-                    exceptionDetailsListView.Items.Add(string.Format("Data[\"{0}\"]", pair.Key)).SubItems.Add(pair.Value.ToString());
++                    exceptionDetailsListView.Items.Add($"Data[\"{pair.Key}\"]").SubItems.Add(pair.Value.ToString());
+                 }
+             }
+ 
+diff --git a/GitUI/NBugReports/Serialization/SerializableException.cs b/GitUI/NBugReports/Serialization/SerializableException.cs
+index eb9f22f01..96427efb0 100644
+--- a/GitUI/NBugReports/Serialization/SerializableException.cs
++++ b/GitUI/NBugReports/Serialization/SerializableException.cs
+@@ -69,11 +69,11 @@ public SerializableException(Exception exception)
+                     InnerException = new SerializableException(exception.InnerException);
+                 }
+ 
+-                if (exception is AggregateException)
++                if (exception is AggregateException aggregateException)
+                 {
+                     InnerExceptions = new List<SerializableException>();
+ 
+-                    foreach (var innerException in ((AggregateException)exception).InnerExceptions)
++                    foreach (var innerException in aggregateException.InnerExceptions)
+                     {
+                         InnerExceptions.Add(new SerializableException(innerException));
+                     }
+@@ -95,7 +95,7 @@ public SerializableException(Exception exception)
+ 
+                 if (exception.TargetSite is not null)
+                 {
+-                    TargetSite = string.Format("{0} @ {1}", exception.TargetSite, exception.TargetSite.DeclaringType);
++                    TargetSite = $"{exception.TargetSite} @ {exception.TargetSite.DeclaringType}";
+                 }
+ 
+                 ExtendedInformation = GetExtendedInformation(exception);
+diff --git a/GitUI/UserControls/RevisionGrid/CopyContextMenuItem.cs b/GitUI/UserControls/RevisionGrid/CopyContextMenuItem.cs
+index 1fdb8f857..33bc4302d 100644
+--- a/GitUI/UserControls/RevisionGrid/CopyContextMenuItem.cs
++++ b/GitUI/UserControls/RevisionGrid/CopyContextMenuItem.cs
+@@ -144,7 +144,7 @@ private void OnDropDownOpening(object sender, EventArgs e)
+             }
+ 
+             // Add other items
+-            int count = revisions.Count();
++            int count = revisions.Count;
+             AddItem(ResourceManager.Strings.GetCommitHash(count), r => r.Guid, Images.CommitId, 'C');
+             AddItem(ResourceManager.Strings.GetMessage(count), r => r.Body ?? r.Subject, Images.Message, 'M');
+             AddItem(ResourceManager.Strings.GetAuthor(count), r => $"{r.Author} <{r.AuthorEmail}>", Images.Author, 'A');
+diff --git a/GitUI/UserControls/RevisionGrid/Graph/LaneNodeLocator.cs b/GitUI/UserControls/RevisionGrid/Graph/LaneNodeLocator.cs
+index 6e5d851e0..849940b46 100644
+--- a/GitUI/UserControls/RevisionGrid/Graph/LaneNodeLocator.cs
++++ b/GitUI/UserControls/RevisionGrid/Graph/LaneNodeLocator.cs
+@@ -40,7 +40,7 @@ public LaneNodeLocator(IRevisionGraphRowProvider revisionGraphRowProvider)
+             }
+ 
+             var segmentsForLane = row.GetSegmentsForIndex(lane);
+-            if (segmentsForLane.Count() > 0)
++            if (segmentsForLane.Any())
+             {
+                 var firstParent = segmentsForLane.First().Parent;
+ #if DEBUG
+diff --git a/GitUI/UserControls/RevisionGrid/RevisionGridControl.cs b/GitUI/UserControls/RevisionGrid/RevisionGridControl.cs
+index 218c049dc..4959e8010 100644
+--- a/GitUI/UserControls/RevisionGrid/RevisionGridControl.cs
++++ b/GitUI/UserControls/RevisionGrid/RevisionGridControl.cs
+@@ -2646,7 +2646,7 @@ private void LaunchRebase(string command)
+ 
+             using (var formProcess = new FormProcess(UICommands, process: null, arguments: rebaseCmd, Module.WorkingDir, input: null, useDialogSettings: true))
+             {
+-                formProcess.ProcessEnvVariables.Add("GIT_SEQUENCE_EDITOR", string.Format("sed -i -re '0,/pick/s//{0}/'", command));
++                formProcess.ProcessEnvVariables.Add("GIT_SEQUENCE_EDITOR", $"sed -i -re '0,/pick/s//{command}/'");
+                 formProcess.ShowDialog(ParentForm);
+             }
+ 
+diff --git a/GitUI/UserManual/SingleHtmlUserManual.cs b/GitUI/UserManual/SingleHtmlUserManual.cs
+index 1eb9583ca..5521dc87c 100644
+--- a/GitUI/UserManual/SingleHtmlUserManual.cs
++++ b/GitUI/UserManual/SingleHtmlUserManual.cs
+@@ -32,8 +32,7 @@ public SingleHtmlUserManual(string anchorName)
+ 
+         public string GetUrl()
+         {
+-            return string.Format("{0}/index.html{1}{2}",
+-                                 Location, string.IsNullOrEmpty(_anchorName) ? "" : "#", _anchorName);
++            return $"{Location}/index.html{(string.IsNullOrEmpty(_anchorName) ? "" : "#")}{_anchorName}";
+         }
+     }
+ }
+diff --git a/IntegrationTests/UI.IntegrationTests/CommandsDialogs/FormCommitTests.cs b/IntegrationTests/UI.IntegrationTests/CommandsDialogs/FormCommitTests.cs
+index 3ef2b7409..7ecf9f78a 100644
+--- a/IntegrationTests/UI.IntegrationTests/CommandsDialogs/FormCommitTests.cs
++++ b/IntegrationTests/UI.IntegrationTests/CommandsDialogs/FormCommitTests.cs
+@@ -244,7 +244,7 @@ public void Should_stage_only_filtered_on_StageAll()
+ 
+                 testform.StageAllToolItem.PerformClick();
+ 
+-                var fileNotMatchedByFilterIsStillUnstaged = testform.UnstagedList.AllItems.Where(i => i.Item.Name == "file2.txt").Any();
++                var fileNotMatchedByFilterIsStillUnstaged = testform.UnstagedList.AllItems.Any(i => i.Item.Name == "file2.txt");
+ 
+                 Assert.AreEqual(2, testform.StagedList.AllItemsCount);
+                 Assert.AreEqual(1, testform.UnstagedList.AllItemsCount);
+@@ -289,7 +289,7 @@ public void Should_unstage_only_filtered_on_UnstageAll()
+ 
+                 testform.UnstageAllToolItem.PerformClick();
+ 
+-                var fileNotMatchedByFilterIsStillStaged = testform.StagedList.AllItems.Where(i => i.Item.Name == "file2.txt").Any();
++                var fileNotMatchedByFilterIsStillStaged = testform.StagedList.AllItems.Any(i => i.Item.Name == "file2.txt");
+ 
+                 Assert.AreEqual(2, testform.UnstagedList.AllItemsCount);
+                 Assert.AreEqual(1, testform.StagedList.AllItemsCount);
+diff --git a/Plugins/Bitbucket/ApprovePullRequest.cs b/Plugins/Bitbucket/ApprovePullRequest.cs
+index 851cf0e92..35a1ad4ed 100644
+--- a/Plugins/Bitbucket/ApprovePullRequest.cs
++++ b/Plugins/Bitbucket/ApprovePullRequest.cs
+@@ -17,8 +17,7 @@ public ApprovePullRequest(Settings settings, MergeRequestInfo info)
+ 
+         protected override Method RequestMethod => Method.POST;
+ 
+-        protected override string ApiUrl => string.Format("rest/api/1.0/projects/{0}/repos/{1}/pull-requests/{2}/approve",
+-            _info.ProjectKey, _info.TargetRepo, _info.Id);
++        protected override string ApiUrl => $"rest/api/1.0/projects/{_info.ProjectKey}/repos/{_info.TargetRepo}/pull-requests/{_info.Id}/approve";
+ 
+         protected override JObject ParseResponse(JObject json)
+         {
+diff --git a/Plugins/Bitbucket/BitbucketPullRequestForm.cs b/Plugins/Bitbucket/BitbucketPullRequestForm.cs
+index 7605a0043..8b0a2ae77 100644
+--- a/Plugins/Bitbucket/BitbucketPullRequestForm.cs
++++ b/Plugins/Bitbucket/BitbucketPullRequestForm.cs
+@@ -334,8 +334,7 @@ private void PullRequestChanged(object sender, EventArgs e)
+             lblPRDestRepo.Text = curItem.DestDisplayName;
+             lblPRDestBranch.Text = curItem.DestBranch;
+ 
+-            _NO_TRANSLATE_lblLinkViewPull.Text = string.Format("{0}/projects/{1}/repos/{2}/pull-requests/{3}/overview",
+-                _settings.BitbucketUrl, _settings.ProjectKey, _settings.RepoSlug, curItem.Id);
++            _NO_TRANSLATE_lblLinkViewPull.Text = $"{_settings.BitbucketUrl}/projects/{_settings.ProjectKey}/repos/{_settings.RepoSlug}/pull-requests/{curItem.Id}/overview";
+         }
+ 
+         private void BtnMergeClick(object sender, EventArgs e)
+diff --git a/Plugins/Bitbucket/CreatePullRequestRequest.cs b/Plugins/Bitbucket/CreatePullRequestRequest.cs
+index 5eb26058b..d3948777f 100644
+--- a/Plugins/Bitbucket/CreatePullRequestRequest.cs
++++ b/Plugins/Bitbucket/CreatePullRequestRequest.cs
+@@ -29,8 +29,7 @@ public CreatePullRequestRequest(Settings settings, PullRequestInfo info)
+ 
+         protected override Method RequestMethod => Method.POST;
+ 
+-        protected override string ApiUrl => string.Format("/projects/{0}/repos/{1}/pull-requests",
+-            _info.TargetRepo.ProjectKey, _info.TargetRepo.RepoName);
++        protected override string ApiUrl => $"/projects/{_info.TargetRepo.ProjectKey}/repos/{_info.TargetRepo.RepoName}/pull-requests";
+ 
+         protected override JObject ParseResponse(JObject json)
+         {
+diff --git a/Plugins/Bitbucket/GetBranchesRequest.cs b/Plugins/Bitbucket/GetBranchesRequest.cs
+index e7c4975c7..7fdef351b 100644
+--- a/Plugins/Bitbucket/GetBranchesRequest.cs
++++ b/Plugins/Bitbucket/GetBranchesRequest.cs
+@@ -17,8 +17,7 @@ public GetBranchesRequest(Repository repo, Settings settings)
+ 
+         protected override Method RequestMethod => Method.GET;
+ 
+-        protected override string ApiUrl => string.Format("/rest/api/1.0/projects/{0}/repos/{1}/branches?limit=1000",
+-            _repo.ProjectKey, _repo.RepoName);
++        protected override string ApiUrl => $"/rest/api/1.0/projects/{_repo.ProjectKey}/repos/{_repo.RepoName}/branches?limit=1000";
+ 
+         protected override JObject ParseResponse(JObject json)
+         {
+diff --git a/Plugins/Bitbucket/GetHeadCommitRequest.cs b/Plugins/Bitbucket/GetHeadCommitRequest.cs
+index bc2ea61dd..33bc51361 100644
+--- a/Plugins/Bitbucket/GetHeadCommitRequest.cs
++++ b/Plugins/Bitbucket/GetHeadCommitRequest.cs
+@@ -38,8 +38,7 @@ public GetHeadCommitRequest(Repository repository, string branchName, Settings s
+ 
+         protected override Method RequestMethod => Method.GET;
+ 
+-        protected override string ApiUrl => string.Format("/projects/{0}/repos/{1}/commits/refs/heads/{2}",
+-            _repo.ProjectKey, _repo.RepoName, _branch);
++        protected override string ApiUrl => $"/projects/{_repo.ProjectKey}/repos/{_repo.RepoName}/commits/refs/heads/{_branch}";
+ 
+         protected override Commit ParseResponse(JObject json)
+         {
+diff --git a/Plugins/Bitbucket/GetInBetweenCommitsRequest.cs b/Plugins/Bitbucket/GetInBetweenCommitsRequest.cs
+index 658da0d73..44dd66663 100644
+--- a/Plugins/Bitbucket/GetInBetweenCommitsRequest.cs
++++ b/Plugins/Bitbucket/GetInBetweenCommitsRequest.cs
+@@ -25,10 +25,7 @@ internal class GetInBetweenCommitsRequest : BitbucketRequestBase<List<Commit>>
+ 
+         protected override Method RequestMethod => Method.GET;
+ 
+-        protected override string ApiUrl => string.Format(
+-            "/projects/{0}/repos/{1}/commits?until={2}&since={3}&secondaryRepositoryId={4}&start=0&limit=10",
+-            _sourceRepo.ProjectKey, _sourceRepo.RepoName,
+-            _sourceCommit.Hash, _targetCommit.Hash, _targetRepo.Id);
++        protected override string ApiUrl => $"/projects/{_sourceRepo.ProjectKey}/repos/{_sourceRepo.RepoName}/commits?until={_sourceCommit.Hash}&since={_targetCommit.Hash}&secondaryRepositoryId={_targetRepo.Id}&start=0&limit=10";
+ 
+         protected override List<Commit> ParseResponse(JObject json)
+         {
+diff --git a/Plugins/Bitbucket/GetPullRequest.cs b/Plugins/Bitbucket/GetPullRequest.cs
+index 3e958934c..04ca0bb1a 100644
+--- a/Plugins/Bitbucket/GetPullRequest.cs
++++ b/Plugins/Bitbucket/GetPullRequest.cs
+@@ -110,8 +110,7 @@ public GetPullRequest(string projectKey, string repoName, Settings settings)
+ 
+         protected override Method RequestMethod => Method.GET;
+ 
+-        protected override string ApiUrl => string.Format("/rest/api/latest/projects/{0}/repos/{1}/pull-requests?directions=incoming",
+-            _projectKey, _repoName);
++        protected override string ApiUrl => $"/rest/api/latest/projects/{_projectKey}/repos/{_repoName}/pull-requests?directions=incoming";
+ 
+         protected override List<PullRequest> ParseResponse(JObject json)
+         {
+diff --git a/Plugins/Bitbucket/GetRelatedRepoRequest.cs b/Plugins/Bitbucket/GetRelatedRepoRequest.cs
+index c9491e767..89aa05f2b 100644
+--- a/Plugins/Bitbucket/GetRelatedRepoRequest.cs
++++ b/Plugins/Bitbucket/GetRelatedRepoRequest.cs
+@@ -21,7 +21,7 @@ public static Repository Parse(JObject json)
+         public string ProjectKey { get; set; }
+         public string ProjectName { get; set; }
+         public string RepoName { get; set; }
+-        public string DisplayName => string.Format("{0}/{1}", ProjectName, RepoName);
++        public string DisplayName => $"{ProjectName}/{RepoName}";
+     }
+ 
+     internal class GetRelatedRepoRequest : BitbucketRequestBase<List<Repository>>
+@@ -34,9 +34,7 @@ public GetRelatedRepoRequest(Settings settings) : base(settings)
+ 
+         protected override Method RequestMethod => Method.GET;
+ 
+-        protected override string ApiUrl => string.Format(
+-            "/rest/api/latest/projects/{0}/repos/{1}/related?start=0&limit=20",
+-            Settings.ProjectKey, Settings.RepoSlug);
++        protected override string ApiUrl => $"/rest/api/latest/projects/{Settings.ProjectKey}/repos/{Settings.RepoSlug}/related?start=0&limit=20";
+ 
+         protected override List<Repository> ParseResponse(JObject json)
+         {
+diff --git a/Plugins/Bitbucket/GetRepoRequest.cs b/Plugins/Bitbucket/GetRepoRequest.cs
+index 5747d3975..864a68282 100644
+--- a/Plugins/Bitbucket/GetRepoRequest.cs
++++ b/Plugins/Bitbucket/GetRepoRequest.cs
+@@ -18,8 +18,7 @@ public GetRepoRequest(string projectKey, string repoName, Settings settings) : b
+ 
+         protected override Method RequestMethod => Method.GET;
+ 
+-        protected override string ApiUrl => string.Format("/rest/api/latest/projects/{0}/repos/{1}",
+-            _projectKey, _repoName);
++        protected override string ApiUrl => $"/rest/api/latest/projects/{_projectKey}/repos/{_repoName}";
+ 
+         protected override Repository ParseResponse(JObject json)
+         {
+diff --git a/Plugins/Bitbucket/MergePullRequest.cs b/Plugins/Bitbucket/MergePullRequest.cs
+index a49f1e043..5e13807f6 100644
+--- a/Plugins/Bitbucket/MergePullRequest.cs
++++ b/Plugins/Bitbucket/MergePullRequest.cs
+@@ -25,8 +25,7 @@ public MergePullRequest(Settings settings, MergeRequestInfo info)
+ 
+         protected override Method RequestMethod => Method.POST;
+ 
+-        protected override string ApiUrl => string.Format("rest/api/1.0/projects/{0}/repos/{1}/pull-requests/{2}/merge?version={3}",
+-            _info.ProjectKey, _info.TargetRepo, _info.Id, _info.Version);
++        protected override string ApiUrl => $"rest/api/1.0/projects/{_info.ProjectKey}/repos/{_info.TargetRepo}/pull-requests/{_info.Id}/merge?version={_info.Version}";
+ 
+         protected override JObject ParseResponse(JObject json)
+         {
+diff --git a/Plugins/BuildServerIntegration/TeamCityIntegration/TeamCityAdapter.cs b/Plugins/BuildServerIntegration/TeamCityIntegration/TeamCityAdapter.cs
+index 3d6f4ea99..0613f5499 100644
+--- a/Plugins/BuildServerIntegration/TeamCityIntegration/TeamCityAdapter.cs
++++ b/Plugins/BuildServerIntegration/TeamCityIntegration/TeamCityAdapter.cs
+@@ -160,7 +160,7 @@ private void CreateNewHttpClient(string hostName)
+                 Timeout = TimeSpan.FromMinutes(2),
+                 BaseAddress = hostName.Contains("://")
+                     ? new Uri(hostName, UriKind.Absolute)
+-                    : new Uri(string.Format("{0}://{1}", Uri.UriSchemeHttp, hostName), UriKind.Absolute)
++                    : new Uri($"{Uri.UriSchemeHttp}://{hostName}", UriKind.Absolute)
+             };
+             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+         }
+@@ -454,7 +454,7 @@ private void UpdateHttpClientOptionsCredentialsAuth(IBuildServerCredentials buil
+ 
+         private static AuthenticationHeaderValue CreateBasicHeader(string username, string password)
+         {
+-            byte[] byteArray = Encoding.UTF8.GetBytes(string.Format("{0}:{1}", username, password));
++            byte[] byteArray = Encoding.UTF8.GetBytes($"{username}:{password}");
+             return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+         }
+ 
+@@ -475,22 +475,22 @@ private Task<XDocument> GetXmlResponseAsync(string relativePath, CancellationTok
+ 
+         private Uri FormatRelativePath(string restServicePath)
+         {
+-            return new Uri(string.Format("{0}/app/rest/{1}", _httpClientHostSuffix, restServicePath), UriKind.Relative);
++            return new Uri($"{_httpClientHostSuffix}/app/rest/{restServicePath}", UriKind.Relative);
+         }
+ 
+         private Task<XDocument> GetBuildFromIdXmlResponseAsync(string buildId, CancellationToken cancellationToken)
+         {
+-            return GetXmlResponseAsync(string.Format("builds/id:{0}", buildId), cancellationToken);
++            return GetXmlResponseAsync($"builds/id:{buildId}", cancellationToken);
+         }
+ 
+         private Task<XDocument> GetBuildTypeFromIdXmlResponseAsync(string buildId, CancellationToken cancellationToken)
+         {
+-            return GetXmlResponseAsync(string.Format("buildTypes/id:{0}", buildId), cancellationToken);
++            return GetXmlResponseAsync($"buildTypes/id:{buildId}", cancellationToken);
+         }
+ 
+         private Task<XDocument> GetProjectFromNameXmlResponseAsync(string projectName, CancellationToken cancellationToken)
+         {
+-            return GetXmlResponseAsync(string.Format("projects/{0}", projectName), cancellationToken);
++            return GetXmlResponseAsync($"projects/{projectName}", cancellationToken);
+         }
+ 
+         private Task<XDocument> GetProjectsResponseAsync(CancellationToken cancellationToken)
+@@ -504,16 +504,16 @@ private Task<XDocument> GetFilteredBuildsXmlResponseAsync(string buildTypeId, Ca
+ 
+             if (sinceDate.HasValue)
+             {
+-                values.Add(string.Format("sinceDate:{0}", FormatJsonDate(sinceDate.Value)));
++                values.Add($"sinceDate:{FormatJsonDate(sinceDate.Value)}");
+             }
+ 
+             if (running.HasValue)
+             {
+-                values.Add(string.Format("running:{0}", running.Value.ToString(CultureInfo.InvariantCulture)));
++                values.Add($"running:{running.Value.ToString(CultureInfo.InvariantCulture)}");
+             }
+ 
+             string buildLocator = string.Join(",", values);
+-            var url = string.Format("buildTypes/id:{0}/builds/?locator={1}", buildTypeId, buildLocator);
++            var url = $"buildTypes/id:{buildTypeId}/builds/?locator={buildLocator}";
+             var filteredBuildsXmlResponseTask = GetXmlResponseAsync(url, cancellationToken);
+ 
+             return filteredBuildsXmlResponseTask;
+diff --git a/Plugins/CreateLocalBranches/CreateLocalBranchesForm.cs b/Plugins/CreateLocalBranches/CreateLocalBranchesForm.cs
+index 71930cc38..022f2d8ee 100644
+--- a/Plugins/CreateLocalBranches/CreateLocalBranchesForm.cs
++++ b/Plugins/CreateLocalBranches/CreateLocalBranchesForm.cs
+@@ -53,7 +53,7 @@ private void button1_Click(object sender, EventArgs e)
+                 }
+             }
+ 
+-            MessageBox.Show(this, string.Format("{0} local tracking branches have been created/updated.", references.Length),
++            MessageBox.Show(this, $"{references.Length} local tracking branches have been created/updated.",
+                 "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+             Close();
+         }
+diff --git a/Plugins/DeleteUnusedBranches/SortableBranchesList.cs b/Plugins/DeleteUnusedBranches/SortableBranchesList.cs
+index 3d6ccd605..8b559dbf0 100644
+--- a/Plugins/DeleteUnusedBranches/SortableBranchesList.cs
++++ b/Plugins/DeleteUnusedBranches/SortableBranchesList.cs
+@@ -48,7 +48,7 @@ public static Comparison<Branch> Create(PropertyDescriptor propertyDescriptor, b
+                     return isReversedComparing ? (x, y) => comparer(y, x) : comparer;
+                 }
+ 
+-                throw new NotSupportedException(string.Format("Custom sort by {0} property is not supported.", propertyDescriptor.Name));
++                throw new NotSupportedException($"Custom sort by {propertyDescriptor.Name} property is not supported.");
+             }
+ 
+             /// <summary>
+diff --git a/Plugins/FindLargeFiles/FindLargeFilesForm.cs b/Plugins/FindLargeFiles/FindLargeFilesForm.cs
+index 13532c3c3..26ee7fb37 100644
+--- a/Plugins/FindLargeFiles/FindLargeFilesForm.cs
++++ b/Plugins/FindLargeFiles/FindLargeFilesForm.cs
+@@ -209,16 +209,13 @@ private void Delete_Click(object sender, EventArgs e)
+                 var sb = new StringBuilder();
+                 foreach (GitObject gitObject in _gitObjects.Where(gitObject => gitObject.Delete))
+                 {
+-                    sb.AppendLine(string.Format("\"{0}\" filter-branch --index-filter \"git rm -r -f --cached --ignore-unmatch {1}\" --prune-empty -- --all",
+-                        AppSettings.GitCommand, gitObject.Path));
++                    sb.AppendLine($"\"{AppSettings.GitCommand}\" filter-branch --index-filter \"git rm -r -f --cached --ignore-unmatch {gitObject.Path}\" --prune-empty -- --all");
+                 }
+ 
+                 sb.AppendLine(string.Format("for /f %%a IN ('\"{0}\" for-each-ref --format=%%^(refname^) refs/original/') DO \"{0}\" update-ref -d %%a",
+                     AppSettings.GitCommand));
+-                sb.AppendLine(string.Format("\"{0}\" reflog expire --expire=now --all",
+-                    AppSettings.GitCommand));
+-                sb.AppendLine(string.Format("\"{0}\" gc --aggressive --prune=now",
+-                    AppSettings.GitCommand));
++                sb.AppendLine($"\"{AppSettings.GitCommand}\" reflog expire --expire=now --all");
++                sb.AppendLine($"\"{AppSettings.GitCommand}\" gc --aggressive --prune=now");
+                 _gitUiCommands.GitUICommands.StartBatchFileProcessDialog(sb.ToString());
+             }
+ 
+diff --git a/Plugins/FindLargeFiles/GitObject.cs b/Plugins/FindLargeFiles/GitObject.cs
+index 8807311af..8e5d245f2 100644
+--- a/Plugins/FindLargeFiles/GitObject.cs
++++ b/Plugins/FindLargeFiles/GitObject.cs
+@@ -17,9 +17,9 @@ public GitObject(string sha, string path, int size, string commit)
+         public string SHA { get; set; }
+         public string Path { get; set; }
+         internal int SizeInBytes { get; set; }
+-        public string Size => string.Format("{0:F2} Mb", SizeInBytes / 1024.0f / 1024);
++        public string Size => $"{SizeInBytes / 1024.0f / 1024:F2} Mb";
+         internal int CompressedSizeInBytes { get; set; }
+-        public string CompressedSize => CompressedSizeInBytes >= 0 ? string.Format("{0:F2} Mb", CompressedSizeInBytes / 1024.0f / 1024) : "<Unknown>";
++        public string CompressedSize => CompressedSizeInBytes >= 0 ? $"{CompressedSizeInBytes / 1024.0f / 1024:F2} Mb" : "<Unknown>";
+         public int CommitCount => Commit.Count;
+         public DateTime LastCommitDate { get; set; }
+         public bool Delete { get; set; }
+diff --git a/Plugins/FindLargeFiles/SortableObjectsList.cs b/Plugins/FindLargeFiles/SortableObjectsList.cs
+index 8ab330ff1..a1283cad2 100644
+--- a/Plugins/FindLargeFiles/SortableObjectsList.cs
++++ b/Plugins/FindLargeFiles/SortableObjectsList.cs
+@@ -51,7 +51,7 @@ public static Comparison<GitObject> Create(PropertyDescriptor propertyDescriptor
+                     return isReversedComparing ? (x, y) => comparer(y, x) : comparer;
+                 }
+ 
+-                throw new NotSupportedException(string.Format("Custom sort by {0} property is not supported.", propertyDescriptor.Name));
++                throw new NotSupportedException($"Custom sort by {propertyDescriptor.Name} property is not supported.");
+             }
+ 
+             /// <summary>
+diff --git a/Plugins/GitHub3/GitHubPullRequest.cs b/Plugins/GitHub3/GitHubPullRequest.cs
+index 83f1b1098..9ee581378 100644
+--- a/Plugins/GitHub3/GitHubPullRequest.cs
++++ b/Plugins/GitHub3/GitHubPullRequest.cs
+@@ -78,8 +78,8 @@ public IHostedRepository HeadRepo
+ 
+         public string Id => _pullRequest.Number.ToString();
+ 
+-        public string DetailedInfo => string.Format("Base repo owner: {0}\nHead repo owner: {1}", BaseRepo.Owner, HeadRepo.Owner);
+-        public string FetchBranch => string.Format("pr/n{0}_{1}", Id, HeadRef);
++        public string DetailedInfo => $"Base repo owner: {BaseRepo.Owner}\nHead repo owner: {HeadRepo.Owner}";
++        public string FetchBranch => $"pr/n{Id}_{HeadRef}";
+ 
+         public void Close()
+         {
+diff --git a/Plugins/ReleaseNotesGenerator/ReleaseNotesGeneratorForm.cs b/Plugins/ReleaseNotesGenerator/ReleaseNotesGeneratorForm.cs
+index e6fee65e8..049837bdf 100644
+--- a/Plugins/ReleaseNotesGenerator/ReleaseNotesGeneratorForm.cs
++++ b/Plugins/ReleaseNotesGenerator/ReleaseNotesGeneratorForm.cs
+@@ -110,7 +110,7 @@ private void buttonCopyAsTextTableSpace_Click(object sender, EventArgs e)
+ 
+         private void buttonCopyAsHtml_Click(object sender, EventArgs e)
+         {
+-            string headerHtml = string.Format("<p>Commit log from '{0}' to '{1}' ({2}):</p>", textBoxRevFrom.Text, _NO_TRANSLATE_textBoxRevTo.Text, MostRecentHint);
++            string headerHtml = $"<p>Commit log from '{textBoxRevFrom.Text}' to '{_NO_TRANSLATE_textBoxRevTo.Text}' ({MostRecentHint}):</p>";
+             string tableHtml = CreateHtmlTable(_lastGeneratedLogLines);
+             HtmlFragment.CopyToClipboard(headerHtml + tableHtml);
+         }
+diff --git a/ResourceManager/CommitDataRenders/DateFormatter.cs b/ResourceManager/CommitDataRenders/DateFormatter.cs
+index 9077686e0..bc69fe996 100644
+--- a/ResourceManager/CommitDataRenders/DateFormatter.cs
++++ b/ResourceManager/CommitDataRenders/DateFormatter.cs
+@@ -33,7 +33,7 @@ public DateFormatter()
+         /// <returns>Date in relative local date format.</returns>
+         public string FormatDateAsRelativeLocal(DateTimeOffset date)
+         {
+-            return string.Format("{0} ({1})", LocalizationHelpers.GetRelativeDateString(_getUtcNow(), date.UtcDateTime), LocalizationHelpers.GetFullDateString(date));
++            return $"{LocalizationHelpers.GetRelativeDateString(_getUtcNow(), date.UtcDateTime)} ({LocalizationHelpers.GetFullDateString(date)})";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ResourceManager/Xliff/TranslationUtil.cs b/ResourceManager/Xliff/TranslationUtil.cs
+index 448092aec..1e62784d5 100644
+--- a/ResourceManager/Xliff/TranslationUtil.cs
++++ b/ResourceManager/Xliff/TranslationUtil.cs
+@@ -39,7 +39,7 @@ public static IEnumerable<(string name, object item)> GetObjFields(object obj, s
+                 if (field.IsPublic && !field.IsInitOnly)
+                 {
+                     // if public AND modifiable (NOT readonly)
+-                    Trace.WriteLine(string.Format("Skip field {0}.{1} [{2}]", obj.GetType().Name, field.Name, field.GetValue(obj)), "Translation");
++                    Trace.WriteLine($"Skip field {obj.GetType().Name}.{field.Name} [{field.GetValue(obj)}]", "Translation");
+                     continue;
+                 }
+ 
+diff --git a/TranslationApp/TranslationItemWithCategory.cs b/TranslationApp/TranslationItemWithCategory.cs
+index 3d5114179..5c92eb151 100644
+--- a/TranslationApp/TranslationItemWithCategory.cs
++++ b/TranslationApp/TranslationItemWithCategory.cs
+@@ -73,7 +73,7 @@ public bool IsSourceEqual(string value)
+             return equal;
+         }
+ 
+-        private string DebuggerDisplay => string.Format("\"{0}\" - \"{1}\"", Category, NeutralValue);
++        private string DebuggerDisplay => $"\"{Category}\" - \"{NeutralValue}\"";
+ 
+         object ICloneable.Clone()
+         {
+diff --git a/UnitTests/GitCommands.Tests/Git/GitBranchNameOptionsTest.cs b/UnitTests/GitCommands.Tests/Git/GitBranchNameOptionsTest.cs
+index 5ab9a7891..bbbb6eb8b 100644
+--- a/UnitTests/GitCommands.Tests/Git/GitBranchNameOptionsTest.cs
++++ b/UnitTests/GitCommands.Tests/Git/GitBranchNameOptionsTest.cs
+@@ -33,7 +33,7 @@ public void ReplacementToken_cant_be_multichar()
+         public void ReplacementToken_cant_be_invalid(string token, char expected)
+         {
+             ((Action)(() => new GitBranchNameOptions(token))).Should().Throw<ArgumentOutOfRangeException>()
+-                .WithMessage(string.Format("Replacement token invalid: '{0}'\r\nParameter name: replacementToken", expected));
++                .WithMessage($"Replacement token invalid: '{expected}'\r\nParameter name: replacementToken");
+         }
+     }
+ }

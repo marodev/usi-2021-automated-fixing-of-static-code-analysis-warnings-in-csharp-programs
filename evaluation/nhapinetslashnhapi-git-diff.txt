@@ -1,0 +1,974 @@
+diff --git a/src/NHapi.Base/Model/AbstractSegment.cs b/src/NHapi.Base/Model/AbstractSegment.cs
+index e3e68045..5b752598 100644
+--- a/src/NHapi.Base/Model/AbstractSegment.cs
++++ b/src/NHapi.Base/Model/AbstractSegment.cs
+@@ -494,7 +494,7 @@ namespace NHapi.Base.Model
+             object[] result = null;
+ 
+             object o = items[fieldNum].Args;
+-            if (o != null && o is object[] && ((object[])o).Length > 0)
++            if (o is object[] && ((object[])o).Length > 0)
+             {
+                 result = o as object[];
+             }
+diff --git a/src/NHapi.Base/Model/Configuration/HL7PackageCollection.cs b/src/NHapi.Base/Model/Configuration/HL7PackageCollection.cs
+index 5cf6820b..41cc7b23 100644
+--- a/src/NHapi.Base/Model/Configuration/HL7PackageCollection.cs
++++ b/src/NHapi.Base/Model/Configuration/HL7PackageCollection.cs
+@@ -12,10 +12,8 @@
+ 
+         protected override object GetElementKey(ConfigurationElement element)
+         {
+-            if (element is HL7PackageElement)
++            if (element is HL7PackageElement el)
+             {
+-                var el = (HL7PackageElement)element;
+-
+                 return el.Name;
+             }
+ 
+diff --git a/src/NHapi.Base/Model/Primitive/CommonDT.cs b/src/NHapi.Base/Model/Primitive/CommonDT.cs
+index 825a6d4c..c6ee8878 100644
+--- a/src/NHapi.Base/Model/Primitive/CommonDT.cs
++++ b/src/NHapi.Base/Model/Primitive/CommonDT.cs
+@@ -97,7 +97,7 @@ namespace NHapi.Base.Model.Primitive
+ 
+             set
+             {
+-                if (value != null && !value.Equals(string.Empty) && !value.Equals("\"\""))
++                if (!string.IsNullOrEmpty(value)&& !value.Equals("\"\""))
+                 {
+                     try
+                     {
+diff --git a/src/NHapi.Base/Model/Primitive/CommonTM.cs b/src/NHapi.Base/Model/Primitive/CommonTM.cs
+index 66a8d6c5..d559fb0b 100644
+--- a/src/NHapi.Base/Model/Primitive/CommonTM.cs
++++ b/src/NHapi.Base/Model/Primitive/CommonTM.cs
+@@ -119,7 +119,7 @@ namespace NHapi.Base.Model.Primitive
+             {
+                 // combine the value field with the offSet field and return it
+                 string returnVal = null;
+-                if (valueRenamed != null && !valueRenamed.Equals(string.Empty))
++                if (!string.IsNullOrEmpty(valueRenamed))
+                 {
+                     if (omitOffsetFg == 'n' && !valueRenamed.Equals("\"\""))
+                     {
+@@ -147,7 +147,7 @@ namespace NHapi.Base.Model.Primitive
+ 
+             set
+             {
+-                if (value != null && !value.Equals(string.Empty) && !value.Equals("\"\""))
++                if (!string.IsNullOrEmpty(value)&& !value.Equals("\"\""))
+                 {
+                     // check to see if any of the following characters exist: "." or "+/-"
+                     // this will help us determine the acceptable lengths
+diff --git a/src/NHapi.Base/Model/Primitive/CommonTS.cs b/src/NHapi.Base/Model/Primitive/CommonTS.cs
+index 45ebf163..e6d96f71 100644
+--- a/src/NHapi.Base/Model/Primitive/CommonTS.cs
++++ b/src/NHapi.Base/Model/Primitive/CommonTS.cs
+@@ -132,7 +132,7 @@ namespace NHapi.Base.Model.Primitive
+                     value_Renamed = dt.Value;
+                 } // end if
+ 
+-                if (tm != null && value_Renamed != null && !value_Renamed.Equals(string.Empty))
++                if (tm != null && value_Renamed != null && !string.IsNullOrEmpty(value_Renamed))
+                 {
+                     if (tm.Value != null && !tm.Value.Equals(string.Empty))
+                     {
+@@ -179,7 +179,7 @@ namespace NHapi.Base.Model.Primitive
+ 
+             set
+             {
+-                if (value != null && !value.Equals(string.Empty) && !value.Equals("\"\""))
++                if (!string.IsNullOrEmpty(value)&& !value.Equals("\"\""))
+                 {
+                     try
+                     {
+@@ -343,7 +343,7 @@ namespace NHapi.Base.Model.Primitive
+                         tm = null;
+                     } // end if
+ 
+-                    if (value != null && value.Equals(string.Empty))
++                    if (string.IsNullOrEmpty(value))
+                     {
+                         dt = new CommonDT();
+                         dt.Value = string.Empty;
+diff --git a/src/NHapi.Base/Model/Primitive/TSComponentOne.cs b/src/NHapi.Base/Model/Primitive/TSComponentOne.cs
+index e5db8d87..5a776f7a 100644
+--- a/src/NHapi.Base/Model/Primitive/TSComponentOne.cs
++++ b/src/NHapi.Base/Model/Primitive/TSComponentOne.cs
+@@ -249,7 +249,7 @@ namespace NHapi.Base.Model.Primitive
+                 var dateFormats = new string[] { LongDateTimeFormat, ShortDateTimeFormat, LongDateTimeFormatWithSecond, LongDateTimeFormatWithOffset, LongDateTimeFormatWithFractionOfSecond };
+                 var val = DateTime.MinValue;
+                 var culture = Thread.CurrentThread.CurrentCulture;
+-                if (Value != null && Value.Length > 0)
++                if (!string.IsNullOrEmpty(Value))
+                 {
+                     val = DateTime.ParseExact(Value, dateFormats, culture, DateTimeStyles.NoCurrentDateDefault);
+                 }
+diff --git a/src/NHapi.Base/PackageManager.cs b/src/NHapi.Base/PackageManager.cs
+index ed5d280a..331423c0 100644
+--- a/src/NHapi.Base/PackageManager.cs
++++ b/src/NHapi.Base/PackageManager.cs
+@@ -93,8 +93,7 @@ namespace NHapi.Base
+ 
+         private void LoadAdditionalVersions()
+         {
+-            var configSection = ConfigurationManager.GetSection("Hl7PackageCollection") as HL7PackageConfigurationSection;
+-            if (configSection != null)
++            if (ConfigurationManager.GetSection("Hl7PackageCollection") is HL7PackageConfigurationSection configSection)
+             {
+                 foreach (HL7PackageElement package in configSection.Packages)
+                 {
+diff --git a/src/NHapi.Base/Parser/DefaultModelClassFactory.cs b/src/NHapi.Base/Parser/DefaultModelClassFactory.cs
+index d9fca43f..0d9dda5d 100644
+--- a/src/NHapi.Base/Parser/DefaultModelClassFactory.cs
++++ b/src/NHapi.Base/Parser/DefaultModelClassFactory.cs
+@@ -110,7 +110,7 @@ namespace NHapi.Base.Parser
+ 
+             if (packages[version] == null)
+             {
+-                throw new Exception(string.Format("Package '{0}' could not be found", version));
++                throw new Exception($"Package '{version}' could not be found");
+             }
+ 
+             return (List<string>)packages[version];
+diff --git a/src/NHapi.Base/Parser/DefaultXMLParser.cs b/src/NHapi.Base/Parser/DefaultXMLParser.cs
+index be248109..32ebcfec 100644
+--- a/src/NHapi.Base/Parser/DefaultXMLParser.cs
++++ b/src/NHapi.Base/Parser/DefaultXMLParser.cs
+@@ -300,13 +300,13 @@ namespace NHapi.Base.Parser
+ 
+         private void ParseRep(XmlElement theElem, IStructure theObj)
+         {
+-            if (theObj is IGroup)
++            if (theObj is IGroup iGroup)
+             {
+-                Parse((IGroup)theObj, theElem);
++                Parse(iGroup, theElem);
+             }
+-            else if (theObj is ISegment)
++            else if (theObj is ISegment iSegment)
+             {
+-                Parse((ISegment)theObj, theElem);
++                Parse(iSegment, theElem);
+             }
+ 
+             Log.Debug("Parsed element: " + theElem.Name);
+diff --git a/src/NHapi.Base/Parser/EncodingCharacters.cs b/src/NHapi.Base/Parser/EncodingCharacters.cs
+index 914417ab..967a44bc 100644
+--- a/src/NHapi.Base/Parser/EncodingCharacters.cs
++++ b/src/NHapi.Base/Parser/EncodingCharacters.cs
+@@ -161,9 +161,8 @@ namespace NHapi.Base.Parser
+ 
+         public override bool Equals(object o)
+         {
+-            if (o is EncodingCharacters)
++            if (o is EncodingCharacters other)
+             {
+-                var other = (EncodingCharacters)o;
+                 if (FieldSeparator == other.FieldSeparator && ComponentSeparator == other.ComponentSeparator &&
+                      EscapeCharacter == other.EscapeCharacter && RepetitionSeparator == other.RepetitionSeparator &&
+                      SubcomponentSeparator == other.SubcomponentSeparator)
+diff --git a/src/NHapi.Base/Parser/PipeParser.cs b/src/NHapi.Base/Parser/PipeParser.cs
+index a9ae4233..080755f5 100644
+--- a/src/NHapi.Base/Parser/PipeParser.cs
++++ b/src/NHapi.Base/Parser/PipeParser.cs
+@@ -628,7 +628,7 @@ namespace NHapi.Base.Parser
+             }
+ 
+             var fieldSep = '|';
+-            if (fieldSepString != null && fieldSepString.Length > 0)
++            if (!string.IsNullOrEmpty(fieldSepString))
+             {
+                 fieldSep = fieldSepString[0];
+             }
+diff --git a/src/NHapi.Base/Parser/XMLParser.cs b/src/NHapi.Base/Parser/XMLParser.cs
+index 8bc7f06c..a0c0f202 100644
+--- a/src/NHapi.Base/Parser/XMLParser.cs
++++ b/src/NHapi.Base/Parser/XMLParser.cs
+@@ -350,17 +350,17 @@ namespace NHapi.Base.Parser
+         public virtual void Parse(IType datatypeObject, XmlElement datatypeElement)
+         {
+             // TODO: consider replacing with a switch statement
+-            if (datatypeObject is Varies)
++            if (datatypeObject is Varies varies)
+             {
+-                ParseVaries((Varies)datatypeObject, datatypeElement);
++                ParseVaries(varies, datatypeElement);
+             }
+-            else if (datatypeObject is IPrimitive)
++            else if (datatypeObject is IPrimitive iPrimitive)
+             {
+-                ParsePrimitive((IPrimitive)datatypeObject, datatypeElement);
++                ParsePrimitive(iPrimitive, datatypeElement);
+             }
+-            else if (datatypeObject is IComposite)
++            else if (datatypeObject is IComposite iComposite)
+             {
+-                ParseComposite((IComposite)datatypeObject, datatypeElement);
++                ParseComposite(iComposite, datatypeElement);
+             }
+         }
+ 
+@@ -644,17 +644,17 @@ namespace NHapi.Base.Parser
+             var hasData = false;
+ 
+             // TODO: consider using a switch statement
+-            if (datatypeObject is Varies)
++            if (datatypeObject is Varies varies)
+             {
+-                hasData = EncodeVaries((Varies)datatypeObject, datatypeElement);
++                hasData = EncodeVaries(varies, datatypeElement);
+             }
+-            else if (datatypeObject is IPrimitive)
++            else if (datatypeObject is IPrimitive iPrimitive)
+             {
+-                hasData = EncodePrimitive((IPrimitive)datatypeObject, datatypeElement);
++                hasData = EncodePrimitive(iPrimitive, datatypeElement);
+             }
+-            else if (datatypeObject is IComposite)
++            else if (datatypeObject is IComposite iComposite)
+             {
+-                hasData = EncodeComposite((IComposite)datatypeObject, datatypeElement);
++                hasData = EncodeComposite(iComposite, datatypeElement);
+             }
+ 
+             return hasData;
+diff --git a/src/NHapi.Base/SupportClass.cs b/src/NHapi.Base/SupportClass.cs
+index 78a16034..5931efde 100644
+--- a/src/NHapi.Base/SupportClass.cs
++++ b/src/NHapi.Base/SupportClass.cs
+@@ -1427,15 +1427,9 @@ namespace NHapi.Base
+             try
+             {
+                 UpdateLocatorData(locator, (XmlTextReader)reader);
+-                if (callBackHandler != null)
+-                {
+-                    callBackHandler.setDocumentLocator(locator);
+-                }
++                callBackHandler?.setDocumentLocator(locator);
+ 
+-                if (callBackHandler != null)
+-                {
+-                    callBackHandler.startDocument();
+-                }
++                callBackHandler?.startDocument();
+ 
+                 while (reader.Read())
+                 {
+@@ -1505,19 +1499,13 @@ namespace NHapi.Base
+                                 }
+                             }
+ 
+-                            if (callBackHandler != null)
+-                            {
+-                                callBackHandler.startElement(namespaceURI, localName, name, attributes);
+-                            }
++                            callBackHandler?.startElement(namespaceURI, localName, name, attributes);
+ 
+                             if (Empty)
+                             {
+                                 if (NamespaceAllowed)
+                                 {
+-                                    if (callBackHandler != null)
+-                                    {
+-                                        callBackHandler.endElement(namespaceURI, localName, name);
+-                                    }
++                                    callBackHandler?.endElement(namespaceURI, localName, name);
+                                 }
+                                 else if (callBackHandler != null)
+                                     callBackHandler.endElement(string.Empty, string.Empty, name);
+@@ -1528,10 +1516,7 @@ namespace NHapi.Base
+                         case XmlNodeType.EndElement:
+                             if (namespaceAllowed)
+                             {
+-                                if (callBackHandler != null)
+-                                {
+-                                    callBackHandler.endElement(reader.NamespaceURI, reader.LocalName, reader.Name);
+-                                }
++                                callBackHandler?.endElement(reader.NamespaceURI, reader.LocalName, reader.Name);
+                             }
+                             else if (callBackHandler != null)
+                                 callBackHandler.endElement(string.Empty, string.Empty, reader.Name);
+@@ -1555,34 +1540,22 @@ namespace NHapi.Base
+                             break;
+ 
+                         case XmlNodeType.Text:
+-                            if (callBackHandler != null)
+-                            {
+-                                callBackHandler.characters(reader.Value.ToCharArray(), 0, reader.Value.Length);
+-                            }
++                            callBackHandler?.characters(reader.Value.ToCharArray(), 0, reader.Value.Length);
+ 
+                             break;
+ 
+                         case XmlNodeType.Whitespace:
+-                            if (callBackHandler != null)
+-                            {
+-                                callBackHandler.ignorableWhitespace(reader.Value.ToCharArray(), 0, reader.Value.Length);
+-                            }
++                            callBackHandler?.ignorableWhitespace(reader.Value.ToCharArray(), 0, reader.Value.Length);
+ 
+                             break;
+ 
+                         case XmlNodeType.ProcessingInstruction:
+-                            if (callBackHandler != null)
+-                            {
+-                                callBackHandler.processingInstruction(reader.Name, reader.Value);
+-                            }
++                            callBackHandler?.processingInstruction(reader.Name, reader.Value);
+ 
+                             break;
+ 
+                         case XmlNodeType.Comment:
+-                            if (lexical != null)
+-                            {
+-                                lexical.comment(reader.Value.ToCharArray(), 0, reader.Value.Length);
+-                            }
++                            lexical?.comment(reader.Value.ToCharArray(), 0, reader.Value.Length);
+ 
+                             break;
+ 
+@@ -1590,10 +1563,7 @@ namespace NHapi.Base
+                             if (lexical != null)
+                             {
+                                 lexical.startCDATA();
+-                                if (callBackHandler != null)
+-                                {
+-                                    callBackHandler.characters(reader.Value.ToCharArray(), 0, reader.Value.ToCharArray().Length);
+-                                }
++                                callBackHandler?.characters(reader.Value.ToCharArray(), 0, reader.Value.ToCharArray().Length);
+ 
+                                 lexical.endCDATA();
+                             }
+@@ -1620,10 +1590,7 @@ namespace NHapi.Base
+                     }
+                 }
+ 
+-                if (callBackHandler != null)
+-                {
+-                    callBackHandler.endDocument();
+-                }
++                callBackHandler?.endDocument();
+             }
+             catch (XmlException e)
+             {
+@@ -1640,9 +1607,9 @@ namespace NHapi.Base
+         {
+             try
+             {
+-                if (handler is XmlSaxDefaultHandler)
++                if (handler is XmlSaxDefaultHandler xmlSaxDefaultHandler)
+                 {
+-                    errorHandler = (XmlSaxDefaultHandler)handler;
++                    errorHandler = xmlSaxDefaultHandler;
+                     entityResolver = (XmlSaxDefaultHandler)handler;
+                 }
+ 
+@@ -1661,10 +1628,7 @@ namespace NHapi.Base
+             }
+             catch (XmlException e)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(e);
+-                }
++                errorHandler?.fatalError(e);
+ 
+                 throw e;
+             }
+@@ -1717,9 +1681,9 @@ namespace NHapi.Base
+         {
+             try
+             {
+-                if (handler is XmlSaxDefaultHandler)
++                if (handler is XmlSaxDefaultHandler xmlSaxDefaultHandler)
+                 {
+-                    errorHandler = (XmlSaxDefaultHandler)handler;
++                    errorHandler = xmlSaxDefaultHandler;
+                     entityResolver = (XmlSaxDefaultHandler)handler;
+                 }
+ 
+@@ -1738,10 +1702,7 @@ namespace NHapi.Base
+             }
+             catch (XmlException e)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(e);
+-                }
++                errorHandler?.fatalError(e);
+ 
+                 throw e;
+             }
+@@ -1756,9 +1717,9 @@ namespace NHapi.Base
+         {
+             try
+             {
+-                if (handler is XmlSaxDefaultHandler)
++                if (handler is XmlSaxDefaultHandler xmlSaxDefaultHandler)
+                 {
+-                    errorHandler = (XmlSaxDefaultHandler)handler;
++                    errorHandler = xmlSaxDefaultHandler;
+                     entityResolver = (XmlSaxDefaultHandler)handler;
+                 }
+ 
+@@ -1777,10 +1738,7 @@ namespace NHapi.Base
+             }
+             catch (XmlException e)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(e);
+-                }
++                errorHandler?.fatalError(e);
+ 
+                 throw e;
+             }
+@@ -1797,9 +1755,9 @@ namespace NHapi.Base
+         {
+             try
+             {
+-                if (handler is XmlSaxDefaultHandler)
++                if (handler is XmlSaxDefaultHandler xmlSaxDefaultHandler)
+                 {
+-                    errorHandler = (XmlSaxDefaultHandler)handler;
++                    errorHandler = xmlSaxDefaultHandler;
+                     entityResolver = (XmlSaxDefaultHandler)handler;
+                 }
+ 
+@@ -1818,10 +1776,7 @@ namespace NHapi.Base
+             }
+             catch (XmlException e)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(e);
+-                }
++                errorHandler?.fatalError(e);
+ 
+                 throw e;
+             }
+@@ -1868,10 +1823,7 @@ namespace NHapi.Base
+             }
+             catch (XmlException e)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(e);
+-                }
++                errorHandler?.fatalError(e);
+ 
+                 throw e;
+             }
+@@ -1890,10 +1842,7 @@ namespace NHapi.Base
+             }
+             catch (XmlException e)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(e);
+-                }
++                errorHandler?.fatalError(e);
+ 
+                 throw e;
+             }
+@@ -1912,10 +1861,7 @@ namespace NHapi.Base
+             }
+             catch (XmlException e)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(e);
+-                }
++                errorHandler?.fatalError(e);
+ 
+                 throw e;
+             }
+@@ -1936,10 +1882,7 @@ namespace NHapi.Base
+             }
+             catch (XmlException e)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(e);
+-                }
++                errorHandler?.fatalError(e);
+ 
+                 throw e;
+             }
+@@ -1980,19 +1923,11 @@ namespace NHapi.Base
+             XmlSchemaException tempException = args.Exception;
+             if (args.Severity == XmlSeverityType.Warning)
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.warning(new XmlException(tempException.Message, tempException, tempException.LineNumber,
+-                        tempException.LinePosition));
+-                }
++                errorHandler?.warning(new XmlException(tempException.Message, tempException, tempException.LineNumber, tempException.LinePosition));
+             }
+             else
+             {
+-                if (errorHandler != null)
+-                {
+-                    errorHandler.fatalError(new XmlException(tempException.Message, tempException, tempException.LineNumber,
+-                        tempException.LinePosition));
+-                }
++                errorHandler?.fatalError(new XmlException(tempException.Message, tempException, tempException.LineNumber, tempException.LinePosition));
+             }
+         }
+ 
+diff --git a/src/NHapi.Base/Util/MessageIterator.cs b/src/NHapi.Base/Util/MessageIterator.cs
+index cb67f63d..d7964c2a 100644
+--- a/src/NHapi.Base/Util/MessageIterator.cs
++++ b/src/NHapi.Base/Util/MessageIterator.cs
+@@ -556,9 +556,8 @@ namespace NHapi.Base.Util
+             public override bool Equals(object o)
+             {
+                 var equals = false;
+-                if (o != null && o is Index)
++                if (o is Index i)
+                 {
+-                    var i = (Index)o;
+                     if (i.Rep == Rep && i.Name.Equals(Name))
+                     {
+                         equals = true;
+@@ -667,9 +666,8 @@ namespace NHapi.Base.Util
+             public override bool Equals(object o)
+             {
+                 var equals = false;
+-                if (o != null && o is Position)
++                if (o is Position p)
+                 {
+-                    var p = (Position)o;
+                     if (p.Parent.Equals(Parent) && p.Index.Equals(Index))
+                     {
+                         equals = true;
+diff --git a/src/NHapi.Base/Util/Terser.cs b/src/NHapi.Base/Util/Terser.cs
+index 48600ff7..776fb32b 100644
+--- a/src/NHapi.Base/Util/Terser.cs
++++ b/src/NHapi.Base/Util/Terser.cs
+@@ -401,9 +401,9 @@ namespace NHapi.Base.Util
+                     throw new ApplicationException("Internal error: HL7Exception thrown on Composite.getComponent(0).");
+                 }
+             }
+-            else if (type is IPrimitive)
++            else if (type is IPrimitive iPrimitive)
+             {
+-                p = (IPrimitive)type;
++                p = iPrimitive;
+             }
+ 
+             return p;
+diff --git a/src/NHapi.Base/Validation/Implementation/RegexPrimitiveRule.cs b/src/NHapi.Base/Validation/Implementation/RegexPrimitiveRule.cs
+index e9006cc3..0c72de1d 100644
+--- a/src/NHapi.Base/Validation/Implementation/RegexPrimitiveRule.cs
++++ b/src/NHapi.Base/Validation/Implementation/RegexPrimitiveRule.cs
+@@ -69,7 +69,7 @@ namespace NHapi.Base.Validation.Implementation
+         /// <inheritdoc />
+         public virtual bool Test(string value)
+         {
+-            if (value == null || value.Equals("\"\"") || value.Equals(string.Empty))
++            if (value == null || value.Equals("\"\"") || string.IsNullOrEmpty(value))
+             {
+                 return true;
+             }
+diff --git a/src/NHapi.SourceGeneration/ConfigurationSettings.cs b/src/NHapi.SourceGeneration/ConfigurationSettings.cs
+index 0e83bf29..795828b3 100644
+--- a/src/NHapi.SourceGeneration/ConfigurationSettings.cs
++++ b/src/NHapi.SourceGeneration/ConfigurationSettings.cs
+@@ -13,7 +13,7 @@ namespace NHapi.SourceGeneration
+             {
+                 var useFactory = false;
+                 var useFactoryFromConfig = ConfigurationManager.AppSettings["UseFactory"];
+-                if (useFactoryFromConfig != null && useFactoryFromConfig.Length > 0)
++                if (!string.IsNullOrEmpty(useFactoryFromConfig))
+                 {
+                     useFactory = Convert.ToBoolean(useFactoryFromConfig);
+                 }
+diff --git a/src/NHapi.SourceGeneration/Generators/EventMappingGenerator.cs b/src/NHapi.SourceGeneration/Generators/EventMappingGenerator.cs
+index c737fac0..0d5c8670 100644
+--- a/src/NHapi.SourceGeneration/Generators/EventMappingGenerator.cs
++++ b/src/NHapi.SourceGeneration/Generators/EventMappingGenerator.cs
+@@ -34,10 +34,10 @@
+                 sw.WriteLine("#event -> structure map for " + version);
+                 while (rs.Read())
+                 {
+-                    var messageType = string.Format("{0}_{1}", rs["message_typ_snd"], rs["event_code"]);
++                    var messageType = $"{rs["message_typ_snd"]}_{rs["event_code"]}";
+                     var structure = (string)rs["message_structure_snd"];
+ 
+-                    sw.WriteLine(string.Format("{0} {1}", messageType, structure));
++                    sw.WriteLine($"{messageType} {structure}");
+                 }
+             }
+         }
+diff --git a/src/NHapi.SourceGeneration/Generators/GroupDef.cs b/src/NHapi.SourceGeneration/Generators/GroupDef.cs
+index 8fbd0e33..04044d29 100644
+--- a/src/NHapi.SourceGeneration/Generators/GroupDef.cs
++++ b/src/NHapi.SourceGeneration/Generators/GroupDef.cs
+@@ -59,7 +59,7 @@ namespace NHapi.SourceGeneration.Generators
+             get
+             {
+                 string result;
+-                if (GroupName != null && GroupName.Length > 0)
++                if (!string.IsNullOrEmpty(GroupName))
+                 {
+                     result = $"{MessageName}_{GroupName}";
+                 }
+diff --git a/src/NHapi.SourceGeneration/Generators/GroupGenerator.cs b/src/NHapi.SourceGeneration/Generators/GroupGenerator.cs
+index 8f301ac4..429a0222 100644
+--- a/src/NHapi.SourceGeneration/Generators/GroupGenerator.cs
++++ b/src/NHapi.SourceGeneration/Generators/GroupGenerator.cs
+@@ -385,9 +385,9 @@ namespace NHapi.SourceGeneration.Generators
+             var indexName = group.GetIndexName(name);
+             var getterName = indexName;
+ 
+-            if (def is GroupDef)
++            if (def is GroupDef groupDef)
+             {
+-                var unqualifiedName = ((GroupDef)def).UnqualifiedName;
++                var unqualifiedName = groupDef.UnqualifiedName;
+                 getterName = group.GetIndexName(unqualifiedName);
+             }
+ 
+diff --git a/src/NHapi.SourceGeneration/OdbcDBSchema.cs b/src/NHapi.SourceGeneration/OdbcDBSchema.cs
+index 81f6f33e..f3070f16 100644
+--- a/src/NHapi.SourceGeneration/OdbcDBSchema.cs
++++ b/src/NHapi.SourceGeneration/OdbcDBSchema.cs
+@@ -110,7 +110,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("Binary_Literal", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+@@ -129,7 +129,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("Catalog_Name", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+@@ -148,7 +148,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("Char_Literal", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+@@ -167,7 +167,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("Column_Name", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+@@ -186,7 +186,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("Cursor_Name", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+@@ -205,7 +205,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("Procedure_Name", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+@@ -224,7 +224,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("Schema_Name", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+@@ -243,7 +243,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("Table_Name", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+@@ -262,7 +262,7 @@ namespace NHapi.SourceGeneration
+             get
+             {
+                 var len = GetMaxInfo("User_Name", "Maxlen");
+-                if (len.Equals(string.Empty))
++                if (string.IsNullOrEmpty(len))
+                 {
+                     return 0;
+                 }
+diff --git a/src/NHapi.SourceGeneration/TransactionManager.cs b/src/NHapi.SourceGeneration/TransactionManager.cs
+index 05250ddc..f28d6b61 100644
+--- a/src/NHapi.SourceGeneration/TransactionManager.cs
++++ b/src/NHapi.SourceGeneration/TransactionManager.cs
+@@ -94,10 +94,7 @@ namespace NHapi.SourceGeneration
+                         else
+                         {
+                             var transaction = properties.Transaction;
+-                            if (transaction != null)
+-                            {
+-                                transaction.Commit();
+-                            }
++                            transaction?.Commit();
+                         }
+                     }
+                 }
+diff --git a/tests/NHapi.NUnit/PipeParserLargeEmbeddedFileTest.cs b/tests/NHapi.NUnit/PipeParserLargeEmbeddedFileTest.cs
+index fa92ce97..711265b7 100644
+--- a/tests/NHapi.NUnit/PipeParserLargeEmbeddedFileTest.cs
++++ b/tests/NHapi.NUnit/PipeParserLargeEmbeddedFileTest.cs
+@@ -69,7 +69,7 @@ OBX|20|ED|PDF^Display format in PDF^AUSPDI||^TX^PDF^Base64^JVBERi0xLjcNJeLjz9MNC
+                     var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+                     Assert.IsTrue(
+                         parsedCorrectNumberOfObservations,
+-                        string.Format("Expected 3 OBX repetitions used for this segment, found {0}", parsedObservations));
++                        $"Expected 3 OBX repetitions used for this segment, found {parsedObservations}");
+ 
+                     foreach (var obs in oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION().OBX.GetObservationValue())
+                     {
+diff --git a/tests/NHapi.NUnit/PipeParsingFixture24.cs b/tests/NHapi.NUnit/PipeParsingFixture24.cs
+index 3c9ee819..29c2a44a 100644
+--- a/tests/NHapi.NUnit/PipeParsingFixture24.cs
++++ b/tests/NHapi.NUnit/PipeParsingFixture24.cs
+@@ -340,61 +340,61 @@ OBX|5|NM|E2^Estradiol, E2^MOLIS||39|pmol/l^^L|(70-672)Follikul�r \ (551-1938)P
+                 var resultSet = 1;
+ 
+                 var expectedRepetitions = 3; // 3 orders
+-                Assert.IsTrue(pr.ORDER_OBSERVATIONRepetitionsUsed == expectedRepetitions, string.Format("Expected {0} in result {1}", expectedRepetitions, resultSet));
++                Assert.IsTrue(pr.ORDER_OBSERVATIONRepetitionsUsed == expectedRepetitions, $"Expected {expectedRepetitions} in result {resultSet}");
+                 foreach (var oo in pr.ORDER_OBSERVATIONs)
+                 {
+                     if (resultSet == 1)
+                     {
+                         expectedRepetitions = 1;
+-                        Assert.IsTrue(oo.OBSERVATIONRepetitionsUsed == expectedRepetitions, string.Format("Expected {0} in result {1}", expectedRepetitions, resultSet));
++                        Assert.IsTrue(oo.OBSERVATIONRepetitionsUsed == expectedRepetitions, $"Expected {expectedRepetitions} in result {resultSet}");
+ 
+                         var obx = oo.OBSERVATIONs.First().OBX;
+                         var valueType = obx.ValueType.Value;
+                         var expectedValueType = "FT";
+ 
+-                        Assert.IsTrue(valueType == expectedValueType, string.Format("Expected Value Type of {0} but found {1} for result set {2}", expectedValueType, valueType, resultSet));
++                        Assert.IsTrue(valueType == expectedValueType, $"Expected Value Type of {expectedValueType} but found {valueType} for result set {resultSet}");
+ 
+                         var data = obx.GetObservationValue(0);
+                         var value = data.Data.ToString();
+                         var toFind = "Allergiepass";
+ 
+-                        Assert.IsTrue(value.Contains(toFind), string.Format("Expected to find '{0}' in data '{1}' but didn't.", toFind, value));
++                        Assert.IsTrue(value.Contains(toFind), $"Expected to find '{toFind}' in data '{value}' but didn't.");
+                     }
+ 
+                     if (resultSet == 2)
+                     {
+                         expectedRepetitions = 3;
+-                        Assert.IsTrue(oo.OBSERVATIONRepetitionsUsed == expectedRepetitions, string.Format("Expected {0} in result {1}", expectedRepetitions, resultSet));
++                        Assert.IsTrue(oo.OBSERVATIONRepetitionsUsed == expectedRepetitions, $"Expected {expectedRepetitions} in result {resultSet}");
+ 
+                         var obx = oo.OBSERVATIONs.First().OBX;
+                         var valueType = obx.ValueType.Value;
+                         var expectedValueType = "TX";
+ 
+-                        Assert.IsTrue(valueType == expectedValueType, string.Format("Expected Value Type of {0} but found {1} for result set {2}", expectedValueType, valueType, resultSet));
++                        Assert.IsTrue(valueType == expectedValueType, $"Expected Value Type of {expectedValueType} but found {valueType} for result set {resultSet}");
+ 
+                         var data = obx.GetObservationValue(0);
+                         var value = data.Data.ToString();
+                         var toFind = "negativ";
+ 
+-                        Assert.IsTrue(value.Contains(toFind), string.Format("Expected to find '{0}' in data '{1}' but didn't.", toFind, value));
++                        Assert.IsTrue(value.Contains(toFind), $"Expected to find '{toFind}' in data '{value}' but didn't.");
+                     }
+ 
+                     if (resultSet == 3)
+                     {
+                         expectedRepetitions = 5;
+-                        Assert.IsTrue(oo.OBSERVATIONRepetitionsUsed == expectedRepetitions, string.Format("Expected {0} in result {1}", expectedRepetitions, resultSet));
++                        Assert.IsTrue(oo.OBSERVATIONRepetitionsUsed == expectedRepetitions, $"Expected {expectedRepetitions} in result {resultSet}");
+ 
+                         var obx = oo.OBSERVATIONs.First().OBX;
+                         var valueType = obx.ValueType.Value;
+                         var expectedValueType = "NM";
+ 
+-                        Assert.IsTrue(valueType == expectedValueType, string.Format("Expected Value Type of {0} but found {1} for result set {2}", expectedValueType, valueType, resultSet));
++                        Assert.IsTrue(valueType == expectedValueType, $"Expected Value Type of {expectedValueType} but found {valueType} for result set {resultSet}");
+ 
+                         var data = obx.GetObservationValue(0);
+                         var value = data.Data.ToString();
+                         var toFind = "1.0";
+ 
+-                        Assert.IsTrue(value.Contains(toFind), string.Format("Expected to find '{0}' in data '{1}' but didn't.", toFind, value));
++                        Assert.IsTrue(value.Contains(toFind), $"Expected to find '{toFind}' in data '{value}' but didn't.");
+                     }
+ 
+                     resultSet++;
+diff --git a/tests/NHapi.NUnit/PipeParsingFixture251.cs b/tests/NHapi.NUnit/PipeParsingFixture251.cs
+index 1afc2801..70639e73 100644
+--- a/tests/NHapi.NUnit/PipeParsingFixture251.cs
++++ b/tests/NHapi.NUnit/PipeParsingFixture251.cs
+@@ -37,7 +37,7 @@ OBX|3|FT|||This\.br\is\.br\A Test~MoreText~SomeMoreText||||||F"
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected 3 OBX repetitions used for this segment, found {0}", parsedObservations));
++                $"Expected 3 OBX repetitions used for this segment, found {parsedObservations}");
+ 
+             foreach (var obs in oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION().OBX.GetObservationValue())
+             {
+@@ -67,7 +67,7 @@ OBX|3|TM|||TMValue||||||F".Replace(Environment.NewLine, "\r");
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected {1} OBX repetitions used for this segment, found {0}", parsedObservations, expectedObservationCount));
++                $"Expected {parsedObservations} OBX repetitions used for this segment, found {expectedObservationCount}");
+ 
+             var index = 0;
+             var obs = oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION(index).OBX.GetObservationValue().FirstOrDefault();
+diff --git a/tests/NHapi.NUnit/PipeParsingFixture26.cs b/tests/NHapi.NUnit/PipeParsingFixture26.cs
+index a1c5f88a..1be8b867 100644
+--- a/tests/NHapi.NUnit/PipeParsingFixture26.cs
++++ b/tests/NHapi.NUnit/PipeParsingFixture26.cs
+@@ -38,7 +38,7 @@ OBX|3|FT|||This\.br\is\.br\A Test~MoreText~SomeMoreText||||||F"
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected 3 OBX repetitions used for this segment, found {0}", parsedObservations));
++                $"Expected 3 OBX repetitions used for this segment, found {parsedObservations}");
+ 
+             foreach (var obs in oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION().OBX.GetObservationValue())
+             {
+@@ -68,7 +68,7 @@ OBX|3|TM|||TMValue||||||F".Replace(Environment.NewLine, "\r");
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected {1} OBX repetitions used for this segment, found {0}", parsedObservations, expectedObservationCount));
++                $"Expected {parsedObservations} OBX repetitions used for this segment, found {expectedObservationCount}");
+ 
+             var index = 0;
+             var obs = oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION(index).OBX.GetObservationValue().FirstOrDefault();
+diff --git a/tests/NHapi.NUnit/PipeParsingFixture27.cs b/tests/NHapi.NUnit/PipeParsingFixture27.cs
+index 340ac112..61e264bf 100644
+--- a/tests/NHapi.NUnit/PipeParsingFixture27.cs
++++ b/tests/NHapi.NUnit/PipeParsingFixture27.cs
+@@ -37,7 +37,7 @@ OBX|3|FT|||This\.br\is\.br\A Test~MoreText~SomeMoreText||||||F"
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected 3 OBX repetitions used for this segment, found {0}", parsedObservations));
++                $"Expected 3 OBX repetitions used for this segment, found {parsedObservations}");
+ 
+             foreach (var obs in oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION().OBX.GetObservationValue())
+             {
+@@ -67,7 +67,7 @@ OBX|3|TM|||TMValue||||||F".Replace(Environment.NewLine, "\r");
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected {1} OBX repetitions used for this segment, found {0}", parsedObservations, expectedObservationCount));
++                $"Expected {parsedObservations} OBX repetitions used for this segment, found {expectedObservationCount}");
+ 
+             var index = 0;
+             var obs = oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION(index).OBX.GetObservationValue().FirstOrDefault();
+diff --git a/tests/NHapi.NUnit/PipeParsingFixture271.cs b/tests/NHapi.NUnit/PipeParsingFixture271.cs
+index 1da1e587..b0678185 100644
+--- a/tests/NHapi.NUnit/PipeParsingFixture271.cs
++++ b/tests/NHapi.NUnit/PipeParsingFixture271.cs
+@@ -37,7 +37,7 @@ OBX|3|FT|||This\.br\is\.br\A Test~MoreText~SomeMoreText||||||F"
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected 3 OBX repetitions used for this segment, found {0}", parsedObservations));
++                $"Expected 3 OBX repetitions used for this segment, found {parsedObservations}");
+ 
+             foreach (var obs in oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION().OBX.GetObservationValue())
+             {
+@@ -67,7 +67,7 @@ OBX|3|TM|||TMValue||||||F".Replace(Environment.NewLine, "\r");
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected {1} OBX repetitions used for this segment, found {0}", parsedObservations, expectedObservationCount));
++                $"Expected {parsedObservations} OBX repetitions used for this segment, found {expectedObservationCount}");
+ 
+             var index = 0;
+             var obs = oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION(index).OBX.GetObservationValue().FirstOrDefault();
+diff --git a/tests/NHapi.NUnit/PipeParsingFixture28.cs b/tests/NHapi.NUnit/PipeParsingFixture28.cs
+index 422376dd..997d4d6c 100644
+--- a/tests/NHapi.NUnit/PipeParsingFixture28.cs
++++ b/tests/NHapi.NUnit/PipeParsingFixture28.cs
+@@ -37,7 +37,7 @@ OBX|3|FT|||This\.br\is\.br\A Test~MoreText~SomeMoreText||||||F"
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected 3 OBX repetitions used for this segment, found {0}", parsedObservations));
++                $"Expected 3 OBX repetitions used for this segment, found {parsedObservations}");
+ 
+             foreach (var obs in oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION().OBX.GetObservationValue())
+             {
+@@ -67,7 +67,7 @@ OBX|3|TM|||TMValue||||||F".Replace(Environment.NewLine, "\r");
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected {1} OBX repetitions used for this segment, found {0}", parsedObservations, expectedObservationCount));
++                $"Expected {parsedObservations} OBX repetitions used for this segment, found {expectedObservationCount}");
+ 
+             var index = 0;
+             var obs = oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION(index).OBX.GetObservationValue().FirstOrDefault();
+diff --git a/tests/NHapi.NUnit/PipeParsingFixture281.cs b/tests/NHapi.NUnit/PipeParsingFixture281.cs
+index 0b2d72af..043f70da 100644
+--- a/tests/NHapi.NUnit/PipeParsingFixture281.cs
++++ b/tests/NHapi.NUnit/PipeParsingFixture281.cs
+@@ -37,7 +37,7 @@ OBX|3|FT|||This\.br\is\.br\A Test~MoreText~SomeMoreText||||||F"
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected 3 OBX repetitions used for this segment, found {0}", parsedObservations));
++                $"Expected 3 OBX repetitions used for this segment, found {parsedObservations}");
+ 
+             foreach (var obs in oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION().OBX.GetObservationValue())
+             {
+@@ -67,7 +67,7 @@ OBX|3|TM|||TMValue||||||F".Replace(Environment.NewLine, "\r");
+             var parsedCorrectNumberOfObservations = parsedObservations == expectedObservationCount;
+             Assert.IsTrue(
+                 parsedCorrectNumberOfObservations,
+-                string.Format("Expected {1} OBX repetitions used for this segment, found {0}", parsedObservations, expectedObservationCount));
++                $"Expected {parsedObservations} OBX repetitions used for this segment, found {expectedObservationCount}");
+ 
+             var index = 0;
+             var obs = oru.GetPATIENT_RESULT(0).GetORDER_OBSERVATION(0).GetOBSERVATION(index).OBX.GetObservationValue().FirstOrDefault();
+diff --git a/tests/NHapi.NUnit/ValidationTests.cs b/tests/NHapi.NUnit/ValidationTests.cs
+index 76cfe295..e2ce1a9f 100644
+--- a/tests/NHapi.NUnit/ValidationTests.cs
++++ b/tests/NHapi.NUnit/ValidationTests.cs
+@@ -91,10 +91,7 @@ OBX|1|NM|||1.5||||||F";
+             ORU_R01 oru;
+ 
+             parser.ValidationContext = new StrictValidation();
+-            var message = string.Format(
+-                "Strict validation {0} throw a {1} when parsing a NM field with alpha values",
+-                shouldThrow ? "should" : "should not",
+-                typeof(DataTypeException).Name);
++            var message = $"Strict validation {(shouldThrow ? "should" : "should not")} throw a {typeof(DataTypeException).Name} when parsing a NM field with alpha values";
+ 
+             if (shouldThrow)
+             {

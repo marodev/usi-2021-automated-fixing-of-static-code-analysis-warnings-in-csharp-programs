@@ -1,0 +1,42 @@
+diff --git a/dropbox-sdk-dotnet/Dropbox.Api.Integration.Tests/DropboxApiTests.cs b/dropbox-sdk-dotnet/Dropbox.Api.Integration.Tests/DropboxApiTests.cs
+index a89331246..d2120a0cd 100644
+--- a/dropbox-sdk-dotnet/Dropbox.Api.Integration.Tests/DropboxApiTests.cs
++++ b/dropbox-sdk-dotnet/Dropbox.Api.Integration.Tests/DropboxApiTests.cs
+@@ -319,7 +319,7 @@ namespace Dropbox.Api.Tests
+         public async Task TestTeamAuthSelectAdmin()
+         {
+             var result = await TeamClient.Team.MembersListAsync();
+-            var adminId = result.Members.Where(m => m.Role.IsTeamAdmin).First().Profile.TeamMemberId;
++            var adminId = result.Members.First(m => m.Role.IsTeamAdmin).Profile.TeamMemberId;
+ 
+             var userClient = TeamClient.AsAdmin(adminId);
+             var account = await userClient.Users.GetCurrentAccountAsync();
+diff --git a/dropbox-sdk-dotnet/Dropbox.Api/DropboxAppClient.cs b/dropbox-sdk-dotnet/Dropbox.Api/DropboxAppClient.cs
+index 75fef7a71..3fc5619ab 100644
+--- a/dropbox-sdk-dotnet/Dropbox.Api/DropboxAppClient.cs
++++ b/dropbox-sdk-dotnet/Dropbox.Api/DropboxAppClient.cs
+@@ -63,7 +63,7 @@ namespace Dropbox.Api
+                 throw new ArgumentNullException("appSecret");
+             }
+ 
+-            var rawValue = string.Format("{0}:{1}", appKey, appSecret);
++            var rawValue = $"{appKey}:{appSecret}";
+             return Convert.ToBase64String(Encoding.UTF8.GetBytes(rawValue));
+         }
+     }
+diff --git a/dropbox-sdk-dotnet/Dropbox.Api/DropboxRequestHandler.cs b/dropbox-sdk-dotnet/Dropbox.Api/DropboxRequestHandler.cs
+index 8f0a74a13..85c118bf6 100644
+--- a/dropbox-sdk-dotnet/Dropbox.Api/DropboxRequestHandler.cs
++++ b/dropbox-sdk-dotnet/Dropbox.Api/DropboxRequestHandler.cs
+@@ -366,10 +366,7 @@ namespace Dropbox.Api
+             }
+             finally
+             {
+-                if (body != null)
+-                {
+-                    body.Dispose();
+-                }
++                body?.Dispose();
+             }
+         }
+ 

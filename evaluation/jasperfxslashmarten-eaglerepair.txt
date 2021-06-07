@@ -1,0 +1,89 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Marten(net5.0)
+    #1 Path: D:\a\1\s\src\Marten\Linq\Parsing\Methods\StringEquals.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #2 Path: D:\a\1\s\src\Marten\Pagination\PagedList.cs, Line: 38, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #3 Path: D:\a\1\s\src\Marten\Schema\DocumentMapping.cs, Line: 378, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #4 Path: D:\a\1\s\src\Marten\Schema\DocumentMapping.cs, Line: 381, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: D:\a\1\s\src\Marten\Services\Json\SystemTextJsonExtensions.cs, Line: 365, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #6 Path: D:\a\1\s\src\Marten\Services\Json\SystemTextJsonExtensions.cs, Line: 515, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #7 Path: D:\a\1\s\src\Marten\Util\FastExpressionCompiler.cs, Line: 1065, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #8 Path: D:\a\1\s\src\Marten\Util\FastExpressionCompiler.cs, Line: 1126, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #9 Path: D:\a\1\s\src\Marten\Util\FastExpressionCompiler.cs, Line: 1133, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #10 Path: D:\a\1\s\src\Marten\Util\FastExpressionCompiler.cs, Line: 646, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Marten.Testing(net5.0)
+    #11 Path: D:\a\1\s\src\Marten.Testing\Acceptance\full_text_index.cs, Line: 215, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #12 Path: D:\a\1\s\src\Marten.Testing\Bugs\Bug_582_and_592_Skip_and_Take_in_compiled_queries.cs, Line: 27, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #13 Path: D:\a\1\s\src\Marten.Testing\Bugs\Bug_582_and_592_Skip_and_Take_in_compiled_queries.cs, Line: 28, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #14 Path: D:\a\1\s\src\Marten.Testing\Bugs\Bug_582_and_592_Skip_and_Take_in_compiled_queries.cs, Line: 54, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #15 Path: D:\a\1\s\src\Marten.Testing\Bugs\Bug_582_and_592_Skip_and_Take_in_compiled_queries.cs, Line: 55, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #16 Path: D:\a\1\s\src\Marten.Testing\CoreFunctionality\document_session_persist_and_load_single_documents_Tests.cs, Line: 129, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #17 Path: D:\a\1\s\src\Marten.Testing\CoreFunctionality\document_session_persist_and_load_single_documents_Tests.cs, Line: 161, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #18 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 126, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #19 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 158, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #20 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 367, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #21 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 397, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #22 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 436, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #23 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 468, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #24 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 498, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #25 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 531, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #26 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 572, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #27 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 63, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #28 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_Tests.cs, Line: 94, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #29 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_non_typed_streams_Tests.cs, Line: 100, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #30 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_non_typed_streams_Tests.cs, Line: 128, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #31 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 124, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #32 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 301, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #33 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 327, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #34 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 361, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #35 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 38, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #36 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 387, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #37 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 411, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #38 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 439, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #39 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 472, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #40 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 66, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #41 Path: D:\a\1\s\src\Marten.Testing\Events\end_to_end_event_capture_and_fetching_the_stream_with_string_identifiers.cs, Line: 95, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #42 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inheritance.cs, Line: 194, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #43 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inheritance.cs, Line: 210, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #44 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inner_query_with_CollectionToArrayJsonConverter_onProperty.cs, Line: 96, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #45 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inner_query_with_CollectionToArrayJsonConverter_onProperty.cs, Line: 97, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #46 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inner_query_with_CollectionToArrayJsonConverter_onProperty.cs, Line: 97, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #47 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inner_query_with_global_CollectionStorage_WithArray.cs, Line: 120, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #48 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inner_query_with_global_CollectionStorage_WithArray.cs, Line: 122, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #49 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inner_query_with_global_CollectionStorage_WithArray.cs, Line: 122, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #50 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_inner_query_with_global_CollectionStorage_WithArray.cs, Line: 131, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #51 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_select_many.cs, Line: 119, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #52 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_select_many.cs, Line: 253, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #53 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_select_many.cs, Line: 279, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #54 Path: D:\a\1\s\src\Marten.Testing\Linq\query_with_select_many.cs, Line: 42, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #55 Path: D:\a\1\s\src\Marten.Testing\Linq\using_custom_Linq_parser_plugins_Tests.cs, Line: 51, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #56 Path: D:\a\1\s\src\Marten.Testing\Services\BatchedQuerying\batched_querying_acceptance_Tests.cs, Line: 389, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #57 Path: D:\a\1\s\src\Marten.Testing\Services\BatchedQuerying\batched_querying_acceptance_Tests.cs, Line: 422, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Marten.Schema.Testing(net5.0)
+    #58 Path: D:\a\1\s\src\Marten.Schema.Testing\Identity\Sequences\Bug_255_Hilo_table_being_erroneously_recreated.cs, Line: 51, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+--- Rules Summary ---
+R4: 49
+R8: 7
+R10: 1
+R2: 1
+
+--- Summary ---
+Fixed ReSharper issues: 57
+Fixed SonarQube issues: 50
+Total fixed issues: 58
+
+Finished in: 24 s
+
+No errors reported.
+

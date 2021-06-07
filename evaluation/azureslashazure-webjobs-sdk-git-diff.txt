@@ -1,0 +1,1585 @@
+diff --git a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/Bindings/BlobCommittedAction.cs b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/Bindings/BlobCommittedAction.cs
+index 51ca480e..11060a4e 100644
+--- a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/Bindings/BlobCommittedAction.cs
++++ b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/Bindings/BlobCommittedAction.cs
+@@ -21,10 +21,7 @@ namespace Microsoft.Azure.WebJobs.Host.Blobs.Bindings
+ 
+         public Task ExecuteAsync(CancellationToken cancellationToken)
+         {
+-            if (_blobWrittenWatcher != null)
+-            {
+-                _blobWrittenWatcher.Notify(_blob);
+-            }
++            _blobWrittenWatcher?.Notify(_blob);
+ 
+             return Task.FromResult(0);
+         }
+diff --git a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/BlobPathSource.cs b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/BlobPathSource.cs
+index 3f69fa7a..50bc71ec 100644
+--- a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/BlobPathSource.cs
++++ b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/BlobPathSource.cs
+@@ -43,7 +43,7 @@ namespace Microsoft.Azure.WebJobs.Host.Blobs
+ 
+             BindingTemplateSource template = BindingTemplateSource.FromString(pattern);
+ 
+-            if (template.ParameterNames.Count() > 0)
++            if (template.ParameterNames.Any())
+             {
+                 return new ParameterizedBlobPathSource(containerNamePattern, blobNamePattern, template);
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/Listeners/BlobLogListener.cs b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/Listeners/BlobLogListener.cs
+index 93294b25..04e823aa 100644
+--- a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/Listeners/BlobLogListener.cs
++++ b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/Listeners/BlobLogListener.cs
+@@ -168,8 +168,7 @@ namespace Microsoft.Azure.WebJobs.Host.Blobs.Listeners
+             // Type cast to IStorageBlob is safe due to useFlatBlobListing: true above.
+             foreach (var item in blobs)
+             {
+-                ICloudBlob log = item as ICloudBlob;
+-                if (log != null)
++                if (item is ICloudBlob log)
+                 {
+                     // we will exclude the file if the file does not have log entries in the interested time range.
+                     string logType = log.Metadata[LogType];
+diff --git a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/ParameterizedBlobPathSource.cs b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/ParameterizedBlobPathSource.cs
+index 313a7710..6cbfdd4a 100644
+--- a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/ParameterizedBlobPathSource.cs
++++ b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Blobs/ParameterizedBlobPathSource.cs
+@@ -19,7 +19,7 @@ namespace Microsoft.Azure.WebJobs.Host.Blobs
+             BindingTemplateSource template)
+         {
+             Debug.Assert(template != null, "template must not be null");
+-            Debug.Assert(template.ParameterNames.Count() > 0, "template must contain one or more parameters");
++            Debug.Assert(template.ParameterNames.Any(), "template must contain one or more parameters");
+ 
+             _containerNamePattern = containerNamePattern;
+             _blobNamePattern = blobNamePattern;
+diff --git a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Queues/Config/QueuesExtensionConfigProvider.cs b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Queues/Config/QueuesExtensionConfigProvider.cs
+index 213366f9..fab45b04 100644
+--- a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Queues/Config/QueuesExtensionConfigProvider.cs
++++ b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Queues/Config/QueuesExtensionConfigProvider.cs
+@@ -253,10 +253,7 @@ namespace Microsoft.Azure.WebJobs.Host.Queues.Config
+ 
+                 await _queue.AddMessageAndCreateIfNotExistsAsync(message, cancellationToken);
+ 
+-                if (_messageEnqueuedWatcher != null)
+-                {
+-                    _messageEnqueuedWatcher.Notify(_queue.Name);
+-                }
++                _messageEnqueuedWatcher?.Notify(_queue.Name);
+             }
+ 
+             public Task FlushAsync(CancellationToken cancellationToken = default(CancellationToken))
+diff --git a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Queues/Listeners/QueueListener.cs b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Queues/Listeners/QueueListener.cs
+index d7bef749..6c74fad2 100644
+--- a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Queues/Listeners/QueueListener.cs
++++ b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Queues/Listeners/QueueListener.cs
+@@ -145,10 +145,7 @@ namespace Microsoft.Azure.WebJobs.Host.Queues.Listeners
+         {
+             lock (_stopWaitingTaskSourceLock)
+             {
+-                if (_stopWaitingTaskSource != null)
+-                {
+-                    _stopWaitingTaskSource.TrySetResult(null);
+-                }
++                _stopWaitingTaskSource?.TrySetResult(null);
+ 
+                 _stopWaitingTaskSource = new TaskCompletionSource<object>();
+             }
+@@ -243,10 +240,7 @@ namespace Microsoft.Azure.WebJobs.Host.Queues.Listeners
+         {
+             lock (_stopWaitingTaskSourceLock)
+             {
+-                if (_stopWaitingTaskSource != null)
+-                {
+-                    _stopWaitingTaskSource.TrySetResult(null);
+-                }
++                _stopWaitingTaskSource?.TrySetResult(null);
+             }
+         }
+ 
+diff --git a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Tables/TableEntityToPocoConverter.cs b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Tables/TableEntityToPocoConverter.cs
+index 9ff9b7f2..9156a44f 100644
+--- a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Tables/TableEntityToPocoConverter.cs
++++ b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Tables/TableEntityToPocoConverter.cs
+@@ -44,20 +44,11 @@ namespace Microsoft.Azure.WebJobs.Host.Tables
+ 
+             TOutput result = new TOutput();
+ 
+-            if (_partitionKeySetter != null)
+-            {
+-                _partitionKeySetter.SetValue(ref result, input.PartitionKey);
+-            }
++            _partitionKeySetter?.SetValue(ref result, input.PartitionKey);
+ 
+-            if (_rowKeySetter != null)
+-            {
+-                _rowKeySetter.SetValue(ref result, input.RowKey);
+-            }
++            _rowKeySetter?.SetValue(ref result, input.RowKey);
+ 
+-            if (_timestampSetter != null)
+-            {
+-                _timestampSetter.SetValue(ref result, input.Timestamp);
+-            }
++            _timestampSetter?.SetValue(ref result, input.Timestamp);
+ 
+             IDictionary<string, EntityProperty> properties = input.WriteEntity(operationContext: null);
+ 
+@@ -77,10 +68,7 @@ namespace Microsoft.Azure.WebJobs.Host.Tables
+                 }
+             }
+ 
+-            if (_eTagSetter != null)
+-            {
+-                _eTagSetter.SetValue(ref result, input.ETag);
+-            }
++            _eTagSetter?.SetValue(ref result, input.ETag);
+ 
+             return result;
+         }
+diff --git a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Tables/TableFilterFormatter.cs b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Tables/TableFilterFormatter.cs
+index 60f925b3..02e44fa6 100644
+--- a/src/Microsoft.Azure.WebJobs.Extensions.Storage/Tables/TableFilterFormatter.cs
++++ b/src/Microsoft.Azure.WebJobs.Extensions.Storage/Tables/TableFilterFormatter.cs
+@@ -47,14 +47,14 @@ namespace Microsoft.Azure.WebJobs.Host.Tables
+                 object originalValue;
+                 if (bindingData.TryGetValue(parameterName, out originalValue))
+                 {
+-                    if (originalValue is DateTime)
++                    if (originalValue is DateTime dateTime)
+                     {
+                         // OData DateTime literals should be ISO 8601 formatted (e.g. 2009-03-18T04:25:03Z)
+-                        convertedBindingData[parameterName] = ((DateTime)originalValue).ToUniversalTime().ToString("o");
++                        convertedBindingData[parameterName] = dateTime.ToUniversalTime().ToString("o");
+                     }
+-                    else if (originalValue is DateTimeOffset)
++                    else if (originalValue is DateTimeOffset dateTimeOffset)
+                     {
+-                        convertedBindingData[parameterName] = ((DateTimeOffset)originalValue).UtcDateTime.ToString("o");
++                        convertedBindingData[parameterName] = dateTimeOffset.UtcDateTime.ToString("o");
+                     }
+                 }
+ 
+diff --git a/src/Microsoft.Azure.WebJobs.Host.Storage/RuntimeStorageWebJobsBuilderExtensions.cs b/src/Microsoft.Azure.WebJobs.Host.Storage/RuntimeStorageWebJobsBuilderExtensions.cs
+index e174c0af..5d6f02ba 100644
+--- a/src/Microsoft.Azure.WebJobs.Host.Storage/RuntimeStorageWebJobsBuilderExtensions.cs
++++ b/src/Microsoft.Azure.WebJobs.Host.Storage/RuntimeStorageWebJobsBuilderExtensions.cs
+@@ -54,7 +54,7 @@ namespace Microsoft.Extensions.Hosting
+ 
+             CloudBlobContainer container;
+ 
+-            if (sas != null && sas.InternalContainer != null)
++            if (sas?.InternalContainer != null)
+             {
+                 container = sas.InternalContainer;
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/AttributeCloner.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/AttributeCloner.cs
+index 33e42bf3..572eb6e5 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/AttributeCloner.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/AttributeCloner.cs
+@@ -310,7 +310,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings
+         // When there's only 1 resolvable property
+         internal TAttribute New(string invokeString)
+         {
+-            if (_autoResolves.Count() != 1)
++            if (_autoResolves.Count != 1)
+             {
+                 throw new InvalidOperationException("Invalid invoke string format for attribute.");
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingBase.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingBase.cs
+index de1888e7..08e50e30 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingBase.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingBase.cs
+@@ -52,8 +52,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings
+ 
+         public async Task<IValueProvider> BindAsync(object value, ValueBindingContext context)
+         {
+-            var str = value as string;
+-            if (str != null)
++            if (value is string str)
+             {
+                 // Called when we invoke from dashboard. 
+                 // str --> attribute --> obj 
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingDataPathHelper.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingDataPathHelper.cs
+index 92d149a0..8cd95e48 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingDataPathHelper.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingDataPathHelper.cs
+@@ -55,7 +55,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings
+                         var dateTime = (DateTime)parameterValue;
+                         return dateTime.ToString(format, CultureInfo.InvariantCulture);
+                     case TypeCode.Object:
+-                        if (parameterValue is Guid)
++                        if (parameterValue is Guid guid)
+                         {
+                             if (format == null)
+                             {
+@@ -63,7 +63,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings
+                             }
+                             else
+                             {
+-                                return ((Guid)parameterValue).ToString(format, CultureInfo.InvariantCulture);
++                                return guid.ToString(format, CultureInfo.InvariantCulture);
+                             }
+                         }
+                         if (parameterValue is Newtonsoft.Json.Linq.JToken)
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingProviders/FilteringBindingProvider.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingProviders/FilteringBindingProvider.cs
+index f3bc9d71..a159f286 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingProviders/FilteringBindingProvider.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/BindingProviders/FilteringBindingProvider.cs
+@@ -57,8 +57,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings
+ 
+         public IEnumerable<BindingRule> GetRules()
+         {
+-            IBindingRuleProvider inner = _inner as IBindingRuleProvider;
+-            if (inner != null)
++            if (_inner is IBindingRuleProvider inner)
+             {
+                 foreach (var rule in inner.GetRules())
+                 {
+@@ -82,8 +81,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings
+             }
+ 
+             // Must apply filter 
+-            IBindingRuleProvider inner = _inner as IBindingRuleProvider;
+-            if (inner != null)
++            if (_inner is IBindingRuleProvider inner)
+             {
+                 return inner.GetDefaultType(attribute, access, requestedType);
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/ConverterManager.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/ConverterManager.cs
+index 40a49b7d..a26d680a 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/ConverterManager.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/ConverterManager.cs
+@@ -453,7 +453,7 @@ namespace Microsoft.Azure.WebJobs
+ 
+             public override string ToString()
+             {
+-                return string.Format("{0} --> {1} (for {2})", this.Source.GetDisplayName(), this.Dest.GetDisplayName(), this.Attribute.Name);
++                return $"{this.Source.GetDisplayName()} --> {this.Dest.GetDisplayName()} (for {this.Attribute.Name})";
+             }
+ 
+             public bool IsMatch(Type source, Type dest, Type typeAttribute)
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/OpenType.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/OpenType.cs
+index 83ed46cf..c95b0f54 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/OpenType.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/OpenType.cs
+@@ -71,8 +71,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings
+ 
+         public override bool Equals(object obj)
+         {
+-            var other = obj as OpenType;
+-            if (other != null)
++            if (obj is OpenType other)
+             {
+                 return this.GetDisplayName() == other.GetDisplayName();
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/Path/BindingTemplateParser.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/Path/BindingTemplateParser.cs
+index 6224fcd0..3541639a 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/Path/BindingTemplateParser.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/Path/BindingTemplateParser.cs
+@@ -126,9 +126,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings.Path
+                         case "parameter":
+                             if (String.IsNullOrEmpty(namedGroup.Value))
+                             {
+-                                throw new FormatException(String.Format(
+-                                    "Invalid template '{0}'. The parameter name at position {1} is empty.",
+-                                    input, m.Index + 1));
++                                throw new FormatException($"Invalid template '{input}'. The parameter name at position {m.Index + 1} is empty.");
+                             }
+ 
+                             BindingTemplateToken token;            
+@@ -147,9 +145,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings.Path
+                             yield return BindingTemplateToken.NewLiteral(namedGroup.Value);
+                             break;
+                         case "unbalanced":
+-                            throw new FormatException(String.Format(
+-                                "Invalid template '{0}'. Missing {1} bracket at position {2}.",
+-                                input, namedGroup.Value[0] == '{' ? "closing" : "opening", m.Index + 1));
++                            throw new FormatException($"Invalid template '{input}'. Missing {(namedGroup.Value[0] == '{' ? "closing" : "opening")} bracket at position {m.Index + 1}.");
+                         default:
+                             Debug.Fail("Unsupported named group!");
+                             break;
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/Path/BindingTemplateToken.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/Path/BindingTemplateToken.cs
+index a89d3a8b..5a56fc37 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/Path/BindingTemplateToken.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/Path/BindingTemplateToken.cs
+@@ -267,8 +267,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings.Path
+                 Type scope = o.GetType();
+ 
+                 // Try JObject. Call specific JObject lookup to do a case-insensitive lookup. 
+-                JObject jobj = o as JObject;
+-                if (jobj != null)
++                if (o is JObject jobj)
+                 {
+                     JToken propValue;
+                     // JObject's normal dot operator returns null for missing properties; 
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/Runtime/Binder.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/Runtime/Binder.cs
+index dd8f2767..3fe7fc5d 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/Runtime/Binder.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/Runtime/Binder.cs
+@@ -121,14 +121,12 @@ namespace Microsoft.Azure.WebJobs
+             IWatchable watchable = provider as IWatchable;
+             _watcher.Add(parameterDesciptor, value, watchable);
+ 
+-            IValueBinder binder = provider as IValueBinder;
+-            if (binder != null)
++            if (provider is IValueBinder binder)
+             {
+                 _binders.Add(binder);
+             }
+ 
+-            IDisposable disposableProvider = provider as IDisposable;
+-            if (disposableProvider != null)
++            if (provider is IDisposable disposableProvider)
+             {
+                 _disposable.Add(disposableProvider);
+             }
+@@ -158,10 +156,7 @@ namespace Microsoft.Azure.WebJobs
+             {
+                 if (disposing)
+                 {
+-                    if (_disposable != null)
+-                    {
+-                        _disposable.Dispose();
+-                    }
++                    _disposable?.Dispose();
+                 }
+ 
+                 _disposed = true;
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/Runtime/RuntimeValueProvider.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/Runtime/RuntimeValueProvider.cs
+index 98831ab5..86ba4df4 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/Runtime/RuntimeValueProvider.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/Runtime/RuntimeValueProvider.cs
+@@ -43,10 +43,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings.Runtime
+         {
+             if (!_disposed)
+             {
+-                if (_binder != null)
+-                {
+-                    _binder.Dispose();
+-                }
++                _binder?.Dispose();
+                 _disposed = true;
+             }
+         }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Bindings/TraceWriter/TraceWriterBinding.cs b/src/Microsoft.Azure.WebJobs.Host/Bindings/TraceWriter/TraceWriterBinding.cs
+index 8fc73e01..f0c4d37d 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Bindings/TraceWriter/TraceWriterBinding.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Bindings/TraceWriter/TraceWriterBinding.cs
+@@ -100,10 +100,7 @@ namespace Microsoft.Azure.WebJobs.Host.Bindings
+             public Task SetValueAsync(object value, CancellationToken cancellationToken)
+             {
+                 TextWriter traceAdapter = value as TextWriter;
+-                if (traceAdapter != null)
+-                {
+-                    traceAdapter.Flush();
+-                }
++                traceAdapter?.Flush();
+                 return Task.FromResult(0);
+             }
+         }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Diagnostics/ExceptionFormatter.cs b/src/Microsoft.Azure.WebJobs.Host/Diagnostics/ExceptionFormatter.cs
+index ccb3a2e6..2fca87a4 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Diagnostics/ExceptionFormatter.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Diagnostics/ExceptionFormatter.cs
+@@ -29,8 +29,7 @@ namespace Microsoft.Azure.WebJobs.Host.Diagnostics
+         {
+             try
+             {
+-                var aggregate = exception as AggregateException;
+-                if (aggregate != null)
++                if (exception is AggregateException aggregate)
+                 {
+                     return GetStackForAggregateException(exception, aggregate);
+                 }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Executors/FunctionExecutor.cs b/src/Microsoft.Azure.WebJobs.Host/Executors/FunctionExecutor.cs
+index d8fbbd9e..d41960ea 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Executors/FunctionExecutor.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Executors/FunctionExecutor.cs
+@@ -291,7 +291,7 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+                         }
+                         else
+                         {
+-                            string errorMessage = string.Format("Exception while executing function: {0}", instance.FunctionDescriptor.ShortName);
++                            string errorMessage = $"Exception while executing function: {instance.FunctionDescriptor.ShortName}";
+                             FunctionInvocationException fex = new FunctionInvocationException(errorMessage, instance.Id, instance.FunctionDescriptor.FullName, invocationException);
+                             exceptionInfo = ExceptionDispatchInfo.Capture(fex);
+                         }
+@@ -326,14 +326,8 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+             }
+             finally
+             {
+-                if (outputLog != null)
+-                {
+-                    outputLog.Dispose();
+-                }
+-                if (updateOutputLogTimer != null)
+-                {
+-                    updateOutputLogTimer.Dispose();
+-                }
++                outputLog?.Dispose();
++                updateOutputLogTimer?.Dispose();
+             }
+         }
+ 
+@@ -477,10 +471,7 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+             }
+             finally
+             {
+-                if (updateParameterLogTimer != null)
+-                {
+-                    updateParameterLogTimer.Dispose();
+-                }
++                updateParameterLogTimer?.Dispose();
+ 
+                 parameterHelper.FlushParameterWatchers();
+             }
+@@ -494,12 +485,7 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+             IFunctionInvokerEx invoker = instance.GetFunctionInvoker();
+             IDelayedException delayedBindingException = await parameterHelper.PrepareParametersAsync();
+ 
+-            if (delayedBindingException != null)
+-            {
+-                // This is done inside a watcher context so that each binding error is publish next to the binding in
+-                // the parameter status log.
+-                delayedBindingException.Throw();
+-            }
++            delayedBindingException?.Throw();
+ 
+             // if the function is a Singleton, aquire the lock
+             SingletonLock singleton = await parameterHelper.GetSingletonLockAsync();
+@@ -599,10 +585,8 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+         {
+             var filters = new List<TFilter>();
+ 
+-            // If the job method is an instance method and the job class implements
+-            // the filter interface, this filter runs first before all other filters
+-            TFilter instanceFilter = instance as TFilter;
+-            if (instanceFilter != null)
++            // If the job method is an instance method and the job class implements            // the filter interface, this filter runs first before all other filters
++            if (instance is TFilter instanceFilter)
+             {
+                 filters.Add(instanceFilter);
+             }
+@@ -655,7 +639,7 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+                 {
+                     // If we need to throw, throw now. This will bubble up and eventually bring down the host after
+                     // a short grace period for the function to handle the cancellation.
+-                    string errorMessage = string.Format("Timeout value of {0} was exceeded by function: {1}", timeoutInterval, instance.FunctionDescriptor.ShortName);
++                    string errorMessage = $"Timeout value of {timeoutInterval} was exceeded by function: {instance.FunctionDescriptor.ShortName}";
+                     throw new FunctionTimeoutException(errorMessage, instance.Id, instance.FunctionDescriptor.ShortName, timeoutInterval, invokeTask, null);
+                 }
+ 
+@@ -870,8 +854,7 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+ 
+                 foreach (KeyValuePair<string, IValueProvider> item in _parameters)
+                 {
+-                    IWatchable watchable = item.Value as IWatchable;
+-                    if (watchable != null)
++                    if (item.Value is IWatchable watchable)
+                     {
+                         watches.Add(item.Key, watchable.Watcher);
+                     }
+@@ -940,9 +923,7 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+                     string name = _parameterNames[index];
+                     IValueProvider provider = _parameters[name];
+ 
+-                    BindingExceptionValueProvider exceptionProvider = provider as BindingExceptionValueProvider;
+-
+-                    if (exceptionProvider != null)
++                    if (provider is BindingExceptionValueProvider exceptionProvider)
+                     {
+                         bindingExceptions.Add(exceptionProvider.Exception);
+                     }
+@@ -987,9 +968,8 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+                 foreach (string name in parameterNamesInBindOrder)
+                 {
+                     IValueProvider provider = _parameters[name];
+-                    IValueBinder binder = provider as IValueBinder;
+ 
+-                    if (binder != null)
++                    if (provider is IValueBinder binder)
+                     {
+                         bool isReturn = name == FunctionIndexer.ReturnParamName;
+                         object argument = isReturn ? _returnValue : InvokeParameters[GetParameterIndex(name)];
+@@ -1067,9 +1047,9 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+                         }
+                     }
+ 
+-                    if (JobInstance is IDisposable)
++                    if (JobInstance is IDisposable iDisposable)
+                     {
+-                        ((IDisposable)JobInstance).Dispose();
++                        iDisposable.Dispose();
+                     }
+ 
+                     _disposed = true;
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Executors/FunctionInstanceWrapper.cs b/src/Microsoft.Azure.WebJobs.Host/Executors/FunctionInstanceWrapper.cs
+index 7a08289e..1f22414b 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Executors/FunctionInstanceWrapper.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Executors/FunctionInstanceWrapper.cs
+@@ -51,10 +51,7 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+ 
+         public void Dispose()
+         {
+-            if (_instanceServicesScope != null)
+-            {
+-                _instanceServicesScope.Dispose();
+-            }
++            _instanceServicesScope?.Dispose();
+ 
+             _instanceServicesScope = null;
+             _instanceServices = null;
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Executors/HostMessageExecutor.cs b/src/Microsoft.Azure.WebJobs.Host/Executors/HostMessageExecutor.cs
+index 12be3400..f8cb25eb 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Executors/HostMessageExecutor.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Executors/HostMessageExecutor.cs
+@@ -37,17 +37,13 @@ namespace Microsoft.Azure.WebJobs.Host.Executors
+                 throw new InvalidOperationException("Invalid invocation message.");
+             }
+ 
+-            CallAndOverrideMessage callAndOverrideModel = model as CallAndOverrideMessage;
+-
+-            if (callAndOverrideModel != null)
++            if (model is CallAndOverrideMessage callAndOverrideModel)
+             {
+                 await ProcessCallAndOverrideMessage(callAndOverrideModel, cancellationToken);
+                 return new FunctionResult(true);
+             }
+ 
+-            AbortHostInstanceMessage abortModel = model as AbortHostInstanceMessage;
+-
+-            if (abortModel != null)
++            if (model is AbortHostInstanceMessage abortModel)
+             {
+                 ProcessAbortHostInstanceMessage();
+                 return new FunctionResult(true);
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Extensions/JobHostMetadataProvider.cs b/src/Microsoft.Azure.WebJobs.Host/Extensions/JobHostMetadataProvider.cs
+index 9fb33d18..7703628f 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Extensions/JobHostMetadataProvider.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Extensions/JobHostMetadataProvider.cs
+@@ -318,8 +318,7 @@ namespace Microsoft.Azure.WebJobs.Host
+         {
+             foreach (var rule in root.GetRules())
+             {
+-                var type = rule.UserType as OpenType.ExactMatch;
+-                if (type != null)
++                if (rule.UserType is OpenType.ExactMatch type)
+                 {
+                     AddAssembly(type.ExactType);
+                 }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Indexers/FunctionIndexer.cs b/src/Microsoft.Azure.WebJobs.Host/Indexers/FunctionIndexer.cs
+index 1d1f7fae..27015fe7 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Indexers/FunctionIndexer.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Indexers/FunctionIndexer.cs
+@@ -359,7 +359,7 @@ namespace Microsoft.Azure.WebJobs.Host.Indexers
+                 shortName = logName;
+                 if (!FunctionNameAttribute.FunctionNameValidationRegex.IsMatch(logName))
+                 {
+-                    throw new InvalidOperationException(string.Format("'{0}' is not a valid function name.", logName));
++                    throw new InvalidOperationException($"'{logName}' is not a valid function name.");
+                 }
+             }
+ 
+diff --git a/src/Microsoft.Azure.WebJobs.Host/JobHost.cs b/src/Microsoft.Azure.WebJobs.Host/JobHost.cs
+index 1a08d764..acac9ea0 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/JobHost.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/JobHost.cs
+@@ -240,10 +240,7 @@ namespace Microsoft.Azure.WebJobs
+ 
+             exception = await _context.Executor.TryExecuteAsync(instance, cancellationToken);
+ 
+-            if (exception != null)
+-            {
+-                exception.Throw();
+-            }
++            exception?.Throw();
+         }
+ 
+ 
+@@ -264,15 +261,9 @@ namespace Microsoft.Azure.WebJobs
+ 
+                 _stoppingTokenSource.Dispose();
+ 
+-                if (_shutdownWatcher != null)
+-                {
+-                    _shutdownWatcher.Dispose();
+-                }
++                _shutdownWatcher?.Dispose();
+ 
+-                if (_context != null)
+-                {
+-                    _context.Dispose();
+-                }
++                _context?.Dispose();
+ 
+                 _disposed = true;
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Listeners/HostListenerFactory.cs b/src/Microsoft.Azure.WebJobs.Host/Listeners/HostListenerFactory.cs
+index 9e0ccb22..67358dc4 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Listeners/HostListenerFactory.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Listeners/HostListenerFactory.cs
+@@ -48,7 +48,7 @@ namespace Microsoft.Azure.WebJobs.Host.Listeners
+                 // Determine if the function is disabled
+                 if (functionDefinition.Descriptor.IsDisabled)
+                 {
+-                    string msg = string.Format("Function '{0}' is disabled", functionDefinition.Descriptor.ShortName);
++                    string msg = $"Function '{functionDefinition.Descriptor.ShortName}' is disabled";
+                     _logger?.LogInformation(msg);
+                     continue;
+                 }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Listeners/ListenerFactoryListener.cs b/src/Microsoft.Azure.WebJobs.Host/Listeners/ListenerFactoryListener.cs
+index b69369a9..a1a9759a 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Listeners/ListenerFactoryListener.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Listeners/ListenerFactoryListener.cs
+@@ -83,10 +83,7 @@ namespace Microsoft.Azure.WebJobs.Host.Listeners
+                 // For now, rely on finalization to clean up _shutdownTokenSource's wait handle (if allocated).
+                 _cancellationSource.Cancel();
+ 
+-                if (_listener != null)
+-                {
+-                    _listener.Dispose();
+-                }
++                _listener?.Dispose();
+ 
+                 _disposed = true;
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/ObjectDictionaryConverter.cs b/src/Microsoft.Azure.WebJobs.Host/ObjectDictionaryConverter.cs
+index 9b699cbe..ba77626a 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/ObjectDictionaryConverter.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/ObjectDictionaryConverter.cs
+@@ -16,16 +16,12 @@ namespace Microsoft.Azure.WebJobs.Host
+                 return null;
+             }
+ 
+-            IDictionary<string, object> valuesAsDictionary = values as IDictionary<string, object>;
+-
+-            if (valuesAsDictionary != null)
++            if (values is IDictionary<string, object> valuesAsDictionary)
+             {
+                 return valuesAsDictionary;
+             }
+ 
+-            IDictionary valuesAsNonGenericDictionary = values as IDictionary;
+-
+-            if (valuesAsNonGenericDictionary != null)
++            if (values is IDictionary valuesAsNonGenericDictionary)
+             {
+                 throw new InvalidOperationException("Argument dictionaries must implement IDictionary<string, object>.");
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/PropertyHelper.cs b/src/Microsoft.Azure.WebJobs.Host/PropertyHelper.cs
+index 776ef81a..bc90b60d 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/PropertyHelper.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/PropertyHelper.cs
+@@ -322,8 +322,7 @@ namespace Microsoft.Azure.WebJobs.Host
+         /// <returns>The dictionary representation of the object.</returns>
+         public static IDictionary<string, object> ObjectToDictionary(object value)
+         {
+-            var dictionary = value as IDictionary<string, object>;
+-            if (dictionary != null)
++            if (value is IDictionary<string, object> dictionary)
+             {
+                 return new Dictionary<string, object>(dictionary, StringComparer.OrdinalIgnoreCase);
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Singleton/SingletonListener.cs b/src/Microsoft.Azure.WebJobs.Host/Singleton/SingletonListener.cs
+index cb221a0f..423e7979 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Singleton/SingletonListener.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Singleton/SingletonListener.cs
+@@ -74,10 +74,7 @@ namespace Microsoft.Azure.WebJobs.Host.Listeners
+ 
+         public async Task StopAsync(CancellationToken cancellationToken)
+         {
+-            if (LockTimer != null)
+-            {
+-                LockTimer.Stop();
+-            }
++            LockTimer?.Stop();
+ 
+             await ReleaseLockAsync(cancellationToken);
+ 
+@@ -90,20 +87,14 @@ namespace Microsoft.Azure.WebJobs.Host.Listeners
+ 
+         public void Cancel()
+         {
+-            if (LockTimer != null)
+-            {
+-                LockTimer.Stop();
+-            }
++            LockTimer?.Stop();
+ 
+             _innerListener.Cancel();
+         }
+ 
+         public void Dispose()
+         {
+-            if (LockTimer != null)
+-            {
+-                LockTimer.Dispose();
+-            }
++            LockTimer?.Dispose();
+ 
+             // When we Dispose, it's important that we release the lock if we
+             // have it.
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Singleton/SingletonManager.cs b/src/Microsoft.Azure.WebJobs.Host/Singleton/SingletonManager.cs
+index f75146fa..b98bb519 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Singleton/SingletonManager.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Singleton/SingletonManager.cs
+@@ -101,7 +101,7 @@ namespace Microsoft.Azure.WebJobs.Host
+             if (lockHandle == null)
+             {
+                 TimeSpan acquisitionTimeout = GetLockAcquisitionTimeout(attribute, _options);
+-                throw new TimeoutException(string.Format("Unable to acquire singleton lock blob lease for blob '{0}' (timeout of {1} exceeded).", lockId, acquisitionTimeout.ToString("g")));
++                throw new TimeoutException($"Unable to acquire singleton lock blob lease for blob '{lockId}' (timeout of {acquisitionTimeout.ToString("g")} exceeded).");
+             }
+ 
+             return lockHandle;
+diff --git a/src/Microsoft.Azure.WebJobs.Host/Triggers/StrategyTriggerBinding.cs b/src/Microsoft.Azure.WebJobs.Host/Triggers/StrategyTriggerBinding.cs
+index dac074a2..5543f333 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/Triggers/StrategyTriggerBinding.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/Triggers/StrategyTriggerBinding.cs
+@@ -52,8 +52,7 @@ namespace Microsoft.Azure.WebJobs.Host.Triggers
+         public Task<ITriggerData> BindAsync(object value, ValueBindingContext context)
+         {
+             // If invoked from the dashboard, then 'value' is the string value passed in from the dashboard
+-            string invokeString = value as string;
+-            if (invokeString != null)
++            if (value is string invokeString)
+             {
+                 value = _hooks.ConvertFromString(invokeString);
+             }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/TypeUtility.cs b/src/Microsoft.Azure.WebJobs.Host/TypeUtility.cs
+index 6f4d69b5..cfb64dee 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/TypeUtility.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/TypeUtility.cs
+@@ -125,16 +125,14 @@ namespace Microsoft.Azure.WebJobs.Host
+         {
+             var attribute = parameter.GetCustomAttribute<TAttribute>();
+ 
+-            var attributeConnectionProvider = attribute as IConnectionProvider;
+-            if (attributeConnectionProvider != null && string.IsNullOrEmpty(attributeConnectionProvider.Connection))
++            if (attribute is IConnectionProvider attributeConnectionProvider && string.IsNullOrEmpty(attributeConnectionProvider.Connection))
+             {
+                 // if the attribute doesn't specify an explicit connnection, walk up
+                 // the hierarchy looking for an override specified via attribute
+                 var connectionProviderAttribute = attribute.GetType().GetCustomAttribute<ConnectionProviderAttribute>();
+                 if (connectionProviderAttribute?.ProviderType != null)
+                 {
+-                    var connectionOverrideProvider = GetHierarchicalAttributeOrNull(parameter, connectionProviderAttribute.ProviderType) as IConnectionProvider;
+-                    if (connectionOverrideProvider != null && !string.IsNullOrEmpty(connectionOverrideProvider.Connection))
++                    if (GetHierarchicalAttributeOrNull(parameter, connectionProviderAttribute.ProviderType) is IConnectionProvider connectionOverrideProvider && !string.IsNullOrEmpty(connectionOverrideProvider.Connection))
+                     {
+                         attributeConnectionProvider.Connection = connectionOverrideProvider.Connection;
+                     }
+diff --git a/src/Microsoft.Azure.WebJobs.Host/WebjobsShutdownWatcher.cs b/src/Microsoft.Azure.WebJobs.Host/WebjobsShutdownWatcher.cs
+index fc20d3b8..929d3f1c 100644
+--- a/src/Microsoft.Azure.WebJobs.Host/WebjobsShutdownWatcher.cs
++++ b/src/Microsoft.Azure.WebJobs.Host/WebjobsShutdownWatcher.cs
+@@ -80,10 +80,7 @@ namespace Microsoft.Azure.WebJobs
+             if (e.FullPath.IndexOf(Path.GetFileName(_shutdownFile), StringComparison.OrdinalIgnoreCase) >= 0)
+             {
+                 // Found the file mark this WebJob as finished
+-                if (_cts != null)
+-                {
+-                    _cts.Cancel();
+-                }
++                _cts?.Cancel();
+             }
+         }
+ 
+diff --git a/src/Microsoft.Azure.WebJobs.Logging.ApplicationInsights/Initializers/MetricSdkVersionTelemetryInitializer.cs b/src/Microsoft.Azure.WebJobs.Logging.ApplicationInsights/Initializers/MetricSdkVersionTelemetryInitializer.cs
+index ae7f8677..1a1e71be 100644
+--- a/src/Microsoft.Azure.WebJobs.Logging.ApplicationInsights/Initializers/MetricSdkVersionTelemetryInitializer.cs
++++ b/src/Microsoft.Azure.WebJobs.Logging.ApplicationInsights/Initializers/MetricSdkVersionTelemetryInitializer.cs
+@@ -22,7 +22,7 @@ namespace Microsoft.Azure.WebJobs.Logging.ApplicationInsights
+             if (telemetry is MetricTelemetry)
+             {
+                 var internalContext = telemetry.Context?.GetInternalContext();
+-                if (internalContext != null && internalContext.SdkVersion != null && !internalContext.SdkVersion.StartsWith(Prefix, StringComparison.OrdinalIgnoreCase))
++                if (internalContext?.SdkVersion != null && !internalContext.SdkVersion.StartsWith(Prefix, StringComparison.OrdinalIgnoreCase))
+                 {
+                     internalContext.SdkVersion = Prefix + internalContext.SdkVersion;
+                 }
+diff --git a/src/Microsoft.Azure.WebJobs.Logging/FunctionId.cs b/src/Microsoft.Azure.WebJobs.Logging/FunctionId.cs
+index 8ac719e9..d7de29f5 100644
+--- a/src/Microsoft.Azure.WebJobs.Logging/FunctionId.cs
++++ b/src/Microsoft.Azure.WebJobs.Logging/FunctionId.cs
+@@ -75,9 +75,8 @@ namespace Microsoft.Azure.WebJobs.Logging
+         /// <returns></returns>
+         public override bool Equals(object obj)
+         {
+-            if (obj is FunctionId)
++            if (obj is FunctionId other)
+             {
+-                var other = (FunctionId)obj;
+                 return other.Value == this.Value;
+             }
+             return false;
+diff --git a/src/Microsoft.Azure.WebJobs.Protocols/JTokenExtensions.cs b/src/Microsoft.Azure.WebJobs.Protocols/JTokenExtensions.cs
+index 32507ba4..6329ce44 100644
+--- a/src/Microsoft.Azure.WebJobs.Protocols/JTokenExtensions.cs
++++ b/src/Microsoft.Azure.WebJobs.Protocols/JTokenExtensions.cs
+@@ -43,10 +43,7 @@ namespace Microsoft.Azure.WebJobs.Host.Protocols
+             }
+             finally
+             {
+-                if (stringWriter != null)
+-                {
+-                    stringWriter.Dispose();
+-                }
++                stringWriter?.Dispose();
+             }
+         }
+     }
+diff --git a/src/Microsoft.Azure.WebJobs.Protocols/JsonSerialization.cs b/src/Microsoft.Azure.WebJobs.Protocols/JsonSerialization.cs
+index fbd0c945..473cac50 100644
+--- a/src/Microsoft.Azure.WebJobs.Protocols/JsonSerialization.cs
++++ b/src/Microsoft.Azure.WebJobs.Protocols/JsonSerialization.cs
+@@ -131,10 +131,7 @@ namespace Microsoft.Azure.WebJobs.Host.Protocols
+             }
+             finally
+             {
+-                if (stringReader != null)
+-                {
+-                    stringReader.Dispose();
+-                }
++                stringReader?.Dispose();
+             }
+         }
+     }
+diff --git a/test/FakeStorage/Blob/MemoryBlobStore.cs b/test/FakeStorage/Blob/MemoryBlobStore.cs
+index bd123ef6..c92885e8 100644
+--- a/test/FakeStorage/Blob/MemoryBlobStore.cs
++++ b/test/FakeStorage/Blob/MemoryBlobStore.cs
+@@ -321,7 +321,7 @@ namespace FakeStorage
+                     case BlobType.AppendBlob:
+                         return new FakeStorageAppendBlob(blobName, parent, properties);
+                     default:
+-                        throw new InvalidOperationException(string.Format("Type '{0}' is not supported.", blob.BlobType));
++                        throw new InvalidOperationException($"Type '{blob.BlobType}' is not supported.");
+                 }
+             }
+ 
+diff --git a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/ApplicationInsights/ServiceBusRequestAndDependencyCollectionTests.cs b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/ApplicationInsights/ServiceBusRequestAndDependencyCollectionTests.cs
+index 24dd4f9a..c2c3a62b 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/ApplicationInsights/ServiceBusRequestAndDependencyCollectionTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/ApplicationInsights/ServiceBusRequestAndDependencyCollectionTests.cs
+@@ -200,7 +200,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests.ApplicationInsights
+ 
+             // Make sure that the trigger traces are correlated
+             traces = _channel.Telemetries.OfType<TraceTelemetry>().Where(t => t.Context.Operation.Id == request.Context.Operation.Id).ToList();
+-            Assert.Equal(4, traces.Count());
++            Assert.Equal(4, traces.Count);
+ 
+             foreach (var trace in traces)
+             {
+diff --git a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/AsyncChainEndToEndTests.cs b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/AsyncChainEndToEndTests.cs
+index c0b82030..79a1075c 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/AsyncChainEndToEndTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/AsyncChainEndToEndTests.cs
+@@ -129,12 +129,12 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+                     "Executing 'AsyncChainEndToEndTests.WriteStartDataMessageToQueue' (Reason='This function was programmatically called via the host APIs.', Id=",
+                     $"Trigger Details:",
+                     "Executed 'AsyncChainEndToEndTests.WriteStartDataMessageToQueue' (Succeeded, Id=",
+-                    string.Format("Executing 'AsyncChainEndToEndTests.QueueToQueueAsync' (Reason='New queue message detected on '{0}'.', Id=", firstQueueName),
++                    $"Executing 'AsyncChainEndToEndTests.QueueToQueueAsync' (Reason='New queue message detected on '{firstQueueName}'.', Id=",
+                     $"Trigger Details:",
+                     "Executed 'AsyncChainEndToEndTests.QueueToQueueAsync' (Succeeded, Id=",
+-                    string.Format("Executing 'AsyncChainEndToEndTests.QueueToBlobAsync' (Reason='New queue message detected on '{0}'.', Id=", secondQueueName),
++                    $"Executing 'AsyncChainEndToEndTests.QueueToBlobAsync' (Reason='New queue message detected on '{secondQueueName}'.', Id=",
+                     "Executed 'AsyncChainEndToEndTests.QueueToBlobAsync' (Succeeded, Id=",
+-                    string.Format("Executing 'AsyncChainEndToEndTests.BlobToBlobAsync' (Reason='New blob detected: {0}/Blob1', Id=", blobContainerName),
++                    $"Executing 'AsyncChainEndToEndTests.BlobToBlobAsync' (Reason='New blob detected: {blobContainerName}/Blob1', Id=",
+                     "Executed 'AsyncChainEndToEndTests.BlobToBlobAsync' (Succeeded, Id=",
+                     "Job host stopped",
+                     "Executing 'AsyncChainEndToEndTests.ReadResultBlob' (Reason='This function was programmatically called via the host APIs.', Id=",
+@@ -228,7 +228,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+                 TestLoggerProvider loggerProvider = await AsyncChainEndToEndInternal(_hostBuilder);
+ 
+                 // Validate Logger                
+-                bool hasError = loggerProvider.GetAllLogMessages().Where(p => p.FormattedMessage != null && p.FormattedMessage.Contains("Error")).Any();
++                bool hasError = loggerProvider.GetAllLogMessages().Any(p => p.FormattedMessage != null && p.FormattedMessage.Contains("Error"));
+                 Assert.False(hasError);
+ 
+                 IEnumerable<string> userLogMessages = loggerProvider.GetAllLogMessages()
+@@ -277,7 +277,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+                 await host.StopAsync();
+ 
+                 // Make sure the aggregator was logged to
+-                var logger = loggerProvider.CreatedLoggers.Where(l => l.Category == LogCategories.Aggregator).Single();
++                var logger = loggerProvider.CreatedLoggers.Single(l => l.Category == LogCategories.Aggregator);
+                 var count = logger.GetLogMessages().Count;
+                 Assert.True(count == 4, $"Expected 4. Actual {count}.{Environment.NewLine}{loggerProvider.GetLogString()}");
+ 
+@@ -319,7 +319,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+ 
+                 // Make sure the aggregator was logged to
+ 
+-                var logger = loggerProvider.CreatedLoggers.Where(l => l.Category == LogCategories.Aggregator).Single();
++                var logger = loggerProvider.CreatedLoggers.Single(l => l.Category == LogCategories.Aggregator);
+                 var count = logger.GetLogMessages().Count;
+                 Assert.True(count == 4, $"Expected 4. Actual {count}.{Environment.NewLine}{loggerProvider.GetLogString()}");
+                 host.Dispose();
+@@ -356,7 +356,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+                 await jobHost.StopAsync();
+ 
+                 // Make sure the aggregator was logged to
+-                var logger = host.GetTestLoggerProvider().CreatedLoggers.Where(l => l.Category == LogCategories.Aggregator).SingleOrDefault();
++                var logger = host.GetTestLoggerProvider().CreatedLoggers.SingleOrDefault(l => l.Category == LogCategories.Aggregator);
+                 Assert.Null(logger);
+ 
+                 // Make sure the eventCollector was logged
+@@ -381,7 +381,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+ 
+             // Validate Logger
+             // Logger only writes out a single log message (which includes the Exception).        
+-            var logger = host.GetTestLoggerProvider().CreatedLoggers.Where(l => l.Category == LogCategories.Results).Single();
++            var logger = host.GetTestLoggerProvider().CreatedLoggers.Single(l => l.Category == LogCategories.Results);
+             var logMessage = logger.GetLogMessages().Single();
+             var loggerException = logMessage.Exception as FunctionException;
+             Assert.NotNull(loggerException);
+@@ -523,8 +523,8 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+ 
+             // Validate Logger
+             var loggerProvider = host.GetTestLoggerProvider();
+-            var resultLogger = loggerProvider.CreatedLoggers.Where(l => l.Category == LogCategories.Results).Single();
+-            var executorLogger = loggerProvider.CreatedLoggers.Where(l => l.Category == LogCategories.CreateFunctionCategory(functionName)).Single();
++            var resultLogger = loggerProvider.CreatedLoggers.Single(l => l.Category == LogCategories.Results);
++            var executorLogger = loggerProvider.CreatedLoggers.Single(l => l.Category == LogCategories.CreateFunctionCategory(functionName));
+ 
+             // Results logs the exception with no message
+             Assert.NotNull(resultLogger.GetLogMessages().Single().Exception);
+diff --git a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/BlobBindingEndToEndTests.cs b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/BlobBindingEndToEndTests.cs
+index 4b1e8cbd..1ad293e2 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/BlobBindingEndToEndTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/BlobBindingEndToEndTests.cs
+@@ -321,7 +321,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+         [Fact]
+         public async Task BindToByteArray_Trigger()
+         {
+-            var arguments = new { blob = string.Format("{0}/{1}", _fixture.NameResolver.ResolveWholeString(ContainerName), "blob1") };
++            var arguments = new { blob = $"{_fixture.NameResolver.ResolveWholeString(ContainerName)}/{"blob1"}" };
+ 
+             await _fixture.JobHost.CallAsync(typeof(BlobBindingEndToEndTests).GetMethod("ByteArrayTriggerBinding"), arguments);
+ 
+@@ -811,7 +811,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+             {
+                 CloudBlobClient blobClient = StorageAccount.CreateCloudBlobClient();
+                 var container = blobClient.GetContainerReference("azure-webjobs-hosts");
+-                string blobName = string.Format("locks/{0}/{1}", HostId, lockId);
++                string blobName = $"locks/{HostId}/{lockId}";
+                 var lockBlob = container.GetBlockBlobReference(blobName);
+ 
+                 Assert.True(await lockBlob.ExistsAsync());
+diff --git a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/BlobTriggerEndToEndTests.cs b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/BlobTriggerEndToEndTests.cs
+index cb98214b..b2686acd 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/BlobTriggerEndToEndTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/BlobTriggerEndToEndTests.cs
+@@ -230,7 +230,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+ 
+                 var executions = loggerOutputLines.Where(p => p.Contains("Executing"));
+                 Assert.Single(executions);
+-                Assert.StartsWith(string.Format("Executing 'BlobGetsProcessedOnlyOnce_SingleHost_Program.SingleBlobTrigger' (Reason='New blob detected: {0}/{1}', Id=", blob.Container.Name, blob.Name), executions.Single());
++                Assert.StartsWith($"Executing 'BlobGetsProcessedOnlyOnce_SingleHost_Program.SingleBlobTrigger' (Reason='New blob detected: {blob.Container.Name}/{blob.Name}', Id=", executions.Single());
+ 
+                 await host.StopAsync();
+ 
+diff --git a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/ExtensionWithDispatchQueue.cs b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/ExtensionWithDispatchQueue.cs
+index e2f14b44..a845eadd 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/ExtensionWithDispatchQueue.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/ExtensionWithDispatchQueue.cs
+@@ -132,7 +132,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+             {
+                 public override string GetTriggerReason(IDictionary<string, string> arguments)
+                 {
+-                    return string.Format("DispatchQueue trigger fired at {0}", DateTime.Now.ToString("o"));
++                    return $"DispatchQueue trigger fired at {DateTime.Now.ToString("o")}";
+                 }
+             }
+ 
+diff --git a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/SingletonEndToEndTests.cs b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/SingletonEndToEndTests.cs
+index 77a9650a..16666007 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/SingletonEndToEndTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.EndToEndTests/SingletonEndToEndTests.cs
+@@ -363,7 +363,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+             string lockId = string.Empty;
+             if (method != null && scope == SingletonScope.Function)
+             {
+-                lockId += string.Format("{0}.{1}", method.DeclaringType.FullName, method.Name);
++                lockId += $"{method.DeclaringType.FullName}.{method.Name}";
+             }
+ 
+             if (!string.IsNullOrEmpty(scopeId))
+@@ -375,7 +375,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+                 lockId += scopeId;
+             }
+ 
+-            lockId = string.Format("{0}/{1}", TestHostId, lockId);
++            lockId = $"{TestHostId}/{lockId}";
+ 
+             return lockId;
+         }
+@@ -432,7 +432,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+                 await VerifyLeaseState(
+                     GetType().GetMethod(nameof(SingletonTriggerJob)),
+                     SingletonScope.Function,
+-                    string.Format("{0}/{1}", workItem.Region, workItem.Zone),
++                    $"{workItem.Region}/{workItem.Zone}",
+                     LeaseState.Leased, LeaseStatus.Locked);
+ 
+                 // When run concurrently, this job will fail very reliably
+@@ -871,7 +871,7 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
+ 
+                 CloudBlobClient blobClient = StorageAccount.CreateCloudBlobClient();
+                 CloudBlobContainer hostContainer = blobClient.GetContainerReference("azure-webjobs-hosts");
+-                var blobs = await hostContainer.ListBlobsSegmentedAsync(string.Format("locks/{0}", TestHostId), useFlatBlobListing: true, blobListingDetails: BlobListingDetails.None,
++                var blobs = await hostContainer.ListBlobsSegmentedAsync($"locks/{TestHostId}", useFlatBlobListing: true, blobListingDetails: BlobListingDetails.None,
+                     maxResults: null, currentToken: null, options: null, operationContext: null);
+                 foreach (CloudBlockBlob lockBlob in blobs.Results)
+                 {
+diff --git a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/HostListenerFactoryTests.cs b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/HostListenerFactoryTests.cs
+index 2bf5f798..6efc870c 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/HostListenerFactoryTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/HostListenerFactoryTests.cs
+@@ -106,7 +106,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Listeners
+             {
+                 HostListenerFactory.IsDisabledByProvider(providerType, method, _jobActivator);
+             });
+-            Assert.Equal(string.Format("Type '{0}' must declare a method 'IsDisabled' returning bool and taking a single parameter of Type MethodInfo.", providerType.Name), ex.Message);
++            Assert.Equal($"Type '{providerType.Name}' must declare a method 'IsDisabled' returning bool and taking a single parameter of Type MethodInfo.", ex.Message);
+         }
+ 
+         [Theory]
+diff --git a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/ILoggerTests.cs b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/ILoggerTests.cs
+index e559cb0f..1c046fa7 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/ILoggerTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/ILoggerTests.cs
+@@ -37,8 +37,8 @@ namespace Microsoft.Azure.WebJobs.Host.FunctionalTests
+             // Note: We currently have 3 additional Logger<T> categories that need to be renamed
+             Assert.Equal(7, loggerProvider.CreatedLoggers.Count); // $$$ was 9?
+ 
+-            var functionLogger = loggerProvider.CreatedLoggers.Where(l => l.Category == LogCategories.CreateFunctionUserCategory(functionName)).Single();
+-            var resultsLogger = loggerProvider.CreatedLoggers.Where(l => l.Category == LogCategories.Results).Single();
++            var functionLogger = loggerProvider.CreatedLoggers.Single(l => l.Category == LogCategories.CreateFunctionUserCategory(functionName));
++            var resultsLogger = loggerProvider.CreatedLoggers.Single(l => l.Category == LogCategories.Results);
+ 
+             Assert.Equal(2, functionLogger.GetLogMessages().Count);
+             var infoMessage = functionLogger.GetLogMessages()[0];
+@@ -69,7 +69,7 @@ namespace Microsoft.Azure.WebJobs.Host.FunctionalTests
+ 
+             // Five loggers are the startup, singleton, results, function and function.user
+             Assert.Equal(7, loggerProvider.CreatedLoggers.Count); // $$$ was 9? 
+-            var functionLogger = loggerProvider.CreatedLoggers.Where(l => l.Category == LogCategories.CreateFunctionUserCategory(functionName)).Single();
++            var functionLogger = loggerProvider.CreatedLoggers.Single(l => l.Category == LogCategories.CreateFunctionUserCategory(functionName));
+             Assert.Equal(2, functionLogger.GetLogMessages().Count);
+             var infoMessage = functionLogger.GetLogMessages()[0];
+             var errorMessage = functionLogger.GetLogMessages()[1];
+diff --git a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/JobHostTests.cs b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/JobHostTests.cs
+index 968c86f2..3789a38c 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/JobHostTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/JobHostTests.cs
+@@ -735,8 +735,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests
+ 
+             public override void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+             {
+-                FunctionIndexingException fex = exception as FunctionIndexingException;
+-                if (fex != null)
++                if (exception is FunctionIndexingException fex)
+                 {
+                     fex.Handled = true;
+                     Errors.Add(fex);
+diff --git a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/Singleton/SingletonManagerTests.cs b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/Singleton/SingletonManagerTests.cs
+index 491dbeb0..28ec8bb0 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/Singleton/SingletonManagerTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/Singleton/SingletonManagerTests.cs
+@@ -648,7 +648,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Singleton
+                 {
+                     return value;
+                 }
+-                throw new NotSupportedException(string.Format("Cannot resolve name: '{0}'", name));
++                throw new NotSupportedException($"Cannot resolve name: '{name}'");
+             }
+         }
+     }
+diff --git a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/TestDoubles/ExpectInstanceSuccessTaskFunctionInstanceLogger.cs b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/TestDoubles/ExpectInstanceSuccessTaskFunctionInstanceLogger.cs
+index 9867f292..83292b19 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/TestDoubles/ExpectInstanceSuccessTaskFunctionInstanceLogger.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.FunctionalTests/TestDoubles/ExpectInstanceSuccessTaskFunctionInstanceLogger.cs
+@@ -25,7 +25,7 @@ namespace Microsoft.Azure.WebJobs.Host.FunctionalTests.TestDoubles
+ 
+         public Task LogFunctionCompletedAsync(FunctionCompletedMessage message, CancellationToken cancellationToken)
+         {
+-            if (message != null && message.Failure != null)
++            if (message?.Failure != null)
+             {
+                 _taskSource.SetException(message.Failure.Exception);
+             }
+diff --git a/test/Microsoft.Azure.WebJobs.Host.TestCommon/ExceptionAssert.cs b/test/Microsoft.Azure.WebJobs.Host.TestCommon/ExceptionAssert.cs
+index 288a761c..f5c37c1c 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.TestCommon/ExceptionAssert.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.TestCommon/ExceptionAssert.cs
+@@ -71,7 +71,7 @@ namespace Microsoft.Azure.WebJobs.Host.TestCommon
+                 return message;
+             }
+ 
+-            return String.Format("{0}{1}Parameter name: {2}", message, Environment.NewLine, parameterName);
++            return $"{message}{Environment.NewLine}Parameter name: {parameterName}";
+         }
+     }
+ }
+diff --git a/test/Microsoft.Azure.WebJobs.Host.TestCommon/ExpectManualCompletionTaskFunctionInstanceLogger.cs b/test/Microsoft.Azure.WebJobs.Host.TestCommon/ExpectManualCompletionTaskFunctionInstanceLogger.cs
+index 1ba40114..ee76f05f 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.TestCommon/ExpectManualCompletionTaskFunctionInstanceLogger.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.TestCommon/ExpectManualCompletionTaskFunctionInstanceLogger.cs
+@@ -37,7 +37,7 @@ namespace Microsoft.Azure.WebJobs.Host.FunctionalTests.TestDoubles
+ 
+         Task IFunctionInstanceLogger.LogFunctionCompletedAsync(FunctionCompletedMessage message, CancellationToken cancellationToken)
+         {
+-            if (message != null && message.Failure != null && message.Function != null &&
++            if (message?.Failure != null && message.Function != null &&
+                 !_ignoreFailureFunctions.Contains(message.Function.FullName))
+             {
+                 _taskSource.SetException(message.Failure.Exception);
+diff --git a/test/Microsoft.Azure.WebJobs.Host.TestCommon/TestHelpers.cs b/test/Microsoft.Azure.WebJobs.Host.TestCommon/TestHelpers.cs
+index c0214b44..7d0df7dc 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.TestCommon/TestHelpers.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.TestCommon/TestHelpers.cs
+@@ -302,10 +302,7 @@ namespace Microsoft.Azure.WebJobs.Host.TestCommon
+ 
+             if (newlyIntroducedPublicTypes.Length > 0)
+             {
+-                string message = string.Format("Found {0} unexpected public type{1}: \r\n{2}",
+-                    newlyIntroducedPublicTypes.Length,
+-                    newlyIntroducedPublicTypes.Length == 1 ? "" : "s",
+-                    string.Join("\r\n", newlyIntroducedPublicTypes));
++                string message = $"Found {newlyIntroducedPublicTypes.Length} unexpected public type{(newlyIntroducedPublicTypes.Length == 1 ? "" : "s")}: \r\n{string.Join("\r\n", newlyIntroducedPublicTypes)}";
+                 Assert.True(false, message);
+             }
+ 
+@@ -313,10 +310,7 @@ namespace Microsoft.Azure.WebJobs.Host.TestCommon
+ 
+             if (missingPublicTypes.Length > 0)
+             {
+-                string message = string.Format("missing {0} public type{1}: \r\n{2}",
+-                    missingPublicTypes.Length,
+-                    missingPublicTypes.Length == 1 ? "" : "s",
+-                    string.Join("\r\n", missingPublicTypes));
++                string message = $"missing {missingPublicTypes.Length} public type{(missingPublicTypes.Length == 1 ? "" : "s")}: \r\n{string.Join("\r\n", missingPublicTypes)}";
+                 Assert.True(false, message);
+             }
+         }
+diff --git a/test/Microsoft.Azure.WebJobs.Host.UnitTests/Common/TypedCollectorTests.cs b/test/Microsoft.Azure.WebJobs.Host.UnitTests/Common/TypedCollectorTests.cs
+index 90cf3c85..64e252d5 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.UnitTests/Common/TypedCollectorTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.UnitTests/Common/TypedCollectorTests.cs
+@@ -175,8 +175,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests
+ 
+             public Task AddAsync(T item, CancellationToken cancellationToken = default(CancellationToken))
+             {
+-                var x = item as TypedCollectorTests.SpecialData;
+-                if (x != null)
++                if (item is TypedCollectorTests.SpecialData x)
+                 {
+                     if (_client._prefix != null)
+                     {
+diff --git a/test/Microsoft.Azure.WebJobs.Host.UnitTests/ConverterManagerTests.cs b/test/Microsoft.Azure.WebJobs.Host.UnitTests/ConverterManagerTests.cs
+index d2a08401..af0cf40e 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.UnitTests/ConverterManagerTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.UnitTests/ConverterManagerTests.cs
+@@ -182,8 +182,8 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests
+         public void AttributeOverloads()
+         {
+             var cm = new ConverterManager(); // empty 
+-            cm.AddConverter<Wrapper, string, TestAttribute>((x, attr) => string.Format("[t1:{0}-{1}]", x.Value, attr.Flag));
+-            cm.AddConverter<Wrapper, string, TestAttribute2>((x, attr) => string.Format("[t2:{0}-{1}]", x.Value, attr.Flag));
++            cm.AddConverter<Wrapper, string, TestAttribute>((x, attr) => $"[t1:{x.Value}-{attr.Flag}]");
++            cm.AddConverter<Wrapper, string, TestAttribute2>((x, attr) => $"[t2:{x.Value}-{attr.Flag}]");
+ 
+             // Since converter was registered for a specific attribute, it must be queried by that attribute. 
+             var funcMiss = cm.GetSyncConverter<Wrapper, string, Attribute>();
+@@ -206,8 +206,8 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests
+         public void AttributeOverloads2()
+         {
+             var cm = new ConverterManager(); // empty 
+-            cm.AddConverter<Wrapper, string, TestAttribute>((x, attr) => string.Format("[t1:{0}-{1}]", x.Value, attr.Flag));
+-            cm.AddConverter<Wrapper, string>(x => string.Format("[common:{0}]", x.Value));
++            cm.AddConverter<Wrapper, string, TestAttribute>((x, attr) => $"[t1:{x.Value}-{attr.Flag}]");
++            cm.AddConverter<Wrapper, string>(x => $"[common:{x.Value}]");
+                         
+             // This has an exact match on attribute and gives the specific function we registered.
+             var func1 = cm.GetSyncConverter<Wrapper, string, TestAttribute>();
+diff --git a/test/Microsoft.Azure.WebJobs.Host.UnitTests/Executors/FunctionExecutorTests.cs b/test/Microsoft.Azure.WebJobs.Host.UnitTests/Executors/FunctionExecutorTests.cs
+index 45e9a464..8e8704b4 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.UnitTests/Executors/FunctionExecutorTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.UnitTests/Executors/FunctionExecutorTests.cs
+@@ -198,7 +198,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Executors
+             var ex = await Assert.ThrowsAsync<FunctionTimeoutException>(() => FunctionExecutor.InvokeAsync(mockInvoker.Object, NewArgs(parameters), timeoutSource, shutdownSource,
+                 throwOnTimeout, timeoutInterval, _mockFunctionInstance.Object));
+ 
+-            var expectedMessage = string.Format("Timeout value of {0} was exceeded by function: {1}", timeoutInterval, _mockFunctionInstance.Object.FunctionDescriptor.ShortName);
++            var expectedMessage = $"Timeout value of {timeoutInterval} was exceeded by function: {_mockFunctionInstance.Object.FunctionDescriptor.ShortName}";
+             Assert.Equal(expectedMessage, ex.Message);
+         }
+ 
+@@ -293,7 +293,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Executors
+             var ex = await Assert.ThrowsAsync<FunctionTimeoutException>(() => FunctionExecutor.InvokeAsync(mockInvoker.Object, NewArgs(parameters), timeoutSource, shutdownSource,
+                  throwOnTimeout, timeoutInterval, _mockFunctionInstance.Object));
+ 
+-            var expectedMessage = string.Format("Timeout value of {0} was exceeded by function: {1}", timeoutInterval, _mockFunctionInstance.Object.FunctionDescriptor.ShortName);
++            var expectedMessage = $"Timeout value of {timeoutInterval} was exceeded by function: {_mockFunctionInstance.Object.FunctionDescriptor.ShortName}";
+             Assert.Equal(expectedMessage, ex.Message);
+         }
+ 
+@@ -330,7 +330,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Executors
+             Assert.False(timer.Enabled);
+             Assert.NotEqual(isDebugging, _cancellationTokenSource.IsCancellationRequested);
+ 
+-            string message = string.Format("Timeout value of 00:01:00 exceeded by function 'Functions.MethodLevel' (Id: 'b2d1dd72-80e2-412b-a22e-3b4558f378b4'). {0}", expectedMessage);
++            string message = $"Timeout value of 00:01:00 exceeded by function 'Functions.MethodLevel' (Id: 'b2d1dd72-80e2-412b-a22e-3b4558f378b4'). {expectedMessage}";
+ 
+             // verify ILogger
+             LogMessage log = logger.GetLogMessages().Single();
+diff --git a/test/Microsoft.Azure.WebJobs.Host.UnitTests/Loggers/ApplicationInsightsConfigurationTests.cs b/test/Microsoft.Azure.WebJobs.Host.UnitTests/Loggers/ApplicationInsightsConfigurationTests.cs
+index b08a4512..fdfd6948 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.UnitTests/Loggers/ApplicationInsightsConfigurationTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.UnitTests/Loggers/ApplicationInsightsConfigurationTests.cs
+@@ -231,7 +231,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Loggers
+                 .Build())
+             {
+                 var modules = host.Services.GetServices<ITelemetryModule>();
+-                Assert.True(modules.Count(m => m is PerformanceCollectorModule) == 0);
++                Assert.True(!modules.Any(m => m is PerformanceCollectorModule));
+             }
+         }
+ 
+diff --git a/test/Microsoft.Azure.WebJobs.Host.UnitTests/Timers/TaskSeriesTimerTests.cs b/test/Microsoft.Azure.WebJobs.Host.UnitTests/Timers/TaskSeriesTimerTests.cs
+index bd77bcf6..85282d28 100644
+--- a/test/Microsoft.Azure.WebJobs.Host.UnitTests/Timers/TaskSeriesTimerTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Host.UnitTests/Timers/TaskSeriesTimerTests.cs
+@@ -835,7 +835,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Timers
+ 
+         private static void AssertGreaterThan(TimeSpan expected, TimeSpan actual)
+         {
+-            string message = String.Format("{0} > {1}", actual, expected);
++            string message = $"{actual} > {expected}";
+             Assert.True(actual > expected, message);
+         }
+ 
+diff --git a/test/Microsoft.Azure.WebJobs.Logging.FunctionalTests/InstanceCountLoggerBaseTests.cs b/test/Microsoft.Azure.WebJobs.Logging.FunctionalTests/InstanceCountLoggerBaseTests.cs
+index 91127ccb..3646ee81 100644
+--- a/test/Microsoft.Azure.WebJobs.Logging.FunctionalTests/InstanceCountLoggerBaseTests.cs
++++ b/test/Microsoft.Azure.WebJobs.Logging.FunctionalTests/InstanceCountLoggerBaseTests.cs
+@@ -210,7 +210,7 @@ namespace Microsoft.Azure.WebJobs.Logging.Internal.FunctionalTests
+             {
+                 var values = from kv in _heartbeats
+                              orderby kv.Key
+-                             select string.Format("{0}={1}", kv.Key, kv.Value);
++                             select $"{kv.Key}={kv.Value}";
+ 
+                 return string.Join(";", values);
+             }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/AsyncResultExtensions.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/AsyncResultExtensions.cs
+index 98637eb5..f435aa27 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/AsyncResultExtensions.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/AsyncResultExtensions.cs
+@@ -24,9 +24,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs
+                 throw new ArgumentNullException("result");
+             }
+ 
+-            IDisposable disposable = result as IDisposable;
+-
+-            if (disposable != null)
++            if (result is IDisposable disposable)
+             {
+                 // When possible, cleanup the Task-friendly way (don't break cached tasks).
+                 disposable.Dispose();
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/CompletedCancellableAsyncResult.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/CompletedCancellableAsyncResult.cs
+index bb84ab5a..71eccb18 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/CompletedCancellableAsyncResult.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/CompletedCancellableAsyncResult.cs
+@@ -82,10 +82,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs.Bindings
+         {
+             if (!_disposed)
+             {
+-                if (_waitHandle != null)
+-                {
+-                    _waitHandle.Dispose();
+-                }
++                _waitHandle?.Dispose();
+ 
+                 _disposed = true;
+             }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/CompletingCancellableAsyncResult.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/CompletingCancellableAsyncResult.cs
+index d3297e8c..7ad1a890 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/CompletingCancellableAsyncResult.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/CompletingCancellableAsyncResult.cs
+@@ -93,16 +93,10 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs.Bindings
+             {
+                 _completed = true;
+ 
+-                if (_waitHandle != null)
+-                {
+-                    _waitHandle.Set();
+-                }
++                _waitHandle?.Set();
+             }
+ 
+-            if (_callback != null)
+-            {
+-                _callback.Invoke(this);
+-            }
++            _callback?.Invoke(this);
+         }
+ 
+         public void Dispose()
+@@ -111,10 +105,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs.Bindings
+             {
+                 lock (_waitHandleLock)
+                 {
+-                    if (_waitHandle != null)
+-                    {
+-                        _waitHandle.Dispose();
+-                    }
++                    _waitHandle?.Dispose();
+                 }
+ 
+                 _disposed = true;
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/ReturnsThrowsOfCloudBlobStreamICancellableAsyncResultExtensions.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/ReturnsThrowsOfCloudBlobStreamICancellableAsyncResultExtensions.cs
+index ec26d775..0f3f30ba 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/ReturnsThrowsOfCloudBlobStreamICancellableAsyncResultExtensions.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/ReturnsThrowsOfCloudBlobStreamICancellableAsyncResultExtensions.cs
+@@ -28,10 +28,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs.Bindings
+ 
+         private static void InvokeCallback(AsyncCallback callback, IAsyncResult result)
+         {
+-            if (callback != null)
+-            {
+-                callback.Invoke(result);
+-            }
++            callback?.Invoke(result);
+         }
+     }
+ }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/SetupOfCloudBlobStreamIAsyncResultExtensions.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/SetupOfCloudBlobStreamIAsyncResultExtensions.cs
+index 3f2e8e30..dbfad2cf 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/SetupOfCloudBlobStreamIAsyncResultExtensions.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/SetupOfCloudBlobStreamIAsyncResultExtensions.cs
+@@ -55,10 +55,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs
+ 
+         private static void InvokeCallback(AsyncCallback callback, IAsyncResult result)
+         {
+-            if (callback != null)
+-            {
+-                callback.Invoke(result);
+-            }
++            callback?.Invoke(result);
+         }
+     }
+ }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/SetupOfCloudBlobStreamICancellableAsyncResultExtensions.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/SetupOfCloudBlobStreamICancellableAsyncResultExtensions.cs
+index 2f428779..78496cbf 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/SetupOfCloudBlobStreamICancellableAsyncResultExtensions.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/SetupOfCloudBlobStreamICancellableAsyncResultExtensions.cs
+@@ -56,10 +56,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs.Bindings
+ 
+         private static void InvokeCallback(AsyncCallback callback, IAsyncResult result)
+         {
+-            if (callback != null)
+-            {
+-                callback.Invoke(result);
+-            }
++            callback?.Invoke(result);
+         }
+     }
+ }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/UncompletedCancellableAsyncResult.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/UncompletedCancellableAsyncResult.cs
+index 7ecaf721..4eed4ee5 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/UncompletedCancellableAsyncResult.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/UncompletedCancellableAsyncResult.cs
+@@ -71,10 +71,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs.Bindings
+         {
+             if (!_disposed)
+             {
+-                if (_waitHandle != null)
+-                {
+-                    _waitHandle.Dispose();
+-                }
++                _waitHandle?.Dispose();
+ 
+                 _disposed = true;
+             }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/WatchableCloudBlobStreamTests.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/WatchableCloudBlobStreamTests.cs
+index 962139b3..c5ec7147 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/WatchableCloudBlobStreamTests.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/Bindings/WatchableCloudBlobStreamTests.cs
+@@ -643,10 +643,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs.Bindings
+                 .Returns<byte[], int, int, AsyncCallback, object>((i1, i2, i3, c, s) =>
+             {
+                 IAsyncResult r = new CompletedAsyncResult(s);
+-                if (c != null)
+-                {
+-                    c.Invoke(r);
+-                }
++                c?.Invoke(r);
+ 
+                 return r;
+             });
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/CompletedAsyncResult.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/CompletedAsyncResult.cs
+index 43137a52..35863f60 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/CompletedAsyncResult.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/CompletedAsyncResult.cs
+@@ -65,10 +65,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs
+         {
+             if (!_disposed)
+             {
+-                if (_waitHandle != null)
+-                {
+-                    _waitHandle.Dispose();
+-                }
++                _waitHandle?.Dispose();
+ 
+                 _disposed = true;
+             }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/CompletingAsyncResult.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/CompletingAsyncResult.cs
+index 1bedca46..45f4f3b7 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/CompletingAsyncResult.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/CompletingAsyncResult.cs
+@@ -72,16 +72,10 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs
+             {
+                 _completed = true;
+ 
+-                if (_waitHandle != null)
+-                {
+-                    _waitHandle.Set();
+-                }
++                _waitHandle?.Set();
+             }
+ 
+-            if (_callback != null)
+-            {
+-                _callback.Invoke(this);
+-            }
++            _callback?.Invoke(this);
+         }
+ 
+         public void Dispose()
+@@ -90,10 +84,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs
+             {
+                 lock (_waitHandleLock)
+                 {
+-                    if (_waitHandle != null)
+-                    {
+-                        _waitHandle.Dispose();
+-                    }
++                    _waitHandle?.Dispose();
+                 }
+ 
+                 _disposed = true;
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/SetupOfStreamIAsyncResultExtensions.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/SetupOfStreamIAsyncResultExtensions.cs
+index 315f6794..fa8cdfe0 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/SetupOfStreamIAsyncResultExtensions.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/SetupOfStreamIAsyncResultExtensions.cs
+@@ -53,10 +53,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs
+ 
+         private static void InvokeCallback(AsyncCallback callback, IAsyncResult result)
+         {
+-            if (callback != null)
+-            {
+-                callback.Invoke(result);
+-            }
++            callback?.Invoke(result);
+         }
+     }
+ }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/UncompletedAsyncResult.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/UncompletedAsyncResult.cs
+index 82bd2200..36e097a4 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/UncompletedAsyncResult.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Blobs/UncompletedAsyncResult.cs
+@@ -65,10 +65,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Blobs
+         {
+             if (!_disposed)
+             {
+-                if (_waitHandle != null)
+-                {
+-                    _waitHandle.Dispose();
+-                }
++                _waitHandle?.Dispose();
+ 
+                 _disposed = true;
+             }
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/HostCallTests.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/HostCallTests.cs
+index 4c22d429..7b3a87e8 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/HostCallTests.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/HostCallTests.cs
+@@ -1454,7 +1454,7 @@ namespace Microsoft.Azure.WebJobs.Host.FunctionalTests
+                 for (int i = 0; i < 3; ++i)
+                 {
+                     bool parsed = int.TryParse(strings[i], out int value);
+-                    string message = String.Format("Unable to parse CloudBlob strings[{0}]: '{1}'", i, strings[i]);
++                    string message = $"Unable to parse CloudBlob strings[{i}]: '{strings[i]}'";
+                     Assert.True(parsed, message);
+                     // Ensure expected value in CloudBlob
+                     Assert.Equal(i, value);
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Queues/QueueListenerTests.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Queues/QueueListenerTests.cs
+index ec1580ed..079ec1a8 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Queues/QueueListenerTests.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Queues/QueueListenerTests.cs
+@@ -158,7 +158,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Queues
+             bool processorFactoryInvoked = false;
+ 
+             // create for a host queue - don't expect custom factory to be invoked
+-            CloudQueue queue = new CloudQueue(new Uri(string.Format("https://test.queue.core.windows.net/{0}", HostQueueNames.GetHostQueueName("12345"))));
++            CloudQueue queue = new CloudQueue(new Uri($"https://test.queue.core.windows.net/{HostQueueNames.GetHostQueueName("12345")}"));
+             QueueProcessor queueProcessor = QueueListener.CreateQueueProcessor(queue, poisonQueue, _loggerFactory, mockQueueProcessorFactory.Object, queueConfig, poisonMessageEventHandler);
+             Assert.False(processorFactoryInvoked);
+             Assert.NotSame(expectedQueueProcessor, queueProcessor);
+@@ -187,7 +187,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Queues
+             // when storage host is "localhost" we invoke the processor factory even for
+             // host queues (this enables local test mocking)
+             processorFactoryInvoked = false;
+-            queue = new CloudQueue(new Uri(string.Format("https://localhost/{0}", HostQueueNames.GetHostQueueName("12345"))));
++            queue = new CloudQueue(new Uri($"https://localhost/{HostQueueNames.GetHostQueueName("12345")}"));
+             queueProcessor = QueueListener.CreateQueueProcessor(queue, poisonQueue, _loggerFactory, mockQueueProcessorFactory.Object, queueConfig, poisonMessageEventHandler);
+             Assert.True(processorFactoryInvoked);
+             Assert.Same(expectedQueueProcessor, queueProcessor);
+@@ -330,11 +330,11 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Queues
+                 var storageAccount = host.GetStorageAccount();
+                 QueueClient = storageAccount.CreateCloudQueueClient();
+ 
+-                string queueName = string.Format("{0}-{1}", TestQueuePrefix, Guid.NewGuid());
++                string queueName = $"{TestQueuePrefix}-{Guid.NewGuid()}";
+                 Queue = QueueClient.GetQueueReference(queueName);
+                 Queue.CreateIfNotExistsAsync(null, null, CancellationToken.None).Wait();
+ 
+-                string poisonQueueName = string.Format("{0}-poison", queueName);
++                string poisonQueueName = $"{queueName}-poison";
+                 PoisonQueue = QueueClient.GetQueueReference(poisonQueueName);
+                 PoisonQueue.CreateIfNotExistsAsync(null, null, CancellationToken.None).Wait();
+             }
+@@ -359,7 +359,7 @@ namespace Microsoft.Azure.WebJobs.Host.UnitTests.Queues
+ 
+             public CloudQueue CreateNewQueue()
+             {
+-                string queueName = string.Format("{0}-{1}", TestQueuePrefix, Guid.NewGuid());
++                string queueName = $"{TestQueuePrefix}-{Guid.NewGuid()}";
+                 var queue = QueueClient.GetQueueReference(queueName);
+                 queue.CreateIfNotExistsAsync(null, null, CancellationToken.None).Wait();
+                 return queue;
+diff --git a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Queues/QueueProcessorTests.cs b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Queues/QueueProcessorTests.cs
+index ef986930..bc654912 100644
+--- a/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Queues/QueueProcessorTests.cs
++++ b/test/Microsoft.Azure.Webjobs.Extensions.Storage.UnitTests/Queues/QueueProcessorTests.cs
+@@ -201,11 +201,11 @@ namespace Microsoft.Azure.WebJobs.Host.FunctionalTests
+                 CloudQueueClient client = task.CreateCloudQueueClient();
+                 QueueClient = client;
+ 
+-                string queueName = string.Format("{0}-{1}", TestQueuePrefix, Guid.NewGuid());
++                string queueName = $"{TestQueuePrefix}-{Guid.NewGuid()}";
+                 Queue = client.GetQueueReference(queueName);
+                 Queue.CreateIfNotExistsAsync(CancellationToken.None).Wait();
+ 
+-                string poisonQueueName = string.Format("{0}-poison", queueName);
++                string poisonQueueName = $"{queueName}-poison";
+                 PoisonQueue = client.GetQueueReference(poisonQueueName);
+                 PoisonQueue.CreateIfNotExistsAsync(CancellationToken.None).Wait();
+             }

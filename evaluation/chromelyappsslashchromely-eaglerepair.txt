@@ -1,0 +1,58 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Chromely.Core
+    #1 Path: D:\a\1\s\src_5.0\Chromely.Core\Network\ChromelyControllerFactory.cs, Line: 52, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\src_5.0\Chromely.Core\Network\ChromelyControllerFactory.cs, Line: 59, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: D:\a\1\s\src_5.0\Chromely.Core\Network\ChromelyControllerFactory.cs, Line: 87, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #4 Path: D:\a\1\s\src_5.0\Chromely.Core\Network\ExtensionMethods.cs, Line: 111, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: D:\a\1\s\src_5.0\Chromely.Core\Network\ExtensionMethods.cs, Line: 122, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Chromely.CefGlue
+    #6 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Browser\CefGlueCustomHandlers.cs, Line: 58, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #7 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Browser\CefGlueCustomHandlers.cs, Line: 67, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #8 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Browser\CefGlueCustomHandlers.cs, Line: 76, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #9 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Browser\CefGlueCustomHandlers.cs, Line: 85, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #10 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\BrowserWindow\HostServicesBase.cs, Line: 129, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #11 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\BrowserWindow\HostServicesBase.cs, Line: 173, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #12 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\BrowserWindow\HostServicesBase.cs, Line: 210, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #13 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\BrowserWindow\HostServicesBase.cs, Line: 245, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #14 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\BrowserWindow\HostServicesBase.cs, Line: 59, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #15 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarArchive..cs, Line: 110, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #16 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarArchive..cs, Line: 157, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #17 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarArchive..cs, Line: 872, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #18 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarBuffer.cs, Line: 464, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarBuffer.cs, Line: 508, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarEntry.cs, Line: 125, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #21 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarHeader.cs, Line: 673, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #22 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarInputStream.cs, Line: 532, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarOutputStream.cs, Line: 300, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\src_5.0\Chromely.CefGlue\Loader\SharpZipLib\Tar\TarOutputStream.cs, Line: 361, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Chromely
+    #25 Path: D:\a\1\s\src_5.0\Chromely\Native\WinAPI\WinAPIHost.cs, Line: 231, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #26 Path: D:\a\1\s\src_5.0\Chromely\Native\WinAPI\WinNativeMethods.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #27 Path: D:\a\1\s\src_5.0\Chromely\Native\WinAPI\WinNativeMethods.cs, Line: 305, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+--- Rules Summary ---
+R8: 14
+R5: 6
+R9: 5
+R7: 2
+
+--- Summary ---
+Fixed ReSharper issues: 27
+Fixed SonarQube issues: 6
+Total fixed issues: 27
+
+Finished in: 13 s
+
+No errors reported.
+

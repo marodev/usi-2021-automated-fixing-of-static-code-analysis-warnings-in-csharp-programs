@@ -1,0 +1,502 @@
+diff --git a/src/Libraries/Nop.Services/Catalog/ProductService.cs b/src/Libraries/Nop.Services/Catalog/ProductService.cs
+index 10d8186d6d..28da72ea71 100644
+--- a/src/Libraries/Nop.Services/Catalog/ProductService.cs
++++ b/src/Libraries/Nop.Services/Catalog/ProductService.cs
+@@ -1330,7 +1330,7 @@ namespace Nop.Services.Catalog
+                 if (limitedToStoresIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(product, store.Id);
+                 }
+                 else
+diff --git a/src/Libraries/Nop.Services/Localization/LocalizedEntityService.cs b/src/Libraries/Nop.Services/Localization/LocalizedEntityService.cs
+index c3a5d8f064..04019f0dcb 100644
+--- a/src/Libraries/Nop.Services/Localization/LocalizedEntityService.cs
++++ b/src/Libraries/Nop.Services/Localization/LocalizedEntityService.cs
+@@ -216,17 +216,13 @@ namespace Nop.Services.Localization
+ 
+             if (!(keySelector.Body is MemberExpression member))
+             {
+-                throw new ArgumentException(string.Format(
+-                    "Expression '{0}' refers to a method, not a property.",
+-                    keySelector));
++                throw new ArgumentException($"Expression '{keySelector}' refers to a method, not a property.");
+             }
+ 
+             var propInfo = member.Member as PropertyInfo;
+             if (propInfo == null)
+             {
+-                throw new ArgumentException(string.Format(
+-                       "Expression '{0}' refers to a field, not a property.",
+-                       keySelector));
++                throw new ArgumentException($"Expression '{keySelector}' refers to a field, not a property.");
+             }
+ 
+             //load localized value (check whether it's a cacheable entity. In such cases we load its original entity type)
+diff --git a/src/Plugins/Nop.Plugin.Shipping.UPS/Connected Services/UPSRate/Reference.cs b/src/Plugins/Nop.Plugin.Shipping.UPS/Connected Services/UPSRate/Reference.cs
+index d5c7c51800..e951fd361f 100644
+--- a/src/Plugins/Nop.Plugin.Shipping.UPS/Connected Services/UPSRate/Reference.cs	
++++ b/src/Plugins/Nop.Plugin.Shipping.UPS/Connected Services/UPSRate/Reference.cs	
+@@ -6446,7 +6446,7 @@ namespace UPSRate
+                 result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.Transport;
+                 return result;
+             }
+-            throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
++            throw new System.InvalidOperationException($"Could not find endpoint with name \'{endpointConfiguration}\'.");
+         }
+         
+         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
+@@ -6459,7 +6459,7 @@ namespace UPSRate
+             {
+                 return new System.ServiceModel.EndpointAddress("https://onlinetools.ups.com/webservices/Rate");
+             }
+-            throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
++            throw new System.InvalidOperationException($"Could not find endpoint with name \'{endpointConfiguration}\'.");
+         }
+         
+         public enum EndpointConfiguration
+diff --git a/src/Plugins/Nop.Plugin.Shipping.UPS/Connected Services/UPSTrack/Reference.cs b/src/Plugins/Nop.Plugin.Shipping.UPS/Connected Services/UPSTrack/Reference.cs
+index 30619f0c9a..00a24c3b48 100644
+--- a/src/Plugins/Nop.Plugin.Shipping.UPS/Connected Services/UPSTrack/Reference.cs	
++++ b/src/Plugins/Nop.Plugin.Shipping.UPS/Connected Services/UPSTrack/Reference.cs	
+@@ -4227,7 +4227,7 @@ namespace UPSTrack
+                 result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.Transport;
+                 return result;
+             }
+-            throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
++            throw new System.InvalidOperationException($"Could not find endpoint with name \'{endpointConfiguration}\'.");
+         }
+         
+         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
+@@ -4240,7 +4240,7 @@ namespace UPSTrack
+             {
+                 return new System.ServiceModel.EndpointAddress("https://onlinetools.ups.com/webservices/Track");
+             }
+-            throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
++            throw new System.InvalidOperationException($"Could not find endpoint with name \'{endpointConfiguration}\'.");
+         }
+         
+         public enum EndpointConfiguration
+diff --git a/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/GoogleRequest.cs b/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/GoogleRequest.cs
+index e6cb26bc18..e158f86b10 100644
+--- a/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/GoogleRequest.cs
++++ b/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/GoogleRequest.cs
+@@ -51,22 +51,7 @@ namespace Nop.Plugin.Widgets.GoogleAnalytics.Api
+ 
+         private string CreateParameterString()
+         {
+-            return string.Format("utmwv={0}&utms={1}&utmn={2}&utmhn={3}&utmsr{4}&utmvp={5}&utmsc={6}&utmul={7}&utmje={8}&utmfl={9}&utmhid={10}&utmr={11}&utmp={12}&utmac={13}&utmcc={14}",
+-                ANALYTICS_VERSION,
+-                _requestCount,
+-                CommonHelper.GenerateRandomInteger(),
+-                HostName,
+-                SCREEN_RESOLUTION,
+-                SCREEN_RESOLUTION,
+-                SCREEN_COLOR_DEPTH,
+-                Culture,
+-                BROWSER_JAVA_ENABLED,
+-                FLASH_VERSION,
+-                CommonHelper.GenerateRandomInteger(),
+-                "-",
+-                PageTitle,
+-                AccountCode,
+-                GetUtmcCookieString());
++            return $"utmwv={ANALYTICS_VERSION}&utms={_requestCount}&utmn={CommonHelper.GenerateRandomInteger()}&utmhn={HostName}&utmsr{SCREEN_RESOLUTION}&utmvp={SCREEN_RESOLUTION}&utmsc={SCREEN_COLOR_DEPTH}&utmul={Culture}&utmje={BROWSER_JAVA_ENABLED}&utmfl={FLASH_VERSION}&utmhid={CommonHelper.GenerateRandomInteger()}&utmr={"-"}&utmp={PageTitle}&utmac={AccountCode}&utmcc={GetUtmcCookieString()}";
+         }
+ 
+         private int DomainHash
+@@ -113,24 +98,11 @@ namespace Nop.Plugin.Widgets.GoogleAnalytics.Api
+                 var timeStampCurrent = (int)span.TotalSeconds;
+ 
+                 //fake the utma
+-                var utma = string.Format("{0}.{1}.{2}.{3}.{4}.{5}",
+-                                            DomainHash,
+-                                            CommonHelper.GenerateRandomInteger(),
+-                                            timeStampCurrent,
+-                                            timeStampCurrent,
+-                                            timeStampCurrent,
+-                                            "2");
+-                var utmz = string.Format("{0}.{1}.{2}.{3}.utmcsr={4}|utmccn={5}|utmcmd={6}",
+-                                                DomainHash,
+-                                                timeStampCurrent,
+-                                                "1",
+-                                                "1",
+-                                                "(direct)",
+-                                                "(direct)",
+-                                               "(none)");
+-
+-
+-                _UtmcCookieString = Uri.EscapeDataString(string.Format("__utma={0};+__utmz={1};", utma, utmz));
++                var utma = $"{DomainHash}.{CommonHelper.GenerateRandomInteger()}.{timeStampCurrent}.{timeStampCurrent}.{timeStampCurrent}.{"2"}";
++                var utmz = $"{DomainHash}.{timeStampCurrent}.{"1"}.{"1"}.utmcsr={"(direct)"}|utmccn={"(direct)"}|utmcmd={"(none)"}";
++
++
++                _UtmcCookieString = Uri.EscapeDataString($"__utma={utma};+__utmz={utmz};");
+             }
+ 
+             return _UtmcCookieString;
+diff --git a/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/Transaction.cs b/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/Transaction.cs
+index 86ff1bc56e..3628e4bb06 100644
+--- a/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/Transaction.cs
++++ b/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/Transaction.cs
+@@ -48,16 +48,7 @@ namespace Nop.Plugin.Widgets.GoogleAnalytics.Api
+         
+         public string CreateParameterString()
+         {
+-            return string.Format("utmt={0}&utmtci={1}&utmtco={2}&utmtrg={3}&utmtid={4}&utmtst={5}&utmtsp={6}&utmtto={7}&utmttx={8}",
+-                                 _utmt,
+-                                 _utmtci,
+-                                 _utmtco,
+-                                 _utmtrg,
+-                                 _orderId,
+-                                 _utmtst,
+-                                 _utmtsp,
+-                                 _utmtto,
+-                                 _utmttx);       
++            return $"utmt={_utmt}&utmtci={_utmtci}&utmtco={_utmtco}&utmtrg={_utmtrg}&utmtid={_orderId}&utmtst={_utmtst}&utmtsp={_utmtsp}&utmtto={_utmtto}&utmttx={_utmttx}";       
+         }
+ 
+         public List<TransactionItem> Items { get; set; }
+diff --git a/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/TransactionItem.cs b/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/TransactionItem.cs
+index 045d3632a2..264f82719f 100644
+--- a/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/TransactionItem.cs
++++ b/src/Plugins/Nop.Plugin.Widgets.GoogleAnalytics/Api/TransactionItem.cs
+@@ -38,14 +38,7 @@ namespace Nop.Plugin.Widgets.GoogleAnalytics.Api
+ 
+         public string CreateParameterString()
+         {
+-            return string.Format("utmt={0}&utmtid={1}&utmipc={2}&utmipn={3}&utmipr={4}&utmiqt={5}&utmiva={6}",
+-                                 _utmt,
+-                                 _utmtid,
+-                                 _utmipc,
+-                                 _utmipn,
+-                                 _utmipr,
+-                                 _utmiqt,
+-                                 _utmiva);
++            return $"utmt={_utmt}&utmtid={_utmtid}&utmipc={_utmipc}&utmipn={_utmipn}&utmipr={_utmipr}&utmiqt={_utmiqt}&utmiva={_utmiva}";
+         }
+     }
+ }
+diff --git a/src/Presentation/Nop.Web.Framework/Extensions/HtmlExtensions.cs b/src/Presentation/Nop.Web.Framework/Extensions/HtmlExtensions.cs
+index b12fc6f917..d8f5abe5bc 100644
+--- a/src/Presentation/Nop.Web.Framework/Extensions/HtmlExtensions.cs
++++ b/src/Presentation/Nop.Web.Framework/Extensions/HtmlExtensions.cs
+@@ -71,7 +71,7 @@ namespace Nop.Web.Framework.Extensions
+                 //default tab
+                 var standardTabName = $"{name}-standard-tab";
+                 var standardTabSelected = string.IsNullOrEmpty(tabNameToSelect) || standardTabName == tabNameToSelect;
+-                tabStrip.AppendLine(string.Format("<li{0}>", standardTabSelected ? " class=\"active\"" : null));
++                tabStrip.AppendLine($"<li{(standardTabSelected ? " class=\"active\"" : null)}>");
+                 tabStrip.AppendLine($"<a data-tab-name=\"{standardTabName}\" href=\"#{standardTabName}\" data-toggle=\"tab\">{EngineContext.Current.Resolve<ILocalizationService>().GetResource("Admin.Common.Standard")}</a>");
+                 tabStrip.AppendLine("</li>");
+ 
+@@ -86,7 +86,7 @@ namespace Nop.Web.Framework.Extensions
+                         throw new Exception("Language cannot be loaded");
+ 
+                     var localizedTabName = $"{name}-{language.Id}-tab";
+-                    tabStrip.AppendLine(string.Format("<li{0}>", localizedTabName == tabNameToSelect ? " class=\"active\"" : null));
++                    tabStrip.AppendLine($"<li{(localizedTabName == tabNameToSelect ? " class=\"active\"" : null)}>");
+                     var iconUrl = urlHelper.Content("~/images/flags/" + language.FlagImageFileName);
+                     tabStrip.AppendLine($"<a data-tab-name=\"{localizedTabName}\" href=\"#{localizedTabName}\" data-toggle=\"tab\"><img alt='' src='{iconUrl}'>{WebUtility.HtmlEncode(language.Name)}</a>");
+ 
+@@ -96,7 +96,7 @@ namespace Nop.Web.Framework.Extensions
+                     
+                 //default tab
+                 tabStrip.AppendLine("<div class=\"tab-content\">");
+-                tabStrip.AppendLine(string.Format("<div class=\"tab-pane{0}\" id=\"{1}\">", standardTabSelected ? " active" : null, standardTabName));
++                tabStrip.AppendLine($"<div class=\"tab-pane{(standardTabSelected ? " active" : null)}\" id=\"{standardTabName}\">");
+                 tabStrip.AppendLine(standardTemplate(helper.ViewData.Model).ToHtmlString());
+                 tabStrip.AppendLine("</div>");
+ 
+@@ -108,7 +108,7 @@ namespace Nop.Web.Framework.Extensions
+                         throw new Exception("Language cannot be loaded");
+ 
+                     var localizedTabName = $"{name}-{language.Id}-tab";
+-                    tabStrip.AppendLine(string.Format("<div class=\"tab-pane{0}\" id=\"{1}\">", localizedTabName == tabNameToSelect ? " active" : null, localizedTabName));
++                    tabStrip.AppendLine($"<div class=\"tab-pane{(localizedTabName == tabNameToSelect ? " active" : null)}\" id=\"{localizedTabName}\">");
+                     tabStrip.AppendLine(localizedTemplate(i).ToHtmlString());
+                     tabStrip.AppendLine("</div>");
+                 }
+diff --git a/src/Presentation/Nop.Web.Framework/Infrastructure/DependencyRegistrar.cs b/src/Presentation/Nop.Web.Framework/Infrastructure/DependencyRegistrar.cs
+index 3b1aecd7cb..7dd16a887d 100644
+--- a/src/Presentation/Nop.Web.Framework/Infrastructure/DependencyRegistrar.cs
++++ b/src/Presentation/Nop.Web.Framework/Infrastructure/DependencyRegistrar.cs
+@@ -307,8 +307,7 @@ namespace Nop.Web.Framework.Infrastructure
+         public IEnumerable<IComponentRegistration> RegistrationsFor(Service service,
+             Func<Service, IEnumerable<IComponentRegistration>> registrations)
+         {
+-            var ts = service as TypedService;
+-            if (ts != null && typeof(ISettings).IsAssignableFrom(ts.ServiceType))
++            if (service is TypedService ts && typeof(ISettings).IsAssignableFrom(ts.ServiceType))
+             {
+                 var buildMethod = _buildMethod.MakeGenericMethod(ts.ServiceType);
+                 yield return (IComponentRegistration)buildMethod.Invoke(null, null);
+diff --git a/src/Presentation/Nop.Web.Framework/Mvc/Filters/SaveSelectedTabsAttribute.cs b/src/Presentation/Nop.Web.Framework/Mvc/Filters/SaveSelectedTabsAttribute.cs
+index 9a7c11eb18..e00d27e63a 100644
+--- a/src/Presentation/Nop.Web.Framework/Mvc/Filters/SaveSelectedTabsAttribute.cs
++++ b/src/Presentation/Nop.Web.Framework/Mvc/Filters/SaveSelectedTabsAttribute.cs
+@@ -121,8 +121,7 @@ namespace Nop.Web.Framework.Mvc.Filters
+ 
+                 var persistForTheNextRequest = actionFilter?.PersistForTheNextRequest ?? _persistForTheNextRequest;
+ 
+-                var controller = filterContext.Controller as BaseController;
+-                if (controller != null)
++                if (filterContext.Controller is BaseController controller)
+                     controller.SaveSelectedTabName(persistForTheNextRequest: persistForTheNextRequest);
+             }
+             
+diff --git a/src/Presentation/Nop.Web.Framework/TagHelpers/Admin/NopLabelTagHelper.cs b/src/Presentation/Nop.Web.Framework/TagHelpers/Admin/NopLabelTagHelper.cs
+index bedda9b26c..964ee27f7a 100644
+--- a/src/Presentation/Nop.Web.Framework/TagHelpers/Admin/NopLabelTagHelper.cs
++++ b/src/Presentation/Nop.Web.Framework/TagHelpers/Admin/NopLabelTagHelper.cs
+@@ -94,8 +94,7 @@ namespace Nop.Web.Framework.TagHelpers.Admin
+                 //add hint
+                 if (For.Metadata.AdditionalValues.TryGetValue("NopResourceDisplayNameAttribute", out object value))
+                 {
+-                    var resourceDisplayName = value as NopResourceDisplayNameAttribute;
+-                    if (resourceDisplayName != null && DisplayHint)
++                    if (value is NopResourceDisplayNameAttribute resourceDisplayName && DisplayHint)
+                     {
+                         var langId = _workContext.WorkingLanguage.Id;
+                         var hintResource = _localizationService.GetResource(
+diff --git a/src/Presentation/Nop.Web.Framework/UI/Paging/Pager.cs b/src/Presentation/Nop.Web.Framework/UI/Paging/Pager.cs
+index 0c7c96d5e1..7710ab87bf 100644
+--- a/src/Presentation/Nop.Web.Framework/UI/Paging/Pager.cs
++++ b/src/Presentation/Nop.Web.Framework/UI/Paging/Pager.cs
+@@ -387,7 +387,7 @@ namespace Nop.Web.Framework.UI.Paging
+             if (!string.IsNullOrEmpty(result))
+             {
+                 
+-                result = string.Format("<ul{0}>", string.IsNullOrEmpty(mainUlCssClass) ? "" : " class=\"" + mainUlCssClass + "\"") + result + "</ul>";
++                result = $"<ul{(string.IsNullOrEmpty(mainUlCssClass) ? "" : " class=\"" + mainUlCssClass + "\"")}>" + result + "</ul>";
+             }
+             return result;
+ 		}
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/BlogController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/BlogController.cs
+index f89d50c969..791e38bdee 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/BlogController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/BlogController.cs
+@@ -77,7 +77,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(blogPost, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/CategoryController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/CategoryController.cs
+index 20271f4d1c..732da4dd3e 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/CategoryController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/CategoryController.cs
+@@ -159,7 +159,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedCustomerRoleIds.Contains(customerRole.Id))
+                 {
+                     //new role
+-                    if (existingAclRecords.Count(acl => acl.CustomerRoleId == customerRole.Id) == 0)
++                    if (!existingAclRecords.Any(acl => acl.CustomerRoleId == customerRole.Id))
+                         _aclService.InsertAclRecord(category, customerRole.Id);
+                 }
+                 else
+@@ -184,7 +184,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(category, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/CheckoutAttributeController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/CheckoutAttributeController.cs
+index 95c7bd29fa..d44137f6d0 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/CheckoutAttributeController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/CheckoutAttributeController.cs
+@@ -122,7 +122,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(checkoutAttribute, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/CountryController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/CountryController.cs
+index c6bd6639db..1ef92a37e8 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/CountryController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/CountryController.cs
+@@ -111,7 +111,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(country, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/CurrencyController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/CurrencyController.cs
+index 7dfa988b21..ea37efa652 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/CurrencyController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/CurrencyController.cs
+@@ -88,7 +88,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(currency, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/LanguageController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/LanguageController.cs
+index c87fee5a9a..f9ce89d9f5 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/LanguageController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/LanguageController.cs
+@@ -83,7 +83,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(language, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/ManufacturerController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/ManufacturerController.cs
+index a66afc2c4a..f46d588891 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/ManufacturerController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/ManufacturerController.cs
+@@ -151,7 +151,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedCustomerRoleIds.Contains(customerRole.Id))
+                 {
+                     //new role
+-                    if (existingAclRecords.Count(acl => acl.CustomerRoleId == customerRole.Id) == 0)
++                    if (!existingAclRecords.Any(acl => acl.CustomerRoleId == customerRole.Id))
+                         _aclService.InsertAclRecord(manufacturer, customerRole.Id);
+                 }
+                 else
+@@ -176,7 +176,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(manufacturer, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/MessageTemplateController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/MessageTemplateController.cs
+index 19d9389c6a..3d532e5f16 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/MessageTemplateController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/MessageTemplateController.cs
+@@ -101,7 +101,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(messageTemplate, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/NewsController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/NewsController.cs
+index 49c6961569..c099bb0134 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/NewsController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/NewsController.cs
+@@ -77,7 +77,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(newsItem, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/ProductController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/ProductController.cs
+index 46ccb950dd..db02697311 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/ProductController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/ProductController.cs
+@@ -241,7 +241,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedCustomerRoleIds.Contains(customerRole.Id))
+                 {
+                     //new role
+-                    if (existingAclRecords.Count(acl => acl.CustomerRoleId == customerRole.Id) == 0)
++                    if (!existingAclRecords.Any(acl => acl.CustomerRoleId == customerRole.Id))
+                         _aclService.InsertAclRecord(product, customerRole.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Controllers/TopicController.cs b/src/Presentation/Nop.Web/Areas/Admin/Controllers/TopicController.cs
+index eae444617f..37b1790787 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Controllers/TopicController.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Controllers/TopicController.cs
+@@ -115,7 +115,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedCustomerRoleIds.Contains(customerRole.Id))
+                 {
+                     //new role
+-                    if (existingAclRecords.Count(acl => acl.CustomerRoleId == customerRole.Id) == 0)
++                    if (!existingAclRecords.Any(acl => acl.CustomerRoleId == customerRole.Id))
+                         _aclService.InsertAclRecord(topic, customerRole.Id);
+                 }
+                 else
+@@ -140,7 +140,7 @@ namespace Nop.Web.Areas.Admin.Controllers
+                 if (model.SelectedStoreIds.Contains(store.Id))
+                 {
+                     //new store
+-                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
++                    if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
+                         _storeMappingService.InsertStoreMapping(topic, store.Id);
+                 }
+                 else
+diff --git a/src/Presentation/Nop.Web/Areas/Admin/Factories/CustomerModelFactory.cs b/src/Presentation/Nop.Web/Areas/Admin/Factories/CustomerModelFactory.cs
+index b01678d4e4..1e38ff81f5 100644
+--- a/src/Presentation/Nop.Web/Areas/Admin/Factories/CustomerModelFactory.cs
++++ b/src/Presentation/Nop.Web/Areas/Admin/Factories/CustomerModelFactory.cs
+@@ -727,8 +727,7 @@ namespace Nop.Web.Areas.Admin.Factories
+                     model.SelectedCustomerRoleIds = _customerService.GetCustomerRoleIds(customer).ToList();
+                     model.RegisteredInStore = _storeService.GetAllStores()
+                         .FirstOrDefault(store => store.Id == customer.RegisteredInStoreId)?.Name ?? string.Empty;
+-                    model.DisplayRegisteredInStore = model.Id > 0 && !string.IsNullOrEmpty(model.RegisteredInStore) &&
+-                        _storeService.GetAllStores().Select(x => x.Id).Count() > 1;
++                    model.DisplayRegisteredInStore = model.Id > 0 && !string.IsNullOrEmpty(model.RegisteredInStore) && _storeService.GetAllStores().Select(x => x.Id).Count() > 1;
+                    
+                     //prepare model affiliate
+                     var affiliate = _affiliateService.GetAffiliateById(customer.AffiliateId);
+diff --git a/src/Presentation/Nop.Web/Factories/ProductModelFactory.cs b/src/Presentation/Nop.Web/Factories/ProductModelFactory.cs
+index 5a93a378ff..69ac154247 100644
+--- a/src/Presentation/Nop.Web/Factories/ProductModelFactory.cs
++++ b/src/Presentation/Nop.Web/Factories/ProductModelFactory.cs
+@@ -1021,7 +1021,7 @@ namespace Nop.Web.Factories
+ 
+                 //all pictures
+                 var pictureModels = new List<PictureModel>();
+-                for (var i = 0; i < pictures.Count(); i++ )
++                for (var i = 0; i < pictures.Count; i++ )
+                 {
+                     var picture = pictures[i];
+                     var pictureModel = new PictureModel
+diff --git a/src/Tests/Nop.Services.Tests/Messages/NotificationServiceTests.cs b/src/Tests/Nop.Services.Tests/Messages/NotificationServiceTests.cs
+index 44f79df50c..bd0753c26b 100644
+--- a/src/Tests/Nop.Services.Tests/Messages/NotificationServiceTests.cs
++++ b/src/Tests/Nop.Services.Tests/Messages/NotificationServiceTests.cs
+@@ -60,18 +60,18 @@ namespace Nop.Services.Tests.Messages
+ 
+             messageList.Count.Should().Be(3);
+             var succMsg = messageList
+-                .Where(m => m.Type == NotifyType.Success)
+-                .First();
++                .First(m => m.Type == NotifyType.Success)
++;
+             succMsg.Message.Should().Be("success");
+ 
+             var warnMsg = messageList
+-                .Where(m => m.Type == NotifyType.Warning)
+-                .First();
++                .First(m => m.Type == NotifyType.Warning)
++;
+             warnMsg.Message.Should().Be("warning");
+ 
+             var errMsg = messageList
+-                .Where(m => m.Type == NotifyType.Error)
+-                .First();
++                .First(m => m.Type == NotifyType.Error)
++;
+             errMsg.Message.Should().Be("error");
+         }
+ 

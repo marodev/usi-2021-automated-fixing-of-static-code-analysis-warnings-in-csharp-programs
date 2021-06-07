@@ -1,0 +1,3745 @@
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Compound/Hyphenation/HyphenationTree.cs b/src/Lucene.Net.Analysis.Common/Analysis/Compound/Hyphenation/HyphenationTree.cs
+index e59acb52b..79d524525 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Compound/Hyphenation/HyphenationTree.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Compound/Hyphenation/HyphenationTree.cs
+@@ -479,9 +479,9 @@ public virtual Hyphenation Hyphenate(char[] w, int offset, int len, int remainCh
+                     object o = hw[i];
+                     // j = index(sw) = letterindex(word)?
+                     // result[k] = corresponding index(w)
+-                    if (o is string)
++                    if (o is string s)
+                     {
+-                        j += ((string)o).Length;
++                        j += s.Length;
+                         if (j >= remainCharCount && j < (len - pushCharCount))
+                         {
+                             result[k++] = j + iIgnoreAtBeginning;
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Compound/Hyphenation/PatternParser.cs b/src/Lucene.Net.Analysis.Common/Analysis/Compound/Hyphenation/PatternParser.cs
+index 0ed4a5812..1709a167f 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Compound/Hyphenation/PatternParser.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Compound/Hyphenation/PatternParser.cs
+@@ -300,9 +300,8 @@ protected virtual IList<object> NormalizeException<T1>(IList<T1> ex)
+             for (int i = 0; i < ex.Count; i++)
+             {
+                 object item = ex[i];
+-                if (item is string)
++                if (item is string str)
+                 {
+-                    string str = (string)item;
+                     StringBuilder buf = new StringBuilder();
+                     for (int j = 0; j < str.Length; j++)
+                     {
+@@ -341,9 +340,9 @@ protected virtual string GetExceptionWord<T1>(IList<T1> ex)
+             for (int i = 0; i < ex.Count; i++)
+             {
+                 object item = ex[i];
+-                if (item is string)
++                if (item is string s)
+                 {
+-                    res.Append((string)item);
++                    res.Append(s);
+                 }
+                 else
+                 {
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Fr/FrenchStemmer.cs b/src/Lucene.Net.Analysis.Common/Analysis/Fr/FrenchStemmer.cs
+index 1dcae7968..dde2e6653 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Fr/FrenchStemmer.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Fr/FrenchStemmer.cs
+@@ -329,7 +329,7 @@ private void Step5()
+         /// </summary>
+         private void Step6()
+         {
+-            if (R0 != null && R0.Length > 0)
++            if (!string.IsNullOrEmpty(R0))
+             {
+                 bool seenVowel = false;
+                 bool seenConson = false;
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Hunspell/Dictionary.cs b/src/Lucene.Net.Analysis.Common/Analysis/Hunspell/Dictionary.cs
+index b175b5886..8eec2f185 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Hunspell/Dictionary.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Hunspell/Dictionary.cs
+@@ -352,7 +352,7 @@ private void ReadAffixFile(Stream affixStream, Encoding decoder)
+                     string[] parts = whitespacePattern.Split(line).TrimEnd();
+                     if (parts.Length != 2)
+                     {
+-                        throw new FormatException(string.Format("Illegal CIRCUMFIX declaration, line {0}", lineNumber));
++                        throw new FormatException($"Illegal CIRCUMFIX declaration, line {lineNumber}");
+                     }
+                     circumfix = flagParsingStrategy.ParseFlag(parts[1]);
+                 }
+@@ -361,7 +361,7 @@ private void ReadAffixFile(Stream affixStream, Encoding decoder)
+                     string[] parts = whitespacePattern.Split(line).TrimEnd();
+                     if (parts.Length != 2)
+                     {
+-                        throw new FormatException(string.Format("Illegal KEEPCASE declaration, line {0}", lineNumber));
++                        throw new FormatException($"Illegal KEEPCASE declaration, line {lineNumber}");
+                     }
+                     keepcase = flagParsingStrategy.ParseFlag(parts[1]);
+                 }
+@@ -370,7 +370,7 @@ private void ReadAffixFile(Stream affixStream, Encoding decoder)
+                     string[] parts = whitespacePattern.Split(line).TrimEnd();
+                     if (parts.Length != 2)
+                     {
+-                        throw new FormatException(string.Format("Illegal NEEDAFFIX declaration, line {0}", lineNumber));
++                        throw new FormatException($"Illegal NEEDAFFIX declaration, line {lineNumber}");
+                     }
+                     needaffix = flagParsingStrategy.ParseFlag(parts[1]);
+                 }
+@@ -379,7 +379,7 @@ private void ReadAffixFile(Stream affixStream, Encoding decoder)
+                     string[] parts = whitespacePattern.Split(line).TrimEnd();
+                     if (parts.Length != 2)
+                     {
+-                        throw new FormatException(string.Format("Illegal ONLYINCOMPOUND declaration, line {0}", lineNumber));
++                        throw new FormatException($"Illegal ONLYINCOMPOUND declaration, line {lineNumber}");
+                     }
+                     onlyincompound = flagParsingStrategy.ParseFlag(parts[1]);
+                 }
+@@ -388,7 +388,7 @@ private void ReadAffixFile(Stream affixStream, Encoding decoder)
+                     string[] parts = whitespacePattern.Split(line).TrimEnd();
+                     if (parts.Length != 2)
+                     {
+-                        throw new FormatException(string.Format("Illegal IGNORE declaration, line {0}", lineNumber));
++                        throw new FormatException($"Illegal IGNORE declaration, line {lineNumber}");
+                     }
+                     ignore = parts[1].ToCharArray();
+                     Array.Sort(ignore);
+@@ -400,7 +400,7 @@ private void ReadAffixFile(Stream affixStream, Encoding decoder)
+                     string type = parts[0];
+                     if (parts.Length != 2)
+                     {
+-                        throw new FormatException(string.Format("Illegal {0} declaration, line {1}", type, lineNumber));
++                        throw new FormatException($"Illegal {type} declaration, line {lineNumber}");
+                     }
+                     int num = int.Parse(parts[1], CultureInfo.InvariantCulture);
+                     FST<CharsRef> res = ParseConversions(reader, num);
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Miscellaneous/PatternAnalyzer.cs b/src/Lucene.Net.Analysis.Common/Analysis/Miscellaneous/PatternAnalyzer.cs
+index 471e5464e..a9c151152 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Miscellaneous/PatternAnalyzer.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Miscellaneous/PatternAnalyzer.cs
+@@ -252,8 +252,7 @@ public override bool Equals(object other)
+                 return false;
+             }
+ 
+-            var p2 = other as PatternAnalyzer;
+-            if (p2 != null)
++            if (other is PatternAnalyzer p2)
+             {
+                 return toLowerCase == p2.toLowerCase && EqPattern(pattern, p2.pattern) && Eq(stopWords, p2.stopWords);
+             }
+@@ -304,8 +303,7 @@ private static bool EqPattern(Regex p1, Regex p2)
+         /// <exception cref="IOException"> if an I/O error occurs while reading the stream </exception>
+         private static string ToString(TextReader input)
+         {
+-            var reader = input as FastStringReader;
+-            if (reader != null) // fast path
++            if (input is FastStringReader reader) // fast path
+             {
+                 return reader.String;
+             }
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Miscellaneous/PrefixAwareTokenFilter.cs b/src/Lucene.Net.Analysis.Common/Analysis/Miscellaneous/PrefixAwareTokenFilter.cs
+index 3dd93bb16..2badaf2a1 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Miscellaneous/PrefixAwareTokenFilter.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Miscellaneous/PrefixAwareTokenFilter.cs
+@@ -192,10 +192,7 @@ public override void Reset()
+                 prefixExhausted = false;
+                 prefix.Reset();
+             }
+-            if (suffix != null)
+-            {
+-                suffix.Reset();
+-            }
++            suffix?.Reset();
+         }
+ 
+         public virtual TokenStream Prefix
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Payloads/TypeAsPayloadTokenFilter.cs b/src/Lucene.Net.Analysis.Common/Analysis/Payloads/TypeAsPayloadTokenFilter.cs
+index de3eb375d..bbf8e4261 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Payloads/TypeAsPayloadTokenFilter.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Payloads/TypeAsPayloadTokenFilter.cs
+@@ -43,7 +43,7 @@ public override sealed bool IncrementToken()
+             if (m_input.IncrementToken())
+             {
+                 string type = typeAtt.Type;
+-                if (type != null && type.Length > 0)
++                if (!string.IsNullOrEmpty(type))
+                 {
+                     payloadAtt.Payload = new BytesRef(type);
+                 }
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Standard/ClassicTokenizerImpl.cs b/src/Lucene.Net.Analysis.Common/Analysis/Standard/ClassicTokenizerImpl.cs
+index 6a2deb995..4a82a078f 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Standard/ClassicTokenizerImpl.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Standard/ClassicTokenizerImpl.cs
+@@ -508,10 +508,7 @@ public void YyClose()
+             zzAtEOF = true; // indicate end of file
+             zzEndRead = zzStartRead; // invalidate buffer
+ 
+-            if (zzReader != null)
+-            {
+-                zzReader.Dispose();
+-            }
++            zzReader?.Dispose();
+         }
+ 
+ 
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Standard/StandardTokenizerImpl.cs b/src/Lucene.Net.Analysis.Common/Analysis/Standard/StandardTokenizerImpl.cs
+index af84bec07..613a29981 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Standard/StandardTokenizerImpl.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Standard/StandardTokenizerImpl.cs
+@@ -1105,10 +1105,7 @@ public void YyClose()
+             zzAtEOF = true; // indicate end of file
+             zzEndRead = zzStartRead; // invalidate buffer
+ 
+-            if (zzReader != null)
+-            {
+-                zzReader.Dispose();
+-            }
++            zzReader?.Dispose();
+         }
+ 
+ 
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std31/UAX29URLEmailTokenizerImpl31.cs b/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std31/UAX29URLEmailTokenizerImpl31.cs
+index afded0478..d4c5cccb6 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std31/UAX29URLEmailTokenizerImpl31.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std31/UAX29URLEmailTokenizerImpl31.cs
+@@ -3385,10 +3385,7 @@ public void YyClose()
+             zzAtEOF = true;            // indicate end of file 
+             zzEndRead = zzStartRead;  // invalidate buffer    
+ 
+-            if (zzReader != null)
+-            {
+-                zzReader.Dispose();
+-            }
++            zzReader?.Dispose();
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std34/UAX29URLEmailTokenizerImpl34.cs b/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std34/UAX29URLEmailTokenizerImpl34.cs
+index 9ca63765c..f05159d44 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std34/UAX29URLEmailTokenizerImpl34.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std34/UAX29URLEmailTokenizerImpl34.cs
+@@ -3494,10 +3494,7 @@ public void YyClose()
+             zzAtEOF = true;            /* indicate end of file */
+             zzEndRead = zzStartRead;  /* invalidate buffer    */
+ 
+-            if (zzReader != null)
+-            {
+-                zzReader.Dispose();
+-            }
++            zzReader?.Dispose();
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std36/UAX29URLEmailTokenizerImpl36.cs b/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std36/UAX29URLEmailTokenizerImpl36.cs
+index 6a854f64b..ac5f695b8 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std36/UAX29URLEmailTokenizerImpl36.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std36/UAX29URLEmailTokenizerImpl36.cs
+@@ -3929,10 +3929,7 @@ public void YyClose()
+             zzAtEOF = true;            /* indicate end of file */
+             zzEndRead = zzStartRead;  /* invalidate buffer    */
+ 
+-            if (zzReader != null)
+-            {
+-                zzReader.Dispose();
+-            }
++            zzReader?.Dispose();
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std40/UAX29URLEmailTokenizerImpl40.cs b/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std40/UAX29URLEmailTokenizerImpl40.cs
+index 687dca7a9..4a5e2ca71 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std40/UAX29URLEmailTokenizerImpl40.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Standard/Std40/UAX29URLEmailTokenizerImpl40.cs
+@@ -4144,10 +4144,7 @@ public void YyClose()
+             zzAtEOF = true;            /* indicate end of file */
+             zzEndRead = zzStartRead;  /* invalidate buffer    */
+ 
+-            if (zzReader != null)
+-            {
+-                zzReader.Dispose();
+-            }
++            zzReader?.Dispose();
+         }
+ 
+ 
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Standard/UAX29URLEmailTokenizerImpl.cs b/src/Lucene.Net.Analysis.Common/Analysis/Standard/UAX29URLEmailTokenizerImpl.cs
+index c4ab7b7eb..da9ef9351 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Standard/UAX29URLEmailTokenizerImpl.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Standard/UAX29URLEmailTokenizerImpl.cs
+@@ -9251,10 +9251,7 @@ public void YyClose()
+             zzAtEOF = true;            /* indicate end of file */
+             zzEndRead = zzStartRead;  /* invalidate buffer    */
+ 
+-            if (zzReader != null)
+-            {
+-                zzReader.Dispose();
+-            }
++            zzReader?.Dispose();
+         }
+ 
+ 
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Synonym/SynonymMap.cs b/src/Lucene.Net.Analysis.Common/Analysis/Synonym/SynonymMap.cs
+index d79074aa4..347892cd0 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Synonym/SynonymMap.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Synonym/SynonymMap.cs
+@@ -315,10 +315,7 @@ public virtual SynonymMap Build()
+                     Array.Copy(scratch.Bytes, 0, scratch.Bytes, vIntLen, pos);
+                     Array.Copy(spare, 0, scratch.Bytes, 0, vIntLen);
+ 
+-                    if (dedupSet != null)
+-                    {
+-                        dedupSet.Clear();
+-                    }
++                    dedupSet?.Clear();
+ 
+                     scratch.Length = scratchOutput.Position - scratch.Offset;
+                     //System.out.println("  add input=" + input + " output=" + scratch + " offset=" + scratch.offset + " length=" + scratch.length + " count=" + count);
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Util/BufferedCharFilter.cs b/src/Lucene.Net.Analysis.Common/Analysis/Util/BufferedCharFilter.cs
+index bcb394d4e..5a5805154 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Util/BufferedCharFilter.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Util/BufferedCharFilter.cs
+@@ -309,16 +309,13 @@ public override int Read(char[] buffer, int offset, int length)
+                         offset += count2;
+                         outstanding -= count2;
+                     }
+-
+                     /*
+                      * Before attempting to read from the underlying stream, make
+                      * sure we really, really want to. We won't bother if we're
+                      * done, or if we've already got some bytes and reading from the
+                      * underlying stream would block.
+-                     */
+-                    // LUCENENET specific: only CharFilter derived types support IsReady
+-                    var charFilter = @in as CharFilter;
+-                    if (outstanding == 0 || (outstanding < length) && charFilter != null && !charFilter.IsReady)
++                     */                    // LUCENENET specific: only CharFilter derived types support IsReady
++                    if (outstanding == 0 || (outstanding < length) && @in is CharFilter charFilter && !charFilter.IsReady)
+                     {
+                         break;
+                     }
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Util/CharArrayMap.cs b/src/Lucene.Net.Analysis.Common/Analysis/Util/CharArrayMap.cs
+index 15cb538f9..8f1cee1b4 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Util/CharArrayMap.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Util/CharArrayMap.cs
+@@ -286,8 +286,7 @@ public virtual bool ContainsKey(object o)
+                 throw new ArgumentException("o can't be null", nameof(o));
+             }
+ 
+-            var c = o as char[];
+-            if (c != null)
++            if (o is char[] c)
+             {
+                 var text = c;
+                 return ContainsKey(text, 0, text.Length);
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Util/CharArraySet.cs b/src/Lucene.Net.Analysis.Common/Analysis/Util/CharArraySet.cs
+index bdb8211af..d4475c7c2 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Util/CharArraySet.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Util/CharArraySet.cs
+@@ -566,8 +566,8 @@ public virtual bool IsSubsetOf(IEnumerable<string> other)
+             {
+                 return true;
+             }
+-            CharArraySet set = other as CharArraySet;
+-            if (set != null)
++
++            if (other is CharArraySet set)
+             {
+                 if (this.Count > set.Count)
+                 {
+@@ -615,15 +615,14 @@ public virtual bool IsSupersetOf(IEnumerable<string> other)
+             {
+                 throw new ArgumentNullException(nameof(other));
+             }
+-            ICollection<string> is2 = other as ICollection<string>;
+-            if (is2 != null)
++
++            if (other is ICollection<string> is2)
+             {
+                 if (is2.Count == 0)
+                 {
+                     return true;
+                 }
+-                CharArraySet set = other as CharArraySet;
+-                if ((set != null) && (set.Count > this.Count))
++                if ((other is CharArraySet set) && (set.Count > this.Count))
+                 {
+                     return false;
+                 }
+@@ -642,8 +641,8 @@ public virtual bool IsSupersetOf<T>(IEnumerable<T> other)
+             {
+                 throw new ArgumentNullException(nameof(other));
+             }
+-            ICollection<T> is2 = other as ICollection<T>;
+-            if (is2 != null && is2.Count == 0)
++
++            if (other is ICollection<T> is2 && is2.Count == 0)
+             {
+                 return true;
+             }
+@@ -661,15 +660,14 @@ public virtual bool IsProperSubsetOf(IEnumerable<string> other)
+             {
+                 throw new ArgumentNullException(nameof(other));
+             }
+-            ICollection<string> is2 = other as ICollection<string>;
+-            if (is2 != null)
++
++            if (other is ICollection<string> is2)
+             {
+                 if (this.Count == 0)
+                 {
+                     return (is2.Count > 0);
+                 }
+-                CharArraySet set = other as CharArraySet;
+-                if (set != null)
++                if (other is CharArraySet set)
+                 {
+                     if (this.Count >= set.Count)
+                     {
+@@ -696,8 +694,8 @@ public virtual bool IsProperSubsetOf<T>(IEnumerable<T> other)
+             {
+                 throw new ArgumentNullException(nameof(other));
+             }
+-            ICollection<T> is2 = other as ICollection<T>;
+-            if (is2 != null && this.Count == 0)
++
++            if (other is ICollection<T> is2 && this.Count == 0)
+             {
+                 return (is2.Count > 0);
+             }
+@@ -723,15 +721,14 @@ public virtual bool IsProperSupersetOf(IEnumerable<string> other)
+             {
+                 return false;
+             }
+-            ICollection<string> is2 = other as ICollection<string>;
+-            if (is2 != null)
++
++            if (other is ICollection<string> is2)
+             {
+                 if (is2.Count == 0)
+                 {
+                     return true;
+                 }
+-                CharArraySet set = other as CharArraySet;
+-                if (set != null)
++                if (other is CharArraySet set)
+                 {
+                     if (set.Count >= this.Count)
+                     {
+@@ -759,8 +756,8 @@ public virtual bool IsProperSupersetOf<T>(IEnumerable<T> other)
+             {
+                 return false;
+             }
+-            ICollection<T> is2 = other as ICollection<T>;
+-            if (is2 != null && is2.Count == 0)
++
++            if (other is ICollection<T> is2 && is2.Count == 0)
+             {
+                 return true;
+             }
+diff --git a/src/Lucene.Net.Analysis.Common/Analysis/Wikipedia/WikipediaTokenizerImpl.cs b/src/Lucene.Net.Analysis.Common/Analysis/Wikipedia/WikipediaTokenizerImpl.cs
+index 450605706..a6ea2cb7c 100644
+--- a/src/Lucene.Net.Analysis.Common/Analysis/Wikipedia/WikipediaTokenizerImpl.cs
++++ b/src/Lucene.Net.Analysis.Common/Analysis/Wikipedia/WikipediaTokenizerImpl.cs
+@@ -611,10 +611,7 @@ public void YyClose()
+             zzAtEOF = true;            /* indicate end of file */
+             zzEndRead = zzStartRead;  /* invalidate buffer    */
+ 
+-            if (zzReader != null)
+-            {
+-                zzReader.Dispose();
+-            }
++            zzReader?.Dispose();
+         }
+ 
+ 
+diff --git a/src/Lucene.Net.Analysis.Kuromoji/JapaneseTokenizer.cs b/src/Lucene.Net.Analysis.Kuromoji/JapaneseTokenizer.cs
+index a635e987a..5f38ef00d 100644
+--- a/src/Lucene.Net.Analysis.Kuromoji/JapaneseTokenizer.cs
++++ b/src/Lucene.Net.Analysis.Kuromoji/JapaneseTokenizer.cs
+@@ -888,10 +888,7 @@ private void Backtrace(Position endPosData, int fromIDX)
+ 
+             char[] fragment = buffer.Get(lastBackTracePos, endPos - lastBackTracePos);
+ 
+-            if (dotOut != null)
+-            {
+-                dotOut.OnBacktrace(this, positions, lastBackTracePos, endPosData, fromIDX, fragment, end);
+-            }
++            dotOut?.OnBacktrace(this, positions, lastBackTracePos, endPosData, fromIDX, fragment, end);
+ 
+             int pos = endPos;
+             int bestIDX = fromIDX;
+diff --git a/src/Lucene.Net.Analysis.Phonetic/DoubleMetaphoneFilter.cs b/src/Lucene.Net.Analysis.Phonetic/DoubleMetaphoneFilter.cs
+index b4e259227..bafc36632 100644
+--- a/src/Lucene.Net.Analysis.Phonetic/DoubleMetaphoneFilter.cs
++++ b/src/Lucene.Net.Analysis.Phonetic/DoubleMetaphoneFilter.cs
+@@ -77,7 +77,7 @@ public override bool IncrementToken()
+                 // one token will be generated.
+                 bool saveState = inject;
+ 
+-                if (primaryPhoneticValue != null && primaryPhoneticValue.Length > 0 && !primaryPhoneticValue.Equals(v, StringComparison.Ordinal))
++                if (!string.IsNullOrEmpty(primaryPhoneticValue) && !primaryPhoneticValue.Equals(v, StringComparison.Ordinal))
+                 {
+                     if (saveState)
+                     {
+@@ -89,7 +89,7 @@ public override bool IncrementToken()
+                     saveState = true;
+                 }
+ 
+-                if (alternatePhoneticValue != null && alternatePhoneticValue.Length > 0
++                if (!string.IsNullOrEmpty(alternatePhoneticValue)
+                         && !alternatePhoneticValue.Equals(primaryPhoneticValue, StringComparison.Ordinal)
+                         && !primaryPhoneticValue.Equals(v, StringComparison.Ordinal))
+                 {
+diff --git a/src/Lucene.Net.Analysis.Phonetic/Language/Bm/Languages.cs b/src/Lucene.Net.Analysis.Phonetic/Language/Bm/Languages.cs
+index 63d7886dc..910b5312a 100644
+--- a/src/Lucene.Net.Analysis.Phonetic/Language/Bm/Languages.cs
++++ b/src/Lucene.Net.Analysis.Phonetic/Language/Bm/Languages.cs
+@@ -130,7 +130,7 @@ public static Languages GetInstance(string languagesResourceName)
+ 
+         private static string LangResourceName(NameType nameType)
+         {
+-            return string.Format("{0}_languages.txt", nameType.GetName()); 
++            return $"{nameType.GetName()}_languages.txt"; 
+         }
+ 
+         private readonly ISet<string> languages;
+diff --git a/src/Lucene.Net.Analysis.Phonetic/Language/Bm/Rule.cs b/src/Lucene.Net.Analysis.Phonetic/Language/Bm/Rule.cs
+index 05c6633d5..eff9f3e9d 100644
+--- a/src/Lucene.Net.Analysis.Phonetic/Language/Bm/Rule.cs
++++ b/src/Lucene.Net.Analysis.Phonetic/Language/Bm/Rule.cs
+@@ -198,8 +198,7 @@ private static bool Contains(StringBuilder chars, char input)
+ 
+         private static string CreateResourceName(NameType nameType, RuleType rt, string lang)
+         {
+-            return string.Format("{0}_{1}_{2}.txt",
+-                                 nameType.GetName(), rt.GetName(), lang);
++            return $"{nameType.GetName()}_{rt.GetName()}_{lang}.txt";
+         }
+ 
+         private static TextReader CreateScanner(NameType nameType, RuleType rt, string lang)
+@@ -217,7 +216,7 @@ private static TextReader CreateScanner(NameType nameType, RuleType rt, string l
+ 
+         private static TextReader CreateScanner(string lang)
+         {
+-            string resName = string.Format("{0}.txt", lang); 
++            string resName = $"{lang}.txt"; 
+             Stream rulesIS = typeof(Languages).FindAndGetManifestResourceStream(resName);
+ 
+             if (rulesIS == null)
+@@ -342,8 +341,7 @@ public static IList<Rule> GetInstance(NameType nameType, RuleType rt, string lan
+             }
+             else
+             {
+-                throw new ArgumentException(string.Format("No rules found for {0}, {1}, {2}.",
+-                                                   nameType.GetName(), rt.GetName(), lang));
++                throw new ArgumentException($"No rules found for {nameType.GetName()}, {rt.GetName()}, {lang}.");
+             }
+ 
+             return rules;
+diff --git a/src/Lucene.Net.Analysis.Phonetic/Language/DaitchMokotoffSoundex.cs b/src/Lucene.Net.Analysis.Phonetic/Language/DaitchMokotoffSoundex.cs
+index 88c92a4bd..d4ccc33bc 100644
+--- a/src/Lucene.Net.Analysis.Phonetic/Language/DaitchMokotoffSoundex.cs
++++ b/src/Lucene.Net.Analysis.Phonetic/Language/DaitchMokotoffSoundex.cs
+@@ -215,8 +215,7 @@ public bool Matches(string context)
+ 
+             public override string ToString()
+             {
+-                return string.Format("{0}=({1},{2},{3})", pattern, Collections.ToString(replacementAtStart),
+-                    Collections.ToString(replacementBeforeVowel), Collections.ToString(replacementDefault));
++                return $"{pattern}=({Collections.ToString(replacementAtStart)},{Collections.ToString(replacementBeforeVowel)},{Collections.ToString(replacementDefault)})";
+             }
+         }
+ 
+diff --git a/src/Lucene.Net.Benchmark/ByTask/Feeds/DocMaker.cs b/src/Lucene.Net.Benchmark/ByTask/Feeds/DocMaker.cs
+index 1ac16f3ba..4b64b3982 100644
+--- a/src/Lucene.Net.Benchmark/ByTask/Feeds/DocMaker.cs
++++ b/src/Lucene.Net.Benchmark/ByTask/Feeds/DocMaker.cs
+@@ -296,7 +296,7 @@ private Document CreateDocument(DocData docData, int size, int cnt)
+             doc.Add(titleField);
+ 
+             string body = docData.Body;
+-            if (body != null && body.Length > 0)
++            if (!string.IsNullOrEmpty(body))
+             {
+                 string bdy;
+                 if (size <= 0 || size >= body.Length)
+diff --git a/src/Lucene.Net.Benchmark/ByTask/Feeds/LineDocSource.cs b/src/Lucene.Net.Benchmark/ByTask/Feeds/LineDocSource.cs
+index e3d2f0f7f..4e1130dcc 100644
+--- a/src/Lucene.Net.Benchmark/ByTask/Feeds/LineDocSource.cs
++++ b/src/Lucene.Net.Benchmark/ByTask/Feeds/LineDocSource.cs
+@@ -53,10 +53,7 @@ private void OpenFile()
+         {
+             try
+             {
+-                if (reader != null)
+-                {
+-                    reader.Dispose();
+-                }
++                reader?.Dispose();
+                 Stream @is = StreamUtils.GetInputStream(file);
+                 reader = new StreamReader(@is, m_encoding);
+                 if (skipHeaderLine)
+diff --git a/src/Lucene.Net.Benchmark/ByTask/Feeds/SpatialDocMaker.cs b/src/Lucene.Net.Benchmark/ByTask/Feeds/SpatialDocMaker.cs
+index d7ae442dd..6cf861997 100644
+--- a/src/Lucene.Net.Benchmark/ByTask/Feeds/SpatialDocMaker.cs
++++ b/src/Lucene.Net.Benchmark/ByTask/Feeds/SpatialDocMaker.cs
+@@ -210,7 +210,7 @@ public override Document MakeDocument()
+ 
+         public static IShape MakeShapeFromString(SpatialStrategy strategy, string name, string shapeStr)
+         {
+-            if (shapeStr != null && shapeStr.Length > 0)
++            if (!string.IsNullOrEmpty(shapeStr))
+             {
+                 try
+                 {
+diff --git a/src/Lucene.Net.Benchmark/ByTask/PerfRunData.cs b/src/Lucene.Net.Benchmark/ByTask/PerfRunData.cs
+index 2101448a5..7d475e7ae 100644
+--- a/src/Lucene.Net.Benchmark/ByTask/PerfRunData.cs
++++ b/src/Lucene.Net.Benchmark/ByTask/PerfRunData.cs
+@@ -274,15 +274,9 @@ public virtual void SetTaxonomyReader(TaxonomyReader taxoReader)
+                 {
+                     return;
+                 }
+-                if (taxonomyReader != null)
+-                {
+-                    taxonomyReader.DecRef();
+-                }
++                taxonomyReader?.DecRef();
+ 
+-                if (taxoReader != null)
+-                {
+-                    taxoReader.IncRef();
+-                }
++                taxoReader?.IncRef();
+                 this.taxonomyReader = taxoReader;
+             }
+         }
+@@ -296,10 +290,7 @@ public virtual TaxonomyReader GetTaxonomyReader()
+         {
+             lock (this)
+             {
+-                if (taxonomyReader != null)
+-                {
+-                    taxonomyReader.IncRef();
+-                }
++                taxonomyReader?.IncRef();
+                 return taxonomyReader;
+             }
+         }
+@@ -322,10 +313,7 @@ public virtual DirectoryReader GetIndexReader()
+         {
+             lock (this)
+             {
+-                if (indexReader != null)
+-                {
+-                    indexReader.IncRef();
+-                }
++                indexReader?.IncRef();
+                 return indexReader;
+             }
+         }
+@@ -340,10 +328,7 @@ public virtual IndexSearcher GetIndexSearcher()
+         {
+             lock (this)
+             {
+-                if (indexReader != null)
+-                {
+-                    indexReader.IncRef();
+-                }
++                indexReader?.IncRef();
+                 return indexSearcher;
+             }
+         }
+diff --git a/src/Lucene.Net.Benchmark/ByTask/Tasks/CloseIndexTask.cs b/src/Lucene.Net.Benchmark/ByTask/Tasks/CloseIndexTask.cs
+index a85683d82..3137e2c1e 100644
+--- a/src/Lucene.Net.Benchmark/ByTask/Tasks/CloseIndexTask.cs
++++ b/src/Lucene.Net.Benchmark/ByTask/Tasks/CloseIndexTask.cs
+@@ -43,10 +43,7 @@ public override int DoLogic()
+             {
+                 // If infoStream was set to output to a file, close it.
+                 InfoStream infoStream = iw.Config.InfoStream;
+-                if (infoStream != null)
+-                {
+-                    infoStream.Dispose();
+-                }
++                infoStream?.Dispose();
+                 iw.Dispose(doWait);
+                 RunData.IndexWriter = null;
+             }
+diff --git a/src/Lucene.Net.Benchmark/ByTask/Tasks/OpenReaderTask.cs b/src/Lucene.Net.Benchmark/ByTask/Tasks/OpenReaderTask.cs
+index a7967e768..e78bb387a 100644
+--- a/src/Lucene.Net.Benchmark/ByTask/Tasks/OpenReaderTask.cs
++++ b/src/Lucene.Net.Benchmark/ByTask/Tasks/OpenReaderTask.cs
+@@ -80,11 +80,7 @@ public static IndexCommit FindIndexCommit(Store.Directory dir, string userData)
+             {
+                 IDictionary<string, string> map = ic.UserData;
+                 string ud = null;
+-                if (map != null)
+-                {
+-                    //ud = map.get(USER_DATA);
+-                    map.TryGetValue(USER_DATA, out ud);
+-                }
++                map?.TryGetValue(USER_DATA, out ud);
+                 if (ud != null && ud.Equals(userData, StringComparison.Ordinal))
+                 {
+                     return ic;
+diff --git a/src/Lucene.Net.Benchmark/ByTask/Tasks/RollbackIndexTask.cs b/src/Lucene.Net.Benchmark/ByTask/Tasks/RollbackIndexTask.cs
+index c189b9335..91518916b 100644
+--- a/src/Lucene.Net.Benchmark/ByTask/Tasks/RollbackIndexTask.cs
++++ b/src/Lucene.Net.Benchmark/ByTask/Tasks/RollbackIndexTask.cs
+@@ -39,10 +39,7 @@ public override int DoLogic()
+             {
+                 // If infoStream was set to output to a file, close it.
+                 InfoStream infoStream = iw.Config.InfoStream;
+-                if (infoStream != null)
+-                {
+-                    infoStream.Dispose();
+-                }
++                infoStream?.Dispose();
+                 iw.Rollback();
+                 RunData.IndexWriter = null;
+             }
+diff --git a/src/Lucene.Net.Benchmark/Quality/QualityBenchmark.cs b/src/Lucene.Net.Benchmark/Quality/QualityBenchmark.cs
+index 335b8c97e..44eedb90d 100644
+--- a/src/Lucene.Net.Benchmark/Quality/QualityBenchmark.cs
++++ b/src/Lucene.Net.Benchmark/Quality/QualityBenchmark.cs
+@@ -103,15 +103,9 @@ public class QualityBenchmark
+                 {
+                     stats[i] = AnalyzeQueryResults(qq, q, td, judge, qualityLog, searchTime);
+                 }
+-                if (submitRep != null)
+-                {
+-                    submitRep.Report(qq, td, m_docNameField, m_searcher);
+-                }
+-            }
+-            if (submitRep != null)
+-            {
+-                submitRep.Flush();
++                submitRep?.Report(qq, td, m_docNameField, m_searcher);
+             }
++            submitRep?.Flush();
+             return stats;
+         }
+ 
+diff --git a/src/Lucene.Net.Benchmark/Quality/Utils/SubmissionReport.cs b/src/Lucene.Net.Benchmark/Quality/Utils/SubmissionReport.cs
+index 6f5d48ed3..a3a6af340 100644
+--- a/src/Lucene.Net.Benchmark/Quality/Utils/SubmissionReport.cs
++++ b/src/Lucene.Net.Benchmark/Quality/Utils/SubmissionReport.cs
+@@ -81,10 +81,7 @@ public virtual void Report(QualityQuery qq, TopDocs td, string docNameField, Ind
+ 
+         public virtual void Flush()
+         {
+-            if (logger != null)
+-            {
+-                logger.Flush();
+-            }
++            logger?.Flush();
+         }
+ 
+         private const string padd = "                                    ";
+diff --git a/src/Lucene.Net.Benchmark/Support/Sax/Helpers/XMLFilterImpl.cs b/src/Lucene.Net.Benchmark/Support/Sax/Helpers/XMLFilterImpl.cs
+index e27b882c6..aea78e250 100644
+--- a/src/Lucene.Net.Benchmark/Support/Sax/Helpers/XMLFilterImpl.cs
++++ b/src/Lucene.Net.Benchmark/Support/Sax/Helpers/XMLFilterImpl.cs
+@@ -316,10 +316,7 @@ public virtual InputSource ResolveEntity(string publicId, string systemId)
+         /// an exception during processing.</seealso>
+         public virtual void NotationDecl(string name, string publicId, string systemId)
+         {
+-            if (dtdHandler != null)
+-            {
+-                dtdHandler.NotationDecl(name, publicId, systemId);
+-            }
++            dtdHandler?.NotationDecl(name, publicId, systemId);
+         }
+ 
+         /// <summary>
+@@ -333,10 +330,7 @@ public virtual void NotationDecl(string name, string publicId, string systemId)
+         /// an exception during processing.</exception>
+         public virtual void UnparsedEntityDecl(string name, string publicId, string systemId, string notationName)
+         {
+-            if (dtdHandler != null)
+-            {
+-                dtdHandler.UnparsedEntityDecl(name, publicId, systemId, notationName);
+-            }
++            dtdHandler?.UnparsedEntityDecl(name, publicId, systemId, notationName);
+         }
+ 
+         ////////////////////////////////////////////////////////////////////
+@@ -350,10 +344,7 @@ public virtual void UnparsedEntityDecl(string name, string publicId, string syst
+         public virtual void SetDocumentLocator(ILocator locator)
+         {
+             //this.locator = locator; // LUCENENET: Never read
+-            if (contentHandler != null)
+-            {
+-                contentHandler.SetDocumentLocator(locator);
+-            }
++            contentHandler?.SetDocumentLocator(locator);
+         }
+ 
+         /// <summary>
+@@ -363,10 +354,7 @@ public virtual void SetDocumentLocator(ILocator locator)
+         /// an exception during processing.</exception>
+         public virtual void StartDocument()
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.StartDocument();
+-            }
++            contentHandler?.StartDocument();
+         }
+ 
+         /// <summary>
+@@ -376,10 +364,7 @@ public virtual void StartDocument()
+         /// an exception during processing.</exception>
+         public virtual void EndDocument()
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.EndDocument();
+-            }
++            contentHandler?.EndDocument();
+         }
+ 
+         /// <summary>
+@@ -391,10 +376,7 @@ public virtual void EndDocument()
+         /// an exception during processing.</exception>
+         public virtual void StartPrefixMapping(string prefix, string uri)
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.StartPrefixMapping(prefix, uri);
+-            }
++            contentHandler?.StartPrefixMapping(prefix, uri);
+         }
+ 
+         /// <summary>
+@@ -405,10 +387,7 @@ public virtual void StartPrefixMapping(string prefix, string uri)
+         /// an exception during processing.</exception>
+         public virtual void EndPrefixMapping(string prefix)
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.EndPrefixMapping(prefix);
+-            }
++            contentHandler?.EndPrefixMapping(prefix);
+         }
+ 
+         /// <summary>
+@@ -422,10 +401,7 @@ public virtual void EndPrefixMapping(string prefix)
+         /// an exception during processing.</exception>
+         public virtual void StartElement(string uri, string localName, string qName, IAttributes atts)
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.StartElement(uri, localName, qName, atts);
+-            }
++            contentHandler?.StartElement(uri, localName, qName, atts);
+         }
+ 
+         /// <summary>
+@@ -438,10 +414,7 @@ public virtual void StartElement(string uri, string localName, string qName, IAt
+         /// an exception during processing.</exception>
+         public virtual void EndElement(string uri, string localName, string qName)
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.EndElement(uri, localName, qName);
+-            }
++            contentHandler?.EndElement(uri, localName, qName);
+         }
+ 
+         /// <summary>
+@@ -454,10 +427,7 @@ public virtual void EndElement(string uri, string localName, string qName)
+         /// an exception during processing.</exception>
+         public virtual void Characters(char[] ch, int start, int length)
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.Characters(ch, start, length);
+-            }
++            contentHandler?.Characters(ch, start, length);
+         }
+ 
+         /// <summary>
+@@ -470,10 +440,7 @@ public virtual void Characters(char[] ch, int start, int length)
+         /// an exception during processing.</exception>
+         public virtual void IgnorableWhitespace(char[] ch, int start, int length)
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.IgnorableWhitespace(ch, start, length);
+-            }
++            contentHandler?.IgnorableWhitespace(ch, start, length);
+         }
+ 
+         /// <summary>
+@@ -485,10 +452,7 @@ public virtual void IgnorableWhitespace(char[] ch, int start, int length)
+         /// an exception during processing.</exception>
+         public virtual void ProcessingInstruction(string target, string data)
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.ProcessingInstruction(target, data);
+-            }
++            contentHandler?.ProcessingInstruction(target, data);
+         }
+ 
+         /// <summary>
+@@ -499,10 +463,7 @@ public virtual void ProcessingInstruction(string target, string data)
+         /// an exception during processing.</exception>
+         public virtual void SkippedEntity(string name)
+         {
+-            if (contentHandler != null)
+-            {
+-                contentHandler.SkippedEntity(name);
+-            }
++            contentHandler?.SkippedEntity(name);
+         }
+ 
+         ////////////////////////////////////////////////////////////////////
+@@ -517,10 +478,7 @@ public virtual void SkippedEntity(string name)
+         /// an exception during processing.</exception>
+         public virtual void Warning(SAXParseException e)
+         {
+-            if (errorHandler != null)
+-            {
+-                errorHandler.Warning(e);
+-            }
++            errorHandler?.Warning(e);
+         }
+ 
+         /// <summary>
+@@ -531,10 +489,7 @@ public virtual void Warning(SAXParseException e)
+         /// an exception during processing.</exception>
+         public virtual void Error(SAXParseException e)
+         {
+-            if (errorHandler != null)
+-            {
+-                errorHandler.Error(e);
+-            }
++            errorHandler?.Error(e);
+         }
+ 
+         /// <summary>
+@@ -545,10 +500,7 @@ public virtual void Error(SAXParseException e)
+         /// an exception during processing.</exception>
+         public virtual void FatalError(SAXParseException e)
+         {
+-            if (errorHandler != null)
+-            {
+-                errorHandler.FatalError(e);
+-            }
++            errorHandler?.FatalError(e);
+         }
+ 
+         ////////////////////////////////////////////////////////////////////
+diff --git a/src/Lucene.Net.Codecs/BlockTerms/BlockTermsReader.cs b/src/Lucene.Net.Codecs/BlockTerms/BlockTermsReader.cs
+index f54f38515..d51eb8e2d 100644
+--- a/src/Lucene.Net.Codecs/BlockTerms/BlockTermsReader.cs
++++ b/src/Lucene.Net.Codecs/BlockTerms/BlockTermsReader.cs
+@@ -199,10 +199,7 @@ protected override void Dispose(bool disposing)
+                 {
+                     try
+                     {
+-                        if (indexReader != null)
+-                        {
+-                            indexReader.Dispose();
+-                        }
++                        indexReader?.Dispose();
+                     }
+                     finally
+                     {
+@@ -210,18 +207,12 @@ protected override void Dispose(bool disposing)
+                         // GCable, despite being closed) we still free most
+                         // ram
+                         indexReader = null;
+-                        if (input != null)
+-                        {
+-                            input.Dispose();
+-                        }
++                        input?.Dispose();
+                     }
+                 }
+                 finally
+                 {
+-                    if (postingsReader != null)
+-                    {
+-                        postingsReader.Dispose();
+-                    }
++                    postingsReader?.Dispose();
+                 }
+             }
+         }
+@@ -804,7 +795,7 @@ public override void SeekExact(BytesRef target, TermState otherState)
+                     //System.out.println("BTR.seekExact termState target=" + target.utf8ToString() + " " + target + " this=" + this);
+                     if (Debugging.AssertsEnabled)
+                     {
+-                        Debugging.Assert(otherState != null && otherState is BlockTermState);
++                        Debugging.Assert(otherState is BlockTermState);
+                         Debugging.Assert(!doOrd || ((BlockTermState)otherState).Ord < outerInstance.numTerms);
+                     }
+                     state.CopyFrom(otherState);
+diff --git a/src/Lucene.Net.Codecs/BlockTerms/VariableGapTermsIndexWriter.cs b/src/Lucene.Net.Codecs/BlockTerms/VariableGapTermsIndexWriter.cs
+index f857bfde9..3c505ab0c 100644
+--- a/src/Lucene.Net.Codecs/BlockTerms/VariableGapTermsIndexWriter.cs
++++ b/src/Lucene.Net.Codecs/BlockTerms/VariableGapTermsIndexWriter.cs
+@@ -311,10 +311,7 @@ public override void Add(BytesRef text, TermStats stats, long termsFilePointer)
+             public override void Finish(long termsFilePointer)
+             {
+                 fst = fstBuilder.Finish();
+-                if (fst != null)
+-                {
+-                    fst.Save(outerInstance.m_output);
+-                }
++                fst?.Save(outerInstance.m_output);
+             }
+         }
+ 
+diff --git a/src/Lucene.Net.Codecs/Memory/MemoryDocValuesConsumer.cs b/src/Lucene.Net.Codecs/Memory/MemoryDocValuesConsumer.cs
+index bd67a5bdf..e7f357bfb 100644
+--- a/src/Lucene.Net.Codecs/Memory/MemoryDocValuesConsumer.cs
++++ b/src/Lucene.Net.Codecs/Memory/MemoryDocValuesConsumer.cs
+@@ -355,10 +355,7 @@ private void WriteFST(FieldInfo field, IEnumerable<BytesRef> values)
+                 ord++;
+             }
+             FST<long?> fst = builder.Finish();
+-            if (fst != null)
+-            {
+-                fst.Save(data);
+-            }
++            fst?.Save(data);
+             meta.WriteVInt64(ord);
+         }
+ 
+diff --git a/src/Lucene.Net.Codecs/Pulsing/PulsingPostingsFormat.cs b/src/Lucene.Net.Codecs/Pulsing/PulsingPostingsFormat.cs
+index f2a22e059..ce99c99e4 100644
+--- a/src/Lucene.Net.Codecs/Pulsing/PulsingPostingsFormat.cs
++++ b/src/Lucene.Net.Codecs/Pulsing/PulsingPostingsFormat.cs
+@@ -57,7 +57,7 @@ protected PulsingPostingsFormat(PostingsBaseFormat wrappedPostingsBaseFormat, in
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0} (freqCutoff={1}, minBlockSize={2}, maxBlockSize={3})", Name, _freqCutoff, _minBlockSize, _maxBlockSize);
++            return $"{Name} (freqCutoff={_freqCutoff}, minBlockSize={_minBlockSize}, maxBlockSize={_maxBlockSize})";
+         }
+ 
+         public override FieldsConsumer FieldsConsumer(SegmentWriteState state)
+diff --git a/src/Lucene.Net.Codecs/Sep/SepSkipListReader.cs b/src/Lucene.Net.Codecs/Sep/SepSkipListReader.cs
+index 2c9bedf87..45cc911b1 100644
+--- a/src/Lucene.Net.Codecs/Sep/SepSkipListReader.cs
++++ b/src/Lucene.Net.Codecs/Sep/SepSkipListReader.cs
+@@ -167,10 +167,7 @@ protected override void SetLastSkipData(int level)
+                 lastFreqIndex.CopyFrom(freqIndex[level]);
+             }
+             lastDocIndex.CopyFrom(docIndex[level]);
+-            if (lastPosIndex != null)
+-            {
+-                lastPosIndex.CopyFrom(posIndex[level]);
+-            }
++            lastPosIndex?.CopyFrom(posIndex[level]);
+ 
+             if (level > 0)
+             {
+diff --git a/src/Lucene.Net.Facet/DrillSidewaysScorer.cs b/src/Lucene.Net.Facet/DrillSidewaysScorer.cs
+index 53694bb58..99173ed9d 100644
+--- a/src/Lucene.Net.Facet/DrillSidewaysScorer.cs
++++ b/src/Lucene.Net.Facet/DrillSidewaysScorer.cs
+@@ -682,10 +682,7 @@ private void CollectHit(ICollector collector, ICollector[] sidewaysCollectors)
+             //}
+ 
+             collector.Collect(collectDocID);
+-            if (drillDownCollector != null)
+-            {
+-                drillDownCollector.Collect(collectDocID);
+-            }
++            drillDownCollector?.Collect(collectDocID);
+ 
+             // TODO: we could "fix" faceting of the sideways counts
+             // to do this "union" (of the drill down hits) in the
+@@ -705,10 +702,7 @@ private void CollectHit(ICollector collector, ICollector[] sidewaysCollectors, I
+             //}
+ 
+             collector.Collect(collectDocID);
+-            if (drillDownCollector != null)
+-            {
+-                drillDownCollector.Collect(collectDocID);
+-            }
++            drillDownCollector?.Collect(collectDocID);
+ 
+             // TODO: we could "fix" faceting of the sideways counts
+             // to do this "union" (of the drill down hits) in the
+diff --git a/src/Lucene.Net.Facet/Taxonomy/WriterCache/CompactLabelToOrdinal.cs b/src/Lucene.Net.Facet/Taxonomy/WriterCache/CompactLabelToOrdinal.cs
+index 4b766e93d..735ad8019 100644
+--- a/src/Lucene.Net.Facet/Taxonomy/WriterCache/CompactLabelToOrdinal.cs
++++ b/src/Lucene.Net.Facet/Taxonomy/WriterCache/CompactLabelToOrdinal.cs
+@@ -462,10 +462,7 @@ internal static CompactLabelToOrdinal Open(FileInfo file, float loadFactor, int
+             }
+             finally
+             {
+-                if (dis != null)
+-                {
+-                    dis.Dispose();
+-                }
++                dis?.Dispose();
+             }
+ 
+             l2o.threshold = (int)(l2o.loadFactor * l2o.capacity);
+diff --git a/src/Lucene.Net.Grouping/AbstractSecondPassGroupingCollector.cs b/src/Lucene.Net.Grouping/AbstractSecondPassGroupingCollector.cs
+index b29da15a4..d19680179 100644
+--- a/src/Lucene.Net.Grouping/AbstractSecondPassGroupingCollector.cs
++++ b/src/Lucene.Net.Grouping/AbstractSecondPassGroupingCollector.cs
+@@ -54,7 +54,7 @@ public abstract class AbstractSecondPassGroupingCollector<TGroupValue> : IAbstra
+         {
+ 
+             //System.out.println("SP init");
+-            if (groups.Count() == 0)
++            if (!groups.Any())
+             {
+                 throw new ArgumentException("no groups to collect (groups.size() is 0)");
+             }
+diff --git a/src/Lucene.Net.Join/JoinUtil.cs b/src/Lucene.Net.Join/JoinUtil.cs
+index 603451683..89428f1fa 100644
+--- a/src/Lucene.Net.Join/JoinUtil.cs
++++ b/src/Lucene.Net.Join/JoinUtil.cs
+@@ -74,7 +74,7 @@ public static Query CreateJoinQuery(string fromField, bool multipleValuesPerDocu
+                     fromSearcher.Search(fromQuery, termsWithScoreCollector);
+                     return new TermsIncludingScoreQuery(toField, multipleValuesPerDocument, termsWithScoreCollector.CollectedTerms, termsWithScoreCollector.ScoresPerTerm, fromQuery);
+                 default:
+-                    throw new ArgumentException(string.Format("Score mode {0} isn't supported.", scoreMode));
++                    throw new ArgumentException($"Score mode {scoreMode} isn't supported.");
+             }
+         }
+     }
+diff --git a/src/Lucene.Net.Join/ToParentBlockJoinQuery.cs b/src/Lucene.Net.Join/ToParentBlockJoinQuery.cs
+index 2517f90e1..f065f04a7 100644
+--- a/src/Lucene.Net.Join/ToParentBlockJoinQuery.cs
++++ b/src/Lucene.Net.Join/ToParentBlockJoinQuery.cs
+@@ -426,7 +426,7 @@ public virtual Explanation Explain(int docBase)
+             {
+                 int start = docBase + _prevParentDoc + 1; // +1 b/c prevParentDoc is previous parent doc
+                 int end = docBase + _parentDoc - 1; // -1 b/c parentDoc is parent doc
+-                return new ComplexExplanation(true, GetScore(), string.Format("Score based on child doc range from {0} to {1}", start, end));
++                return new ComplexExplanation(true, GetScore(), $"Score based on child doc range from {start} to {end}");
+             }
+ 
+             public override long GetCost()
+diff --git a/src/Lucene.Net.Memory/MemoryIndex.cs b/src/Lucene.Net.Memory/MemoryIndex.cs
+index f792302f3..a137a7069 100644
+--- a/src/Lucene.Net.Memory/MemoryIndex.cs
++++ b/src/Lucene.Net.Memory/MemoryIndex.cs
+@@ -512,10 +512,7 @@ public virtual void AddField(string fieldName, TokenStream stream, float boost,
+             {
+                 try
+                 {
+-                    if (stream != null)
+-                    {
+-                        stream.Dispose();
+-                    }
++                    stream?.Dispose();
+                 }
+                 catch (IOException e2)
+                 {
+diff --git a/src/Lucene.Net.Misc/Index/CompoundFileExtractor.cs b/src/Lucene.Net.Misc/Index/CompoundFileExtractor.cs
+index b36132610..59e09bd8b 100644
+--- a/src/Lucene.Net.Misc/Index/CompoundFileExtractor.cs
++++ b/src/Lucene.Net.Misc/Index/CompoundFileExtractor.cs
+@@ -134,14 +134,8 @@ public static void Main(string[] args)
+             {
+                 try
+                 {
+-                    if (dir != null)
+-                    {
+-                        dir.Dispose();
+-                    }
+-                    if (cfr != null)
+-                    {
+-                        cfr.Dispose();
+-                    }
++                    dir?.Dispose();
++                    cfr?.Dispose();
+                 }
+                 catch (IOException ioe)
+                 {
+diff --git a/src/Lucene.Net.Misc/Index/Sorter/SortingAtomicReader.cs b/src/Lucene.Net.Misc/Index/Sorter/SortingAtomicReader.cs
+index ff93a6d40..d75ea7108 100644
+--- a/src/Lucene.Net.Misc/Index/Sorter/SortingAtomicReader.cs
++++ b/src/Lucene.Net.Misc/Index/Sorter/SortingAtomicReader.cs
+@@ -144,7 +144,7 @@ public bool Get(int index)
+             public override DocsEnum Docs(IBits liveDocs, DocsEnum reuse, DocsFlags flags)
+             {
+                 DocsEnum inReuse;
+-                if (reuse != null && reuse is SortingDocsEnum wrapReuse)
++                if (reuse is SortingDocsEnum wrapReuse)
+                 {
+                     // if we're asked to reuse the given DocsEnum and it is Sorting, return
+                     // the wrapped one, since some Codecs expect it.
+@@ -165,7 +165,7 @@ public override DocsEnum Docs(IBits liveDocs, DocsEnum reuse, DocsFlags flags)
+             public override DocsAndPositionsEnum DocsAndPositions(IBits liveDocs, DocsAndPositionsEnum reuse, DocsAndPositionsFlags flags)
+             {
+                 DocsAndPositionsEnum inReuse;
+-                if (reuse != null && reuse is SortingDocsAndPositionsEnum wrapReuse)
++                if (reuse is SortingDocsAndPositionsEnum wrapReuse)
+                 {
+                     // if we're asked to reuse the given DocsEnum and it is Sorting, return
+                     // the wrapped one, since some Codecs expect it.
+@@ -465,7 +465,7 @@ internal SortingDocsEnum(int maxDoc, SortingDocsEnum reuse, DocsEnum input, bool
+             // for testing
+             internal virtual bool Reused(DocsEnum other)
+             {
+-                if (other == null || !(other is SortingDocsEnum))
++                if (!(other is SortingDocsEnum))
+                 {
+                     return false;
+                 }
+@@ -637,7 +637,7 @@ internal SortingDocsAndPositionsEnum(int maxDoc, SortingDocsAndPositionsEnum reu
+             // for testing
+             internal virtual bool Reused(DocsAndPositionsEnum other)
+             {
+-                if (other == null || !(other is SortingDocsAndPositionsEnum))
++                if (!(other is SortingDocsAndPositionsEnum))
+                 {
+                     return false;
+                 }
+diff --git a/src/Lucene.Net.Queries/Function/ValueSources/LinearFloatFunction.cs b/src/Lucene.Net.Queries/Function/ValueSources/LinearFloatFunction.cs
+index 7b3d1bfb1..a2d4c631e 100644
+--- a/src/Lucene.Net.Queries/Function/ValueSources/LinearFloatFunction.cs
++++ b/src/Lucene.Net.Queries/Function/ValueSources/LinearFloatFunction.cs
+@@ -80,10 +80,7 @@ public override float SingleVal(int doc)
+             public override string ToString(int doc)
+             {
+                 // LUCENENET specific - changed formatting to ensure the same culture is used for each value.
+-                return string.Format("{0}*float({1})+{2}",
+-                    outerInstance.m_slope,
+-                    vals.ToString(doc),
+-                    outerInstance.m_intercept);
++                return $"{outerInstance.m_slope}*float({vals.ToString(doc)})+{outerInstance.m_intercept}";
+             }
+         }
+ 
+diff --git a/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/AndQueryNode.cs b/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/AndQueryNode.cs
+index 4fccebb42..8b0c0471d 100644
+--- a/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/AndQueryNode.cs
++++ b/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/AndQueryNode.cs
+@@ -74,7 +74,7 @@ public override string ToQueryString(IEscapeQuerySyntax escapeSyntaxParser)
+             }
+ 
+             // in case is root or the parent is a group node avoid parenthesis
+-            if ((Parent != null && Parent is GroupQueryNode)
++            if ((Parent is GroupQueryNode)
+                 || IsRoot)
+                 return sb.ToString();
+             else
+diff --git a/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/BooleanQueryNode.cs b/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/BooleanQueryNode.cs
+index 5d23d4abb..a08557dc4 100644
+--- a/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/BooleanQueryNode.cs
++++ b/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/BooleanQueryNode.cs
+@@ -70,7 +70,7 @@ public override string ToQueryString(IEscapeQuerySyntax escapeSyntaxParser)
+             }
+ 
+             // in case is root or the parent is a group node avoid parenthesis
+-            if ((Parent != null && Parent is GroupQueryNode)
++            if ((Parent is GroupQueryNode)
+                 || IsRoot)
+                 return sb.ToString();
+             else
+diff --git a/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/OrQueryNode.cs b/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/OrQueryNode.cs
+index e310e62ea..ef8d8671e 100644
+--- a/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/OrQueryNode.cs
++++ b/src/Lucene.Net.QueryParser/Flexible/Core/Nodes/OrQueryNode.cs
+@@ -74,7 +74,7 @@ public override string ToQueryString(IEscapeQuerySyntax escapeSyntaxParser)
+             }
+ 
+             // in case is root or the parent is a group node avoid parenthesis
+-            if ((Parent != null && Parent is GroupQueryNode)
++            if ((Parent is GroupQueryNode)
+                 || IsRoot)
+                 return sb.ToString();
+             else
+diff --git a/src/Lucene.Net.QueryParser/Flexible/Core/QueryParserHelper.cs b/src/Lucene.Net.QueryParser/Flexible/Core/QueryParserHelper.cs
+index de50d0a0f..7cb526970 100644
+--- a/src/Lucene.Net.QueryParser/Flexible/Core/QueryParserHelper.cs
++++ b/src/Lucene.Net.QueryParser/Flexible/Core/QueryParserHelper.cs
+@@ -161,10 +161,7 @@ public virtual void SetQueryConfigHandler(QueryConfigHandler config)
+             this.config = config;
+             IQueryNodeProcessor processor = QueryNodeProcessor;
+ 
+-            if (processor != null)
+-            {
+-                processor.SetQueryConfigHandler(config);
+-            }
++            processor?.SetQueryConfigHandler(config);
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net.QueryParser/Flexible/Standard/Config/FieldDateResolutionFCListener.cs b/src/Lucene.Net.QueryParser/Flexible/Standard/Config/FieldDateResolutionFCListener.cs
+index 93592f9cc..93401632f 100644
+--- a/src/Lucene.Net.QueryParser/Flexible/Standard/Config/FieldDateResolutionFCListener.cs
++++ b/src/Lucene.Net.QueryParser/Flexible/Standard/Config/FieldDateResolutionFCListener.cs
+@@ -45,10 +45,7 @@ public virtual void BuildFieldConfig(FieldConfig fieldConfig)
+             DateTools.Resolution? dateRes = null;
+             IDictionary<string, DateTools.Resolution?> dateResMap = this.config.Get(ConfigurationKeys.FIELD_DATE_RESOLUTION_MAP);
+ 
+-            if (dateResMap != null)
+-            {
+-                dateResMap.TryGetValue(fieldConfig.Field, out dateRes);
+-            }
++            dateResMap?.TryGetValue(fieldConfig.Field, out dateRes);
+ 
+             if (dateRes == null)
+             {
+diff --git a/src/Lucene.Net.QueryParser/Flexible/Standard/Nodes/NumericRangeQueryNode.cs b/src/Lucene.Net.QueryParser/Flexible/Standard/Nodes/NumericRangeQueryNode.cs
+index a3899816d..cd87add0e 100644
+--- a/src/Lucene.Net.QueryParser/Flexible/Standard/Nodes/NumericRangeQueryNode.cs
++++ b/src/Lucene.Net.QueryParser/Flexible/Standard/Nodes/NumericRangeQueryNode.cs
+@@ -98,7 +98,7 @@ private static NumericType GetNumericDataType(/*Number*/ object number)
+ 
+             NumericType lowerNumberType, upperNumberType;
+ 
+-            if (lower != null && lower.Value != null)
++            if (lower?.Value != null)
+             {
+                 lowerNumberType = GetNumericDataType(lower.Value);
+             }
+@@ -107,7 +107,7 @@ private static NumericType GetNumericDataType(/*Number*/ object number)
+                 lowerNumberType = NumericType.NONE;
+             }
+ 
+-            if (upper != null && upper.Value != null)
++            if (upper?.Value != null)
+             {
+                 upperNumberType = GetNumericDataType(upper.Value);
+             }
+diff --git a/src/Lucene.Net.Replicator/Http/HttpClientBase.cs b/src/Lucene.Net.Replicator/Http/HttpClientBase.cs
+index 2d21b3691..a430c55f7 100644
+--- a/src/Lucene.Net.Replicator/Http/HttpClientBase.cs
++++ b/src/Lucene.Net.Replicator/Http/HttpClientBase.cs
+@@ -131,7 +131,7 @@ private static string NormalizedUrl(string host, int port, string path)
+         {
+             if (string.IsNullOrEmpty(path))
+                 path = "/";
+-            return string.Format("http://{0}:{1}{2}", host, port, path);
++            return $"http://{host}:{port}{path}";
+         }
+ 
+         /// <summary>
+@@ -180,7 +180,7 @@ protected virtual void ThrowKnownError(HttpResponseMessage response)
+             catch (Exception e)
+             {
+                 //not likely
+-                throw new HttpRequestException(string.Format("Failed to read exception object: {0} {1}", response.StatusCode, response.ReasonPhrase), e);
++                throw new HttpRequestException($"Failed to read exception object: {response.StatusCode} {response.ReasonPhrase}", e);
+             }
+             finally
+             {
+@@ -192,7 +192,7 @@ protected virtual void ThrowKnownError(HttpResponseMessage response)
+                 //NOTE: Preserve server stacktrace, but there are probably better options.
+                 throw new IOException(exception.Message, exception);
+             }
+-            throw new HttpRequestException(string.Format("unknown exception: {0} {1}", response.StatusCode, response.ReasonPhrase), exception);
++            throw new HttpRequestException($"unknown exception: {response.StatusCode} {response.ReasonPhrase}", exception);
+         }
+ 
+         /// <summary>
+@@ -234,9 +234,8 @@ protected virtual HttpResponseMessage ExecuteGet(string request, params string[]
+         private string QueryString(string request, params string[] parameters)
+         {
+             return parameters == null 
+-                ? string.Format("{0}/{1}", Url, request) 
+-                : string.Format("{0}/{1}?{2}", Url, request, string
+-                .Join("&", parameters.Select(WebUtility.UrlEncode).InPairs((key, val) => string.Format("{0}={1}", key, val))));
++                ? $"{Url}/{request}" 
++                : $"{Url}/{request}?{string.Join("&", parameters.Select(WebUtility.UrlEncode).InPairs((key, val) => string.Format("{0}={1}", key, val)))}";
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net.Replicator/IndexAndTaxonomyReplicationHandler.cs b/src/Lucene.Net.Replicator/IndexAndTaxonomyReplicationHandler.cs
+index a65e7c9b4..7fc76f38c 100644
+--- a/src/Lucene.Net.Replicator/IndexAndTaxonomyReplicationHandler.cs
++++ b/src/Lucene.Net.Replicator/IndexAndTaxonomyReplicationHandler.cs
+@@ -73,7 +73,7 @@ public IndexAndTaxonomyReplicationHandler(Directory indexDirectory, Directory ta
+             bool taxonomyExists = DirectoryReader.IndexExists(taxonomyDirectory);
+ 
+             if (indexExists != taxonomyExists)
+-                throw new InvalidOperationException(string.Format("search and taxonomy indexes must either both exist or not: index={0} taxo={1}", indexExists, taxonomyExists));
++                throw new InvalidOperationException($"search and taxonomy indexes must either both exist or not: index={indexExists} taxo={taxonomyExists}");
+ 
+             if (indexExists)
+             {
+@@ -84,8 +84,8 @@ public IndexAndTaxonomyReplicationHandler(Directory indexDirectory, Directory ta
+                 currentVersion = IndexAndTaxonomyRevision.RevisionVersion(indexCommit, taxonomyCommit);
+ 
+                 WriteToInfoStream(
+-                    string.Format("constructor(): currentVersion={0} currentRevisionFiles={1}", currentVersion, currentRevisionFiles),
+-                    string.Format("constructor(): indexCommit={0} taxoCommit={1}", indexCommit, taxonomyCommit));
++                    $"constructor(): currentVersion={currentVersion} currentRevisionFiles={currentRevisionFiles}",
++                    $"constructor(): indexCommit={indexCommit} taxoCommit={taxonomyCommit}");
+             }
+         }
+ 
+diff --git a/src/Lucene.Net.Replicator/IndexReplicationHandler.cs b/src/Lucene.Net.Replicator/IndexReplicationHandler.cs
+index f9b843858..e19fc70ca 100644
+--- a/src/Lucene.Net.Replicator/IndexReplicationHandler.cs
++++ b/src/Lucene.Net.Replicator/IndexReplicationHandler.cs
+@@ -121,7 +121,7 @@ public static string GetSegmentsFile(IList<string> files, bool allowEmpty)
+             if (!segmentsFile.StartsWith(IndexFileNames.SEGMENTS, StringComparison.Ordinal) || segmentsFile.Equals(IndexFileNames.SEGMENTS_GEN, StringComparison.Ordinal))
+             {
+                 throw new InvalidOperationException(
+-                    string.Format("last file to copy+sync must be segments_N but got {0}; check your Revision implementation!", segmentsFile));
++                    $"last file to copy+sync must be segments_N but got {segmentsFile}; check your Revision implementation!");
+             }
+             return segmentsFile;
+         }
+@@ -258,8 +258,8 @@ public static void WriteSegmentsGen(string segmentsFile, Directory directory)
+                 currentRevisionFiles = IndexRevision.RevisionFiles(commit);
+ 
+                 WriteToInfoStream(
+-                    string.Format("constructor(): currentVersion={0} currentRevisionFiles={1}", currentVersion, currentRevisionFiles),
+-                    string.Format("constructor(): commit={0}", commit));
++                    $"constructor(): currentVersion={currentVersion} currentRevisionFiles={currentRevisionFiles}",
++                    $"constructor(): commit={commit}");
+             }
+         }
+ 
+@@ -272,7 +272,7 @@ public static void WriteSegmentsGen(string segmentsFile, Directory directory)
+             IDictionary<string, IList<string>> copiedFiles,
+             IDictionary<string, Directory> sourceDirectory)
+         {
+-            if (revisionFiles.Count > 1) throw new ArgumentException(string.Format("this handler handles only a single source; got {0}", revisionFiles.Keys));
++            if (revisionFiles.Count > 1) throw new ArgumentException($"this handler handles only a single source; got {revisionFiles.Keys}");
+ 
+             Directory clientDirectory = sourceDirectory.Values.First();
+             IList<string> files = copiedFiles.Values.First();
+@@ -306,7 +306,7 @@ public static void WriteSegmentsGen(string segmentsFile, Directory directory)
+             currentRevisionFiles = revisionFiles;
+             currentVersion = version;
+ 
+-            WriteToInfoStream(string.Format("revisionReady(): currentVersion={0} currentRevisionFiles={1}", currentVersion, currentRevisionFiles));
++            WriteToInfoStream($"revisionReady(): currentVersion={currentVersion} currentRevisionFiles={currentRevisionFiles}");
+ 
+             // update the segments.gen file
+             WriteSegmentsGen(segmentsFile, indexDirectory);
+diff --git a/src/Lucene.Net.Replicator/LocalReplicator.cs b/src/Lucene.Net.Replicator/LocalReplicator.cs
+index 82e95ab0b..68e5b6fb6 100644
+--- a/src/Lucene.Net.Replicator/LocalReplicator.cs
++++ b/src/Lucene.Net.Replicator/LocalReplicator.cs
+@@ -82,7 +82,7 @@ public virtual void DecRef()
+                 }
+                 else if (rc < 0)
+                 {
+-                    throw new InvalidOperationException(string.Format("too many decRef calls: refCount is {0} after decrement", rc));
++                    throw new InvalidOperationException($"too many decRef calls: refCount is {rc} after decrement");
+                 }
+             }
+ 
+@@ -244,7 +244,7 @@ public virtual Stream ObtainFile(string sessionId, string source, string fileNam
+                 // session either previously expired, or we just expired it
+                 if (session == null)
+                 {
+-                    throw new SessionExpiredException(string.Format("session ({0}) expired while obtaining file: source={1} file={2}", sessionId, source, fileName));
++                    throw new SessionExpiredException($"session ({sessionId}) expired while obtaining file: source={source} file={fileName}");
+                 }
+                 sessions[sessionId].MarkAccessed();
+                 return session.Revision.Revision.Open(source, fileName);
+@@ -270,7 +270,7 @@ public virtual void Publish(IRevision revision)
+                     if (compare < 0)
+                     {
+                         revision.Release();
+-                        throw new ArgumentException(string.Format("Cannot publish an older revision: rev={0} current={1}", revision, currentRevision), nameof(revision));
++                        throw new ArgumentException($"Cannot publish an older revision: rev={revision} current={currentRevision}", nameof(revision));
+                     }
+                 }
+ 
+diff --git a/src/Lucene.Net.Replicator/ReplicationClient.cs b/src/Lucene.Net.Replicator/ReplicationClient.cs
+index c6703f79e..65d3e1631 100644
+--- a/src/Lucene.Net.Replicator/ReplicationClient.cs
++++ b/src/Lucene.Net.Replicator/ReplicationClient.cs
+@@ -227,13 +227,13 @@ private void DoUpdate()
+                 string version = handler.CurrentVersion;
+                 session = replicator.CheckForUpdate(version);
+ 
+-                WriteToInfoStream(string.Format("doUpdate(): handlerVersion={0} session={1}", version, session));
++                WriteToInfoStream($"doUpdate(): handlerVersion={version} session={session}");
+ 
+                 if (session == null)
+                     return;
+ 
+                 IDictionary<string, IList<RevisionFile>> requiredFiles = RequiredFiles(session.SourceFiles);
+-                WriteToInfoStream(string.Format("doUpdate(): handlerVersion={0} session={1}", version, session));
++                WriteToInfoStream($"doUpdate(): handlerVersion={version} session={session}");
+ 
+                 foreach (KeyValuePair<string, IList<RevisionFile>> pair in requiredFiles)
+                 {
+@@ -344,7 +344,7 @@ private void WriteToInfoStream(string message)
+         /// </remarks>
+         protected virtual void HandleUpdateException(Exception exception)
+         {
+-            WriteToInfoStream(string.Format("an error occurred during revision update: {0}", exception));
++            WriteToInfoStream($"an error occurred during revision update: {exception}");
+         }
+ 
+         /// <summary>
+@@ -447,7 +447,7 @@ public override string ToString()
+         {
+             if (updateThread == null)
+                 return "ReplicationClient";
+-            return string.Format("ReplicationClient ({0})", updateThread.Name);
++            return $"ReplicationClient ({updateThread.Name})";
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net.Replicator/RevisionFile.cs b/src/Lucene.Net.Replicator/RevisionFile.cs
+index ab5371d69..dd7454525 100644
+--- a/src/Lucene.Net.Replicator/RevisionFile.cs
++++ b/src/Lucene.Net.Replicator/RevisionFile.cs
+@@ -75,7 +75,7 @@ public override int GetHashCode()
+ 
+         public override string ToString()
+         {
+-            return string.Format("fileName={0} length={1}", FileName, Length);
++            return $"fileName={FileName} length={Length}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/src/Lucene.Net.Replicator/SessionToken.cs b/src/Lucene.Net.Replicator/SessionToken.cs
+index 027dbeadc..6203871c3 100644
+--- a/src/Lucene.Net.Replicator/SessionToken.cs
++++ b/src/Lucene.Net.Replicator/SessionToken.cs
+@@ -113,7 +113,7 @@ public void Serialize(DataOutputStream writer)
+ 
+         public override string ToString()
+         {
+-            return string.Format("id={0} version={1} files={2}", Id, Version, SourceFiles);
++            return $"id={Id} version={Version} files={SourceFiles}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/src/Lucene.Net.Spatial/Prefix/Tree/Cell.cs b/src/Lucene.Net.Spatial/Prefix/Tree/Cell.cs
+index 3acf138aa..f214eb768 100644
+--- a/src/Lucene.Net.Spatial/Prefix/Tree/Cell.cs
++++ b/src/Lucene.Net.Spatial/Prefix/Tree/Cell.cs
+@@ -269,7 +269,7 @@ public virtual int CompareTo(Cell o)
+ 
+         public override bool Equals(object obj)
+         {
+-            return !(obj == null || !(obj is Cell cell)) &&
++            return !(!(obj is Cell cell)) &&
+                    TokenString.Equals(cell.TokenString, StringComparison.Ordinal);
+         }
+ 
+diff --git a/src/Lucene.Net.Suggest/Suggest/Fst/ExternalRefSorter.cs b/src/Lucene.Net.Suggest/Suggest/Fst/ExternalRefSorter.cs
+index 95fa2f023..be1829d44 100644
+--- a/src/Lucene.Net.Suggest/Suggest/Fst/ExternalRefSorter.cs
++++ b/src/Lucene.Net.Suggest/Suggest/Fst/ExternalRefSorter.cs
+@@ -98,14 +98,8 @@ public void Dispose()
+                 }
+                 finally
+                 {
+-                    if (input != null)
+-                    {
+-                        input.Delete();
+-                    }
+-                    if (sorted != null)
+-                    {
+-                        sorted.Delete();
+-                    }
++                    input?.Delete();
++                    sorted?.Delete();
+                 }
+             }
+         }
+diff --git a/src/Lucene.Net.Suggest/Suggest/SortedInputIterator.cs b/src/Lucene.Net.Suggest/Suggest/SortedInputIterator.cs
+index 515419298..3f983e72e 100644
+--- a/src/Lucene.Net.Suggest/Suggest/SortedInputIterator.cs
++++ b/src/Lucene.Net.Suggest/Suggest/SortedInputIterator.cs
+@@ -229,14 +229,8 @@ private OfflineSorter.ByteSequencesReader Sort()
+         private void Close()
+         {
+             IOUtils.Dispose(reader);
+-            if (tempInput != null)
+-            {
+-                tempInput.Delete();
+-            }
+-            if (tempSorted != null)
+-            {
+-                tempSorted.Delete();
+-            }
++            tempInput?.Delete();
++            tempSorted?.Delete();
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net.Suggest/Suggest/SortedTermFreqIteratorWrapper.cs b/src/Lucene.Net.Suggest/Suggest/SortedTermFreqIteratorWrapper.cs
+index bb764e7a3..535997222 100644
+--- a/src/Lucene.Net.Suggest/Suggest/SortedTermFreqIteratorWrapper.cs
++++ b/src/Lucene.Net.Suggest/Suggest/SortedTermFreqIteratorWrapper.cs
+@@ -173,14 +173,8 @@ private OfflineSorter.ByteSequencesReader Sort()
+         private void Close()
+         {
+             IOUtils.Dispose(reader);
+-            if (tempInput != null)
+-            {
+-                tempInput.Delete();
+-            }
+-            if (tempSorted != null)
+-            {
+-                tempSorted.Delete();
+-            }
++            tempInput?.Delete();
++            tempSorted?.Delete();
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net.Tests.Analysis.ICU/Collation/TestICUCollationKeyFilterFactory.cs b/src/Lucene.Net.Tests.Analysis.ICU/Collation/TestICUCollationKeyFilterFactory.cs
+index 9223bcc2d..5028f679d 100644
+--- a/src/Lucene.Net.Tests.Analysis.ICU/Collation/TestICUCollationKeyFilterFactory.cs
++++ b/src/Lucene.Net.Tests.Analysis.ICU/Collation/TestICUCollationKeyFilterFactory.cs
+@@ -337,9 +337,9 @@ private TokenFilterFactory tokenFilterFactory(String name, params String[] keysA
+                     throw; // LUCENENET: CA2200: Rethrow to preserve stack details (https://docs.microsoft.com/en-us/visualstudio/code-quality/ca2200-rethrow-to-preserve-stack-details)
+                 }
+             }
+-            if (factory is IResourceLoaderAware)
++            if (factory is IResourceLoaderAware iResourceLoaderAware)
+             {
+-                ((IResourceLoaderAware)factory).Inform(new ClasspathResourceLoader(GetType()));
++                iResourceLoaderAware.Inform(new ClasspathResourceLoader(GetType()));
+             }
+             return factory;
+         }
+diff --git a/src/Lucene.Net.Tests.Analysis.Phonetic/Language/Bm/PhoneticEnginePerformanceTest.cs b/src/Lucene.Net.Tests.Analysis.Phonetic/Language/Bm/PhoneticEnginePerformanceTest.cs
+index 728d1052d..8a739a636 100644
+--- a/src/Lucene.Net.Tests.Analysis.Phonetic/Language/Bm/PhoneticEnginePerformanceTest.cs
++++ b/src/Lucene.Net.Tests.Analysis.Phonetic/Language/Bm/PhoneticEnginePerformanceTest.cs
+@@ -140,7 +140,7 @@ public void Test()
+             }
+             sw.Stop();
+             long totalMillis = sw.ElapsedMilliseconds;
+-            Console.WriteLine(string.Format("Time for encoding {0} times the input '{1}': {2} millis.", LOOP, input, totalMillis));
++            Console.WriteLine($"Time for encoding {LOOP} times the input '{input}': {totalMillis} millis.");
+         }
+     }
+ }
+diff --git a/src/Lucene.Net.Tests.Benchmark/ByTask/TestPerfTasksParse.cs b/src/Lucene.Net.Tests.Benchmark/ByTask/TestPerfTasksParse.cs
+index 090b63629..9c4b4bcfe 100644
+--- a/src/Lucene.Net.Tests.Benchmark/ByTask/TestPerfTasksParse.cs
++++ b/src/Lucene.Net.Tests.Benchmark/ByTask/TestPerfTasksParse.cs
+@@ -59,9 +59,9 @@ public void TestParseParallelTaskSequenceRepetition()
+                 {
+                     foundAdd = true;
+                 }
+-                if (task is TaskSequence)
++                if (task is TaskSequence taskSequence)
+                 {
+-                    assertEquals("repetions should be 1000 for " + parsedTasks, 1000, ((TaskSequence)task).Repetitions);
++                    assertEquals("repetions should be 1000 for " + parsedTasks, 1000, taskSequence.Repetitions);
+                     assertTrue("sequence for " + parsedTasks + " should be parallel!", ((TaskSequence)task).IsParallel);
+                 }
+                 assertTrue("Task " + taskStr + " was not found in " + alg.toString(), foundAdd);
+@@ -84,9 +84,9 @@ public void TestParseTaskSequenceRepetition()
+                 {
+                     foundAdd = true;
+                 }
+-                if (task is TaskSequence)
++                if (task is TaskSequence taskSequence)
+                 {
+-                    assertEquals("repetions should be 1000 for " + parsedTasks, 1000, ((TaskSequence)task).Repetitions);
++                    assertEquals("repetions should be 1000 for " + parsedTasks, 1000, taskSequence.Repetitions);
+                     assertFalse("sequence for " + parsedTasks + " should be sequential!", ((TaskSequence)task).IsParallel);
+                 }
+                 assertTrue("Task " + taskStr + " was not found in " + alg.toString(), foundAdd);
+diff --git a/src/Lucene.Net.Tests.Facet/Taxonomy/TestTaxonomyCombined.cs b/src/Lucene.Net.Tests.Facet/Taxonomy/TestTaxonomyCombined.cs
+index 2a8bc3eff..6f2863255 100644
+--- a/src/Lucene.Net.Tests.Facet/Taxonomy/TestTaxonomyCombined.cs
++++ b/src/Lucene.Net.Tests.Facet/Taxonomy/TestTaxonomyCombined.cs
+@@ -853,10 +853,7 @@ private void AssertConsistentYoungestChild(FacetLabel abPath, int abOrd, int abY
+ 
+             indexDir.SetSleepMillis(1); // some delay for refresh
+             var newTaxoReader = TaxonomyReader.OpenIfChanged(tr);
+-            if (newTaxoReader != null)
+-            {
+-                newTaxoReader.Dispose();
+-            }
++            newTaxoReader?.Dispose();
+ 
+             stop.Value = true;
+             thread.Join();
+diff --git a/src/Lucene.Net.Tests.Grouping/AllGroupHeadsCollectorTest.cs b/src/Lucene.Net.Tests.Grouping/AllGroupHeadsCollectorTest.cs
+index 83cd800b6..a9bc72225 100644
+--- a/src/Lucene.Net.Tests.Grouping/AllGroupHeadsCollectorTest.cs
++++ b/src/Lucene.Net.Tests.Grouping/AllGroupHeadsCollectorTest.cs
+@@ -167,7 +167,7 @@ public void TestRandom()
+             {
+                 if (Verbose)
+                 {
+-                    Console.WriteLine(string.Format("TEST: iter={0} total={1}", iter, numberOfRuns));
++                    Console.WriteLine($"TEST: iter={iter} total={numberOfRuns}");
+                 }
+ 
+                 int numDocs = TestUtil.NextInt32(Random, 100, 1000) * RandomMultiplier;
+diff --git a/src/Lucene.Net.Tests.Highlighter/Highlight/Custom/HighlightCustomQueryTest.cs b/src/Lucene.Net.Tests.Highlighter/Highlight/Custom/HighlightCustomQueryTest.cs
+index 095a2ad8a..775aee8df 100644
+--- a/src/Lucene.Net.Tests.Highlighter/Highlight/Custom/HighlightCustomQueryTest.cs
++++ b/src/Lucene.Net.Tests.Highlighter/Highlight/Custom/HighlightCustomQueryTest.cs
+@@ -108,9 +108,9 @@ public MyWeightedSpanTermExtractor(String defaultField)
+             protected override void ExtractUnknownQuery(Query query,
+                 IDictionary<String, WeightedSpanTerm> terms)
+             {
+-                if (query is CustomQuery)
++                if (query is CustomQuery customQuery)
+                 {
+-                    ExtractWeightedTerms(terms, new TermQuery(((CustomQuery)query).term));
++                    ExtractWeightedTerms(terms, new TermQuery(customQuery.term));
+                 }
+             }
+ 
+diff --git a/src/Lucene.Net.Tests.Join/TestBlockJoin.cs b/src/Lucene.Net.Tests.Join/TestBlockJoin.cs
+index d7e2fe945..6cc43c3a5 100644
+--- a/src/Lucene.Net.Tests.Join/TestBlockJoin.cs
++++ b/src/Lucene.Net.Tests.Join/TestBlockJoin.cs
+@@ -833,9 +833,9 @@ public void TestRandom()
+                             Console.Write("    ");
+                             foreach (object o in fd.Fields)
+                             {
+-                                if (o is BytesRef)
++                                if (o is BytesRef bytesRef)
+                                 {
+-                                    Console.Write(((BytesRef)o).Utf8ToString() + " ");
++                                    Console.Write(bytesRef.Utf8ToString() + " ");
+                                 }
+                                 else
+                                 {
+@@ -881,9 +881,9 @@ public void TestRandom()
+                                 Console.Write("  ");
+                                 foreach (object o in group.GroupSortValues)
+                                 {
+-                                    if (o is BytesRef)
++                                    if (o is BytesRef bytesRef)
+                                     {
+-                                        Console.Write(((BytesRef)o).Utf8ToString() + " ");
++                                        Console.Write(bytesRef.Utf8ToString() + " ");
+                                     }
+                                     else
+                                     {
+@@ -921,7 +921,7 @@ public void TestRandom()
+                         int childId = Convert.ToInt32(document.Get("childID"), CultureInfo.InvariantCulture);
+                         assertTrue(explanation.IsMatch);
+                         assertEquals(hit.Score, explanation.Value, 0.0f);
+-                        assertEquals(string.Format("Score based on child doc range from {0} to {1}", hit.Doc - 1 - childId, hit.Doc - 1), explanation.Description);
++                        assertEquals($"Score based on child doc range from {hit.Doc - 1 - childId} to {hit.Doc - 1}", explanation.Description);
+                     }
+                 }
+ 
+diff --git a/src/Lucene.Net.Tests.Join/TestJoinUtil.cs b/src/Lucene.Net.Tests.Join/TestJoinUtil.cs
+index 9d0b606f2..5ead7c5b4 100644
+--- a/src/Lucene.Net.Tests.Join/TestJoinUtil.cs
++++ b/src/Lucene.Net.Tests.Join/TestJoinUtil.cs
+@@ -476,7 +476,7 @@ public void TestMultiValueRandomJoin()
+                             doc != DocIdSetIterator.NO_MORE_DOCS;
+                             doc = iterator.NextDoc())
+                         {
+-                            Console.WriteLine(string.Format("Expected doc[{0}] with id value {1}", doc, indexSearcher.Doc(doc).Get("id")));
++                            Console.WriteLine($"Expected doc[{doc}] with id value {indexSearcher.Doc(doc).Get("id")}");
+                         }
+                         Console.WriteLine("actual cardinality:" + actualResult.Cardinality());
+                         iterator = actualResult.GetIterator();
+@@ -484,7 +484,7 @@ public void TestMultiValueRandomJoin()
+                             doc != DocIdSetIterator.NO_MORE_DOCS;
+                             doc = iterator.NextDoc())
+                         {
+-                            Console.WriteLine(string.Format("Actual doc[{0}] with id value {1}", doc, indexSearcher.Doc(doc).Get("id")));
++                            Console.WriteLine($"Actual doc[{doc}] with id value {indexSearcher.Doc(doc).Get("id")}");
+                         }
+                     }
+                     assertEquals(expectedResult, actualResult);
+diff --git a/src/Lucene.Net.Tests.Misc/Index/Sorter/SorterTestBase.cs b/src/Lucene.Net.Tests.Misc/Index/Sorter/SorterTestBase.cs
+index ada508a1a..146fde6b3 100644
+--- a/src/Lucene.Net.Tests.Misc/Index/Sorter/SorterTestBase.cs
++++ b/src/Lucene.Net.Tests.Misc/Index/Sorter/SorterTestBase.cs
+@@ -274,9 +274,9 @@ public virtual void TestDocsAndPositionsEnum()
+             // test advance()
+             DocsAndPositionsEnum reuse = sortedPositions;
+             sortedPositions = termsEnum.DocsAndPositions(null, reuse);
+-            if (sortedPositions is SortingAtomicReader.SortingDocsAndPositionsEnum)
++            if (sortedPositions is SortingAtomicReader.SortingDocsAndPositionsEnum sortingDocsAndPositionsEnum)
+             {
+-                assertTrue(((SortingAtomicReader.SortingDocsAndPositionsEnum)sortedPositions).Reused(reuse)); // make sure reuse worked
++                assertTrue(sortingDocsAndPositionsEnum.Reused(reuse)); // make sure reuse worked
+             }
+             doc = 0;
+             while ((doc = sortedPositions.Advance(doc + TestUtil.NextInt32(Random, 1, 5))) != DocIdSetIterator.NO_MORE_DOCS)
+@@ -352,9 +352,9 @@ public virtual void TestDocsEnum()
+ 
+             DocsEnum reuse = docs;
+             docs = termsEnum.Docs(mappedLiveDocs, reuse);
+-            if (docs is SortingAtomicReader.SortingDocsEnum)
++            if (docs is SortingAtomicReader.SortingDocsEnum sortingDocsEnum)
+             {
+-                assertTrue(((SortingAtomicReader.SortingDocsEnum)docs).Reused(reuse)); // make sure reuse worked
++                assertTrue(sortingDocsEnum.Reused(reuse)); // make sure reuse worked
+             }
+             doc = -1;
+             prev = -1;
+diff --git a/src/Lucene.Net.Tests.Misc/Index/TestIndexSplitter.cs b/src/Lucene.Net.Tests.Misc/Index/TestIndexSplitter.cs
+index e653a1f8a..ff7bb9f43 100644
+--- a/src/Lucene.Net.Tests.Misc/Index/TestIndexSplitter.cs
++++ b/src/Lucene.Net.Tests.Misc/Index/TestIndexSplitter.cs
+@@ -35,9 +35,9 @@ public void Test()
+             Store.Directory fsDir = NewFSDirectory(dir);
+             // IndexSplitter.split makes its own commit directly with SIPC/SegmentInfos,
+             // so the unreferenced files are expected.
+-            if (fsDir is MockDirectoryWrapper)
++            if (fsDir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)fsDir).AssertNoUnreferencedFilesOnClose = (false);
++                mockDirectoryWrapper.AssertNoUnreferencedFilesOnClose = (false);
+             }
+ 
+             MergePolicy mergePolicy = new LogByteSizeMergePolicy();
+diff --git a/src/Lucene.Net.Tests.QueryParser/Flexible/Spans/UniqueFieldAttributeImpl.cs b/src/Lucene.Net.Tests.QueryParser/Flexible/Spans/UniqueFieldAttributeImpl.cs
+index 811381494..aad626c75 100644
+--- a/src/Lucene.Net.Tests.QueryParser/Flexible/Spans/UniqueFieldAttributeImpl.cs
++++ b/src/Lucene.Net.Tests.QueryParser/Flexible/Spans/UniqueFieldAttributeImpl.cs
+@@ -63,10 +63,10 @@ public override void CopyTo(IAttribute target)
+ 
+         public override bool Equals(object other)
+         {
+-            if (other is UniqueFieldAttribute)
++            if (other is UniqueFieldAttribute uniqueFieldAttribute)
+             {
+ 
+-                return ((UniqueFieldAttribute)other).uniqueField
++                return uniqueFieldAttribute.uniqueField
+                     .Equals(this.uniqueField, System.StringComparison.Ordinal);
+             }
+ 
+diff --git a/src/Lucene.Net.Tests.QueryParser/Flexible/Spans/UniqueFieldQueryNodeProcessor.cs b/src/Lucene.Net.Tests.QueryParser/Flexible/Spans/UniqueFieldQueryNodeProcessor.cs
+index 7b6cebfb7..02b765076 100644
+--- a/src/Lucene.Net.Tests.QueryParser/Flexible/Spans/UniqueFieldQueryNodeProcessor.cs
++++ b/src/Lucene.Net.Tests.QueryParser/Flexible/Spans/UniqueFieldQueryNodeProcessor.cs
+@@ -40,10 +40,8 @@ protected override IQueryNode PostProcessNode(IQueryNode node)
+ 
+         protected override IQueryNode PreProcessNode(IQueryNode node)
+         {
+-            if (node is IFieldableNode)
++            if (node is IFieldableNode fieldNode)
+             {
+-                IFieldableNode fieldNode = (IFieldableNode)node;
+-
+                 QueryConfigHandler queryConfig = GetQueryConfigHandler();
+ 
+                 if (queryConfig == null)
+diff --git a/src/Lucene.Net.Tests.Spatial/Prefix/SpatialOpRecursivePrefixTreeTest.cs b/src/Lucene.Net.Tests.Spatial/Prefix/SpatialOpRecursivePrefixTreeTest.cs
+index 13ea7ab65..7afcb0a51 100644
+--- a/src/Lucene.Net.Tests.Spatial/Prefix/SpatialOpRecursivePrefixTreeTest.cs
++++ b/src/Lucene.Net.Tests.Spatial/Prefix/SpatialOpRecursivePrefixTreeTest.cs
+@@ -183,10 +183,10 @@ protected override Document newDoc(String id, IShape shape)
+             if (shape != null)
+             {
+                 IList<IShape> shapes;
+-                if (shape is ShapePair)
++                if (shape is ShapePair shapePair)
+                 {
+                     shapes = new List<IShape>(2);
+-                    shapes.Add(((ShapePair)shape).shape1);
++                    shapes.Add(shapePair.shape1);
+                     shapes.Add(((ShapePair)shape).shape2);
+                 }
+                 else
+@@ -398,9 +398,8 @@ protected IShape gridSnap(IShape snapMe)
+         {
+             if (snapMe == null)
+                 return null;
+-            if (snapMe is ShapePair)
++            if (snapMe is ShapePair me)
+             {
+-                ShapePair me = (ShapePair)snapMe;
+                 return new ShapePair(gridSnap(me.shape1), gridSnap(me.shape2), me.biasContainsThenWithin, ctx);
+             }
+             if (snapMe is IPoint)
+diff --git a/src/Lucene.Net.Tests.Suggest/Spell/TestLuceneDictionary.cs b/src/Lucene.Net.Tests.Suggest/Spell/TestLuceneDictionary.cs
+index ba4b0dd23..6888ba69f 100644
+--- a/src/Lucene.Net.Tests.Suggest/Spell/TestLuceneDictionary.cs
++++ b/src/Lucene.Net.Tests.Suggest/Spell/TestLuceneDictionary.cs
+@@ -95,7 +95,7 @@ public void TestFieldNonExistent()
+             }
+             finally
+             {
+-                if (indexReader != null) { indexReader.Dispose(); }
++                indexReader?.Dispose();
+             }
+         }
+ 
+@@ -114,7 +114,7 @@ public void TestFieldAaa()
+             }
+             finally
+             {
+-                if (indexReader != null) { indexReader.Dispose(); }
++                indexReader?.Dispose();
+             }
+         }
+ 
+@@ -147,7 +147,7 @@ public void TestFieldContents_1()
+             }
+             finally
+             {
+-                if (indexReader != null) { indexReader.Dispose(); }
++                indexReader?.Dispose();
+             }
+         }
+ 
+@@ -170,7 +170,7 @@ public void TestFieldContents_2()
+             }
+             finally
+             {
+-                if (indexReader != null) { indexReader.Dispose(); }
++                indexReader?.Dispose();
+             }
+         }
+ 
+@@ -190,7 +190,7 @@ public void TestFieldZzz()
+             }
+             finally
+             {
+-                if (indexReader != null) { indexReader.Dispose(); }
++                indexReader?.Dispose();
+             }
+         }
+ 
+diff --git a/src/Lucene.Net.Tests.TestFramework/Configuration/TestSystemProperties.cs b/src/Lucene.Net.Tests.TestFramework/Configuration/TestSystemProperties.cs
+index 5cb21229e..987972371 100644
+--- a/src/Lucene.Net.Tests.TestFramework/Configuration/TestSystemProperties.cs
++++ b/src/Lucene.Net.Tests.TestFramework/Configuration/TestSystemProperties.cs
+@@ -169,7 +169,7 @@ public virtual void TestCommandLineProperty()
+         {
+             TestContext.Progress.WriteLine("TestContext.Parameters ({0})", TestContext.Parameters.Count);
+             foreach (var x in TestContext.Parameters.Names)
+-                TestContext.Progress.WriteLine(string.Format("{0}={1}", x, TestContext.Parameters[x]));
++                TestContext.Progress.WriteLine($"{x}={TestContext.Parameters[x]}");
+         }
+ 
+         [Test]
+diff --git a/src/Lucene.Net.Tests/Index/Test2BBinaryDocValues.cs b/src/Lucene.Net.Tests/Index/Test2BBinaryDocValues.cs
+index f400c4784..25ceb0b6c 100644
+--- a/src/Lucene.Net.Tests/Index/Test2BBinaryDocValues.cs
++++ b/src/Lucene.Net.Tests/Index/Test2BBinaryDocValues.cs
+@@ -45,9 +45,9 @@ public class Test2BBinaryDocValues : LuceneTestCase
+         public virtual void TestFixedBinary()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("2BFixedBinary"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+             var config = new IndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random))
+                             .SetMaxBufferedDocs(IndexWriterConfig.DISABLE_AUTO_FLUSH)
+@@ -111,9 +111,9 @@ public virtual void TestFixedBinary()
+         public virtual void TestVariableBinary()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("2BVariableBinary"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+ 
+             var config = new IndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random))
+diff --git a/src/Lucene.Net.Tests/Index/Test2BNumericDocValues.cs b/src/Lucene.Net.Tests/Index/Test2BNumericDocValues.cs
+index 645870595..b343d38c0 100644
+--- a/src/Lucene.Net.Tests/Index/Test2BNumericDocValues.cs
++++ b/src/Lucene.Net.Tests/Index/Test2BNumericDocValues.cs
+@@ -43,9 +43,9 @@ public class Test2BNumericDocValues : LuceneTestCase
+         public virtual void TestNumerics()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("2BNumerics"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+ 
+             IndexWriter w = new IndexWriter(dir,
+diff --git a/src/Lucene.Net.Tests/Index/Test2BPositions.cs b/src/Lucene.Net.Tests/Index/Test2BPositions.cs
+index aeed283dd..babff90e1 100644
+--- a/src/Lucene.Net.Tests/Index/Test2BPositions.cs
++++ b/src/Lucene.Net.Tests/Index/Test2BPositions.cs
+@@ -49,9 +49,9 @@ public class Test2BPositions : LuceneTestCase
+         public virtual void Test()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("2BPositions"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+ 
+             IndexWriter w = new IndexWriter(dir,
+@@ -63,10 +63,10 @@ public virtual void Test()
+                 .SetOpenMode(OpenMode.CREATE));
+ 
+             MergePolicy mp = w.Config.MergePolicy;
+-            if (mp is LogByteSizeMergePolicy)
++            if (mp is LogByteSizeMergePolicy logByteSizeMergePolicy)
+             {
+                 // 1 petabyte:
+-                ((LogByteSizeMergePolicy)mp).MaxMergeMB = 1024 * 1024 * 1024;
++                logByteSizeMergePolicy.MaxMergeMB = 1024 * 1024 * 1024;
+             }
+ 
+             Document doc = new Document();
+diff --git a/src/Lucene.Net.Tests/Index/Test2BPostings.cs b/src/Lucene.Net.Tests/Index/Test2BPostings.cs
+index 19640a9e3..a0d1b5c1e 100644
+--- a/src/Lucene.Net.Tests/Index/Test2BPostings.cs
++++ b/src/Lucene.Net.Tests/Index/Test2BPostings.cs
+@@ -49,9 +49,9 @@ public class Test2BPostings : LuceneTestCase
+         public virtual void Test()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("2BPostings"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+ 
+             var config = new IndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random))
+@@ -64,10 +64,10 @@ public virtual void Test()
+             IndexWriter w = new IndexWriter(dir, config);
+ 
+             MergePolicy mp = w.Config.MergePolicy;
+-            if (mp is LogByteSizeMergePolicy)
++            if (mp is LogByteSizeMergePolicy logByteSizeMergePolicy)
+             {
+                 // 1 petabyte:
+-                ((LogByteSizeMergePolicy)mp).MaxMergeMB = 1024 * 1024 * 1024;
++                logByteSizeMergePolicy.MaxMergeMB = 1024 * 1024 * 1024;
+             }
+ 
+             Document doc = new Document();
+diff --git a/src/Lucene.Net.Tests/Index/Test2BSortedDocValues.cs b/src/Lucene.Net.Tests/Index/Test2BSortedDocValues.cs
+index 5af76e5c3..4481d8023 100644
+--- a/src/Lucene.Net.Tests/Index/Test2BSortedDocValues.cs
++++ b/src/Lucene.Net.Tests/Index/Test2BSortedDocValues.cs
+@@ -43,9 +43,9 @@ public class Test2BSortedDocValues : LuceneTestCase
+         public virtual void TestFixedSorted()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("2BFixedSorted"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+ 
+             IndexWriter w = new IndexWriter(dir, new IndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random))
+@@ -105,9 +105,9 @@ public virtual void TestFixedSorted()
+         public virtual void Test2BOrds()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("2BOrds"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+ 
+             var config = new IndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random))
+diff --git a/src/Lucene.Net.Tests/Index/Test2BTerms.cs b/src/Lucene.Net.Tests/Index/Test2BTerms.cs
+index 3398ad29c..c1c840395 100644
+--- a/src/Lucene.Net.Tests/Index/Test2BTerms.cs
++++ b/src/Lucene.Net.Tests/Index/Test2BTerms.cs
+@@ -179,9 +179,9 @@ public virtual void Test2BTerms_Mem()
+ 
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("2BTerms"));
+             //MockDirectoryWrapper dir = NewFSDirectory(new File("/p/lucene/indices/2bindex"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+             dir.CheckIndexOnDispose = false; // don't double-checkindex
+ 
+@@ -195,10 +195,10 @@ public virtual void Test2BTerms_Mem()
+                                            .SetOpenMode(OpenMode.CREATE));
+ 
+                 MergePolicy mp = w.Config.MergePolicy;
+-                if (mp is LogByteSizeMergePolicy)
++                if (mp is LogByteSizeMergePolicy logByteSizeMergePolicy)
+                 {
+                     // 1 petabyte:
+-                    ((LogByteSizeMergePolicy)mp).MaxMergeMB = 1024 * 1024 * 1024;
++                    logByteSizeMergePolicy.MaxMergeMB = 1024 * 1024 * 1024;
+                 }
+ 
+                 Documents.Document doc = new Documents.Document();
+diff --git a/src/Lucene.Net.Tests/Index/Test4GBStoredFields.cs b/src/Lucene.Net.Tests/Index/Test4GBStoredFields.cs
+index 731fcd414..27caa4cbb 100644
+--- a/src/Lucene.Net.Tests/Index/Test4GBStoredFields.cs
++++ b/src/Lucene.Net.Tests/Index/Test4GBStoredFields.cs
+@@ -64,10 +64,10 @@ public virtual void Test()
+             IndexWriter w = new IndexWriter(dir, config);
+ 
+             MergePolicy mp = w.Config.MergePolicy;
+-            if (mp is LogByteSizeMergePolicy)
++            if (mp is LogByteSizeMergePolicy logByteSizeMergePolicy)
+             {
+                 // 1 petabyte:
+-                ((LogByteSizeMergePolicy)mp).MaxMergeMB = 1024 * 1024 * 1024;
++                logByteSizeMergePolicy.MaxMergeMB = 1024 * 1024 * 1024;
+             }
+ 
+             Document doc = new Document();
+diff --git a/src/Lucene.Net.Tests/Index/TestBackwardsCompatibility.cs b/src/Lucene.Net.Tests/Index/TestBackwardsCompatibility.cs
+index d37a8f2ec..1b889607f 100644
+--- a/src/Lucene.Net.Tests/Index/TestBackwardsCompatibility.cs
++++ b/src/Lucene.Net.Tests/Index/TestBackwardsCompatibility.cs
+@@ -264,10 +264,7 @@ public virtual void TestUnsupportedOldIndexes()
+                 }
+                 finally
+                 {
+-                    if (reader != null)
+-                    {
+-                        reader.Dispose();
+-                    }
++                    reader?.Dispose();
+                     reader = null;
+                 }
+ 
+@@ -294,10 +291,7 @@ public virtual void TestUnsupportedOldIndexes()
+                     // to close IW. However, if merges are run, IW may throw
+                     // IndexFormatTooOldException, and we don't want to mask the Assert.Fail()
+                     // above, so close without waiting for merges.
+-                    if (writer != null)
+-                    {
+-                        writer.Dispose(false);
+-                    }
++                    writer?.Dispose(false);
+                     writer = null;
+                 }
+ 
+diff --git a/src/Lucene.Net.Tests/Index/TestBackwardsCompatibility3x.cs b/src/Lucene.Net.Tests/Index/TestBackwardsCompatibility3x.cs
+index 5a8604a13..0b23ee1ce 100644
+--- a/src/Lucene.Net.Tests/Index/TestBackwardsCompatibility3x.cs
++++ b/src/Lucene.Net.Tests/Index/TestBackwardsCompatibility3x.cs
+@@ -196,10 +196,7 @@ public virtual void TestUnsupportedOldIndexes()
+                 }
+                 finally
+                 {
+-                    if (reader != null)
+-                    {
+-                        reader.Dispose();
+-                    }
++                    reader?.Dispose();
+                     reader = null;
+                 }
+ 
+@@ -226,10 +223,7 @@ public virtual void TestUnsupportedOldIndexes()
+                     // to close IW. However, if merges are run, IW may throw
+                     // IndexFormatTooOldException, and we don't want to mask the Assert.Fail()
+                     // above, so close without waiting for merges.
+-                    if (writer != null)
+-                    {
+-                        writer.Dispose(false);
+-                    }
++                    writer?.Dispose(false);
+                     writer = null;
+                 }
+ 
+diff --git a/src/Lucene.Net.Tests/Index/TestConcurrentMergeScheduler.cs b/src/Lucene.Net.Tests/Index/TestConcurrentMergeScheduler.cs
+index bb9ac4506..05c981ea9 100644
+--- a/src/Lucene.Net.Tests/Index/TestConcurrentMergeScheduler.cs
++++ b/src/Lucene.Net.Tests/Index/TestConcurrentMergeScheduler.cs
+@@ -402,9 +402,9 @@ protected override void DoMerge(MergePolicy.OneMerge merge)
+         public virtual void TestTotalBytesSize()
+         {
+             Directory d = NewDirectory();
+-            if (d is MockDirectoryWrapper)
++            if (d is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)d).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+             IndexWriterConfig iwc = NewIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random));
+             iwc.SetMaxBufferedDocs(5);
+diff --git a/src/Lucene.Net.Tests/Index/TestCrash.cs b/src/Lucene.Net.Tests/Index/TestCrash.cs
+index e079493ca..806a64a45 100644
+--- a/src/Lucene.Net.Tests/Index/TestCrash.cs
++++ b/src/Lucene.Net.Tests/Index/TestCrash.cs
+@@ -50,10 +50,7 @@ private IndexWriter InitIndex(Random random, MockDirectoryWrapper dir, bool init
+                 .SetMergeScheduler(new ConcurrentMergeScheduler()));
+ 
+             IConcurrentMergeScheduler scheduler = writer.Config.MergeScheduler as IConcurrentMergeScheduler;
+-            if (scheduler != null)
+-            {
+-                scheduler.SetSuppressExceptions();
+-            }
++            scheduler?.SetSuppressExceptions();
+ 
+             if (initialCommit)
+             {
+diff --git a/src/Lucene.Net.Tests/Index/TestDoc.cs b/src/Lucene.Net.Tests/Index/TestDoc.cs
+index 3004ed938..8abe0bfde 100644
+--- a/src/Lucene.Net.Tests/Index/TestDoc.cs
++++ b/src/Lucene.Net.Tests/Index/TestDoc.cs
+@@ -94,10 +94,7 @@ private FileInfo CreateOutput(string name, string text)
+             }
+             finally
+             {
+-                if (pw != null)
+-                {
+-                    pw.Dispose();
+-                }
++                pw?.Dispose();
+                 /*if (fw != null)
+                 {
+                     fw.Dispose();
+diff --git a/src/Lucene.Net.Tests/Index/TestDuelingCodecs.cs b/src/Lucene.Net.Tests/Index/TestDuelingCodecs.cs
+index 4710120f4..afdf93f86 100644
+--- a/src/Lucene.Net.Tests/Index/TestDuelingCodecs.cs
++++ b/src/Lucene.Net.Tests/Index/TestDuelingCodecs.cs
+@@ -110,23 +110,11 @@ public override void SetUp()
+         [TearDown]
+         public override void TearDown()
+         {
+-            if (leftReader != null)
+-            {
+-                leftReader.Dispose();
+-            }
+-            if (rightReader != null)
+-            {
+-                rightReader.Dispose();
+-            }
++            leftReader?.Dispose();
++            rightReader?.Dispose();
+ 
+-            if (leftDir != null)
+-            {
+-                leftDir.Dispose();
+-            }
+-            if (rightDir != null)
+-            {
+-                rightDir.Dispose();
+-            }
++            leftDir?.Dispose();
++            rightDir?.Dispose();
+ 
+             base.TearDown();
+         }
+diff --git a/src/Lucene.Net.Tests/Index/TestForceMergeForever.cs b/src/Lucene.Net.Tests/Index/TestForceMergeForever.cs
+index 2783af29a..ba1b01f9b 100644
+--- a/src/Lucene.Net.Tests/Index/TestForceMergeForever.cs
++++ b/src/Lucene.Net.Tests/Index/TestForceMergeForever.cs
+@@ -79,13 +79,13 @@ public virtual void Test()
+             }
+             MergePolicy mp = w.Config.MergePolicy;
+             int mergeAtOnce = 1 + w.segmentInfos.Count;
+-            if (mp is TieredMergePolicy)
++            if (mp is TieredMergePolicy tieredMergePolicy)
+             {
+-                ((TieredMergePolicy)mp).MaxMergeAtOnce = mergeAtOnce;
++                tieredMergePolicy.MaxMergeAtOnce = mergeAtOnce;
+             }
+-            else if (mp is LogMergePolicy)
++            else if (mp is LogMergePolicy logMergePolicy)
+             {
+-                ((LogMergePolicy)mp).MergeFactor = mergeAtOnce;
++                logMergePolicy.MergeFactor = mergeAtOnce;
+             }
+             else
+             {
+diff --git a/src/Lucene.Net.Tests/Index/TestIndexFileDeleter.cs b/src/Lucene.Net.Tests/Index/TestIndexFileDeleter.cs
+index 673476d09..37198f6a0 100644
+--- a/src/Lucene.Net.Tests/Index/TestIndexFileDeleter.cs
++++ b/src/Lucene.Net.Tests/Index/TestIndexFileDeleter.cs
+@@ -48,9 +48,9 @@ public class TestIndexFileDeleter : LuceneTestCase
+         public virtual void TestDeleteLeftoverFiles()
+         {
+             Directory dir = NewDirectory();
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).PreventDoubleWrite = false;
++                mockDirectoryWrapper.PreventDoubleWrite = false;
+             }
+ 
+             MergePolicy mergePolicy = NewLogMergePolicy(true, 10);
+diff --git a/src/Lucene.Net.Tests/Index/TestIndexWriterCommit.cs b/src/Lucene.Net.Tests/Index/TestIndexWriterCommit.cs
+index 33155f196..dfa530915 100644
+--- a/src/Lucene.Net.Tests/Index/TestIndexWriterCommit.cs
++++ b/src/Lucene.Net.Tests/Index/TestIndexWriterCommit.cs
+@@ -155,9 +155,9 @@ public virtual void TestCommitOnCloseAbort()
+ 
+             // On abort, writer in fact may write to the same
+             // segments_N file:
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).PreventDoubleWrite = false;
++                mockDirectoryWrapper.PreventDoubleWrite = false;
+             }
+ 
+             for (int i = 0; i < 12; i++)
+@@ -272,9 +272,9 @@ public virtual void TestCommitOnCloseForceMerge()
+             // Must disable throwing exc on double-write: this
+             // test uses IW.rollback which easily results in
+             // writing to same file more than once
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).PreventDoubleWrite = false;
++                mockDirectoryWrapper.PreventDoubleWrite = false;
+             }
+             IndexWriter writer = new IndexWriter(dir, NewIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random)).SetMaxBufferedDocs(10).SetMergePolicy(NewLogMergePolicy(10)));
+             for (int j = 0; j < 17; j++)
+@@ -609,9 +609,9 @@ public virtual void TestPrepareCommit()
+         public virtual void TestPrepareCommitRollback()
+         {
+             Directory dir = NewDirectory();
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).PreventDoubleWrite = false;
++                mockDirectoryWrapper.PreventDoubleWrite = false;
+             }
+ 
+             IndexWriter writer = new IndexWriter(dir, NewIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random)).SetMaxBufferedDocs(2).SetMergePolicy(NewLogMergePolicy(5)));
+diff --git a/src/Lucene.Net.Tests/Index/TestIndexWriterDelete.cs b/src/Lucene.Net.Tests/Index/TestIndexWriterDelete.cs
+index 3f38404d2..e421b8ce5 100644
+--- a/src/Lucene.Net.Tests/Index/TestIndexWriterDelete.cs
++++ b/src/Lucene.Net.Tests/Index/TestIndexWriterDelete.cs
+@@ -614,10 +614,7 @@ private void DoTestOperationsOnDiskFull(bool updates)
+                                 .SetMergeScheduler(new ConcurrentMergeScheduler());
+ 
+                 IConcurrentMergeScheduler scheduler = config.MergeScheduler as IConcurrentMergeScheduler;
+-                if (scheduler != null)
+-                {
+-                    scheduler.SetSuppressExceptions();
+-                }
++                scheduler?.SetSuppressExceptions();
+ 
+                 IndexWriter modifier = new IndexWriter(dir, config);
+ 
+diff --git a/src/Lucene.Net.Tests/Index/TestIndexWriterExceptions.cs b/src/Lucene.Net.Tests/Index/TestIndexWriterExceptions.cs
+index f82f31e4e..fc44704fb 100644
+--- a/src/Lucene.Net.Tests/Index/TestIndexWriterExceptions.cs
++++ b/src/Lucene.Net.Tests/Index/TestIndexWriterExceptions.cs
+@@ -1191,10 +1191,7 @@ public virtual void TestForceMergeExceptions()
+                 MockDirectoryWrapper dir = new MockDirectoryWrapper(Random, new RAMDirectory(startDir, NewIOContext(Random)));
+                 conf = NewIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random)).SetMergeScheduler(new ConcurrentMergeScheduler());
+                 var scheduler = conf.MergeScheduler as IConcurrentMergeScheduler;
+-                if (scheduler != null)
+-                {
+-                    scheduler.SetSuppressExceptions();
+-                }
++                scheduler?.SetSuppressExceptions();
+                 w = new IndexWriter(dir, conf);
+                 dir.RandomIOExceptionRate = 0.5;
+                 try
+@@ -1398,10 +1395,7 @@ public virtual void TestSimulatedCorruptIndex1()
+ #pragma warning restore 168
+             {
+             }
+-            if (reader != null)
+-            {
+-                reader.Dispose();
+-            }
++            reader?.Dispose();
+             dir.Dispose();
+         }
+ 
+@@ -1457,10 +1451,7 @@ public virtual void TestSimulatedCorruptIndex2()
+ #pragma warning restore 168
+             {
+             }
+-            if (reader != null)
+-            {
+-                reader.Dispose();
+-            }
++            reader?.Dispose();
+             dir.Dispose();
+         }
+ 
+@@ -1472,9 +1463,9 @@ public virtual void TestSimulatedCorruptIndex2()
+         public virtual void TestSimulatedCrashedWriter()
+         {
+             Directory dir = NewDirectory();
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).PreventDoubleWrite = false;
++                mockDirectoryWrapper.PreventDoubleWrite = false;
+             }
+ 
+             IndexWriter writer = null;
+@@ -2144,11 +2135,9 @@ public virtual void TestNoLostDeletesOrUpdates()
+                 {
+                     IndexWriterConfig iwc = NewIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random));
+                     IMergeScheduler ms = iwc.MergeScheduler;
+-                    if (ms is IConcurrentMergeScheduler)
++                    if (ms is IConcurrentMergeScheduler cms)
+                     {
+                         IConcurrentMergeScheduler suppressFakeIOE = new ConcurrentMergeSchedulerAnonymousClass();
+-
+-                        IConcurrentMergeScheduler cms = (IConcurrentMergeScheduler)ms;
+                         suppressFakeIOE.SetMaxMergesAndThreads(cms.MaxMergeCount, cms.MaxThreadCount);
+                         suppressFakeIOE.SetMergeThreadPriority(cms.MergeThreadPriority);
+                         iwc.SetMergeScheduler(suppressFakeIOE);
+@@ -2291,10 +2280,7 @@ public virtual void TestNoLostDeletesOrUpdates()
+                     {
+                         Console.WriteLine("TEST: verify against non-NRT reader");
+                     }
+-                    if (w != null)
+-                    {
+-                        w.Commit();
+-                    }
++                    w?.Commit();
+                     ir = DirectoryReader.Open(dir);
+                 }
+                 else
+@@ -2344,10 +2330,7 @@ public virtual void TestNoLostDeletesOrUpdates()
+                 docBase += numDocs;
+             }
+ 
+-            if (w != null)
+-            {
+-                w.Dispose();
+-            }
++            w?.Dispose();
+ 
+             // Final verify:
+             IndexReader indRdr = DirectoryReader.Open(dir);
+diff --git a/src/Lucene.Net.Tests/Index/TestIndexWriterOnDiskFull.cs b/src/Lucene.Net.Tests/Index/TestIndexWriterOnDiskFull.cs
+index cbe0089fa..f5dc576f4 100644
+--- a/src/Lucene.Net.Tests/Index/TestIndexWriterOnDiskFull.cs
++++ b/src/Lucene.Net.Tests/Index/TestIndexWriterOnDiskFull.cs
+@@ -77,12 +77,12 @@ public virtual void TestAddDocumentOnDiskFull()
+                     dir.MaxSizeInBytes = diskFree;
+                     IndexWriter writer = new IndexWriter(dir, NewIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random)));
+                     IMergeScheduler ms = writer.Config.MergeScheduler;
+-                    if (ms is IConcurrentMergeScheduler)
++                    if (ms is IConcurrentMergeScheduler iConcurrentMergeScheduler)
+                     {
+                         // this test intentionally produces exceptions
+                         // in the threads that CMS launches; we don't
+                         // want to pollute test output with these.
+-                        ((IConcurrentMergeScheduler)ms).SetSuppressExceptions();
++                        iConcurrentMergeScheduler.SetSuppressExceptions();
+                     }
+ 
+                     bool hitError = false;
+@@ -304,14 +304,14 @@ public virtual void TestAddIndexOnDiskFull()
+                     IMergeScheduler ms = indWriter.Config.MergeScheduler;
+                     for (int x = 0; x < 2; x++)
+                     {
+-                        if (ms is IConcurrentMergeScheduler)
++                        if (ms is IConcurrentMergeScheduler iConcurrentMergeScheduler)
+                         // this test intentionally produces exceptions
+                         // in the threads that CMS launches; we don't
+                         // want to pollute test output with these.
+                         {
+                             if (0 == x)
+                             {
+-                                ((IConcurrentMergeScheduler)ms).SetSuppressExceptions();
++                                iConcurrentMergeScheduler.SetSuppressExceptions();
+                             }
+                             else
+                             {
+diff --git a/src/Lucene.Net.Tests/Index/TestIndexWriterOutOfFileDescriptors.cs b/src/Lucene.Net.Tests/Index/TestIndexWriterOutOfFileDescriptors.cs
+index 441a46813..5798855f1 100644
+--- a/src/Lucene.Net.Tests/Index/TestIndexWriterOutOfFileDescriptors.cs
++++ b/src/Lucene.Net.Tests/Index/TestIndexWriterOutOfFileDescriptors.cs
+@@ -72,9 +72,9 @@ public virtual void Test()
+                         iwc.SetInfoStream(new TextWriterInfoStream(Console.Out));
+                     }
+                     var ms = iwc.MergeScheduler;
+-                    if (ms is IConcurrentMergeScheduler)
++                    if (ms is IConcurrentMergeScheduler iConcurrentMergeScheduler)
+                     {
+-                        ((IConcurrentMergeScheduler)ms).SetSuppressExceptions();
++                        iConcurrentMergeScheduler.SetSuppressExceptions();
+                     }
+                     w = new IndexWriter(dir, iwc);
+                     if (r != null && Random.Next(5) == 3)
+@@ -149,13 +149,7 @@ public virtual void Test()
+                         Console.WriteLine(ioe.ToString());
+                         Console.Write(ioe.StackTrace);
+                     }
+-                    if (w != null)
+-                    {
+-                        // NOTE: leave random IO exceptions enabled here,
+-                        // to verify that rollback does not try to write
+-                        // anything:
+-                        w.Rollback();
+-                    }
++                    w?.Rollback();
+                 }
+ 
+                 if (any && r == null && Random.NextBoolean())
+@@ -182,10 +176,7 @@ public virtual void Test()
+                 }
+             }
+ 
+-            if (r2 != null)
+-            {
+-                r2.Dispose();
+-            }
++            r2?.Dispose();
+             if (r != null)
+             {
+                 r.Dispose();
+diff --git a/src/Lucene.Net.Tests/Index/TestIndexWriterReader.cs b/src/Lucene.Net.Tests/Index/TestIndexWriterReader.cs
+index 3743e0f75..dd742cbde 100644
+--- a/src/Lucene.Net.Tests/Index/TestIndexWriterReader.cs
++++ b/src/Lucene.Net.Tests/Index/TestIndexWriterReader.cs
+@@ -938,9 +938,9 @@ public virtual void TestDuringAddIndexes()
+ 
+             Assert.AreEqual(0, excs.Count);
+             r.Dispose();
+-            if (dir1 is MockDirectoryWrapper)
++            if (dir1 is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ICollection<string> openDeletedFiles = ((MockDirectoryWrapper)dir1).GetOpenDeletedFiles();
++                ICollection<string> openDeletedFiles = mockDirectoryWrapper.GetOpenDeletedFiles();
+                 Assert.AreEqual(0, openDeletedFiles.Count, "openDeleted=" + openDeletedFiles);
+             }
+ 
+@@ -984,9 +984,9 @@ public override void Run()
+ 
+         private Directory GetAssertNoDeletesDirectory(Directory directory)
+         {
+-            if (directory is MockDirectoryWrapper)
++            if (directory is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)directory).AssertNoDeleteOpenFile = true;
++                mockDirectoryWrapper.AssertNoDeleteOpenFile = true;
+             }
+             return directory;
+         }
+diff --git a/src/Lucene.Net.Tests/Index/TestIndexWriterWithThreads.cs b/src/Lucene.Net.Tests/Index/TestIndexWriterWithThreads.cs
+index e3e973ac8..f0aa69152 100644
+--- a/src/Lucene.Net.Tests/Index/TestIndexWriterWithThreads.cs
++++ b/src/Lucene.Net.Tests/Index/TestIndexWriterWithThreads.cs
+@@ -663,9 +663,9 @@ public override void Run()
+         public virtual void TestRollbackAndCommitWithThreads()
+         {
+             BaseDirectoryWrapper d = NewDirectory();
+-            if (d is MockDirectoryWrapper)
++            if (d is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)d).PreventDoubleWrite = false;
++                mockDirectoryWrapper.PreventDoubleWrite = false;
+             }
+ 
+             int threadCount = TestUtil.NextInt32(Random, 2, 6);
+diff --git a/src/Lucene.Net.Tests/Index/TestMixedCodecs.cs b/src/Lucene.Net.Tests/Index/TestMixedCodecs.cs
+index 0bee4b73a..2fe7a983b 100644
+--- a/src/Lucene.Net.Tests/Index/TestMixedCodecs.cs
++++ b/src/Lucene.Net.Tests/Index/TestMixedCodecs.cs
+@@ -65,10 +65,7 @@ public virtual void Test()
+                         // formats...
+                         iwc.SetCodec(Codec.ForName("Lucene46"));
+                     }
+-                    if (w != null)
+-                    {
+-                        w.Dispose();
+-                    }
++                    w?.Dispose();
+                     w = new RandomIndexWriter(Random, dir, iwc);
+                     docsLeftInthisSegment = TestUtil.NextInt32(Random, 10, 100);
+                 }
+diff --git a/src/Lucene.Net.Tests/Index/TestNRTReaderWithThreads.cs b/src/Lucene.Net.Tests/Index/TestNRTReaderWithThreads.cs
+index 4f699481a..f670dc383 100644
+--- a/src/Lucene.Net.Tests/Index/TestNRTReaderWithThreads.cs
++++ b/src/Lucene.Net.Tests/Index/TestNRTReaderWithThreads.cs
+@@ -43,8 +43,8 @@ public class TestNRTReaderWithThreads : LuceneTestCase
+         public virtual void TestIndexing()
+         {
+             Directory mainDir = NewDirectory();
+-            var wrapper = mainDir as MockDirectoryWrapper;
+-            if (wrapper != null)
++
++            if (mainDir is MockDirectoryWrapper wrapper)
+             {
+                 wrapper.AssertNoDeleteOpenFile = true;
+             }
+diff --git a/src/Lucene.Net.Tests/Index/TestNeverDelete.cs b/src/Lucene.Net.Tests/Index/TestNeverDelete.cs
+index 41e4d4136..4a6149dfe 100644
+--- a/src/Lucene.Net.Tests/Index/TestNeverDelete.cs
++++ b/src/Lucene.Net.Tests/Index/TestNeverDelete.cs
+@@ -52,9 +52,9 @@ public virtual void TestIndexing()
+             // We want to "see" files removed if Lucene removed
+             // them.  this is still worth running on Windows since
+             // some files the IR opens and closes.
+-            if (d is MockDirectoryWrapper)
++            if (d is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)d).NoDeleteOpenFile = false;
++                mockDirectoryWrapper.NoDeleteOpenFile = false;
+             }
+             RandomIndexWriter w = new RandomIndexWriter(Random, d, NewIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer(Random)).SetIndexDeletionPolicy(NoDeletionPolicy.INSTANCE));
+             w.IndexWriter.Config.SetMaxBufferedDocs(TestUtil.NextInt32(Random, 5, 30));
+diff --git a/src/Lucene.Net.Tests/Index/TestRollingUpdates.cs b/src/Lucene.Net.Tests/Index/TestRollingUpdates.cs
+index 50925833e..d00a7c056 100644
+--- a/src/Lucene.Net.Tests/Index/TestRollingUpdates.cs
++++ b/src/Lucene.Net.Tests/Index/TestRollingUpdates.cs
+@@ -129,10 +129,7 @@ public virtual void TestRollingUpdates_Mem()
+ 
+                 if (docIter >= SIZE && LuceneTestCase.Random.Next(50) == 17)
+                 {
+-                    if (r != null)
+-                    {
+-                        r.Dispose();
+-                    }
++                    r?.Dispose();
+ 
+                     bool applyDeletions = LuceneTestCase.Random.NextBoolean();
+ 
+@@ -155,10 +152,7 @@ public virtual void TestRollingUpdates_Mem()
+                 }
+             }
+ 
+-            if (r != null)
+-            {
+-                r.Dispose();
+-            }
++            r?.Dispose();
+ 
+             w.Commit();
+             Assert.AreEqual(SIZE, w.NumDocs);
+@@ -269,10 +263,7 @@ public override void Run()
+                             Assert.AreEqual(1, open.NumDocs, "iter: " + i + " numDocs: " + open.NumDocs + " del: " + open.NumDeletedDocs + " max: " + open.MaxDoc);
+                         }
+                     }
+-                    if (open != null)
+-                    {
+-                        open.Dispose();
+-                    }
++                    open?.Dispose();
+                 }
+                 catch (Exception e)
+                 {
+diff --git a/src/Lucene.Net.Tests/Index/TestStressIndexing.cs b/src/Lucene.Net.Tests/Index/TestStressIndexing.cs
+index fb31695ed..936679495 100644
+--- a/src/Lucene.Net.Tests/Index/TestStressIndexing.cs
++++ b/src/Lucene.Net.Tests/Index/TestStressIndexing.cs
+@@ -230,8 +230,8 @@ public virtual void RunStressTest(Directory directory, IConcurrentMergeScheduler
+         public virtual void TestStressIndexAndSearching()
+         {
+             Directory directory = NewDirectory();
+-            MockDirectoryWrapper wrapper = directory as MockDirectoryWrapper;
+-            if (wrapper != null)
++
++            if (directory is MockDirectoryWrapper wrapper)
+             {
+                 wrapper.AssertNoUnreferencedFilesOnClose = true;
+             }
+diff --git a/src/Lucene.Net.Tests/Index/TestTransactions.cs b/src/Lucene.Net.Tests/Index/TestTransactions.cs
+index cc9368568..cf2a54b35 100644
+--- a/src/Lucene.Net.Tests/Index/TestTransactions.cs
++++ b/src/Lucene.Net.Tests/Index/TestTransactions.cs
+@@ -252,14 +252,8 @@ public override void DoWork()
+                         {
+                             throw; // LUCENENET: CA2200: Rethrow to preserve stack details (https://docs.microsoft.com/en-us/visualstudio/code-quality/ca2200-rethrow-to-preserve-stack-details)
+                         }
+-                        if (r1 != null)
+-                        {
+-                            r1.Dispose();
+-                        }
+-                        if (r2 != null)
+-                        {
+-                            r2.Dispose();
+-                        }
++                        r1?.Dispose();
++                        r2?.Dispose();
+                         return;
+                     }
+                 }
+diff --git a/src/Lucene.Net.Tests/Search/Spans/TestSpansAdvanced.cs b/src/Lucene.Net.Tests/Search/Spans/TestSpansAdvanced.cs
+index 05c9d8fe7..b96bc972b 100644
+--- a/src/Lucene.Net.Tests/Search/Spans/TestSpansAdvanced.cs
++++ b/src/Lucene.Net.Tests/Search/Spans/TestSpansAdvanced.cs
+@@ -79,10 +79,7 @@ public override void SetUp()
+         [TearDown]
+         public override void TearDown()
+         {
+-            if (reader != null)
+-            {
+-                reader.Dispose();
+-            }
++            reader?.Dispose();
+ 
+             if (mDirectory != null)
+             {
+diff --git a/src/Lucene.Net.Tests/Search/TestBoolean2.cs b/src/Lucene.Net.Tests/Search/TestBoolean2.cs
+index 1700852ff..f5813b0c3 100644
+--- a/src/Lucene.Net.Tests/Search/TestBoolean2.cs
++++ b/src/Lucene.Net.Tests/Search/TestBoolean2.cs
+@@ -429,10 +429,7 @@ public static BooleanQuery RandBoolQuery(Random rnd, bool allowMust, int level,
+ 
+                 current.Add(q, occur);
+             }
+-            if (cb != null)
+-            {
+-                cb.PostCreate(current);
+-            }
++            cb?.PostCreate(current);
+             return current;
+         }
+     }
+diff --git a/src/Lucene.Net.Tests/Search/TestConstantScoreQuery.cs b/src/Lucene.Net.Tests/Search/TestConstantScoreQuery.cs
+index 4a4cde67d..cca10defd 100644
+--- a/src/Lucene.Net.Tests/Search/TestConstantScoreQuery.cs
++++ b/src/Lucene.Net.Tests/Search/TestConstantScoreQuery.cs
+@@ -156,14 +156,8 @@ public virtual void TestWrapped2Times()
+             }
+             finally
+             {
+-                if (reader != null)
+-                {
+-                    reader.Dispose();
+-                }
+-                if (directory != null)
+-                {
+-                    directory.Dispose();
+-                }
++                reader?.Dispose();
++                directory?.Dispose();
+             }
+         }
+ 
+diff --git a/src/Lucene.Net.Tests/Search/TestFilteredQuery.cs b/src/Lucene.Net.Tests/Search/TestFilteredQuery.cs
+index 416733f77..717919ac3 100644
+--- a/src/Lucene.Net.Tests/Search/TestFilteredQuery.cs
++++ b/src/Lucene.Net.Tests/Search/TestFilteredQuery.cs
+@@ -465,10 +465,10 @@ private void AssertRewrite(FilteredQuery fq, Type clazz)
+             // check the class and boosts of rewritten query
+             Query rewritten = searcher.Rewrite(fq);
+             Assert.IsTrue(clazz.IsInstanceOfType(rewritten), "is not instance of " + clazz.Name);
+-            if (rewritten is FilteredQuery)
++            if (rewritten is FilteredQuery filteredQuery)
+             {
+                 Assert.AreEqual(boost, rewritten.Boost, 1E-5f);
+-                Assert.AreEqual(innerBoost, ((FilteredQuery)rewritten).Query.Boost, 1E-5f);
++                Assert.AreEqual(innerBoost, filteredQuery.Query.Boost, 1E-5f);
+                 Assert.AreEqual(fq.Strategy, ((FilteredQuery)rewritten).Strategy);
+             }
+             else
+diff --git a/src/Lucene.Net.Tests/Search/TestMultiTermQueryRewrites.cs b/src/Lucene.Net.Tests/Search/TestMultiTermQueryRewrites.cs
+index f0bfe54de..3ca1e9220 100644
+--- a/src/Lucene.Net.Tests/Search/TestMultiTermQueryRewrites.cs
++++ b/src/Lucene.Net.Tests/Search/TestMultiTermQueryRewrites.cs
+@@ -116,10 +116,10 @@ public override void AfterClass()
+ 
+         private Query ExtractInnerQuery(Query q)
+         {
+-            if (q is ConstantScoreQuery)
++            if (q is ConstantScoreQuery constantScoreQuery)
+             {
+                 // wrapped as ConstantScoreQuery
+-                q = ((ConstantScoreQuery)q).Query;
++                q = constantScoreQuery.Query;
+             }
+             return q;
+         }
+diff --git a/src/Lucene.Net.Tests/Search/TestSearchAfter.cs b/src/Lucene.Net.Tests/Search/TestSearchAfter.cs
+index caea463c2..13d5381ba 100644
+--- a/src/Lucene.Net.Tests/Search/TestSearchAfter.cs
++++ b/src/Lucene.Net.Tests/Search/TestSearchAfter.cs
+@@ -383,10 +383,10 @@ internal virtual void AssertPage(int pageStart, TopDocs all, TopDocs paged)
+                 }
+                 Assert.AreEqual(sd1.Doc, sd2.Doc);
+                 Assert.AreEqual(sd1.Score, sd2.Score, 0f);
+-                if (sd1 is FieldDoc)
++                if (sd1 is FieldDoc fieldDoc)
+                 {
+                     Assert.IsTrue(sd2 is FieldDoc);
+-                    Assert.AreEqual(((FieldDoc)sd1).Fields, ((FieldDoc)sd2).Fields);
++                    Assert.AreEqual(fieldDoc.Fields, ((FieldDoc)sd2).Fields);
+                 }
+             }
+         }
+diff --git a/src/Lucene.Net.Tests/Search/TestShardSearching.cs b/src/Lucene.Net.Tests/Search/TestShardSearching.cs
+index c268c66c3..19e8c9713 100644
+--- a/src/Lucene.Net.Tests/Search/TestShardSearching.cs
++++ b/src/Lucene.Net.Tests/Search/TestShardSearching.cs
+@@ -313,14 +313,11 @@ public virtual void TestSimple()
+                     NodeState.Release(localShardSearcher); // LUCENENET: Made Release() static per CA1822 for performance
+                     foreach (IndexReader sub in subs)
+                     {
+-                        if (sub != null)
+-                        {
+-                            sub.DecRef();
+-                        }
++                        sub?.DecRef();
+                     }
+                 }
+ 
+-                if (searchState != null && searchState.SearchAfterLocal != null && Random.Next(5) == 3)
++                if (searchState?.SearchAfterLocal != null && Random.Next(5) == 3)
+                 {
+                     priorSearches.Add(searchState);
+                     if (priorSearches.Count > 200)
+@@ -356,7 +353,7 @@ private PreviousSearchState AssertSame(IndexSearcher mockSearcher, NodeState.Sha
+             TopDocs hits;
+             if (sort == null)
+             {
+-                if (state != null && state.SearchAfterLocal != null)
++                if (state?.SearchAfterLocal != null)
+                 {
+                     hits = mockSearcher.SearchAfter(state.SearchAfterLocal, q, numHits);
+                 }
+@@ -374,7 +371,7 @@ private PreviousSearchState AssertSame(IndexSearcher mockSearcher, NodeState.Sha
+             TopDocs shardHits;
+             if (sort == null)
+             {
+-                if (state != null && state.SearchAfterShard != null)
++                if (state?.SearchAfterShard != null)
+                 {
+                     shardHits = shardSearcher.SearchAfter(state.SearchAfterShard, q, numHits);
+                 }
+@@ -420,7 +417,7 @@ private PreviousSearchState AssertSame(IndexSearcher mockSearcher, NodeState.Sha
+             }
+ 
+             int numHitsPaged;
+-            if (state != null && state.SearchAfterLocal != null)
++            if (state?.SearchAfterLocal != null)
+             {
+                 numHitsPaged = hits.ScoreDocs.Length;
+                 if (state != null)
+diff --git a/src/Lucene.Net.Tests/Search/TestTopDocsMerge.cs b/src/Lucene.Net.Tests/Search/TestTopDocsMerge.cs
+index 19fe61334..f47d83ddc 100644
+--- a/src/Lucene.Net.Tests/Search/TestTopDocsMerge.cs
++++ b/src/Lucene.Net.Tests/Search/TestTopDocsMerge.cs
+@@ -178,11 +178,11 @@ internal virtual void TestSort(bool useFrom, bool VERBOSE)
+             ShardSearcher[] subSearchers;
+             int[] docStarts;
+ 
+-            if (ctx is AtomicReaderContext)
++            if (ctx is AtomicReaderContext atomicReaderContext)
+             {
+                 subSearchers = new ShardSearcher[1];
+                 docStarts = new int[1];
+-                subSearchers[0] = new ShardSearcher((AtomicReaderContext)ctx, ctx);
++                subSearchers[0] = new ShardSearcher(atomicReaderContext, ctx);
+                 docStarts[0] = 0;
+             }
+             else
+diff --git a/src/Lucene.Net.Tests/Store/TestDirectory.cs b/src/Lucene.Net.Tests/Store/TestDirectory.cs
+index 4d1913e5c..3aede564a 100644
+--- a/src/Lucene.Net.Tests/Store/TestDirectory.cs
++++ b/src/Lucene.Net.Tests/Store/TestDirectory.cs
+@@ -66,9 +66,9 @@ public virtual void TestThreadSafety()
+         {
+             BaseDirectoryWrapper dir = NewDirectory();
+             dir.CheckIndexOnDispose = false; // we arent making an index
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER; // makes this test really slow
++                mockDirectoryWrapper.Throttling = Throttling.NEVER; // makes this test really slow
+             }
+ 
+             if (Verbose)
+diff --git a/src/Lucene.Net.Tests/Store/TestLockFactory.cs b/src/Lucene.Net.Tests/Store/TestLockFactory.cs
+index b8018b621..58ceb734d 100644
+--- a/src/Lucene.Net.Tests/Store/TestLockFactory.cs
++++ b/src/Lucene.Net.Tests/Store/TestLockFactory.cs
+@@ -105,10 +105,7 @@ public virtual void TestRAMDirectoryNoLocking()
+             }
+ 
+             writer.Dispose();
+-            if (writer2 != null)
+-            {
+-                writer2.Dispose();
+-            }
++            writer2?.Dispose();
+         }
+ 
+         // Verify: SingleInstanceLockFactory is the default lock for RAMDirectory
+@@ -136,10 +133,7 @@ public virtual void TestDefaultRAMDirectory()
+             }
+ 
+             writer.Dispose();
+-            if (writer2 != null)
+-            {
+-                writer2.Dispose();
+-            }
++            writer2?.Dispose();
+         }
+ 
+         [Test]
+diff --git a/src/Lucene.Net.Tests/Store/TestNRTCachingDirectory.cs b/src/Lucene.Net.Tests/Store/TestNRTCachingDirectory.cs
+index 113f490f0..5b0269890 100644
+--- a/src/Lucene.Net.Tests/Store/TestNRTCachingDirectory.cs
++++ b/src/Lucene.Net.Tests/Store/TestNRTCachingDirectory.cs
+@@ -91,10 +91,7 @@ public virtual void TestNRTAndCommit()
+                 }
+             }
+ 
+-            if (r != null)
+-            {
+-                r.Dispose();
+-            }
++            r?.Dispose();
+ 
+             // Close should force cache to clear since all files are sync'd
+             w.Dispose();
+diff --git a/src/Lucene.Net.Tests/Support/CollisionTester.cs b/src/Lucene.Net.Tests/Support/CollisionTester.cs
+index b63d3fc5d..eaff13ed1 100644
+--- a/src/Lucene.Net.Tests/Support/CollisionTester.cs
++++ b/src/Lucene.Net.Tests/Support/CollisionTester.cs
+@@ -35,9 +35,9 @@ public override int GetHashCode()
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is CollisionTester)
++            if (obj is CollisionTester collisionTester)
+             {
+-                return this.id == ((CollisionTester)obj).id;
++                return this.id == collisionTester.id;
+             }
+             else
+                 return base.Equals(obj);
+diff --git a/src/Lucene.Net.Tests/Support/IO/TestFileSupport.cs b/src/Lucene.Net.Tests/Support/IO/TestFileSupport.cs
+index 244f84863..e084e077b 100644
+--- a/src/Lucene.Net.Tests/Support/IO/TestFileSupport.cs
++++ b/src/Lucene.Net.Tests/Support/IO/TestFileSupport.cs
+@@ -165,14 +165,8 @@ public void TestGetCanonicalPath()
+                 finally
+                 {
+                     f1.Delete();
+-                    if (f2 != null)
+-                    {
+-                        f2.Delete();
+-                    }
+-                    if (dir2 != null)
+-                    {
+-                        dir2.Delete();
+-                    }
++                    f2?.Delete();
++                    dir2?.Delete();
+                     testdir.Delete();
+                 }
+             }
+diff --git a/src/Lucene.Net.Tests/Util/Fst/TestFSTs.cs b/src/Lucene.Net.Tests/Util/Fst/TestFSTs.cs
+index ee62eb180..719b82000 100644
+--- a/src/Lucene.Net.Tests/Util/Fst/TestFSTs.cs
++++ b/src/Lucene.Net.Tests/Util/Fst/TestFSTs.cs
+@@ -82,10 +82,7 @@ public override void SetUp()
+         public override void TearDown()
+         {
+             // can be null if we force simpletext (funky, some kind of bug in test runner maybe)
+-            if (dir != null)
+-            {
+-                dir.Dispose();
+-            }
++            dir?.Dispose();
+             base.TearDown();
+         }
+ 
+diff --git a/src/Lucene.Net.Tests/Util/Packed/TestPackedInts.cs b/src/Lucene.Net.Tests/Util/Packed/TestPackedInts.cs
+index 99c393feb..b0bf3ef0d 100644
+--- a/src/Lucene.Net.Tests/Util/Packed/TestPackedInts.cs
++++ b/src/Lucene.Net.Tests/Util/Packed/TestPackedInts.cs
+@@ -1383,9 +1383,9 @@ public virtual void TestBlockPackedReaderWriter()
+                     // OK
+                 }
+ 
+-                if (@in is ByteArrayDataInput)
++                if (@in is ByteArrayDataInput byteArrayDataInput)
+                 {
+-                    ((ByteArrayDataInput)@in).Position = 0;
++                    byteArrayDataInput.Position = 0;
+                 }
+                 else
+                 {
+diff --git a/src/Lucene.Net.Tests/Util/Test2BPagedBytes.cs b/src/Lucene.Net.Tests/Util/Test2BPagedBytes.cs
+index 9c044cca7..01af5a839 100644
+--- a/src/Lucene.Net.Tests/Util/Test2BPagedBytes.cs
++++ b/src/Lucene.Net.Tests/Util/Test2BPagedBytes.cs
+@@ -40,9 +40,9 @@ public class Test2BPagedBytes : LuceneTestCase
+         public virtual void Test()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("test2BPagedBytes"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+             PagedBytes pb = new PagedBytes(15);
+             IndexOutput dataOutput = dir.CreateOutput("foo", IOContext.DEFAULT);
+diff --git a/src/Lucene.Net.Tests/Util/TestPagedBytes.cs b/src/Lucene.Net.Tests/Util/TestPagedBytes.cs
+index 2b6725166..98f60373f 100644
+--- a/src/Lucene.Net.Tests/Util/TestPagedBytes.cs
++++ b/src/Lucene.Net.Tests/Util/TestPagedBytes.cs
+@@ -44,9 +44,9 @@ public virtual void TestDataInputOutput()
+             for (int iter = 0; iter < 5 * RandomMultiplier; iter++)
+             {
+                 BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("testOverflow"));
+-                if (dir is MockDirectoryWrapper)
++                if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+                 {
+-                    ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                    mockDirectoryWrapper.Throttling = Throttling.NEVER;
+                 }
+                 int blockBits = TestUtil.NextInt32(random, 1, 20);
+                 int blockSize = 1 << blockBits;
+@@ -185,9 +185,9 @@ public virtual void TestDataInputOutput2()
+         public virtual void TestOverflow()
+         {
+             BaseDirectoryWrapper dir = NewFSDirectory(CreateTempDir("testOverflow"));
+-            if (dir is MockDirectoryWrapper)
++            if (dir is MockDirectoryWrapper mockDirectoryWrapper)
+             {
+-                ((MockDirectoryWrapper)dir).Throttling = Throttling.NEVER;
++                mockDirectoryWrapper.Throttling = Throttling.NEVER;
+             }
+             int blockBits = TestUtil.NextInt32(Random, 14, 28);
+             int blockSize = 1 << blockBits;
+diff --git a/src/Lucene.Net/Codecs/BlockTreeTermsReader.cs b/src/Lucene.Net/Codecs/BlockTreeTermsReader.cs
+index 036ecc3c2..e3ee71101 100644
+--- a/src/Lucene.Net/Codecs/BlockTreeTermsReader.cs
++++ b/src/Lucene.Net/Codecs/BlockTreeTermsReader.cs
+@@ -2555,7 +2555,7 @@ public override void SeekExact(BytesRef target, TermState otherState)
+                     if (Debugging.AssertsEnabled) Debugging.Assert(ClearEOF());
+                     if (target.CompareTo(term) != 0 || !termExists)
+                     {
+-                        if (Debugging.AssertsEnabled) Debugging.Assert(otherState != null && otherState is BlockTermState);
++                        if (Debugging.AssertsEnabled) Debugging.Assert(otherState is BlockTermState);
+                         currentFrame = staticFrame;
+                         currentFrame.state.CopyFrom(otherState);
+                         term.CopyBytes(target);
+diff --git a/src/Lucene.Net/Codecs/Compressing/CompressingStoredFieldsWriter.cs b/src/Lucene.Net/Codecs/Compressing/CompressingStoredFieldsWriter.cs
+index 8cc1dd6df..44af29877 100644
+--- a/src/Lucene.Net/Codecs/Compressing/CompressingStoredFieldsWriter.cs
++++ b/src/Lucene.Net/Codecs/Compressing/CompressingStoredFieldsWriter.cs
+@@ -403,7 +403,7 @@ public override int Merge(MergeState mergeState)
+                 {
+                     StoredFieldsReader fieldsReader = matchingSegmentReader.FieldsReader;
+                     // we can only bulk-copy if the matching reader is also a CompressingStoredFieldsReader
+-                    if (fieldsReader != null && fieldsReader is CompressingStoredFieldsReader compressingStoredFieldsReader)
++                    if (fieldsReader is CompressingStoredFieldsReader compressingStoredFieldsReader)
+                     {
+                         matchingFieldsReader = compressingStoredFieldsReader;
+                     }
+diff --git a/src/Lucene.Net/Codecs/Compressing/CompressingTermVectorsWriter.cs b/src/Lucene.Net/Codecs/Compressing/CompressingTermVectorsWriter.cs
+index f4b612f67..d79c07255 100644
+--- a/src/Lucene.Net/Codecs/Compressing/CompressingTermVectorsWriter.cs
++++ b/src/Lucene.Net/Codecs/Compressing/CompressingTermVectorsWriter.cs
+@@ -895,7 +895,7 @@ public override int Merge(MergeState mergeState)
+                 {
+                     TermVectorsReader vectorsReader = matchingSegmentReader.TermVectorsReader;
+                     // we can only bulk-copy if the matching reader is also a CompressingTermVectorsReader
+-                    if (vectorsReader != null && vectorsReader is CompressingTermVectorsReader compressingTermVectorsReader)
++                    if (vectorsReader is CompressingTermVectorsReader compressingTermVectorsReader)
+                     {
+                         matchingVectorsReader = compressingTermVectorsReader;
+                     }
+diff --git a/src/Lucene.Net/Codecs/Lucene3x/Lucene3xFields.cs b/src/Lucene.Net/Codecs/Lucene3x/Lucene3xFields.cs
+index dc0d5b3a0..af95fd1d7 100644
+--- a/src/Lucene.Net/Codecs/Lucene3x/Lucene3xFields.cs
++++ b/src/Lucene.Net/Codecs/Lucene3x/Lucene3xFields.cs
+@@ -1061,7 +1061,7 @@ public override BytesRef Next()
+ 
+             public override DocsEnum Docs(IBits liveDocs, DocsEnum reuse, DocsFlags flags)
+             {
+-                if (reuse == null || !(reuse is PreDocsEnum docsEnum) || docsEnum.FreqStream != outerInstance.FreqStream)
++                if (!(reuse is PreDocsEnum docsEnum) || docsEnum.FreqStream != outerInstance.FreqStream)
+                     docsEnum = new PreDocsEnum(outerInstance);
+ 
+                 return docsEnum.Reset(termEnum, liveDocs);
+diff --git a/src/Lucene.Net/Codecs/Lucene3x/SegmentTermDocs.cs b/src/Lucene.Net/Codecs/Lucene3x/SegmentTermDocs.cs
+index 20f4f97f9..317df3e08 100644
+--- a/src/Lucene.Net/Codecs/Lucene3x/SegmentTermDocs.cs
++++ b/src/Lucene.Net/Codecs/Lucene3x/SegmentTermDocs.cs
+@@ -137,10 +137,7 @@ protected virtual void Dispose(bool disposing)
+             if (disposing)
+             {
+                 m_freqStream.Dispose();
+-                if (skipListReader != null)
+-                {
+-                    skipListReader.Dispose();
+-                }
++                skipListReader?.Dispose();
+             }
+         }
+ 
+diff --git a/src/Lucene.Net/Codecs/Lucene40/Lucene40PostingsReader.cs b/src/Lucene.Net/Codecs/Lucene40/Lucene40PostingsReader.cs
+index 61bb3f03a..8b4b70c1e 100644
+--- a/src/Lucene.Net/Codecs/Lucene40/Lucene40PostingsReader.cs
++++ b/src/Lucene.Net/Codecs/Lucene40/Lucene40PostingsReader.cs
+@@ -166,17 +166,11 @@ protected override void Dispose(bool disposing)
+             {
+                 try
+                 {
+-                    if (freqIn != null)
+-                    {
+-                        freqIn.Dispose();
+-                    }
++                    freqIn?.Dispose();
+                 }
+                 finally
+                 {
+-                    if (proxIn != null)
+-                    {
+-                        proxIn.Dispose();
+-                    }
++                    proxIn?.Dispose();
+                 }
+             }
+         }
+diff --git a/src/Lucene.Net/Codecs/Lucene40/Lucene40StoredFieldsWriter.cs b/src/Lucene.Net/Codecs/Lucene40/Lucene40StoredFieldsWriter.cs
+index 67e292f2b..8f9395fcd 100644
+--- a/src/Lucene.Net/Codecs/Lucene40/Lucene40StoredFieldsWriter.cs
++++ b/src/Lucene.Net/Codecs/Lucene40/Lucene40StoredFieldsWriter.cs
+@@ -302,7 +302,7 @@ public override int Merge(MergeState mergeState)
+                 {
+                     StoredFieldsReader fieldsReader = matchingSegmentReader.FieldsReader;
+                     // we can only bulk-copy if the matching reader is also a Lucene40FieldsReader
+-                    if (fieldsReader != null && fieldsReader is Lucene40StoredFieldsReader lucene40StoredFieldsReader)
++                    if (fieldsReader is Lucene40StoredFieldsReader lucene40StoredFieldsReader)
+                     {
+                         matchingFieldsReader = lucene40StoredFieldsReader;
+                     }
+diff --git a/src/Lucene.Net/Codecs/Lucene40/Lucene40TermVectorsWriter.cs b/src/Lucene.Net/Codecs/Lucene40/Lucene40TermVectorsWriter.cs
+index 5c8875e21..7dc9391c7 100644
+--- a/src/Lucene.Net/Codecs/Lucene40/Lucene40TermVectorsWriter.cs
++++ b/src/Lucene.Net/Codecs/Lucene40/Lucene40TermVectorsWriter.cs
+@@ -391,7 +391,7 @@ public override int Merge(MergeState mergeState)
+                 {
+                     TermVectorsReader vectorsReader = matchingSegmentReader.TermVectorsReader;
+ 
+-                    if (vectorsReader != null && vectorsReader is Lucene40TermVectorsReader lucene40TermVectorsReader)
++                    if (vectorsReader is Lucene40TermVectorsReader lucene40TermVectorsReader)
+                     {
+                         matchingVectorsReader = lucene40TermVectorsReader;
+                     }
+diff --git a/src/Lucene.Net/Document/Field.cs b/src/Lucene.Net/Document/Field.cs
+index 5b4447cb5..eb4f3f0ad 100644
+--- a/src/Lucene.Net/Document/Field.cs
++++ b/src/Lucene.Net/Document/Field.cs
+@@ -407,7 +407,7 @@ public virtual string GetStringValue(string format, IFormatProvider provider)
+         /// </summary>
+         public virtual TextReader GetReaderValue() // LUCENENET specific: Added verb Get to make it more clear that this returns the value
+         {
+-            return FieldsData != null && FieldsData is TextReader reader ? reader : null;
++            return FieldsData is TextReader reader ? reader : null;
+         }
+ 
+         /// <summary>
+diff --git a/src/Lucene.Net/Index/FreqProxTermsWriter.cs b/src/Lucene.Net/Index/FreqProxTermsWriter.cs
+index 99dc07c32..df8896c45 100644
+--- a/src/Lucene.Net/Index/FreqProxTermsWriter.cs
++++ b/src/Lucene.Net/Index/FreqProxTermsWriter.cs
+@@ -97,10 +97,7 @@ public override void Flush(IDictionary<string, TermsHashConsumerPerField> fields
+                     fieldWriter.Reset();
+                 }
+ 
+-                if (termsHash != null)
+-                {
+-                    termsHash.Reset();
+-                }
++                termsHash?.Reset();
+                 success = true;
+             }
+             finally
+diff --git a/src/Lucene.Net/Index/IndexWriter.cs b/src/Lucene.Net/Index/IndexWriter.cs
+index 928251db3..0cc339295 100644
+--- a/src/Lucene.Net/Index/IndexWriter.cs
++++ b/src/Lucene.Net/Index/IndexWriter.cs
+@@ -704,7 +704,7 @@ public virtual ReadersAndUpdates Get(SegmentCommitInfo info, bool create)
+                     else
+                     {
+                         if (Debugging.AssertsEnabled && !(rld.Info == info))
+-                            throw new AssertionException(string.Format("rld.info={0} info={1} isLive?={2} vs {3}", rld.Info, info, InfoIsLive(rld.Info),InfoIsLive(info)));
++                            throw new AssertionException($"rld.info={rld.Info} info={info} isLive?={InfoIsLive(rld.Info)} vs {InfoIsLive(info)}");
+                     }
+ 
+                     if (create)
+@@ -891,7 +891,7 @@ public IndexWriter(Directory d, IndexWriterConfig conf)
+                         // points.
+                         if (commit.Directory != directory)
+                         {
+-                            throw new ArgumentException(string.Format("IndexCommit's directory doesn't match my directory (mine: {0}, commit's: {1})", directory, commit.Directory));
++                            throw new ArgumentException($"IndexCommit's directory doesn't match my directory (mine: {directory}, commit's: {commit.Directory})");
+                         }
+                         SegmentInfos oldInfos = new SegmentInfos();
+                         oldInfos.Read(directory, commit.SegmentsFileName);
+diff --git a/src/Lucene.Net/Index/SegmentReader.cs b/src/Lucene.Net/Index/SegmentReader.cs
+index 20c3f920c..af7cd702c 100644
+--- a/src/Lucene.Net/Index/SegmentReader.cs
++++ b/src/Lucene.Net/Index/SegmentReader.cs
+@@ -640,10 +640,7 @@ public override void CheckIntegrity()
+ 
+             // term vectors
+             TermVectorsReader termVectorsReader = TermVectorsReader;
+-            if (termVectorsReader != null)
+-            {
+-                termVectorsReader.CheckIntegrity();
+-            }
++            termVectorsReader?.CheckIntegrity();
+ 
+             // terms/postings
+             if (core.fields != null)
+diff --git a/src/Lucene.Net/Index/SortedDocValuesTermsEnum.cs b/src/Lucene.Net/Index/SortedDocValuesTermsEnum.cs
+index 157673aff..4c48a2c1e 100644
+--- a/src/Lucene.Net/Index/SortedDocValuesTermsEnum.cs
++++ b/src/Lucene.Net/Index/SortedDocValuesTermsEnum.cs
+@@ -140,7 +140,7 @@ public override DocsAndPositionsEnum DocsAndPositions(IBits liveDocs, DocsAndPos
+ 
+         public override void SeekExact(BytesRef term, TermState state)
+         {
+-            if (Debugging.AssertsEnabled) Debugging.Assert(state != null && state is OrdTermState);
++            if (Debugging.AssertsEnabled) Debugging.Assert(state is OrdTermState);
+             this.SeekExact(((OrdTermState)state).Ord);
+         }
+ 
+diff --git a/src/Lucene.Net/Index/SortedSetDocValuesTermsEnum.cs b/src/Lucene.Net/Index/SortedSetDocValuesTermsEnum.cs
+index 3aec7036f..0b2a31319 100644
+--- a/src/Lucene.Net/Index/SortedSetDocValuesTermsEnum.cs
++++ b/src/Lucene.Net/Index/SortedSetDocValuesTermsEnum.cs
+@@ -140,7 +140,7 @@ public override DocsAndPositionsEnum DocsAndPositions(IBits liveDocs, DocsAndPos
+ 
+         public override void SeekExact(BytesRef term, TermState state)
+         {
+-            if (Debugging.AssertsEnabled) Debugging.Assert(state != null && state is OrdTermState);
++            if (Debugging.AssertsEnabled) Debugging.Assert(state is OrdTermState);
+             this.SeekExact(((OrdTermState)state).Ord);
+         }
+ 
+diff --git a/src/Lucene.Net/Index/TermsHash.cs b/src/Lucene.Net/Index/TermsHash.cs
+index 609db16d9..87a22de98 100644
+--- a/src/Lucene.Net/Index/TermsHash.cs
++++ b/src/Lucene.Net/Index/TermsHash.cs
+@@ -90,10 +90,7 @@ public override void Abort()
+             }
+             finally
+             {
+-                if (nextTermsHash != null)
+-                {
+-                    nextTermsHash.Abort();
+-                }
++                nextTermsHash?.Abort();
+             }
+         }
+ 
+@@ -132,10 +129,7 @@ internal override void Flush(IDictionary<string, InvertedDocConsumerPerField> fi
+ 
+             consumer.Flush(childFields, state);
+ 
+-            if (nextTermsHash != null)
+-            {
+-                nextTermsHash.Flush(nextChildFields, state);
+-            }
++            nextTermsHash?.Flush(nextChildFields, state);
+         }
+ 
+         internal override InvertedDocConsumerPerField AddField(DocInverterPerField docInverterPerField, FieldInfo fieldInfo)
+diff --git a/src/Lucene.Net/Index/TermsHashPerField.cs b/src/Lucene.Net/Index/TermsHashPerField.cs
+index 59b0ba2cc..852e7a6b7 100644
+--- a/src/Lucene.Net/Index/TermsHashPerField.cs
++++ b/src/Lucene.Net/Index/TermsHashPerField.cs
+@@ -95,20 +95,14 @@ internal void ShrinkHash(/* int targetSize // LUCENENET: Not referenced */)
+         public void Reset()
+         {
+             bytesHash.Clear(false);
+-            if (nextPerField != null)
+-            {
+-                nextPerField.Reset();
+-            }
++            nextPerField?.Reset();
+         }
+ 
+         [MethodImpl(MethodImplOptions.NoInlining)]
+         public override void Abort()
+         {
+             Reset();
+-            if (nextPerField != null)
+-            {
+-                nextPerField.Abort();
+-            }
++            nextPerField?.Abort();
+         }
+ 
+         public void InitReader(ByteSliceReader reader, int termID, int stream)
+@@ -135,10 +129,7 @@ internal override void Start(IIndexableField f)
+             termAtt = fieldState.AttributeSource.GetAttribute<ITermToBytesRefAttribute>();
+             termBytesRef = termAtt.BytesRef;
+             consumer.Start(f);
+-            if (nextPerField != null)
+-            {
+-                nextPerField.Start(f);
+-            }
++            nextPerField?.Start(f);
+         }
+ 
+         internal override bool Start(IIndexableField[] fields, int count)
+@@ -327,10 +318,7 @@ internal void WriteVInt32(int stream, int i)
+         internal override void Finish()
+         {
+             consumer.Finish();
+-            if (nextPerField != null)
+-            {
+-                nextPerField.Finish();
+-            }
++            nextPerField?.Finish();
+         }
+ 
+         private sealed class PostingsBytesStartArray : BytesRefHash.BytesStartArray
+diff --git a/src/Lucene.Net/Index/TieredMergePolicy.cs b/src/Lucene.Net/Index/TieredMergePolicy.cs
+index 1524d9fc3..27fa52553 100644
+--- a/src/Lucene.Net/Index/TieredMergePolicy.cs
++++ b/src/Lucene.Net/Index/TieredMergePolicy.cs
+@@ -338,7 +338,7 @@ public override MergeSpecification FindMerges(MergeTrigger mergeTrigger, Segment
+                     {
+                         extra += " [floored]";
+                     }
+-                    Message("  seg=" + m_writer.Get().SegString(info) + " size=" + string.Format("{0:0.000}", segBytes / 1024 / 1024.0) + " MB" + extra);
++                    Message("  seg=" + m_writer.Get().SegString(info) + " size=" + $"{segBytes / 1024 / 1024.0:0.000}" + " MB" + extra);
+                 }
+ 
+                 minSegmentBytes = Math.Min(segBytes, minSegmentBytes);
+@@ -449,7 +449,7 @@ public override MergeSpecification FindMerges(MergeTrigger mergeTrigger, Segment
+                         MergeScore score = Score(candidate, hitTooLarge, mergingBytes);
+                         if (Verbose())
+                         {
+-                            Message("  maybe=" + m_writer.Get().SegString(candidate) + " score=" + score.Score + " " + score.Explanation + " tooLarge=" + hitTooLarge + " size=" + string.Format("{0:0.000} MB", totAfterMergeBytes / 1024.0 / 1024.0));
++                            Message("  maybe=" + m_writer.Get().SegString(candidate) + " score=" + score.Score + " " + score.Explanation + " tooLarge=" + hitTooLarge + " size=" + $"{totAfterMergeBytes / 1024.0 / 1024.0:0.000} MB");
+                         }
+ 
+                         // If we are already running a max sized merge
+@@ -479,7 +479,7 @@ public override MergeSpecification FindMerges(MergeTrigger mergeTrigger, Segment
+ 
+                         if (Verbose())
+                         {
+-                            Message("  add merge=" + m_writer.Get().SegString(merge.Segments) + " size=" + string.Format("{0:0.000} MB", bestMergeBytes / 1024.0 / 1024.0) + " score=" + string.Format("{0:0.000}", bestScore.Score) + " " + bestScore.Explanation + (bestTooLarge ? " [max merge]" : ""));
++                            Message("  add merge=" + m_writer.Get().SegString(merge.Segments) + " size=" + $"{bestMergeBytes / 1024.0 / 1024.0:0.000} MB" + " score=" + $"{bestScore.Score:0.000}" + " " + bestScore.Explanation + (bestTooLarge ? " [max merge]" : ""));
+                         }
+                     }
+                     else
+diff --git a/src/Lucene.Net/Index/TwoPhaseCommitTool.cs b/src/Lucene.Net/Index/TwoPhaseCommitTool.cs
+index 25f0fb397..1b13854e1 100644
+--- a/src/Lucene.Net/Index/TwoPhaseCommitTool.cs
++++ b/src/Lucene.Net/Index/TwoPhaseCommitTool.cs
+@@ -163,10 +163,7 @@ public static void Execute(params ITwoPhaseCommit[] objects)
+                 for (int i = 0; i < objects.Length; i++)
+                 {
+                     tpc = objects[i];
+-                    if (tpc != null)
+-                    {
+-                        tpc.PrepareCommit();
+-                    }
++                    tpc?.PrepareCommit();
+                 }
+             }
+             catch (Exception t)
+@@ -183,10 +180,7 @@ public static void Execute(params ITwoPhaseCommit[] objects)
+                 for (int i = 0; i < objects.Length; i++)
+                 {
+                     tpc = objects[i];
+-                    if (tpc != null)
+-                    {
+-                        tpc.Commit();
+-                    }
++                    tpc?.Commit();
+                 }
+             }
+             catch (Exception t)
+diff --git a/src/Lucene.Net/Search/ConstantScoreQuery.cs b/src/Lucene.Net/Search/ConstantScoreQuery.cs
+index 12b8266f8..23b49176a 100644
+--- a/src/Lucene.Net/Search/ConstantScoreQuery.cs
++++ b/src/Lucene.Net/Search/ConstantScoreQuery.cs
+@@ -104,10 +104,7 @@ public override void ExtractTerms(ISet<Term> terms)
+             // and used with MultiSearcher, but may not be OK for
+             // highlighting.
+             // If a query was wrapped, we delegate to query.
+-            if (m_query != null)
+-            {
+-                m_query.ExtractTerms(terms);
+-            }
++            m_query?.ExtractTerms(terms);
+         }
+ 
+         protected class ConstantWeight : Weight
+@@ -129,10 +126,7 @@ public ConstantWeight(ConstantScoreQuery outerInstance, IndexSearcher searcher)
+             public override float GetValueForNormalization()
+             {
+                 // we calculate sumOfSquaredWeights of the inner weight, but ignore it (just to initialize everything)
+-                if (innerWeight != null)
+-                {
+-                    innerWeight.GetValueForNormalization();
+-                }
++                innerWeight?.GetValueForNormalization();
+                 queryWeight = outerInstance.Boost;
+                 return queryWeight * queryWeight;
+             }
+@@ -142,10 +136,7 @@ public override void Normalize(float norm, float topLevelBoost)
+                 this.queryNorm = norm * topLevelBoost;
+                 queryWeight *= this.queryNorm;
+                 // we normalize the inner weight, but ignore it (just to initialize everything)
+-                if (innerWeight != null)
+-                {
+-                    innerWeight.Normalize(norm, topLevelBoost);
+-                }
++                innerWeight?.Normalize(norm, topLevelBoost);
+             }
+ 
+             public override BulkScorer GetBulkScorer(AtomicReaderContext context, bool scoreDocsInOrder, IBits acceptDocs)
+diff --git a/src/Lucene.Net/Search/Similarities/LMSimilarity.cs b/src/Lucene.Net/Search/Similarities/LMSimilarity.cs
+index 2acc7b535..a9293bcba 100644
+--- a/src/Lucene.Net/Search/Similarities/LMSimilarity.cs
++++ b/src/Lucene.Net/Search/Similarities/LMSimilarity.cs
+@@ -93,11 +93,11 @@ public override string ToString()
+             string coll = m_collectionModel.GetName();
+             if (coll != null)
+             {
+-                return string.Format("LM {0} - {1}", GetName(), coll);
++                return $"LM {GetName()} - {coll}";
+             }
+             else
+             {
+-                return string.Format("LM {0}", GetName());
++                return $"LM {GetName()}";
+             }
+         }
+ 
+diff --git a/src/Lucene.Net/Search/Spans/SpanWeight.cs b/src/Lucene.Net/Search/Spans/SpanWeight.cs
+index e484349e0..abe6ae427 100644
+--- a/src/Lucene.Net/Search/Spans/SpanWeight.cs
++++ b/src/Lucene.Net/Search/Spans/SpanWeight.cs
+@@ -71,10 +71,7 @@ public override float GetValueForNormalization()
+ 
+         public override void Normalize(float queryNorm, float topLevelBoost)
+         {
+-            if (m_stats != null)
+-            {
+-                m_stats.Normalize(queryNorm, topLevelBoost);
+-            }
++            m_stats?.Normalize(queryNorm, topLevelBoost);
+         }
+ 
+         public override Scorer GetScorer(AtomicReaderContext context, IBits acceptDocs)
+diff --git a/src/Lucene.Net/Store/BaseDirectory.cs b/src/Lucene.Net/Store/BaseDirectory.cs
+index 2502d3c2e..b8ca37130 100644
+--- a/src/Lucene.Net/Store/BaseDirectory.cs
++++ b/src/Lucene.Net/Store/BaseDirectory.cs
+@@ -58,10 +58,7 @@ public override Lock MakeLock(string name)
+ 
+         public override void ClearLock(string name)
+         {
+-            if (m_lockFactory != null)
+-            {
+-                m_lockFactory.ClearLock(name);
+-            }
++            m_lockFactory?.ClearLock(name);
+         }
+ 
+         public override void SetLockFactory(LockFactory lockFactory)
+diff --git a/src/Lucene.Net/Store/ByteBufferIndexInput.cs b/src/Lucene.Net/Store/ByteBufferIndexInput.cs
+index 4b7951e40..1eb041e42 100644
+--- a/src/Lucene.Net/Store/ByteBufferIndexInput.cs
++++ b/src/Lucene.Net/Store/ByteBufferIndexInput.cs
+@@ -376,10 +376,7 @@ protected override void Dispose(bool disposing)
+                     // make local copy, then un-set early
+                     ByteBuffer[] bufs = buffers;
+                     UnsetBuffers();
+-                    if (clones != null)
+-                    {
+-                        clones.Remove(this);
+-                    }
++                    clones?.Remove(this);
+ 
+                     if (isClone)
+                     {
+diff --git a/src/Lucene.Net/Store/SimpleFSLockFactory.cs b/src/Lucene.Net/Store/SimpleFSLockFactory.cs
+index 29733cd43..6bd63388c 100644
+--- a/src/Lucene.Net/Store/SimpleFSLockFactory.cs
++++ b/src/Lucene.Net/Store/SimpleFSLockFactory.cs
+@@ -136,7 +136,7 @@ public override bool Obtain()
+             // in this case to simulate what happens in Java
+             if (File.Exists(lockFile.FullName))
+             {
+-                FailureReason = new IOException(string.Format("lockFile '{0}' alredy exists.", lockFile.FullName));
++                FailureReason = new IOException($"lockFile '{lockFile.FullName}' alredy exists.");
+                 return false;
+             }
+ 
+diff --git a/src/Lucene.Net/Support/ConcurrentSet.cs b/src/Lucene.Net/Support/ConcurrentSet.cs
+index 14c013803..cdb12b933 100644
+--- a/src/Lucene.Net/Support/ConcurrentSet.cs
++++ b/src/Lucene.Net/Support/ConcurrentSet.cs
+@@ -145,12 +145,10 @@ void ICollection.CopyTo(Array array, int index)
+                 //throw new ArgumentOutOfRangeException(nameof(index), index, SR.ArgumentOutOfRange_NeedNonNegNum);
+             if (array.Length - index < Count)
+                 throw new ArgumentException("Destination array is not long enough to copy all the items in the collection. Check array index and length.");
+-            //throw new ArgumentException(SR.Arg_ArrayPlusOffTooSmall);
+ 
+-#pragma warning disable IDE0019 // Use pattern matching
+-            T[]? tarray = array as T[];
++            //throw new ArgumentException(SR.Arg_ArrayPlusOffTooSmall);
+ #pragma warning restore IDE0019 // Use pattern matching
+-            if (tarray != null)
++            if (array is T[] tarray)
+             {
+                 CopyTo(tarray, index);
+             }
+diff --git a/src/Lucene.Net/Support/IO/FileSupport.cs b/src/Lucene.Net/Support/IO/FileSupport.cs
+index 2138547e0..ec97f2776 100644
+--- a/src/Lucene.Net/Support/IO/FileSupport.cs
++++ b/src/Lucene.Net/Support/IO/FileSupport.cs
+@@ -161,9 +161,9 @@ public static FileInfo CreateTempFile(string prefix, string suffix, DirectoryInf
+ 
+             // Ensure the strings passed don't contain invalid characters
+             if (prefix.ContainsAny(INVALID_FILENAME_CHARS))
+-                throw new ArgumentException(string.Format("Prefix contains invalid characters. You may not use any of '{0}'", string.Join(", ", INVALID_FILENAME_CHARS)));
++                throw new ArgumentException($"Prefix contains invalid characters. You may not use any of '{string.Join(", ", INVALID_FILENAME_CHARS)}'");
+             if (suffix != null && suffix.ContainsAny(INVALID_FILENAME_CHARS))
+-                throw new ArgumentException(string.Format("Suffix contains invalid characters. You may not use any of '{0}'", string.Join(", ", INVALID_FILENAME_CHARS)));
++                throw new ArgumentException($"Suffix contains invalid characters. You may not use any of '{string.Join(", ", INVALID_FILENAME_CHARS)}'");
+ 
+             // If no directory supplied, create one.
+             if (directory == null)
+diff --git a/src/Lucene.Net/Support/Index/TaskMergeScheduler.cs b/src/Lucene.Net/Support/Index/TaskMergeScheduler.cs
+index 5e191375e..6d686df0e 100644
+--- a/src/Lucene.Net/Support/Index/TaskMergeScheduler.cs
++++ b/src/Lucene.Net/Support/Index/TaskMergeScheduler.cs
+@@ -353,7 +353,7 @@ private void OnMergeThreadCompleted(object sender, EventArgs e)
+         private MergeThread CreateTask(IndexWriter writer, MergePolicy.OneMerge merge)
+         {
+             var count = Interlocked.Increment(ref _mergeThreadCount);
+-            var name = string.Format("Lucene Merge Task #{0}", count);
++            var name = $"Lucene Merge Task #{count}";
+ 
+             return new MergeThread(name, writer, merge, writer.infoStream, Verbose, _manualResetEvent, HandleMergeException, DoMerge);
+         }
+@@ -648,8 +648,8 @@ public void Dispose()
+             public override string ToString()
+             {
+                 return _task == null
+-                    ? string.Format("Task[{0}], Task has not been started yet.", Name)
+-                    : string.Format("Task[{0}], Id[{1}], Status[{2}]", Name, _task.Id, _task.Status);
++                    ? $"Task[{Name}], Task has not been started yet."
++                    : $"Task[{Name}], Id[{_task.Id}], Status[{_task.Status}]";
+             }
+ 
+             public override bool Equals(object obj)
+diff --git a/src/Lucene.Net/Util/Fst/FST.cs b/src/Lucene.Net/Util/Fst/FST.cs
+index d405d4305..b6b7887b1 100644
+--- a/src/Lucene.Net/Util/Fst/FST.cs
++++ b/src/Lucene.Net/Util/Fst/FST.cs
+@@ -714,10 +714,7 @@ internal long AddNode(Builder.UnCompiledNode<T> nodeIn)
+                 {
+                     flags += FST.BIT_STOP_NODE;
+                 }
+-                else if (inCounts != null)
+-                {
+-                    inCounts.Set((int)target.Node, inCounts.Get((int)target.Node) + 1);
+-                }
++                else inCounts?.Set((int)target.Node, inCounts.Get((int)target.Node) + 1);
+ 
+                 if (!arc.Output.Equals(NO_OUTPUT))
+                 {
+diff --git a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealIncrementTokenMethodCSCodeFixProvider.cs b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealIncrementTokenMethodCSCodeFixProvider.cs
+index f3461e9c2..e8c73c704 100644
+--- a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealIncrementTokenMethodCSCodeFixProvider.cs
++++ b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealIncrementTokenMethodCSCodeFixProvider.cs
+@@ -73,7 +73,7 @@ public override bool IncrementToken()
+             var expected = new DiagnosticResult
+             {
+                 Id = Lucene1000_TokenStreamOrItsIncrementTokenMethodMustBeSealedCSAnalyzer.DiagnosticId,
+-                Message = string.Format("Type name '{0}' or its IncrementToken() method must be marked sealed.", "TypeName"),
++                Message = $"Type name '{"TypeName"}' or its IncrementToken() method must be marked sealed.",
+                 Severity = DiagnosticSeverity.Error,
+                 Locations =
+                     new[] {
+diff --git a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealIncrementTokenMethodVBCodeFixProvider.cs b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealIncrementTokenMethodVBCodeFixProvider.cs
+index a15954e6f..28df1299b 100644
+--- a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealIncrementTokenMethodVBCodeFixProvider.cs
++++ b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealIncrementTokenMethodVBCodeFixProvider.cs
+@@ -73,7 +73,7 @@ End Class
+             var expected = new DiagnosticResult
+             {
+                 Id = Lucene1000_TokenStreamOrItsIncrementTokenMethodMustBeSealedVBAnalyzer.DiagnosticId,
+-                Message = String.Format("Type name '{0}' must be marked NotInheritable or its IncrementToken() method must be marked NotOverridable.", "TypeName"),
++                Message = $"Type name '{"TypeName"}' must be marked NotInheritable or its IncrementToken() method must be marked NotOverridable.",
+                 Severity = DiagnosticSeverity.Error,
+                 Locations =
+                     new[] {
+diff --git a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealTokenStreamClassCSCodeFixProvider.cs b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealTokenStreamClassCSCodeFixProvider.cs
+index 08660aab7..1a455516a 100644
+--- a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealTokenStreamClassCSCodeFixProvider.cs
++++ b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/TestLucene1000_SealTokenStreamClassCSCodeFixProvider.cs
+@@ -73,7 +73,7 @@ public override bool IncrementToken()
+             var expected = new DiagnosticResult
+             {
+                 Id = Lucene1000_TokenStreamOrItsIncrementTokenMethodMustBeSealedCSAnalyzer.DiagnosticId,
+-                Message = String.Format("Type name '{0}' or its IncrementToken() method must be marked sealed.", "TypeName"),
++                Message = $"Type name '{"TypeName"}' or its IncrementToken() method must be marked sealed.",
+                 Severity = DiagnosticSeverity.Error,
+                 Locations =
+                     new[] {
+diff --git a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/Verifiers/CodeFixVerifier.cs b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/Verifiers/CodeFixVerifier.cs
+index 9c01a0b9a..a9cc04181 100644
+--- a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/Verifiers/CodeFixVerifier.cs
++++ b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/Verifiers/CodeFixVerifier.cs
+@@ -125,9 +125,7 @@ private static void VerifyFix(string language, DiagnosticAnalyzer analyzer, Code
+                     newCompilerDiagnostics = GetNewDiagnostics(compilerDiagnostics, GetCompilerDiagnostics(document));
+ 
+                     Assert.IsTrue(false,
+-                        string.Format("Fix introduced new compiler diagnostics:\r\n{0}\r\n\r\nNew document:\r\n{1}\r\n",
+-                            string.Join("\r\n", newCompilerDiagnostics.Select(d => d.ToString())),
+-                            document.GetSyntaxRootAsync().Result.ToFullString()));
++                        $"Fix introduced new compiler diagnostics:\r\n{string.Join("\r\n", newCompilerDiagnostics.Select(d => d.ToString()))}\r\n\r\nNew document:\r\n{document.GetSyntaxRootAsync().Result.ToFullString()}\r\n");
+                 }
+ 
+                 //check if there are analyzer diagnostics left after the code fix
+diff --git a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/Verifiers/DiagnosticVerifier.cs b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/Verifiers/DiagnosticVerifier.cs
+index 3fe73c9cf..b02c9c397 100644
+--- a/src/dotnet/Lucene.Net.Tests.CodeAnalysis/Verifiers/DiagnosticVerifier.cs
++++ b/src/dotnet/Lucene.Net.Tests.CodeAnalysis/Verifiers/DiagnosticVerifier.cs
+@@ -129,7 +129,7 @@ private static void VerifyDiagnosticResults(IEnumerable<Diagnostic> actualResult
+                 string diagnosticsOutput = actualResults.Any() ? FormatDiagnostics(analyzer, actualResults.ToArray()) : "    NONE.";
+ 
+                 Assert.IsTrue(false,
+-                    string.Format("Mismatch between number of diagnostics returned, expected \"{0}\" actual \"{1}\"\r\n\r\nDiagnostics:\r\n{2}\r\n", expectedCount, actualCount, diagnosticsOutput));
++                    $"Mismatch between number of diagnostics returned, expected \"{expectedCount}\" actual \"{actualCount}\"\r\n\r\nDiagnostics:\r\n{diagnosticsOutput}\r\n");
+             }
+ 
+             for (int i = 0; i < expectedResults.Length; i++)
+@@ -142,8 +142,7 @@ private static void VerifyDiagnosticResults(IEnumerable<Diagnostic> actualResult
+                     if (actual.Location != Location.None)
+                     {
+                         Assert.IsTrue(false,
+-                            string.Format("Expected:\nA project diagnostic with No location\nActual:\n{0}",
+-                            FormatDiagnostics(analyzer, actual)));
++                            $"Expected:\nA project diagnostic with No location\nActual:\n{FormatDiagnostics(analyzer, actual)}");
+                     }
+                 }
+                 else
+@@ -154,9 +153,7 @@ private static void VerifyDiagnosticResults(IEnumerable<Diagnostic> actualResult
+                     if (additionalLocations.Length != expected.Locations.Length - 1)
+                     {
+                         Assert.IsTrue(false,
+-                            string.Format("Expected {0} additional locations but got {1} for Diagnostic:\r\n    {2}\r\n",
+-                                expected.Locations.Length - 1, additionalLocations.Length,
+-                                FormatDiagnostics(analyzer, actual)));
++                            $"Expected {expected.Locations.Length - 1} additional locations but got {additionalLocations.Length} for Diagnostic:\r\n    {FormatDiagnostics(analyzer, actual)}\r\n");
+                     }
+ 
+                     for (int j = 0; j < additionalLocations.Length; ++j)
+@@ -168,22 +165,19 @@ private static void VerifyDiagnosticResults(IEnumerable<Diagnostic> actualResult
+                 if (actual.Id != expected.Id)
+                 {
+                     Assert.IsTrue(false,
+-                        string.Format("Expected diagnostic id to be \"{0}\" was \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
+-                            expected.Id, actual.Id, FormatDiagnostics(analyzer, actual)));
++                        $"Expected diagnostic id to be \"{expected.Id}\" was \"{actual.Id}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, actual)}\r\n");
+                 }
+ 
+                 if (actual.Severity != expected.Severity)
+                 {
+                     Assert.IsTrue(false,
+-                        string.Format("Expected diagnostic severity to be \"{0}\" was \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
+-                            expected.Severity, actual.Severity, FormatDiagnostics(analyzer, actual)));
++                        $"Expected diagnostic severity to be \"{expected.Severity}\" was \"{actual.Severity}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, actual)}\r\n");
+                 }
+ 
+                 if (actual.GetMessage() != expected.Message)
+                 {
+                     Assert.IsTrue(false,
+-                        string.Format("Expected diagnostic message to be \"{0}\" was \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
+-                            expected.Message, actual.GetMessage(), FormatDiagnostics(analyzer, actual)));
++                        $"Expected diagnostic message to be \"{expected.Message}\" was \"{actual.GetMessage()}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, actual)}\r\n");
+                 }
+             }
+         }
+@@ -200,8 +194,7 @@ private static void VerifyDiagnosticLocation(DiagnosticAnalyzer analyzer, Diagno
+             var actualSpan = actual.GetLineSpan();
+ 
+             Assert.IsTrue(actualSpan.Path == expected.Path || (actualSpan.Path != null && actualSpan.Path.Contains("Test0.") && expected.Path.Contains("Test.")),
+-                string.Format("Expected diagnostic to be in file \"{0}\" was actually in file \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
+-                    expected.Path, actualSpan.Path, FormatDiagnostics(analyzer, diagnostic)));
++                $"Expected diagnostic to be in file \"{expected.Path}\" was actually in file \"{actualSpan.Path}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, diagnostic)}\r\n");
+ 
+             var actualLinePosition = actualSpan.StartLinePosition;
+ 
+@@ -211,8 +204,7 @@ private static void VerifyDiagnosticLocation(DiagnosticAnalyzer analyzer, Diagno
+                 if (actualLinePosition.Line + 1 != expected.Line)
+                 {
+                     Assert.IsTrue(false,
+-                        string.Format("Expected diagnostic to be on line \"{0}\" was actually on line \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
+-                            expected.Line, actualLinePosition.Line + 1, FormatDiagnostics(analyzer, diagnostic)));
++                        $"Expected diagnostic to be on line \"{expected.Line}\" was actually on line \"{actualLinePosition.Line + 1}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, diagnostic)}\r\n");
+                 }
+             }
+ 
+@@ -222,8 +214,7 @@ private static void VerifyDiagnosticLocation(DiagnosticAnalyzer analyzer, Diagno
+                 if (actualLinePosition.Character + 1 != expected.Column)
+                 {
+                     Assert.IsTrue(false,
+-                        string.Format("Expected diagnostic to start at column \"{0}\" was actually at column \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
+-                            expected.Column, actualLinePosition.Character + 1, FormatDiagnostics(analyzer, diagnostic)));
++                        $"Expected diagnostic to start at column \"{expected.Column}\" was actually at column \"{actualLinePosition.Character + 1}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, diagnostic)}\r\n");
+                 }
+             }
+         }
+diff --git a/src/dotnet/tools/Lucene.Net.Tests.Cli/EnumerableExtensions.cs b/src/dotnet/tools/Lucene.Net.Tests.Cli/EnumerableExtensions.cs
+index ac5bb01ac..a506646b8 100644
+--- a/src/dotnet/tools/Lucene.Net.Tests.Cli/EnumerableExtensions.cs
++++ b/src/dotnet/tools/Lucene.Net.Tests.Cli/EnumerableExtensions.cs
+@@ -25,7 +25,7 @@ public static class EnumerableExtensions
+     {
+         public static IEnumerable<IEnumerable<T>> OptionalParameters<T>(this IEnumerable<IEnumerable<T>> input)
+         {
+-            if (input.Count() == 0)
++            if (!input.Any())
+                 yield break;
+             else
+             {
+diff --git a/src/dotnet/tools/lucene-cli/CommandLine/CommandLineApplication.cs b/src/dotnet/tools/lucene-cli/CommandLine/CommandLineApplication.cs
+index 2f8e1e1d6..a5a4f6fbd 100644
+--- a/src/dotnet/tools/lucene-cli/CommandLine/CommandLineApplication.cs
++++ b/src/dotnet/tools/lucene-cli/CommandLine/CommandLineApplication.cs
+@@ -120,8 +120,7 @@ public virtual CommandArgument Argument(string name, string description, Action<
+             var lastArg = Arguments.LastOrDefault();
+             if (lastArg != null && lastArg.MultipleValues)
+             {
+-                var message = string.Format("The last argument '{0}' accepts multiple values. No more argument can be added.",
+-                    lastArg.Name);
++                var message = $"The last argument '{lastArg.Name}' accepts multiple values. No more argument can be added.";
+                 throw new InvalidOperationException(message);
+             }
+ 
+@@ -365,7 +364,7 @@ public virtual void ShowHint()
+         {
+             if (OptionHelp != null)
+             {
+-                Out.WriteLine(string.Format("Specify --{0} for a list of available options and commands.", OptionHelp.LongName));
++                Out.WriteLine($"Specify --{OptionHelp.LongName} for a list of available options and commands.");
+             }
+         }
+ 
+@@ -385,7 +384,7 @@ public virtual string GetHelpText(string commandName = null)
+             var headerBuilder = new StringBuilder("Usage:");
+             for (var cmd = this; cmd != null; cmd = cmd.Parent)
+             {
+-                headerBuilder.Insert(6, string.Format(" {0}", cmd.Name));
++                headerBuilder.Insert(6, $" {cmd.Name}");
+             }
+ 
+             CommandLineApplication target;
+@@ -501,7 +500,7 @@ public virtual void ShowVersion()
+ 
+         public virtual string GetFullNameAndVersion()
+         {
+-            return ShortVersionGetter == null ? FullName : string.Format("{0} {1}", FullName, ShortVersionGetter());
++            return ShortVersionGetter == null ? FullName : $"{FullName} {ShortVersionGetter()}";
+         }
+ 
+         public virtual void ShowRootCommandFullNameAndVersion()

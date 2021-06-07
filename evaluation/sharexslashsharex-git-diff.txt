@@ -1,0 +1,2944 @@
+diff --git a/ShareX.HelpersLib/ApplicationInstanceManager.cs b/ShareX.HelpersLib/ApplicationInstanceManager.cs
+index 5c3d1c034..ee3d55b4a 100644
+--- a/ShareX.HelpersLib/ApplicationInstanceManager.cs
++++ b/ShareX.HelpersLib/ApplicationInstanceManager.cs
+@@ -36,8 +36,8 @@ public class ApplicationInstanceManager : IDisposable
+     {
+         private static readonly string MutexName = "82E6AC09-0FEF-4390-AD9F-0DD3F5561EFC";
+         private static readonly string AppName = "ShareX";
+-        private static readonly string EventName = string.Format("{0}-{1}-{2}", Environment.MachineName, Environment.UserName, AppName);
+-        private static readonly string SemaphoreName = string.Format("{0}{1}", EventName, "Semaphore");
++        private static readonly string EventName = $"{Environment.MachineName}-{Environment.UserName}-{AppName}";
++        private static readonly string SemaphoreName = $"{EventName}{"Semaphore"}";
+ 
+         public bool IsSingleInstance { get; private set; }
+         public bool IsFirstInstance { get; private set; }
+@@ -75,20 +75,14 @@ public void Dispose()
+         {
+             if (IsFirstInstance)
+             {
+-                if (mutex != null)
+-                {
+-                    mutex.ReleaseMutex();
+-                }
++                mutex?.ReleaseMutex();
+ 
+                 if (serverChannel != null)
+                 {
+                     ChannelServices.UnregisterChannel(serverChannel);
+                 }
+ 
+-                if (semaphore != null)
+-                {
+-                    semaphore.Close();
+-                }
++                semaphore?.Close();
+             }
+         }
+ 
+@@ -132,10 +126,7 @@ private void CreateMultipleInstance(string[] args)
+                     semaphore.WaitOne();
+                     UpdateRemoteObject(AppName);
+ 
+-                    if (eventWaitHandle != null)
+-                    {
+-                        eventWaitHandle.Set();
+-                    }
++                    eventWaitHandle?.Set();
+                 }
+             }
+             catch (Exception e)
+@@ -153,10 +144,7 @@ private void UpdateRemoteObject(string uri)
+ 
+             InstanceProxy proxy = Activator.GetObject(typeof(InstanceProxy), string.Format("ipc://{0}{1}{2}/{2}", Environment.MachineName, Environment.UserName, uri)) as InstanceProxy;
+ 
+-            if (proxy != null)
+-            {
+-                proxy.SetCommandLineArgs(InstanceProxy.CommandLineArgs);
+-            }
++            proxy?.SetCommandLineArgs(InstanceProxy.CommandLineArgs);
+ 
+             ChannelServices.UnregisterChannel(clientChannel);
+         }
+@@ -171,9 +159,7 @@ private void RegisterRemoteType(string uri)
+ 
+         private void WaitOrTimerCallback(object state, bool timedOut)
+         {
+-            EventHandler<InstanceCallbackEventArgs> callback = state as EventHandler<InstanceCallbackEventArgs>;
+-
+-            if (callback != null)
++            if (state is EventHandler<InstanceCallbackEventArgs> callback)
+             {
+                 try
+                 {
+@@ -181,10 +167,7 @@ private void WaitOrTimerCallback(object state, bool timedOut)
+                 }
+                 finally
+                 {
+-                    if (semaphore != null)
+-                    {
+-                        semaphore.Release();
+-                    }
++                    semaphore?.Release();
+                 }
+             }
+         }
+diff --git a/ShareX.HelpersLib/CLI/ExternalCLIManager.cs b/ShareX.HelpersLib/CLI/ExternalCLIManager.cs
+index b4824027b..ef9bd3932 100644
+--- a/ShareX.HelpersLib/CLI/ExternalCLIManager.cs
++++ b/ShareX.HelpersLib/CLI/ExternalCLIManager.cs
+@@ -127,10 +127,7 @@ public virtual void Close()
+ 
+         public void Dispose()
+         {
+-            if (process != null)
+-            {
+-                process.Dispose();
+-            }
++            process?.Dispose();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX.HelpersLib/ColorBgra.cs b/ShareX.HelpersLib/ColorBgra.cs
+index 5e8995f79..056b6a792 100644
+--- a/ShareX.HelpersLib/ColorBgra.cs
++++ b/ShareX.HelpersLib/ColorBgra.cs
+@@ -102,7 +102,7 @@ public Color ToColor()
+ 
+         public override string ToString()
+         {
+-            return string.Format("B: {0}, G: {1}, R: {2}, A: {3}", Blue, Green, Red, Alpha);
++            return $"B: {Blue}, G: {Green}, R: {Red}, A: {Alpha}";
+         }
+ 
+         public static uint BgraToUInt32(uint b, uint g, uint r, uint a)
+diff --git a/ShareX.HelpersLib/Controls/MyListView.cs b/ShareX.HelpersLib/Controls/MyListView.cs
+index 2ccc9a88f..b88574ef1 100644
+--- a/ShareX.HelpersLib/Controls/MyListView.cs
++++ b/ShareX.HelpersLib/Controls/MyListView.cs
+@@ -234,9 +234,7 @@ protected override void OnDragOver(DragEventArgs drgevent)
+         {
+             base.OnDragOver(drgevent);
+ 
+-            ListViewItem lvi = drgevent.Data.GetData(typeof(ListViewItem)) as ListViewItem;
+-
+-            if (lvi != null && lvi.ListView == this)
++            if (drgevent.Data.GetData(typeof(ListViewItem)) is ListViewItem lvi && lvi.ListView == this)
+             {
+                 drgevent.Effect = DragDropEffects.Move;
+ 
+@@ -265,9 +263,7 @@ protected override void OnDragDrop(DragEventArgs drgevent)
+         {
+             base.OnDragDrop(drgevent);
+ 
+-            ListViewItem lvi = drgevent.Data.GetData(typeof(ListViewItem)) as ListViewItem;
+-
+-            if (lvi != null && lvi.ListView == this && lvi != dragOverItem)
++            if (drgevent.Data.GetData(typeof(ListViewItem)) is ListViewItem lvi && lvi.ListView == this && lvi != dragOverItem)
+             {
+                 int oldIndex = lvi.Index;
+                 int newIndex;
+diff --git a/ShareX.HelpersLib/Controls/TabToTreeView.cs b/ShareX.HelpersLib/Controls/TabToTreeView.cs
+index 8bc2ac81f..9fe918b24 100644
+--- a/ShareX.HelpersLib/Controls/TabToTreeView.cs
++++ b/ShareX.HelpersLib/Controls/TabToTreeView.cs
+@@ -167,9 +167,7 @@ private void tvMain_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+ 
+         private void tvMain_AfterSelect(object sender, TreeViewEventArgs e)
+         {
+-            TabPage tabPage = e.Node.Tag as TabPage;
+-
+-            if (tabPage != null)
++            if (e.Node.Tag is TabPage tabPage)
+             {
+                 if (AutoSelectChild && tabPage.Controls.Count == 1 && tabPage.Controls[0] is TabControl)
+                 {
+diff --git a/ShareX.HelpersLib/Controls/ToolStripButtonColorAnimation.cs b/ShareX.HelpersLib/Controls/ToolStripButtonColorAnimation.cs
+index cd257bef3..2fc16ee7f 100644
+--- a/ShareX.HelpersLib/Controls/ToolStripButtonColorAnimation.cs
++++ b/ShareX.HelpersLib/Controls/ToolStripButtonColorAnimation.cs
+@@ -94,10 +94,7 @@ private void timer_Tick(object sender, EventArgs e)
+ 
+         protected override void Dispose(bool disposing)
+         {
+-            if (timer != null)
+-            {
+-                timer.Dispose();
+-            }
++            timer?.Dispose();
+ 
+             base.Dispose(disposing);
+         }
+diff --git a/ShareX.HelpersLib/Controls/ToolStripButtonCounter.cs b/ShareX.HelpersLib/Controls/ToolStripButtonCounter.cs
+index ae82deb8a..b240e9c70 100644
+--- a/ShareX.HelpersLib/Controls/ToolStripButtonCounter.cs
++++ b/ShareX.HelpersLib/Controls/ToolStripButtonCounter.cs
+@@ -51,10 +51,7 @@ private void UpdateImage()
+             {
+                 ShowExtraImage = false;
+ 
+-                if (ExtraImage != null)
+-                {
+-                    ExtraImage.Dispose();
+-                }
++                ExtraImage?.Dispose();
+ 
+                 ExtraImage = null;
+             }
+@@ -87,10 +84,7 @@ private void UpdateImage()
+                     g.DrawString(text, font, Brushes.White, new Rectangle(0, 0, bmp.Width, bmp.Height), stringFormat);
+                 }
+ 
+-                if (ExtraImage != null)
+-                {
+-                    ExtraImage.Dispose();
+-                }
++                ExtraImage?.Dispose();
+ 
+                 ExtraImage = bmp;
+                 ShowExtraImage = true;
+diff --git a/ShareX.HelpersLib/Controls/ToolStripButtonExtraImage.cs b/ShareX.HelpersLib/Controls/ToolStripButtonExtraImage.cs
+index 43b7f1791..9e3e5e4a9 100644
+--- a/ShareX.HelpersLib/Controls/ToolStripButtonExtraImage.cs
++++ b/ShareX.HelpersLib/Controls/ToolStripButtonExtraImage.cs
+@@ -67,10 +67,7 @@ protected override void Dispose(bool disposing)
+         {
+             if (disposing)
+             {
+-                if (ExtraImage != null)
+-                {
+-                    ExtraImage.Dispose();
+-                }
++                ExtraImage?.Dispose();
+             }
+ 
+             base.Dispose(disposing);
+diff --git a/ShareX.HelpersLib/Controls/ToolStripRadioButtonMenuItem.cs b/ShareX.HelpersLib/Controls/ToolStripRadioButtonMenuItem.cs
+index b5e989497..bc68ad172 100644
+--- a/ShareX.HelpersLib/Controls/ToolStripRadioButtonMenuItem.cs
++++ b/ShareX.HelpersLib/Controls/ToolStripRadioButtonMenuItem.cs
+@@ -88,9 +88,8 @@ protected override void OnCheckedChanged(EventArgs e)
+                 // Clear the checked state for all siblings.
+                 foreach (ToolStripItem item in Parent.Items)
+                 {
+-                    ToolStripRadioButtonMenuItem radioItem = item as ToolStripRadioButtonMenuItem;
+ 
+-                    if (radioItem != null && radioItem != this && radioItem.Checked)
++                    if (item is ToolStripRadioButtonMenuItem radioItem && radioItem != this && radioItem.Checked)
+                     {
+                         radioItem.Checked = false;
+ 
+@@ -232,9 +231,7 @@ public override bool Enabled
+         // CheckedChanged event.
+         protected override void OnOwnerChanged(EventArgs e)
+         {
+-            ToolStripMenuItem ownerMenuItem = OwnerItem as ToolStripMenuItem;
+-
+-            if (ownerMenuItem != null && ownerMenuItem.CheckOnClick)
++            if (OwnerItem is ToolStripMenuItem ownerMenuItem && ownerMenuItem.CheckOnClick)
+             {
+                 ownerMenuItem.CheckedChanged += OwnerMenuItem_CheckedChanged;
+             }
+diff --git a/ShareX.HelpersLib/Cryptographic/HashCheck.cs b/ShareX.HelpersLib/Cryptographic/HashCheck.cs
+index 04d953d29..a410a61a0 100644
+--- a/ShareX.HelpersLib/Cryptographic/HashCheck.cs
++++ b/ShareX.HelpersLib/Cryptographic/HashCheck.cs
+@@ -77,10 +77,7 @@ public async Task<string> Start(string filePath, HashType hashType)
+ 
+         public void Stop()
+         {
+-            if (cts != null)
+-            {
+-                cts.Cancel();
+-            }
++            cts?.Cancel();
+         }
+ 
+         private string HashCheckThread(string filePath, HashType hashType, IProgress<float> progress, CancellationToken ct)
+diff --git a/ShareX.HelpersLib/DNS/AdapterInfo.cs b/ShareX.HelpersLib/DNS/AdapterInfo.cs
+index 70c89a8a7..3c41cf12e 100644
+--- a/ShareX.HelpersLib/DNS/AdapterInfo.cs
++++ b/ShareX.HelpersLib/DNS/AdapterInfo.cs
+@@ -114,10 +114,7 @@ public uint SetDNSAutomatic()
+ 
+         public void Dispose()
+         {
+-            if (adapter != null)
+-            {
+-                adapter.Dispose();
+-            }
++            adapter?.Dispose();
+         }
+ 
+         public override string ToString()
+diff --git a/ShareX.HelpersLib/Extensions/Extensions.cs b/ShareX.HelpersLib/Extensions/Extensions.cs
+index f3f2c5193..aefedafbb 100644
+--- a/ShareX.HelpersLib/Extensions/Extensions.cs
++++ b/ShareX.HelpersLib/Extensions/Extensions.cs
+@@ -445,8 +445,7 @@ public static void ApplyDefaultPropertyValues(this object self)
+         {
+             foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
+             {
+-                DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+-                if (attr != null) prop.SetValue(self, attr.Value);
++                if (prop.Attributes[typeof(DefaultValueAttribute)] is DefaultValueAttribute attr) prop.SetValue(self, attr.Value);
+             }
+         }
+ 
+@@ -531,7 +530,7 @@ public static void Check(this ToolStripMenuItem tsmi)
+             {
+                 foreach (ToolStripItem item in tsmi.GetCurrentParent().Items)
+                 {
+-                    if (item != null && item is ToolStripMenuItem tsmiItem && tsmiItem.Tag.Equals(tsmi.Tag))
++                    if (item is ToolStripMenuItem tsmiItem && tsmiItem.Tag.Equals(tsmi.Tag))
+                     {
+                         tsmiItem.Checked = tsmiItem == tsmi;
+                     }
+diff --git a/ShareX.HelpersLib/Extensions/NumberExtensions.cs b/ShareX.HelpersLib/Extensions/NumberExtensions.cs
+index da9b60d61..ffec001b1 100644
+--- a/ShareX.HelpersLib/Extensions/NumberExtensions.cs
++++ b/ShareX.HelpersLib/Extensions/NumberExtensions.cs
+@@ -99,7 +99,7 @@ public static string ToBase(this int value, int radix, string digits)
+             radix = Math.Abs(radix);
+             if (radix > digits.Length || radix < 2)
+             {
+-                throw new ArgumentOutOfRangeException("radix", radix, string.Format("Radix has to be > 2 and < {0}", digits.Length));
++                throw new ArgumentOutOfRangeException("radix", radix, $"Radix has to be > 2 and < {digits.Length}");
+             }
+ 
+             string result = "";
+diff --git a/ShareX.HelpersLib/Extensions/StringExtensions.cs b/ShareX.HelpersLib/Extensions/StringExtensions.cs
+index b9ed874c9..8364664c4 100644
+--- a/ShareX.HelpersLib/Extensions/StringExtensions.cs
++++ b/ShareX.HelpersLib/Extensions/StringExtensions.cs
+@@ -308,7 +308,7 @@ public static int FromBase(this string text, int radix, string digits)
+             radix = Math.Abs(radix);
+             if (radix > digits.Length || radix < 2)
+             {
+-                throw new ArgumentOutOfRangeException("radix", radix, string.Format("Radix has to be > 2 and < {0}", digits.Length));
++                throw new ArgumentOutOfRangeException("radix", radix, $"Radix has to be > 2 and < {digits.Length}");
+             }
+ 
+             // Convert to Base 10
+diff --git a/ShareX.HelpersLib/Extensions/XMLExtensions.cs b/ShareX.HelpersLib/Extensions/XMLExtensions.cs
+index 05d76310d..71de4d0ed 100644
+--- a/ShareX.HelpersLib/Extensions/XMLExtensions.cs
++++ b/ShareX.HelpersLib/Extensions/XMLExtensions.cs
+@@ -195,9 +195,9 @@ public static XmlNode AppendElement(this XmlNode parent, string tagName, string
+             {
+                 XmlDocument xd;
+ 
+-                if (parent is XmlDocument)
++                if (parent is XmlDocument xmlDocument)
+                 {
+-                    xd = (XmlDocument)parent;
++                    xd = xmlDocument;
+                 }
+                 else
+                 {
+@@ -230,9 +230,9 @@ public static XmlNode PrependElement(this XmlNode parent, string tagName, string
+             {
+                 XmlDocument xd;
+ 
+-                if (parent is XmlDocument)
++                if (parent is XmlDocument xmlDocument)
+                 {
+-                    xd = (XmlDocument)parent;
++                    xd = xmlDocument;
+                 }
+                 else
+                 {
+diff --git a/ShareX.HelpersLib/Forms/ColorPickerForm.cs b/ShareX.HelpersLib/Forms/ColorPickerForm.cs
+index 3de312632..ac8742a04 100644
+--- a/ShareX.HelpersLib/Forms/ColorPickerForm.cs
++++ b/ShareX.HelpersLib/Forms/ColorPickerForm.cs
+@@ -421,7 +421,7 @@ private void pbColorPreview_MouseClick(object sender, MouseEventArgs e)
+         private void tsmiCopyAll_Click(object sender, EventArgs e)
+         {
+             string colors = colorPicker.SelectedColor.ToString();
+-            colors += Environment.NewLine + string.Format("Cursor position (X, Y) = {0}, {1}", txtX.Text, txtY.Text);
++            colors += Environment.NewLine + $"Cursor position (X, Y) = {txtX.Text}, {txtY.Text}";
+             ClipboardHelpers.CopyText(colors);
+         }
+ 
+diff --git a/ShareX.HelpersLib/Forms/DNSChangerForm.cs b/ShareX.HelpersLib/Forms/DNSChangerForm.cs
+index a9677fe1c..233dd268a 100644
+--- a/ShareX.HelpersLib/Forms/DNSChangerForm.cs
++++ b/ShareX.HelpersLib/Forms/DNSChangerForm.cs
+@@ -65,9 +65,7 @@ private void AddDNS(string name, string primary = null, string secondary = null)
+ 
+         private void cbAdapters_SelectedIndexChanged(object sender, EventArgs e)
+         {
+-            AdapterInfo adapter = cbAdapters.SelectedItem as AdapterInfo;
+-
+-            if (adapter != null)
++            if (cbAdapters.SelectedItem is AdapterInfo adapter)
+             {
+                 string[] dns = adapter.GetDNS();
+ 
+@@ -107,9 +105,7 @@ private void cbDNSType_SelectedIndexChanged(object sender, EventArgs e)
+         {
+             if (cbDNSType.SelectedIndex > 0)
+             {
+-                DNSInfo dnsInfo = cbDNSType.SelectedItem as DNSInfo;
+-
+-                if (dnsInfo != null)
++                if (cbDNSType.SelectedItem is DNSInfo dnsInfo)
+                 {
+                     txtPreferredDNS.Text = dnsInfo.PrimaryDNS;
+                     txtAlternateDNS.Text = dnsInfo.SecondaryDNS;
+@@ -154,9 +150,7 @@ private async Task SendPing(string ip)
+ 
+         private void btnSave_Click(object sender, EventArgs e)
+         {
+-            AdapterInfo adapter = cbAdapters.SelectedItem as AdapterInfo;
+-
+-            if (adapter != null)
++            if (cbAdapters.SelectedItem is AdapterInfo adapter)
+             {
+                 uint result;
+ 
+diff --git a/ShareX.HelpersLib/Forms/GradientPickerForm.cs b/ShareX.HelpersLib/Forms/GradientPickerForm.cs
+index a81042174..839ddda99 100644
+--- a/ShareX.HelpersLib/Forms/GradientPickerForm.cs
++++ b/ShareX.HelpersLib/Forms/GradientPickerForm.cs
+@@ -140,7 +140,7 @@ private void UpdatePreview()
+         private void AddGradientStop(GradientStop gradientStop)
+         {
+             ListViewItem lvi = new ListViewItem();
+-            lvi.Text = string.Format(" {0:0.##}%", gradientStop.Location);
++            lvi.Text = $" {gradientStop.Location:0.##}%";
+             UpdateListViewItemColor(lvi, gradientStop.Color);
+             lvi.Tag = gradientStop;
+             lvGradientPoints.Items.Add(lvi);
+@@ -298,8 +298,8 @@ private void lvPresets_SelectedIndexChanged(object sender, EventArgs e)
+             if (isReady && lvPresets.SelectedItems.Count > 0)
+             {
+                 ListViewItem lvi = lvPresets.SelectedItems[0];
+-                GradientInfo gradientInfo = lvi.Tag as GradientInfo;
+-                if (gradientInfo != null)
++
++                if (lvi.Tag is GradientInfo gradientInfo)
+                 {
+                     Gradient = gradientInfo.Copy();
+                     UpdateGradientList(true);
+diff --git a/ShareX.HelpersLib/Forms/HashCheckForm.cs b/ShareX.HelpersLib/Forms/HashCheckForm.cs
+index 46ff00917..972cb8a87 100644
+--- a/ShareX.HelpersLib/Forms/HashCheckForm.cs
++++ b/ShareX.HelpersLib/Forms/HashCheckForm.cs
+@@ -200,9 +200,7 @@ private void tpFileHashCheck_DragDrop(object sender, DragEventArgs e)
+         {
+             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+             {
+-                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+-
+-                if (files != null && files.Length > 0)
++                if (e.Data.GetData(DataFormats.FileDrop, false) is string[] files && files.Length > 0)
+                 {
+                     txtFilePath.Text = files[0];
+                 }
+diff --git a/ShareX.HelpersLib/Forms/ImageViewer.cs b/ShareX.HelpersLib/Forms/ImageViewer.cs
+index 3f47b4f10..bdd6bd20c 100644
+--- a/ShareX.HelpersLib/Forms/ImageViewer.cs
++++ b/ShareX.HelpersLib/Forms/ImageViewer.cs
+@@ -113,10 +113,7 @@ protected override void Dispose(bool disposing)
+                 components.Dispose();
+             }
+ 
+-            if (image != null)
+-            {
+-                image.Dispose();
+-            }
++            image?.Dispose();
+ 
+             base.Dispose(disposing);
+         }
+diff --git a/ShareX.HelpersLib/Forms/PrintForm.cs b/ShareX.HelpersLib/Forms/PrintForm.cs
+index fdf9f8e87..adc4497b1 100644
+--- a/ShareX.HelpersLib/Forms/PrintForm.cs
++++ b/ShareX.HelpersLib/Forms/PrintForm.cs
+@@ -50,15 +50,9 @@ protected override void Dispose(bool disposing)
+         {
+             if (disposing)
+             {
+-                if (components != null)
+-                {
+-                    components.Dispose();
+-                }
+-
+-                if (printHelper != null)
+-                {
+-                    printHelper.Dispose();
+-                }
++                components?.Dispose();
++
++                printHelper?.Dispose();
+             }
+ 
+             base.Dispose(disposing);
+diff --git a/ShareX.HelpersLib/Forms/PrintTextForm.cs b/ShareX.HelpersLib/Forms/PrintTextForm.cs
+index 4ac17e399..5592a64d8 100644
+--- a/ShareX.HelpersLib/Forms/PrintTextForm.cs
++++ b/ShareX.HelpersLib/Forms/PrintTextForm.cs
+@@ -53,15 +53,9 @@ protected override void Dispose(bool disposing)
+         {
+             if (disposing)
+             {
+-                if (components != null)
+-                {
+-                    components.Dispose();
+-                }
++                components?.Dispose();
+ 
+-                if (printHelper != null)
+-                {
+-                    printHelper.Dispose();
+-                }
++                printHelper?.Dispose();
+             }
+ 
+             base.Dispose(disposing);
+diff --git a/ShareX.HelpersLib/Helpers/ClipboardHelpersEx.cs b/ShareX.HelpersLib/Helpers/ClipboardHelpersEx.cs
+index 6275f116a..6e16e356f 100644
+--- a/ShareX.HelpersLib/Helpers/ClipboardHelpersEx.cs
++++ b/ShareX.HelpersLib/Helpers/ClipboardHelpersEx.cs
+@@ -130,15 +130,13 @@ public static Bitmap GetClipboardImage(DataObject retrievedData)
+             // Order: try PNG, move on to try 32-bit ARGB DIB, then try the normal Bitmap and Image types.
+             if (retrievedData.GetDataPresent("PNG"))
+             {
+-                MemoryStream png_stream = retrievedData.GetData("PNG") as MemoryStream;
+-                if (png_stream != null)
++                if (retrievedData.GetData("PNG") is MemoryStream png_stream)
+                     using (Bitmap bm = new Bitmap(png_stream))
+                         clipboardimage = CloneImage(bm);
+             }
+             if (clipboardimage == null && retrievedData.GetDataPresent(DataFormats.Dib))
+             {
+-                MemoryStream dib = retrievedData.GetData(DataFormats.Dib) as MemoryStream;
+-                if (dib != null)
++                if (retrievedData.GetData(DataFormats.Dib) is MemoryStream dib)
+                     clipboardimage = ImageFromClipboardDib(dib.ToArray());
+             }
+             if (clipboardimage == null && retrievedData.GetDataPresent(DataFormats.Bitmap))
+diff --git a/ShareX.HelpersLib/Helpers/Helpers.cs b/ShareX.HelpersLib/Helpers/Helpers.cs
+index 990d27b3d..8f32cf557 100644
+--- a/ShareX.HelpersLib/Helpers/Helpers.cs
++++ b/ShareX.HelpersLib/Helpers/Helpers.cs
+@@ -870,7 +870,7 @@ public static string OutputSpecialFolders()
+ 
+             foreach (Environment.SpecialFolder specialFolder in GetEnums<Environment.SpecialFolder>())
+             {
+-                sb.AppendLine(string.Format("{0,-25}{1}", specialFolder, Environment.GetFolderPath(specialFolder)));
++                sb.AppendLine($"{specialFolder, -25}{Environment.GetFolderPath(specialFolder)}");
+             }
+ 
+             return sb.ToString();
+@@ -1394,7 +1394,7 @@ public static Cursor CreateCursor(byte[] data)
+ 
+         public static string EscapeCLIText(string text)
+         {
+-            return string.Format("\"{0}\"", text.Replace("\\", "\\\\").Replace("\"", "\\\""));
++            return $"\"{text.Replace("\\", "\\\\").Replace("\"", "\\\"")}\"";
+         }
+ 
+         public static string BytesToHex(byte[] bytes)
+@@ -1402,7 +1402,7 @@ public static string BytesToHex(byte[] bytes)
+             StringBuilder sb = new StringBuilder();
+             foreach (byte x in bytes)
+             {
+-                sb.Append(string.Format("{0:x2}", x));
++                sb.Append($"{x:x2}");
+             }
+             return sb.ToString();
+         }
+diff --git a/ShareX.HelpersLib/Helpers/RegistryHelpers.cs b/ShareX.HelpersLib/Helpers/RegistryHelpers.cs
+index 6392c23b9..e74c97303 100644
+--- a/ShareX.HelpersLib/Helpers/RegistryHelpers.cs
++++ b/ShareX.HelpersLib/Helpers/RegistryHelpers.cs
+@@ -40,10 +40,7 @@ public static void CreateRegistry(string path, string name, string value, Regist
+         {
+             using (RegistryKey rk = RegistryKey.OpenBaseKey(root, RegistryView.Default).CreateSubKey(path))
+             {
+-                if (rk != null)
+-                {
+-                    rk.SetValue(name, value, RegistryValueKind.String);
+-                }
++                rk?.SetValue(name, value, RegistryValueKind.String);
+             }
+         }
+ 
+@@ -56,10 +53,7 @@ public static void CreateRegistry(string path, string name, int value, RegistryH
+         {
+             using (RegistryKey rk = RegistryKey.OpenBaseKey(root, RegistryView.Default).CreateSubKey(path))
+             {
+-                if (rk != null)
+-                {
+-                    rk.SetValue(name, value, RegistryValueKind.DWord);
+-                }
++                rk?.SetValue(name, value, RegistryValueKind.DWord);
+             }
+         }
+ 
+diff --git a/ShareX.HelpersLib/ImageFilesCache.cs b/ShareX.HelpersLib/ImageFilesCache.cs
+index 3bc573c72..b93f8f4bc 100644
+--- a/ShareX.HelpersLib/ImageFilesCache.cs
++++ b/ShareX.HelpersLib/ImageFilesCache.cs
+@@ -99,10 +99,7 @@ public void Dispose()
+             {
+                 foreach (Bitmap bmp in images.Values)
+                 {
+-                    if (bmp != null)
+-                    {
+-                        bmp.Dispose();
+-                    }
++                    bmp?.Dispose();
+                 }
+             }
+         }
+diff --git a/ShareX.HelpersLib/Logger.cs b/ShareX.HelpersLib/Logger.cs
+index ccb455ef7..f15d6ff8f 100644
+--- a/ShareX.HelpersLib/Logger.cs
++++ b/ShareX.HelpersLib/Logger.cs
+@@ -148,10 +148,7 @@ public void Clear()
+         {
+             lock (loggerLock)
+             {
+-                if (sbMessages != null)
+-                {
+-                    sbMessages.Clear();
+-                }
++                sbMessages?.Clear();
+             }
+         }
+ 
+diff --git a/ShareX.HelpersLib/Native/FolderSelectDialog.cs b/ShareX.HelpersLib/Native/FolderSelectDialog.cs
+index 7808fe0c4..19e76266d 100644
+--- a/ShareX.HelpersLib/Native/FolderSelectDialog.cs
++++ b/ShareX.HelpersLib/Native/FolderSelectDialog.cs
+@@ -159,10 +159,7 @@ public bool ShowDialog(IntPtr hWndOwner)
+ 
+         public void Dispose()
+         {
+-            if (ofd != null)
+-            {
+-                ofd.Dispose();
+-            }
++            ofd?.Dispose();
+         }
+     }
+ 
+diff --git a/ShareX.HelpersLib/Native/NativeStructs.cs b/ShareX.HelpersLib/Native/NativeStructs.cs
+index 76832dfbf..e68a000d4 100644
+--- a/ShareX.HelpersLib/Native/NativeStructs.cs
++++ b/ShareX.HelpersLib/Native/NativeStructs.cs
+@@ -153,14 +153,14 @@ public bool Equals(RECT r)
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is RECT)
++            if (obj is RECT rECT)
+             {
+-                return Equals((RECT)obj);
++                return Equals(rECT);
+             }
+ 
+-            if (obj is Rectangle)
++            if (obj is Rectangle rectangle)
+             {
+-                return Equals(new RECT((Rectangle)obj));
++                return Equals(new RECT(rectangle));
+             }
+ 
+             return false;
+@@ -201,7 +201,7 @@ public SIZE(int width, int height)
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0}x{1}", Width, Height);
++            return $"{Width}x{Height}";
+         }
+     }
+ 
+diff --git a/ShareX.HelpersLib/PingResult.cs b/ShareX.HelpersLib/PingResult.cs
+index 9346e23c7..49f1104d2 100644
+--- a/ShareX.HelpersLib/PingResult.cs
++++ b/ShareX.HelpersLib/PingResult.cs
+@@ -74,13 +74,13 @@ public override string ToString()
+                     switch (pingReply.Status)
+                     {
+                         case IPStatus.Success:
+-                            sb.AppendLine(string.Format("Reply from {0}: bytes={1} time={2}ms TTL={3}", pingReply.Address, pingReply.Buffer.Length, pingReply.RoundtripTime, pingReply.Options.Ttl));
++                            sb.AppendLine($"Reply from {pingReply.Address}: bytes={pingReply.Buffer.Length} time={pingReply.RoundtripTime}ms TTL={pingReply.Options.Ttl}");
+                             break;
+                         case IPStatus.TimedOut:
+                             sb.AppendLine("Request timed out.");
+                             break;
+                         default:
+-                            sb.AppendLine(string.Format("Ping failed: {0}", pingReply.Status.ToString()));
++                            sb.AppendLine($"Ping failed: {pingReply.Status.ToString()}");
+                             break;
+                     }
+                 }
+@@ -88,7 +88,7 @@ public override string ToString()
+ 
+             if (PingReplyList.Any(x => x.Status == IPStatus.Success))
+             {
+-                sb.AppendLine(string.Format("Minimum = {0}ms, Maximum = {1}ms, Average = {2}ms", Min, Max, Average));
++                sb.AppendLine($"Minimum = {Min}ms, Maximum = {Max}ms, Average = {Average}ms");
+             }
+ 
+             return sb.ToString().Trim();
+diff --git a/ShareX.HelpersLib/ProxyInfo.cs b/ShareX.HelpersLib/ProxyInfo.cs
+index 83d829447..f44579d67 100644
+--- a/ShareX.HelpersLib/ProxyInfo.cs
++++ b/ShareX.HelpersLib/ProxyInfo.cs
+@@ -53,7 +53,7 @@ public bool IsValidProxy()
+             {
+                 WebProxy systemProxy = GetDefaultWebProxy();
+ 
+-                if (systemProxy != null && systemProxy.Address != null && !string.IsNullOrEmpty(systemProxy.Address.Host) && systemProxy.Address.Port > 0)
++                if (systemProxy?.Address != null && !string.IsNullOrEmpty(systemProxy.Address.Host) && systemProxy.Address.Port > 0)
+                 {
+                     Host = systemProxy.Address.Host;
+                     Port = systemProxy.Address.Port;
+@@ -71,7 +71,7 @@ public IWebProxy GetWebProxy()
+                 if (IsValidProxy())
+                 {
+                     NetworkCredential credentials = new NetworkCredential(Username, Password);
+-                    string address = string.Format("{0}:{1}", Host, Port);
++                    string address = $"{Host}:{Port}";
+                     return new WebProxy(address, true, null, credentials);
+                 }
+             }
+@@ -101,7 +101,7 @@ private WebProxy GetDefaultWebProxy()
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0} - {1}:{2}", Username, Host, Port);
++            return $"{Username} - {Host}:{Port}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX.HelpersLib/TextBoxTraceListener.cs b/ShareX.HelpersLib/TextBoxTraceListener.cs
+index cdb4f6feb..229440619 100644
+--- a/ShareX.HelpersLib/TextBoxTraceListener.cs
++++ b/ShareX.HelpersLib/TextBoxTraceListener.cs
+@@ -42,7 +42,7 @@ public override void Write(string message)
+         {
+             textBox.InvokeSafe(() =>
+             {
+-                string text = string.Format("{0} - {1}", DateTime.Now.ToLongTimeString(), message);
++                string text = $"{DateTime.Now.ToLongTimeString()} - {message}";
+                 textBox.AppendText(text);
+             });
+         }
+diff --git a/ShareX.HelpersLib/UpdateChecker/XMLUpdateChecker.cs b/ShareX.HelpersLib/UpdateChecker/XMLUpdateChecker.cs
+index 963c2d32b..f757cd681 100644
+--- a/ShareX.HelpersLib/UpdateChecker/XMLUpdateChecker.cs
++++ b/ShareX.HelpersLib/UpdateChecker/XMLUpdateChecker.cs
+@@ -76,7 +76,7 @@ public override void CheckUpdate()
+                                     break;
+                             }
+ 
+-                            string path = string.Format("Update/{0}/{1}", ApplicationName, node);
++                            string path = $"Update/{ApplicationName}/{node}";
+                             XElement xe = xd.GetNode(path);
+ 
+                             if (xe != null)
+diff --git a/ShareX.HelpersLib/Vector2.cs b/ShareX.HelpersLib/Vector2.cs
+index 45586b98f..06a59142e 100644
+--- a/ShareX.HelpersLib/Vector2.cs
++++ b/ShareX.HelpersLib/Vector2.cs
+@@ -66,9 +66,8 @@ public Vector2(float x, float y)
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is Vector2)
++            if (obj is Vector2 v)
+             {
+-                Vector2 v = (Vector2)obj;
+                 return v.x == x && v.y == y;
+             }
+ 
+diff --git a/ShareX.HelpersLib/XmlColor.cs b/ShareX.HelpersLib/XmlColor.cs
+index 4338b708d..a6f5d6dc6 100644
+--- a/ShareX.HelpersLib/XmlColor.cs
++++ b/ShareX.HelpersLib/XmlColor.cs
+@@ -68,7 +68,7 @@ public int ToArgb()
+ 
+         public override string ToString()
+         {
+-            return string.Format("A:{0}, R:{1}, G:{2}, B:{3}", A, R, G, B);
++            return $"A:{A}, R:{R}, G:{G}, B:{B}";
+         }
+ 
+         public static implicit operator Color(XmlColor color)
+diff --git a/ShareX.HelpersLib/XmlFont.cs b/ShareX.HelpersLib/XmlFont.cs
+index 79761726c..4a8017fd8 100644
+--- a/ShareX.HelpersLib/XmlFont.cs
++++ b/ShareX.HelpersLib/XmlFont.cs
+@@ -91,7 +91,7 @@ public Font ToFont()
+ 
+         public override string ToString()
+         {
+-            string text = string.Format("{0}; {1}", FontFamily, Size);
++            string text = $"{FontFamily}; {Size}";
+ 
+             if (Style != FontStyle.Regular)
+             {
+diff --git a/ShareX.HistoryLib/Forms/HistoryForm.cs b/ShareX.HistoryLib/Forms/HistoryForm.cs
+index ec7d6e059..f43e9b5d1 100644
+--- a/ShareX.HistoryLib/Forms/HistoryForm.cs
++++ b/ShareX.HistoryLib/Forms/HistoryForm.cs
+@@ -104,7 +104,7 @@ private void OutputStats(HistoryItem[] historyItems)
+             IEnumerable<string> types = historyItems.
+                 GroupBy(x => x.Type).
+                 OrderByDescending(x => x.Count()).
+-                Select(x => string.Format("{0}: {1} ({2:N0}%)", x.Key, x.Count(), x.Count() / (float)historyItems.Length * 100));
++                Select(x => $"{x.Key}: {x.Count()} ({x.Count() / (float)historyItems.Length * 100:N0}%)");
+ 
+             rtbStats.AppendLine(string.Join(Environment.NewLine, types));
+ 
+@@ -116,7 +116,7 @@ private void OutputStats(HistoryItem[] historyItems)
+             IEnumerable<string> yearlyUsages = historyItems.
+                 GroupBy(x => x.DateTime.Year).
+                 OrderByDescending(x => x.Key).
+-                Select(x => string.Format("{0}: {1} ({2:N0}%)", x.Key, x.Count(), x.Count() / (float)historyItems.Length * 100));
++                Select(x => $"{x.Key}: {x.Count()} ({x.Count() / (float)historyItems.Length * 100:N0}%)");
+ 
+             rtbStats.AppendLine(string.Join(Environment.NewLine, yearlyUsages));
+ 
+@@ -130,7 +130,7 @@ private void OutputStats(HistoryItem[] historyItems)
+                 Select(x => Helpers.GetFilenameExtension(x.FileName)).
+                 GroupBy(x => x).
+                 OrderByDescending(x => x.Count()).
+-                Select(x => string.Format("{0} ({1})", x.Key, x.Count()));
++                Select(x => $"{x.Key} ({x.Count()})");
+ 
+             rtbStats.AppendLine(string.Join(Environment.NewLine, fileExtensions));
+ 
+@@ -142,7 +142,7 @@ private void OutputStats(HistoryItem[] historyItems)
+             IEnumerable<string> hosts = historyItems.
+                 GroupBy(x => x.Host).
+                 OrderByDescending(x => x.Count()).
+-                Select(x => string.Format("{0} ({1})", x.Key, x.Count()));
++                Select(x => $"{x.Key} ({x.Count()})");
+ 
+             rtbStats.AppendLine(string.Join(Environment.NewLine, hosts));
+         }
+@@ -299,7 +299,7 @@ private void UpdateTitle(HistoryItem[] historyItems = null)
+                 IEnumerable<string> types = historyItems.
+                     GroupBy(x => x.Type).
+                     OrderByDescending(x => x.Count()).
+-                    Select(x => string.Format(" - {0}: {1}", x.Key, x.Count()));
++                    Select(x => $" - {x.Key}: {x.Count()}");
+ 
+                 foreach (string type in types)
+                 {
+diff --git a/ShareX.HistoryLib/HistoryItemManager.cs b/ShareX.HistoryLib/HistoryItemManager.cs
+index 00ca9eec8..33d1d6a62 100644
+--- a/ShareX.HistoryLib/HistoryItemManager.cs
++++ b/ShareX.HistoryLib/HistoryItemManager.cs
+@@ -278,7 +278,7 @@ public void CopyHTMLImage()
+             HistoryItem[] historyItems = OnGetHistoryItems();
+             if (historyItems != null)
+             {
+-                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL)).Select(x => string.Format("<img src=\"{0}\"/>", x.URL)).ToArray();
++                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL)).Select(x => $"<img src=\"{x.URL}\"/>").ToArray();
+ 
+                 if (array != null && array.Length > 0)
+                 {
+@@ -297,7 +297,7 @@ public void CopyHTMLLinkedImage()
+             HistoryItem[] historyItems = OnGetHistoryItems();
+             if (historyItems != null)
+             {
+-                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL) && !string.IsNullOrEmpty(x.ThumbnailURL)).Select(x => string.Format("<a href=\"{0}\"><img src=\"{1}\"/></a>", x.URL, x.ThumbnailURL)).ToArray();
++                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL) && !string.IsNullOrEmpty(x.ThumbnailURL)).Select(x => $"<a href=\"{x.URL}\"><img src=\"{x.ThumbnailURL}\"/></a>").ToArray();
+ 
+                 if (array != null && array.Length > 0)
+                 {
+@@ -316,7 +316,7 @@ public void CopyForumLink()
+             HistoryItem[] historyItems = OnGetHistoryItems();
+             if (historyItems != null)
+             {
+-                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL)).Select(x => string.Format("[url]{0}[/url]", x.URL)).ToArray();
++                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL)).Select(x => $"[url]{x.URL}[/url]").ToArray();
+ 
+                 if (array != null && array.Length > 0)
+                 {
+@@ -335,7 +335,7 @@ public void CopyForumImage()
+             HistoryItem[] historyItems = OnGetHistoryItems();
+             if (historyItems != null)
+             {
+-                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL)).Select(x => string.Format("[img]{0}[/img]", x.URL)).ToArray();
++                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL)).Select(x => $"[img]{x.URL}[/img]").ToArray();
+ 
+                 if (array != null && array.Length > 0)
+                 {
+@@ -354,7 +354,7 @@ public void CopyForumLinkedImage()
+             HistoryItem[] historyItems = OnGetHistoryItems();
+             if (historyItems != null)
+             {
+-                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL) && !string.IsNullOrEmpty(x.ThumbnailURL)).Select(x => string.Format("[url={0}][img]{1}[/img][/url]", x.URL, x.ThumbnailURL)).ToArray();
++                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL) && !string.IsNullOrEmpty(x.ThumbnailURL)).Select(x => $"[url={x.URL}][img]{x.ThumbnailURL}[/img][/url]").ToArray();
+ 
+                 if (array != null && array.Length > 0)
+                 {
+@@ -373,7 +373,7 @@ public void CopyMarkdownLink()
+             HistoryItem[] historyItems = OnGetHistoryItems();
+             if (historyItems != null)
+             {
+-                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL)).Select(x => string.Format("[{0}]({1})", x.FileName, x.URL)).ToArray();
++                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL)).Select(x => $"[{x.FileName}]({x.URL})").ToArray();
+ 
+                 if (array != null && array.Length > 0)
+                 {
+@@ -392,7 +392,7 @@ public void CopyMarkdownImage()
+             HistoryItem[] historyItems = OnGetHistoryItems();
+             if (historyItems != null)
+             {
+-                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL)).Select(x => string.Format("![{0}]({1})", x.FileName, x.URL)).ToArray();
++                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL)).Select(x => $"![{x.FileName}]({x.URL})").ToArray();
+ 
+                 if (array != null && array.Length > 0)
+                 {
+@@ -411,7 +411,7 @@ public void CopyMarkdownLinkedImage()
+             HistoryItem[] historyItems = OnGetHistoryItems();
+             if (historyItems != null)
+             {
+-                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL) && !string.IsNullOrEmpty(x.ThumbnailURL)).Select(x => string.Format("[![{0}]({1})]({2})", x.FileName, x.ThumbnailURL, x.URL)).ToArray();
++                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL) && Helpers.IsImageFile(x.URL) && !string.IsNullOrEmpty(x.ThumbnailURL)).Select(x => $"[![{x.FileName}]({x.ThumbnailURL})]({x.URL})").ToArray();
+ 
+                 if (array != null && array.Length > 0)
+                 {
+diff --git a/ShareX.HistoryLib/HistoryManagerXML.cs b/ShareX.HistoryLib/HistoryManagerXML.cs
+index 99d7b232c..9dd5f500f 100644
+--- a/ShareX.HistoryLib/HistoryManagerXML.cs
++++ b/ShareX.HistoryLib/HistoryManagerXML.cs
+@@ -64,9 +64,7 @@ protected override List<HistoryItem> Load(string filePath)
+                         {
+                             if (reader.NodeType == XmlNodeType.Element && reader.Name == "HistoryItem")
+                             {
+-                                XElement element = XNode.ReadFrom(reader) as XElement;
+-
+-                                if (element != null)
++                                if (XNode.ReadFrom(reader) is XElement element)
+                                 {
+                                     HistoryItem hi = ParseHistoryItem(element);
+                                     historyItemList.Add(hi);
+diff --git a/ShareX.ImageEffectsLib/Forms/ImageEffectsForm.cs b/ShareX.ImageEffectsLib/Forms/ImageEffectsForm.cs
+index dc9f2084a..58009eee2 100644
+--- a/ShareX.ImageEffectsLib/Forms/ImageEffectsForm.cs
++++ b/ShareX.ImageEffectsLib/Forms/ImageEffectsForm.cs
+@@ -392,9 +392,7 @@ private void tsmiEffectClick(object sender, EventArgs e)
+ 
+             if (preset != null)
+             {
+-                ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+-
+-                if (tsmi != null && tsmi.Tag is Type)
++                if (sender is ToolStripMenuItem tsmi && tsmi.Tag is Type)
+                 {
+                     Type type = (Type)tsmi.Tag;
+                     ImageEffect imageEffect = (ImageEffect)Activator.CreateInstance(type);
+@@ -500,9 +498,7 @@ private void ImageEffectsForm_DragEnter(object sender, DragEventArgs e)
+         {
+             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+             {
+-                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+-
+-                if (files != null && files.Any(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxie")))
++                if (e.Data.GetData(DataFormats.FileDrop, false) is string[] files && files.Any(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxie")))
+                 {
+                     e.Effect = DragDropEffects.Copy;
+                 }
+@@ -521,9 +517,7 @@ private void ImageEffectsForm_DragDrop(object sender, DragEventArgs e)
+         {
+             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+             {
+-                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+-
+-                if (files != null)
++                if (e.Data.GetData(DataFormats.FileDrop, false) is string[] files)
+                 {
+                     foreach (string filePath in files.Where(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxie")))
+                     {
+@@ -825,9 +819,7 @@ private void pbResult_DragDrop(object sender, DragEventArgs e)
+         {
+             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+             {
+-                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+-
+-                if (files != null && files.Length > 0)
++                if (e.Data.GetData(DataFormats.FileDrop, false) is string[] files && files.Length > 0)
+                 {
+                     if (Helpers.IsImageFile(files[0]))
+                     {
+@@ -839,9 +831,7 @@ private void pbResult_DragDrop(object sender, DragEventArgs e)
+             }
+             else if (e.Data.GetDataPresent(DataFormats.Bitmap, false))
+             {
+-                Bitmap bmp = e.Data.GetData(DataFormats.Bitmap, false) as Bitmap;
+-
+-                if (bmp != null)
++                if (e.Data.GetData(DataFormats.Bitmap, false) is Bitmap bmp)
+                 {
+                     if (PreviewImage != null) PreviewImage.Dispose();
+                     PreviewImage = bmp;
+diff --git a/ShareX.IndexerLib/IndexerText.cs b/ShareX.IndexerLib/IndexerText.cs
+index fac892704..15bbc1aa6 100644
+--- a/ShareX.IndexerLib/IndexerText.cs
++++ b/ShareX.IndexerLib/IndexerText.cs
+@@ -88,11 +88,11 @@ protected override void IndexFolder(FolderInfo dir, int level = 0)
+ 
+         private string GetFolderNameRow(FolderInfo dir, int level)
+         {
+-            string folderNameRow = string.Format("{0}{1}", settings.IndentationText.Repeat(level), dir.FolderName);
++            string folderNameRow = $"{settings.IndentationText.Repeat(level)}{dir.FolderName}";
+ 
+             if (settings.ShowSizeInfo && dir.Size > 0)
+             {
+-                folderNameRow += string.Format(" [{0}]", dir.Size.ToSizeString(settings.BinaryUnits));
++                folderNameRow += $" [{dir.Size.ToSizeString(settings.BinaryUnits)}]";
+             }
+ 
+             return folderNameRow;
+@@ -104,7 +104,7 @@ private string GetFileNameRow(FileInfo fi, int level)
+ 
+             if (settings.ShowSizeInfo)
+             {
+-                fileNameRow += string.Format(" [{0}]", fi.Length.ToSizeString(settings.BinaryUnits));
++                fileNameRow += $" [{fi.Length.ToSizeString(settings.BinaryUnits)}]";
+             }
+ 
+             return fileNameRow;
+diff --git a/ShareX.MediaLib/Forms/ImageCombinerForm.cs b/ShareX.MediaLib/Forms/ImageCombinerForm.cs
+index dcd90b102..997672be4 100644
+--- a/ShareX.MediaLib/Forms/ImageCombinerForm.cs
++++ b/ShareX.MediaLib/Forms/ImageCombinerForm.cs
+@@ -205,10 +205,7 @@ private void btnCombine_Click(object sender, EventArgs e)
+                     {
+                         foreach (Bitmap image in images)
+                         {
+-                            if (image != null)
+-                            {
+-                                image.Dispose();
+-                            }
++                            image?.Dispose();
+                         }
+                     }
+                 }
+@@ -239,9 +236,7 @@ private void ImageCombinerForm_DragDrop(object sender, DragEventArgs e)
+         {
+             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+             {
+-                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+-
+-                if (files != null)
++                if (e.Data.GetData(DataFormats.FileDrop, false) is string[] files)
+                 {
+                     foreach (string file in files)
+                     {
+diff --git a/ShareX.MediaLib/Forms/ImageThumbnailerForm.cs b/ShareX.MediaLib/Forms/ImageThumbnailerForm.cs
+index 52e410df4..96b485469 100644
+--- a/ShareX.MediaLib/Forms/ImageThumbnailerForm.cs
++++ b/ShareX.MediaLib/Forms/ImageThumbnailerForm.cs
+@@ -107,9 +107,7 @@ private void lvImages_DragDrop(object sender, DragEventArgs e)
+         {
+             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+             {
+-                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+-
+-                if (files != null)
++                if (e.Data.GetData(DataFormats.FileDrop, false) is string[] files)
+                 {
+                     foreach (string file in files)
+                     {
+diff --git a/ShareX.MediaLib/Forms/VideoConverterForm.cs b/ShareX.MediaLib/Forms/VideoConverterForm.cs
+index 2c3355005..9b547591e 100644
+--- a/ShareX.MediaLib/Forms/VideoConverterForm.cs
++++ b/ShareX.MediaLib/Forms/VideoConverterForm.cs
+@@ -282,20 +282,14 @@ private async void btnEncode_Click(object sender, EventArgs e)
+ 
+                 encoding = false;
+             }
+-            else if (ffmpeg != null)
+-            {
+-                ffmpeg.Close();
+-            }
++            else ffmpeg?.Close();
+         }
+ 
+         private void VideoConverterForm_FormClosing(object sender, FormClosingEventArgs e)
+         {
+             formClosing = true;
+ 
+-            if (ffmpeg != null)
+-            {
+-                ffmpeg.Close();
+-            }
++            ffmpeg?.Close();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX.MediaLib/VideoInfo.cs b/ShareX.MediaLib/VideoInfo.cs
+index 4dad5b1e0..74f10801a 100644
+--- a/ShareX.MediaLib/VideoInfo.cs
++++ b/ShareX.MediaLib/VideoInfo.cs
+@@ -46,17 +46,16 @@ public class VideoInfo
+ 
+         public override string ToString()
+         {
+-            string text = string.Format("Filename: {0}, Duration: {1}, Bitrate: {2} kb/s", Path.GetFileName(FilePath), Duration.ToString(@"hh\:mm\:s"), Bitrate);
++            string text = $"Filename: {Path.GetFileName(FilePath)}, Duration: {Duration.ToString(@"hh\:mm\:s")}, Bitrate: {Bitrate} kb/s";
+ 
+             if (!string.IsNullOrEmpty(VideoCodec))
+             {
+-                text += string.Format(", Video codec: {0}, Resolution: {1}x{2}, FPS: {3}", VideoCodec, VideoResolution.Width, VideoResolution.Height,
+-                    VideoFPS.ToString("0.##", CultureInfo.InvariantCulture));
++                text += $", Video codec: {VideoCodec}, Resolution: {VideoResolution.Width}x{VideoResolution.Height}, FPS: {VideoFPS.ToString("0.##", CultureInfo.InvariantCulture)}";
+             }
+ 
+             if (!string.IsNullOrEmpty(AudioCodec))
+             {
+-                text += string.Format(", Audio codec: {0}", AudioCodec);
++                text += $", Audio codec: {AudioCodec}";
+             }
+ 
+             return text;
+diff --git a/ShareX.MediaLib/VideoThumbnailer.cs b/ShareX.MediaLib/VideoThumbnailer.cs
+index d0d9ae88d..37cedb61c 100644
+--- a/ShareX.MediaLib/VideoThumbnailer.cs
++++ b/ShareX.MediaLib/VideoThumbnailer.cs
+@@ -84,7 +84,7 @@ public List<VideoThumbnailInfo> TakeThumbnails(string mediaPath)
+                     timeSliceElapsed = GetTimeSlice(Options.ThumbnailCount) * (i + 1);
+                 }
+ 
+-                string filename = string.Format("{0}-{1}.{2}", mediaFileName, timeSliceElapsed, Options.ImageFormat.GetDescription());
++                string filename = $"{mediaFileName}-{timeSliceElapsed}.{Options.ImageFormat.GetDescription()}";
+                 string tempThumbnailPath = Path.Combine(GetOutputDirectory(), filename);
+ 
+                 using (Process process = new Process())
+@@ -318,10 +318,7 @@ private Image CombineScreenshots(List<VideoThumbnailInfo> thumbnails)
+             }
+             catch
+             {
+-                if (finalImage != null)
+-                {
+-                    finalImage.Dispose();
+-                }
++                finalImage?.Dispose();
+ 
+                 throw;
+             }
+@@ -329,10 +326,7 @@ private Image CombineScreenshots(List<VideoThumbnailInfo> thumbnails)
+             {
+                 foreach (Bitmap image in images)
+                 {
+-                    if (image != null)
+-                    {
+-                        image.Dispose();
+-                    }
++                    image?.Dispose();
+                 }
+             }
+         }
+diff --git a/ShareX.ScreenCaptureLib/Forms/FFmpegOptionsForm.cs b/ShareX.ScreenCaptureLib/Forms/FFmpegOptionsForm.cs
+index 84aa22d9d..1e4780b21 100644
+--- a/ShareX.ScreenCaptureLib/Forms/FFmpegOptionsForm.cs
++++ b/ShareX.ScreenCaptureLib/Forms/FFmpegOptionsForm.cs
+@@ -606,9 +606,7 @@ private object eiFFmpeg_ExportRequested()
+ 
+         private async void eiFFmpeg_ImportRequested(object obj)
+         {
+-            FFmpegOptions ffmpegOptions = obj as FFmpegOptions;
+-
+-            if (ffmpegOptions != null)
++            if (obj is FFmpegOptions ffmpegOptions)
+             {
+                 string tempFFmpegPath = Options.FFmpeg.CLIPath;
+                 Options.FFmpeg = ffmpegOptions;
+diff --git a/ShareX.ScreenCaptureLib/Forms/RegionCaptureForm.cs b/ShareX.ScreenCaptureLib/Forms/RegionCaptureForm.cs
+index 9b223588b..61acfaab5 100644
+--- a/ShareX.ScreenCaptureLib/Forms/RegionCaptureForm.cs
++++ b/ShareX.ScreenCaptureLib/Forms/RegionCaptureForm.cs
+@@ -417,15 +417,9 @@ private void Pan(int deltaX, int deltaY, bool usePanningStretch = true)
+ 
+             CanvasRectangle = CanvasRectangle.LocationOffset(deltaX, deltaY);
+ 
+-            if (backgroundBrush != null)
+-            {
+-                backgroundBrush.TranslateTransform(deltaX, deltaY);
+-            }
++            backgroundBrush?.TranslateTransform(deltaX, deltaY);
+ 
+-            if (ShapeManager != null)
+-            {
+-                ShapeManager.MoveAll(deltaX, deltaY);
+-            }
++            ShapeManager?.MoveAll(deltaX, deltaY);
+         }
+ 
+         private void Pan(Point delta)
+@@ -682,10 +676,7 @@ public WindowInfo GetWindowInfo()
+ 
+         public void AddCursor(IntPtr cursorHandle, Point position)
+         {
+-            if (ShapeManager != null)
+-            {
+-                ShapeManager.AddCursor(cursorHandle, position);
+-            }
++            ShapeManager?.AddCursor(cursorHandle, position);
+         }
+ 
+         private void UpdateCoordinates()
+diff --git a/ShareX.ScreenCaptureLib/Forms/ScrollingCaptureForm.cs b/ShareX.ScreenCaptureLib/Forms/ScrollingCaptureForm.cs
+index 46440d42d..4226003ce 100644
+--- a/ShareX.ScreenCaptureLib/Forms/ScrollingCaptureForm.cs
++++ b/ShareX.ScreenCaptureLib/Forms/ScrollingCaptureForm.cs
+@@ -87,10 +87,7 @@ protected override void Dispose(bool disposing)
+         {
+             if (disposing)
+             {
+-                if (components != null)
+-                {
+-                    components.Dispose();
+-                }
++                components?.Dispose();
+ 
+                 Clean();
+             }
+@@ -246,19 +243,13 @@ private void Clean()
+             {
+                 foreach (Bitmap bmp in images)
+                 {
+-                    if (bmp != null)
+-                    {
+-                        bmp.Dispose();
+-                    }
++                    bmp?.Dispose();
+                 }
+ 
+                 images.Clear();
+             }
+ 
+-            if (Result != null)
+-            {
+-                Result.Dispose();
+-            }
++            Result?.Dispose();
+         }
+ 
+         private void CleanPictureBox(Image img = null)
+@@ -267,10 +258,7 @@ private void CleanPictureBox(Image img = null)
+ 
+             pbOutput.Image = img;
+ 
+-            if (temp != null)
+-            {
+-                temp.Dispose();
+-            }
++            temp?.Dispose();
+         }
+ 
+         private void RemoveDuplicates()
+@@ -617,10 +605,7 @@ private Bitmap CombineImages()
+ 
+             foreach (Bitmap image in output)
+             {
+-                if (image != null)
+-                {
+-                    image.Dispose();
+-                }
++                image?.Dispose();
+             }
+ 
+             output.Clear();
+diff --git a/ShareX.ScreenCaptureLib/Forms/StickerForm.cs b/ShareX.ScreenCaptureLib/Forms/StickerForm.cs
+index a1446e1bd..5b5446e94 100644
+--- a/ShareX.ScreenCaptureLib/Forms/StickerForm.cs
++++ b/ShareX.ScreenCaptureLib/Forms/StickerForm.cs
+@@ -89,9 +89,7 @@ private void LoadImageFiles()
+             imageFiles = null;
+             ilvStickers.Items.Clear();
+ 
+-            StickerPackInfo stickerPack = tscbStickers.SelectedItem as StickerPackInfo;
+-
+-            if (stickerPack != null && !string.IsNullOrEmpty(stickerPack.FolderPath))
++            if (tscbStickers.SelectedItem is StickerPackInfo stickerPack && !string.IsNullOrEmpty(stickerPack.FolderPath))
+             {
+                 string folderPath = Helpers.GetAbsolutePath(stickerPack.FolderPath);
+ 
+diff --git a/ShareX.ScreenCaptureLib/Screencast/HardDiskCache.cs b/ShareX.ScreenCaptureLib/Screencast/HardDiskCache.cs
+index fe33875c7..93d748ea2 100644
+--- a/ShareX.ScreenCaptureLib/Screencast/HardDiskCache.cs
++++ b/ShareX.ScreenCaptureLib/Screencast/HardDiskCache.cs
+@@ -70,10 +70,7 @@ protected override void WriteFrame(Image img)
+ 
+         public override void Dispose()
+         {
+-            if (fsCache != null)
+-            {
+-                fsCache.Dispose();
+-            }
++            fsCache?.Dispose();
+ 
+             base.Dispose();
+         }
+diff --git a/ShareX.ScreenCaptureLib/Screencast/ImageCache.cs b/ShareX.ScreenCaptureLib/Screencast/ImageCache.cs
+index 0b0573436..3dc37f797 100644
+--- a/ShareX.ScreenCaptureLib/Screencast/ImageCache.cs
++++ b/ShareX.ScreenCaptureLib/Screencast/ImageCache.cs
+@@ -111,10 +111,7 @@ public void Finish()
+ 
+         public virtual void Dispose()
+         {
+-            if (imageQueue != null)
+-            {
+-                imageQueue.Dispose();
+-            }
++            imageQueue?.Dispose();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX.ScreenCaptureLib/Screencast/ScreenRecorder.cs b/ShareX.ScreenCaptureLib/Screencast/ScreenRecorder.cs
+index c55771018..775d9ead4 100644
+--- a/ShareX.ScreenCaptureLib/Screencast/ScreenRecorder.cs
++++ b/ShareX.ScreenCaptureLib/Screencast/ScreenRecorder.cs
+@@ -200,15 +200,12 @@ public void StopRecording()
+         {
+             stopRequested = true;
+ 
+-            if (ffmpeg != null)
+-            {
+-                ffmpeg.Close();
+-            }
++            ffmpeg?.Close();
+         }
+ 
+         public void SaveAsGIF(string path, GIFQuality quality)
+         {
+-            if (imgCache != null && imgCache is HardDiskCache && !IsRecording)
++            if (imgCache is HardDiskCache && !IsRecording)
+             {
+                 Helpers.CreateDirectoryFromFilePath(path);
+ 
+@@ -293,15 +290,9 @@ protected void OnEncodingProgressChanged(float progress)
+ 
+         public void Dispose()
+         {
+-            if (ffmpeg != null)
+-            {
+-                ffmpeg.Dispose();
+-            }
++            ffmpeg?.Dispose();
+ 
+-            if (imgCache != null)
+-            {
+-                imgCache.Dispose();
+-            }
++            imgCache?.Dispose();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX.ScreenCaptureLib/Screenshot_Transparent.cs b/ShareX.ScreenCaptureLib/Screenshot_Transparent.cs
+index 32a0cbddb..2ae2493dc 100644
+--- a/ShareX.ScreenCaptureLib/Screenshot_Transparent.cs
++++ b/ShareX.ScreenCaptureLib/Screenshot_Transparent.cs
+@@ -121,10 +121,7 @@ public Bitmap CaptureWindowTransparent(IntPtr handle)
+                         transparentImage = whiteBackground2;
+                     }
+ 
+-                    if (cursorData != null)
+-                    {
+-                        cursorData.DrawCursor(transparentImage, rect.Location);
+-                    }
++                    cursorData?.DrawCursor(transparentImage, rect.Location);
+ 
+                     if (isTransparent)
+                     {
+diff --git a/ShareX.ScreenCaptureLib/Shapes/Drawing/ImageDrawingShape.cs b/ShareX.ScreenCaptureLib/Shapes/Drawing/ImageDrawingShape.cs
+index 84d8f58cc..af5ccbf66 100644
+--- a/ShareX.ScreenCaptureLib/Shapes/Drawing/ImageDrawingShape.cs
++++ b/ShareX.ScreenCaptureLib/Shapes/Drawing/ImageDrawingShape.cs
+@@ -109,10 +109,7 @@ public override void OnMoved()
+ 
+         public override void Dispose()
+         {
+-            if (Image != null)
+-            {
+-                Image.Dispose();
+-            }
++            Image?.Dispose();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX.ScreenCaptureLib/Shapes/Drawing/SpeechBalloonDrawingShape.cs b/ShareX.ScreenCaptureLib/Shapes/Drawing/SpeechBalloonDrawingShape.cs
+index 756a7fb91..0f68643b3 100644
+--- a/ShareX.ScreenCaptureLib/Shapes/Drawing/SpeechBalloonDrawingShape.cs
++++ b/ShareX.ScreenCaptureLib/Shapes/Drawing/SpeechBalloonDrawingShape.cs
+@@ -185,10 +185,7 @@ protected void DrawSpeechBalloon(Graphics g, Color borderColor, int borderSize,
+                 g.ResetClip();
+             }
+ 
+-            if (gpTail != null)
+-            {
+-                gpTail.Dispose();
+-            }
++            gpTail?.Dispose();
+         }
+ 
+         protected GraphicsPath CreateTailPath(Rectangle rect, Point tailPosition)
+diff --git a/ShareX.ScreenCaptureLib/Shapes/Drawing/TextOutlineDrawingShape.cs b/ShareX.ScreenCaptureLib/Shapes/Drawing/TextOutlineDrawingShape.cs
+index 2b8c11659..38bbbb839 100644
+--- a/ShareX.ScreenCaptureLib/Shapes/Drawing/TextOutlineDrawingShape.cs
++++ b/ShareX.ScreenCaptureLib/Shapes/Drawing/TextOutlineDrawingShape.cs
+@@ -134,10 +134,7 @@ protected void DrawTextWithOutline(Graphics g, string text, TextDrawingOptions o
+                     }
+                     finally
+                     {
+-                        if (textBrush != null)
+-                        {
+-                            textBrush.Dispose();
+-                        }
++                        textBrush?.Dispose();
+                     }
+ 
+                     g.SmoothingMode = SmoothingMode.None;
+diff --git a/ShareX.ScreenCaptureLib/Shapes/ShapeManager.cs b/ShareX.ScreenCaptureLib/Shapes/ShapeManager.cs
+index 31351317e..e66dc7348 100644
+--- a/ShareX.ScreenCaptureLib/Shapes/ShapeManager.cs
++++ b/ShareX.ScreenCaptureLib/Shapes/ShapeManager.cs
+@@ -821,10 +821,7 @@ private void ShapeMoved()
+             {
+                 BaseShape shape = CurrentShape;
+ 
+-                if (shape != null)
+-                {
+-                    shape.OnMoved();
+-                }
++                shape?.OnMoved();
+             }
+         }
+ 
+@@ -883,19 +880,13 @@ public void Update()
+ 
+             BaseShape shape = CurrentShape;
+ 
+-            if (shape != null)
+-            {
+-                shape.OnUpdate();
+-            }
++            shape?.OnUpdate();
+ 
+             UpdateCurrentHoverShape();
+ 
+             UpdateNodes();
+ 
+-            if (scrollbarManager != null)
+-            {
+-                scrollbarManager.Update();
+-            }
++            scrollbarManager?.Update();
+         }
+ 
+         public void StartRegionSelection()
+@@ -1334,18 +1325,12 @@ public Bitmap RenderOutputImage(Bitmap bmp, Point offset)
+                 {
+                     foreach (BaseEffectShape shape in EffectShapes)
+                     {
+-                        if (shape != null)
+-                        {
+-                            shape.OnDrawFinal(g, bmpOutput);
+-                        }
++                        shape?.OnDrawFinal(g, bmpOutput);
+                     }
+ 
+                     foreach (BaseDrawingShape shape in DrawingShapes)
+                     {
+-                        if (shape != null)
+-                        {
+-                            shape.OnDraw(g);
+-                        }
++                        shape?.OnDraw(g);
+                     }
+                 }
+ 
+diff --git a/ShareX.UploadersLib/FileUploaders/Box.cs b/ShareX.UploadersLib/FileUploaders/Box.cs
+index a266d5947..7e3f6b933 100644
+--- a/ShareX.UploadersLib/FileUploaders/Box.cs
++++ b/ShareX.UploadersLib/FileUploaders/Box.cs
+@@ -180,7 +180,7 @@ public BoxFileInfo GetFiles(string id)
+                 return null;
+             }
+ 
+-            string url = string.Format("https://api.box.com/2.0/folders/{0}/items", id);
++            string url = $"https://api.box.com/2.0/folders/{id}/items";
+ 
+             string response = SendRequest(HttpMethod.GET, url, headers: GetAuthHeaders());
+ 
+@@ -200,7 +200,7 @@ public string CreateSharedLink(string id, BoxShareAccessLevel accessLevel)
+             {
+                 BoxFileEntry fileEntry = JsonConvert.DeserializeObject<BoxFileEntry>(response);
+ 
+-                if (fileEntry != null && fileEntry.shared_link != null)
++                if (fileEntry?.shared_link != null)
+                 {
+                     return fileEntry.shared_link.url;
+                 }
+@@ -230,7 +230,7 @@ public override UploadResult Upload(Stream stream, string fileName)
+             {
+                 BoxFileInfo fileInfo = JsonConvert.DeserializeObject<BoxFileInfo>(result.Response);
+ 
+-                if (fileInfo != null && fileInfo.entries != null && fileInfo.entries.Length > 0)
++                if (fileInfo?.entries != null && fileInfo.entries.Length > 0)
+                 {
+                     BoxFileEntry fileEntry = fileInfo.entries[0];
+ 
+@@ -241,7 +241,7 @@ public override UploadResult Upload(Stream stream, string fileName)
+                     }
+                     else
+                     {
+-                        result.URL = string.Format("https://app.box.com/files/0/f/{0}/1/f_{1}", fileEntry.parent.id, fileEntry.id);
++                        result.URL = $"https://app.box.com/files/0/f/{fileEntry.parent.id}/1/f_{fileEntry.id}";
+                     }
+                 }
+             }
+diff --git a/ShareX.UploadersLib/FileUploaders/Copy.cs b/ShareX.UploadersLib/FileUploaders/Copy.cs
+index ad9871ec5..9d749f037 100644
+--- a/ShareX.UploadersLib/FileUploaders/Copy.cs
++++ b/ShareX.UploadersLib/FileUploaders/Copy.cs
+@@ -150,7 +150,7 @@ public UploadResult UploadFile(Stream stream, string path, string fileName)
+             {
+                 CopyUploadInfo content = JsonConvert.DeserializeObject<CopyUploadInfo>(result.Response);
+ 
+-                if (content != null && content.objects != null && content.objects.Length > 0)
++                if (content?.objects != null && content.objects.Length > 0)
+                 {
+                     AllowReportProgress = false;
+                     result.URL = CreatePublicURL(content.objects[0].path, URLType);
+@@ -198,11 +198,11 @@ public string GetLinkURL(CopyLinksInfo link, string path, CopyURLType urlType =
+             {
+                 default:
+                 case CopyURLType.Default:
+-                    return string.Format("https://www.copy.com/s/{0}/{1}", link.id, filename);
++                    return $"https://www.copy.com/s/{link.id}/{filename}";
+                 case CopyURLType.Shortened:
+-                    return string.Format("https://copy.com/{0}", link.id);
++                    return $"https://copy.com/{link.id}";
+                 case CopyURLType.Direct:
+-                    return string.Format("https://copy.com/{0}/{1}", link.id, filename);
++                    return $"https://copy.com/{link.id}/{filename}";
+             }
+         }
+ 
+diff --git a/ShareX.UploadersLib/FileUploaders/DropIO.cs b/ShareX.UploadersLib/FileUploaders/DropIO.cs
+index 7edda716c..5321f0e23 100644
+--- a/ShareX.UploadersLib/FileUploaders/DropIO.cs
++++ b/ShareX.UploadersLib/FileUploaders/DropIO.cs
+@@ -75,7 +75,7 @@ public override UploadResult Upload(Stream stream, string fileName)
+             if (result.IsSuccess)
+             {
+                 Asset asset = ParseAsset(result.Response);
+-                result.URL = string.Format("http://drop.io/{0}/asset/{1}", drop.Name, asset.Name);
++                result.URL = $"http://drop.io/{drop.Name}/asset/{asset.Name}";
+             }
+ 
+             return result;
+diff --git a/ShareX.UploadersLib/FileUploaders/Dropbox.cs b/ShareX.UploadersLib/FileUploaders/Dropbox.cs
+index 55783dd76..0d85a3e0f 100644
+--- a/ShareX.UploadersLib/FileUploaders/Dropbox.cs
++++ b/ShareX.UploadersLib/FileUploaders/Dropbox.cs
+@@ -307,7 +307,7 @@ public string CreateShareableLink(string path, bool directLink)
+                 {
+                     DropboxListSharedLinksResult result = ListSharedLinks(path, true);
+ 
+-                    if (result != null && result.links != null && result.links.Length > 0)
++                    if (result?.links != null && result.links.Length > 0)
+                     {
+                         linkMetadata = result.links[0];
+                     }
+diff --git a/ShareX.UploadersLib/FileUploaders/FTP.cs b/ShareX.UploadersLib/FileUploaders/FTP.cs
+index 96cb0b544..e6f43ab3a 100644
+--- a/ShareX.UploadersLib/FileUploaders/FTP.cs
++++ b/ShareX.UploadersLib/FileUploaders/FTP.cs
+@@ -221,10 +221,7 @@ public bool Connect()
+ 
+         public void Disconnect()
+         {
+-            if (client != null)
+-            {
+-                client.Disconnect();
+-            }
++            client?.Disconnect();
+         }
+ 
+         public bool UploadData(Stream localStream, string remotePath)
+diff --git a/ShareX.UploadersLib/FileUploaders/FTPAccount.cs b/ShareX.UploadersLib/FileUploaders/FTPAccount.cs
+index b898bf4e2..ee6be170f 100644
+--- a/ShareX.UploadersLib/FileUploaders/FTPAccount.cs
++++ b/ShareX.UploadersLib/FileUploaders/FTPAccount.cs
+@@ -95,7 +95,7 @@ public string FTPAddress
+                         break;
+                 }
+ 
+-                return string.Format("{0}{1}:{2}", serverProtocol, Host, Port);
++                return $"{serverProtocol}{Host}:{Port}";
+             }
+         }
+ 
+diff --git a/ShareX.UploadersLib/FileUploaders/GoogleDrive.cs b/ShareX.UploadersLib/FileUploaders/GoogleDrive.cs
+index 3602eb37d..c4c955d18 100644
+--- a/ShareX.UploadersLib/FileUploaders/GoogleDrive.cs
++++ b/ShareX.UploadersLib/FileUploaders/GoogleDrive.cs
+@@ -151,7 +151,7 @@ private void SetPermissions(string fileID, GoogleDrivePermissionRole role, Googl
+         {
+             if (!CheckAuthorization()) return;
+ 
+-            string url = string.Format("https://www.googleapis.com/drive/v3/files/{0}/permissions?supportsAllDrives=true", fileID);
++            string url = $"https://www.googleapis.com/drive/v3/files/{fileID}/permissions?supportsAllDrives=true";
+ 
+             string json = JsonConvert.SerializeObject(new
+             {
+diff --git a/ShareX.UploadersLib/FileUploaders/Hostr.cs b/ShareX.UploadersLib/FileUploaders/Hostr.cs
+index 38a1db765..1599da991 100644
+--- a/ShareX.UploadersLib/FileUploaders/Hostr.cs
++++ b/ShareX.UploadersLib/FileUploaders/Hostr.cs
+@@ -83,7 +83,7 @@ public override UploadResult Upload(Stream stream, string fileName)
+                     {
+                         if (DirectURL && response.direct != null)
+                         {
+-                            result.URL = string.Format("http://hostr.co/file/{0}/{1}", response.id, response.name);
++                            result.URL = $"http://hostr.co/file/{response.id}/{response.name}";
+                             result.ThumbnailURL = response.direct.direct_150x;
+                         }
+                         else
+diff --git a/ShareX.UploadersLib/FileUploaders/Jira.cs b/ShareX.UploadersLib/FileUploaders/Jira.cs
+index 29fffb463..6127a9935 100644
+--- a/ShareX.UploadersLib/FileUploaders/Jira.cs
++++ b/ShareX.UploadersLib/FileUploaders/Jira.cs
+@@ -257,7 +257,7 @@ private string GetSummary(string issueId)
+             using (new SSLBypassHelper())
+             {
+                 Dictionary<string, string> args = new Dictionary<string, string>();
+-                args["jql"] = string.Format("issueKey='{0}'", issueId);
++                args["jql"] = $"issueKey='{issueId}'";
+                 args["maxResults"] = "10";
+                 args["fields"] = "summary";
+                 string query = OAuthManager.GenerateQuery(jiraPathSearch.ToString(), args, HttpMethod.GET, AuthInfo);
+diff --git a/ShareX.UploadersLib/FileUploaders/LocalhostAccount.cs b/ShareX.UploadersLib/FileUploaders/LocalhostAccount.cs
+index 88dfae749..136dcfa22 100644
+--- a/ShareX.UploadersLib/FileUploaders/LocalhostAccount.cs
++++ b/ShareX.UploadersLib/FileUploaders/LocalhostAccount.cs
+@@ -162,7 +162,7 @@ public string GetUriPath(string filename)
+ 
+             if (Port != 80)
+             {
+-                path = string.Format("{0}:{1}", path, Port);
++                path = $"{path}:{Port}";
+             }
+ 
+             if (HttpHomePathAutoAddSubFolderPath)
+@@ -206,7 +206,7 @@ public string GetLocalhostUri(string fileName)
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0} - {1}:{2}", Name, Helpers.GetVariableFolderPath(LocalhostRoot), Port);
++            return $"{Name} - {Helpers.GetVariableFolderPath(LocalhostRoot)}:{Port}";
+         }
+ 
+         public LocalhostAccount Clone()
+diff --git a/ShareX.UploadersLib/FileUploaders/MediaFire.cs b/ShareX.UploadersLib/FileUploaders/MediaFire.cs
+index d0d50d407..853800bd0 100644
+--- a/ShareX.UploadersLib/FileUploaders/MediaFire.cs
++++ b/ShareX.UploadersLib/FileUploaders/MediaFire.cs
+@@ -143,7 +143,7 @@ private string PollUpload(string uploadKey, string fileName)
+             if (resp.doupload.result == null || resp.doupload.status == null) throw new IOException("Invalid response");
+             if (resp.doupload.result != 0 || resp.doupload.fileerror != null)
+             {
+-                throw new IOException(string.Format("Couldn't upload the file: {0}", resp.doupload.description ?? "Unknown error"));
++                throw new IOException($"Couldn't upload the file: {resp.doupload.description ?? "Unknown error"}");
+             }
+             if (resp.doupload.status == 99)
+             {
+@@ -159,7 +159,7 @@ private string PollUpload(string uploadKey, string fileName)
+         private void EnsureSuccess(MFResponse resp)
+         {
+             if (resp.result != "Success")
+-                throw new IOException(string.Format("Couldn't upload the file: {0}", resp.message ?? "Unknown error"));
++                throw new IOException($"Couldn't upload the file: {resp.message ?? "Unknown error"}");
+             if (resp.new_key == "yes") NextSignatureKey();
+         }
+ 
+diff --git a/ShareX.UploadersLib/FileUploaders/OneDrive.cs b/ShareX.UploadersLib/FileUploaders/OneDrive.cs
+index 07622671d..18ccc5452 100644
+--- a/ShareX.UploadersLib/FileUploaders/OneDrive.cs
++++ b/ShareX.UploadersLib/FileUploaders/OneDrive.cs
+@@ -296,7 +296,7 @@ public string CreateShareableLink(string id, OneDriveLinkType linkType = OneDriv
+ 
+             OneDrivePermission permissionInfo = JsonConvert.DeserializeObject<OneDrivePermission>(response);
+ 
+-            if (permissionInfo != null && permissionInfo.link != null)
++            if (permissionInfo?.link != null)
+             {
+                 return permissionInfo.link.webUrl;
+             }
+diff --git a/ShareX.UploadersLib/FileUploaders/OwnCloud.cs b/ShareX.UploadersLib/FileUploaders/OwnCloud.cs
+index ff1c37149..96b48b533 100644
+--- a/ShareX.UploadersLib/FileUploaders/OwnCloud.cs
++++ b/ShareX.UploadersLib/FileUploaders/OwnCloud.cs
+@@ -175,7 +175,7 @@ public string ShareFile(string path)
+             {
+                 OwnCloudShareResponse result = JsonConvert.DeserializeObject<OwnCloudShareResponse>(response);
+ 
+-                if (result != null && result.ocs != null && result.ocs.meta != null)
++                if (result?.ocs != null && result.ocs.meta != null)
+                 {
+                     if (result.ocs.data != null && result.ocs.meta.statuscode == 100)
+                     {
+@@ -193,7 +193,7 @@ public string ShareFile(string path)
+                     }
+                     else
+                     {
+-                        Errors.Add(string.Format("Status: {0}\r\nStatus code: {1}\r\nMessage: {2}", result.ocs.meta.status, result.ocs.meta.statuscode, result.ocs.meta.message));
++                        Errors.Add($"Status: {result.ocs.meta.status}\r\nStatus code: {result.ocs.meta.statuscode}\r\nMessage: {result.ocs.meta.message}");
+                     }
+                 }
+             }
+diff --git a/ShareX.UploadersLib/FileUploaders/Pushbullet.cs b/ShareX.UploadersLib/FileUploaders/Pushbullet.cs
+index c56db43c1..fc7934ed0 100644
+--- a/ShareX.UploadersLib/FileUploaders/Pushbullet.cs
++++ b/ShareX.UploadersLib/FileUploaders/Pushbullet.cs
+@@ -180,7 +180,7 @@ public List<PushbulletDevice> GetDeviceList()
+ 
+             PushbulletResponseDevices devicesResponse = JsonConvert.DeserializeObject<PushbulletResponseDevices>(response);
+ 
+-            if (devicesResponse != null && devicesResponse.devices != null)
++            if (devicesResponse?.devices != null)
+             {
+                 return devicesResponse.devices.Where(x => !string.IsNullOrEmpty(x.nickname)).Select(x1 => new PushbulletDevice { Key = x1.iden, Name = x1.nickname }).ToList();
+             }
+diff --git a/ShareX.UploadersLib/FileUploaders/Seafile.cs b/ShareX.UploadersLib/FileUploaders/Seafile.cs
+index eaf57cacf..8c8caad45 100644
+--- a/ShareX.UploadersLib/FileUploaders/Seafile.cs
++++ b/ShareX.UploadersLib/FileUploaders/Seafile.cs
+@@ -144,10 +144,7 @@ public bool CheckAPIURL()
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+@@ -182,10 +179,7 @@ public bool CheckAuthToken()
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+@@ -223,10 +217,7 @@ public SeafileCheckAccInfoResponse GetAccountInfo()
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+@@ -264,10 +255,7 @@ public string GetOrMakeDefaultLibrary(string authtoken = null)
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+@@ -301,10 +289,7 @@ public List<SeafileLibraryObj> GetLibraries()
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+@@ -336,10 +321,7 @@ public bool ValidatePath(string path)
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+@@ -385,10 +367,7 @@ public bool DecryptLibrary(string libraryPassword)
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+@@ -472,10 +451,7 @@ public override UploadResult Upload(Stream stream, string fileName)
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+@@ -507,10 +483,7 @@ public string ShareFile(string path)
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+             }
+         }
+ 
+diff --git a/ShareX.UploadersLib/FileUploaders/SendSpace.cs b/ShareX.UploadersLib/FileUploaders/SendSpace.cs
+index 9a84fe3f9..3ec0dcbbb 100644
+--- a/ShareX.UploadersLib/FileUploaders/SendSpace.cs
++++ b/ShareX.UploadersLib/FileUploaders/SendSpace.cs
+@@ -132,7 +132,7 @@ private ResponsePacket ParseResponse(string response)
+                 packet.ErrorCode = error.Attribute("code").Value;
+                 packet.ErrorText = error.Attribute("text").Value;
+ 
+-                Errors.Add(string.Format("Code: {0}, Method: {1}\r\nText: {2}", packet.ErrorCode, packet.Method, packet.ErrorText));
++                Errors.Add($"Code: {packet.ErrorCode}, Method: {packet.Method}\r\nText: {packet.ErrorText}");
+             }
+ 
+             return packet;
+@@ -613,17 +613,13 @@ public void ParseResponse(string response)
+ 
+                 public override string ToString()
+                 {
+-                    return string.Format("Status: {0}, ETA: {1}, Speed: {2}\r\nBytes: {3}/{4}, Elapsed: {5}, Meter: {6}%",
+-                        Status, ETA, Speed, UploadedBytes, TotalSize, Elapsed, Meter);
++                    return $"Status: {Status}, ETA: {ETA}, Speed: {Speed}\r\nBytes: {UploadedBytes}/{TotalSize}, Elapsed: {Elapsed}, Meter: {Meter}%";
+                 }
+             }
+ 
+             public void Dispose()
+             {
+-                if (cts != null)
+-                {
+-                    cts.Cancel();
+-                }
++                cts?.Cancel();
+             }
+         }
+ 
+diff --git a/ShareX.UploadersLib/Forms/CustomUploaderSettingsForm.cs b/ShareX.UploadersLib/Forms/CustomUploaderSettingsForm.cs
+index 4b57d7bea..67cbbaf82 100644
+--- a/ShareX.UploadersLib/Forms/CustomUploaderSettingsForm.cs
++++ b/ShareX.UploadersLib/Forms/CustomUploaderSettingsForm.cs
+@@ -798,9 +798,7 @@ private void CustomUploaderSettingsForm_DragEnter(object sender, DragEventArgs e
+         {
+             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+             {
+-                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+-
+-                if (files != null && files.Any(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxcu")))
++                if (e.Data.GetData(DataFormats.FileDrop, false) is string[] files && files.Any(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxcu")))
+                 {
+                     e.Effect = DragDropEffects.Copy;
+                 }
+@@ -819,9 +817,7 @@ private void CustomUploaderSettingsForm_DragDrop(object sender, DragEventArgs e)
+         {
+             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+             {
+-                string[] files = e.Data.GetData(DataFormats.FileDrop, false) as string[];
+-
+-                if (files != null)
++                if (e.Data.GetData(DataFormats.FileDrop, false) is string[] files)
+                 {
+                     foreach (string filePath in files.Where(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxcu")))
+                     {
+@@ -1159,16 +1155,16 @@ private void btnCustomUploaderRegexAddSyntax_Click(object sender, EventArgs e)
+                     {
+                         if (match.Groups.Count > 1 && !string.IsNullOrEmpty(match.Groups[1].Value))
+                         {
+-                            syntax = string.Format("$regex:{0}|{1}$", selectedIndex + 1, match.Groups[1].Value);
++                            syntax = $"$regex:{selectedIndex + 1}|{match.Groups[1].Value}$";
+                         }
+                         else
+                         {
+-                            syntax = string.Format("$regex:{0}|1$", selectedIndex + 1);
++                            syntax = $"$regex:{selectedIndex + 1}|1$";
+                         }
+                     }
+                     else
+                     {
+-                        syntax = string.Format("$regex:{0}$", selectedIndex + 1);
++                        syntax = $"$regex:{selectedIndex + 1}$";
+                     }
+ 
+                     AddTextToActiveURLField(syntax);
+diff --git a/ShareX.UploadersLib/Forms/UploadersConfigForm.cs b/ShareX.UploadersLib/Forms/UploadersConfigForm.cs
+index f0e75ef7c..218ed8bf0 100644
+--- a/ShareX.UploadersLib/Forms/UploadersConfigForm.cs
++++ b/ShareX.UploadersLib/Forms/UploadersConfigForm.cs
+@@ -1710,8 +1710,7 @@ private void cbOneDriveCreateShareableLink_CheckedChanged(object sender, EventAr
+ 
+         private void tvOneDrive_AfterSelect(object sender, TreeViewEventArgs e)
+         {
+-            OneDriveFileInfo file = e.Node.Tag as OneDriveFileInfo;
+-            if (file != null)
++            if (e.Node.Tag is OneDriveFileInfo file)
+             {
+                 lblOneDriveFolderID.Text = Resources.UploadersConfigForm_LoadSettings_Selected_folder_ + " " + file.name;
+                 Config.OneDriveV2SelectedFolder = file;
+@@ -1720,8 +1719,7 @@ private void tvOneDrive_AfterSelect(object sender, TreeViewEventArgs e)
+ 
+         private void tvOneDrive_AfterExpand(object sender, TreeViewEventArgs e)
+         {
+-            OneDriveFileInfo file = e.Node.Tag as OneDriveFileInfo;
+-            if (file != null)
++            if (e.Node.Tag is OneDriveFileInfo file)
+             {
+                 OneDriveListFolders(file, e.Node);
+             }
+@@ -1784,8 +1782,8 @@ private void lvGoogleDriveFoldersList_SelectedIndexChanged(object sender, EventA
+             if (lvGoogleDriveFoldersList.SelectedItems.Count > 0)
+             {
+                 ListViewItem lvi = lvGoogleDriveFoldersList.SelectedItems[0];
+-                GoogleDriveFile folder = lvi.Tag as GoogleDriveFile;
+-                if (folder != null)
++
++                if (lvi.Tag is GoogleDriveFile folder)
+                 {
+                     txtGoogleDriveFolderID.Text = folder.id;
+                 }
+@@ -1905,8 +1903,8 @@ private void lvBoxFolders_SelectedIndexChanged(object sender, EventArgs e)
+             if (lvBoxFolders.SelectedItems.Count > 0)
+             {
+                 ListViewItem lvi = lvBoxFolders.SelectedItems[0];
+-                BoxFileEntry file = lvi.Tag as BoxFileEntry;
+-                if (file != null)
++
++                if (lvi.Tag is BoxFileEntry file)
+                 {
+                     lblBoxFolderID.Text = Resources.UploadersConfigForm_LoadSettings_Selected_folder_ + " " + file.name;
+                     Config.BoxSelectedFolder = file;
+@@ -1919,8 +1917,8 @@ private void lvBoxFolders_MouseDoubleClick(object sender, MouseEventArgs e)
+             if (e.Button == MouseButtons.Left && lvBoxFolders.SelectedItems.Count > 0)
+             {
+                 ListViewItem lvi = lvBoxFolders.SelectedItems[0];
+-                BoxFileEntry file = lvi.Tag as BoxFileEntry;
+-                if (file != null)
++
++                if (lvi.Tag is BoxFileEntry file)
+                 {
+                     lvBoxFolders.Items.Clear();
+                     BoxListFolders(file);
+@@ -2148,8 +2146,7 @@ private void btnMegaLogin_Click(object sender, EventArgs e)
+ 
+         private void cbMegaFolder_SelectedIndexChanged(object sender, EventArgs e)
+         {
+-            Mega.DisplayNode selectedNode = ((ComboBox)sender).SelectedItem as Mega.DisplayNode;
+-            if (selectedNode != null)
++            if (((ComboBox)sender).SelectedItem is Mega.DisplayNode selectedNode)
+             {
+                 Config.MegaParentNodeId = selectedNode == Mega.DisplayNode.EmptyNode ? null : selectedNode.Node.Id;
+             }
+@@ -2186,9 +2183,7 @@ private void txtAmazonS3SecretKey_TextChanged(object sender, EventArgs e)
+ 
+         private void cbAmazonS3Endpoints_SelectedIndexChanged(object sender, EventArgs e)
+         {
+-            AmazonS3Endpoint endpoint = cbAmazonS3Endpoints.SelectedItem as AmazonS3Endpoint;
+-
+-            if (endpoint != null)
++            if (cbAmazonS3Endpoints.SelectedItem is AmazonS3Endpoint endpoint)
+             {
+                 txtAmazonS3Region.Text = endpoint.Region;
+                 txtAmazonS3Endpoint.Text = endpoint.Endpoint;
+@@ -2458,9 +2453,7 @@ private void cbLambdaUploadURL_SelectedIndexChanged(object sender, EventArgs e)
+         {
+             if (cbLambdaUploadURL.SelectedIndex > -1)
+             {
+-                string url = cbLambdaUploadURL.SelectedItem as string;
+-
+-                if (url != null)
++                if (cbLambdaUploadURL.SelectedItem is string url)
+                 {
+                     Config.LambdaSettings.UploadURL = url;
+                 }
+diff --git a/ShareX.UploadersLib/Forms/UploadersConfigFormHelper.cs b/ShareX.UploadersLib/Forms/UploadersConfigFormHelper.cs
+index 21dd38cf0..a78656f40 100644
+--- a/ShareX.UploadersLib/Forms/UploadersConfigFormHelper.cs
++++ b/ShareX.UploadersLib/Forms/UploadersConfigFormHelper.cs
+@@ -375,8 +375,8 @@ private void GoogleDriveSelectConfigDrive()
+             string driveID = Config.GoogleDriveSelectedDrive?.id;
+             cbGoogleDriveSharedDrive.SelectedItem = cbGoogleDriveSharedDrive.Items
+                 .OfType<GoogleDriveSharedDrive>()
+-                .Where(x => x.id == driveID)
+-                .FirstOrDefault();
++                .FirstOrDefault(x => x.id == driveID)
++;
+         }
+ 
+         #endregion Google Drive
+@@ -401,7 +401,7 @@ public void BoxListFolders(BoxFileEntry fileEntry)
+             {
+                 Box box = new Box(Config.BoxOAuth2Info);
+                 BoxFileInfo files = box.GetFiles(fileEntry);
+-                if (files != null && files.entries != null && files.entries.Length > 0)
++                if (files?.entries != null && files.entries.Length > 0)
+                 {
+                     foreach (BoxFileEntry folder in files.entries.Where(x => x.type == "folder"))
+                     {
+diff --git a/ShareX.UploadersLib/ImageUploaders/Chevereto.cs b/ShareX.UploadersLib/ImageUploaders/Chevereto.cs
+index 70823b8e8..c5959609d 100644
+--- a/ShareX.UploadersLib/ImageUploaders/Chevereto.cs
++++ b/ShareX.UploadersLib/ImageUploaders/Chevereto.cs
+@@ -81,7 +81,7 @@ public override UploadResult Upload(Stream stream, string fileName)
+             {
+                 CheveretoResponse response = JsonConvert.DeserializeObject<CheveretoResponse>(result.Response);
+ 
+-                if (response != null && response.Image != null)
++                if (response?.Image != null)
+                 {
+                     result.URL = DirectURL ? response.Image.URL : response.Image.URL_Viewer;
+ 
+diff --git a/ShareX.UploadersLib/ImageUploaders/FlickrUploader.cs b/ShareX.UploadersLib/ImageUploaders/FlickrUploader.cs
+index 55a1f7258..877436543 100644
+--- a/ShareX.UploadersLib/ImageUploaders/FlickrUploader.cs
++++ b/ShareX.UploadersLib/ImageUploaders/FlickrUploader.cs
+@@ -129,7 +129,7 @@ public override UploadResult Upload(Stream stream, string fileName)
+                 {
+                     string photoid = xele.Value;
+                     FlickrPhotosGetSizesResponse photos = PhotosGetSizes(photoid);
+-                    if (photos != null && photos.sizes != null && photos.sizes.size != null && photos.sizes.size.Length > 0)
++                    if (photos?.sizes != null && photos.sizes.size != null && photos.sizes.size.Length > 0)
+                     {
+                         FlickrPhotosGetSizesSize photo = photos.sizes.size[photos.sizes.size.Length - 1];
+ 
+diff --git a/ShareX.UploadersLib/ImageUploaders/ImageShackUploader.cs b/ShareX.UploadersLib/ImageUploaders/ImageShackUploader.cs
+index 4f3f746a9..aa9fc2545 100644
+--- a/ShareX.UploadersLib/ImageUploaders/ImageShackUploader.cs
++++ b/ShareX.UploadersLib/ImageUploaders/ImageShackUploader.cs
+@@ -83,7 +83,7 @@ public bool GetAccessToken()
+                 {
+                     ImageShackLoginResponse resp = JsonConvert.DeserializeObject<ImageShackLoginResponse>(response);
+ 
+-                    if (resp != null && resp.result != null && !string.IsNullOrEmpty(resp.result.auth_token))
++                    if (resp?.result != null && !string.IsNullOrEmpty(resp.result.auth_token))
+                     {
+                         Config.Auth_token = resp.result.auth_token;
+                         return true;
+@@ -118,9 +118,8 @@ public override UploadResult Upload(Stream stream, string fileName)
+                         if (uploadResult != null && uploadResult.images.Count > 0)
+                         {
+                             ImageShackImage image = uploadResult.images[0];
+-                            result.URL = string.Format("http://imageshack.com/a/img{0}/{1}/{2}", image.server, image.bucket, image.filename);
+-                            result.ThumbnailURL = string.Format("http://imagizer.imageshack.us/v2/{0}x{1}q90/{2}/{3}",
+-                                Config.ThumbnailWidth, Config.ThumbnailHeight, image.server, image.filename);
++                            result.URL = $"http://imageshack.com/a/img{image.server}/{image.bucket}/{image.filename}";
++                            result.ThumbnailURL = $"http://imagizer.imageshack.us/v2/{Config.ThumbnailWidth}x{Config.ThumbnailHeight}q90/{image.server}/{image.filename}";
+                         }
+                     }
+                     else
+@@ -141,7 +140,7 @@ public class ImageShackErrorInfo
+ 
+             public override string ToString()
+             {
+-                return string.Format("Error message: {0}\r\nError code: {1}", error_message, error_code);
++                return $"Error message: {error_message}\r\nError code: {error_code}";
+             }
+         }
+ 
+diff --git a/ShareX.UploadersLib/ImageUploaders/TwitPicUploader.cs b/ShareX.UploadersLib/ImageUploaders/TwitPicUploader.cs
+index 15c96c5f6..1d8774a57 100644
+--- a/ShareX.UploadersLib/ImageUploaders/TwitPicUploader.cs
++++ b/ShareX.UploadersLib/ImageUploaders/TwitPicUploader.cs
+@@ -108,7 +108,7 @@ private UploadResult Upload(Stream stream, string fileName, string url, string m
+             {
+                 result.URL = response.URL;
+                 if (ShowFull) result.URL += "/full";
+-                result.ThumbnailURL = string.Format("http://twitpic.com/show/{0}/{1}.{2}", TwitPicThumbnailMode.ToString().ToLowerInvariant(), response.ID, response.Type);
++                result.ThumbnailURL = $"http://twitpic.com/show/{TwitPicThumbnailMode.ToString().ToLowerInvariant()}/{response.ID}.{response.Type}";
+             }
+ 
+             return result;
+diff --git a/ShareX.UploadersLib/ImageUploaders/Twitter.cs b/ShareX.UploadersLib/ImageUploaders/Twitter.cs
+index 999a9dd1a..d9afb7959 100644
+--- a/ShareX.UploadersLib/ImageUploaders/Twitter.cs
++++ b/ShareX.UploadersLib/ImageUploaders/Twitter.cs
+@@ -117,7 +117,7 @@ public TwitterStatusResponse TweetMessage(string message)
+                 message = message.Remove(MessageLimit);
+             }
+ 
+-            string url = string.Format("https://api.twitter.com/{0}/statuses/update.json", APIVersion);
++            string url = $"https://api.twitter.com/{APIVersion}/statuses/update.json";
+             string query = OAuthManager.GenerateQuery(url, null, HttpMethod.POST, AuthInfo);
+ 
+             Dictionary<string, string> args = new Dictionary<string, string>();
+@@ -140,7 +140,7 @@ public UploadResult TweetMessageWithMedia(string message, Stream stream, string
+                 message = message.Remove(MessageMediaLimit);
+             }
+ 
+-            string url = string.Format("https://api.twitter.com/{0}/statuses/update_with_media.json", APIVersion);
++            string url = $"https://api.twitter.com/{APIVersion}/statuses/update_with_media.json";
+             string query = OAuthManager.GenerateQuery(url, null, HttpMethod.POST, AuthInfo);
+ 
+             Dictionary<string, string> args = new Dictionary<string, string>();
+@@ -152,7 +152,7 @@ public UploadResult TweetMessageWithMedia(string message, Stream stream, string
+             {
+                 TwitterStatusResponse status = JsonConvert.DeserializeObject<TwitterStatusResponse>(result.Response);
+ 
+-                if (status != null && status.user != null)
++                if (status?.user != null)
+                 {
+                     result.URL = status.GetTweetURL();
+                 }
+@@ -163,7 +163,7 @@ public UploadResult TweetMessageWithMedia(string message, Stream stream, string
+ 
+         private string GetConfiguration()
+         {
+-            string url = string.Format("https://api.twitter.com/{0}/help/configuration.json", APIVersion);
++            string url = $"https://api.twitter.com/{APIVersion}/help/configuration.json";
+             string query = OAuthManager.GenerateQuery(url, null, HttpMethod.GET, AuthInfo);
+             string response = SendRequest(HttpMethod.GET, query);
+             return response;
+@@ -179,7 +179,7 @@ public class TwitterStatusResponse
+ 
+         public string GetTweetURL()
+         {
+-            return string.Format("https://twitter.com/{0}/status/{1}", user.screen_name, id);
++            return $"https://twitter.com/{user.screen_name}/status/{id}";
+         }
+     }
+ 
+diff --git a/ShareX.UploadersLib/OAuth/OAuthManager.cs b/ShareX.UploadersLib/OAuth/OAuthManager.cs
+index 7414d7151..8bac109e1 100644
+--- a/ShareX.UploadersLib/OAuth/OAuthManager.cs
++++ b/ShareX.UploadersLib/OAuth/OAuthManager.cs
+@@ -128,7 +128,7 @@ public static string GenerateQuery(string url, Dictionary<string, string> args,
+             string signature = Convert.ToBase64String(signatureData);
+             parameters[ParameterSignature] = signature;
+ 
+-            return string.Format("{0}?{1}&{2}={3}", normalizedUrl, normalizedParameters, ParameterSignature, URLHelpers.URLEncode(signature));
++            return $"{normalizedUrl}?{normalizedParameters}&{ParameterSignature}={URLHelpers.URLEncode(signature)}";
+         }
+ 
+         public static string GetAuthorizationURL(string requestTokenResponse, OAuthInfo oauth, string authorizeURL, string callback = null)
+@@ -140,11 +140,11 @@ public static string GetAuthorizationURL(string requestTokenResponse, OAuthInfo
+             if (args[ParameterToken] != null)
+             {
+                 oauth.AuthToken = args[ParameterToken];
+-                url = string.Format("{0}?{1}={2}", authorizeURL, ParameterToken, oauth.AuthToken);
++                url = $"{authorizeURL}?{ParameterToken}={oauth.AuthToken}";
+ 
+                 if (!string.IsNullOrEmpty(callback))
+                 {
+-                    url += string.Format("&{0}={1}", ParameterCallback, URLHelpers.URLEncode(callback));
++                    url += $"&{ParameterCallback}={URLHelpers.URLEncode(callback)}";
+                 }
+ 
+                 if (args[ParameterTokenSecret] != null)
+@@ -188,8 +188,7 @@ private static byte[] GenerateSignature(string signatureBase, string consumerSec
+         {
+             using (HMACSHA1 hmacsha1 = new HMACSHA1())
+             {
+-                string key = string.Format("{0}&{1}", Uri.EscapeDataString(consumerSecret),
+-                    string.IsNullOrEmpty(userSecret) ? "" : Uri.EscapeDataString(userSecret));
++                string key = $"{Uri.EscapeDataString(consumerSecret)}&{(string.IsNullOrEmpty(userSecret) ? "" : Uri.EscapeDataString(userSecret))}";
+ 
+                 hmacsha1.Key = Encoding.ASCII.GetBytes(key);
+ 
+diff --git a/ShareX.UploadersLib/UploadersConfigValidator.cs b/ShareX.UploadersLib/UploadersConfigValidator.cs
+index c7cf198d9..3ca7a0201 100644
+--- a/ShareX.UploadersLib/UploadersConfigValidator.cs
++++ b/ShareX.UploadersLib/UploadersConfigValidator.cs
+@@ -33,29 +33,29 @@ public static bool Validate<T>(int index, UploadersConfig config)
+         {
+             Enum destination = (Enum)Enum.ToObject(typeof(T), index);
+ 
+-            if (destination is ImageDestination)
++            if (destination is ImageDestination imageDestination)
+             {
+-                return Validate((ImageDestination)destination, config);
++                return Validate(imageDestination, config);
+             }
+ 
+-            if (destination is TextDestination)
++            if (destination is TextDestination textDestination)
+             {
+-                return Validate((TextDestination)destination, config);
++                return Validate(textDestination, config);
+             }
+ 
+-            if (destination is FileDestination)
++            if (destination is FileDestination fileDestination)
+             {
+-                return Validate((FileDestination)destination, config);
++                return Validate(fileDestination, config);
+             }
+ 
+-            if (destination is UrlShortenerType)
++            if (destination is UrlShortenerType urlShortenerType)
+             {
+-                return Validate((UrlShortenerType)destination, config);
++                return Validate(urlShortenerType, config);
+             }
+ 
+-            if (destination is URLSharingServices)
++            if (destination is URLSharingServices uRLSharingServices)
+             {
+-                return Validate((URLSharingServices)destination, config);
++                return Validate(uRLSharingServices, config);
+             }
+ 
+             return true;
+diff --git a/ShareX/CaptureHelpers/CaptureBase.cs b/ShareX/CaptureHelpers/CaptureBase.cs
+index 64510ea26..a2a614d93 100644
+--- a/ShareX/CaptureHelpers/CaptureBase.cs
++++ b/ShareX/CaptureHelpers/CaptureBase.cs
+@@ -94,7 +94,7 @@ private void CaptureInternal(TaskSettings taskSettings, bool autoHideForm)
+ 
+         private void AfterCapture(ImageInfo imageInfo, TaskSettings taskSettings)
+         {
+-            if (imageInfo != null && imageInfo.Image != null)
++            if (imageInfo?.Image != null)
+             {
+                 if (taskSettings.GeneralSettings.PlaySoundAfterCapture)
+                 {
+diff --git a/ShareX/Controls/BeforeUploadControl.cs b/ShareX/Controls/BeforeUploadControl.cs
+index 345054d11..285b28a95 100644
+--- a/ShareX/Controls/BeforeUploadControl.cs
++++ b/ShareX/Controls/BeforeUploadControl.cs
+@@ -196,7 +196,7 @@ private void AddDestination<T>(int index, EDataType dataType, TaskSettings taskS
+                 RadioButton rb = new RadioButton() { AutoSize = true };
+ 
+                 rb.Text = string.IsNullOrEmpty(overrideText) ? destination.GetLocalizedDescription() :
+-                    string.Format("{0} [{1}]", Resources.BeforeUploadControl_AddDestination_Custom, overrideText);
++                    $"{Resources.BeforeUploadControl_AddDestination_Custom} [{overrideText}]";
+                 rb.Tag = destination;
+                 rb.CheckedChanged += (sender, e) => SetDestinations(rb.Checked, dataType, rb.Tag, taskSettings);
+ 
+@@ -211,25 +211,25 @@ private void SetDestinations(bool isActive, EDataType dataType, object destinati
+             switch (dataType)
+             {
+                 case EDataType.Image:
+-                    if (destination is ImageDestination)
++                    if (destination is ImageDestination imageDestination)
+                     {
+-                        taskSettings.ImageDestination = (ImageDestination)destination;
++                        taskSettings.ImageDestination = imageDestination;
+                     }
+-                    else if (destination is FileDestination)
++                    else if (destination is FileDestination fileDestination)
+                     {
+                         taskSettings.ImageDestination = ImageDestination.FileUploader;
+-                        taskSettings.ImageFileDestination = (FileDestination)destination;
++                        taskSettings.ImageFileDestination = fileDestination;
+                     }
+                     break;
+                 case EDataType.Text:
+-                    if (destination is TextDestination)
++                    if (destination is TextDestination textDestination)
+                     {
+-                        taskSettings.TextDestination = (TextDestination)destination;
++                        taskSettings.TextDestination = textDestination;
+                     }
+-                    else if (destination is FileDestination)
++                    else if (destination is FileDestination fileDestination)
+                     {
+                         taskSettings.TextDestination = TextDestination.FileUploader;
+-                        taskSettings.TextFileDestination = (FileDestination)destination;
++                        taskSettings.TextFileDestination = fileDestination;
+                     }
+                     break;
+                 case EDataType.File:
+@@ -241,9 +241,9 @@ private void SetDestinations(bool isActive, EDataType dataType, object destinati
+                     }
+                     break;
+                 case EDataType.URL:
+-                    if (destination is UrlShortenerType)
++                    if (destination is UrlShortenerType urlShortenerType)
+                     {
+-                        taskSettings.URLShortenerDestination = (UrlShortenerType)destination;
++                        taskSettings.URLShortenerDestination = urlShortenerType;
+                     }
+                     break;
+             }
+diff --git a/ShareX/Controls/NewsListControl.cs b/ShareX/Controls/NewsListControl.cs
+index be4220cfd..48f84337b 100644
+--- a/ShareX/Controls/NewsListControl.cs
++++ b/ShareX/Controls/NewsListControl.cs
+@@ -167,8 +167,7 @@ private void UpdateUnreadStatus()
+         {
+             foreach (DataGridViewRow row in dgvNews.Rows)
+             {
+-                NewsItem newsItem = row.Tag as NewsItem;
+-                if (newsItem != null && newsItem.IsUnread)
++                if (row.Tag is NewsItem newsItem && newsItem.IsUnread)
+                 {
+                     row.Cells[0].Style.BackColor = row.Cells[0].Style.SelectionBackColor = Color.LimeGreen;
+                 }
+@@ -184,8 +183,8 @@ private void dgvNews_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+             if (e.ColumnIndex == 2)
+             {
+                 DataGridViewRow row = dgvNews.Rows[e.RowIndex];
+-                NewsItem newsItem = row.Tag as NewsItem;
+-                if (newsItem != null && !string.IsNullOrEmpty(newsItem.URL))
++
++                if (row.Tag is NewsItem newsItem && !string.IsNullOrEmpty(newsItem.URL))
+                 {
+                     dgvNews.Cursor = Cursors.Hand;
+                     row.Cells[e.ColumnIndex].Style.ForeColor = row.Cells[e.ColumnIndex].Style.SelectionForeColor =
+@@ -199,8 +198,8 @@ private void dgvNews_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+             if (e.ColumnIndex == 2)
+             {
+                 DataGridViewRow row = dgvNews.Rows[e.RowIndex];
+-                NewsItem newsItem = row.Tag as NewsItem;
+-                if (newsItem != null && !string.IsNullOrEmpty(newsItem.URL))
++
++                if (row.Tag is NewsItem newsItem && !string.IsNullOrEmpty(newsItem.URL))
+                 {
+                     row.Cells[e.ColumnIndex].Style.ForeColor = row.Cells[e.ColumnIndex].Style.SelectionForeColor =
+                         ShareXResources.UseCustomTheme ? ShareXResources.Theme.TextColor : SystemColors.ControlText;
+@@ -215,8 +214,8 @@ private void dgvNews_CellMouseClick(object sender, DataGridViewCellMouseEventArg
+             if (e.Button == MouseButtons.Left && e.ColumnIndex == 2)
+             {
+                 DataGridViewRow row = dgvNews.Rows[e.RowIndex];
+-                NewsItem newsItem = row.Tag as NewsItem;
+-                if (newsItem != null && URLHelpers.IsValidURL(newsItem.URL))
++
++                if (row.Tag is NewsItem newsItem && URLHelpers.IsValidURL(newsItem.URL))
+                 {
+                     URLHelpers.OpenURL(newsItem.URL);
+                 }
+diff --git a/ShareX/EasterEggAboutAnimation.cs b/ShareX/EasterEggAboutAnimation.cs
+index c2848ff50..daf67190e 100644
+--- a/ShareX/EasterEggAboutAnimation.cs
++++ b/ShareX/EasterEggAboutAnimation.cs
+@@ -151,10 +151,7 @@ private void Canvas_Draw(Graphics g)
+ 
+         public void Dispose()
+         {
+-            if (easterEggBounce != null)
+-            {
+-                easterEggBounce.Dispose();
+-            }
++            easterEggBounce?.Dispose();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX/EasterEggBounce.cs b/ShareX/EasterEggBounce.cs
+index bd3d81bcb..cf04fcf8f 100644
+--- a/ShareX/EasterEggBounce.cs
++++ b/ShareX/EasterEggBounce.cs
+@@ -69,10 +69,7 @@ public void Stop()
+         {
+             if (IsWorking)
+             {
+-                if (timer != null)
+-                {
+-                    timer.Stop();
+-                }
++                timer?.Stop();
+ 
+                 IsWorking = false;
+             }
+@@ -133,10 +130,7 @@ public void Dispose()
+         {
+             Stop();
+ 
+-            if (timer != null)
+-            {
+-                timer.Dispose();
+-            }
++            timer?.Dispose();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX/Forms/AfterCaptureForm.cs b/ShareX/Forms/AfterCaptureForm.cs
+index a28fa95c7..e081315eb 100644
+--- a/ShareX/Forms/AfterCaptureForm.cs
++++ b/ShareX/Forms/AfterCaptureForm.cs
+@@ -58,7 +58,7 @@ private AfterCaptureForm(TaskSettings taskSettings)
+ 
+         public AfterCaptureForm(ImageInfo imageInfo, TaskSettings taskSettings) : this(taskSettings)
+         {
+-            if (imageInfo != null && imageInfo.Image != null)
++            if (imageInfo?.Image != null)
+             {
+                 pbImage.LoadImage(imageInfo.Image);
+                 btnCopy.Enabled = true;
+diff --git a/ShareX/Forms/AutoCaptureForm.Designer.cs b/ShareX/Forms/AutoCaptureForm.Designer.cs
+index 5f1e41e65..f97cb2858 100644
+--- a/ShareX/Forms/AutoCaptureForm.Designer.cs
++++ b/ShareX/Forms/AutoCaptureForm.Designer.cs
+@@ -18,15 +18,9 @@ protected override void Dispose(bool disposing)
+                 components.Dispose();
+             }
+ 
+-            if (screenshotTimer != null)
+-            {
+-                screenshotTimer.Dispose();
+-            }
++            screenshotTimer?.Dispose();
+ 
+-            if (statusTimer != null)
+-            {
+-                statusTimer.Dispose();
+-            }
++            statusTimer?.Dispose();
+ 
+             base.Dispose(disposing);
+         }
+diff --git a/ShareX/Forms/MainForm.cs b/ShareX/Forms/MainForm.cs
+index 81d3709fd..8e54c4752 100644
+--- a/ShareX/Forms/MainForm.cs
++++ b/ShareX/Forms/MainForm.cs
+@@ -946,7 +946,7 @@ private void UpdateActionsMenu(string filePath)
+                 IEnumerable<ExternalProgram> actions = Program.DefaultTaskSettings.ExternalPrograms.
+                     Where(x => !string.IsNullOrEmpty(x.Name) && x.CheckExtension(filePath));
+ 
+-                if (actions.Count() > 0)
++                if (actions.Any())
+                 {
+                     tsmiRunAction.Visible = true;
+ 
+@@ -1302,7 +1302,7 @@ private async Task PrepareCaptureMenuAsync(ToolStripMenuItem tsmiWindow, EventHa
+             for (int i = 0; i < screens.Length; i++)
+             {
+                 Screen screen = screens[i];
+-                string text = string.Format("{0}. {1}x{2}", i + 1, screen.Bounds.Width, screen.Bounds.Height);
++                string text = $"{i + 1}. {screen.Bounds.Width}x{screen.Bounds.Height}";
+                 ToolStripItem tsi = tsmiMonitor.DropDownItems.Add(text);
+                 tsi.Tag = screen.Bounds;
+                 tsi.Click += handlerMonitor;
+@@ -1638,8 +1638,8 @@ private async void tsddbCapture_DropDownOpening(object sender, EventArgs e)
+         private void tsmiWindowItems_Click(object sender, EventArgs e)
+         {
+             ToolStripItem tsi = (ToolStripItem)sender;
+-            WindowInfo wi = tsi.Tag as WindowInfo;
+-            if (wi != null)
++
++            if (tsi.Tag is WindowInfo wi)
+             {
+                 new CaptureWindow(wi.Handle).Capture(true);
+             }
+@@ -2091,9 +2091,7 @@ private void timerTraySingleClick_Tick(object sender, EventArgs e)
+ 
+         private void niTray_BalloonTipClicked(object sender, EventArgs e)
+         {
+-            BalloonTipAction action = niTray.Tag as BalloonTipAction;
+-
+-            if (action != null)
++            if (niTray.Tag is BalloonTipAction action)
+             {
+                 switch (action.ClickAction)
+                 {
+@@ -2129,8 +2127,8 @@ private async void tsmiCapture_DropDownOpening(object sender, EventArgs e)
+         private void tsmiTrayWindowItems_Click(object sender, EventArgs e)
+         {
+             ToolStripItem tsi = (ToolStripItem)sender;
+-            WindowInfo wi = tsi.Tag as WindowInfo;
+-            if (wi != null)
++
++            if (tsi.Tag is WindowInfo wi)
+             {
+                 new CaptureWindow(wi.Handle).Capture();
+             }
+diff --git a/ShareX/Forms/NotificationForm.cs b/ShareX/Forms/NotificationForm.cs
+index 2f1ac76e0..9c9e41a77 100644
+--- a/ShareX/Forms/NotificationForm.cs
++++ b/ShareX/Forms/NotificationForm.cs
+@@ -57,20 +57,11 @@ public class NotificationFormConfig : IDisposable
+ 
+         public void Dispose()
+         {
+-            if (TextFont != null)
+-            {
+-                TextFont.Dispose();
+-            }
++            TextFont?.Dispose();
+ 
+-            if (TitleFont != null)
+-            {
+-                TitleFont.Dispose();
+-            }
++            TitleFont?.Dispose();
+ 
+-            if (Image != null)
+-            {
+-                Image.Dispose();
+-            }
++            Image?.Dispose();
+         }
+     }
+ 
+@@ -349,10 +340,7 @@ protected override void Dispose(bool disposing)
+                 components.Dispose();
+             }
+ 
+-            if (Config != null)
+-            {
+-                Config.Dispose();
+-            }
++            Config?.Dispose();
+ 
+             base.Dispose(disposing);
+         }
+diff --git a/ShareX/Forms/ScreenRecordForm.cs b/ShareX/Forms/ScreenRecordForm.cs
+index 0c671f22d..76d2d4401 100644
+--- a/ShareX/Forms/ScreenRecordForm.cs
++++ b/ShareX/Forms/ScreenRecordForm.cs
+@@ -115,15 +115,9 @@ protected override void Dispose(bool disposing)
+         {
+             if (disposing)
+             {
+-                if (components != null)
+-                {
+-                    components.Dispose();
+-                }
++                components?.Dispose();
+ 
+-                if (RecordResetEvent != null)
+-                {
+-                    RecordResetEvent.Dispose();
+-                }
++                RecordResetEvent?.Dispose();
+             }
+ 
+             base.Dispose(disposing);
+@@ -250,10 +244,7 @@ public void StartStopRecording()
+ 
+                 OnStopRequested();
+             }
+-            else if (RecordResetEvent != null)
+-            {
+-                RecordResetEvent.Set();
+-            }
++            else RecordResetEvent?.Set();
+         }
+ 
+         public void AbortRecording()
+diff --git a/ShareX/Forms/TaskSettingsForm.cs b/ShareX/Forms/TaskSettingsForm.cs
+index 184421661..47b2a08b3 100644
+--- a/ShareX/Forms/TaskSettingsForm.cs
++++ b/ShareX/Forms/TaskSettingsForm.cs
+@@ -1249,9 +1249,7 @@ private void cbNameFormatCustomTimeZone_CheckedChanged(object sender, EventArgs
+ 
+         private void cbNameFormatTimeZone_SelectedIndexChanged(object sender, EventArgs e)
+         {
+-            TimeZoneInfo timeZoneInfo = cbNameFormatTimeZone.SelectedItem as TimeZoneInfo;
+-
+-            if (timeZoneInfo != null)
++            if (cbNameFormatTimeZone.SelectedItem is TimeZoneInfo timeZoneInfo)
+             {
+                 TaskSettings.UploadSettings.CustomTimeZone = timeZoneInfo;
+             }
+@@ -1303,9 +1301,7 @@ private void cbClipboardUploadAutoIndexFolder_CheckedChanged(object sender, Even
+ 
+         private UploaderFilter GetUploaderFilterFromFields()
+         {
+-            IGenericUploaderService service = cbUploaderFiltersDestination.SelectedItem as IGenericUploaderService;
+-
+-            if (service != null)
++            if (cbUploaderFiltersDestination.SelectedItem is IGenericUploaderService service)
+             {
+                 UploaderFilter filter = new UploaderFilter();
+                 filter.Uploader = service.ServiceIdentifier;
+@@ -1337,9 +1333,7 @@ private void UpdateUploaderFilterFields(UploaderFilter filter)
+ 
+             for (int i = 0; i < cbUploaderFiltersDestination.Items.Count; i++)
+             {
+-                IGenericUploaderService service = cbUploaderFiltersDestination.Items[i] as IGenericUploaderService;
+-
+-                if (service != null && service.ServiceIdentifier.Equals(filter.Uploader, StringComparison.InvariantCultureIgnoreCase))
++                if (cbUploaderFiltersDestination.Items[i] is IGenericUploaderService service && service.ServiceIdentifier.Equals(filter.Uploader, StringComparison.InvariantCultureIgnoreCase))
+                 {
+                     cbUploaderFiltersDestination.SelectedIndex = i;
+                     break;
+diff --git a/ShareX/HotkeyManager.cs b/ShareX/HotkeyManager.cs
+index 6d024a62b..657c81a73 100644
+--- a/ShareX/HotkeyManager.cs
++++ b/ShareX/HotkeyManager.cs
+@@ -193,7 +193,7 @@ public void ShowFailedHotkeys()
+                 int ignoreProcess = Process.GetCurrentProcess().Id;
+                 List<string> conflictProcessNames = Process.GetProcesses().Where(x => x.Id != ignoreProcess && !string.IsNullOrEmpty(x.ProcessName) &&
+                     processNames.Any(x2 => x.ProcessName.Equals(x2, StringComparison.InvariantCultureIgnoreCase))).
+-                    Select(x => string.Format("{0} ({1})", x.MainModule.FileVersionInfo.ProductName, x.MainModule.ModuleName)).ToList();
++                    Select(x => $"{x.MainModule.FileVersionInfo.ProductName} ({x.MainModule.ModuleName})").ToList();
+ 
+                 if (conflictProcessNames != null && conflictProcessNames.Count > 0)
+                 {
+diff --git a/ShareX/HotkeySettings.cs b/ShareX/HotkeySettings.cs
+index 6ebc7b850..7c1dce949 100644
+--- a/ShareX/HotkeySettings.cs
++++ b/ShareX/HotkeySettings.cs
+@@ -50,7 +50,7 @@ public override string ToString()
+         {
+             if (HotkeyInfo != null && TaskSettings != null)
+             {
+-                return string.Format("Hotkey: {0}, Description: {1}, Job: {2}", HotkeyInfo, TaskSettings, TaskSettings.Job);
++                return $"Hotkey: {HotkeyInfo}, Description: {TaskSettings}, Job: {TaskSettings.Job}";
+             }
+ 
+             return "";
+diff --git a/ShareX/ImageInfo.cs b/ShareX/ImageInfo.cs
+index 8ea8b4c23..d2a15f1ae 100644
+--- a/ShareX/ImageInfo.cs
++++ b/ShareX/ImageInfo.cs
+@@ -55,10 +55,7 @@ public void UpdateInfo(WindowInfo windowInfo)
+ 
+         public void Dispose()
+         {
+-            if (Image != null)
+-            {
+-                Image.Dispose();
+-            }
++            Image?.Dispose();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/ShareX/LanguageHelper.cs b/ShareX/LanguageHelper.cs
+index 9a6203834..8c4d4ab2a 100644
+--- a/ShareX/LanguageHelper.cs
++++ b/ShareX/LanguageHelper.cs
+@@ -216,9 +216,9 @@ public static string GetCultureName(SupportedLanguage language)
+ 
+         private static void ApplyResourceToControl(Control control, ComponentResourceManager resource, CultureInfo culture)
+         {
+-            if (control is ToolStrip)
++            if (control is ToolStrip toolStrip)
+             {
+-                ApplyResourceToToolStripItemCollection(((ToolStrip)control).Items, resource, culture);
++                ApplyResourceToToolStripItemCollection(toolStrip.Items, resource, culture);
+             }
+             else
+             {
+@@ -235,9 +235,9 @@ private static void ApplyResourceToToolStripItemCollection(ToolStripItemCollecti
+         {
+             foreach (ToolStripItem item in collection)
+             {
+-                if (item is ToolStripDropDownItem)
++                if (item is ToolStripDropDownItem toolStripDropDownItem)
+                 {
+-                    ApplyResourceToToolStripItemCollection(((ToolStripDropDownItem)item).DropDownItems, resource, culture);
++                    ApplyResourceToToolStripItemCollection(toolStripDropDownItem.DropDownItems, resource, culture);
+                 }
+ 
+                 resource.ApplyResources(item, item.Name, culture);
+diff --git a/ShareX/ScreenRecordManager.cs b/ShareX/ScreenRecordManager.cs
+index ad6f43aae..f1f886b3e 100644
+--- a/ShareX/ScreenRecordManager.cs
++++ b/ShareX/ScreenRecordManager.cs
+@@ -256,15 +256,12 @@ private static void StartRecording(ScreenRecordOutput outputType, TaskSettings t
+                     path = ProcessTwoPassEncoding(path, taskSettings);
+                 }
+ 
+-                if (recordForm != null)
+-                {
+-                    recordForm.InvokeSafe(() =>
+-                    {
+-                        recordForm.Close();
+-                        recordForm.Dispose();
+-                        recordForm = null;
+-                    });
+-                }
++                recordForm?.InvokeSafe(() =>
++{
++    recordForm.Close();
++    recordForm.Dispose();
++    recordForm = null;
++});
+ 
+                 if (screenRecorder != null)
+                 {
+diff --git a/ShareX/TaskHelpers.cs b/ShareX/TaskHelpers.cs
+index f4c919b1a..fc56abf31 100644
+--- a/ShareX/TaskHelpers.cs
++++ b/ShareX/TaskHelpers.cs
+@@ -296,10 +296,7 @@ public static string CreateThumbnail(Bitmap bmp, string folder, string filename,
+                     }
+                     finally
+                     {
+-                        if (thumbnail != null)
+-                        {
+-                            thumbnail.Dispose();
+-                        }
++                        thumbnail?.Dispose();
+                     }
+                 }
+             }
+@@ -550,10 +547,7 @@ public static bool ShowAfterCaptureForm(TaskSettings taskSettings, out string fi
+ 
+                     if (afterCaptureForm.ShowDialog() == DialogResult.Cancel)
+                     {
+-                        if (imageInfo != null)
+-                        {
+-                            imageInfo.Dispose();
+-                        }
++                        imageInfo?.Dispose();
+ 
+                         return false;
+                     }
+@@ -1754,10 +1748,7 @@ public static void ImportImageEffect(string filePath)
+             {
+                 ImageEffectsForm imageEffectsForm = OpenImageEffectsSingleton(Program.DefaultTaskSettings);
+ 
+-                if (imageEffectsForm != null)
+-                {
+-                    imageEffectsForm.ImportImageEffect(configJson);
+-                }
++                imageEffectsForm?.ImportImageEffect(configJson);
+ 
+                 if (!Program.DefaultTaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.AddImageEffects) &&
+                     MessageBox.Show(Resources.WouldYouLikeToEnableImageEffects,
+diff --git a/ShareX/TaskListView.cs b/ShareX/TaskListView.cs
+index 1a08698d5..d9ce02de3 100644
+--- a/ShareX/TaskListView.cs
++++ b/ShareX/TaskListView.cs
+@@ -106,9 +106,7 @@ public ListViewItem FindItem(WorkerTask task)
+         {
+             foreach (ListViewItem lvi in ListViewControl.Items)
+             {
+-                WorkerTask tag = lvi.Tag as WorkerTask;
+-
+-                if (tag != null && tag == task)
++                if (lvi.Tag is WorkerTask tag && tag == task)
+                 {
+                     return lvi;
+                 }
+diff --git a/ShareX/TaskManager.cs b/ShareX/TaskManager.cs
+index 79430b604..26832c27e 100644
+--- a/ShareX/TaskManager.cs
++++ b/ShareX/TaskManager.cs
+@@ -167,7 +167,7 @@ private static void Task_UploadStarted(WorkerTask task)
+         {
+             TaskInfo info = task.Info;
+ 
+-            string status = string.Format("Upload started. Filename: {0}", info.FileName);
++            string status = $"Upload started. Filename: {info.FileName}";
+             if (!string.IsNullOrEmpty(info.FilePath)) status += ", Filepath: " + info.FilePath;
+             DebugHelper.WriteLine(status);
+ 
+@@ -199,7 +199,7 @@ private static void Task_UploadProgressChanged(WorkerTask task)
+ 
+                 if (lvi != null)
+                 {
+-                    lvi.SubItems[1].Text = string.Format("{0:0.0}%", info.Progress.Percentage);
++                    lvi.SubItems[1].Text = $"{info.Progress.Percentage:0.0}%";
+ 
+                     if (info.Progress.CustomProgressText != null)
+                     {
+@@ -208,7 +208,7 @@ private static void Task_UploadProgressChanged(WorkerTask task)
+                     }
+                     else
+                     {
+-                        lvi.SubItems[2].Text = string.Format("{0} / {1}", info.Progress.Position.ToSizeString(Program.Settings.BinaryUnits), info.Progress.Length.ToSizeString(Program.Settings.BinaryUnits));
++                        lvi.SubItems[2].Text = $"{info.Progress.Position.ToSizeString(Program.Settings.BinaryUnits)} / {info.Progress.Length.ToSizeString(Program.Settings.BinaryUnits)}";
+ 
+                         if (info.Progress.Speed > 0)
+                         {
+@@ -222,10 +222,7 @@ private static void Task_UploadProgressChanged(WorkerTask task)
+ 
+                 TaskThumbnailPanel panel = TaskThumbnailView.FindPanel(task);
+ 
+-                if (panel != null)
+-                {
+-                    panel.UpdateProgress();
+-                }
++                panel?.UpdateProgress();
+ 
+                 UpdateProgressUI();
+             }
+@@ -235,7 +232,7 @@ private static void Task_UploadCompleted(WorkerTask task)
+         {
+             TaskInfo info = task.Info;
+ 
+-            if (info != null && info.Result != null && !info.Result.IsError)
++            if (info?.Result != null && !info.Result.IsError)
+             {
+                 string url = info.Result.ToString();
+ 
+@@ -275,7 +272,7 @@ private static void Task_TaskCompleted(WorkerTask task)
+ 
+                     TaskInfo info = task.Info;
+ 
+-                    if (info != null && info.Result != null)
++                    if (info?.Result != null)
+                     {
+                         TaskThumbnailPanel panel = TaskThumbnailView.FindPanel(task);
+ 
+@@ -475,13 +472,13 @@ public static void UpdateProgressUI()
+ 
+             IEnumerable<WorkerTask> workingTasks = Tasks.Where(x => x != null && x.Status == TaskStatus.Working && x.Info != null);
+ 
+-            if (workingTasks.Count() > 0)
++            if (workingTasks.Any())
+             {
+                 isTasksWorking = true;
+ 
+                 workingTasks = workingTasks.Where(x => x.Info.Progress != null);
+ 
+-                if (workingTasks.Count() > 0)
++                if (workingTasks.Any())
+                 {
+                     averageProgress = workingTasks.Average(x => x.Info.Progress.Percentage);
+                 }
+@@ -489,7 +486,7 @@ public static void UpdateProgressUI()
+ 
+             if (isTasksWorking)
+             {
+-                Program.MainForm.Text = string.Format("{0} - {1:0.0}%", Program.Title, averageProgress);
++                Program.MainForm.Text = $"{Program.Title} - {averageProgress:0.0}%";
+                 UpdateTrayIcon((int)averageProgress);
+                 TaskbarManager.SetProgressValue(Program.MainForm, (int)averageProgress);
+             }
+diff --git a/ShareX/UploadInfoManager.cs b/ShareX/UploadInfoManager.cs
+index ed72da8d9..e037eda60 100644
+--- a/ShareX/UploadInfoManager.cs
++++ b/ShareX/UploadInfoManager.cs
+@@ -68,9 +68,9 @@ public UploadInfoManager()
+ 
+         public void UpdateSelectedItems(IEnumerable<WorkerTask> tasks)
+         {
+-            if (tasks != null && tasks.Count() > 0)
++            if (tasks != null && tasks.Any())
+             {
+-                SelectedItems = tasks.Where(x => x != null && x.Info != null).Select(x => new UploadInfoStatus(x)).ToArray();
++                SelectedItems = tasks.Where(x => x?.Info != null).Select(x => new UploadInfoStatus(x)).ToArray();
+             }
+             else
+             {
+@@ -80,7 +80,7 @@ public void UpdateSelectedItems(IEnumerable<WorkerTask> tasks)
+ 
+         private void CopyTexts(IEnumerable<string> texts)
+         {
+-            if (texts != null && texts.Count() > 0)
++            if (texts != null && texts.Any())
+             {
+                 string urls = string.Join("\r\n", texts.ToArray());
+ 
+diff --git a/ShareX/UploadManager.cs b/ShareX/UploadManager.cs
+index f0b3da07e..4b98a91b1 100644
+--- a/ShareX/UploadManager.cs
++++ b/ShareX/UploadManager.cs
+@@ -345,7 +345,7 @@ public static void RunImageTask(ImageInfo imageInfo, TaskSettings taskSettings,
+         {
+             if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
+ 
+-            if (imageInfo != null && imageInfo.Image != null && taskSettings != null)
++            if (imageInfo?.Image != null && taskSettings != null)
+             {
+                 if (!skipQuickTaskMenu && taskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.ShowQuickTaskMenu))
+                 {
+diff --git a/ShareX/WatchFolder.cs b/ShareX/WatchFolder.cs
+index 3b9097f81..3d1e33d1d 100644
+--- a/ShareX/WatchFolder.cs
++++ b/ShareX/WatchFolder.cs
+@@ -125,10 +125,7 @@ protected void CleanElapsedTimers()
+ 
+         public void Dispose()
+         {
+-            if (fileWatcher != null)
+-            {
+-                fileWatcher.Dispose();
+-            }
++            fileWatcher?.Dispose();
+         }
+     }
+ 
+diff --git a/ShareX/WatchFolderManager.cs b/ShareX/WatchFolderManager.cs
+index 0154a7982..d8b1cb6bb 100644
+--- a/ShareX/WatchFolderManager.cs
++++ b/ShareX/WatchFolderManager.cs
+@@ -133,10 +133,7 @@ public void UnregisterAllWatchFolders()
+             {
+                 foreach (WatchFolder watchFolder in WatchFolders)
+                 {
+-                    if (watchFolder != null)
+-                    {
+-                        watchFolder.Dispose();
+-                    }
++                    watchFolder?.Dispose();
+                 }
+             }
+         }
+diff --git a/ShareX/WorkerTask.cs b/ShareX/WorkerTask.cs
+index de8885f83..daa6cdbeb 100644
+--- a/ShareX/WorkerTask.cs
++++ b/ShareX/WorkerTask.cs
+@@ -500,10 +500,7 @@ private bool DoUpload(int retry = 0)
+             }
+             finally
+             {
+-                if (sslBypassHelper != null)
+-                {
+-                    sslBypassHelper.Dispose();
+-                }
++                sslBypassHelper?.Dispose();
+ 
+                 if (Info.Result == null)
+                 {
+@@ -720,7 +717,7 @@ private void DoFileJobs()
+                 {
+                     IEnumerable<ExternalProgram> actions = Info.TaskSettings.ExternalPrograms.Where(x => x.IsActive);
+ 
+-                    if (actions.Count() > 0)
++                    if (actions.Any())
+                     {
+                         bool isFileModified = false;
+                         string fileName = Info.FileName;
+@@ -741,10 +738,7 @@ private void DoFileJobs()
+                             string extension = Helpers.GetFilenameExtension(Info.FilePath);
+                             Info.FileName = Helpers.ChangeFilenameExtension(fileName, extension);
+ 
+-                            if (Data != null)
+-                            {
+-                                Data.Dispose();
+-                            }
++                            Data?.Dispose();
+ 
+                             LoadFileStream();
+                         }

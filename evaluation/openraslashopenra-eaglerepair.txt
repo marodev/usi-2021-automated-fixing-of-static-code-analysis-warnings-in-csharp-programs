@@ -1,0 +1,1450 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: OpenRA.Game
+    #1 Path: D:\a\1\s\OpenRA.Game\Actor.cs, Line: 369, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\OpenRA.Game\Graphics\Util.cs, Line: 45, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: D:\a\1\s\OpenRA.Game\Map\Map.cs, Line: 698, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #4 Path: D:\a\1\s\OpenRA.Game\Map\MapCache.cs, Line: 153, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: D:\a\1\s\OpenRA.Game\MiniYaml.cs, Line: 482, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #6 Path: D:\a\1\s\OpenRA.Game\Orders\UnitOrderGenerator.cs, Line: 82, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #7 Path: D:\a\1\s\OpenRA.Game\Primitives\SegmentStream.cs, Line: 134, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #8 Path: D:\a\1\s\OpenRA.Game\Scripting\ScriptMemberExts.cs, Line: 48, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #9 Path: D:\a\1\s\OpenRA.Game\Scripting\ScriptMemberExts.cs, Line: 55, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #10 Path: D:\a\1\s\OpenRA.Game\Scripting\ScriptMemberWrapper.cs, Line: 137, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #11 Path: D:\a\1\s\OpenRA.Game\Scripting\ScriptTypes.cs, Line: 176, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #12 Path: D:\a\1\s\OpenRA.Game\Support\ExceptionHandler.cs, Line: 68, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #13 Path: D:\a\1\s\OpenRA.Game\Support\ExceptionHandler.cs, Line: 72, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #14 Path: D:\a\1\s\OpenRA.Game\World.cs, Line: 349, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #15 Path: D:\a\1\s\OpenRA.Game\World.cs, Line: 362, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OpenRA.Mods.Cnc
+    #16 Path: D:\a\1\s\OpenRA.Mods.Cnc\Activities\LayMines.cs, Line: 115, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #17 Path: D:\a\1\s\OpenRA.Mods.Cnc\Traits\Minelayer.cs, Line: 145, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #18 Path: D:\a\1\s\OpenRA.Mods.Cnc\Traits\Minelayer.cs, Line: 320, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: OpenRA.Mods.Common
+    #19 Path: D:\a\1\s\OpenRA.Mods.Common\Activities\Attack.cs, Line: 197, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #20 Path: D:\a\1\s\OpenRA.Mods.Common\ActorInitializer.cs, Line: 108, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #21 Path: D:\a\1\s\OpenRA.Mods.Common\Lint\CheckAngle.cs, Line: 24, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #22 Path: D:\a\1\s\OpenRA.Mods.Common\Lint\CheckAngle.cs, Line: 35, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #23 Path: D:\a\1\s\OpenRA.Mods.Common\Lint\CheckRangeLimit.cs, Line: 26, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #24 Path: D:\a\1\s\OpenRA.Mods.Common\Orders\PlaceBuildingOrderGenerator.cs, Line: 329, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #25 Path: D:\a\1\s\OpenRA.Mods.Common\Orders\PlaceBuildingOrderGenerator.cs, Line: 64, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #26 Path: D:\a\1\s\OpenRA.Mods.Common\ServerTraits\LobbyCommands.cs, Line: 313, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #27 Path: D:\a\1\s\OpenRA.Mods.Common\ServerTraits\LobbyCommands.cs, Line: 706, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #28 Path: D:\a\1\s\OpenRA.Mods.Common\Traits\AutoTarget.cs, Line: 240, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #29 Path: D:\a\1\s\OpenRA.Mods.Common\Traits\Buildings\Reservable.cs, Line: 72, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #30 Path: D:\a\1\s\OpenRA.Mods.Common\Traits\CombatDebugOverlay.cs, Line: 95, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #31 Path: D:\a\1\s\OpenRA.Mods.Common\Traits\Player\PlaceBuilding.cs, Line: 98, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #32 Path: D:\a\1\s\OpenRA.Mods.Common\Traits\World\EditorActorPreview.cs, Line: 218, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #33 Path: D:\a\1\s\OpenRA.Mods.Common\Traits\World\EditorActorPreview.cs, Line: 222, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #34 Path: D:\a\1\s\OpenRA.Mods.Common\Traits\World\Locomotor.cs, Line: 307, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #35 Path: D:\a\1\s\OpenRA.Mods.Common\Traits\World\Locomotor.cs, Line: 328, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #36 Path: D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\CheckExplicitInterfacesCommand.cs, Line: 53, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #37 Path: D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\CheckExplicitInterfacesCommand.cs, Line: 88, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #38 Path: D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractMapRules.cs, Line: 27, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #39 Path: D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractSettingsDocsCommand.cs, Line: 62, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #40 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\AssetBrowserLogic.cs, Line: 376, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #41 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Editor\ActorEditLogic.cs, Line: 23, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #42 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Editor\ActorEditLogic.cs, Line: 268, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #43 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Editor\ActorEditLogic.cs, Line: 36, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #44 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Ingame\AddFactionSuffixLogic.cs, Line: 26, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #45 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Ingame\AddFactionSuffixLogic.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #46 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Ingame\AddFactionSuffixLogic.cs, Line: 3, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #47 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Ingame\AddFactionSuffixLogic.cs, Line: 4, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #48 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Ingame\CommandBarLogic.cs, Line: 277, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #49 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Ingame\CommandBarLogic.cs, Line: 281, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #50 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Ingame\GameInfoLogic.cs, Line: 36, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #51 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Lobby\LobbyLogic.cs, Line: 206, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #52 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Lobby\LobbyLogic.cs, Line: 228, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #53 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Lobby\LobbyLogic.cs, Line: 246, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #54 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Lobby\LobbyOptionsLogic.cs, Line: 100, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #55 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Lobby\LobbyOptionsLogic.cs, Line: 129, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #56 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\Lobby\LobbyUtils.cs, Line: 375, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #57 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\MissionBrowserLogic.cs, Line: 387, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #58 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\Logic\ReplayBrowserLogic.cs, Line: 448, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #59 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\ObserverSupportPowerIconsWidget.cs, Line: 116, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #60 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\ScrollPanelWidget.cs, Line: 295, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #61 Path: D:\a\1\s\OpenRA.Mods.Common\Widgets\ScrollPanelWidget.cs, Line: 307, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+--- Rules Summary ---
+R8: 32
+R2: 14
+R5: 10
+R6: 3
+R4: 2
+
+--- Summary ---
+Fixed ReSharper issues: 47
+Fixed SonarQube issues: 15
+Total fixed issues: 61
+
+Finished in: 19 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\OpenRA.Game\Graphics\SpriteRenderer.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenRA.Primitives;
+
+namespace OpenRA.Graphics
+{
+	public class SpriteRenderer : Renderer.IBatchRenderer
+	{
+		public const int SheetCount = 7;
+		static readonly string[] SheetIndexToTextureName = Exts.MakeArray(SheetCount, i => "Texture{0}".F(i));
+
+		readonly Renderer renderer;
+		readonly IShader shader;
+
+		readonly Vertex[] vertices;
+		readonly Sheet[] sheets = new Sheet[SheetCount];
+
+		BlendMode currentBlend = BlendMode.Alpha;
+		int nv = 0;
+		int ns = 0;
+
+		public SpriteRenderer(Renderer renderer, IShader shader)
+		{
+			this.renderer = renderer;
+			this.shader = shader;
+			vertices = new Vertex[renderer.TempBufferSize];
+		}
+
+		public void Flush()
+		{
+			if (nv > 0)
+			{
+				for (var i = 0; i < ns; i++)
+				{
+					shader.SetTexture(SheetIndexToTextureName[i], sheets[i].GetTexture());
+					sheets[i] = null;
+				}
+
+				renderer.Context.SetBlendMode(currentBlend);
+				shader.PrepareRender();
+				renderer.DrawBatch(vertices, nv, PrimitiveType.TriangleList);
+				renderer.Context.SetBlendMode(BlendMode.None);
+
+				nv = 0;
+				ns = 0;
+			}
+		}
+
+		int2 SetRenderStateForSprite(Sprite s)
+		{
+			renderer.CurrentBatchRenderer = this;
+
+			if (s.BlendMode != currentBlend || nv + 6 > renderer.TempBufferSize)
+				Flush();
+
+			currentBlend = s.BlendMode;
+
+			// Check if the sheet (or secondary data sheet) have already been mapped
+			var sheet = s.Sheet;
+			var sheetIndex = 0;
+			for (; sheetIndex < ns; sheetIndex++)
+				if (sheets[sheetIndex] == sheet)
+					break;
+
+			var secondarySheetIndex = 0;
+			var ss = s as SpriteWithSecondaryData;
+			if (ss != null)
+			{
+				var secondarySheet = ss.SecondarySheet;
+				for (; secondarySheetIndex < ns; secondarySheetIndex++)
+					if (sheets[secondarySheetIndex] == secondarySheet)
+						break;
+			}
+
+			// Make sure that we have enough free samplers to map both if needed, otherwise flush
+			var needSamplers = (sheetIndex == ns ? 1 : 0) + (secondarySheetIndex == ns ? 1 : 0);
+			if (ns + needSamplers >= sheets.Length)
+			{
+				Flush();
+				sheetIndex = 0;
+				if (ss != null)
+					secondarySheetIndex = 1;
+			}
+
+			if (sheetIndex >= ns)
+			{
+				sheets[sheetIndex] = sheet;
+				ns += 1;
+			}
+
+			if (secondarySheetIndex >= ns && ss != null)
+			{
+				sheets[secondarySheetIndex] = ss.SecondarySheet;
+				ns += 1;
+			}
+
+			return new int2(sheetIndex, secondarySheetIndex);
+		}
+
+		internal void DrawSprite(Sprite s, in float3 location, float paletteTextureIndex, in float3 size)
+		{
+			var samplers = SetRenderStateForSprite(s);
+			Util.FastCreateQuad(vertices, location + s.FractionalOffset * size, s, samplers, paletteTextureIndex, nv, size, float3.Ones, 1f);
+			nv += 6;
+		}
+
+		public void DrawSprite(Sprite s, in float3 location, PaletteReference pal)
+		{
+			DrawSprite(s, location, pal.TextureIndex, s.Size);
+		}
+
+		public void DrawSprite(Sprite s, in float3 location, PaletteReference pal, float3 size)
+		{
+			DrawSprite(s, location, pal.TextureIndex, size);
+		}
+
+		public void DrawSprite(Sprite s, in float3 a, in float3 b, in float3 c, in float3 d)
+		{
+			var samplers = SetRenderStateForSprite(s);
+			Util.FastCreateQuad(vertices, a, b, c, d, s, samplers, 0, float3.Ones, 1f, nv);
+			nv += 6;
+		}
+
+		internal void DrawSprite(Sprite s, in float3 location, float paletteTextureIndex, in float3 size, in float3 tint, float alpha)
+		{
+			var samplers = SetRenderStateForSprite(s);
+			Util.FastCreateQuad(vertices, location + s.FractionalOffset * size, s, samplers, paletteTextureIndex, nv, size, tint, alpha);
+			nv += 6;
+		}
+
+		public void DrawSprite(Sprite s, in float3 location, PaletteReference pal, in float3 size, in float3 tint, float alpha)
+		{
+			DrawSprite(s, location, pal.TextureIndex, size, tint, alpha);
+		}
+
+		public void DrawSprite(Sprite s, in float3 a, in float3 b, in float3 c, in float3 d, in float3 tint, float alpha)
+		{
+			var samplers = SetRenderStateForSprite(s);
+			Util.FastCreateQuad(vertices, a, b, c, d, s, samplers, 0, tint, alpha, nv);
+			nv += 6;
+		}
+
+		public void DrawVertexBuffer(IVertexBuffer<Vertex> buffer, int start, int length, PrimitiveType type, IEnumerable<Sheet> sheets, BlendMode blendMode)
+		{
+			var i = 0;
+			foreach (var s in sheets)
+			{
+				if (i >= SheetCount)
+					ThrowSheetOverflow(nameof(sheets));
+
+				if (s != null)
+					shader.SetTexture(SheetIndexToTextureName[i++], s.GetTexture());
+			}
+
+			renderer.Context.SetBlendMode(blendMode);
+			shader.PrepareRender();
+			renderer.DrawBatch(buffer, start, length, type);
+			renderer.Context.SetBlendMode(BlendMode.None);
+		}
+
+		// PERF: methods that throw won't be inlined by the JIT, so extract a static helper for use on hot paths
+		static void ThrowSheetOverflow(string paramName)
+		{
+			throw new ArgumentException("SpriteRenderer only supports {0} simultaneous textures".F(SheetCount), paramName);
+		}
+
+		// For RGBAColorRenderer
+		internal void DrawRGBAVertices(Vertex[] v)
+		{
+			renderer.CurrentBatchRenderer = this;
+
+			if (currentBlend != BlendMode.Alpha || nv + v.Length > renderer.TempBufferSize)
+				Flush();
+
+			currentBlend = BlendMode.Alpha;
+			Array.Copy(v, 0, vertices, nv, v.Length);
+			nv += v.Length;
+		}
+
+		public void SetPalette(ITexture palette)
+		{
+			shader.SetTexture("Palette", palette);
+		}
+
+		public void SetViewportParams(Size screen, float depthScale, float depthOffset, int2 scroll)
+		{
+			shader.SetVec("Scroll", scroll.X, scroll.Y, scroll.Y);
+			shader.SetVec("r1",
+				2f / screen.Width,
+				2f / screen.Height,
+				-depthScale / screen.Height);
+			shader.SetVec("r2", -1, -1, 1 - depthOffset);
+
+			// Texture index is sampled as a float, so convert to pixels then scale
+			shader.SetVec("DepthTextureScale", 128 * depthScale / screen.Height);
+		}
+
+		public void SetDepthPreviewEnabled(bool enabled)
+		{
+			shader.SetBool("EnableDepthPreview", enabled);
+		}
+
+		public void SetAntialiasingPixelsPerTexel(float pxPerTx)
+		{
+			shader.SetVec("AntialiasPixelsPerTexel", pxPerTx);
+		}
+	}
+}
+
+---- Transformed Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenRA.Primitives;
+
+namespace OpenRA.Graphics
+{
+	public class SpriteRenderer : Renderer.IBatchRenderer
+	{
+		public const int SheetCount = 7;
+		static readonly string[] SheetIndexToTextureName = Exts.MakeArray(SheetCount, i => "Texture{0}".F(i));
+
+		readonly Renderer renderer;
+		readonly IShader shader;
+
+		readonly Vertex[] vertices;
+		readonly Sheet[] sheets = new Sheet[SheetCount];
+
+		BlendMode currentBlend = BlendMode.Alpha;
+		int nv = 0;
+		int ns = 0;
+
+		public SpriteRenderer(Renderer renderer, IShader shader)
+		{
+			this.renderer = renderer;
+			this.shader = shader;
+			vertices = new Vertex[renderer.TempBufferSize];
+		}
+
+		public void Flush()
+		{
+			if (nv > 0)
+			{
+				for (var i = 0; i < ns; i++)
+				{
+					shader.SetTexture(SheetIndexToTextureName[i], sheets[i].GetTexture());
+					sheets[i] = null;
+				}
+
+				renderer.Context.SetBlendMode(currentBlend);
+				shader.PrepareRender();
+				renderer.DrawBatch(vertices, nv, PrimitiveType.TriangleList);
+				renderer.Context.SetBlendMode(BlendMode.None);
+
+				nv = 0;
+				ns = 0;
+			}
+		}
+
+		int2 SetRenderStateForSprite(Sprite s)
+		{
+			renderer.CurrentBatchRenderer = this;
+
+			if (s.BlendMode != currentBlend || nv + 6 > renderer.TempBufferSize)
+				Flush();
+
+			currentBlend = s.BlendMode;
+
+			// Check if the sheet (or secondary data sheet) have already been mapped
+			var sheet = s.Sheet;
+			var sheetIndex = 0;
+			for (; sheetIndex < ns; sheetIndex++)
+				if (sheets[sheetIndex] == sheet)
+					break;
+
+			var secondarySheetIndex = 0;
+
+			if (s is SpriteWithSecondaryData ss)
+			{
+				var secondarySheet = ss.SecondarySheet;
+				for (; secondarySheetIndex < ns; secondarySheetIndex++)
+					if (sheets[secondarySheetIndex] == secondarySheet)
+						break;
+			}
+
+			// Make sure that we have enough free samplers to map both if needed, otherwise flush
+			var needSamplers = (sheetIndex == ns ? 1 : 0) + (secondarySheetIndex == ns ? 1 : 0);
+			if (ns + needSamplers >= sheets.Length)
+			{
+				Flush();
+				sheetIndex = 0;
+
+				if (s is SpriteWithSecondaryData ss)
+					secondarySheetIndex = 1;
+			}
+
+			if (sheetIndex >= ns)
+			{
+				sheets[sheetIndex] = sheet;
+				ns += 1;
+			}
+
+			if (secondarySheetIndex >= ns && s is SpriteWithSecondaryData ss)
+			{
+				sheets[secondarySheetIndex] = ss.SecondarySheet;
+				ns += 1;
+			}
+
+			return new int2(sheetIndex, secondarySheetIndex);
+		}
+
+		internal void DrawSprite(Sprite s, in float3 location, float paletteTextureIndex, in float3 size)
+		{
+			var samplers = SetRenderStateForSprite(s);
+			Util.FastCreateQuad(vertices, location + s.FractionalOffset * size, s, samplers, paletteTextureIndex, nv, size, float3.Ones, 1f);
+			nv += 6;
+		}
+
+		public void DrawSprite(Sprite s, in float3 location, PaletteReference pal)
+		{
+			DrawSprite(s, location, pal.TextureIndex, s.Size);
+		}
+
+		public void DrawSprite(Sprite s, in float3 location, PaletteReference pal, float3 size)
+		{
+			DrawSprite(s, location, pal.TextureIndex, size);
+		}
+
+		public void DrawSprite(Sprite s, in float3 a, in float3 b, in float3 c, in float3 d)
+		{
+			var samplers = SetRenderStateForSprite(s);
+			Util.FastCreateQuad(vertices, a, b, c, d, s, samplers, 0, float3.Ones, 1f, nv);
+			nv += 6;
+		}
+
+		internal void DrawSprite(Sprite s, in float3 location, float paletteTextureIndex, in float3 size, in float3 tint, float alpha)
+		{
+			var samplers = SetRenderStateForSprite(s);
+			Util.FastCreateQuad(vertices, location + s.FractionalOffset * size, s, samplers, paletteTextureIndex, nv, size, tint, alpha);
+			nv += 6;
+		}
+
+		public void DrawSprite(Sprite s, in float3 location, PaletteReference pal, in float3 size, in float3 tint, float alpha)
+		{
+			DrawSprite(s, location, pal.TextureIndex, size, tint, alpha);
+		}
+
+		public void DrawSprite(Sprite s, in float3 a, in float3 b, in float3 c, in float3 d, in float3 tint, float alpha)
+		{
+			var samplers = SetRenderStateForSprite(s);
+			Util.FastCreateQuad(vertices, a, b, c, d, s, samplers, 0, tint, alpha, nv);
+			nv += 6;
+		}
+
+		public void DrawVertexBuffer(IVertexBuffer<Vertex> buffer, int start, int length, PrimitiveType type, IEnumerable<Sheet> sheets, BlendMode blendMode)
+		{
+			var i = 0;
+			foreach (var s in sheets)
+			{
+				if (i >= SheetCount)
+					ThrowSheetOverflow(nameof(sheets));
+
+				if (s != null)
+					shader.SetTexture(SheetIndexToTextureName[i++], s.GetTexture());
+			}
+
+			renderer.Context.SetBlendMode(blendMode);
+			shader.PrepareRender();
+			renderer.DrawBatch(buffer, start, length, type);
+			renderer.Context.SetBlendMode(BlendMode.None);
+		}
+
+		// PERF: methods that throw won't be inlined by the JIT, so extract a static helper for use on hot paths
+		static void ThrowSheetOverflow(string paramName)
+		{
+			throw new ArgumentException("SpriteRenderer only supports {0} simultaneous textures".F(SheetCount), paramName);
+		}
+
+		// For RGBAColorRenderer
+		internal void DrawRGBAVertices(Vertex[] v)
+		{
+			renderer.CurrentBatchRenderer = this;
+
+			if (currentBlend != BlendMode.Alpha || nv + v.Length > renderer.TempBufferSize)
+				Flush();
+
+			currentBlend = BlendMode.Alpha;
+			Array.Copy(v, 0, vertices, nv, v.Length);
+			nv += v.Length;
+		}
+
+		public void SetPalette(ITexture palette)
+		{
+			shader.SetTexture("Palette", palette);
+		}
+
+		public void SetViewportParams(Size screen, float depthScale, float depthOffset, int2 scroll)
+		{
+			shader.SetVec("Scroll", scroll.X, scroll.Y, scroll.Y);
+			shader.SetVec("r1",
+				2f / screen.Width,
+				2f / screen.Height,
+				-depthScale / screen.Height);
+			shader.SetVec("r2", -1, -1, 1 - depthOffset);
+
+			// Texture index is sampled as a float, so convert to pixels then scale
+			shader.SetVec("DepthTextureScale", 128 * depthScale / screen.Height);
+		}
+
+		public void SetDepthPreviewEnabled(bool enabled)
+		{
+			shader.SetBool("EnableDepthPreview", enabled);
+		}
+
+		public void SetAntialiasingPixelsPerTexel(float pxPerTx)
+		{
+			shader.SetVec("AntialiasPixelsPerTexel", pxPerTx);
+		}
+	}
+}
+
+---- Semantic diagnostics *before* transformation ----
+D:\a\1\s\OpenRA.Game\Graphics\SpriteRenderer.cs(14,1): hidden CS8019: Unnecessary using directive.
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\OpenRA.Game\Graphics\SpriteRenderer.cs(94,38): error CS0136: A local or parameter named 'ss' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter,D:\a\1\s\OpenRA.Game\Graphics\SpriteRenderer.cs(104,66): error CS0128: A local variable or function named 'ss' is already defined in this scope,D:\a\1\s\OpenRA.Game\Graphics\SpriteRenderer.cs(106,35): error CS0165: Use of unassigned local variable 'ss',D:\a\1\s\OpenRA.Game\Graphics\SpriteRenderer.cs(14,1): hidden CS8019: Unnecessary using directive.
+######################################################################
+
+
+######################################################################
+Nr: 2 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\OpenRA.Game\Input\Hotkey.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+
+namespace OpenRA
+{
+	public struct Hotkey : IEquatable<Hotkey>
+	{
+		public static Hotkey Invalid = new Hotkey(Keycode.UNKNOWN, Modifiers.None);
+		public bool IsValid()
+		{
+			return Key != Keycode.UNKNOWN;
+		}
+
+		public readonly Keycode Key;
+		public readonly Modifiers Modifiers;
+
+		public static bool TryParse(string s, out Hotkey result)
+		{
+			result = Invalid;
+			if (string.IsNullOrWhiteSpace(s))
+				return false;
+
+			var parts = s.Split(' ');
+
+			if (!Enum<Keycode>.TryParse(parts[0], true, out var key))
+			{
+				if (!int.TryParse(parts[0], out var c))
+					return false;
+				key = (Keycode)c;
+			}
+
+			var mods = Modifiers.None;
+			if (parts.Length >= 2)
+			{
+				var modString = s.Substring(s.IndexOf(' '));
+				if (!Enum<Modifiers>.TryParse(modString, true, out mods))
+					return false;
+			}
+
+			result = new Hotkey(key, mods);
+			return true;
+		}
+
+		public static Hotkey FromKeyInput(KeyInput ki)
+		{
+			return new Hotkey(ki.Key, ki.Modifiers);
+		}
+
+		public Hotkey(Keycode virtKey, Modifiers mod)
+		{
+			Key = virtKey;
+			Modifiers = mod;
+		}
+
+		public static bool operator !=(Hotkey a, Hotkey b) { return !(a == b); }
+		public static bool operator ==(Hotkey a, Hotkey b)
+		{
+			// Unknown keys are never equal
+			if (a.Key == Keycode.UNKNOWN)
+				return false;
+
+			return a.Key == b.Key && a.Modifiers == b.Modifiers;
+		}
+
+		public override int GetHashCode() { return Key.GetHashCode() ^ Modifiers.GetHashCode(); }
+
+		public bool Equals(Hotkey other)
+		{
+			return other == this;
+		}
+
+		public override bool Equals(object obj)
+		{
+			var o = obj as Hotkey?;
+			return o != null && o == this;
+		}
+
+		public override string ToString() { return "{0} {1}".F(Key, Modifiers.ToString("F")); }
+
+		public string DisplayString()
+		{
+			var ret = KeycodeExts.DisplayString(Key);
+
+			if (Modifiers.HasModifier(Modifiers.Shift))
+				ret = "Shift + " + ret;
+
+			if (Modifiers.HasModifier(Modifiers.Alt))
+				ret = "Alt + " + ret;
+
+			if (Modifiers.HasModifier(Modifiers.Ctrl))
+				ret = "Ctrl + " + ret;
+
+			if (Modifiers.HasModifier(Modifiers.Meta))
+				ret = (Platform.CurrentPlatform == PlatformType.OSX ? "Cmd + " : "Meta + ") + ret;
+
+			return ret;
+		}
+	}
+}
+
+---- Transformed Tree ----
+using System;
+
+namespace OpenRA
+{
+	public struct Hotkey : IEquatable<Hotkey>
+	{
+		public static Hotkey Invalid = new Hotkey(Keycode.UNKNOWN, Modifiers.None);
+		public bool IsValid()
+		{
+			return Key != Keycode.UNKNOWN;
+		}
+
+		public readonly Keycode Key;
+		public readonly Modifiers Modifiers;
+
+		public static bool TryParse(string s, out Hotkey result)
+		{
+			result = Invalid;
+			if (string.IsNullOrWhiteSpace(s))
+				return false;
+
+			var parts = s.Split(' ');
+
+			if (!Enum<Keycode>.TryParse(parts[0], true, out var key))
+			{
+				if (!int.TryParse(parts[0], out var c))
+					return false;
+				key = (Keycode)c;
+			}
+
+			var mods = Modifiers.None;
+			if (parts.Length >= 2)
+			{
+				var modString = s.Substring(s.IndexOf(' '));
+				if (!Enum<Modifiers>.TryParse(modString, true, out mods))
+					return false;
+			}
+
+			result = new Hotkey(key, mods);
+			return true;
+		}
+
+		public static Hotkey FromKeyInput(KeyInput ki)
+		{
+			return new Hotkey(ki.Key, ki.Modifiers);
+		}
+
+		public Hotkey(Keycode virtKey, Modifiers mod)
+		{
+			Key = virtKey;
+			Modifiers = mod;
+		}
+
+		public static bool operator !=(Hotkey a, Hotkey b) { return !(a == b); }
+		public static bool operator ==(Hotkey a, Hotkey b)
+		{
+			// Unknown keys are never equal
+			if (a.Key == Keycode.UNKNOWN)
+				return false;
+
+			return a.Key == b.Key && a.Modifiers == b.Modifiers;
+		}
+
+		public override int GetHashCode() { return Key.GetHashCode() ^ Modifiers.GetHashCode(); }
+
+		public bool Equals(Hotkey other)
+		{
+			return other == this;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is Hotkey? o && o == this;
+		}
+
+		public override string ToString() { return "{0} {1}".F(Key, Modifiers.ToString("F")); }
+
+		public string DisplayString()
+		{
+			var ret = KeycodeExts.DisplayString(Key);
+
+			if (Modifiers.HasModifier(Modifiers.Shift))
+				ret = "Shift + " + ret;
+
+			if (Modifiers.HasModifier(Modifiers.Alt))
+				ret = "Alt + " + ret;
+
+			if (Modifiers.HasModifier(Modifiers.Ctrl))
+				ret = "Ctrl + " + ret;
+
+			if (Modifiers.HasModifier(Modifiers.Meta))
+				ret = (Platform.CurrentPlatform == PlatformType.OSX ? "Cmd + " : "Meta + ") + ret;
+
+			return ret;
+		}
+	}
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\OpenRA.Game\Input\Hotkey.cs(84,18): error CS8116: It is not legal to use nullable type 'Hotkey?' in a pattern; use the underlying type 'Hotkey' instead.
+######################################################################
+
+
+######################################################################
+Nr: 3 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\OpenRA.Game\Primitives\float3.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+
+namespace OpenRA
+{
+	[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Mimic a built-in type alias.")]
+	[StructLayout(LayoutKind.Sequential)]
+	public readonly struct float3 : IEquatable<float3>
+	{
+		public readonly float X, Y, Z;
+		public float2 XY { get { return new float2(X, Y); } }
+
+		public float3(float x, float y, float z) { X = x; Y = y; Z = z; }
+		public float3(float2 xy, float z) { X = xy.X; Y = xy.Y; Z = z; }
+
+		public static implicit operator float3(int2 src) { return new float3(src.X, src.Y, 0); }
+		public static implicit operator float3(float2 src) { return new float3(src.X, src.Y, 0); }
+
+		public static float3 operator +(in float3 a, in float3 b) { return new float3(a.X + b.X, a.Y + b.Y, a.Z + b.Z); }
+		public static float3 operator -(in float3 a, in float3 b) { return new float3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
+		public static float3 operator -(in float3 a) { return new float3(-a.X, -a.Y, -a.Z); }
+		public static float3 operator *(in float3 a, in float3 b) { return new float3(a.X * b.X, a.Y * b.Y, a.Z * b.Z); }
+		public static float3 operator *(float a, in float3 b) { return new float3(a * b.X, a * b.Y, a * b.Z); }
+		public static float3 operator /(in float3 a, in float3 b) { return new float3(a.X / b.X, a.Y / b.Y, a.Z / b.Z); }
+		public static float3 operator /(in float3 a, float b) { return new float3(a.X / b, a.Y / b, a.Z / b); }
+
+		public static float3 Lerp(float3 a, float3 b, float t)
+		{
+			return new float3(
+				float2.Lerp(a.X, b.X, t),
+				float2.Lerp(a.Y, b.Y, t),
+				float2.Lerp(a.Z, b.Z, t));
+		}
+
+		public static bool operator ==(in float3 me, in float3 other) { return me.X == other.X && me.Y == other.Y && me.Z == other.Z; }
+		public static bool operator !=(in float3 me, in float3 other) { return !(me == other); }
+		public override int GetHashCode() { return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode(); }
+
+		public bool Equals(float3 other)
+		{
+			return other == this;
+		}
+
+		public override bool Equals(object obj)
+		{
+			var o = obj as float3?;
+			return o != null && o == this;
+		}
+
+		public override string ToString() { return "{0},{1},{2}".F(X, Y, Z); }
+
+		public static readonly float3 Zero = new float3(0, 0, 0);
+		public static readonly float3 Ones = new float3(1, 1, 1);
+	}
+}
+
+---- Transformed Tree ----
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+
+namespace OpenRA
+{
+	[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Mimic a built-in type alias.")]
+	[StructLayout(LayoutKind.Sequential)]
+	public readonly struct float3 : IEquatable<float3>
+	{
+		public readonly float X, Y, Z;
+		public float2 XY { get { return new float2(X, Y); } }
+
+		public float3(float x, float y, float z) { X = x; Y = y; Z = z; }
+		public float3(float2 xy, float z) { X = xy.X; Y = xy.Y; Z = z; }
+
+		public static implicit operator float3(int2 src) { return new float3(src.X, src.Y, 0); }
+		public static implicit operator float3(float2 src) { return new float3(src.X, src.Y, 0); }
+
+		public static float3 operator +(in float3 a, in float3 b) { return new float3(a.X + b.X, a.Y + b.Y, a.Z + b.Z); }
+		public static float3 operator -(in float3 a, in float3 b) { return new float3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
+		public static float3 operator -(in float3 a) { return new float3(-a.X, -a.Y, -a.Z); }
+		public static float3 operator *(in float3 a, in float3 b) { return new float3(a.X * b.X, a.Y * b.Y, a.Z * b.Z); }
+		public static float3 operator *(float a, in float3 b) { return new float3(a * b.X, a * b.Y, a * b.Z); }
+		public static float3 operator /(in float3 a, in float3 b) { return new float3(a.X / b.X, a.Y / b.Y, a.Z / b.Z); }
+		public static float3 operator /(in float3 a, float b) { return new float3(a.X / b, a.Y / b, a.Z / b); }
+
+		public static float3 Lerp(float3 a, float3 b, float t)
+		{
+			return new float3(
+				float2.Lerp(a.X, b.X, t),
+				float2.Lerp(a.Y, b.Y, t),
+				float2.Lerp(a.Z, b.Z, t));
+		}
+
+		public static bool operator ==(in float3 me, in float3 other) { return me.X == other.X && me.Y == other.Y && me.Z == other.Z; }
+		public static bool operator !=(in float3 me, in float3 other) { return !(me == other); }
+		public override int GetHashCode() { return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode(); }
+
+		public bool Equals(float3 other)
+		{
+			return other == this;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is float3? o && o == this;
+		}
+
+		public override string ToString() { return "{0},{1},{2}".F(X, Y, Z); }
+
+		public static readonly float3 Zero = new float3(0, 0, 0);
+		public static readonly float3 Ones = new float3(1, 1, 1);
+	}
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\OpenRA.Game\Primitives\float3.cs(58,18): error CS8116: It is not legal to use nullable type 'float3?' in a pattern; use the underlying type 'float3' instead.
+######################################################################
+
+
+######################################################################
+Nr: 4 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\OpenRA.Mods.Common\Scripting\Global\ActorGlobal.cs
+Description: Error: Unable to create valid SyntaxTree for document: ActorGlobal.cs. Caught exception: System.ArgumentException: An item with the same key has already been added. Key: if (value is LuaTable tableValue && init is CompositeActorInit compositeInit)
+			{
+				var args = compositeInit.InitializeArgs();
+				var initValues = new Dictionary<string, object>();
+				foreach (var kv in tableValue)
+				{
+					using (kv.Key)
+					using (kv.Value)
+					{
+						var key = kv.Key.ToString();
+						if (!args.TryGetValue(key, out var type))
+							throw new LuaException("Unknown initializer type '{0}.{1}'".F(initInstance[0], key));
+
+						var isActorReference = type == typeof(ActorInitActorReference);
+						if (isActorReference)
+							type = kv.Value is LuaString ? typeof(string) : typeof(Actor);
+
+						if (!kv.Value.TryGetClrValue(type, out var clrValue))
+							throw new LuaException("Invalid data type for '{0}.{1}' (expected {2}, got {3})".F(initInstance[0], key, type.Name, kv.Value.WrappedClrType()));
+
+						if (isActorReference)
+							clrValue = type == typeof(string) ? new ActorInitActorReference((string)clrValue) : new ActorInitActorReference((Actor)clrValue);
+
+						initValues[key] = clrValue;
+					}
+				}
+
+				compositeInit.Initialize(initValues);
+				return init;
+			}
+   at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+   at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+   at EagleRepair.Ast.Rewriter.UsePatternMatchingRewriterR8.AddLeadingLineFeedToIfStatements(IEnumerable`1 ifStatementChildren) in /Users/martinodermatt/repos/thesis/EagleRepair/EagleRepair/src/EagleRepair.Ast/Rewriter/UsePatternMatchingRewriterR8.cs:line 310
+   at EagleRepair.Ast.Rewriter.UsePatternMatchingRewriterR8.VisitMethodDeclaration(MethodDeclarationSyntax node) in /Users/martinodermatt/repos/thesis/EagleRepair/EagleRepair/src/EagleRepair.Ast/Rewriter/UsePatternMatchingRewriterR8.cs:line 201
+   at Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.Visit(SyntaxNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitListElement[TNode](TNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitList[TNode](SyntaxList`1 list)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitClassDeclaration(ClassDeclarationSyntax node)
+   at Microsoft.CodeAnalysis.CSharp.Syntax.ClassDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.Visit(SyntaxNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitListElement[TNode](TNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitList[TNode](SyntaxList`1 list)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+   at Microsoft.CodeAnalysis.CSharp.Syntax.NamespaceDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.Visit(SyntaxNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitListElement[TNode](TNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitList[TNode](SyntaxList`1 list)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitCompilationUnit(CompilationUnitSyntax node)
+   at Microsoft.CodeAnalysis.CSharp.Syntax.CompilationUnitSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.Visit(SyntaxNode node)
+   at EagleRepair.Ast.Engine.VisitNodes(Solution solution, ICollection`1 documents, IList`1 visitors) in /Users/martinodermatt/repos/thesis/EagleRepair/EagleRepair/src/EagleRepair.Ast/Engine.cs:line 107, Message: An item with the same key has already been added. Key: if (value is LuaTable tableValue && init is CompositeActorInit compositeInit)
+			{
+				var args = compositeInit.InitializeArgs();
+				var initValues = new Dictionary<string, object>();
+				foreach (var kv in tableValue)
+				{
+					using (kv.Key)
+					using (kv.Value)
+					{
+						var key = kv.Key.ToString();
+						if (!args.TryGetValue(key, out var type))
+							throw new LuaException("Unknown initializer type '{0}.{1}'".F(initInstance[0], key));
+
+						var isActorReference = type == typeof(ActorInitActorReference);
+						if (isActorReference)
+							type = kv.Value is LuaString ? typeof(string) : typeof(Actor);
+
+						if (!kv.Value.TryGetClrValue(type, out var clrValue))
+							throw new LuaException("Invalid data type for '{0}.{1}' (expected {2}, got {3})".F(initInstance[0], key, type.Name, kv.Value.WrappedClrType()));
+
+						if (isActorReference)
+							clrValue = type == typeof(string) ? new ActorInitActorReference((string)clrValue) : new ActorInitActorReference((Actor)clrValue);
+
+						initValues[key] = clrValue;
+					}
+				}
+
+				compositeInit.Initialize(initValues);
+				return init;
+			}
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using Eluant;
+using OpenRA.Mods.Common.Traits;
+using OpenRA.Primitives;
+using OpenRA.Scripting;
+
+namespace OpenRA.Mods.Common.Scripting
+{
+	[ScriptGlobal("Actor")]
+	public class ActorGlobal : ScriptGlobal
+	{
+		public ActorGlobal(ScriptContext context)
+			: base(context) { }
+
+		ActorInit CreateInit(string initName, LuaValue value)
+		{
+			// Find the requested type
+			var initInstance = initName.Split(ActorInfo.TraitInstanceSeparator);
+			var initType = Game.ModData.ObjectCreator.FindType(initInstance[0] + "Init");
+			if (initType == null)
+				throw new LuaException("Unknown initializer type '{0}'".F(initInstance[0]));
+
+			// Construct the ActorInit.
+			var init = (ActorInit)FormatterServices.GetUninitializedObject(initType);
+			if (initInstance.Length > 1)
+				initType.GetField("InstanceName").SetValue(init, initInstance[1]);
+
+			var compositeInit = init as CompositeActorInit;
+			var tableValue = value as LuaTable;
+			if (tableValue != null && compositeInit != null)
+			{
+				var args = compositeInit.InitializeArgs();
+				var initValues = new Dictionary<string, object>();
+				foreach (var kv in tableValue)
+				{
+					using (kv.Key)
+					using (kv.Value)
+					{
+						var key = kv.Key.ToString();
+						if (!args.TryGetValue(key, out var type))
+							throw new LuaException("Unknown initializer type '{0}.{1}'".F(initInstance[0], key));
+
+						var isActorReference = type == typeof(ActorInitActorReference);
+						if (isActorReference)
+							type = kv.Value is LuaString ? typeof(string) : typeof(Actor);
+
+						if (!kv.Value.TryGetClrValue(type, out var clrValue))
+							throw new LuaException("Invalid data type for '{0}.{1}' (expected {2}, got {3})".F(initInstance[0], key, type.Name, kv.Value.WrappedClrType()));
+
+						if (isActorReference)
+							clrValue = type == typeof(string) ? new ActorInitActorReference((string)clrValue) : new ActorInitActorReference((Actor)clrValue);
+
+						initValues[key] = clrValue;
+					}
+				}
+
+				compositeInit.Initialize(initValues);
+				return init;
+			}
+
+			// HACK: Backward compatibility for legacy int facings
+			var facingInit = init as FacingInit;
+			if (facingInit != null)
+			{
+				if (value.TryGetClrValue(out int facing))
+				{
+					facingInit.Initialize(WAngle.FromFacing(facing));
+					Game.Debug("Initializing Facing with integers is deprecated. Use Angle instead.");
+					return facingInit;
+				}
+			}
+
+			var initializers = initType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+				.Where(m => m.Name == "Initialize" && m.GetParameters().Length == 1);
+
+			foreach (var initializer in initializers)
+			{
+				var parameterType = initializer.GetParameters().First().ParameterType;
+				var valueType = parameterType.IsEnum ? Enum.GetUnderlyingType(parameterType) : parameterType;
+
+				// Try and coerce the table value to the required type
+				if (!value.TryGetClrValue(valueType, out var clrValue))
+					continue;
+
+				initializer.Invoke(init, new[] { clrValue });
+
+				return init;
+			}
+
+			var types = initializers.Select(y => y.GetParameters()[0].ParameterType.Name).JoinWith(", ");
+			throw new LuaException("Invalid data type for '{0}' (expected one of {1})".F(initInstance[0], types));
+		}
+
+		[Desc("Create a new actor. initTable specifies a list of key-value pairs that defines the initial parameters for the actor's traits.")]
+		public Actor Create(string type, bool addToWorld, LuaTable initTable)
+		{
+			var initDict = new TypeDictionary();
+
+			// Convert table entries into ActorInits
+			foreach (var kv in initTable)
+			{
+				using (kv.Key)
+				using (kv.Value)
+					initDict.Add(CreateInit(kv.Key.ToString(), kv.Value));
+			}
+
+			var owner = initDict.GetOrDefault<OwnerInit>();
+			if (owner == null)
+				throw new LuaException("Tried to create actor '{0}' with an invalid or no owner init!".F(type));
+
+			// The actor must be added to the world at the end of the tick
+			var a = Context.World.CreateActor(false, type, initDict);
+			if (addToWorld)
+				Context.World.AddFrameEndTask(w => w.Add(a));
+
+			return a;
+		}
+
+		[Desc("Returns the build time (in ticks) of the requested unit type.",
+			"An optional second value can be used to exactly specify the producing queue type.")]
+		public int BuildTime(string type, string queue = null)
+		{
+			if (!Context.World.Map.Rules.Actors.TryGetValue(type, out var ai))
+				throw new LuaException("Unknown actor type '{0}'".F(type));
+
+			var bi = ai.TraitInfoOrDefault<BuildableInfo>();
+
+			if (bi == null)
+				return 0;
+
+			var time = bi.BuildDuration;
+			if (time == -1)
+			{
+				var valued = ai.TraitInfoOrDefault<ValuedInfo>();
+				if (valued == null)
+					return 0;
+				else
+					time = valued.Cost;
+			}
+
+			int pbi;
+			if (queue != null)
+			{
+				var pqueue = Context.World.Map.Rules.Actors.Values.SelectMany(a => a.TraitInfos<ProductionQueueInfo>()
+					.Where(x => x.Type == queue)).FirstOrDefault();
+
+				if (pqueue == null)
+					throw new LuaException("The specified queue '{0}' does not exist!".F(queue));
+
+				pbi = pqueue.BuildDurationModifier;
+			}
+			else
+			{
+				var pqueue = Context.World.Map.Rules.Actors.Values.SelectMany(a => a.TraitInfos<ProductionQueueInfo>()
+					.Where(x => bi.Queue.Contains(x.Type))).FirstOrDefault();
+
+				if (pqueue == null)
+					throw new LuaException("No actors can produce actor '{0}'!".F(type));
+
+				pbi = pqueue.BuildDurationModifier;
+			}
+
+			time = time * bi.BuildDurationModifier * pbi / 10000;
+			return time;
+		}
+
+		[Desc("Returns the cruise altitude of the requested unit type (zero if it is ground-based).")]
+		public int CruiseAltitude(string type)
+		{
+			if (!Context.World.Map.Rules.Actors.TryGetValue(type, out var ai))
+				throw new LuaException("Unknown actor type '{0}'".F(type));
+
+			var pi = ai.TraitInfoOrDefault<ICruiseAltitudeInfo>();
+			return pi != null ? pi.GetCruiseAltitude().Length : 0;
+		}
+
+		public int Cost(string type)
+		{
+			if (!Context.World.Map.Rules.Actors.TryGetValue(type, out var ai))
+				throw new LuaException("Unknown actor type '{0}'".F(type));
+
+			var vi = ai.TraitInfoOrDefault<ValuedInfo>();
+			if (vi == null)
+				throw new LuaException("Actor type '{0}' does not have the Valued trait required to get the Cost.".F(type));
+
+			return vi.Cost;
+		}
+	}
+}
+
+---- Transformed Tree ----
+-
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+
+######################################################################
+
+
+######################################################################
+Nr: 5 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractZeroBraneStudioLuaAPI.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Linq;
+using System.Reflection;
+using OpenRA.Scripting;
+
+namespace OpenRA.Mods.Common.UtilityCommands
+{
+	// See https://studio.zerobrane.com/doc-api-auto-complete for reference
+	class ExtractZeroBraneStudioLuaAPI : IUtilityCommand
+	{
+		string IUtilityCommand.Name { get { return "--zbstudio-lua-api"; } }
+
+		bool IUtilityCommand.ValidateArguments(string[] args)
+		{
+			return true;
+		}
+
+		[Desc("Generate ZeroBrane Studio Lua API and auto-complete descriptions.")]
+		void IUtilityCommand.Run(Utility utility, string[] args)
+		{
+			// HACK: The engine code assumes that Game.modData is set.
+			Game.ModData = utility.ModData;
+
+			Console.WriteLine("local interpreter = {");
+			Console.WriteLine("  name = \"OpenRA\",");
+			Console.WriteLine("  description = \"OpenRA map scripting Lua API\",");
+			Console.WriteLine("  api = {\"baselib\", \"openra\"},");
+			Console.WriteLine("  hasdebugger = false,");
+			Console.WriteLine("  skipcompile = true,");
+			Console.WriteLine("}");
+			Console.WriteLine();
+
+			Console.WriteLine("-- This is an automatically generated Lua API definition generated for {0} of OpenRA.", Game.ModData.Manifest.Metadata.Version);
+			Console.WriteLine("-- https://github.com/OpenRA/OpenRA/wiki/Utility was used with the --zbstudio-lua-api parameter.");
+			Console.WriteLine("-- See https://github.com/OpenRA/OpenRA/wiki/Lua-API for human readable documentation.");
+			Console.WriteLine();
+			Console.WriteLine("local api = {");
+
+			var tables = Game.ModData.ObjectCreator.GetTypesImplementing<ScriptGlobal>().OrderBy(t => t.Name);
+			foreach (var t in tables)
+			{
+				var name = t.GetCustomAttributes<ScriptGlobalAttribute>(true).First().Name;
+				Console.WriteLine("  " + name + " = {");
+				Console.WriteLine("    type = \"class\",");
+				Console.WriteLine("    childs = {");
+
+				var members = ScriptMemberWrapper.WrappableMembers(t);
+				foreach (var member in members.OrderBy(m => m.Name))
+				{
+					Console.WriteLine("      " + member.Name + " = {");
+					var methodInfo = member as MethodInfo;
+					if (methodInfo != null)
+						Console.WriteLine("        type = \"function\",");
+
+					var propertyInfo = member as PropertyInfo;
+					if (propertyInfo != null)
+						Console.WriteLine("        type = \"value\",");
+
+					if (member.HasAttribute<DescAttribute>())
+					{
+						var desc = member.GetCustomAttributes<DescAttribute>(true).First().Lines.JoinWith("\n");
+						Console.WriteLine("        description = [[{0}]],", desc);
+					}
+
+					if (methodInfo != null)
+					{
+						var parameters = methodInfo.GetParameters().Select(pi => pi.LuaDocString());
+						Console.WriteLine("        args = \"({0})\",", parameters.JoinWith(", "));
+
+						var returnType = methodInfo.ReturnType.LuaDocString();
+						Console.WriteLine("        returns = \"({0})\",", returnType);
+					}
+
+					Console.WriteLine("      },");
+				}
+
+				Console.WriteLine("    }");
+				Console.WriteLine("  },");
+			}
+
+			var actorProperties = Game.ModData.ObjectCreator.GetTypesImplementing<ScriptActorProperties>().SelectMany(cg =>
+			{
+				return ScriptMemberWrapper.WrappableMembers(cg);
+			});
+
+			var scriptProperties = Game.ModData.ObjectCreator.GetTypesImplementing<ScriptPlayerProperties>().SelectMany(cg =>
+			{
+				return ScriptMemberWrapper.WrappableMembers(cg);
+			});
+
+			var properties = actorProperties.Concat(scriptProperties);
+			foreach (var property in properties.OrderBy(m => m.Name))
+			{
+				Console.WriteLine("  " + property.Name + " = {");
+
+				var methodInfo = property as MethodInfo;
+				if (methodInfo != null)
+					Console.WriteLine("    type = \"function\",");
+
+				var propertyInfo = property as PropertyInfo;
+				if (propertyInfo != null)
+					Console.WriteLine("    type = \"value\",");
+
+				if (property.HasAttribute<DescAttribute>())
+				{
+					var desc = property.GetCustomAttributes<DescAttribute>(true).First().Lines.JoinWith("\n");
+					Console.WriteLine("    description = [[{0}]],", desc);
+				}
+
+				if (methodInfo != null)
+				{
+					var parameters = methodInfo.GetParameters().Select(pi => pi.LuaDocString());
+					Console.WriteLine("    args = \"({0})\",", parameters.JoinWith(", "));
+
+					var returnType = methodInfo.ReturnType.LuaDocString();
+					Console.WriteLine("    returns = \"({0})\",", returnType);
+				}
+
+				Console.WriteLine("  },");
+			}
+
+			Console.WriteLine("}");
+			Console.WriteLine();
+			Console.WriteLine("return {");
+			Console.WriteLine("  name = \"OpenRA\",");
+			Console.WriteLine("  description = \"Adds API description for auto-complete and tooltip support for OpenRA.\",");
+			Console.WriteLine("  author = \"Matthias Mailänder\",");
+			Console.WriteLine("  version = \"{0}\",".F(Game.ModData.Manifest.Metadata.Version.Split('-').LastOrDefault()));
+			Console.WriteLine();
+			Console.WriteLine("  onRegister = function(self)");
+			Console.WriteLine("    ide:AddAPI(\"lua\", \"openra\", api)");
+			Console.WriteLine("    ide:AddInterpreter(\"openra\", interpreter)");
+			Console.WriteLine("  end,");
+			Console.WriteLine();
+			Console.WriteLine("  onUnRegister = function(self)");
+			Console.WriteLine("    ide:RemoveAPI(\"lua\", \"openra\")");
+			Console.WriteLine("    ide:RemoveInterpreter(\"openra\")");
+			Console.WriteLine("  end,");
+			Console.WriteLine("}");
+		}
+	}
+}
+
+---- Transformed Tree ----
+using System;
+using System.Linq;
+using System.Reflection;
+using OpenRA.Scripting;
+
+namespace OpenRA.Mods.Common.UtilityCommands
+{
+	// See https://studio.zerobrane.com/doc-api-auto-complete for reference
+	class ExtractZeroBraneStudioLuaAPI : IUtilityCommand
+	{
+		string IUtilityCommand.Name { get { return "--zbstudio-lua-api"; } }
+
+		bool IUtilityCommand.ValidateArguments(string[] args)
+		{
+			return true;
+		}
+
+		[Desc("Generate ZeroBrane Studio Lua API and auto-complete descriptions.")]
+		void IUtilityCommand.Run(Utility utility, string[] args)
+		{
+			// HACK: The engine code assumes that Game.modData is set.
+			Game.ModData = utility.ModData;
+
+			Console.WriteLine("local interpreter = {");
+			Console.WriteLine("  name = \"OpenRA\",");
+			Console.WriteLine("  description = \"OpenRA map scripting Lua API\",");
+			Console.WriteLine("  api = {\"baselib\", \"openra\"},");
+			Console.WriteLine("  hasdebugger = false,");
+			Console.WriteLine("  skipcompile = true,");
+			Console.WriteLine("}");
+			Console.WriteLine();
+
+			Console.WriteLine("-- This is an automatically generated Lua API definition generated for {0} of OpenRA.", Game.ModData.Manifest.Metadata.Version);
+			Console.WriteLine("-- https://github.com/OpenRA/OpenRA/wiki/Utility was used with the --zbstudio-lua-api parameter.");
+			Console.WriteLine("-- See https://github.com/OpenRA/OpenRA/wiki/Lua-API for human readable documentation.");
+			Console.WriteLine();
+			Console.WriteLine("local api = {");
+
+			var tables = Game.ModData.ObjectCreator.GetTypesImplementing<ScriptGlobal>().OrderBy(t => t.Name);
+			foreach (var t in tables)
+			{
+				var name = t.GetCustomAttributes<ScriptGlobalAttribute>(true).First().Name;
+				Console.WriteLine("  " + name + " = {");
+				Console.WriteLine("    type = \"class\",");
+				Console.WriteLine("    childs = {");
+
+				var members = ScriptMemberWrapper.WrappableMembers(t);
+				foreach (var member in members.OrderBy(m => m.Name))
+				{
+					Console.WriteLine("      " + member.Name + " = {");
+
+					if (member is MethodInfo methodInfo)
+						Console.WriteLine("        type = \"function\",");
+
+					if (member is PropertyInfo propertyInfo)
+						Console.WriteLine("        type = \"value\",");
+
+					if (member.HasAttribute<DescAttribute>())
+					{
+						var desc = member.GetCustomAttributes<DescAttribute>(true).First().Lines.JoinWith("\n");
+						Console.WriteLine("        description = [[{0}]],", desc);
+					}
+
+					if (member is MethodInfo methodInfo)
+					{
+						var parameters = methodInfo.GetParameters().Select(pi => pi.LuaDocString());
+						Console.WriteLine("        args = \"({0})\",", parameters.JoinWith(", "));
+
+						var returnType = methodInfo.ReturnType.LuaDocString();
+						Console.WriteLine("        returns = \"({0})\",", returnType);
+					}
+
+					Console.WriteLine("      },");
+				}
+
+				Console.WriteLine("    }");
+				Console.WriteLine("  },");
+			}
+
+			var actorProperties = Game.ModData.ObjectCreator.GetTypesImplementing<ScriptActorProperties>().SelectMany(cg =>
+			{
+				return ScriptMemberWrapper.WrappableMembers(cg);
+			});
+
+			var scriptProperties = Game.ModData.ObjectCreator.GetTypesImplementing<ScriptPlayerProperties>().SelectMany(cg =>
+			{
+				return ScriptMemberWrapper.WrappableMembers(cg);
+			});
+
+			var properties = actorProperties.Concat(scriptProperties);
+			foreach (var property in properties.OrderBy(m => m.Name))
+			{
+				Console.WriteLine("  " + property.Name + " = {");
+
+				if (member is MethodInfo methodInfo)
+					Console.WriteLine("    type = \"function\",");
+
+				if (member is PropertyInfo propertyInfo)
+					Console.WriteLine("    type = \"value\",");
+
+				if (property.HasAttribute<DescAttribute>())
+				{
+					var desc = property.GetCustomAttributes<DescAttribute>(true).First().Lines.JoinWith("\n");
+					Console.WriteLine("    description = [[{0}]],", desc);
+				}
+
+				if (member is MethodInfo methodInfo)
+				{
+					var parameters = methodInfo.GetParameters().Select(pi => pi.LuaDocString());
+					Console.WriteLine("    args = \"({0})\",", parameters.JoinWith(", "));
+
+					var returnType = methodInfo.ReturnType.LuaDocString();
+					Console.WriteLine("    returns = \"({0})\",", returnType);
+				}
+
+				Console.WriteLine("  },");
+			}
+
+			Console.WriteLine("}");
+			Console.WriteLine();
+			Console.WriteLine("return {");
+			Console.WriteLine("  name = \"OpenRA\",");
+			Console.WriteLine("  description = \"Adds API description for auto-complete and tooltip support for OpenRA.\",");
+			Console.WriteLine("  author = \"Matthias Mailänder\",");
+			Console.WriteLine("  version = \"{0}\",".F(Game.ModData.Manifest.Metadata.Version.Split('-').LastOrDefault()));
+			Console.WriteLine();
+			Console.WriteLine("  onRegister = function(self)");
+			Console.WriteLine("    ide:AddAPI(\"lua\", \"openra\", api)");
+			Console.WriteLine("    ide:AddInterpreter(\"openra\", interpreter)");
+			Console.WriteLine("  end,");
+			Console.WriteLine();
+			Console.WriteLine("  onUnRegister = function(self)");
+			Console.WriteLine("    ide:RemoveAPI(\"lua\", \"openra\")");
+			Console.WriteLine("    ide:RemoveInterpreter(\"openra\")");
+			Console.WriteLine("  end,");
+			Console.WriteLine("}");
+		}
+	}
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractZeroBraneStudioLuaAPI.cs(75,31): error CS0128: A local variable or function named 'methodInfo' is already defined in this scope,D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractZeroBraneStudioLuaAPI.cs(106,9): error CS0103: The name 'member' does not exist in the current context,D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractZeroBraneStudioLuaAPI.cs(109,9): error CS0103: The name 'member' does not exist in the current context,D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractZeroBraneStudioLuaAPI.cs(118,9): error CS0103: The name 'member' does not exist in the current context,D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractZeroBraneStudioLuaAPI.cs(118,30): error CS0128: A local variable or function named 'methodInfo' is already defined in this scope,D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractZeroBraneStudioLuaAPI.cs(77,24): error CS0165: Use of unassigned local variable 'methodInfo',D:\a\1\s\OpenRA.Mods.Common\UtilityCommands\ExtractZeroBraneStudioLuaAPI.cs(120,23): error CS0165: Use of unassigned local variable 'methodInfo'
+######################################################################
+
+

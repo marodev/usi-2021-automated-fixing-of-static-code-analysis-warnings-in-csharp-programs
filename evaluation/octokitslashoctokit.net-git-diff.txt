@@ -1,0 +1,965 @@
+diff --git a/.config/dotnet-tools.json b/.config/dotnet-tools.json
+index f319224c..8b0e849f 100644
+--- a/.config/dotnet-tools.json
++++ b/.config/dotnet-tools.json
+@@ -13,6 +13,18 @@
+       "commands": [
+         "dotnet-format"
+       ]
++    },
++    "jetbrains.resharper.globaltools": {
++      "version": "2020.3.3",
++      "commands": [
++        "jb"
++      ]
++    },
++    "eaglerepair.cli": {
++      "version": "0.0.26",
++      "commands": [
++        "eaglerepair"
++      ]
+     }
+   }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/ApiOptionsMissingException.cs b/Octokit.Tests.Conventions/Exception/ApiOptionsMissingException.cs
+index 3d09c51c..0b0753cb 100644
+--- a/Octokit.Tests.Conventions/Exception/ApiOptionsMissingException.cs
++++ b/Octokit.Tests.Conventions/Exception/ApiOptionsMissingException.cs
+@@ -23,11 +23,11 @@ static string CreateMessage(Type type, IEnumerable<MethodInfo> methods)
+         static string FormatMethod(MethodInfo m)
+         {
+             var formattedParameters = m.GetParameters()
+-                .Select(p => string.Format("{0} {1}", p.ParameterType.Name, p.Name));
++                .Select(p => $"{p.ParameterType.Name} {p.Name}");
+ 
+             var parameterList = string.Join(", ", formattedParameters);
+ 
+-            return string.Format(" - {0}({1})", m.Name, parameterList);
++            return $" - {m.Name}({parameterList})";
+         }
+     }
+ }
+diff --git a/Octokit.Tests.Conventions/Exception/EnumMissingPropertyAttributeException.cs b/Octokit.Tests.Conventions/Exception/EnumMissingPropertyAttributeException.cs
+index f5aa1688..27f7a23e 100644
+--- a/Octokit.Tests.Conventions/Exception/EnumMissingPropertyAttributeException.cs
++++ b/Octokit.Tests.Conventions/Exception/EnumMissingPropertyAttributeException.cs
+@@ -13,10 +13,7 @@ public EnumMissingParameterAttributeException(Type enumType, IEnumerable<FieldIn
+ 
+         static string CreateMessage(Type enumType, IEnumerable<FieldInfo> enumMembers)
+         {
+-            return string.Format("Enum type '{0}' contains the following members that are missing the Parameter attribute: {1}{2}",
+-                enumType.FullName,
+-                Environment.NewLine,
+-                string.Join(Environment.NewLine, enumMembers.Select(x => x.Name)));
++            return $"Enum type '{enumType.FullName}' contains the following members that are missing the Parameter attribute: {Environment.NewLine}{string.Join(Environment.NewLine, enumMembers.Select(x => x.Name))}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/InterfaceHasAdditionalMethodsException.cs b/Octokit.Tests.Conventions/Exception/InterfaceHasAdditionalMethodsException.cs
+index d037bc62..40954b7c 100644
+--- a/Octokit.Tests.Conventions/Exception/InterfaceHasAdditionalMethodsException.cs
++++ b/Octokit.Tests.Conventions/Exception/InterfaceHasAdditionalMethodsException.cs
+@@ -16,7 +16,7 @@ public InterfaceHasAdditionalMethodsException(Type type, IEnumerable<string> met
+ 
+         static string CreateMessage(Type type, IEnumerable<string> methods)
+         {
+-            var methodsFormatted = string.Join("\r\n", methods.Select(m => string.Format(" - {0}", m)));
++            var methodsFormatted = string.Join("\r\n", methods.Select(m => $" - {m}"));
+             return "Methods found on type {0} which should be removed:\r\n{1}"
+                       .FormatWithNewLine(
+                           type.Name,
+diff --git a/Octokit.Tests.Conventions/Exception/InterfaceMethodsMismatchException.cs b/Octokit.Tests.Conventions/Exception/InterfaceMethodsMismatchException.cs
+index 1fde7f19..3622fab2 100644
+--- a/Octokit.Tests.Conventions/Exception/InterfaceMethodsMismatchException.cs
++++ b/Octokit.Tests.Conventions/Exception/InterfaceMethodsMismatchException.cs
+@@ -16,14 +16,14 @@ public InterfaceMethodsMismatchException(Type type, Type clientInterface, Except
+ 
+         static string Format(ParameterInfo parameterInfo)
+         {
+-            return string.Format("{0} {1}", parameterInfo.ParameterType.Name, parameterInfo.Name);
++            return $"{parameterInfo.ParameterType.Name} {parameterInfo.Name}";
+         }
+ 
+         static string Format(MethodInfo methodInfo)
+         {
+             var parameters = methodInfo.GetParameters().Select(Format);
+ 
+-            return string.Format("{0} {1}({2})", methodInfo.ReturnType, methodInfo.Name, string.Join(", ", parameters));
++            return $"{methodInfo.ReturnType} {methodInfo.Name}({string.Join(", ", parameters)})";
+         }
+ 
+         static string CreateMessage(Type observableInterface, Type clientInterface)
+@@ -31,8 +31,8 @@ static string CreateMessage(Type observableInterface, Type clientInterface)
+             var mainMethods = clientInterface.GetMethodsOrdered();
+             var observableMethods = observableInterface.GetMethodsOrdered();
+ 
+-            var formattedMainMethods = string.Join("\r\n", mainMethods.Select(Format).Select(m => string.Format(" - {0}", m)));
+-            var formattedObservableMethods = string.Join("\r\n", observableMethods.Select(Format).Select(m => string.Format(" - {0}", m)));
++            var formattedMainMethods = string.Join("\r\n", mainMethods.Select(Format).Select(m => $" - {m}"));
++            var formattedObservableMethods = string.Join("\r\n", observableMethods.Select(Format).Select(m => $" - {m}"));
+ 
+             return
+                 "There are some overloads which are confusing the convention tests. Check everything is okay in these types:\r\n{0}\r\n{1}\r\n{2}\r\n{3}"
+diff --git a/Octokit.Tests.Conventions/Exception/InterfaceMissingMethodsException.cs b/Octokit.Tests.Conventions/Exception/InterfaceMissingMethodsException.cs
+index 37146fe4..784c4ea7 100644
+--- a/Octokit.Tests.Conventions/Exception/InterfaceMissingMethodsException.cs
++++ b/Octokit.Tests.Conventions/Exception/InterfaceMissingMethodsException.cs
+@@ -16,7 +16,7 @@ public InterfaceMissingMethodsException(Type type, IEnumerable<string> methodsMi
+ 
+         static string CreateMessage(Type type, IEnumerable<string> methods)
+         {
+-            var methodsFormatted = string.Join("\r\n", methods.Select(m => string.Format(" - {0}", m)));
++            var methodsFormatted = string.Join("\r\n", methods.Select(m => $" - {m}"));
+             return "Methods not found on interface {0} which are required:\r\n{1}"
+                        .FormatWithNewLine(type.Name, methodsFormatted);
+         }
+diff --git a/Octokit.Tests.Conventions/Exception/InterfaceNotFoundException.cs b/Octokit.Tests.Conventions/Exception/InterfaceNotFoundException.cs
+index cf27076c..9ae0eac3 100644
+--- a/Octokit.Tests.Conventions/Exception/InterfaceNotFoundException.cs
++++ b/Octokit.Tests.Conventions/Exception/InterfaceNotFoundException.cs
+@@ -16,7 +16,7 @@ public InterfaceNotFoundException(string type, Exception innerException)
+ 
+         static string CreateMessage(string type)
+         {
+-            return string.Format("Could not find the interface {0}. Add this to the Octokit.Reactive project", type);
++            return $"Could not find the interface {type}. Add this to the Octokit.Reactive project";
+         }
+     }
+ }
+diff --git a/Octokit.Tests.Conventions/Exception/InvalidDebuggerDisplayReturnType.cs b/Octokit.Tests.Conventions/Exception/InvalidDebuggerDisplayReturnType.cs
+index c8932a39..41a06d4b 100644
+--- a/Octokit.Tests.Conventions/Exception/InvalidDebuggerDisplayReturnType.cs
++++ b/Octokit.Tests.Conventions/Exception/InvalidDebuggerDisplayReturnType.cs
+@@ -10,10 +10,7 @@ public InvalidDebuggerDisplayReturnType(Type modelType, Type propertyType)
+ 
+         static string CreateMessage(Type modelType, Type propertyType)
+         {
+-            return string.Format(
+-                "Model type '{0}' has invalid DebuggerDisplay return type '{1}'. Expected 'string'.",
+-                modelType.FullName,
+-                propertyType.Name);
++            return $"Model type '{modelType.FullName}' has invalid DebuggerDisplay return type '{propertyType.Name}'. Expected 'string'.";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/InvalidUrlPropertyTypeException.cs b/Octokit.Tests.Conventions/Exception/InvalidUrlPropertyTypeException.cs
+index b0e94109..36ca9fd0 100644
+--- a/Octokit.Tests.Conventions/Exception/InvalidUrlPropertyTypeException.cs
++++ b/Octokit.Tests.Conventions/Exception/InvalidUrlPropertyTypeException.cs
+@@ -13,10 +13,7 @@ public InvalidUrlPropertyTypeException(Type modelType, IEnumerable<PropertyInfo>
+ 
+         static string CreateMessage(Type modelType, IEnumerable<PropertyInfo> propertiesWithInvalidType)
+         {
+-            return string.Format("Model type '{0}' contains the following properties that are named or suffixed with 'Url' but are not of type String: {1}{2}",
+-                modelType.FullName,
+-                Environment.NewLine,
+-                string.Join(Environment.NewLine, propertiesWithInvalidType.Select(x => x.Name)));
++            return $"Model type '{modelType.FullName}' contains the following properties that are named or suffixed with 'Url' but are not of type String: {Environment.NewLine}{string.Join(Environment.NewLine, propertiesWithInvalidType.Select(x => x.Name))}";
+         }
+     }
+ }
+diff --git a/Octokit.Tests.Conventions/Exception/MissingClientConstructorTestClassException.cs b/Octokit.Tests.Conventions/Exception/MissingClientConstructorTestClassException.cs
+index 231929db..b8347352 100644
+--- a/Octokit.Tests.Conventions/Exception/MissingClientConstructorTestClassException.cs
++++ b/Octokit.Tests.Conventions/Exception/MissingClientConstructorTestClassException.cs
+@@ -10,7 +10,7 @@ public MissingClientConstructorTestClassException(Type modelType)
+ 
+         static string CreateMessage(Type ctorTest)
+         {
+-            return string.Format("Constructor test class is missing {0}.", ctorTest.FullName);
++            return $"Constructor test class is missing {ctorTest.FullName}.";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/MissingClientConstructorTestMethodException.cs b/Octokit.Tests.Conventions/Exception/MissingClientConstructorTestMethodException.cs
+index a5908f13..38a93903 100644
+--- a/Octokit.Tests.Conventions/Exception/MissingClientConstructorTestMethodException.cs
++++ b/Octokit.Tests.Conventions/Exception/MissingClientConstructorTestMethodException.cs
+@@ -10,7 +10,7 @@ public MissingClientConstructorTestMethodException(Type modelType)
+ 
+         static string CreateMessage(Type ctorTest)
+         {
+-            return string.Format("Constructor test method is missing {0}.", ctorTest.FullName);
++            return $"Constructor test method is missing {ctorTest.FullName}.";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/MissingDebuggerDisplayAttributeException.cs b/Octokit.Tests.Conventions/Exception/MissingDebuggerDisplayAttributeException.cs
+index 9861ae76..3a0ca489 100644
+--- a/Octokit.Tests.Conventions/Exception/MissingDebuggerDisplayAttributeException.cs
++++ b/Octokit.Tests.Conventions/Exception/MissingDebuggerDisplayAttributeException.cs
+@@ -5,7 +5,7 @@ namespace Octokit.Tests.Conventions
+     public class MissingDebuggerDisplayAttributeException : Exception
+     {
+         public MissingDebuggerDisplayAttributeException(Type modelType)
+-            : base(string.Format("Model type '{0}' is missing the DebuggerDisplayAttribute.", modelType.FullName))
++            : base($"Model type '{modelType.FullName}' is missing the DebuggerDisplayAttribute.")
+         { }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/MissingDebuggerDisplayPropertyException.cs b/Octokit.Tests.Conventions/Exception/MissingDebuggerDisplayPropertyException.cs
+index 2a378d5d..85a4cfe9 100644
+--- a/Octokit.Tests.Conventions/Exception/MissingDebuggerDisplayPropertyException.cs
++++ b/Octokit.Tests.Conventions/Exception/MissingDebuggerDisplayPropertyException.cs
+@@ -5,7 +5,7 @@ namespace Octokit.Tests.Conventions
+     public class MissingDebuggerDisplayPropertyException : Exception
+     {
+         public MissingDebuggerDisplayPropertyException(Type modelType)
+-            : base(string.Format("Model type '{0}' is missing the DebuggerDisplay property.", modelType.FullName))
++            : base($"Model type '{modelType.FullName}' is missing the DebuggerDisplay property.")
+         { }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/MissingPublicConstructorWithAllPropertiesException.cs b/Octokit.Tests.Conventions/Exception/MissingPublicConstructorWithAllPropertiesException.cs
+index 671c9422..96ffc948 100644
+--- a/Octokit.Tests.Conventions/Exception/MissingPublicConstructorWithAllPropertiesException.cs
++++ b/Octokit.Tests.Conventions/Exception/MissingPublicConstructorWithAllPropertiesException.cs
+@@ -13,10 +13,7 @@ public MissingPublicConstructorWithAllPropertiesException(Type modelType, IEnume
+ 
+         private static string CreateMessage(Type modelType, IEnumerable<PropertyInfo> missingProperties)
+         {
+-            return string.Format("Model type '{0}' is missing a constructor with all properties. Closest match is missing the following properties: {1}{2}",
+-                modelType.FullName,
+-                Environment.NewLine,
+-                string.Join(Environment.NewLine, missingProperties.Select(prop => prop.Name)));
++            return $"Model type '{modelType.FullName}' is missing a constructor with all properties. Closest match is missing the following properties: {Environment.NewLine}{string.Join(Environment.NewLine, missingProperties.Select(prop => prop.Name))}";
+         }
+     }
+ }
+diff --git a/Octokit.Tests.Conventions/Exception/MissingPublicParameterlessCtorException.cs b/Octokit.Tests.Conventions/Exception/MissingPublicParameterlessCtorException.cs
+index 806c70d0..260a2707 100644
+--- a/Octokit.Tests.Conventions/Exception/MissingPublicParameterlessCtorException.cs
++++ b/Octokit.Tests.Conventions/Exception/MissingPublicParameterlessCtorException.cs
+@@ -5,7 +5,7 @@ namespace Octokit.Tests.Conventions
+     public class MissingPublicParameterlessCtorException : Exception
+     {
+         public MissingPublicParameterlessCtorException(Type modelType)
+-            : base(string.Format("Model type '{0}' is missing a Public Parameterless Constructor required by SimpleJson Deserializer.", modelType.FullName))
++            : base($"Model type '{modelType.FullName}' is missing a Public Parameterless Constructor required by SimpleJson Deserializer.")
+         { }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/ModelNotUsingStringEnumException.cs b/Octokit.Tests.Conventions/Exception/ModelNotUsingStringEnumException.cs
+index 9df562cc..c67e5c28 100644
+--- a/Octokit.Tests.Conventions/Exception/ModelNotUsingStringEnumException.cs
++++ b/Octokit.Tests.Conventions/Exception/ModelNotUsingStringEnumException.cs
+@@ -13,10 +13,7 @@ public ModelNotUsingStringEnumException(Type modelType, IEnumerable<PropertyInfo
+ 
+         static string CreateMessage(Type modelType, IEnumerable<PropertyInfo> enumProperties)
+         {
+-            return string.Format("Model type '{0}' contains the following Enum properties which should be wrapped in a StringEnum<TEnum> instead: {1}{2}",
+-                modelType.FullName,
+-                Environment.NewLine,
+-                string.Join(Environment.NewLine, enumProperties.Select(x => x.PropertyType.Name + " " + x.Name)));
++            return $"Model type '{modelType.FullName}' contains the following Enum properties which should be wrapped in a StringEnum<TEnum> instead: {Environment.NewLine}{string.Join(Environment.NewLine, enumProperties.Select(x => x.PropertyType.Name + " " + x.Name))}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/MutableModelPropertiesException.cs b/Octokit.Tests.Conventions/Exception/MutableModelPropertiesException.cs
+index 89e64b04..c7eab317 100644
+--- a/Octokit.Tests.Conventions/Exception/MutableModelPropertiesException.cs
++++ b/Octokit.Tests.Conventions/Exception/MutableModelPropertiesException.cs
+@@ -13,10 +13,7 @@ public MutableModelPropertiesException(Type modelType, IEnumerable<PropertyInfo>
+ 
+         static string CreateMessage(Type modelType, IEnumerable<PropertyInfo> mutableProperties)
+         {
+-            return string.Format("Model type '{0}' contains the following mutable properties: {1}{2}",
+-                modelType.FullName,
+-                Environment.NewLine,
+-                string.Join(Environment.NewLine, mutableProperties.Select(x => x.Name)));
++            return $"Model type '{modelType.FullName}' contains the following mutable properties: {Environment.NewLine}{string.Join(Environment.NewLine, mutableProperties.Select(x => x.Name))}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/PaginationGetAllMethodNameMismatchException.cs b/Octokit.Tests.Conventions/Exception/PaginationGetAllMethodNameMismatchException.cs
+index 8ec29c21..d1ee8cdd 100644
+--- a/Octokit.Tests.Conventions/Exception/PaginationGetAllMethodNameMismatchException.cs
++++ b/Octokit.Tests.Conventions/Exception/PaginationGetAllMethodNameMismatchException.cs
+@@ -15,7 +15,7 @@ public PaginationGetAllMethodNameMismatchException(Type type, IEnumerable<Method
+ 
+         static string CreateMessage(Type type, IEnumerable<MethodInfo> methods)
+         {
+-            var methodsFormatted = string.Join("\r\n", methods.Select(m => string.Format(" - {0}", m)));
++            var methodsFormatted = string.Join("\r\n", methods.Select(m => $" - {m}"));
+             return "Methods found on type {0} should follow the 'GetAll*' naming convention:\r\n{1}"
+                       .FormatWithNewLine(
+                           type.Name,
+diff --git a/Octokit.Tests.Conventions/Exception/ParameterCountMismatchException.cs b/Octokit.Tests.Conventions/Exception/ParameterCountMismatchException.cs
+index bd612a08..18213640 100644
+--- a/Octokit.Tests.Conventions/Exception/ParameterCountMismatchException.cs
++++ b/Octokit.Tests.Conventions/Exception/ParameterCountMismatchException.cs
+@@ -17,7 +17,7 @@ public ParameterCountMismatchException(MethodInfo method, IEnumerable<ParameterI
+ 
+         static string CreateMethodSignature(IEnumerable<ParameterInfo> parameters)
+         {
+-            return string.Join(",", parameters.Select(p => string.Format("{0} {1}", p.ParameterType.Name, p.Name)));
++            return string.Join(",", parameters.Select(p => $"{p.ParameterType.Name} {p.Name}"));
+         }
+ 
+         static string CreateMessage(MethodInfo method, IEnumerable<ParameterInfo> expected, IEnumerable<ParameterInfo> actual)
+@@ -25,7 +25,7 @@ static string CreateMessage(MethodInfo method, IEnumerable<ParameterInfo> expect
+             var expectedMethodSignature = CreateMethodSignature(expected);
+             var actualMethodSignature = CreateMethodSignature(actual);
+ 
+-            return string.Format("Method signature for {0}.{1} must be \"({2})\" but is \"({3})\"", method.DeclaringType.Name, method.Name, expectedMethodSignature, actualMethodSignature);
++            return $"Method signature for {method.DeclaringType.Name}.{method.Name} must be \"({expectedMethodSignature})\" but is \"({actualMethodSignature})\"";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/ParameterMismatchException.cs b/Octokit.Tests.Conventions/Exception/ParameterMismatchException.cs
+index f43ae8d2..81106c25 100644
+--- a/Octokit.Tests.Conventions/Exception/ParameterMismatchException.cs
++++ b/Octokit.Tests.Conventions/Exception/ParameterMismatchException.cs
+@@ -15,7 +15,7 @@ public ParameterMismatchException(MethodInfo method, int position, ParameterInfo
+ 
+         static string CreateParameterSignature(ParameterInfo parameter)
+         {
+-            return string.Format("{0} {1}", parameter.ParameterType.Name, parameter.Name);
++            return $"{parameter.ParameterType.Name} {parameter.Name}";
+         }
+ 
+         static string CreateMessage(MethodInfo method, int position, ParameterInfo expected, ParameterInfo actual)
+@@ -23,7 +23,7 @@ static string CreateMessage(MethodInfo method, int position, ParameterInfo expec
+             var expectedMethodSignature = CreateParameterSignature(expected);
+             var actualMethodSignature = CreateParameterSignature(actual);
+ 
+-            return string.Format("Parameter {0} for method {1}.{2} must be \"{3}\" but is \"{4}\"", position, method.DeclaringType.Name, method.Name, expectedMethodSignature, actualMethodSignature);
++            return $"Parameter {position} for method {method.DeclaringType.Name}.{method.Name} must be \"{expectedMethodSignature}\" but is \"{actualMethodSignature}\"";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/Exception/ReturnValueMismatchException.cs b/Octokit.Tests.Conventions/Exception/ReturnValueMismatchException.cs
+index f7271b25..e7580965 100644
+--- a/Octokit.Tests.Conventions/Exception/ReturnValueMismatchException.cs
++++ b/Octokit.Tests.Conventions/Exception/ReturnValueMismatchException.cs
+@@ -15,7 +15,7 @@ public ReturnValueMismatchException(MethodInfo method, Type expected, Type actua
+ 
+         static string CreateMessage(MethodInfo method, Type expected, Type actual)
+         {
+-            return string.Format("Return value for {0}.{1} must be \"{2}\" but is \"{3}\"", method.DeclaringType.Name, method.Name, expected, actual);
++            return $"Return value for {method.DeclaringType.Name}.{method.Name} must be \"{expected}\" but is \"{actual}\"";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Octokit.Tests.Conventions/PreviewsTests.cs b/Octokit.Tests.Conventions/PreviewsTests.cs
+index 8fd06610..186a6546 100644
+--- a/Octokit.Tests.Conventions/PreviewsTests.cs
++++ b/Octokit.Tests.Conventions/PreviewsTests.cs
+@@ -91,9 +91,7 @@ public InvalidAcceptHeadersFound(IEnumerable<string> notAllowedHeaders)
+ 
+         static string CreateMessage(IEnumerable<string> notAllowedHeaders)
+         {
+-            return string.Format("Accept headers in use but not allowed: {0}{1}",
+-               Environment.NewLine,
+-               string.Join(Environment.NewLine, notAllowedHeaders));
++            return $"Accept headers in use but not allowed: {Environment.NewLine}{string.Join(Environment.NewLine, notAllowedHeaders)}";
+         }
+     }
+ }
+diff --git a/Octokit.Tests.Integration/Clients/DeploymentsClientTests.cs b/Octokit.Tests.Integration/Clients/DeploymentsClientTests.cs
+index a0bc2d0d..8eb3b180 100644
+--- a/Octokit.Tests.Integration/Clients/DeploymentsClientTests.cs
++++ b/Octokit.Tests.Integration/Clients/DeploymentsClientTests.cs
+@@ -51,7 +51,7 @@ private IEnumerable<Commit> CreateCommits(int commitCount)
+         {
+             var blob = new NewBlob
+             {
+-                Content = string.Format("Hello World {0}!", i),
++                Content = $"Hello World {i}!",
+                 Encoding = EncodingType.Utf8
+             };
+ 
+diff --git a/Octokit.Tests.Integration/Clients/ReferencesClientTests.cs b/Octokit.Tests.Integration/Clients/ReferencesClientTests.cs
+index 9f2c62bd..877cc4a9 100644
+--- a/Octokit.Tests.Integration/Clients/ReferencesClientTests.cs
++++ b/Octokit.Tests.Integration/Clients/ReferencesClientTests.cs
+@@ -304,7 +304,7 @@ public async Task CanGetErrorForInvalidNamespace()
+ 
+         var result = await Assert.ThrowsAsync<NotFoundException>(
+             async () => { await _fixture.GetAllForSubNamespace(owner, repo, subNamespace); });
+-        Assert.Equal(string.Format("{0} was not found.", ApiUrls.Reference(owner, repo, subNamespace)), result.Message);
++        Assert.Equal($"{ApiUrls.Reference(owner, repo, subNamespace)} was not found.", result.Message);
+     }
+ 
+     [IntegrationTest]
+diff --git a/Octokit.Tests.Integration/Clients/RepositoriesClientTests.cs b/Octokit.Tests.Integration/Clients/RepositoriesClientTests.cs
+index 432deb99..2fed3397 100644
+--- a/Octokit.Tests.Integration/Clients/RepositoriesClientTests.cs
++++ b/Octokit.Tests.Integration/Clients/RepositoriesClientTests.cs
+@@ -22,7 +22,7 @@ public async Task CreatesANewPublicRepository()
+             {
+                 var createdRepository = context.Repository;
+ 
+-                var cloneUrl = string.Format("https://github.com/{0}/{1}.git", Helper.UserName, repoName);
++                var cloneUrl = $"https://github.com/{Helper.UserName}/{repoName}.git";
+                 Assert.Equal(repoName, createdRepository.Name);
+                 Assert.False(createdRepository.Private);
+                 Assert.Equal(cloneUrl, createdRepository.CloneUrl);
+@@ -328,7 +328,7 @@ public async Task CreatesANewPublicRepository()
+             {
+                 var createdRepository = context.Repository;
+ 
+-                var cloneUrl = string.Format("https://github.com/{0}/{1}.git", Helper.Organization, repoName);
++                var cloneUrl = $"https://github.com/{Helper.Organization}/{repoName}.git";
+                 Assert.Equal(repoName, createdRepository.Name);
+                 Assert.False(createdRepository.Private);
+                 Assert.Equal(cloneUrl, createdRepository.CloneUrl);
+diff --git a/Octokit.Tests.Integration/Clients/RepositoryBranchesClientTests.cs b/Octokit.Tests.Integration/Clients/RepositoryBranchesClientTests.cs
+index b4bb1481..c23a14f4 100644
+--- a/Octokit.Tests.Integration/Clients/RepositoryBranchesClientTests.cs
++++ b/Octokit.Tests.Integration/Clients/RepositoryBranchesClientTests.cs
+@@ -1083,10 +1083,7 @@ public async Task GetsAdminEnforcementWithRepositoryId()
+ 
+         public void Dispose()
+         {
+-            if (_userRepoContext != null)
+-            {
+-                _userRepoContext.Dispose();
+-            }
++            _userRepoContext?.Dispose();
+         }
+     }
+ 
+@@ -1130,10 +1127,7 @@ public async Task AddsAdminEnforcementoWithRepositoryId()
+ 
+         public void Dispose()
+         {
+-            if (_userRepoContext != null)
+-            {
+-                _userRepoContext.Dispose();
+-            }
++            _userRepoContext?.Dispose();
+         }
+     }
+ 
+diff --git a/Octokit.Tests.Integration/Clients/RepositoryForksClientTests.cs b/Octokit.Tests.Integration/Clients/RepositoryForksClientTests.cs
+index 836b1c55..82879dc1 100644
+--- a/Octokit.Tests.Integration/Clients/RepositoryForksClientTests.cs
++++ b/Octokit.Tests.Integration/Clients/RepositoryForksClientTests.cs
+@@ -416,7 +416,7 @@ public async Task ForkCreatedForUserLoggedIn()
+                 var forkCreated = await github.Repository.Forks.Create("octokit", "octokit.net", new NewRepositoryFork());
+ 
+                 Assert.NotNull(forkCreated);
+-                Assert.Equal(string.Format("{0}/octokit.net", Helper.UserName), forkCreated.FullName);
++                Assert.Equal($"{Helper.UserName}/octokit.net", forkCreated.FullName);
+                 Assert.True(forkCreated.Fork);
+             }
+ 
+@@ -433,7 +433,7 @@ public async Task ForkCreatedForUserLoggedInWithRepositoryId()
+                 var forkCreated = await github.Repository.Forks.Create(7528679, new NewRepositoryFork());
+ 
+                 Assert.NotNull(forkCreated);
+-                Assert.Equal(string.Format("{0}/octokit.net", Helper.UserName), forkCreated.FullName);
++                Assert.Equal($"{Helper.UserName}/octokit.net", forkCreated.FullName);
+                 Assert.True(forkCreated.Fork);
+             }
+ 
+@@ -450,7 +450,7 @@ public async Task ForkCreatedForOrganization()
+                 var forkCreated = await github.Repository.Forks.Create("octokit", "octokit.net", new NewRepositoryFork { Organization = Helper.Organization });
+ 
+                 Assert.NotNull(forkCreated);
+-                Assert.Equal(string.Format("{0}/octokit.net", Helper.Organization), forkCreated.FullName);
++                Assert.Equal($"{Helper.Organization}/octokit.net", forkCreated.FullName);
+                 Assert.True(forkCreated.Fork);
+             }
+ 
+@@ -467,7 +467,7 @@ public async Task ForkCreatedForOrganizationWithRepositoryId()
+                 var forkCreated = await github.Repository.Forks.Create(7528679, new NewRepositoryFork { Organization = Helper.Organization });
+ 
+                 Assert.NotNull(forkCreated);
+-                Assert.Equal(string.Format("{0}/octokit.net", Helper.Organization), forkCreated.FullName);
++                Assert.Equal($"{Helper.Organization}/octokit.net", forkCreated.FullName);
+                 Assert.True(forkCreated.Fork);
+             }
+         }
+diff --git a/Octokit.Tests.Integration/Clients/TeamsClientTests.cs b/Octokit.Tests.Integration/Clients/TeamsClientTests.cs
+index ec6252c0..5ce9b077 100644
+--- a/Octokit.Tests.Integration/Clients/TeamsClientTests.cs
++++ b/Octokit.Tests.Integration/Clients/TeamsClientTests.cs
+@@ -193,10 +193,7 @@ public async Task EditsMembership()
+ 
+         public void Dispose()
+         {
+-            if (_teamContext != null)
+-            {
+-                _teamContext.Dispose();
+-            }
++            _teamContext?.Dispose();
+         }
+     }
+ 
+@@ -232,10 +229,7 @@ public async Task ThrowsWhenNotAMember()
+ 
+         public void Dispose()
+         {
+-            if (_teamContext != null)
+-            {
+-                _teamContext.Dispose();
+-            }
++            _teamContext?.Dispose();
+         }
+     }
+ 
+@@ -272,10 +266,7 @@ public async Task GetsAllMembersWithRoleFilter()
+ 
+         public void Dispose()
+         {
+-            if (_teamContext != null)
+-            {
+-                _teamContext.Dispose();
+-            }
++            _teamContext?.Dispose();
+         }
+     }
+ 
+diff --git a/Octokit.Tests.Integration/Reactive/ObservableTeamsClientTests.cs b/Octokit.Tests.Integration/Reactive/ObservableTeamsClientTests.cs
+index 0e813365..9b255bf1 100644
+--- a/Octokit.Tests.Integration/Reactive/ObservableTeamsClientTests.cs
++++ b/Octokit.Tests.Integration/Reactive/ObservableTeamsClientTests.cs
+@@ -151,10 +151,7 @@ public async Task EditsMembership()
+ 
+         public void Dispose()
+         {
+-            if (_teamContext != null)
+-            {
+-                _teamContext.Dispose();
+-            }
++            _teamContext?.Dispose();
+         }
+     }
+ 
+@@ -190,10 +187,7 @@ public async Task ThrowsWhenNotAMember()
+ 
+         public void Dispose()
+         {
+-            if (_teamContext != null)
+-            {
+-                _teamContext.Dispose();
+-            }
++            _teamContext?.Dispose();
+         }
+     }
+ 
+@@ -230,10 +224,7 @@ public async Task GetsAllMembersWithRequest()
+ 
+         public void Dispose()
+         {
+-            if (_teamContext != null)
+-            {
+-                _teamContext.Dispose();
+-            }
++            _teamContext?.Dispose();
+         }
+     }
+ 
+@@ -261,7 +252,7 @@ public async Task GetsAllRepositories()
+                 var observable = client.GetAllRepositories(_team.Id, ApiOptions.None);
+                 var repos = await observable.ToList();
+ 
+-                Assert.True(repos.Count() > 0);
++                Assert.True(repos.Any());
+                 Assert.NotNull(repos[0].Permissions);
+             }
+         }
+diff --git a/Octokit.Tests/Clients/CommitsClientTests.cs b/Octokit.Tests/Clients/CommitsClientTests.cs
+index 6f04edc0..4b2125ea 100644
+--- a/Octokit.Tests/Clients/CommitsClientTests.cs
++++ b/Octokit.Tests/Clients/CommitsClientTests.cs
+@@ -64,9 +64,7 @@ public void PostsToTheCorrectUrl()
+             client.Create("owner", "repo", newCommit);
+ 
+             connection.Received().Post<Commit>(Arg.Is<Uri>(u => u.ToString() == "repos/owner/repo/git/commits"),
+-                Arg.Is<NewCommit>(nc => nc.Message == "message"
+-                    && nc.Tree == "tree"
+-                    && nc.Parents.Count() == 2));
++                Arg.Is<NewCommit>(nc => nc.Message == "message" && nc.Tree == "tree" && nc.Parents.Count() == 2));
+         }
+ 
+         [Fact]
+@@ -81,9 +79,7 @@ public void PostsToTheCorrectUrlWithRepositoryId()
+             client.Create(1, newCommit);
+ 
+             connection.Received().Post<Commit>(Arg.Is<Uri>(u => u.ToString() == "repositories/1/git/commits"),
+-                Arg.Is<NewCommit>(nc => nc.Message == "message"
+-                    && nc.Tree == "tree"
+-                    && nc.Parents.Count() == 2));
++                Arg.Is<NewCommit>(nc => nc.Message == "message" && nc.Tree == "tree" && nc.Parents.Count() == 2));
+         }
+ 
+         [Fact]
+diff --git a/Octokit.Tests/Clients/DeploymentsClientTests.cs b/Octokit.Tests/Clients/DeploymentsClientTests.cs
+index 46057437..81c1a314 100644
+--- a/Octokit.Tests/Clients/DeploymentsClientTests.cs
++++ b/Octokit.Tests/Clients/DeploymentsClientTests.cs
+@@ -54,7 +54,7 @@ public async Task RequestsCorrectUrl()
+         {
+             var connection = Substitute.For<IApiConnection>();
+             var client = new DeploymentsClient(connection);
+-            var expectedUrl = string.Format("repos/{0}/{1}/deployments", owner, name);
++            var expectedUrl = $"repos/{owner}/{name}/deployments";
+ 
+             await client.GetAll(owner, name);
+ 
+@@ -69,7 +69,7 @@ public async Task RequestsCorrectUrlWithRepositoryId()
+         {
+             var connection = Substitute.For<IApiConnection>();
+             var client = new DeploymentsClient(connection);
+-            var expectedUrl = string.Format("repositories/{0}/deployments", repositoryId);
++            var expectedUrl = $"repositories/{repositoryId}/deployments";
+ 
+             await client.GetAll(repositoryId);
+ 
+@@ -83,7 +83,7 @@ public async Task RequestsCorrectUrlWithApiOptions()
+         {
+             var connection = Substitute.For<IApiConnection>();
+             var client = new DeploymentsClient(connection);
+-            var expectedUrl = string.Format("repos/{0}/{1}/deployments", owner, name);
++            var expectedUrl = $"repos/{owner}/{name}/deployments";
+ 
+             var options = new ApiOptions
+             {
+@@ -106,7 +106,7 @@ public async Task RequestsCorrectUrlWithRepositoryIdWithApiOptions()
+         {
+             var connection = Substitute.For<IApiConnection>();
+             var client = new DeploymentsClient(connection);
+-            var expectedUrl = string.Format("repositories/{0}/deployments", repositoryId);
++            var expectedUrl = $"repositories/{repositoryId}/deployments";
+ 
+             var options = new ApiOptions
+             {
+@@ -127,7 +127,7 @@ public void RequestsCorrectUrlWithPreviewAcceptHeaders()
+         {
+             var connection = Substitute.For<IApiConnection>();
+             var client = new DeploymentsClient(connection);
+-            var expectedUrl = string.Format("repos/{0}/{1}/deployments", owner, name);
++            var expectedUrl = $"repos/{owner}/{name}/deployments";
+ 
+             client.GetAll(owner, name);
+             connection.Received(1)
+diff --git a/Octokit.Tests/Helpers/ReflectionExtensions.cs b/Octokit.Tests/Helpers/ReflectionExtensions.cs
+index 2f790f66..8475c396 100644
+--- a/Octokit.Tests/Helpers/ReflectionExtensions.cs
++++ b/Octokit.Tests/Helpers/ReflectionExtensions.cs
+@@ -14,9 +14,7 @@ public static string GetAsyncVoidMethodsList(this Assembly assembly)
+                 .Where(HasAttribute<AsyncStateMachineAttribute>)
+                 .Where(method => method.ReturnType == typeof(void))
+                 .Select(method =>
+-                    string.Format("Method '{0}' of '{1}' has an async void return type and that's bad",
+-                        method.Name,
+-                        method.DeclaringType.Name))
++                    $"Method '{method.Name}' of '{method.DeclaringType.Name}' has an async void return type and that's bad")
+                 .ToList());
+     }
+ 
+diff --git a/Octokit.Tests/Reactive/ObservableAssigneesClientTests.cs b/Octokit.Tests/Reactive/ObservableAssigneesClientTests.cs
+index 21e11f66..f17ec838 100644
+--- a/Octokit.Tests/Reactive/ObservableAssigneesClientTests.cs
++++ b/Octokit.Tests/Reactive/ObservableAssigneesClientTests.cs
+@@ -21,8 +21,8 @@ public class TheGetAllMethod
+ 
+             public TheGetAllMethod()
+             {
+-                var uri = string.Format("repos/{0}/{1}/assignees", owner, name);
+-                var uriWithRepositoryId = string.Format("repositories/{0}/assignees", repositoryId);
++                var uri = $"repos/{owner}/{name}/assignees";
++                var uriWithRepositoryId = $"repositories/{repositoryId}/assignees";
+ 
+                 _expectedUri = new Uri(uri, UriKind.Relative);
+                 _expectedUriWithRepositoryId = new Uri(uriWithRepositoryId, UriKind.Relative);
+diff --git a/Octokit.Tests/Reactive/ObservableDeploymentStatusClientTests.cs b/Octokit.Tests/Reactive/ObservableDeploymentStatusClientTests.cs
+index 7a740296..a699a6b1 100644
+--- a/Octokit.Tests/Reactive/ObservableDeploymentStatusClientTests.cs
++++ b/Octokit.Tests/Reactive/ObservableDeploymentStatusClientTests.cs
+@@ -25,7 +25,7 @@ public TheGetAllMethod()
+             [Fact]
+             public void RequestsCorrectUrl()
+             {
+-                var expectedUri = string.Format("repos/{0}/{1}/deployments/{2}/statuses", "owner", "repo", 1);
++                var expectedUri = $"repos/{"owner"}/{"repo"}/deployments/{1}/statuses";
+ 
+                 _client.GetAll("owner", "repo", 1);
+ 
+@@ -38,7 +38,7 @@ public void RequestsCorrectUrl()
+             [Fact]
+             public void RequestsCorrectUrlWithRepositoryId()
+             {
+-                var expectedUri = string.Format("repositories/{0}/deployments/{1}/statuses", 1, 1);
++                var expectedUri = $"repositories/{1}/deployments/{1}/statuses";
+ 
+                 _client.GetAll(1, 1);
+ 
+@@ -51,7 +51,7 @@ public void RequestsCorrectUrlWithRepositoryId()
+             [Fact]
+             public void RequestsCorrectUrlWithApiOptions()
+             {
+-                var expectedUri = string.Format("repos/{0}/{1}/deployments/{2}/statuses", "owner", "repo", 1);
++                var expectedUri = $"repos/{"owner"}/{"repo"}/deployments/{1}/statuses";
+ 
+                 var options = new ApiOptions
+                 {
+@@ -71,7 +71,7 @@ public void RequestsCorrectUrlWithApiOptions()
+             [Fact]
+             public void RequestsCorrectUrlWithRepositoryIdWithApiOptions()
+             {
+-                var expectedUri = string.Format("repositories/{0}/deployments/{1}/statuses", 1, 1);
++                var expectedUri = $"repositories/{1}/deployments/{1}/statuses";
+ 
+                 var options = new ApiOptions
+                 {
+diff --git a/Octokit.Tests/Reactive/ObservableDeploymentsClientTests.cs b/Octokit.Tests/Reactive/ObservableDeploymentsClientTests.cs
+index 58bdc62d..09344382 100644
+--- a/Octokit.Tests/Reactive/ObservableDeploymentsClientTests.cs
++++ b/Octokit.Tests/Reactive/ObservableDeploymentsClientTests.cs
+@@ -54,7 +54,7 @@ public async Task EnsuresNonWhitespaceArguments()
+             [Fact]
+             public void RequestsCorrectUrl()
+             {
+-                var expectedUrl = string.Format("repos/{0}/{1}/deployments", owner, name);
++                var expectedUrl = $"repos/{owner}/{name}/deployments";
+ 
+                 _client.GetAll(owner, name);
+ 
+@@ -67,7 +67,7 @@ public void RequestsCorrectUrl()
+             [Fact]
+             public void RequestsCorrectUrlWithRepositoryId()
+             {
+-                var expectedUrl = string.Format("repositories/{0}/deployments", repositoryId);
++                var expectedUrl = $"repositories/{repositoryId}/deployments";
+ 
+                 _client.GetAll(repositoryId);
+ 
+@@ -80,7 +80,7 @@ public void RequestsCorrectUrlWithRepositoryId()
+             [Fact]
+             public void RequestsCorrectUrlWithApiOptions()
+             {
+-                var expectedUrl = string.Format("repos/{0}/{1}/deployments", owner, name);
++                var expectedUrl = $"repos/{owner}/{name}/deployments";
+ 
+                 // all properties are setted => only 2 options (StartPage, PageSize) in dictionary
+                 var options = new ApiOptions
+@@ -124,7 +124,7 @@ public void RequestsCorrectUrlWithApiOptions()
+             [Fact]
+             public void RequestsCorrectUrlWithRepositoryIdWithApiOptions()
+             {
+-                var expectedUrl = string.Format("repositories/{0}/deployments", repositoryId);
++                var expectedUrl = $"repositories/{repositoryId}/deployments";
+ 
+                 // all properties are setted => only 2 options (StartPage, PageSize) in dictionary
+                 var options = new ApiOptions
+diff --git a/Octokit.Tests/Reactive/ObservableReleasesClientTests.cs b/Octokit.Tests/Reactive/ObservableReleasesClientTests.cs
+index 438bd1fe..b8cac3c8 100644
+--- a/Octokit.Tests/Reactive/ObservableReleasesClientTests.cs
++++ b/Octokit.Tests/Reactive/ObservableReleasesClientTests.cs
+@@ -360,7 +360,7 @@ public void RequestsTheCorrectUrlWithRepositoryId()
+             [Fact]
+             public void RequestsTheCorrectUrlWithApiOptions()
+             {
+-                var expectedUrl = string.Format("repos/{0}/{1}/releases/1/assets", "fake", "repo");
++                var expectedUrl = $"repos/{"fake"}/{"repo"}/releases/1/assets";
+ 
+                 var gitHubClient = Substitute.For<IGitHubClient>();
+                 var client = new ObservableReleasesClient(gitHubClient);
+diff --git a/Octokit.Tests/Reactive/ObservableRepoCollaboratorsClientTests.cs b/Octokit.Tests/Reactive/ObservableRepoCollaboratorsClientTests.cs
+index 8b0b78f8..54bdf1e8 100644
+--- a/Octokit.Tests/Reactive/ObservableRepoCollaboratorsClientTests.cs
++++ b/Octokit.Tests/Reactive/ObservableRepoCollaboratorsClientTests.cs
+@@ -64,7 +64,7 @@ public async Task EnsuresNonWhitespaceArguments()
+             [Fact]
+             public void RequestsCorrectUrl()
+             {
+-                var expectedUrl = string.Format("repos/{0}/{1}/collaborators", owner, name);
++                var expectedUrl = $"repos/{owner}/{name}/collaborators";
+ 
+                 _client.GetAll(owner, name);
+                 _githubClient.Connection.Received(1)
+@@ -76,7 +76,7 @@ public void RequestsCorrectUrl()
+             [Fact]
+             public void RequestsCorrectUrlWithRepositoryId()
+             {
+-                var expectedUrl = string.Format("repositories/{0}/collaborators", repositoryId);
++                var expectedUrl = $"repositories/{repositoryId}/collaborators";
+ 
+                 _client.GetAll(repositoryId);
+                 _githubClient.Connection.Received(1)
+@@ -88,7 +88,7 @@ public void RequestsCorrectUrlWithRepositoryId()
+             [Fact]
+             public void RequestsCorrectUrlWithApiOptions()
+             {
+-                var expectedUrl = string.Format("repos/{0}/{1}/collaborators", owner, name);
++                var expectedUrl = $"repos/{owner}/{name}/collaborators";
+ 
+                 // all properties are setted => only 2 options (StartPage, PageSize) in dictionary
+                 var options = new ApiOptions
+@@ -132,7 +132,7 @@ public void RequestsCorrectUrlWithApiOptions()
+             [Fact]
+             public void RequestsCorrectUrlWithCollaboratorFilter()
+             {
+-                var expectedUrl = string.Format("repos/{0}/{1}/collaborators", owner, name);
++                var expectedUrl = $"repos/{owner}/{name}/collaborators";
+ 
+                 var request = new RepositoryCollaboratorListRequest();
+ 
+@@ -169,7 +169,7 @@ public void RequestsCorrectUrlWithCollaboratorFilter()
+             [Fact]
+             public void RequestsCorrectUrlWithApiOptionsAndRepositoryId()
+             {
+-                var expectedUrl = string.Format("repositories/{0}/collaborators", repositoryId);
++                var expectedUrl = $"repositories/{repositoryId}/collaborators";
+ 
+                 // all properties are setted => only 2 options (StartPage, PageSize) in dictionary
+                 var options = new ApiOptions
+@@ -213,7 +213,7 @@ public void RequestsCorrectUrlWithApiOptionsAndRepositoryId()
+             [Fact]
+             public void RequestsCorrectUrlWithCollaboratorFilterAndRepositoryId()
+             {
+-                var expectedUrl = string.Format("repositories/{0}/collaborators", repositoryId);
++                var expectedUrl = $"repositories/{repositoryId}/collaborators";
+ 
+                 var request = new RepositoryCollaboratorListRequest();
+ 
+diff --git a/Octokit.Tests/Reactive/ObservableRepositoryDeployKeysClientTests.cs b/Octokit.Tests/Reactive/ObservableRepositoryDeployKeysClientTests.cs
+index f0d553fe..bd56e5d0 100644
+--- a/Octokit.Tests/Reactive/ObservableRepositoryDeployKeysClientTests.cs
++++ b/Octokit.Tests/Reactive/ObservableRepositoryDeployKeysClientTests.cs
+@@ -73,7 +73,7 @@ public void RequestsCorrectUrlWithApiOptions()
+             {
+                 var gitHubClient = Substitute.For<IGitHubClient>();
+                 var deployKeysClient = new ObservableRepositoryDeployKeysClient(gitHubClient);
+-                var expectedUrl = string.Format("repos/{0}/{1}/keys", "user", "repo");
++                var expectedUrl = $"repos/{"user"}/{"repo"}/keys";
+ 
+                 // all properties are setted => only 2 options (StartPage, PageSize) in dictionary
+                 var options = new ApiOptions
+diff --git a/Octokit/Http/HttpClientAdapter.cs b/Octokit/Http/HttpClientAdapter.cs
+index efe823dd..21dc9fd4 100644
+--- a/Octokit/Http/HttpClientAdapter.cs
++++ b/Octokit/Http/HttpClientAdapter.cs
+@@ -157,20 +157,18 @@ protected virtual HttpRequestMessage BuildRequestMessage(IRequest request)
+                 {
+                     requestMessage.Headers.Add(header.Key, header.Value);
+                 }
+-                var httpContent = request.Body as HttpContent;
+-                if (httpContent != null)
++
++                if (request.Body is HttpContent httpContent)
+                 {
+                     requestMessage.Content = httpContent;
+                 }
+ 
+-                var body = request.Body as string;
+-                if (body != null)
++                if (request.Body is string body)
+                 {
+                     requestMessage.Content = new StringContent(body, Encoding.UTF8, request.ContentType);
+                 }
+ 
+-                var bodyStream = request.Body as Stream;
+-                if (bodyStream != null)
++                if (request.Body is Stream bodyStream)
+                 {
+                     requestMessage.Content = new StreamContent(bodyStream);
+                     requestMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(request.ContentType);
+@@ -178,10 +176,7 @@ protected virtual HttpRequestMessage BuildRequestMessage(IRequest request)
+             }
+             catch (Exception)
+             {
+-                if (requestMessage != null)
+-                {
+-                    requestMessage.Dispose();
+-                }
++                requestMessage?.Dispose();
+                 throw;
+             }
+ 
+diff --git a/Octokit/Http/SimpleJsonSerializer.cs b/Octokit/Http/SimpleJsonSerializer.cs
+index b4bb5558..c0b99f73 100644
+--- a/Octokit/Http/SimpleJsonSerializer.cs
++++ b/Octokit/Http/SimpleJsonSerializer.cs
+@@ -142,10 +142,7 @@ internal object DeserializeEnumHelper(string value, Type type)
+             // Overridden to handle enums.
+             public override object DeserializeObject(object value, Type type)
+             {
+-                var stringValue = value as string;
+-                var jsonValue = value as JsonObject;
+-
+-                if (stringValue != null)
++                if (value is string stringValue)
+                 {
+                     // If it's a nullable type, use the underlying type
+                     if (ReflectionUtils.IsNullableType(type))
+@@ -176,7 +173,7 @@ public override object DeserializeObject(object value, Type type)
+                         return Activator.CreateInstance(type, stringValue);
+                     }
+                 }
+-                else if (jsonValue != null)
++                else if (value is JsonObject jsonValue)
+                 {
+                     if (type == typeof(Activity))
+                     {
+diff --git a/Octokit/SimpleJson.cs b/Octokit/SimpleJson.cs
+index 5d5161c2..e7da58f4 100644
+--- a/Octokit/SimpleJson.cs
++++ b/Octokit/SimpleJson.cs
+@@ -1179,18 +1179,18 @@ static bool SerializeString(string aString, StringBuilder builder)
+ 
+         static bool SerializeNumber(object number, StringBuilder builder)
+         {
+-            if (number is long)
+-                builder.Append(((long)number).ToString(CultureInfo.InvariantCulture));
+-            else if (number is ulong)
+-                builder.Append(((ulong)number).ToString(CultureInfo.InvariantCulture));
+-            else if (number is int)
+-                builder.Append(((int)number).ToString(CultureInfo.InvariantCulture));
+-            else if (number is uint)
+-                builder.Append(((uint)number).ToString(CultureInfo.InvariantCulture));
+-            else if (number is decimal)
+-                builder.Append(((decimal)number).ToString(CultureInfo.InvariantCulture));
+-            else if (number is float)
+-                builder.Append(((float)number).ToString(CultureInfo.InvariantCulture));
++            if (number is long l)
++                builder.Append(l.ToString(CultureInfo.InvariantCulture));
++            else if (number is ulong ul)
++                builder.Append(ul.ToString(CultureInfo.InvariantCulture));
++            else if (number is int i)
++                builder.Append(i.ToString(CultureInfo.InvariantCulture));
++            else if (number is uint ui)
++                builder.Append(ui.ToString(CultureInfo.InvariantCulture));
++            else if (number is decimal d)
++                builder.Append(d.ToString(CultureInfo.InvariantCulture));
++            else if (number is float f)
++                builder.Append(f.ToString(CultureInfo.InvariantCulture));
+             else
+                 builder.Append(Convert.ToDouble(number, CultureInfo.InvariantCulture).ToString("r", CultureInfo.InvariantCulture));
+             return true;
+@@ -1539,12 +1539,12 @@ protected virtual object SerializeEnum(Enum p)
+         protected virtual bool TrySerializeKnownTypes(object input, out object output)
+         {
+             bool returnValue = true;
+-            if (input is DateTime)
+-                output = ((DateTime)input).ToUniversalTime().ToString(Iso8601Format[0], CultureInfo.InvariantCulture);
+-            else if (input is DateTimeOffset)
+-                output = ((DateTimeOffset)input).ToUniversalTime().ToString(Iso8601Format[0], CultureInfo.InvariantCulture);
+-            else if (input is Guid)
+-                output = ((Guid)input).ToString("D");
++            if (input is DateTime dateTime)
++                output = dateTime.ToUniversalTime().ToString(Iso8601Format[0], CultureInfo.InvariantCulture);
++            else if (input is DateTimeOffset dateTimeOffset)
++                output = dateTimeOffset.ToUniversalTime().ToString(Iso8601Format[0], CultureInfo.InvariantCulture);
++            else if (input is Guid guid)
++                output = guid.ToString("D");
+             else if (input is Uri)
+                 output = input.ToString();
+             else

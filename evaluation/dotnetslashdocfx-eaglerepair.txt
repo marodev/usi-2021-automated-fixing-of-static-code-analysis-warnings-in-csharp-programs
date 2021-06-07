@@ -1,0 +1,658 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Microsoft.DocAsCode.MarkdownLite(net472)
+    #1 Path: D:\a\1\s\src\Microsoft.DocAsCode.MarkdownLite\MarkdownEngine.cs, Line: 133, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Microsoft.DocAsCode.YamlSerialization(net472)
+    #2 Path: D:\a\1\s\src\Microsoft.DocAsCode.YamlSerialization\NodeDeserializers\EmitGenericCollectionNodeDeserializer.cs, Line: 96, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Microsoft.DocAsCode.Common(net472)
+    #3 Path: D:\a\1\s\src\Microsoft.DocAsCode.Common\Path\RelativePath.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #4 Path: D:\a\1\s\src\Microsoft.DocAsCode.Common\XrefUtility.cs, Line: 15, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Microsoft.DocAsCode.Dfm
+    #5 Path: D:\a\1\s\src\Microsoft.DocAsCode.Dfm\DfmContextExtensions.cs, Line: 114, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #6 Path: D:\a\1\s\src\Microsoft.DocAsCode.Dfm\DfmContextExtensions.cs, Line: 97, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Microsoft.DocAsCode.Build.Common(net472)
+    #7 Path: D:\a\1\s\src\Microsoft.DocAsCode.Build.Common\ModelAttributeHandlers\Handlers\BaseModelAttributeHandler.cs, Line: 93, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Microsoft.DocAsCode.Build.Engine
+    #8 Path: D:\a\1\s\src\Microsoft.DocAsCode.Build.Engine\TemplateProcessors\ViewRenderers\LiquidTemplateRenderer.cs, Line: 95, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #9 Path: D:\a\1\s\src\Microsoft.DocAsCode.Build.Engine\XrefClient.cs, Line: 65, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #10 Path: D:\a\1\s\src\Microsoft.DocAsCode.Build.Engine\XRefMaps\XRefArchive.cs, Line: 89, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #11 Path: D:\a\1\s\src\Microsoft.DocAsCode.Build.Engine\XRefMaps\XRefMap.cs, Line: 53, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Microsoft.DocAsCode.Metadata.ManagedReference.Common
+    #12 Path: D:\a\1\s\src\Microsoft.DocAsCode.Metadata.ManagedReference.Common\Incremental\CacheBase.cs, Line: 235, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #13 Path: D:\a\1\s\src\Microsoft.DocAsCode.Metadata.ManagedReference.Common\Incremental\CacheBase.cs, Line: 239, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn
+    #14 Path: D:\a\1\s\src\Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn\CodeAnalysisSymbolExtensions.cs, Line: 33, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #15 Path: D:\a\1\s\src\Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn\Visitors\CSYamlModelGenerator.cs, Line: 929, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #16 Path: D:\a\1\s\src\Microsoft.DocAsCode.Metadata.ManagedReference.Roslyn\Visitors\VBYamlModelGenerator.cs, Line: 1349, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Microsoft.DocAsCode.Build.Engine.Tests
+    #17 Path: D:\a\1\s\test\Microsoft.DocAsCode.Build.Engine.Tests\FileMetadataHelperTest.cs, Line: 113, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #18 Path: D:\a\1\s\test\Microsoft.DocAsCode.Build.Engine.Tests\FileMetadataHelperTest.cs, Line: 115, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #19 Path: D:\a\1\s\test\Microsoft.DocAsCode.Build.Engine.Tests\FileMetadataHelperTest.cs, Line: 144, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #20 Path: D:\a\1\s\test\Microsoft.DocAsCode.Build.Engine.Tests\FileMetadataHelperTest.cs, Line: 231, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.DocAsCode.Metadata.ManagedReference.Tests
+    #21 Path: D:\a\1\s\test\Microsoft.DocAsCode.Metadata.ManagedReference.Tests\CodeAnalysisSymbolExtensionUnitTest.cs, Line: 75, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.DocAsCode.Build.SchemaDriven(net472)
+    #22 Path: D:\a\1\s\src\Microsoft.DocAsCode.Build.SchemaDriven\Models\JsonPointer.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+
+
+
+Project: Microsoft.DocAsCode.Build.SchemaDriven.Tests
+    #23 Path: D:\a\1\s\test\Microsoft.DocAsCode.Build.SchemaDriven.Tests\MarkdownFragmentsValidationTest.cs, Line: 70, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.DocAsCode.MarkdigEngine.Extensions(net472)
+    #24 Path: D:\a\1\s\src\Microsoft.DocAsCode.MarkdigEngine.Extensions\CodeSnippet\HtmlCodeSnippetRenderer.cs, Line: 428, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #25 Path: D:\a\1\s\src\Microsoft.DocAsCode.MarkdigEngine.Extensions\CodeSnippet\HtmlCodeSnippetRenderer.cs, Line: 431, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #26 Path: D:\a\1\s\src\Microsoft.DocAsCode.MarkdigEngine.Extensions\Rewriter\MarkdownDocumentVisitor.cs, Line: 60, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+--- Rules Summary ---
+R7: 8
+R4: 8
+R5: 4
+R10: 2
+R8: 1
+R2: 1
+R6: 1
+R3: 1
+
+--- Summary ---
+Fixed ReSharper issues: 25
+Fixed SonarQube issues: 16
+Total fixed issues: 26
+
+Finished in: 31 s
+
+######################################################################
+Nr: 1 - SimplifyLinqRewriterR4
+Filepath: D:\a\1\s\src\Microsoft.DocAsCode.Common\CollectionUtility.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+namespace Microsoft.DocAsCode.Common
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using System.Linq;
+
+    public static class CollectionUtility
+    {
+        public static Dictionary<string, List<T>> Merge<T>(this IDictionary<string, List<T>> left, IEnumerable<KeyValuePair<string, IEnumerable<T>>> right)
+        {
+            if (left == null)
+            {
+                throw new ArgumentNullException(nameof(left));
+            }
+            var result = new Dictionary<string, List<T>>(left);
+            if (right == null)
+            {
+                return result;
+            }
+            foreach (var pair in right)
+            {
+                if (result.TryGetValue(pair.Key, out List<T> list))
+                {
+                    list.AddRange(pair.Value);
+                }
+                else
+                {
+                    result[pair.Key] = new List<T>(pair.Value);
+                }
+            }
+
+            return result;
+        }
+
+        public static void Merge<T>(this Dictionary<string, List<T>> left, IEnumerable<KeyValuePair<string, ImmutableList<T>>> right)
+        {
+            if (right != null && left != null)
+            {
+                foreach (var pair in right)
+                {
+                    if (left.TryGetValue(pair.Key, out List<T> list))
+                    {
+                        list.AddRange(pair.Value);
+                    }
+                    else
+                    {
+                        left[pair.Key] = new List<T>(pair.Value);
+                    }
+                }
+            }
+        }
+
+        public static ImmutableDictionary<string, ImmutableList<T>> Merge<T, TRight>(this ImmutableDictionary<string, ImmutableList<T>> left, IEnumerable<KeyValuePair<string, TRight>> right)
+            where TRight: IEnumerable<T>
+        {
+            if (right == null)
+            {
+                return left;
+            }
+
+            return left.ToDictionary(s => s.Key, s => s.Value.ToList())
+               .Merge(right.Select(s => new KeyValuePair<string, IEnumerable<T>>(s.Key, s.Value)))
+               .ToImmutableDictionary(s => s.Key, s => s.Value.ToImmutableList());
+        }
+
+        public static ImmutableArray<T> GetLongestCommonSequence<T>(this ImmutableArray<T> leftItems, ImmutableArray<T> rightItems)
+        {
+            var results = new List<T>();
+            if (leftItems == null || rightItems == null)
+            {
+                return results.ToImmutableArray();
+            }
+
+            int leftItemCount = leftItems.Count();
+            int rightItemCount = rightItems.Count();
+            int[,] dp = new int[leftItemCount + 1, rightItemCount + 1];
+
+            for (int i = 0; i <= leftItemCount; i++)
+            {
+                for (int j = 0; j <= rightItemCount; j++)
+                {
+                    if (i == 0 || j == 0)
+                    {
+                        dp[i, j] = 0;
+                    }
+                    else if (leftItems[i - 1].Equals(rightItems[j - 1]))
+                    {
+                        dp[i, j] = dp[i - 1, j - 1] + 1;
+                    }
+                    else
+                    {
+                        dp[i, j] = Math.Max(dp[i - 1, j], dp[i, j - 1]);
+                    }
+                }
+            }
+
+            int n = leftItemCount;
+            int m = rightItemCount;
+            while (dp[n, m] > 0)
+            {
+                if (dp[n, m] == dp[n - 1, m])
+                {
+                    n--;
+                }
+                else if (dp[n, m] == dp[n, m - 1])
+                {
+                    m--;
+                }
+                else
+                {
+                    results.Add(leftItems[n - 1]);
+                    n--;
+                    m--;
+                }
+            }
+            results.Reverse();
+            return results.ToImmutableArray();
+        }
+    }
+}
+
+---- Transformed Tree ----
+namespace Microsoft.DocAsCode.Common
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using System.Linq;
+
+    public static class CollectionUtility
+    {
+        public static Dictionary<string, List<T>> Merge<T>(this IDictionary<string, List<T>> left, IEnumerable<KeyValuePair<string, IEnumerable<T>>> right)
+        {
+            if (left == null)
+            {
+                throw new ArgumentNullException(nameof(left));
+            }
+            var result = new Dictionary<string, List<T>>(left);
+            if (right == null)
+            {
+                return result;
+            }
+            foreach (var pair in right)
+            {
+                if (result.TryGetValue(pair.Key, out List<T> list))
+                {
+                    list.AddRange(pair.Value);
+                }
+                else
+                {
+                    result[pair.Key] = new List<T>(pair.Value);
+                }
+            }
+
+            return result;
+        }
+
+        public static void Merge<T>(this Dictionary<string, List<T>> left, IEnumerable<KeyValuePair<string, ImmutableList<T>>> right)
+        {
+            if (right != null && left != null)
+            {
+                foreach (var pair in right)
+                {
+                    if (left.TryGetValue(pair.Key, out List<T> list))
+                    {
+                        list.AddRange(pair.Value);
+                    }
+                    else
+                    {
+                        left[pair.Key] = new List<T>(pair.Value);
+                    }
+                }
+            }
+        }
+
+        public static ImmutableDictionary<string, ImmutableList<T>> Merge<T, TRight>(this ImmutableDictionary<string, ImmutableList<T>> left, IEnumerable<KeyValuePair<string, TRight>> right)
+            where TRight: IEnumerable<T>
+        {
+            if (right == null)
+            {
+                return left;
+            }
+
+            return left.ToDictionary(s => s.Key, s => s.Value.ToList())
+               .Merge(right.Select(s => new KeyValuePair<string, IEnumerable<T>>(s.Key, s.Value)))
+               .ToImmutableDictionary(s => s.Key, s => s.Value.ToImmutableList());
+        }
+
+        public static ImmutableArray<T> GetLongestCommonSequence<T>(this ImmutableArray<T> leftItems, ImmutableArray<T> rightItems)
+        {
+            var results = new List<T>();
+            if (leftItems == null || rightItems == null)
+            {
+                return results.ToImmutableArray();
+            }
+
+            int leftItemCount = leftItems.Count;
+            int rightItemCount = rightItems.Count;
+            int[,] dp = new int[leftItemCount + 1, rightItemCount + 1];
+
+            for (int i = 0; i <= leftItemCount; i++)
+            {
+                for (int j = 0; j <= rightItemCount; j++)
+                {
+                    if (i == 0 || j == 0)
+                    {
+                        dp[i, j] = 0;
+                    }
+                    else if (leftItems[i - 1].Equals(rightItems[j - 1]))
+                    {
+                        dp[i, j] = dp[i - 1, j - 1] + 1;
+                    }
+                    else
+                    {
+                        dp[i, j] = Math.Max(dp[i - 1, j], dp[i, j - 1]);
+                    }
+                }
+            }
+
+            int n = leftItemCount;
+            int m = rightItemCount;
+            while (dp[n, m] > 0)
+            {
+                if (dp[n, m] == dp[n - 1, m])
+                {
+                    n--;
+                }
+                else if (dp[n, m] == dp[n, m - 1])
+                {
+                    m--;
+                }
+                else
+                {
+                    results.Add(leftItems[n - 1]);
+                    n--;
+                    m--;
+                }
+            }
+            results.Reverse();
+            return results.ToImmutableArray();
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\Microsoft.DocAsCode.Common\CollectionUtility.cs(78,43): error CS0428: Cannot convert method group 'Count' to non-delegate type 'int'. Did you intend to invoke the method?,D:\a\1\s\src\Microsoft.DocAsCode.Common\CollectionUtility.cs(79,45): error CS0428: Cannot convert method group 'Count' to non-delegate type 'int'. Did you intend to invoke the method?
+######################################################################
+
+
+######################################################################
+Nr: 2 - SimplifyLinqRewriterR4
+Filepath: D:\a\1\s\test\Microsoft.DocAsCode.Common.Tests\CollectionUtilityTest.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+namespace Microsoft.DocAsCode.Common.Tests
+{
+    using System.Collections.Immutable;
+    using System.Linq;
+
+    using Microsoft.DocAsCode.Common;
+
+    using Xunit;
+
+    [Trait("Owner", "juchen")]
+    [Trait("Related", "CollectionUtilityTest")]
+    public class CollectionUtilityTest
+    {
+        [Theory]
+        [InlineData("ABCBDAB", "BDCABA", "BCBA")]
+        [InlineData("ACCGGTCGAGTGCGCGGAAGCCGGCCGAA", "GTCGTTCGGAATGCCGTTGCTCTGTAAA", "GTCGTCGGAAGCCGGCCGAA")]
+        public void TestGetLongestCommonSequence(string input1, string input2, string expected)
+        {
+            var inputArray = input1.ToImmutableArray();
+            var actual = inputArray.GetLongestCommonSequence(input2.ToImmutableArray());
+            Assert.Equal(expected.Length, actual.Count());
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i], actual[i]);
+            }
+        }
+    }
+}
+
+---- Transformed Tree ----
+namespace Microsoft.DocAsCode.Common.Tests
+{
+    using System.Collections.Immutable;
+    using System.Linq;
+
+    using Microsoft.DocAsCode.Common;
+
+    using Xunit;
+
+    [Trait("Owner", "juchen")]
+    [Trait("Related", "CollectionUtilityTest")]
+    public class CollectionUtilityTest
+    {
+        [Theory]
+        [InlineData("ABCBDAB", "BDCABA", "BCBA")]
+        [InlineData("ACCGGTCGAGTGCGCGGAAGCCGGCCGAA", "GTCGTTCGGAATGCCGTTGCTCTGTAAA", "GTCGTCGGAAGCCGGCCGAA")]
+        public void TestGetLongestCommonSequence(string input1, string input2, string expected)
+        {
+            var inputArray = input1.ToImmutableArray();
+            var actual = inputArray.GetLongestCommonSequence(input2.ToImmutableArray());
+            Assert.Equal(expected.Length, actual.Count);
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i], actual[i]);
+            }
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\test\Microsoft.DocAsCode.Common.Tests\CollectionUtilityTest.cs(24,43): error CS1503: Argument 2: cannot convert from 'method group' to 'int'
+######################################################################
+
+
+######################################################################
+Nr: 3 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\Microsoft.DocAsCode.Build.SchemaDriven\Processors\FragmentsValidationInterpreter.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+namespace Microsoft.DocAsCode.Build.SchemaDriven.Processors
+{
+    using System.Collections.Generic;
+
+    using Markdig.Syntax;
+
+    using Microsoft.DocAsCode.Build.OverwriteDocuments;
+    using Microsoft.DocAsCode.Common;
+
+    public class FragmentsValidationInterpreter : IInterpreter
+    {
+        public bool CanInterpret(BaseSchema schema)
+        {
+            return schema == null || schema.ContentType != ContentType.Uid;
+        }
+
+        public object Interpret(BaseSchema schema, object value, IProcessContext context, string path)
+        {
+            if (value is IDictionary<string, object> || value is IDictionary<object, object> || value is IList<object>)
+            {
+                return value;
+            }
+
+            var markdownDocument = value as MarkdownDocument;
+            if (markdownDocument != null && (schema?.ContentType != ContentType.Markdown))
+            {
+                Logger.LogWarning(
+                    $"There is an invalid H2: `{markdownDocument.GetData(Constants.OPathStringDataName)}`: the contentType of this property in schema must be `markdown`",
+                    line: markdownDocument.GetData(Constants.OPathLineNumberDataName)?.ToString(),
+                    code: WarningCodes.Overwrite.InvalidMarkdownFragments);
+                return value;
+            }
+
+            if (schema == null)
+            {
+                return value;
+            }
+
+            if (markdownDocument == null && schema.ContentType == ContentType.Markdown)
+            {
+                Logger.LogWarning(
+                $"Markdown property `{path.Trim('/')}` is not allowed inside a YAML code block",
+                code: WarningCodes.Overwrite.InvalidMarkdownFragments);
+                return value;
+            };
+
+            if (schema.MergeType == MergeType.Key)
+            {
+                return value;
+            }
+
+            if (schema.IsLegalInFragments())
+            {
+                return value;
+            }
+
+            // TODO: improve error message by including line number and OPathString for YAML code block
+            Logger.LogWarning(
+                $"You cannot overwrite a readonly property: `{path.Trim('/')}`, please add an `editable` tag on this property or mark its contentType as `markdown` in schema if you want to overwrite this property",
+                code: WarningCodes.Overwrite.InvalidMarkdownFragments);
+
+            return value;
+        }
+    }
+}
+
+---- Transformed Tree ----
+namespace Microsoft.DocAsCode.Build.SchemaDriven.Processors
+{
+    using System.Collections.Generic;
+
+    using Markdig.Syntax;
+
+    using Microsoft.DocAsCode.Build.OverwriteDocuments;
+    using Microsoft.DocAsCode.Common;
+
+    public class FragmentsValidationInterpreter : IInterpreter
+    {
+        public bool CanInterpret(BaseSchema schema)
+        {
+            return schema == null || schema.ContentType != ContentType.Uid;
+        }
+
+        public object Interpret(BaseSchema schema, object value, IProcessContext context, string path)
+        {
+            if (value is IDictionary<string, object> || value is IDictionary<object, object> || value is IList<object>)
+            {
+                return value;
+            }
+
+            if (value is MarkdownDocument markdownDocument && (schema?.ContentType != ContentType.Markdown))
+            {
+                Logger.LogWarning(
+                    $"There is an invalid H2: `{markdownDocument.GetData(Constants.OPathStringDataName)}`: the contentType of this property in schema must be `markdown`",
+                    line: markdownDocument.GetData(Constants.OPathLineNumberDataName)?.ToString(),
+                    code: WarningCodes.Overwrite.InvalidMarkdownFragments);
+                return value;
+            }
+
+            if (schema == null)
+            {
+                return value;
+            }
+
+            if (markdownDocument == null && schema.ContentType == ContentType.Markdown)
+            {
+                Logger.LogWarning(
+                $"Markdown property `{path.Trim('/')}` is not allowed inside a YAML code block",
+                code: WarningCodes.Overwrite.InvalidMarkdownFragments);
+                return value;
+            };
+
+            if (schema.MergeType == MergeType.Key)
+            {
+                return value;
+            }
+
+            if (schema.IsLegalInFragments())
+            {
+                return value;
+            }
+
+            // TODO: improve error message by including line number and OPathString for YAML code block
+            Logger.LogWarning(
+                $"You cannot overwrite a readonly property: `{path.Trim('/')}`, please add an `editable` tag on this property or mark its contentType as `markdown` in schema if you want to overwrite this property",
+                code: WarningCodes.Overwrite.InvalidMarkdownFragments);
+
+            return value;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\Microsoft.DocAsCode.Build.SchemaDriven\Processors\FragmentsValidationInterpreter.cs(41,17): error CS0165: Use of unassigned local variable 'markdownDocument'
+######################################################################
+
+
+######################################################################
+Nr: 4 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\Microsoft.DocAsCode.Build.OverwriteDocuments\Rules\YamlCodeBlockRule.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+namespace Microsoft.DocAsCode.Build.OverwriteDocuments
+{
+    using System;
+    using System.Collections.Generic;
+
+    using Microsoft.DocAsCode.Common;
+
+    using Markdig.Syntax;
+
+    public sealed class YamlCodeBlockRule : IOverwriteBlockRule
+    {
+        public string TokenName => "YamlCodeBlock";
+
+        private static readonly List<string> _allowedLanguages = new List<string> { "yaml", "yml" };
+
+        public bool Parse(Block block, out string value)
+        {
+            if (block == null)
+            {
+                throw new ArgumentNullException(nameof(block));
+            }
+
+            var fenced = block as FencedCodeBlock;
+            if (!string.IsNullOrEmpty(fenced?.Info) && !_allowedLanguages.Contains(fenced.Info.ToLower()))
+            {
+                Logger.LogWarning(
+                    $"Unexpected language of fenced code block for YamlCodeBlock: {fenced.Info}.",
+                    line: fenced.Lines.ToString(),
+                    code: WarningCodes.Overwrite.InvalidYamlCodeBlockLanguage);
+            }
+            value = fenced?.Lines.ToString();
+            return fenced != null;
+        }
+    }
+}
+
+---- Transformed Tree ----
+namespace Microsoft.DocAsCode.Build.OverwriteDocuments
+{
+    using System;
+    using System.Collections.Generic;
+
+    using Microsoft.DocAsCode.Common;
+
+    using Markdig.Syntax;
+
+    public sealed class YamlCodeBlockRule : IOverwriteBlockRule
+    {
+        public string TokenName => "YamlCodeBlock";
+
+        private static readonly List<string> _allowedLanguages = new List<string> { "yaml", "yml" };
+
+        public bool Parse(Block block, out string value)
+        {
+            if (block == null)
+            {
+                throw new ArgumentNullException(nameof(block));
+            }
+            if (!string.IsNullOrEmpty(fenced?.Info) && !_allowedLanguages.Contains(fenced.Info.ToLower()))
+            {
+                Logger.LogWarning(
+                    $"Unexpected language of fenced code block for YamlCodeBlock: {fenced.Info}.",
+                    line: fenced.Lines.ToString(),
+                    code: WarningCodes.Overwrite.InvalidYamlCodeBlockLanguage);
+            }
+            value = fenced?.Lines.ToString();
+            return block is FencedCodeBlock fenced;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\Microsoft.DocAsCode.Build.OverwriteDocuments\Rules\YamlCodeBlockRule.cs(25,39): error CS0841: Cannot use local variable 'fenced' before it is declared,D:\a\1\s\src\Microsoft.DocAsCode.Build.OverwriteDocuments\Rules\YamlCodeBlockRule.cs(25,84): error CS0841: Cannot use local variable 'fenced' before it is declared,D:\a\1\s\src\Microsoft.DocAsCode.Build.OverwriteDocuments\Rules\YamlCodeBlockRule.cs(28,84): error CS0841: Cannot use local variable 'fenced' before it is declared,D:\a\1\s\src\Microsoft.DocAsCode.Build.OverwriteDocuments\Rules\YamlCodeBlockRule.cs(29,27): error CS0841: Cannot use local variable 'fenced' before it is declared,D:\a\1\s\src\Microsoft.DocAsCode.Build.OverwriteDocuments\Rules\YamlCodeBlockRule.cs(32,21): error CS0841: Cannot use local variable 'fenced' before it is declared
+######################################################################
+
+

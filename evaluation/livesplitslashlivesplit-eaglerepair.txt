@@ -1,0 +1,2743 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: LiveSplit.Core
+    #1 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Model\Input\XInput.cs, Line: 134, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #2 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Model\Input\XInput.cs, Line: 158, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Model\Input\XInput.cs, Line: 176, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #4 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Model\Input\XInput.cs, Line: 188, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Model\Input\XInput.cs, Line: 59, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #6 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Model\TimerModel.cs, Line: 191, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #7 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\UI\SimpleLabel.cs, Line: 45, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #8 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\CredentialManager.cs, Line: 103, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\CredentialManager.cs, Line: 245, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs, Line: 328, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #11 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs, Line: 332, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #12 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\Share\Twitch.cs, Line: 43, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\Share\TwitchOAuthForm.cs, Line: 21, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\SRL\RaceViewers\SpeedrunTV.cs, Line: 11, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\SRL\RaceViewers\SRLRaceViewer.cs, Line: 10, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #16 Path: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\SRL\SpeedRunsLiveAPI.cs, Line: 67, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: LiveSplit.Splits
+    #17 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Splits\UI\Components\SplitsComponent.cs, Line: 167, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: LiveSplit.Title
+    #18 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Title\UI\Components\Title.cs, Line: 352, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Title\UI\Components\Title.cs, Line: 356, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Title\UI\Components\Title.cs, Line: 357, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Title\UI\Components\Title.cs, Line: 392, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #22 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Title\UI\Components\Title.cs, Line: 396, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: LiveSplit.View
+    #23 Path: D:\a\1\s\LiveSplit\LiveSplit.View\Utils\RichTextBoxExtensions.cs, Line: 104, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\AboutBox.cs, Line: 16, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #25 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\BrowseSpeedrunComDialog.cs, Line: 122, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #26 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\LayoutEditorDialog.cs, Line: 171, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #27 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\RaceProviderManagingDialog.cs, Line: 36, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #28 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\RunEditorDialog.cs, Line: 1652, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #29 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\ShareRunDialog.cs, Line: 260, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\ShareRunDialog.cs, Line: 366, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\SpeedRunsLiveForm.cs, Line: 31, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\SpeedRunsLiveForm.cs, Line: 32, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\TimerForm.cs, Line: 387, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #34 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\TimerForm.cs, Line: 405, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #35 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\TimerForm.cs, Line: 487, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #36 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\TimerForm.cs, Line: 490, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\TimerForm.cs, Line: 509, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\TimerForm.cs, Line: 537, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\LiveSplit\LiveSplit.View\View\TimerForm.cs, Line: 987, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: LiveSplit.Text
+    #40 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Text\UI\Components\TextComponentSettings.cs, Line: 29, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #41 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Text\UI\Components\TextComponentSettings.cs, Line: 32, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: LiveSplit.ScriptableAutoSplit
+    #42 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.ScriptableAutoSplit\ASL\ASLScript.cs, Line: 305, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: LiveSplit.Subsplits
+    #43 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Subsplits\UI\Components\SplitsComponent.cs, Line: 166, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: LiveSplit.WorldRecord
+    #44 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 152, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #45 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 153, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 154, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 155, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 159, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #49 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 160, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #50 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 161, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #51 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 162, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #52 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 172, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #53 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.WorldRecord\UI\Components\WorldRecordComponent.cs, Line: 176, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: LiveSplit.Counter
+    #54 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Counter\UI\Components\CounterComponentSettings.cs, Line: 78, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: LiveSplit.Racetime
+    #55 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Racetime\Controller\RacetimeChannel.cs, Line: 26, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #56 Path: D:\a\1\s\LiveSplit\Components\LiveSplit.Racetime\Controller\RacetimeChannel.cs, Line: 27, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 41
+R5: 5
+R4: 4
+R8: 3
+R6: 3
+
+--- Summary ---
+Fixed ReSharper issues: 56
+Fixed SonarQube issues: 12
+Total fixed issues: 56
+
+Finished in: 11 s
+
+######################################################################
+Nr: 1 - TypeCheckAndCastRewriterR5
+Filepath: D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using LiveSplit.Options;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Dynamic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Script.Serialization;
+
+namespace LiveSplit.Web
+{
+    public static class JSON
+    {
+        public static dynamic FromResponse(WebResponse response)
+        {
+            using (var stream = response.GetResponseStream())
+            {
+                return FromStream(stream);
+            }
+        }
+
+        public static dynamic FromStream(Stream stream)
+        {
+            var reader = new StreamReader(stream);
+            var json = "";
+            try
+            {
+                json = reader.ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
+            return FromString(json);
+        }
+
+        public static dynamic FromString(string value)
+        {
+            var serializer = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            serializer.RegisterConverters(new[] { new DynamicJsonConverter() });
+
+            return serializer.Deserialize<object>(value);
+        }
+
+        public static dynamic FromUri(Uri uri)
+        {
+            var request = WebRequest.Create(uri);
+
+            using (var response = request.GetResponse())
+            {
+                return FromResponse(response);
+            }
+        }
+
+        public static string Escape(string value)
+        {
+            return HttpUtility.JavaScriptStringEncode(value);
+        }
+
+        public static dynamic FromUriPost(Uri uri, params string[] postValues)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(uri);
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            var parameters = new StringBuilder();
+
+            parameters.Append("{");
+
+            for (var i = 0; i < postValues.Length; i += 2)
+            {
+                parameters.AppendFormat("\"{0}\": \"{1}\", ",
+                    Escape(postValues[i]),
+                    Escape(postValues[i + 1]));
+            }
+
+            parameters.Length -= 2;
+
+            parameters.Append("}");
+
+            using (var writer = new StreamWriter(request.GetRequestStream()))
+            {
+                writer.Write(parameters.ToString());
+            }
+
+            using (var response = request.GetResponse())
+            {
+                return FromResponse(response);
+            }
+        }
+    }
+
+    public sealed class DynamicJsonConverter : JavaScriptConverter
+    {
+        public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
+
+            return type == typeof(object) ? new DynamicJsonObject(dictionary) : null;
+        }
+
+        public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<Type> SupportedTypes
+        {
+            get { return new ReadOnlyCollection<Type>(new List<Type>(new[] { typeof(object) })); }
+        }
+    }
+
+    public sealed class DynamicJsonObject : DynamicObject
+    {
+        private readonly IDictionary<string, object> _dictionary;
+
+        //public IDictionary<string, object> Properties { get { return _dictionary; } }
+
+        public DynamicJsonObject()
+            : this(new Dictionary<string, object>()) 
+        { }
+
+        public DynamicJsonObject(IDictionary<string, object> dictionary)
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
+            _dictionary = dictionary;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder("{\r\n");
+            ToString(sb);
+            return sb.ToString();
+        }
+
+        private void ToString(StringBuilder sb, int depth = 1)
+        {
+            var firstInDictionary = true;
+            foreach (var pair in _dictionary)
+            {
+                if (!firstInDictionary)
+                    sb.Append(",\r\n");
+                sb.Append('\t', depth);
+                firstInDictionary = false;
+                var value = pair.Value;
+                var name = pair.Key;
+                if (value == null)
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), "null");
+                }
+                else if (value is string)
+                {
+                    sb.AppendFormat("\"{0}\": \"{1}\"", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode((string)value));
+                }
+                else if (value is DynamicJsonObject)
+                {
+                    sb.Append("\"" + HttpUtility.JavaScriptStringEncode(name) + "\": {\r\n");
+                    ((DynamicJsonObject)value).ToString(sb, depth + 1);
+                }
+                else if (value is IDictionary<string, object>)
+                {
+                    sb.Append("\"" + HttpUtility.JavaScriptStringEncode(name) + "\": {\r\n");
+                    new DynamicJsonObject((IDictionary<string, object>)value).ToString(sb, depth + 1);
+                }
+                else if (value is IEnumerable<object>)
+                {
+                    sb.Append("\"" + HttpUtility.JavaScriptStringEncode(name) + "\": [\r\n");
+                    var firstInArray = true;
+                    foreach (var arrayValue in (IEnumerable<object>)value)
+                    {
+                        if (!firstInArray)
+                            sb.Append(",\r\n");
+                        sb.Append('\t', depth+1);
+                        firstInArray = false;
+                        if (arrayValue is IDictionary<string, object>)
+                            new DynamicJsonObject((IDictionary<string, object>)arrayValue).ToString(sb, depth + 2);
+                        else if (arrayValue is DynamicJsonObject)
+                        {
+                            sb.Append("{\r\n");
+                            ((DynamicJsonObject)arrayValue).ToString(sb, depth + 2);
+                        }
+                        else if (arrayValue is string)
+                            sb.AppendFormat("\"{0}\"", HttpUtility.JavaScriptStringEncode((string)arrayValue));
+                        else if (arrayValue is decimal)
+                            sb.AppendFormat("{0}", HttpUtility.JavaScriptStringEncode(((decimal)arrayValue).ToString(CultureInfo.InvariantCulture)));
+                        else
+                            sb.AppendFormat("\"{0}\"", HttpUtility.JavaScriptStringEncode((arrayValue ?? "").ToString()));
+
+                    }
+                    sb.Append("\r\n");
+                    sb.Append('\t', depth);
+                    sb.Append("]");
+                }
+                else if (value is bool)
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), (bool)value ? "true" : "false");
+                }
+                else if (IsLongType(value))
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(Convert.ToInt64(value).ToString(CultureInfo.InvariantCulture)));
+                }
+                else if (IsULongType(value))
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(Convert.ToUInt64(value).ToString(CultureInfo.InvariantCulture)));
+                }
+                else if (IsDoubleType(value))
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(Convert.ToDouble(value).ToString(CultureInfo.InvariantCulture)));
+                }
+                else if (value is decimal)
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(((decimal)value).ToString(CultureInfo.InvariantCulture)));
+                }
+                else
+                {
+                    sb.AppendFormat("\"{0}\": \"{1}\"", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode((value ?? "").ToString()));
+                }
+            }
+            sb.Append("\r\n");
+            sb.Append('\t', depth - 1);
+            sb.Append("}");
+        }
+
+        private static bool IsLongType(object value)
+        {
+            return value is sbyte || value is short || value is int || value is long;
+        }
+
+        private static bool IsULongType(object value)
+        {
+            return value is byte || value is ushort || value is uint || value is ulong;
+        }
+
+        private static bool IsDoubleType(object value)
+        {
+            return value is float || value is double;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            if (_dictionary.ContainsKey(binder.Name))
+            {
+                _dictionary[binder.Name] = value;
+                return true;
+            }
+            else
+            {
+                _dictionary.Add(binder.Name, value);
+                return true;
+            }
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            if (binder.Name == "Properties")
+            {
+                result = _dictionary
+                    .Select(x => new KeyValuePair<string, dynamic>(x.Key, WrapResultObject(x.Value)))
+                    .ToDictionary(x => x.Key, x => x.Value);
+                return true;
+            }
+
+            if (!_dictionary.TryGetValue(binder.Name, out result))
+            {
+                // return null to avoid exception.  caller can check for null this way...
+                result = null;
+                return true;
+            }
+
+            result = WrapResultObject(result);
+
+            if (result is string)
+                result = JavaScriptStringDecode(result as string);
+
+            return true;
+        }
+
+        public static string JavaScriptStringDecode(string source)
+        {
+            // Replace some chars.
+            var decoded = source.Replace(@"\'", "'")
+                        .Replace(@"\""", @"""")
+                        .Replace(@"\/", "/")
+                        .Replace(@"\t", "\t")
+                        .Replace(@"\n", "\n");
+
+            // Replace unicode escaped text.
+            var rx = new Regex(@"\\[uU]([0-9A-F]{4})");
+
+            decoded = rx.Replace(decoded, match => ((char)int.Parse(match.Value.Substring(2), NumberStyles.HexNumber))
+                                                    .ToString(CultureInfo.InvariantCulture));
+
+            return decoded;
+        }
+
+        public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
+        {
+            if (indexes.Length == 1 && indexes[0] != null)
+            {
+                if (!_dictionary.TryGetValue(indexes[0].ToString(), out result))
+                {
+                    // return null to avoid exception.  caller can check for null this way...
+                    result = null;
+                    return true;
+                }
+
+                result = WrapResultObject(result);
+                return true;
+            }
+
+            return base.TryGetIndex(binder, indexes, out result);
+        }
+
+        private static object WrapResultObject(object result)
+        {
+            var dictionary = result as IDictionary<string, object>;
+            if (dictionary != null)
+                return new DynamicJsonObject(dictionary);
+
+            var arrayList = result as ArrayList;
+            if (arrayList != null && arrayList.Count > 0)
+            {
+                return arrayList[0] is IDictionary<string, object>
+                    ? new List<object>(arrayList.Cast<IDictionary<string, object>>().Select(x => new DynamicJsonObject(x)))
+                    : new List<object>(arrayList.Cast<object>());
+            }
+
+            return result;
+        }
+    }
+}
+
+---- Transformed Tree ----
+using LiveSplit.Options;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Dynamic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Script.Serialization;
+
+namespace LiveSplit.Web
+{
+    public static class JSON
+    {
+        public static dynamic FromResponse(WebResponse response)
+        {
+            using (var stream = response.GetResponseStream())
+            {
+                return FromStream(stream);
+            }
+        }
+
+        public static dynamic FromStream(Stream stream)
+        {
+            var reader = new StreamReader(stream);
+            var json = "";
+            try
+            {
+                json = reader.ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
+            return FromString(json);
+        }
+
+        public static dynamic FromString(string value)
+        {
+            var serializer = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            serializer.RegisterConverters(new[] { new DynamicJsonConverter() });
+
+            return serializer.Deserialize<object>(value);
+        }
+
+        public static dynamic FromUri(Uri uri)
+        {
+            var request = WebRequest.Create(uri);
+
+            using (var response = request.GetResponse())
+            {
+                return FromResponse(response);
+            }
+        }
+
+        public static string Escape(string value)
+        {
+            return HttpUtility.JavaScriptStringEncode(value);
+        }
+
+        public static dynamic FromUriPost(Uri uri, params string[] postValues)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(uri);
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            var parameters = new StringBuilder();
+
+            parameters.Append("{");
+
+            for (var i = 0; i < postValues.Length; i += 2)
+            {
+                parameters.AppendFormat("\"{0}\": \"{1}\", ",
+                    Escape(postValues[i]),
+                    Escape(postValues[i + 1]));
+            }
+
+            parameters.Length -= 2;
+
+            parameters.Append("}");
+
+            using (var writer = new StreamWriter(request.GetRequestStream()))
+            {
+                writer.Write(parameters.ToString());
+            }
+
+            using (var response = request.GetResponse())
+            {
+                return FromResponse(response);
+            }
+        }
+    }
+
+    public sealed class DynamicJsonConverter : JavaScriptConverter
+    {
+        public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
+
+            return type == typeof(object) ? new DynamicJsonObject(dictionary) : null;
+        }
+
+        public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<Type> SupportedTypes
+        {
+            get { return new ReadOnlyCollection<Type>(new List<Type>(new[] { typeof(object) })); }
+        }
+    }
+
+    public sealed class DynamicJsonObject : DynamicObject
+    {
+        private readonly IDictionary<string, object> _dictionary;
+
+        //public IDictionary<string, object> Properties { get { return _dictionary; } }
+
+        public DynamicJsonObject()
+            : this(new Dictionary<string, object>()) 
+        { }
+
+        public DynamicJsonObject(IDictionary<string, object> dictionary)
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
+            _dictionary = dictionary;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder("{\r\n");
+            ToString(sb);
+            return sb.ToString();
+        }
+
+        private void ToString(StringBuilder sb, int depth = 1)
+        {
+            var firstInDictionary = true;
+            foreach (var pair in _dictionary)
+            {
+                if (!firstInDictionary)
+                    sb.Append(",\r\n");
+                sb.Append('\t', depth);
+                firstInDictionary = false;
+                var value = pair.Value;
+                var name = pair.Key;
+                if (value == null)
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), "null");
+                }
+                else if (value is string s)
+                {
+                    sb.AppendFormat("\"{0}\": \"{1}\"", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(s));
+                }
+                else if (value is DynamicJsonObject dynamicJsonObject)
+                {
+                    sb.Append("\"" + HttpUtility.JavaScriptStringEncode(name) + "\": {\r\n");
+                    dynamicJsonObject.ToString(sb, depth + 1);
+                }
+                else if (value is IDictionary<string, object> strings)
+                {
+                    sb.Append("\"" + HttpUtility.JavaScriptStringEncode(name) + "\": {\r\n");
+                    new DynamicJsonObject(strings).ToString(sb, depth + 1);
+                }
+                else if (value is IEnumerable<object>)
+                {
+                    sb.Append("\"" + HttpUtility.JavaScriptStringEncode(name) + "\": [\r\n");
+                    var firstInArray = true;
+                    foreach (var arrayValue in (IEnumerable<object>)value)
+                    {
+                        if (!firstInArray)
+                            sb.Append(",\r\n");
+                        sb.Append('\t', depth+1);
+                        firstInArray = false;
+                        if (arrayValue is IDictionary<string, object> strings)
+                            new DynamicJsonObject(strings).ToString(sb, depth + 2);
+                        else if (arrayValue is DynamicJsonObject dynamicJsonObject)
+                        {
+                            sb.Append("{\r\n");
+                            dynamicJsonObject.ToString(sb, depth + 2);
+                        }
+                        else if (arrayValue is string s)
+                            sb.AppendFormat("\"{0}\"", HttpUtility.JavaScriptStringEncode(s));
+                        else if (arrayValue is decimal d)
+                            sb.AppendFormat("{0}", HttpUtility.JavaScriptStringEncode(d.ToString(CultureInfo.InvariantCulture)));
+                        else
+                            sb.AppendFormat("\"{0}\"", HttpUtility.JavaScriptStringEncode((arrayValue ?? "").ToString()));
+
+                    }
+                    sb.Append("\r\n");
+                    sb.Append('\t', depth);
+                    sb.Append("]");
+                }
+                else if (value is bool)
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), (bool)value ? "true" : "false");
+                }
+                else if (IsLongType(value))
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(Convert.ToInt64(value).ToString(CultureInfo.InvariantCulture)));
+                }
+                else if (IsULongType(value))
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(Convert.ToUInt64(value).ToString(CultureInfo.InvariantCulture)));
+                }
+                else if (IsDoubleType(value))
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(Convert.ToDouble(value).ToString(CultureInfo.InvariantCulture)));
+                }
+                else if (value is decimal d)
+                {
+                    sb.AppendFormat("\"{0}\": {1}", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode(d.ToString(CultureInfo.InvariantCulture)));
+                }
+                else
+                {
+                    sb.AppendFormat("\"{0}\": \"{1}\"", HttpUtility.JavaScriptStringEncode(name), HttpUtility.JavaScriptStringEncode((value ?? "").ToString()));
+                }
+            }
+            sb.Append("\r\n");
+            sb.Append('\t', depth - 1);
+            sb.Append("}");
+        }
+
+        private static bool IsLongType(object value)
+        {
+            return value is sbyte || value is short || value is int || value is long;
+        }
+
+        private static bool IsULongType(object value)
+        {
+            return value is byte || value is ushort || value is uint || value is ulong;
+        }
+
+        private static bool IsDoubleType(object value)
+        {
+            return value is float || value is double;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            if (_dictionary.ContainsKey(binder.Name))
+            {
+                _dictionary[binder.Name] = value;
+                return true;
+            }
+            else
+            {
+                _dictionary.Add(binder.Name, value);
+                return true;
+            }
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            if (binder.Name == "Properties")
+            {
+                result = _dictionary
+                    .Select(x => new KeyValuePair<string, dynamic>(x.Key, WrapResultObject(x.Value)))
+                    .ToDictionary(x => x.Key, x => x.Value);
+                return true;
+            }
+
+            if (!_dictionary.TryGetValue(binder.Name, out result))
+            {
+                // return null to avoid exception.  caller can check for null this way...
+                result = null;
+                return true;
+            }
+
+            result = WrapResultObject(result);
+
+            if (result is string)
+                result = JavaScriptStringDecode(result as string);
+
+            return true;
+        }
+
+        public static string JavaScriptStringDecode(string source)
+        {
+            // Replace some chars.
+            var decoded = source.Replace(@"\'", "'")
+                        .Replace(@"\""", @"""")
+                        .Replace(@"\/", "/")
+                        .Replace(@"\t", "\t")
+                        .Replace(@"\n", "\n");
+
+            // Replace unicode escaped text.
+            var rx = new Regex(@"\\[uU]([0-9A-F]{4})");
+
+            decoded = rx.Replace(decoded, match => ((char)int.Parse(match.Value.Substring(2), NumberStyles.HexNumber))
+                                                    .ToString(CultureInfo.InvariantCulture));
+
+            return decoded;
+        }
+
+        public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
+        {
+            if (indexes.Length == 1 && indexes[0] != null)
+            {
+                if (!_dictionary.TryGetValue(indexes[0].ToString(), out result))
+                {
+                    // return null to avoid exception.  caller can check for null this way...
+                    result = null;
+                    return true;
+                }
+
+                result = WrapResultObject(result);
+                return true;
+            }
+
+            return base.TryGetIndex(binder, indexes, out result);
+        }
+
+        private static object WrapResultObject(object result)
+        {
+            var dictionary = result as IDictionary<string, object>;
+            if (dictionary != null)
+                return new DynamicJsonObject(dictionary);
+
+            var arrayList = result as ArrayList;
+            if (arrayList != null && arrayList.Count > 0)
+            {
+                return arrayList[0] is IDictionary<string, object>
+                    ? new List<object>(arrayList.Cast<IDictionary<string, object>>().Select(x => new DynamicJsonObject(x)))
+                    : new List<object>(arrayList.Cast<object>());
+            }
+
+            return result;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(18,25): warning CS1591: Missing XML comment for publicly visible type or member 'JSON',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(20,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromResponse(WebResponse)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(28,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromStream(Stream)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(43,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromString(string)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(54,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromUri(Uri)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(64,30): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.Escape(string)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(69,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromUriPost(Uri, params string[])',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(102,25): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonConverter',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(104,32): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonConverter.Deserialize(IDictionary<string, object>, Type, JavaScriptSerializer)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(112,53): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonConverter.Serialize(object, JavaScriptSerializer)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(117,43): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonConverter.SupportedTypes',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(123,25): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(129,16): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.DynamicJsonObject()',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(133,16): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.DynamicJsonObject(IDictionary<string, object>)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(140,32): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.ToString()',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(250,30): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.TrySetMember(SetMemberBinder, object)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(264,30): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.TryGetMember(GetMemberBinder, out object)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(289,30): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.JavaScriptStringDecode(string)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(307,30): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.TryGetIndex(GetIndexBinder, object[], out object)'
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(186,71): error CS0136: A local or parameter named 'strings' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter,D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(188,66): error CS0136: A local or parameter named 'dynamicJsonObject' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter,D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(193,55): error CS0136: A local or parameter named 's' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter,D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(18,25): warning CS1591: Missing XML comment for publicly visible type or member 'JSON',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(20,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromResponse(WebResponse)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(28,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromStream(Stream)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(43,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromString(string)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(54,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromUri(Uri)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(64,30): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.Escape(string)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(69,31): warning CS1591: Missing XML comment for publicly visible type or member 'JSON.FromUriPost(Uri, params string[])',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(102,25): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonConverter',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(104,32): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonConverter.Deserialize(IDictionary<string, object>, Type, JavaScriptSerializer)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(112,53): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonConverter.Serialize(object, JavaScriptSerializer)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(117,43): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonConverter.SupportedTypes',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(123,25): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(129,16): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.DynamicJsonObject()',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(133,16): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.DynamicJsonObject(IDictionary<string, object>)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(140,32): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.ToString()',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(250,30): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.TrySetMember(SetMemberBinder, object)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(264,30): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.TryGetMember(GetMemberBinder, out object)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(289,30): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.JavaScriptStringDecode(string)',D:\a\1\s\LiveSplit\LiveSplit.Core\Web\JSON.cs(307,30): warning CS1591: Missing XML comment for publicly visible type or member 'DynamicJsonObject.TryGetIndex(GetIndexBinder, object[], out object)'
+######################################################################
+
+
+######################################################################
+Nr: 2 - TypeCheckAndCastRewriterR5
+Filepath: D:\a\1\s\LiveSplit\Components\LiveSplit.Splits\UI\Components\SplitsComponent.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using LiveSplit.Model;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace LiveSplit.UI.Components
+{
+    public class SplitsComponent : IComponent
+    {
+        public ComponentRendererComponent InternalComponent { get; protected set; }
+
+        public float PaddingTop => InternalComponent.PaddingTop;
+        public float PaddingLeft => InternalComponent.PaddingLeft;
+        public float PaddingBottom => InternalComponent.PaddingBottom;
+        public float PaddingRight => InternalComponent.PaddingRight;
+
+        protected IList<IComponent> Components { get; set; }
+        protected IList<SplitComponent> SplitComponents { get; set; }
+
+        protected SplitsSettings Settings { get; set; }
+
+        private Dictionary<Image, Image> ShadowImages { get; set; }
+
+        private int visualSplitCount;
+        private int settingsSplitCount;
+
+        protected bool PreviousShowLabels { get; set; }
+
+        protected int ScrollOffset { get; set; }
+        protected int LastSplitSeparatorIndex { get; set; }
+
+        protected LiveSplitState CurrentState { get; set; }
+        protected LiveSplitState OldState { get; set; }
+        protected LayoutMode OldLayoutMode { get; set; }
+        protected Color OldShadowsColor { get; set; }
+
+        protected IEnumerable<ColumnData> ColumnsList => Settings.ColumnsList.Select(x => x.Data);
+
+        public string ComponentName => "Splits";
+
+        public float VerticalHeight => InternalComponent.VerticalHeight;
+
+        public float MinimumWidth => InternalComponent.MinimumWidth;
+
+        public float HorizontalWidth => InternalComponent.HorizontalWidth;
+
+        public float MinimumHeight => InternalComponent.MinimumHeight;
+
+        public IDictionary<string, Action> ContextMenuControls => null;
+
+        public SplitsComponent(LiveSplitState state)
+        {
+            CurrentState = state;
+            Settings = new SplitsSettings(state);
+            InternalComponent = new ComponentRendererComponent();
+            ShadowImages = new Dictionary<Image, Image>();
+            visualSplitCount = Settings.VisualSplitCount;
+            settingsSplitCount = Settings.VisualSplitCount;
+            Settings.SplitLayoutChanged += Settings_SplitLayoutChanged;
+            ScrollOffset = 0;
+            RebuildVisualSplits();
+            state.ComparisonRenamed += state_ComparisonRenamed;
+        }
+
+        void state_ComparisonRenamed(object sender, EventArgs e)
+        {
+            var args = (RenameEventArgs)e;
+            foreach (var column in ColumnsList)
+            {
+                if (column.Comparison == args.OldName)
+                {
+                    column.Comparison = args.NewName;
+                    ((LiveSplitState)sender).Layout.HasChanged = true;
+                }
+            }
+        }
+
+        void Settings_SplitLayoutChanged(object sender, EventArgs e)
+        {
+            RebuildVisualSplits();
+        }
+
+        private void RebuildVisualSplits()
+        {
+            Components = new List<IComponent>();
+            SplitComponents = new List<SplitComponent>();
+            InternalComponent.VisibleComponents = Components;
+
+            var totalSplits = Settings.ShowBlankSplits ? Math.Max(Settings.VisualSplitCount, visualSplitCount) : visualSplitCount;
+
+            if (Settings.ShowColumnLabels && CurrentState.Layout?.Mode == LayoutMode.Vertical)
+            {
+                Components.Add(new LabelsComponent(Settings, ColumnsList));
+                Components.Add(new SeparatorComponent());
+            }
+
+            for (var i = 0; i < totalSplits; ++i)
+            {
+                if (i == totalSplits - 1 && i > 0)
+                {
+                    LastSplitSeparatorIndex = Components.Count;
+                    if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit)
+                        Components.Add(new SeparatorComponent());
+                    else if (Settings.ShowThinSeparators)
+                        Components.Add(new ThinSeparatorComponent());
+                }
+
+                var splitComponent = new SplitComponent(Settings, ColumnsList);
+                Components.Add(splitComponent);
+                if (i < visualSplitCount - 1 || i == (Settings.LockLastSplit ? totalSplits - 1 : visualSplitCount - 1))
+                    SplitComponents.Add(splitComponent);                   
+
+                if (Settings.ShowThinSeparators && i < totalSplits - 2)
+                    Components.Add(new ThinSeparatorComponent());
+            }
+        }
+
+        private void Prepare(LiveSplitState state)
+        {
+            if (state != OldState)
+            {
+                state.OnScrollDown += state_OnScrollDown;
+                state.OnScrollUp += state_OnScrollUp;
+                state.OnStart += state_OnStart;
+                state.OnReset += state_OnReset;
+                state.OnSplit += state_OnSplit;
+                state.OnSkipSplit += state_OnSkipSplit;
+                state.OnUndoSplit += state_OnUndoSplit;
+                OldState = state;
+            }
+
+            var previousSplitCount = visualSplitCount;
+            visualSplitCount = Math.Min(state.Run.Count, Settings.VisualSplitCount);
+            if (previousSplitCount != visualSplitCount 
+                || (Settings.ShowBlankSplits && settingsSplitCount != Settings.VisualSplitCount)
+                || Settings.ShowColumnLabels != PreviousShowLabels
+                || (Settings.ShowColumnLabels && state.Layout.Mode != OldLayoutMode))
+            {
+                PreviousShowLabels = Settings.ShowColumnLabels;
+                OldLayoutMode = state.Layout.Mode;
+                RebuildVisualSplits();
+            }
+            settingsSplitCount = Settings.VisualSplitCount;
+
+            var skipCount = Math.Min(
+                Math.Max(
+                    0,
+                    state.CurrentSplitIndex - (visualSplitCount - 2 - Settings.SplitPreviewCount + (Settings.AlwaysShowLastSplit ? 0 : 1))),
+                state.Run.Count - visualSplitCount);
+            ScrollOffset = Math.Min(Math.Max(ScrollOffset, -skipCount), state.Run.Count - skipCount - visualSplitCount);
+            skipCount += ScrollOffset;
+
+            if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
+                ShadowImages.Clear();
+
+            foreach (var split in state.Run)
+            {
+                if (split.Icon != null && (!ShadowImages.ContainsKey(split.Icon) || OldShadowsColor != state.LayoutSettings.ShadowsColor))
+                {
+                    ShadowImages.Add(split.Icon, IconShadow.Generate(split.Icon, state.LayoutSettings.ShadowsColor));
+                }
+            }
+
+            var iconsNotBlank = state.Run.Where(x => x.Icon != null).Any();
+            foreach (var split in SplitComponents)
+            {
+                split.DisplayIcon = iconsNotBlank && Settings.DisplayIcons;
+
+                if (split.Split != null && split.Split.Icon != null)
+                    split.ShadowImage = ShadowImages[split.Split.Icon];
+                else
+                    split.ShadowImage = null;
+            }
+            OldShadowsColor = state.LayoutSettings.ShadowsColor;
+
+            foreach (var component in Components)
+            {
+                if (component is SeparatorComponent)
+                {
+                    var separator = (SeparatorComponent)component;
+                    var index = Components.IndexOf(separator);
+                    if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+                    {
+                        if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = true;
+                        else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = false;
+                    }
+                    if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit && index == LastSplitSeparatorIndex)
+                    {
+                        if (skipCount >= state.Run.Count - visualSplitCount)
+                        {
+                            if (Settings.ShowThinSeparators)
+                                separator.DisplayedSize = 1f;
+                            else
+                                separator.DisplayedSize = 0f;
+
+                            separator.UseSeparatorColor = false;
+                        }
+                        else
+                        {
+                            separator.DisplayedSize = 2f;
+                            separator.UseSeparatorColor = true;
+                        }
+                    }
+                }
+                else if (component is ThinSeparatorComponent)
+                {
+                    var separator = (ThinSeparatorComponent)component;
+                    var index = Components.IndexOf(separator);
+                    if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+                    {
+                        if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = true;
+                        else if (((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = false;
+                    }
+                }
+            }
+        }
+
+        void state_OnUndoSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnSkipSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnReset(object sender, TimerPhase e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnStart(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnScrollUp(object sender, EventArgs e)
+        {
+            ScrollOffset--;
+        }
+
+        void state_OnScrollDown(object sender, EventArgs e)
+        {
+            ScrollOffset++;
+        }
+
+        void DrawBackground(Graphics g, float width, float height)
+        {
+            if (Settings.BackgroundGradient != ExtendedGradientType.Alternating
+                && (Settings.BackgroundColor.A > 0
+                || Settings.BackgroundGradient != ExtendedGradientType.Plain
+                && Settings.BackgroundColor2.A > 0))
+            {
+                var gradientBrush = new LinearGradientBrush(
+                            new PointF(0, 0),
+                            Settings.BackgroundGradient == ExtendedGradientType.Horizontal
+                            ? new PointF(width, 0)
+                            : new PointF(0, height),
+                            Settings.BackgroundColor,
+                            Settings.BackgroundGradient == ExtendedGradientType.Plain
+                            ? Settings.BackgroundColor
+                            : Settings.BackgroundColor2);
+                g.FillRectangle(gradientBrush, 0, 0, width, height);
+            }
+        }
+
+        public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
+        {
+            Prepare(state);
+            DrawBackground(g, width, VerticalHeight);
+            InternalComponent.DrawVertical(g, state, width, clipRegion);
+        }
+
+        public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
+        {
+            Prepare(state);
+            DrawBackground(g, HorizontalWidth, height);
+            InternalComponent.DrawHorizontal(g, state, height, clipRegion);
+        }
+
+        public Control GetSettingsControl(LayoutMode mode)
+        {
+            Settings.Mode = mode;
+            return Settings;
+        }
+
+        public void SetSettings(System.Xml.XmlNode settings)
+        {
+            Settings.SetSettings(settings);
+            RebuildVisualSplits();
+        }
+
+        public System.Xml.XmlNode GetSettings(System.Xml.XmlDocument document)
+        {
+            return Settings.GetSettings(document);
+        }
+
+        public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
+        {
+            var skipCount = Math.Min(
+                Math.Max(
+                    0,
+                    state.CurrentSplitIndex - (visualSplitCount - 2 - Settings.SplitPreviewCount + (Settings.AlwaysShowLastSplit ? 0 : 1))),
+                state.Run.Count - visualSplitCount);
+            ScrollOffset = Math.Min(Math.Max(ScrollOffset, -skipCount), state.Run.Count - skipCount - visualSplitCount);
+            skipCount += ScrollOffset;
+
+            var i = 0;
+            if (SplitComponents.Count >= visualSplitCount)
+            {
+                foreach (var split in state.Run.Skip(skipCount).Take(visualSplitCount - 1 + (Settings.AlwaysShowLastSplit ? 0 : 1)))
+                {
+                    SplitComponents[i].Split = split;
+                    i++;
+                }
+                if (Settings.AlwaysShowLastSplit)
+                    SplitComponents[i].Split = state.Run.Last();
+            }
+
+            if (invalidator != null)
+                InternalComponent.Update(invalidator, state, width, height, mode);
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
+    }
+}
+
+---- Transformed Tree ----
+using LiveSplit.Model;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace LiveSplit.UI.Components
+{
+    public class SplitsComponent : IComponent
+    {
+        public ComponentRendererComponent InternalComponent { get; protected set; }
+
+        public float PaddingTop => InternalComponent.PaddingTop;
+        public float PaddingLeft => InternalComponent.PaddingLeft;
+        public float PaddingBottom => InternalComponent.PaddingBottom;
+        public float PaddingRight => InternalComponent.PaddingRight;
+
+        protected IList<IComponent> Components { get; set; }
+        protected IList<SplitComponent> SplitComponents { get; set; }
+
+        protected SplitsSettings Settings { get; set; }
+
+        private Dictionary<Image, Image> ShadowImages { get; set; }
+
+        private int visualSplitCount;
+        private int settingsSplitCount;
+
+        protected bool PreviousShowLabels { get; set; }
+
+        protected int ScrollOffset { get; set; }
+        protected int LastSplitSeparatorIndex { get; set; }
+
+        protected LiveSplitState CurrentState { get; set; }
+        protected LiveSplitState OldState { get; set; }
+        protected LayoutMode OldLayoutMode { get; set; }
+        protected Color OldShadowsColor { get; set; }
+
+        protected IEnumerable<ColumnData> ColumnsList => Settings.ColumnsList.Select(x => x.Data);
+
+        public string ComponentName => "Splits";
+
+        public float VerticalHeight => InternalComponent.VerticalHeight;
+
+        public float MinimumWidth => InternalComponent.MinimumWidth;
+
+        public float HorizontalWidth => InternalComponent.HorizontalWidth;
+
+        public float MinimumHeight => InternalComponent.MinimumHeight;
+
+        public IDictionary<string, Action> ContextMenuControls => null;
+
+        public SplitsComponent(LiveSplitState state)
+        {
+            CurrentState = state;
+            Settings = new SplitsSettings(state);
+            InternalComponent = new ComponentRendererComponent();
+            ShadowImages = new Dictionary<Image, Image>();
+            visualSplitCount = Settings.VisualSplitCount;
+            settingsSplitCount = Settings.VisualSplitCount;
+            Settings.SplitLayoutChanged += Settings_SplitLayoutChanged;
+            ScrollOffset = 0;
+            RebuildVisualSplits();
+            state.ComparisonRenamed += state_ComparisonRenamed;
+        }
+
+        void state_ComparisonRenamed(object sender, EventArgs e)
+        {
+            var args = (RenameEventArgs)e;
+            foreach (var column in ColumnsList)
+            {
+                if (column.Comparison == args.OldName)
+                {
+                    column.Comparison = args.NewName;
+                    ((LiveSplitState)sender).Layout.HasChanged = true;
+                }
+            }
+        }
+
+        void Settings_SplitLayoutChanged(object sender, EventArgs e)
+        {
+            RebuildVisualSplits();
+        }
+
+        private void RebuildVisualSplits()
+        {
+            Components = new List<IComponent>();
+            SplitComponents = new List<SplitComponent>();
+            InternalComponent.VisibleComponents = Components;
+
+            var totalSplits = Settings.ShowBlankSplits ? Math.Max(Settings.VisualSplitCount, visualSplitCount) : visualSplitCount;
+
+            if (Settings.ShowColumnLabels && CurrentState.Layout?.Mode == LayoutMode.Vertical)
+            {
+                Components.Add(new LabelsComponent(Settings, ColumnsList));
+                Components.Add(new SeparatorComponent());
+            }
+
+            for (var i = 0; i < totalSplits; ++i)
+            {
+                if (i == totalSplits - 1 && i > 0)
+                {
+                    LastSplitSeparatorIndex = Components.Count;
+                    if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit)
+                        Components.Add(new SeparatorComponent());
+                    else if (Settings.ShowThinSeparators)
+                        Components.Add(new ThinSeparatorComponent());
+                }
+
+                var splitComponent = new SplitComponent(Settings, ColumnsList);
+                Components.Add(splitComponent);
+                if (i < visualSplitCount - 1 || i == (Settings.LockLastSplit ? totalSplits - 1 : visualSplitCount - 1))
+                    SplitComponents.Add(splitComponent);                   
+
+                if (Settings.ShowThinSeparators && i < totalSplits - 2)
+                    Components.Add(new ThinSeparatorComponent());
+            }
+        }
+
+        private void Prepare(LiveSplitState state)
+        {
+            if (state != OldState)
+            {
+                state.OnScrollDown += state_OnScrollDown;
+                state.OnScrollUp += state_OnScrollUp;
+                state.OnStart += state_OnStart;
+                state.OnReset += state_OnReset;
+                state.OnSplit += state_OnSplit;
+                state.OnSkipSplit += state_OnSkipSplit;
+                state.OnUndoSplit += state_OnUndoSplit;
+                OldState = state;
+            }
+
+            var previousSplitCount = visualSplitCount;
+            visualSplitCount = Math.Min(state.Run.Count, Settings.VisualSplitCount);
+            if (previousSplitCount != visualSplitCount 
+                || (Settings.ShowBlankSplits && settingsSplitCount != Settings.VisualSplitCount)
+                || Settings.ShowColumnLabels != PreviousShowLabels
+                || (Settings.ShowColumnLabels && state.Layout.Mode != OldLayoutMode))
+            {
+                PreviousShowLabels = Settings.ShowColumnLabels;
+                OldLayoutMode = state.Layout.Mode;
+                RebuildVisualSplits();
+            }
+            settingsSplitCount = Settings.VisualSplitCount;
+
+            var skipCount = Math.Min(
+                Math.Max(
+                    0,
+                    state.CurrentSplitIndex - (visualSplitCount - 2 - Settings.SplitPreviewCount + (Settings.AlwaysShowLastSplit ? 0 : 1))),
+                state.Run.Count - visualSplitCount);
+            ScrollOffset = Math.Min(Math.Max(ScrollOffset, -skipCount), state.Run.Count - skipCount - visualSplitCount);
+            skipCount += ScrollOffset;
+
+            if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
+                ShadowImages.Clear();
+
+            foreach (var split in state.Run)
+            {
+                if (split.Icon != null && (!ShadowImages.ContainsKey(split.Icon) || OldShadowsColor != state.LayoutSettings.ShadowsColor))
+                {
+                    ShadowImages.Add(split.Icon, IconShadow.Generate(split.Icon, state.LayoutSettings.ShadowsColor));
+                }
+            }
+
+            var iconsNotBlank = state.Run.Where(x => x.Icon != null).Any();
+            foreach (var split in SplitComponents)
+            {
+                split.DisplayIcon = iconsNotBlank && Settings.DisplayIcons;
+
+                if (split.Split != null && split.Split.Icon != null)
+                    split.ShadowImage = ShadowImages[split.Split.Icon];
+                else
+                    split.ShadowImage = null;
+            }
+            OldShadowsColor = state.LayoutSettings.ShadowsColor;
+
+            foreach (var component in Components)
+            {
+                if (component is SeparatorComponent separator)
+                {
+                    var index = Components.IndexOf(separator);
+                    if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+                    {
+                        if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = true;
+                        else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = false;
+                    }
+                    if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit && index == LastSplitSeparatorIndex)
+                    {
+                        if (skipCount >= state.Run.Count - visualSplitCount)
+                        {
+                            if (Settings.ShowThinSeparators)
+                                separator.DisplayedSize = 1f;
+                            else
+                                separator.DisplayedSize = 0f;
+
+                            separator.UseSeparatorColor = false;
+                        }
+                        else
+                        {
+                            separator.DisplayedSize = 2f;
+                            separator.UseSeparatorColor = true;
+                        }
+                    }
+                }
+                else if (component is ThinSeparatorComponent separator)
+                {
+                    var index = Components.IndexOf(separator);
+                    if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+                    {
+                        if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = true;
+                        else if (((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = false;
+                    }
+                }
+            }
+        }
+
+        void state_OnUndoSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnSkipSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnReset(object sender, TimerPhase e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnStart(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnScrollUp(object sender, EventArgs e)
+        {
+            ScrollOffset--;
+        }
+
+        void state_OnScrollDown(object sender, EventArgs e)
+        {
+            ScrollOffset++;
+        }
+
+        void DrawBackground(Graphics g, float width, float height)
+        {
+            if (Settings.BackgroundGradient != ExtendedGradientType.Alternating
+                && (Settings.BackgroundColor.A > 0
+                || Settings.BackgroundGradient != ExtendedGradientType.Plain
+                && Settings.BackgroundColor2.A > 0))
+            {
+                var gradientBrush = new LinearGradientBrush(
+                            new PointF(0, 0),
+                            Settings.BackgroundGradient == ExtendedGradientType.Horizontal
+                            ? new PointF(width, 0)
+                            : new PointF(0, height),
+                            Settings.BackgroundColor,
+                            Settings.BackgroundGradient == ExtendedGradientType.Plain
+                            ? Settings.BackgroundColor
+                            : Settings.BackgroundColor2);
+                g.FillRectangle(gradientBrush, 0, 0, width, height);
+            }
+        }
+
+        public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
+        {
+            Prepare(state);
+            DrawBackground(g, width, VerticalHeight);
+            InternalComponent.DrawVertical(g, state, width, clipRegion);
+        }
+
+        public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
+        {
+            Prepare(state);
+            DrawBackground(g, HorizontalWidth, height);
+            InternalComponent.DrawHorizontal(g, state, height, clipRegion);
+        }
+
+        public Control GetSettingsControl(LayoutMode mode)
+        {
+            Settings.Mode = mode;
+            return Settings;
+        }
+
+        public void SetSettings(System.Xml.XmlNode settings)
+        {
+            Settings.SetSettings(settings);
+            RebuildVisualSplits();
+        }
+
+        public System.Xml.XmlNode GetSettings(System.Xml.XmlDocument document)
+        {
+            return Settings.GetSettings(document);
+        }
+
+        public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
+        {
+            var skipCount = Math.Min(
+                Math.Max(
+                    0,
+                    state.CurrentSplitIndex - (visualSplitCount - 2 - Settings.SplitPreviewCount + (Settings.AlwaysShowLastSplit ? 0 : 1))),
+                state.Run.Count - visualSplitCount);
+            ScrollOffset = Math.Min(Math.Max(ScrollOffset, -skipCount), state.Run.Count - skipCount - visualSplitCount);
+            skipCount += ScrollOffset;
+
+            var i = 0;
+            if (SplitComponents.Count >= visualSplitCount)
+            {
+                foreach (var split in state.Run.Skip(skipCount).Take(visualSplitCount - 1 + (Settings.AlwaysShowLastSplit ? 0 : 1)))
+                {
+                    SplitComponents[i].Split = split;
+                    i++;
+                }
+                if (Settings.AlwaysShowLastSplit)
+                    SplitComponents[i].Split = state.Run.Last();
+            }
+
+            if (invalidator != null)
+                InternalComponent.Update(invalidator, state, width, height, mode);
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\LiveSplit\Components\LiveSplit.Splits\UI\Components\SplitsComponent.cs(209,62): error CS0136: A local or parameter named 'separator' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
+######################################################################
+
+
+######################################################################
+Nr: 3 - TypeCheckAndCastRewriterR5
+Filepath: D:\a\1\s\LiveSplit\Components\LiveSplit.Subsplits\UI\Components\SplitsComponent.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using LiveSplit.Model;
+using LiveSplit.Model.Comparisons;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace LiveSplit.UI.Components
+{
+    public class SplitsComponent : IComponent
+    {
+        public ComponentRendererComponent InternalComponent { get; protected set; }
+
+        public float PaddingTop => InternalComponent.PaddingTop;
+        public float PaddingLeft => InternalComponent.PaddingLeft;
+        public float PaddingBottom =>  InternalComponent.PaddingBottom;
+        public float PaddingRight => InternalComponent.PaddingRight;
+
+        protected IList<IComponent> Components { get; set; }
+        protected IList<SplitComponent> SplitComponents { get; set; }
+
+        protected SplitsSettings Settings { get; set; }
+
+        private Dictionary<Image, Image> ShadowImages { get; set; }
+
+        private int visualSplitCount;
+        private IRun previousRun;
+
+        protected bool PreviousShowLabels { get; set; }
+
+        private SectionList sectionList;
+
+        protected int ScrollOffset { get; set; }
+        protected int LastSplitSeparatorIndex { get; set; }
+        private int lastSplitOfSection { get; set; }
+
+        protected LiveSplitState CurrentState { get; set; }
+        protected LiveSplitState OldState { get; set; }
+        protected LayoutMode OldLayoutMode { get; set; }
+        protected Color OldShadowsColor { get; set; }
+
+        protected IEnumerable<ColumnData> ColumnsList { get { return Settings.ColumnsList.Select(x => x.Data); } }
+
+        public string ComponentName
+          => "Subsplits";
+
+        public float VerticalHeight => InternalComponent.VerticalHeight;
+
+        public float MinimumWidth => InternalComponent.MinimumWidth;
+
+        public float HorizontalWidth => InternalComponent.HorizontalWidth;
+
+        public float MinimumHeight => InternalComponent.MinimumHeight;
+
+        public IDictionary<string, Action> ContextMenuControls => null;
+
+        public SplitsComponent(LiveSplitState state)
+        {
+            CurrentState = state;
+            Settings = new SplitsSettings(state);
+            InternalComponent = new ComponentRendererComponent();
+            ShadowImages = new Dictionary<Image, Image>();
+            visualSplitCount = Settings.VisualSplitCount;
+            Settings.SplitLayoutChanged += Settings_SplitLayoutChanged;
+            ScrollOffset = 0;
+            RebuildVisualSplits();
+            sectionList = new SectionList();
+            previousRun = state.Run;
+            sectionList.UpdateSplits(state.Run);
+        }
+
+        void state_RunManuallyModified(object sender, EventArgs e)
+        {
+            sectionList.UpdateSplits(((LiveSplitState)sender).Run);
+        }
+
+        void state_ComparisonRenamed(object sender, EventArgs e)
+        {
+            var args = (RenameEventArgs)e;
+            foreach (var column in ColumnsList)
+            {
+                if (column.Comparison == args.OldName)
+                {
+                    column.Comparison = args.NewName;
+                    ((LiveSplitState)sender).Layout.HasChanged = true;
+                }
+            }
+        }
+
+        void Settings_SplitLayoutChanged(object sender, EventArgs e)
+        {
+            RebuildVisualSplits();
+        }
+
+        private void RebuildVisualSplits()
+        {
+            Components = new List<IComponent>();
+            SplitComponents = new List<SplitComponent>();
+            InternalComponent.VisibleComponents = Components;
+
+            if (Settings.ShowColumnLabels && CurrentState.Layout?.Mode == LayoutMode.Vertical)
+            {
+                Components.Add(new LabelsComponent(Settings, ColumnsList));
+                Components.Add(new SeparatorComponent());
+            }
+
+            for (var i = 0; i < visualSplitCount; ++i)
+            {
+                if (i == visualSplitCount - 1 && i > 0)
+                {
+                    LastSplitSeparatorIndex = Components.Count;
+                    if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit)
+                        Components.Add(new SeparatorComponent());
+                    else if (Settings.ShowThinSeparators)
+                        Components.Add(new ThinSeparatorComponent());
+                }
+
+                var splitComponent = new SplitComponent(Settings, ColumnsList);
+                Components.Add(splitComponent);
+                SplitComponents.Add(splitComponent);
+
+                if (Settings.ShowThinSeparators && i < visualSplitCount - 2)
+                    Components.Add(new ThinSeparatorComponent());
+            }
+        }
+
+        private void Prepare(LiveSplitState state)
+        {
+            if (state != OldState)
+            {
+                state.OnScrollDown += state_OnScrollDown;
+                state.OnScrollUp += state_OnScrollUp;
+                state.OnStart += state_OnStart;
+                state.OnReset += state_OnReset;
+                state.OnSplit += state_OnSplit;
+                state.OnSkipSplit += state_OnSkipSplit;
+                state.OnUndoSplit += state_OnUndoSplit;
+                state.ComparisonRenamed += state_ComparisonRenamed;
+                state.RunManuallyModified += state_RunManuallyModified;
+                OldState = state;
+            }
+
+            if (Settings.VisualSplitCount != visualSplitCount
+            || Settings.ShowColumnLabels != PreviousShowLabels
+            || (Settings.ShowColumnLabels && state.Layout.Mode != OldLayoutMode))
+            {
+                PreviousShowLabels = Settings.ShowColumnLabels;
+                OldLayoutMode = state.Layout.Mode;
+                visualSplitCount = Settings.VisualSplitCount;
+                RebuildVisualSplits();
+            }
+
+            if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
+                ShadowImages.Clear();
+
+            foreach (var split in state.Run)
+            {
+                if (split.Icon != null && (!ShadowImages.ContainsKey(split.Icon) || OldShadowsColor != state.LayoutSettings.ShadowsColor))
+                {
+                    ShadowImages.Add(split.Icon, IconShadow.Generate(split.Icon, state.LayoutSettings.ShadowsColor));
+                }
+            }
+
+            var iconsNotBlank = state.Run.Where(x => x.Icon != null).Any();
+
+            foreach (var split in SplitComponents)
+            {
+                var hideIconSectionSplit = !Settings.ShowIconSectionSplit && split.Split != null && state.Run.IndexOf(split.Split) == lastSplitOfSection;
+                var shouldIndent = split.Split == null || split.Split.Icon != null || Settings.IndentBlankIcons;
+
+                if (split.Header)
+                    split.DisplayIcon = Settings.ShowSectionIcon && shouldIndent && iconsNotBlank;
+                else
+                    split.DisplayIcon = Settings.DisplayIcons && !hideIconSectionSplit && iconsNotBlank && shouldIndent;
+
+                if (split.Split != null && split.Split.Icon != null)
+                    split.ShadowImage = ShadowImages[split.Split.Icon];
+                else
+                    split.ShadowImage = null;
+            }
+            OldShadowsColor = state.LayoutSettings.ShadowsColor;
+
+            foreach (var component in Components)
+            {
+                if (component is SeparatorComponent)
+                {
+                    var separator = (SeparatorComponent)component;
+                    var index = Components.IndexOf(separator);
+                    if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+                    {
+                        if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = true;
+                        else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = false;
+                    }
+                }
+                else if (component is ThinSeparatorComponent)
+                {
+                    var separator = (ThinSeparatorComponent)component;
+                    var index = Components.IndexOf(separator);
+                    if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+                    {
+                        if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = true;
+                        else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = false;
+                    }
+                }
+            }
+        }
+
+        void state_OnUndoSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnSkipSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnReset(object sender, TimerPhase e)
+        {
+            ScrollOffset = 0;
+        }
+
+        private sealed class SectionList
+        {
+            public sealed class Section
+            {
+                public readonly int startIndex;
+                public readonly int endIndex;
+
+                public Section(int topIndex, int bottomIndex)
+                {
+                    startIndex = topIndex;
+                    endIndex = bottomIndex;
+                }
+
+                public bool splitInRange(int splitIndex)
+                {
+                    return (splitIndex >= startIndex && splitIndex <= endIndex);
+                }
+
+                public int getSubsplitCount()
+                {
+                    return endIndex - startIndex;
+                }
+            }
+
+            public List<Section> Sections;
+
+            public void UpdateSplits(IRun splits)
+            {
+                Sections = new List<Section>();
+                for (int splitIndex = splits.Count() - 1; splitIndex >= 0; splitIndex--)
+                {
+                    int sectionIndex = splitIndex;
+                    while ((splitIndex > 0) && (splits[splitIndex - 1].Name.StartsWith("-")))
+                        splitIndex--;
+
+                    Sections.Insert(0, new Section(splitIndex, sectionIndex));
+                }
+            }
+
+            public int getSection(int splitIndex)
+            {
+                foreach (Section section in Sections)
+                {
+                    if (section.splitInRange(splitIndex))
+                    {
+                        return Sections.IndexOf(section);
+                    }
+                }
+
+                return -1;
+            }
+
+            public bool isMajorSplit(int splitIndex)
+            {
+                int sectionIndex = getSection(splitIndex);
+
+                if (sectionIndex == -1)
+                    return true;
+
+                return (splitIndex == Sections[sectionIndex].endIndex);
+            }
+
+            public int getMajorSplit(int splitIndex)
+            {
+                int sectionIndex = getSection(splitIndex);
+
+                if (sectionIndex == -1)
+                    return splitIndex;
+
+                return Sections[sectionIndex].endIndex;
+            }
+        }
+
+        void state_OnStart(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnScrollUp(object sender, EventArgs e)
+        {
+            ScrollOffset--;
+        }
+
+        void state_OnScrollDown(object sender, EventArgs e)
+        {
+            ScrollOffset++;
+        }
+
+        void DrawBackground(Graphics g, float width, float height)
+        {
+            if (Settings.BackgroundGradient != ExtendedGradientType.Alternating
+                && (Settings.BackgroundColor.A > 0
+                || Settings.BackgroundGradient != ExtendedGradientType.Plain
+                && Settings.BackgroundColor2.A > 0))
+            {
+                var gradientBrush = new LinearGradientBrush(
+                            new PointF(0, 0),
+                            Settings.BackgroundGradient == ExtendedGradientType.Horizontal
+                            ? new PointF(width, 0)
+                            : new PointF(0, height),
+                            Settings.BackgroundColor,
+                            Settings.BackgroundGradient == ExtendedGradientType.Plain
+                            ? Settings.BackgroundColor
+                            : Settings.BackgroundColor2);
+                g.FillRectangle(gradientBrush, 0, 0, width, height);
+            }
+        }
+
+        public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
+        {
+            Prepare(state);
+            DrawBackground(g, width, VerticalHeight);
+            InternalComponent.DrawVertical(g, state, width, clipRegion);
+        }
+
+        public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
+        {
+            Prepare(state);
+            DrawBackground(g, HorizontalWidth, height);
+            InternalComponent.DrawHorizontal(g, state, height, clipRegion);
+        }
+
+        public Control GetSettingsControl(LayoutMode mode)
+        {
+            Settings.Mode = mode;
+            return Settings;
+        }
+
+        public void SetSettings(System.Xml.XmlNode settings)
+        {
+            Settings.SetSettings(settings);
+            RebuildVisualSplits();
+        }
+
+        public System.Xml.XmlNode GetSettings(System.Xml.XmlDocument document)
+        {
+            return Settings.GetSettings(document);
+        }
+
+        public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
+        {
+            if (state.Run != previousRun)
+            {
+                sectionList.UpdateSplits(state.Run);
+                previousRun = state.Run;
+            }
+
+            var runningSectionIndex = Math.Min(Math.Max(state.CurrentSplitIndex, 0), state.Run.Count - 1);
+            ScrollOffset = Math.Min(Math.Max(ScrollOffset, -runningSectionIndex), state.Run.Count - runningSectionIndex - 1);
+            var currentSplit = ScrollOffset + runningSectionIndex;
+            var currentSection = sectionList.getSection(currentSplit);
+            runningSectionIndex = sectionList.getSection(runningSectionIndex);
+            if (sectionList.Sections[currentSection].getSubsplitCount() > 0)
+                lastSplitOfSection = sectionList.Sections[currentSection].endIndex;
+            else
+                lastSplitOfSection = -1;
+
+            if (Settings.HideSubsplits)
+            {
+                if (ScrollOffset != 0)
+                {
+                    currentSplit = sectionList.getMajorSplit(currentSplit);
+                    SplitsSettings.HilightSplit = state.Run[currentSplit];
+                }
+                else
+                    SplitsSettings.HilightSplit = null;
+
+
+                SplitsSettings.SectionSplit = state.Run[sectionList.Sections[runningSectionIndex].endIndex];
+            }
+            else
+            {
+                if (ScrollOffset != 0)
+                    SplitsSettings.HilightSplit = state.Run[currentSplit];
+                else
+                    SplitsSettings.HilightSplit = null;
+
+                if (currentSection == runningSectionIndex)
+                    SplitsSettings.SectionSplit = null;
+                else
+                    SplitsSettings.SectionSplit = state.Run[sectionList.Sections[runningSectionIndex].endIndex];
+            }
+
+            bool addLast = (Settings.AlwaysShowLastSplit || currentSplit == state.Run.Count() - 1);
+            bool addHeader = (Settings.ShowHeader && (sectionList.Sections[currentSection].getSubsplitCount() > 0));
+
+            int freeSplits = visualSplitCount - (addLast ? 1 : 0) - (addHeader ? 1 : 0);
+            int topSplit = currentSplit - 1;
+            int bottomSplit = currentSplit + 1;
+            var majorSplitsToAdd = (!Settings.ShowSubsplits && !Settings.HideSubsplits) ? Math.Min(currentSection, Settings.MinimumMajorSplits) : 0;
+
+            List<int> visibleSplits = new List<int>();
+            if ((currentSplit < state.Run.Count() - 1) && (freeSplits > 0) && (!Settings.HideSubsplits || sectionList.isMajorSplit(currentSplit)))
+            {
+                visibleSplits.Add(currentSplit);
+                freeSplits--;
+            }
+
+            int previewCount = 0;
+            while ((previewCount < Settings.SplitPreviewCount) && (bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > majorSplitsToAdd))
+            {
+                if (ShouldIncludeSplit(currentSection, bottomSplit))
+                {
+                    if (bottomSplit == state.Run.Count - 1)
+                        addLast = true;
+                    else
+                    {
+                        visibleSplits.Add(bottomSplit);
+                        previewCount++;
+                    }
+                    freeSplits--;
+                }
+                bottomSplit++;
+            }
+
+            while ((topSplit >= 0) && (freeSplits > 0))
+            {
+                var isMajor = sectionList.isMajorSplit(topSplit);
+                if (ShouldIncludeSplit(currentSection, topSplit) && (freeSplits > majorSplitsToAdd || sectionList.isMajorSplit(topSplit)))
+                {
+                    visibleSplits.Insert(0, topSplit);
+                    freeSplits--;
+                    if (isMajor)
+                        majorSplitsToAdd--;
+                }
+                topSplit--;
+            }
+
+            while ((bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > 0))
+            {
+                if (ShouldIncludeSplit(currentSection, bottomSplit))
+                {
+                    if (bottomSplit == state.Run.Count - 1)
+                        addLast = true;
+                    else
+                        visibleSplits.Add(bottomSplit);
+                    freeSplits--;
+                }
+                bottomSplit++;
+            }
+
+
+            foreach (var component in Components)
+            {
+                if (component is SeparatorComponent)
+                {
+                    var separator = (SeparatorComponent)component;
+                    var index = Components.IndexOf(separator);
+
+                    if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit && index == LastSplitSeparatorIndex)
+                    {
+                        int lastIndex = state.Run.Count() - 1;
+
+                        if (freeSplits > 0 || visibleSplits.Any() && (visibleSplits.Last() == lastIndex - 1))
+                        {
+                            if (Settings.ShowThinSeparators)
+                                separator.DisplayedSize = 1f;
+                            else
+                                separator.DisplayedSize = 0f;
+
+                            separator.UseSeparatorColor = false;
+                        }
+                        else
+                        {
+                            int prevSection = sectionList.getSection(lastIndex) - 1;
+                            if (visibleSplits.Any() && (prevSection <= 0 || visibleSplits.Last() == sectionList.Sections[prevSection].endIndex))
+                            {
+                                if (Settings.ShowThinSeparators)
+                                    separator.DisplayedSize = 1f;
+                                else
+                                    separator.DisplayedSize = 0f;
+
+                                separator.UseSeparatorColor = false;
+                            }
+                            else
+                            {
+                                separator.DisplayedSize = 2f;
+                                separator.UseSeparatorColor = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            if (!Settings.LockLastSplit && addLast)
+                visibleSplits.Add(state.Run.Count() - 1);
+
+            for (; freeSplits > 0; freeSplits--)
+                visibleSplits.Add(int.MinValue);
+
+            if (Settings.LockLastSplit && addLast)
+                visibleSplits.Add(state.Run.Count() - 1);
+
+            if (addHeader)
+            {
+                int insertIndex = 0;
+                if (currentSection > 0)
+                    insertIndex = visibleSplits.IndexOf(sectionList.Sections[currentSection - 1].endIndex) + 1;
+                visibleSplits.Insert(insertIndex, -(currentSection + 1));
+            }
+
+            int i = 0;
+            foreach (int split in visibleSplits)
+            {
+                if (i < SplitComponents.Count)
+                {
+                    SplitComponents[i].ForceIndent = !Settings.ShowSubsplits && !Settings.HideSubsplits && Settings.IndentSectionSplit && split == lastSplitOfSection;
+
+                    if (split == int.MinValue)
+                    {
+                        SplitComponents[i].Header = false;
+                        SplitComponents[i].CollapsedSplit = false;
+                        SplitComponents[i].Split = null;
+                        SplitComponents[i].oddSplit = true;
+                    }
+                    else if (split < 0)
+                    {
+                        SplitComponents[i].Header = true;
+                        SplitComponents[i].CollapsedSplit = false;
+                        SplitComponents[i].TopSplit = sectionList.Sections[-split - 1].startIndex;
+                        SplitComponents[i].Split = state.Run[sectionList.Sections[-split - 1].endIndex];
+                        SplitComponents[i].oddSplit = ((((-split - 1) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0);
+                    }
+                    else
+                    {
+                        SplitComponents[i].Header = false;
+                        SplitComponents[i].Split = state.Run[split];
+                        SplitComponents[i].oddSplit = (((sectionList.getSection(split) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0);
+
+                        if ((Settings.HideSubsplits || sectionList.getSection(split) != currentSection)
+                            && sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0
+                            && !Settings.ShowSubsplits)
+                        {
+                            SplitComponents[i].CollapsedSplit = true;
+                            SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;
+                        }
+                        else
+                        {
+                            SplitComponents[i].CollapsedSplit = false;
+                        }
+                    }
+                }
+
+                i++;
+            }
+
+            if (invalidator != null)
+                InternalComponent.Update(invalidator, state, width, height, mode);
+        }
+
+        private bool ShouldIncludeSplit(int currentSection, int split)
+        {
+            return (sectionList.isMajorSplit(split)
+                       && (!Settings.CurrentSectionOnly || sectionList.getSection(split) == currentSection)) ||
+                   (!sectionList.isMajorSplit(split)
+                       && (Settings.ShowSubsplits || (!Settings.HideSubsplits && sectionList.getSection(split) == currentSection)));
+        }
+
+        public void Dispose()
+        {
+            CurrentState.OnScrollDown -= state_OnScrollDown;
+            CurrentState.OnScrollUp -= state_OnScrollUp;
+            CurrentState.OnStart -= state_OnStart;
+            CurrentState.OnReset -= state_OnReset;
+            CurrentState.OnSplit -= state_OnSplit;
+            CurrentState.OnSkipSplit -= state_OnSkipSplit;
+            CurrentState.OnUndoSplit -= state_OnUndoSplit;
+            CurrentState.ComparisonRenamed -= state_ComparisonRenamed;
+            CurrentState.RunManuallyModified -= state_RunManuallyModified;
+        }
+
+        public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
+    }
+}
+
+---- Transformed Tree ----
+using LiveSplit.Model;
+using LiveSplit.Model.Comparisons;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace LiveSplit.UI.Components
+{
+    public class SplitsComponent : IComponent
+    {
+        public ComponentRendererComponent InternalComponent { get; protected set; }
+
+        public float PaddingTop => InternalComponent.PaddingTop;
+        public float PaddingLeft => InternalComponent.PaddingLeft;
+        public float PaddingBottom =>  InternalComponent.PaddingBottom;
+        public float PaddingRight => InternalComponent.PaddingRight;
+
+        protected IList<IComponent> Components { get; set; }
+        protected IList<SplitComponent> SplitComponents { get; set; }
+
+        protected SplitsSettings Settings { get; set; }
+
+        private Dictionary<Image, Image> ShadowImages { get; set; }
+
+        private int visualSplitCount;
+        private IRun previousRun;
+
+        protected bool PreviousShowLabels { get; set; }
+
+        private SectionList sectionList;
+
+        protected int ScrollOffset { get; set; }
+        protected int LastSplitSeparatorIndex { get; set; }
+        private int lastSplitOfSection { get; set; }
+
+        protected LiveSplitState CurrentState { get; set; }
+        protected LiveSplitState OldState { get; set; }
+        protected LayoutMode OldLayoutMode { get; set; }
+        protected Color OldShadowsColor { get; set; }
+
+        protected IEnumerable<ColumnData> ColumnsList { get { return Settings.ColumnsList.Select(x => x.Data); } }
+
+        public string ComponentName
+          => "Subsplits";
+
+        public float VerticalHeight => InternalComponent.VerticalHeight;
+
+        public float MinimumWidth => InternalComponent.MinimumWidth;
+
+        public float HorizontalWidth => InternalComponent.HorizontalWidth;
+
+        public float MinimumHeight => InternalComponent.MinimumHeight;
+
+        public IDictionary<string, Action> ContextMenuControls => null;
+
+        public SplitsComponent(LiveSplitState state)
+        {
+            CurrentState = state;
+            Settings = new SplitsSettings(state);
+            InternalComponent = new ComponentRendererComponent();
+            ShadowImages = new Dictionary<Image, Image>();
+            visualSplitCount = Settings.VisualSplitCount;
+            Settings.SplitLayoutChanged += Settings_SplitLayoutChanged;
+            ScrollOffset = 0;
+            RebuildVisualSplits();
+            sectionList = new SectionList();
+            previousRun = state.Run;
+            sectionList.UpdateSplits(state.Run);
+        }
+
+        void state_RunManuallyModified(object sender, EventArgs e)
+        {
+            sectionList.UpdateSplits(((LiveSplitState)sender).Run);
+        }
+
+        void state_ComparisonRenamed(object sender, EventArgs e)
+        {
+            var args = (RenameEventArgs)e;
+            foreach (var column in ColumnsList)
+            {
+                if (column.Comparison == args.OldName)
+                {
+                    column.Comparison = args.NewName;
+                    ((LiveSplitState)sender).Layout.HasChanged = true;
+                }
+            }
+        }
+
+        void Settings_SplitLayoutChanged(object sender, EventArgs e)
+        {
+            RebuildVisualSplits();
+        }
+
+        private void RebuildVisualSplits()
+        {
+            Components = new List<IComponent>();
+            SplitComponents = new List<SplitComponent>();
+            InternalComponent.VisibleComponents = Components;
+
+            if (Settings.ShowColumnLabels && CurrentState.Layout?.Mode == LayoutMode.Vertical)
+            {
+                Components.Add(new LabelsComponent(Settings, ColumnsList));
+                Components.Add(new SeparatorComponent());
+            }
+
+            for (var i = 0; i < visualSplitCount; ++i)
+            {
+                if (i == visualSplitCount - 1 && i > 0)
+                {
+                    LastSplitSeparatorIndex = Components.Count;
+                    if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit)
+                        Components.Add(new SeparatorComponent());
+                    else if (Settings.ShowThinSeparators)
+                        Components.Add(new ThinSeparatorComponent());
+                }
+
+                var splitComponent = new SplitComponent(Settings, ColumnsList);
+                Components.Add(splitComponent);
+                SplitComponents.Add(splitComponent);
+
+                if (Settings.ShowThinSeparators && i < visualSplitCount - 2)
+                    Components.Add(new ThinSeparatorComponent());
+            }
+        }
+
+        private void Prepare(LiveSplitState state)
+        {
+            if (state != OldState)
+            {
+                state.OnScrollDown += state_OnScrollDown;
+                state.OnScrollUp += state_OnScrollUp;
+                state.OnStart += state_OnStart;
+                state.OnReset += state_OnReset;
+                state.OnSplit += state_OnSplit;
+                state.OnSkipSplit += state_OnSkipSplit;
+                state.OnUndoSplit += state_OnUndoSplit;
+                state.ComparisonRenamed += state_ComparisonRenamed;
+                state.RunManuallyModified += state_RunManuallyModified;
+                OldState = state;
+            }
+
+            if (Settings.VisualSplitCount != visualSplitCount
+            || Settings.ShowColumnLabels != PreviousShowLabels
+            || (Settings.ShowColumnLabels && state.Layout.Mode != OldLayoutMode))
+            {
+                PreviousShowLabels = Settings.ShowColumnLabels;
+                OldLayoutMode = state.Layout.Mode;
+                visualSplitCount = Settings.VisualSplitCount;
+                RebuildVisualSplits();
+            }
+
+            if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
+                ShadowImages.Clear();
+
+            foreach (var split in state.Run)
+            {
+                if (split.Icon != null && (!ShadowImages.ContainsKey(split.Icon) || OldShadowsColor != state.LayoutSettings.ShadowsColor))
+                {
+                    ShadowImages.Add(split.Icon, IconShadow.Generate(split.Icon, state.LayoutSettings.ShadowsColor));
+                }
+            }
+
+            var iconsNotBlank = state.Run.Where(x => x.Icon != null).Any();
+
+            foreach (var split in SplitComponents)
+            {
+                var hideIconSectionSplit = !Settings.ShowIconSectionSplit && split.Split != null && state.Run.IndexOf(split.Split) == lastSplitOfSection;
+                var shouldIndent = split.Split == null || split.Split.Icon != null || Settings.IndentBlankIcons;
+
+                if (split.Header)
+                    split.DisplayIcon = Settings.ShowSectionIcon && shouldIndent && iconsNotBlank;
+                else
+                    split.DisplayIcon = Settings.DisplayIcons && !hideIconSectionSplit && iconsNotBlank && shouldIndent;
+
+                if (split.Split != null && split.Split.Icon != null)
+                    split.ShadowImage = ShadowImages[split.Split.Icon];
+                else
+                    split.ShadowImage = null;
+            }
+            OldShadowsColor = state.LayoutSettings.ShadowsColor;
+
+            foreach (var component in Components)
+            {
+                if (component is SeparatorComponent separator)
+                {
+                    var index = Components.IndexOf(separator);
+                    if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+                    {
+                        if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = true;
+                        else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = false;
+                    }
+                }
+                else if (component is ThinSeparatorComponent separator)
+                {
+                    var index = Components.IndexOf(separator);
+                    if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+                    {
+                        if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = true;
+                        else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                            separator.LockToBottom = false;
+                    }
+                }
+            }
+        }
+
+        void state_OnUndoSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnSkipSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnSplit(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnReset(object sender, TimerPhase e)
+        {
+            ScrollOffset = 0;
+        }
+
+        private sealed class SectionList
+        {
+            public sealed class Section
+            {
+                public readonly int startIndex;
+                public readonly int endIndex;
+
+                public Section(int topIndex, int bottomIndex)
+                {
+                    startIndex = topIndex;
+                    endIndex = bottomIndex;
+                }
+
+                public bool splitInRange(int splitIndex)
+                {
+                    return (splitIndex >= startIndex && splitIndex <= endIndex);
+                }
+
+                public int getSubsplitCount()
+                {
+                    return endIndex - startIndex;
+                }
+            }
+
+            public List<Section> Sections;
+
+            public void UpdateSplits(IRun splits)
+            {
+                Sections = new List<Section>();
+                for (int splitIndex = splits.Count() - 1; splitIndex >= 0; splitIndex--)
+                {
+                    int sectionIndex = splitIndex;
+                    while ((splitIndex > 0) && (splits[splitIndex - 1].Name.StartsWith("-")))
+                        splitIndex--;
+
+                    Sections.Insert(0, new Section(splitIndex, sectionIndex));
+                }
+            }
+
+            public int getSection(int splitIndex)
+            {
+                foreach (Section section in Sections)
+                {
+                    if (section.splitInRange(splitIndex))
+                    {
+                        return Sections.IndexOf(section);
+                    }
+                }
+
+                return -1;
+            }
+
+            public bool isMajorSplit(int splitIndex)
+            {
+                int sectionIndex = getSection(splitIndex);
+
+                if (sectionIndex == -1)
+                    return true;
+
+                return (splitIndex == Sections[sectionIndex].endIndex);
+            }
+
+            public int getMajorSplit(int splitIndex)
+            {
+                int sectionIndex = getSection(splitIndex);
+
+                if (sectionIndex == -1)
+                    return splitIndex;
+
+                return Sections[sectionIndex].endIndex;
+            }
+        }
+
+        void state_OnStart(object sender, EventArgs e)
+        {
+            ScrollOffset = 0;
+        }
+
+        void state_OnScrollUp(object sender, EventArgs e)
+        {
+            ScrollOffset--;
+        }
+
+        void state_OnScrollDown(object sender, EventArgs e)
+        {
+            ScrollOffset++;
+        }
+
+        void DrawBackground(Graphics g, float width, float height)
+        {
+            if (Settings.BackgroundGradient != ExtendedGradientType.Alternating
+                && (Settings.BackgroundColor.A > 0
+                || Settings.BackgroundGradient != ExtendedGradientType.Plain
+                && Settings.BackgroundColor2.A > 0))
+            {
+                var gradientBrush = new LinearGradientBrush(
+                            new PointF(0, 0),
+                            Settings.BackgroundGradient == ExtendedGradientType.Horizontal
+                            ? new PointF(width, 0)
+                            : new PointF(0, height),
+                            Settings.BackgroundColor,
+                            Settings.BackgroundGradient == ExtendedGradientType.Plain
+                            ? Settings.BackgroundColor
+                            : Settings.BackgroundColor2);
+                g.FillRectangle(gradientBrush, 0, 0, width, height);
+            }
+        }
+
+        public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
+        {
+            Prepare(state);
+            DrawBackground(g, width, VerticalHeight);
+            InternalComponent.DrawVertical(g, state, width, clipRegion);
+        }
+
+        public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
+        {
+            Prepare(state);
+            DrawBackground(g, HorizontalWidth, height);
+            InternalComponent.DrawHorizontal(g, state, height, clipRegion);
+        }
+
+        public Control GetSettingsControl(LayoutMode mode)
+        {
+            Settings.Mode = mode;
+            return Settings;
+        }
+
+        public void SetSettings(System.Xml.XmlNode settings)
+        {
+            Settings.SetSettings(settings);
+            RebuildVisualSplits();
+        }
+
+        public System.Xml.XmlNode GetSettings(System.Xml.XmlDocument document)
+        {
+            return Settings.GetSettings(document);
+        }
+
+        public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
+        {
+            if (state.Run != previousRun)
+            {
+                sectionList.UpdateSplits(state.Run);
+                previousRun = state.Run;
+            }
+
+            var runningSectionIndex = Math.Min(Math.Max(state.CurrentSplitIndex, 0), state.Run.Count - 1);
+            ScrollOffset = Math.Min(Math.Max(ScrollOffset, -runningSectionIndex), state.Run.Count - runningSectionIndex - 1);
+            var currentSplit = ScrollOffset + runningSectionIndex;
+            var currentSection = sectionList.getSection(currentSplit);
+            runningSectionIndex = sectionList.getSection(runningSectionIndex);
+            if (sectionList.Sections[currentSection].getSubsplitCount() > 0)
+                lastSplitOfSection = sectionList.Sections[currentSection].endIndex;
+            else
+                lastSplitOfSection = -1;
+
+            if (Settings.HideSubsplits)
+            {
+                if (ScrollOffset != 0)
+                {
+                    currentSplit = sectionList.getMajorSplit(currentSplit);
+                    SplitsSettings.HilightSplit = state.Run[currentSplit];
+                }
+                else
+                    SplitsSettings.HilightSplit = null;
+
+
+                SplitsSettings.SectionSplit = state.Run[sectionList.Sections[runningSectionIndex].endIndex];
+            }
+            else
+            {
+                if (ScrollOffset != 0)
+                    SplitsSettings.HilightSplit = state.Run[currentSplit];
+                else
+                    SplitsSettings.HilightSplit = null;
+
+                if (currentSection == runningSectionIndex)
+                    SplitsSettings.SectionSplit = null;
+                else
+                    SplitsSettings.SectionSplit = state.Run[sectionList.Sections[runningSectionIndex].endIndex];
+            }
+
+            bool addLast = (Settings.AlwaysShowLastSplit || currentSplit == state.Run.Count() - 1);
+            bool addHeader = (Settings.ShowHeader && (sectionList.Sections[currentSection].getSubsplitCount() > 0));
+
+            int freeSplits = visualSplitCount - (addLast ? 1 : 0) - (addHeader ? 1 : 0);
+            int topSplit = currentSplit - 1;
+            int bottomSplit = currentSplit + 1;
+            var majorSplitsToAdd = (!Settings.ShowSubsplits && !Settings.HideSubsplits) ? Math.Min(currentSection, Settings.MinimumMajorSplits) : 0;
+
+            List<int> visibleSplits = new List<int>();
+            if ((currentSplit < state.Run.Count() - 1) && (freeSplits > 0) && (!Settings.HideSubsplits || sectionList.isMajorSplit(currentSplit)))
+            {
+                visibleSplits.Add(currentSplit);
+                freeSplits--;
+            }
+
+            int previewCount = 0;
+            while ((previewCount < Settings.SplitPreviewCount) && (bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > majorSplitsToAdd))
+            {
+                if (ShouldIncludeSplit(currentSection, bottomSplit))
+                {
+                    if (bottomSplit == state.Run.Count - 1)
+                        addLast = true;
+                    else
+                    {
+                        visibleSplits.Add(bottomSplit);
+                        previewCount++;
+                    }
+                    freeSplits--;
+                }
+                bottomSplit++;
+            }
+
+            while ((topSplit >= 0) && (freeSplits > 0))
+            {
+                var isMajor = sectionList.isMajorSplit(topSplit);
+                if (ShouldIncludeSplit(currentSection, topSplit) && (freeSplits > majorSplitsToAdd || sectionList.isMajorSplit(topSplit)))
+                {
+                    visibleSplits.Insert(0, topSplit);
+                    freeSplits--;
+                    if (isMajor)
+                        majorSplitsToAdd--;
+                }
+                topSplit--;
+            }
+
+            while ((bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > 0))
+            {
+                if (ShouldIncludeSplit(currentSection, bottomSplit))
+                {
+                    if (bottomSplit == state.Run.Count - 1)
+                        addLast = true;
+                    else
+                        visibleSplits.Add(bottomSplit);
+                    freeSplits--;
+                }
+                bottomSplit++;
+            }
+
+
+            foreach (var component in Components)
+            {
+                if (component is SeparatorComponent separator)
+                {
+                    var index = Components.IndexOf(separator);
+
+                    if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit && index == LastSplitSeparatorIndex)
+                    {
+                        int lastIndex = state.Run.Count() - 1;
+
+                        if (freeSplits > 0 || visibleSplits.Any() && (visibleSplits.Last() == lastIndex - 1))
+                        {
+                            if (Settings.ShowThinSeparators)
+                                separator.DisplayedSize = 1f;
+                            else
+                                separator.DisplayedSize = 0f;
+
+                            separator.UseSeparatorColor = false;
+                        }
+                        else
+                        {
+                            int prevSection = sectionList.getSection(lastIndex) - 1;
+                            if (visibleSplits.Any() && (prevSection <= 0 || visibleSplits.Last() == sectionList.Sections[prevSection].endIndex))
+                            {
+                                if (Settings.ShowThinSeparators)
+                                    separator.DisplayedSize = 1f;
+                                else
+                                    separator.DisplayedSize = 0f;
+
+                                separator.UseSeparatorColor = false;
+                            }
+                            else
+                            {
+                                separator.DisplayedSize = 2f;
+                                separator.UseSeparatorColor = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            if (!Settings.LockLastSplit && addLast)
+                visibleSplits.Add(state.Run.Count() - 1);
+
+            for (; freeSplits > 0; freeSplits--)
+                visibleSplits.Add(int.MinValue);
+
+            if (Settings.LockLastSplit && addLast)
+                visibleSplits.Add(state.Run.Count() - 1);
+
+            if (addHeader)
+            {
+                int insertIndex = 0;
+                if (currentSection > 0)
+                    insertIndex = visibleSplits.IndexOf(sectionList.Sections[currentSection - 1].endIndex) + 1;
+                visibleSplits.Insert(insertIndex, -(currentSection + 1));
+            }
+
+            int i = 0;
+            foreach (int split in visibleSplits)
+            {
+                if (i < SplitComponents.Count)
+                {
+                    SplitComponents[i].ForceIndent = !Settings.ShowSubsplits && !Settings.HideSubsplits && Settings.IndentSectionSplit && split == lastSplitOfSection;
+
+                    if (split == int.MinValue)
+                    {
+                        SplitComponents[i].Header = false;
+                        SplitComponents[i].CollapsedSplit = false;
+                        SplitComponents[i].Split = null;
+                        SplitComponents[i].oddSplit = true;
+                    }
+                    else if (split < 0)
+                    {
+                        SplitComponents[i].Header = true;
+                        SplitComponents[i].CollapsedSplit = false;
+                        SplitComponents[i].TopSplit = sectionList.Sections[-split - 1].startIndex;
+                        SplitComponents[i].Split = state.Run[sectionList.Sections[-split - 1].endIndex];
+                        SplitComponents[i].oddSplit = ((((-split - 1) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0);
+                    }
+                    else
+                    {
+                        SplitComponents[i].Header = false;
+                        SplitComponents[i].Split = state.Run[split];
+                        SplitComponents[i].oddSplit = (((sectionList.getSection(split) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0);
+
+                        if ((Settings.HideSubsplits || sectionList.getSection(split) != currentSection)
+                            && sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0
+                            && !Settings.ShowSubsplits)
+                        {
+                            SplitComponents[i].CollapsedSplit = true;
+                            SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;
+                        }
+                        else
+                        {
+                            SplitComponents[i].CollapsedSplit = false;
+                        }
+                    }
+                }
+
+                i++;
+            }
+
+            if (invalidator != null)
+                InternalComponent.Update(invalidator, state, width, height, mode);
+        }
+
+        private bool ShouldIncludeSplit(int currentSection, int split)
+        {
+            return (sectionList.isMajorSplit(split)
+                       && (!Settings.CurrentSectionOnly || sectionList.getSection(split) == currentSection)) ||
+                   (!sectionList.isMajorSplit(split)
+                       && (Settings.ShowSubsplits || (!Settings.HideSubsplits && sectionList.getSection(split) == currentSection)));
+        }
+
+        public void Dispose()
+        {
+            CurrentState.OnScrollDown -= state_OnScrollDown;
+            CurrentState.OnScrollUp -= state_OnScrollUp;
+            CurrentState.OnStart -= state_OnStart;
+            CurrentState.OnReset -= state_OnReset;
+            CurrentState.OnSplit -= state_OnSplit;
+            CurrentState.OnSkipSplit -= state_OnSkipSplit;
+            CurrentState.OnUndoSplit -= state_OnUndoSplit;
+            CurrentState.ComparisonRenamed -= state_ComparisonRenamed;
+            CurrentState.RunManuallyModified -= state_RunManuallyModified;
+        }
+
+        public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+D:\a\1\s\LiveSplit\Components\LiveSplit.Subsplits\UI\Components\SplitsComponent.cs(2,1): hidden CS8019: Unnecessary using directive.
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\LiveSplit\Components\LiveSplit.Subsplits\UI\Components\SplitsComponent.cs(198,62): error CS0136: A local or parameter named 'separator' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter,D:\a\1\s\LiveSplit\Components\LiveSplit.Subsplits\UI\Components\SplitsComponent.cs(2,1): hidden CS8019: Unnecessary using directive.
+######################################################################
+
+

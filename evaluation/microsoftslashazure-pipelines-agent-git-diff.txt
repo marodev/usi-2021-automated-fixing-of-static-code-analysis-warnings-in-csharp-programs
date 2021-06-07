@@ -1,0 +1,1052 @@
+diff --git a/src/Agent.Listener/Agent.cs b/src/Agent.Listener/Agent.cs
+index 9a081385..adc6a564 100644
+--- a/src/Agent.Listener/Agent.cs
++++ b/src/Agent.Listener/Agent.cs
+@@ -262,8 +262,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener
+             }
+             else
+             {
+-                ConsoleCancelEventArgs cancelEvent = e as ConsoleCancelEventArgs;
+-                if (cancelEvent != null && HostContext.GetService<IConfigurationStore>().IsServiceConfigured())
++                if (e is ConsoleCancelEventArgs cancelEvent && HostContext.GetService<IConfigurationStore>().IsServiceConfigured())
+                 {
+                     ShutdownReason reason;
+                     if (cancelEvent.SpecialKey == ConsoleSpecialKey.ControlBreak)
+diff --git a/src/Agent.Listener/Configuration.Windows/AutoLogonManager.cs b/src/Agent.Listener/Configuration.Windows/AutoLogonManager.cs
+index 6b2d8b4c..44e6d07e 100644
+--- a/src/Agent.Listener/Configuration.Windows/AutoLogonManager.cs
++++ b/src/Agent.Listener/Configuration.Windows/AutoLogonManager.cs
+@@ -56,7 +56,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Configuration
+ 
+                 if ((string.IsNullOrEmpty(domainName) || domainName.Equals(".", StringComparison.CurrentCultureIgnoreCase)) && !logonAccount.Contains("@"))
+                 {
+-                    logonAccount = String.Format("{0}\\{1}", Environment.MachineName, userName);
++                    logonAccount = $"{Environment.MachineName}\\{userName}";
+                     domainName = Environment.MachineName;
+                 }
+                 Trace.Info("LogonAccount after transforming: {0}, user: {1}, domain: {2}", logonAccount, userName, domainName);
+@@ -83,10 +83,10 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Configuration
+                     && !userName.Equals(currentAutoLogonUserName, StringComparison.CurrentCultureIgnoreCase)
+                     && !domainName.Equals(currentAutoLogonUserDomainName, StringComparison.CurrentCultureIgnoreCase))
+             {
+-                string currentAutoLogonAccount = String.Format("{0}\\{1}", currentAutoLogonUserDomainName, currentAutoLogonUserName);
++                string currentAutoLogonAccount = $"{currentAutoLogonUserDomainName}\\{currentAutoLogonUserName}";
+                 if (string.IsNullOrEmpty(currentAutoLogonUserDomainName) || currentAutoLogonUserDomainName.Equals(".", StringComparison.CurrentCultureIgnoreCase))
+                 {
+-                    currentAutoLogonAccount = String.Format("{0}\\{1}", Environment.MachineName, currentAutoLogonUserName);
++                    currentAutoLogonAccount = $"{Environment.MachineName}\\{currentAutoLogonUserName}";
+                 }
+ 
+                 Trace.Warning($"AutoLogon already enabled for {currentAutoLogonAccount}.");
+diff --git a/src/Agent.Listener/Configuration.Windows/AutoLogonRegistryManager.cs b/src/Agent.Listener/Configuration.Windows/AutoLogonRegistryManager.cs
+index cba342d8..a59cc1e8 100644
+--- a/src/Agent.Listener/Configuration.Windows/AutoLogonRegistryManager.cs
++++ b/src/Agent.Listener/Configuration.Windows/AutoLogonRegistryManager.cs
+@@ -271,7 +271,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Configuration
+                 _terminal.WriteError(StringUtil.Loc("AutoLogonPoliciesWarningsHeader"));
+                 for (int i=0; i < warningReasons.Count; i++)
+                 {
+-                    var msg = String.Format("{0} - {1}", i + 1, warningReasons[i]);
++                    var msg = $"{i + 1} - {warningReasons[i]}";
+                     Trace.Warning(msg);
+                     _terminal.WriteError(msg);
+                 }
+diff --git a/src/Agent.Listener/Configuration.Windows/NativeWindowsServiceHelper.cs b/src/Agent.Listener/Configuration.Windows/NativeWindowsServiceHelper.cs
+index ee52ec00..d521a9e8 100644
+--- a/src/Agent.Listener/Configuration.Windows/NativeWindowsServiceHelper.cs
++++ b/src/Agent.Listener/Configuration.Windows/NativeWindowsServiceHelper.cs
+@@ -1014,7 +1014,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Configuration
+                 secretName.Length = (UInt16)(key.Length * charSize);
+                 secretName.MaximumLength = (UInt16)((key.Length + 1) * charSize);
+ 
+-                if (value != null && value.Length > 0)
++                if (!string.IsNullOrEmpty(value))
+                 {
+                     // Create data and key
+                     secretData.Buffer = Marshal.StringToHGlobalUni(value);
+diff --git a/src/Agent.Listener/Configuration.Windows/WindowsRegistryManager.cs b/src/Agent.Listener/Configuration.Windows/WindowsRegistryManager.cs
+index ebbd5a6d..f4594047 100644
+--- a/src/Agent.Listener/Configuration.Windows/WindowsRegistryManager.cs
++++ b/src/Agent.Listener/Configuration.Windows/WindowsRegistryManager.cs
+@@ -21,10 +21,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Configuration
+         {
+             using(RegistryKey key = OpenRegistryKey(hive, subKeyName, true))
+             {
+-                if (key != null)
+-                {
+-                    key.DeleteValue(name, false);
+-                }
++                key?.DeleteValue(name, false);
+             }
+         }
+ 
+diff --git a/src/Agent.Listener/Configuration.Windows/WindowsServiceControlManager.cs b/src/Agent.Listener/Configuration.Windows/WindowsServiceControlManager.cs
+index b35b6666..d8a5a2ea 100644
+--- a/src/Agent.Listener/Configuration.Windows/WindowsServiceControlManager.cs
++++ b/src/Agent.Listener/Configuration.Windows/WindowsServiceControlManager.cs
+@@ -60,7 +60,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Configuration
+ 
+             if ((string.IsNullOrEmpty(domainName) || domainName.Equals(".", StringComparison.CurrentCultureIgnoreCase)) && !logonAccount.Contains('@'))
+             {
+-                logonAccount = String.Format("{0}\\{1}", Environment.MachineName, userName);
++                logonAccount = $"{Environment.MachineName}\\{userName}";
+                 domainName = Environment.MachineName;
+             }
+ 
+diff --git a/src/Agent.Listener/Diagnostics/DiagnosticsTests.cs b/src/Agent.Listener/Diagnostics/DiagnosticsTests.cs
+index 7c1e319b..55591145 100644
+--- a/src/Agent.Listener/Diagnostics/DiagnosticsTests.cs
++++ b/src/Agent.Listener/Diagnostics/DiagnosticsTests.cs
+@@ -48,24 +48,24 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Diagnostics
+                     foreach (var test in suite.DiagnosticTests)
+                     {
+                         string testName = test.GetType().Name;
+-                        m_terminal.WriteLine(string.Format("*** {0} ***", testName));
++                        m_terminal.WriteLine($"*** {testName} ***");
+                         try
+                         {
+                             if (!test.Execute(m_terminal))
+                             {
+                                 result = false;
+-                                m_terminal.WriteError(string.Format("*** {0} Failed ***", testName));
++                                m_terminal.WriteError($"*** {testName} Failed ***");
+                             }
+                             else
+                             {
+-                                m_terminal.WriteLine(string.Format("*** {0} Succeeded ***", testName));
++                                m_terminal.WriteLine($"*** {testName} Succeeded ***");
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             result = false;
+                             m_terminal.WriteError(ex);
+-                            m_terminal.WriteError(string.Format("***  {0} Failed ***", testName));
++                            m_terminal.WriteError($"***  {testName} Failed ***");
+                         }
+                         m_terminal.WriteLine(string.Empty);
+                     }
+@@ -74,16 +74,16 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Diagnostics
+                 foreach (var info in suite.DiagnosticInfo)
+                 {
+                     string infoName = info.GetType().Name;
+-                    m_terminal.WriteLine(string.Format("*** {0} ***", infoName));
++                    m_terminal.WriteLine($"*** {infoName} ***");
+                     try
+                     {
+                         info.Execute(m_terminal);
+-                        m_terminal.WriteLine(string.Format("*** {0} Completed ***", infoName));
++                        m_terminal.WriteLine($"*** {infoName} Completed ***");
+                     }
+                     catch (Exception ex)
+                     {
+                         m_terminal.WriteError(ex);
+-                        m_terminal.WriteError(string.Format("*** {0} Failed ***", infoName));
++                        m_terminal.WriteError($"*** {infoName} Failed ***");
+                     }
+                     m_terminal.WriteLine(string.Empty);
+                 }
+diff --git a/src/Agent.Listener/Diagnostics/DiskInfo.cs b/src/Agent.Listener/Diagnostics/DiskInfo.cs
+index a1d7b6fc..16d82f86 100644
+--- a/src/Agent.Listener/Diagnostics/DiskInfo.cs
++++ b/src/Agent.Listener/Diagnostics/DiskInfo.cs
+@@ -20,9 +20,9 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Diagnostics
+                     {
+                         terminal.WriteLine($"  Volume label: {d.VolumeLabel}");
+                         terminal.WriteLine($"  File system: {d.DriveFormat}");
+-                        terminal.WriteLine(string.Format("  Available space to current user:{0, 15:N0} KB", d.AvailableFreeSpace / c_kb));
+-                        terminal.WriteLine(string.Format("  Total available space:          {0, 15:N0} KB", d.TotalFreeSpace / c_kb));
+-                        terminal.WriteLine(string.Format("  Total size of drive:            {0, 15:N0} KB", d.TotalSize/ c_kb));
++                        terminal.WriteLine($"  Available space to current user:{d.AvailableFreeSpace / c_kb:N0} KB");
++                        terminal.WriteLine($"  Total available space:          {d.TotalFreeSpace / c_kb:N0} KB");
++                        terminal.WriteLine($"  Total size of drive:            {d.TotalSize / c_kb:N0} KB");
+                     }
+                     else
+                     {
+diff --git a/src/Agent.Listener/Diagnostics/DnsTest.cs b/src/Agent.Listener/Diagnostics/DnsTest.cs
+index 49be59ac..2dece8e5 100644
+--- a/src/Agent.Listener/Diagnostics/DnsTest.cs
++++ b/src/Agent.Listener/Diagnostics/DnsTest.cs
+@@ -11,7 +11,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Diagnostics
+             {
+                 IPHostEntry host = Dns.GetHostEntry(c_hostname);
+ 
+-                terminal.WriteLine(string.Format("GetHostEntry: {0} returns:", c_hostname));
++                terminal.WriteLine($"GetHostEntry: {c_hostname} returns:");
+                 foreach (IPAddress address in host.AddressList)
+                 {
+                     terminal.WriteLine($"    {address}");
+diff --git a/src/Agent.Listener/Diagnostics/PingTest.cs b/src/Agent.Listener/Diagnostics/PingTest.cs
+index 7a161e27..82f41039 100644
+--- a/src/Agent.Listener/Diagnostics/PingTest.cs
++++ b/src/Agent.Listener/Diagnostics/PingTest.cs
+@@ -10,15 +10,15 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener.Diagnostics
+             {
+                 try
+                 {
+-                    terminal.WriteLine(string.Format("Attempt to Ping: {0} with timeout {1}", c_hostname, c_timeout));
++                    terminal.WriteLine($"Attempt to Ping: {c_hostname} with timeout {c_timeout}");
+                     PingReply pingreply = ping.Send(c_hostname, c_timeout);
+-                    terminal.WriteLine(string.Format("Address: {0}", pingreply.Address));
+-                    terminal.WriteLine(string.Format("Status: {0}", pingreply.Status));
+-                    terminal.WriteLine(string.Format("Round trip time: {0}", pingreply.RoundtripTime));
++                    terminal.WriteLine($"Address: {pingreply.Address}");
++                    terminal.WriteLine($"Status: {pingreply.Status}");
++                    terminal.WriteLine($"Round trip time: {pingreply.RoundtripTime}");
+ 
+                     if (pingreply.Status != IPStatus.Success)
+                     {
+-                        terminal.WriteError(string.Format("Unsuccessful status response from {0}.  Verify internet connection is working", c_hostname));
++                        terminal.WriteError($"Unsuccessful status response from {c_hostname}.  Verify internet connection is working");
+                         return false;
+                     }
+                 }
+diff --git a/src/Agent.Plugins/PipelineArtifact/FileContainerProvider.cs b/src/Agent.Plugins/PipelineArtifact/FileContainerProvider.cs
+index 560031d7..da8f4440 100644
+--- a/src/Agent.Plugins/PipelineArtifact/FileContainerProvider.cs
++++ b/src/Agent.Plugins/PipelineArtifact/FileContainerProvider.cs
+@@ -95,7 +95,7 @@ namespace Agent.Plugins.PipelineArtifact
+             tracer.Info($"Start downloading FCS artifact- {artifact.Name}");
+             IEnumerable<Func<string, bool>> minimatcherFuncs = MinimatchHelper.GetMinimatchFuncs(minimatchPatterns, tracer);
+ 
+-            if (minimatcherFuncs != null && minimatcherFuncs.Count() != 0)
++            if (minimatcherFuncs != null && minimatcherFuncs.Any())
+             {
+                 items = this.GetFilteredItems(items, minimatcherFuncs);
+             }
+diff --git a/src/Agent.Plugins/PipelineArtifact/PipelineArtifactProvider.cs b/src/Agent.Plugins/PipelineArtifact/PipelineArtifactProvider.cs
+index caa76d68..73f59809 100644
+--- a/src/Agent.Plugins/PipelineArtifact/PipelineArtifactProvider.cs
++++ b/src/Agent.Plugins/PipelineArtifact/PipelineArtifactProvider.cs
+@@ -33,7 +33,7 @@ namespace Agent.Plugins.PipelineArtifact
+                     parallelism = DefaultDedupStoreClientMaxParallelism;
+                 }
+             }
+-            context.Info(string.Format("Dedup parallelism: {0}", parallelism));
++            context.Info($"Dedup parallelism: {parallelism}");
+             return parallelism;
+         } 
+ 
+diff --git a/src/Agent.Plugins/PipelineArtifact/PipelineArtifactServer.cs b/src/Agent.Plugins/PipelineArtifact/PipelineArtifactServer.cs
+index c67dad6c..4f533476 100644
+--- a/src/Agent.Plugins/PipelineArtifact/PipelineArtifactServer.cs
++++ b/src/Agent.Plugins/PipelineArtifact/PipelineArtifactServer.cs
+@@ -158,7 +158,7 @@ namespace Agent.Plugins.PipelineArtifact
+                     }
+ 
+                     IEnumerable<BuildArtifact> pipelineArtifacts = artifacts.Where(a => string.Equals(a.Resource.Type, PipelineArtifactConstants.PipelineArtifact, StringComparison.OrdinalIgnoreCase));
+-                    if (pipelineArtifacts.Count() == 0)
++                    if (!pipelineArtifacts.Any())
+                     {
+                         throw new ArgumentException("Could not find any pipeline artifacts in the build.");
+                     }
+diff --git a/src/Agent.Plugins/PipelineCache/FingerprintCreator.cs b/src/Agent.Plugins/PipelineCache/FingerprintCreator.cs
+index 71827ed2..72b6f30a 100644
+--- a/src/Agent.Plugins/PipelineCache/FingerprintCreator.cs
++++ b/src/Agent.Plugins/PipelineCache/FingerprintCreator.cs
+@@ -315,7 +315,7 @@ namespace Agent.Plugins.PipelineCache
+                         }
+                     }
+ 
+-                    var patternSegment = keySegment.IndexOfAny(GlobChars) >= 0 || matchedFiles.Count() > 1;
++                    var patternSegment = keySegment.IndexOfAny(GlobChars) >= 0 || matchedFiles.Count > 1;
+ 
+                     var displayKeySegment = keySegment;
+ 
+diff --git a/src/Agent.Plugins/PipelineCache/SavePipelineCacheV0.cs b/src/Agent.Plugins/PipelineCache/SavePipelineCacheV0.cs
+index 4967e03f..271d5bdb 100644
+--- a/src/Agent.Plugins/PipelineCache/SavePipelineCacheV0.cs
++++ b/src/Agent.Plugins/PipelineCache/SavePipelineCacheV0.cs
+@@ -40,7 +40,7 @@ namespace Agent.Plugins.PipelineCache
+             bool restoreStepRan = false;
+             if (context.TaskVariables.TryGetValue(RestoreStepRanVariableName, out VariableValue ran))
+             {
+-                if (ran != null && ran.Value != null && ran.Value.Equals(RestoreStepRanVariableValue, StringComparison.Ordinal))
++                if (ran?.Value != null && ran.Value.Equals(RestoreStepRanVariableValue, StringComparison.Ordinal))
+                 {
+                     restoreStepRan = true;
+                 }
+diff --git a/src/Agent.Plugins/PipelineCache/TarUtils.cs b/src/Agent.Plugins/PipelineCache/TarUtils.cs
+index 82902fd8..a769924a 100644
+--- a/src/Agent.Plugins/PipelineCache/TarUtils.cs
++++ b/src/Agent.Plugins/PipelineCache/TarUtils.cs
+@@ -220,7 +220,7 @@ namespace Agent.Plugins.PipelineCache
+ 
+         private static void ValidateTarManifest(Manifest manifest)
+         {
+-            if (manifest == null || manifest.Items.Count() != 1 || !manifest.Items.Single().Path.EndsWith(archive, StringComparison.OrdinalIgnoreCase))
++            if (manifest == null || manifest.Items.Count() != 1|| !manifest.Items.Single().Path.EndsWith(archive, StringComparison.OrdinalIgnoreCase))
+             {
+                 throw new ArgumentException($"Manifest containing a tar cannot have more than one item.");
+             }
+diff --git a/src/Agent.Plugins/SvnCliManager.cs b/src/Agent.Plugins/SvnCliManager.cs
+index 2b76f743..cedb169a 100644
+--- a/src/Agent.Plugins/SvnCliManager.cs
++++ b/src/Agent.Plugins/SvnCliManager.cs
+@@ -349,33 +349,20 @@ namespace Agent.Plugins.Repository
+ 
+                 if (!Directory.Exists(Path.Combine(localPath, ".svn")))
+                 {
+-                    _context.Debug(String.Format(
+-                        "Checking out with depth: {0}, revision: {1}, ignore externals: {2}",
+-                        mappingDetails.Depth,
+-                        effectiveRevision,
+-                        mappingDetails.IgnoreExternals));
++                    _context.Debug($"Checking out with depth: {mappingDetails.Depth}, revision: {effectiveRevision}, ignore externals: {mappingDetails.IgnoreExternals}");
+ 
+                     mappingDetails.ServerPath = effectiveServerUri;
+                     await CheckoutAsync(mappingDetails);
+                 }
+                 else if (oldMappings.ContainsKey(localPath) && oldMappings[localPath].Equals(new Uri(effectiveServerUri)))
+                 {
+-                    _context.Debug(String.Format(
+-                        "Updating with depth: {0}, revision: {1}, ignore externals: {2}",
+-                        mappingDetails.Depth,
+-                        mappingDetails.Revision,
+-                        mappingDetails.IgnoreExternals));
++                    _context.Debug($"Updating with depth: {mappingDetails.Depth}, revision: {mappingDetails.Revision}, ignore externals: {mappingDetails.IgnoreExternals}");
+ 
+                     await UpdateAsync(mappingDetails);
+                 }
+                 else
+                 {
+-                    _context.Debug(String.Format(
+-                        "Switching to {0}  with depth: {1}, revision: {2}, ignore externals: {3}",
+-                        mappingDetails.ServerPath,
+-                        mappingDetails.Depth,
+-                        mappingDetails.Revision,
+-                        mappingDetails.IgnoreExternals));
++                    _context.Debug($"Switching to {mappingDetails.ServerPath}  with depth: {mappingDetails.Depth}, revision: {mappingDetails.Revision}, ignore externals: {mappingDetails.IgnoreExternals}");
+ 
+                     await SwitchAsync(mappingDetails);
+                 }
+diff --git a/src/Agent.Sdk/Knob/Knob.cs b/src/Agent.Sdk/Knob/Knob.cs
+index 28716be9..cabb79c6 100644
+--- a/src/Agent.Sdk/Knob/Knob.cs
++++ b/src/Agent.Sdk/Knob/Knob.cs
+@@ -58,9 +58,8 @@ namespace Agent.Sdk.Knob
+             foreach (var info in type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly))
+             {
+                 var instance = new Knob();
+-                var locatedValue = info.GetValue(instance) as Knob;
+ 
+-                if (locatedValue != null)
++                if (info.GetValue(instance) is Knob locatedValue)
+                 {
+                     allKnobs.Add(locatedValue);
+                 }
+diff --git a/src/Agent.Sdk/ProcessInvoker.Windows.cs b/src/Agent.Sdk/ProcessInvoker.Windows.cs
+index 1b1748c1..f16d2e6b 100644
+--- a/src/Agent.Sdk/ProcessInvoker.Windows.cs
++++ b/src/Agent.Sdk/ProcessInvoker.Windows.cs
+@@ -134,7 +134,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Util
+             Trace.Verbose($"Start killing process tree of process '{pid.Value}'.");
+             Stack<ProcessTerminationInfo> processesNeedtoKill = new Stack<ProcessTerminationInfo>();
+             processesNeedtoKill.Push(new ProcessTerminationInfo(pid.Value, false));
+-            while (processesNeedtoKill.Count() > 0)
++            while (processesNeedtoKill.Any())
+             {
+                 ProcessTerminationInfo procInfo = processesNeedtoKill.Pop();
+                 List<int> childProcessesIds = new List<int>();
+diff --git a/src/Agent.Sdk/Util/NetFrameworkUtil.cs b/src/Agent.Sdk/Util/NetFrameworkUtil.cs
+index 471cc98a..84a8a8bd 100644
+--- a/src/Agent.Sdk/Util/NetFrameworkUtil.cs
++++ b/src/Agent.Sdk/Util/NetFrameworkUtil.cs
+@@ -124,9 +124,8 @@ namespace Microsoft.VisualStudio.Services.Agent.Util
+                             trace?.Info("Type is " + releaseObject.GetType().FullName);
+                         }
+ 
+-                        if (releaseObject is int)
++                        if (releaseObject is int release)
+                         {
+-                            int release = (int)releaseObject;
+                             if (release == 378389)
+                             {
+                                 versionString = "4.5.0";
+diff --git a/src/Agent.Sdk/Util/RepositoryUtil.cs b/src/Agent.Sdk/Util/RepositoryUtil.cs
+index 7283f870..149c0289 100644
+--- a/src/Agent.Sdk/Util/RepositoryUtil.cs
++++ b/src/Agent.Sdk/Util/RepositoryUtil.cs
+@@ -83,7 +83,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Util
+             }
+ 
+             // Look for any repository marked with the expected flag name
+-            var repo = repositories.Where(r => r.Properties.Get<bool>(repositoryFlagName, false)).FirstOrDefault();
++            var repo = repositories.FirstOrDefault(r => r.Properties.Get<bool>(repositoryFlagName, false));
+             if (repo != null)
+             {
+                 return repo;
+diff --git a/src/Agent.Worker/AgentLogPlugin.cs b/src/Agent.Worker/AgentLogPlugin.cs
+index 6fb8c88a..f9e035f8 100644
+--- a/src/Agent.Worker/AgentLogPlugin.cs
++++ b/src/Agent.Worker/AgentLogPlugin.cs
+@@ -140,11 +140,10 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+                 var target = context.StepTarget();
+                 Variables.TranslationMethod translateToHostPath = Variables.DefaultStringTranslator;
+ 
+-                ContainerInfo containerInfo = target as ContainerInfo;
+                 // Since plugins run on the host, but the inputs and variables have already been translated
+                 // to the container path, we need to convert them back to the host path
+                 // TODO: look to see if there is a better way to not have translate these back
+-                if (containerInfo != null)
++                if (target is ContainerInfo containerInfo)
+                 {
+                     translateToHostPath = (string val) => { return containerInfo.TranslateToHostPath(val); };
+                 }
+@@ -154,8 +153,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+                 // steps
+                 foreach (var step in steps)
+                 {
+-                    var taskStep = step as ITaskRunner;
+-                    if (taskStep != null)
++                    if (step is ITaskRunner taskStep)
+                     {
+                         pluginContext.Steps[taskStep.ExecutionContext.Id.ToString("D")] = taskStep.Task.Reference;
+                     }
+diff --git a/src/Agent.Worker/Build/FileContainerServer.cs b/src/Agent.Worker/Build/FileContainerServer.cs
+index 0e88e0af..e55253c2 100644
+--- a/src/Agent.Worker/Build/FileContainerServer.cs
++++ b/src/Agent.Worker/Build/FileContainerServer.cs
+@@ -90,7 +90,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Build
+                 _sourceParentDirectory = source.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+             }
+ 
+-            context.Output(StringUtil.Loc("TotalUploadFiles", files.Count()));
++            context.Output(StringUtil.Loc("TotalUploadFiles", files.Count));
+             using (_uploadCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+             {
+                 // hook up reporting event from file container client.
+@@ -182,7 +182,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Build
+             _uploadFinished = new TaskCompletionSource<int>();
+             _fileUploadTraceLog.Clear();
+             _fileUploadProgressLog.Clear();
+-            Task uploadMonitor = ReportingAsync(context, files.Count(), _uploadCancellationTokenSource.Token);
++            Task uploadMonitor = ReportingAsync(context, files.Count, _uploadCancellationTokenSource.Token);
+ 
+             // Start parallel upload tasks.
+             List<Task<UploadResult>> parallelUploadingTasks = new List<Task<UploadResult>>();
+diff --git a/src/Agent.Worker/Build/SvnCommandManager.cs b/src/Agent.Worker/Build/SvnCommandManager.cs
+index a39e2e49..564ff631 100644
+--- a/src/Agent.Worker/Build/SvnCommandManager.cs
++++ b/src/Agent.Worker/Build/SvnCommandManager.cs
+@@ -440,33 +440,20 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Build
+ 
+                 if (!Directory.Exists(Path.Combine(localPath, ".svn")))
+                 {
+-                    _context.Debug(String.Format(
+-                        "Checking out with depth: {0}, revision: {1}, ignore externals: {2}",
+-                        mappingDetails.Depth,
+-                        effectiveRevision,
+-                        mappingDetails.IgnoreExternals));
++                    _context.Debug($"Checking out with depth: {mappingDetails.Depth}, revision: {effectiveRevision}, ignore externals: {mappingDetails.IgnoreExternals}");
+ 
+                     mappingDetails.ServerPath = effectiveServerUri;
+                     await CheckoutAsync(mappingDetails);
+                 }
+                 else if (oldMappings.ContainsKey(localPath) && oldMappings[localPath].Equals(new Uri(effectiveServerUri)))
+                 {
+-                    _context.Debug(String.Format(
+-                        "Updating with depth: {0}, revision: {1}, ignore externals: {2}",
+-                        mappingDetails.Depth,
+-                        mappingDetails.Revision,
+-                        mappingDetails.IgnoreExternals));
++                    _context.Debug($"Updating with depth: {mappingDetails.Depth}, revision: {mappingDetails.Revision}, ignore externals: {mappingDetails.IgnoreExternals}");
+ 
+                     await UpdateAsync(mappingDetails);
+                 }
+                 else
+                 {
+-                    _context.Debug(String.Format(
+-                        "Switching to {0}  with depth: {1}, revision: {2}, ignore externals: {3}",
+-                        mappingDetails.ServerPath,
+-                        mappingDetails.Depth,
+-                        mappingDetails.Revision,
+-                        mappingDetails.IgnoreExternals));
++                    _context.Debug($"Switching to {mappingDetails.ServerPath}  with depth: {mappingDetails.Depth}, revision: {mappingDetails.Revision}, ignore externals: {mappingDetails.IgnoreExternals}");
+ 
+                     await SwitchAsync(mappingDetails);
+                 }
+diff --git a/src/Agent.Worker/Build/TrackingManager.cs b/src/Agent.Worker/Build/TrackingManager.cs
+index b4f6bb49..f6f99a6e 100644
+--- a/src/Agent.Worker/Build/TrackingManager.cs
++++ b/src/Agent.Worker/Build/TrackingManager.cs
+@@ -325,7 +325,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Build
+             }
+ 
+             IEnumerable<string> gcTrackingFiles = Directory.EnumerateFiles(gcDirectory, "*.json");
+-            if (gcTrackingFiles == null || gcTrackingFiles.Count() == 0)
++            if (gcTrackingFiles == null || !gcTrackingFiles.Any())
+             {
+                 executionContext.Output(StringUtil.Loc("GCDirIsEmpty", gcDirectory));
+                 return;
+@@ -333,7 +333,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Build
+ 
+             Trace.Info($"Find {gcTrackingFiles.Count()} GC tracking files.");
+ 
+-            if (gcTrackingFiles.Count() > 0)
++            if (gcTrackingFiles.Any())
+             {
+                 foreach (string gcFile in gcTrackingFiles)
+                 {
+diff --git a/src/Agent.Worker/CodeCoverage/CodeCoverageCommands.cs b/src/Agent.Worker/CodeCoverage/CodeCoverageCommands.cs
+index a31dc037..49064f08 100644
+--- a/src/Agent.Worker/CodeCoverage/CodeCoverageCommands.cs
++++ b/src/Agent.Worker/CodeCoverage/CodeCoverageCommands.cs
+@@ -67,7 +67,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.CodeCoverage
+             context.Output(StringUtil.Loc("ReadingCodeCoverageSummary", _summaryFileLocation));
+             var coverageData = reader.GetCodeCoverageSummary(context, _summaryFileLocation);
+ 
+-            if (coverageData == null || coverageData.Count() == 0)
++            if (coverageData == null || !coverageData.Any())
+             {
+                 context.Warning(StringUtil.Loc("CodeCoverageDataIsNull"));
+             }
+@@ -93,7 +93,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.CodeCoverage
+             CancellationToken cancellationToken)
+         {
+             //step 2: publish code coverage summary to TFS
+-            if (coverageData != null && coverageData.Count() > 0)
++            if (coverageData != null && coverageData.Any())
+             {
+                 commandContext.Output(StringUtil.Loc("PublishingCodeCoverage"));
+                 foreach (var coverage in coverageData)
+@@ -229,7 +229,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.CodeCoverage
+ 
+             string additionalFilesInput;
+             eventProperties.TryGetValue(PublishCodeCoverageEventProperties.AdditionalCodeCoverageFiles, out additionalFilesInput);
+-            if (!string.IsNullOrEmpty(additionalFilesInput) && additionalFilesInput.Split(',').Count() > 0)
++            if (!string.IsNullOrEmpty(additionalFilesInput) && additionalFilesInput.Split(',').Any())
+             {
+                 _additionalCodeCoverageFiles = additionalFilesInput.Split(',').Select(x => context.TranslateToHostPath(x)).ToList<string>();
+             }
+diff --git a/src/Agent.Worker/Container/DockerCommandManager.cs b/src/Agent.Worker/Container/DockerCommandManager.cs
+index 0f285c0e..af3816cd 100644
+--- a/src/Agent.Worker/Container/DockerCommandManager.cs
++++ b/src/Agent.Worker/Container/DockerCommandManager.cs
+@@ -223,7 +223,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Container
+             ArgUtil.NotNull(context, nameof(context));
+             ArgUtil.NotNull(network, nameof(network));
+ 
+-            var usingWindowsContainers = context.Containers.Where(x => x.ExecutionOS != PlatformUtil.OS.Windows).Count() == 0;
++            var usingWindowsContainers = !context.Containers.Any(x => x.ExecutionOS != PlatformUtil.OS.Windows);
+             var networkDrivers = await ExecuteDockerCommandAsync(context, "info", "-f \"{{range .Plugins.Network}}{{println .}}{{end}}\"");
+             if (usingWindowsContainers && networkDrivers.Contains("nat"))
+             {
+diff --git a/src/Agent.Worker/DiagnosticLogManager.cs b/src/Agent.Worker/DiagnosticLogManager.cs
+index e69c25fc..c0a976d7 100644
+--- a/src/Agent.Worker/DiagnosticLogManager.cs
++++ b/src/Agent.Worker/DiagnosticLogManager.cs
+@@ -83,7 +83,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+ 
+             // Copy worker diag log files
+             List<string> workerDiagLogFiles = GetWorkerDiagLogFiles(HostContext.GetDirectory(WellKnownDirectory.Diag), jobStartTimeUtc);
+-            executionContext.Debug($"Copying {workerDiagLogFiles.Count()} worker diag logs.");
++            executionContext.Debug($"Copying {workerDiagLogFiles.Count} worker diag logs.");
+ 
+             foreach (string workerLogFile in workerDiagLogFiles)
+             {
+@@ -95,7 +95,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+ 
+             // Copy agent diag log files
+             List<string> agentDiagLogFiles = GetAgentDiagLogFiles(HostContext.GetDirectory(WellKnownDirectory.Diag), jobStartTimeUtc);
+-            executionContext.Debug($"Copying {agentDiagLogFiles.Count()} agent diag logs.");
++            executionContext.Debug($"Copying {agentDiagLogFiles.Count} agent diag logs.");
+ 
+             foreach (string agentLogFile in agentDiagLogFiles)
+             {
+diff --git a/src/Agent.Worker/ExecutionContext.cs b/src/Agent.Worker/ExecutionContext.cs
+index b7e2feb8..d76eb7c9 100644
+--- a/src/Agent.Worker/ExecutionContext.cs
++++ b/src/Agent.Worker/ExecutionContext.cs
+@@ -462,8 +462,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+             if (checkouts != null && checkouts.Count > 0)
+             {
+                 JobSettings[WellKnownJobSettings.HasMultipleCheckouts] = checkouts.Count > 1 ? Boolean.TrueString : Boolean.FalseString;
+-                var firstCheckout = checkouts.First() as Pipelines.TaskStep;
+-                if (firstCheckout != null && Repositories != null && firstCheckout.Inputs.TryGetValue(Pipelines.PipelineConstants.CheckoutTaskInputs.Repository, out string repoAlias))
++                if (checkouts.First() is Pipelines.TaskStep firstCheckout && Repositories != null && firstCheckout.Inputs.TryGetValue(Pipelines.PipelineConstants.CheckoutTaskInputs.Repository, out string repoAlias))
+                 {
+                     JobSettings[WellKnownJobSettings.FirstRepositoryCheckedOut] = repoAlias;
+                     var repo = Repositories.Find(r => String.Equals(r.Alias, repoAlias, StringComparison.OrdinalIgnoreCase));
+@@ -668,8 +667,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+             if (!_disableLogUploads)
+             {
+                 // write to job level execution context's log file.
+-                var parentContext = _parentExecutionContext as ExecutionContext;
+-                if (parentContext != null)
++                if (_parentExecutionContext is ExecutionContext parentContext)
+                 {
+                     lock (parentContext._loggerLock)
+                     {
+diff --git a/src/Agent.Worker/Handlers/Handler.cs b/src/Agent.Worker/Handlers/Handler.cs
+index e4063cdf..4b340062 100644
+--- a/src/Agent.Worker/Handlers/Handler.cs
++++ b/src/Agent.Worker/Handlers/Handler.cs
+@@ -262,8 +262,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Handlers
+             }
+ 
+             // Prepend path.
+-            var containerStepHost = StepHost as ContainerStepHost;
+-            if (containerStepHost != null)
++            if (StepHost is ContainerStepHost containerStepHost)
+             {
+                 List<string> prepend = new List<string>();
+                 foreach (var path in ExecutionContext.PrependPath)
+diff --git a/src/Agent.Worker/Release/Artifacts/BuildArtifact.cs b/src/Agent.Worker/Release/Artifacts/BuildArtifact.cs
+index c3cb1867..fc82a3fb 100644
+--- a/src/Agent.Worker/Release/Artifacts/BuildArtifact.cs
++++ b/src/Agent.Worker/Release/Artifacts/BuildArtifact.cs
+@@ -177,7 +177,6 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
+             string localFolderPath)
+         {
+             var downloadFolderPath = Path.Combine(localFolderPath, buildArtifact.Name);
+-            var buildArtifactDetails = artifactDefinition.Details as BuildArtifactDetails;
+ 
+             if ((buildArtifact.Resource.Type == null && buildArtifact.Id == 0) // bug on build API Bug 378900
+                 || string.Equals(buildArtifact.Resource.Type, ArtifactResourceTypes.FilePath, StringComparison.OrdinalIgnoreCase))
+@@ -215,7 +214,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
+                 var fileShareArtifact = new FileShareArtifact();
+                 await fileShareArtifact.DownloadArtifactAsync(executionContext, HostContext, artifactDefinition, fileShare, downloadFolderPath);
+             }
+-            else if (buildArtifactDetails != null
++            else if (artifactDefinition.Details is BuildArtifactDetails buildArtifactDetails
+                      && string.Equals(buildArtifact.Resource.Type, ArtifactResourceTypes.Container, StringComparison.OrdinalIgnoreCase))
+             {
+                 executionContext.Output(StringUtil.Loc("RMArtifactTypeServerDrop"));
+@@ -267,8 +266,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
+ 
+         private void EnsureVersionBelongsToLinkedDefinition(ArtifactDefinition artifactDefinition, BuildHttpClient buildClient, XamlBuildHttpClient xamlBuildClient)
+         {
+-            var buildArtifactDetails = artifactDefinition.Details as BuildArtifactDetails;
+-            if (buildArtifactDetails != null && buildArtifactDetails.DefintionId > 0)
++            if (artifactDefinition.Details is BuildArtifactDetails buildArtifactDetails && buildArtifactDetails.DefintionId > 0)
+             {
+                 var buildId = Convert.ToInt32(artifactDefinition.Version, CultureInfo.InvariantCulture);
+                 TeamFoundation.Build.WebApi.Build build = null;
+diff --git a/src/Agent.Worker/Release/Artifacts/CustomArtifact.cs b/src/Agent.Worker/Release/Artifacts/CustomArtifact.cs
+index d2dc6773..268463d5 100644
+--- a/src/Agent.Worker/Release/Artifacts/CustomArtifact.cs
++++ b/src/Agent.Worker/Release/Artifacts/CustomArtifact.cs
+@@ -30,8 +30,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
+ 
+             EnsureVersionBelongsToLinkedDefinition(artifactDefinition);
+ 
+-            var customArtifactDetails = artifactDefinition.Details as CustomArtifactDetails;
+-            if (customArtifactDetails != null)
++            if (artifactDefinition.Details is CustomArtifactDetails customArtifactDetails)
+             {
+                 IEnumerable<string> artifactDetails = new EndpointProxy().QueryEndpoint(
+                     ToServiceEndpoint(customArtifactDetails.Endpoint),
+@@ -184,8 +183,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
+ 
+         private void EnsureVersionBelongsToLinkedDefinition(ArtifactDefinition artifactDefinition)
+         {
+-            var customArtifactDetails = artifactDefinition.Details as CustomArtifactDetails;
+-            if (customArtifactDetails != null && !string.IsNullOrEmpty(customArtifactDetails.VersionsUrl))
++            if (artifactDefinition.Details is CustomArtifactDetails customArtifactDetails && !string.IsNullOrEmpty(customArtifactDetails.VersionsUrl))
+             {
+                 // Query for all artifact versions for given artifact source id, these parameters are contained in customArtifactDetails.ArtifactVariables
+                 var versionBelongsToDefinition = false;
+diff --git a/src/Agent.Worker/Release/ContainerFetchEngine/FetchEngine.cs b/src/Agent.Worker/Release/ContainerFetchEngine/FetchEngine.cs
+index f9228af7..a44b1b68 100644
+--- a/src/Agent.Worker/Release/ContainerFetchEngine/FetchEngine.cs
++++ b/src/Agent.Worker/Release/ContainerFetchEngine/FetchEngine.cs
+@@ -328,9 +328,9 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.ContainerFetchEng
+                 }
+                 catch (Exception exception)
+                 {
+-                    if (exception is AggregateException)
++                    if (exception is AggregateException aggregateException)
+                     {
+-                        exception = ((AggregateException)exception).Flatten().InnerException;
++                        exception = aggregateException.Flatten().InnerException;
+                     }
+ 
+                     if (lastAttempt)
+diff --git a/src/Agent.Worker/Release/ReleaseDirectoryManager.cs b/src/Agent.Worker/Release/ReleaseDirectoryManager.cs
+index 87adb8ff..f5c1df36 100644
+--- a/src/Agent.Worker/Release/ReleaseDirectoryManager.cs
++++ b/src/Agent.Worker/Release/ReleaseDirectoryManager.cs
+@@ -48,10 +48,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release
+                 Trace.Verbose("Mappings file does not exist or in older format. A new mapping file will be created");
+                 var releaseDirectorySuffix = ComputeFolderInteger(workingDirectory);
+                 trackingConfig = new ReleaseTrackingConfig();
+-                trackingConfig.ReleaseDirectory = string.Format(
+-                    "{0}{1}",
+-                    Constants.Release.Path.ReleaseDirectoryPrefix,
+-                    releaseDirectorySuffix);
++                trackingConfig.ReleaseDirectory = $"{Constants.Release.Path.ReleaseDirectoryPrefix}{releaseDirectorySuffix}";
+                 trackingConfig.UpdateJobRunProperties();
+                 WriteToFile(trackingConfigFile, trackingConfig);
+                 Trace.Verbose($"Created a new mapping file: {trackingConfigFile}");
+diff --git a/src/Agent.Worker/Release/ReleaseFileSystemManager.cs b/src/Agent.Worker/Release/ReleaseFileSystemManager.cs
+index 3d0766fe..e813222c 100644
+--- a/src/Agent.Worker/Release/ReleaseFileSystemManager.cs
++++ b/src/Agent.Worker/Release/ReleaseFileSystemManager.cs
+@@ -53,9 +53,9 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release
+             {
+                 var exception = ex;
+                 
+-                if (ex is AggregateException)
++                if (ex is AggregateException aggregateException)
+                 {
+-                    exception = ((AggregateException)ex).Flatten().InnerException;
++                    exception = aggregateException.Flatten().InnerException;
+                 }
+ 
+                 if (exception is DirectoryNotFoundException ||
+diff --git a/src/Agent.Worker/Release/ReleaseJobExtension.cs b/src/Agent.Worker/Release/ReleaseJobExtension.cs
+index 70a022e1..bd41e863 100644
+--- a/src/Agent.Worker/Release/ReleaseJobExtension.cs
++++ b/src/Agent.Worker/Release/ReleaseJobExtension.cs
+@@ -312,7 +312,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release
+             if (string.IsNullOrEmpty(releaseDefinition))
+             {
+                 string pattern = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+-                Regex regex = new Regex(string.Format("[{0}]", Regex.Escape(pattern)));
++                Regex regex = new Regex($"[{Regex.Escape(pattern)}]");
+                 releaseDefinition = regex.Replace(releaseDefinitionName, string.Empty);
+             }
+ 
+diff --git a/src/Agent.Worker/Release/ReleaseTrackingManager.cs b/src/Agent.Worker/Release/ReleaseTrackingManager.cs
+index 35a8e459..fb27cadd 100644
+--- a/src/Agent.Worker/Release/ReleaseTrackingManager.cs
++++ b/src/Agent.Worker/Release/ReleaseTrackingManager.cs
+@@ -130,7 +130,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release
+             }
+ 
+             IEnumerable<string> gcTrackingFiles = Directory.EnumerateFiles(gcDirectory, "*.json");
+-            if (gcTrackingFiles == null || gcTrackingFiles.Count() == 0)
++            if (gcTrackingFiles == null || !gcTrackingFiles.Any())
+             {
+                 executionContext.Output(StringUtil.Loc("GCReleaseDirIsEmpty", gcDirectory));
+                 return;
+@@ -138,7 +138,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release
+ 
+             Trace.Info($"Find {gcTrackingFiles.Count()} GC tracking files.");
+ 
+-            if (gcTrackingFiles.Count() > 0)
++            if (gcTrackingFiles.Any())
+             {
+                 foreach (string gcFile in gcTrackingFiles)
+                 {
+diff --git a/src/Agent.Worker/TaskManager.cs b/src/Agent.Worker/TaskManager.cs
+index 9682264a..e4ecce8d 100644
+--- a/src/Agent.Worker/TaskManager.cs
++++ b/src/Agent.Worker/TaskManager.cs
+@@ -60,7 +60,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+                 into taskGrouping
+                 select taskGrouping.First();
+ 
+-            if (uniqueTasks.Count() == 0)
++            if (!uniqueTasks.Any())
+             {
+                 executionContext.Debug("There is no required tasks need to download.");
+                 return;
+@@ -205,7 +205,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+                     {
+                         try
+                         {
+-                            zipFile = Path.Combine(tempDirectory, string.Format("{0}.zip", Guid.NewGuid()));
++                            zipFile = Path.Combine(tempDirectory, $"{Guid.NewGuid()}.zip");
+ 
+                             //open zip stream in async mode
+                             using (FileStream fs = new FileStream(zipFile, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: _defaultFileStreamBufferSize, useAsync: true))
+diff --git a/src/Agent.Worker/TaskRunner.cs b/src/Agent.Worker/TaskRunner.cs
+index a36e62d2..a6d6eab2 100644
+--- a/src/Agent.Worker/TaskRunner.cs
++++ b/src/Agent.Worker/TaskRunner.cs
+@@ -165,7 +165,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+                     }
+                     else
+                     {
+-                        throw new NotSupportedException(String.Format("Task '{0}' is using legacy execution handler '{1}' which is not supported in container execution flow.", definition.Data.FriendlyName, handlerData.GetType().ToString()));
++                        throw new NotSupportedException($"Task '{definition.Data.FriendlyName}' is using legacy execution handler '{handlerData.GetType().ToString()}' which is not supported in container execution flow.");
+                     }
+                 }
+ 
+@@ -429,7 +429,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
+             {
+                 // When task contains both PS and PS3 implementations, we will always prefer PS3 over PS regardless of the platform pinning.
+                 Trace.Info("Ignore platform pinning for legacy PowerShell execution handler.");
+-                var legacyPShandler = currentExecution.All.Where(x => x is PowerShellHandlerData).FirstOrDefault();
++                var legacyPShandler = currentExecution.All.FirstOrDefault(x => x is PowerShellHandlerData);
+                 legacyPShandler.Platforms = null;
+             }
+ 
+diff --git a/src/Agent.Worker/TestResults/Legacy/JunitResultReader.cs b/src/Agent.Worker/TestResults/Legacy/JunitResultReader.cs
+index 80819614..77fa982a 100644
+--- a/src/Agent.Worker/TestResults/Legacy/JunitResultReader.cs
++++ b/src/Agent.Worker/TestResults/Legacy/JunitResultReader.cs
+@@ -207,7 +207,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.LegacyTestResults
+             //assume runtimes from xml are current local time since timezone information is not in the xml, if xml datetime > current local time, fallback to local start time
+             DateTime timestampFromXml = DateTime.MinValue;
+             XmlAttribute timestampNode = rootNode.Attributes["timestamp"];
+-            if (timestampNode != null && timestampNode.Value != null)
++            if (timestampNode?.Value != null)
+             {
+                 if (DateTime.TryParse(timestampNode.Value, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out timestampFromXml))
+                 {
+diff --git a/src/Agent.Worker/TestResults/Legacy/XunitResultReader.cs b/src/Agent.Worker/TestResults/Legacy/XunitResultReader.cs
+index 538b63e6..7514c5f7 100644
+--- a/src/Agent.Worker/TestResults/Legacy/XunitResultReader.cs
++++ b/src/Agent.Worker/TestResults/Legacy/XunitResultReader.cs
+@@ -259,7 +259,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.LegacyTestResults
+             //if assembly run time cannot be obtained even for one assembly then fallback duration to total test run
+             maxCompletedTime = dateTimeParseError || assemblyRunDateTimeAttributesNotPresent || maxCompletedTime == DateTime.MinValue ? minStartTime.Add(assemblyTimeAttributeNotPresent ? TimeSpan.FromSeconds(testRunDuration) : TimeSpan.FromSeconds(assemblyRunDuration)) : maxCompletedTime;
+ 
+-            executionContext.Output(string.Format("Obtained XUnit Test Run Start Date: {0} and Completed Date: {1}", minStartTime.ToString("o"), maxCompletedTime.ToString("o")));
++            executionContext.Output($"Obtained XUnit Test Run Start Date: {minStartTime.ToString("o")} and Completed Date: {maxCompletedTime.ToString("o")}");
+             TestRunData testRunData = new TestRunData(
+                 name: runName,
+                 buildId: runContext != null ? runContext.BuildId : 0,
+diff --git a/src/Agent.Worker/TestResults/ResultsCommandExtension.cs b/src/Agent.Worker/TestResults/ResultsCommandExtension.cs
+index 13ea1a4d..fea9e219 100644
+--- a/src/Agent.Worker/TestResults/ResultsCommandExtension.cs
++++ b/src/Agent.Worker/TestResults/ResultsCommandExtension.cs
+@@ -82,13 +82,13 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.TestResults
+             string resultFilesInput;
+             eventProperties.TryGetValue(PublishTestResultsEventProperties.ResultFiles, out resultFilesInput);
+             // To support compat we parse data first. If data is empty parse 'TestResults' parameter
+-            if (!string.IsNullOrWhiteSpace(data) && data.Split(',').Count() != 0)
++            if (!string.IsNullOrWhiteSpace(data) && data.Split(',').Any())
+             {
+                 _testResultFiles = data.Split(',').Select(x => context.TranslateToHostPath(x)).ToList();
+             }
+             else
+             {
+-                if (string.IsNullOrEmpty(resultFilesInput) || resultFilesInput.Split(',').Count() == 0)
++                if (string.IsNullOrEmpty(resultFilesInput) || !resultFilesInput.Split(',').Any())
+                 {
+                     throw new ArgumentException(StringUtil.Loc("ArgumentNeeded", "TestResults"));
+                 }
+@@ -214,7 +214,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.TestResults
+ 
+             // If runName is not provided by the task, then create runName from testRunner name and buildId.
+             string runName = String.IsNullOrWhiteSpace(_runTitle)
+-                ? String.Format("{0}_TestResults_{1}", _testRunner, buildId)
++                ? $"{_testRunner}_TestResults_{buildId}"
+                 : _runTitle;
+ 
+             StageReference stageReference = new StageReference() { StageName = stageName, Attempt = Convert.ToInt32(stageAttempt) };
+diff --git a/src/Test/L0/Listener/CommandSettingsL0.cs b/src/Test/L0/Listener/CommandSettingsL0.cs
+index b7c43463..788bac8f 100644
+--- a/src/Test/L0/Listener/CommandSettingsL0.cs
++++ b/src/Test/L0/Listener/CommandSettingsL0.cs
+@@ -1153,7 +1153,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests
+                 var command = new CommandSettings(hc, args: new string[] { "badcommand" });
+ 
+                 // Assert.
+-                Assert.True(command.ParseErrors.Count() > 0);
++                Assert.True(command.ParseErrors.Any());
+             }
+         }
+ 
+@@ -1168,7 +1168,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests
+                 var command = new CommandSettings(hc, args: new string[] { "--badflag" });
+ 
+                 // Assert.
+-                Assert.True(command.ParseErrors.Count() > 0);
++                Assert.True(command.ParseErrors.Any());
+             }
+         }
+ 
+@@ -1183,7 +1183,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests
+                 var command = new CommandSettings(hc, args: new string[] { "--badargname", "bad arg value" });
+ 
+                 // Assert.
+-                Assert.True(command.ParseErrors.Count() > 0);
++                Assert.True(command.ParseErrors.Any());
+             }
+         }
+ 
+diff --git a/src/Test/L0/Worker/ExecutionContextL0.cs b/src/Test/L0/Worker/ExecutionContextL0.cs
+index 50b48a39..b2ee5c31 100644
+--- a/src/Test/L0/Worker/ExecutionContextL0.cs
++++ b/src/Test/L0/Worker/ExecutionContextL0.cs
+@@ -119,8 +119,8 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.Worker
+                 // Assert.
+                 jobServerQueue.Verify(x => x.QueueTimelineRecordUpdate(It.IsAny<Guid>(), It.Is<TimelineRecord>(t => t.ErrorCount == 15)), Times.AtLeastOnce);
+                 jobServerQueue.Verify(x => x.QueueTimelineRecordUpdate(It.IsAny<Guid>(), It.Is<TimelineRecord>(t => t.WarningCount == 14)), Times.AtLeastOnce);
+-                jobServerQueue.Verify(x => x.QueueTimelineRecordUpdate(It.IsAny<Guid>(), It.Is<TimelineRecord>(t => t.Issues.Where(i => i.Type == IssueType.Error).Count() == 10)), Times.AtLeastOnce);
+-                jobServerQueue.Verify(x => x.QueueTimelineRecordUpdate(It.IsAny<Guid>(), It.Is<TimelineRecord>(t => t.Issues.Where(i => i.Type == IssueType.Warning).Count() == 10)), Times.AtLeastOnce);
++                jobServerQueue.Verify(x => x.QueueTimelineRecordUpdate(It.IsAny<Guid>(), It.Is<TimelineRecord>(t => t.Issues.Count(i => i.Type == IssueType.Error)== 10)), Times.AtLeastOnce);
++                jobServerQueue.Verify(x => x.QueueTimelineRecordUpdate(It.IsAny<Guid>(), It.Is<TimelineRecord>(t => t.Issues.Count(i => i.Type == IssueType.Warning)== 10)), Times.AtLeastOnce);
+             }
+         }
+ 
+diff --git a/src/Test/L0/Worker/Release/ReleaseDirectoryManagerL0.cs b/src/Test/L0/Worker/Release/ReleaseDirectoryManagerL0.cs
+index 511962ea..8f779f32 100644
+--- a/src/Test/L0/Worker/Release/ReleaseDirectoryManagerL0.cs
++++ b/src/Test/L0/Worker/Release/ReleaseDirectoryManagerL0.cs
+@@ -32,7 +32,7 @@ namespace Test.L0.Worker.Release
+                     StubProjectId,
+                     StubReleaseDefinitionId);
+ 
+-                Assert.Equal(map.ReleaseDirectory, string.Format("{0}1", Constants.Release.Path.ReleaseDirectoryPrefix));
++                Assert.Equal(map.ReleaseDirectory, $"{Constants.Release.Path.ReleaseDirectoryPrefix}1");
+                 Assert.True(File.Exists(Path.Combine(
+                     this.stubWorkFolder,
+                     Constants.Release.Path.RootMappingDirectory,
+@@ -52,7 +52,7 @@ namespace Test.L0.Worker.Release
+             {
+                 Directory.CreateDirectory(Path.Combine(
+                     this.stubWorkFolder,
+-                    string.Format("{0}2", Constants.Release.Path.ReleaseDirectoryPrefix)));
++                    $"{Constants.Release.Path.ReleaseDirectoryPrefix}2"));
+                 Directory.CreateDirectory(Path.Combine(
+                     this.stubWorkFolder,
+                     "temp"));
+diff --git a/src/Test/L0/Worker/TestResults/ResultsCommandExtensionTests.cs b/src/Test/L0/Worker/TestResults/ResultsCommandExtensionTests.cs
+index 4660769e..d336a318 100644
+--- a/src/Test/L0/Worker/TestResults/ResultsCommandExtensionTests.cs
++++ b/src/Test/L0/Worker/TestResults/ResultsCommandExtensionTests.cs
+@@ -94,7 +94,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.Worker.TestResults
+                 command.Data = "testfile1,testfile2";
+                 resultCommand.ProcessCommand(_ec.Object, command, _policy);
+ 
+-                Assert.Equal(0, _errors.Count());
++                Assert.Equal(0, _errors.Count);
+             }
+         }
+ 
+diff --git a/src/Test/L1/Worker/CheckoutL1Tests.cs b/src/Test/L1/Worker/CheckoutL1Tests.cs
+index 238828b2..68100da4 100644
+--- a/src/Test/L1/Worker/CheckoutL1Tests.cs
++++ b/src/Test/L1/Worker/CheckoutL1Tests.cs
+@@ -40,8 +40,8 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+                 Assert.Equal(TaskResult.Succeeded, results.Result);
+ 
+                 var steps = GetSteps();
+-                Assert.Equal(3, steps.Count()); // Init, CmdLine, Finalize
+-                Assert.Equal(0, steps.Where(x => x.Name == "Checkout").Count());
++                Assert.Equal(3, steps.Count); // Init, CmdLine, Finalize
++                Assert.Equal(0, steps.Count(x => x.Name == "Checkout"));
+             }
+             finally
+             {
+diff --git a/src/Test/L1/Worker/ConditionsL1Tests.cs b/src/Test/L1/Worker/ConditionsL1Tests.cs
+index 45bc769f..8cace2b9 100644
+--- a/src/Test/L1/Worker/ConditionsL1Tests.cs
++++ b/src/Test/L1/Worker/ConditionsL1Tests.cs
+@@ -37,7 +37,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+                 Assert.Equal(TaskResult.Succeeded, results.Result);
+ 
+                 var steps = GetSteps();
+-                Assert.Equal(4, steps.Count()); // Init, CmdLine, CmdLine, Finalize
++                Assert.Equal(4, steps.Count); // Init, CmdLine, CmdLine, Finalize
+                 var faiLStep = steps[2];
+                 Assert.Equal(TaskResult.Skipped, faiLStep.Result);
+             }
+diff --git a/src/Test/L1/Worker/ContainerL1Tests.cs b/src/Test/L1/Worker/ContainerL1Tests.cs
+index 98e58676..d040405b 100644
+--- a/src/Test/L1/Worker/ContainerL1Tests.cs
++++ b/src/Test/L1/Worker/ContainerL1Tests.cs
+@@ -42,9 +42,9 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+                 Assert.Equal(TaskResult.Succeeded, results.Result);
+ 
+                 var steps = GetSteps();
+-                Assert.Equal(3, steps.Count()); // Init, CmdLine, Finalize
++                Assert.Equal(3, steps.Count); // Init, CmdLine, Finalize
+                 var log = GetTimelineLogLines(steps[1]);
+-                Assert.Equal(1, log.Where(x => x.Contains("##vso[build.addbuildtag] is not allowed in this step due to policy restrictions.")).Count());
++                Assert.Equal(1, log.Count(x => x.Contains("##vso[build.addbuildtag] is not allowed in this step due to policy restrictions.")));
+                 Assert.Equal(0, GetMockedService<FakeBuildServer>().BuildTags.Count);
+             }
+             finally
+diff --git a/src/Test/L1/Worker/CoreL1Tests.cs b/src/Test/L1/Worker/CoreL1Tests.cs
+index fa3346c0..2dcb13fb 100644
+--- a/src/Test/L1/Worker/CoreL1Tests.cs
++++ b/src/Test/L1/Worker/CoreL1Tests.cs
+@@ -33,7 +33,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+ 
+                 var steps = GetSteps();
+                 var expectedSteps = new[] { "Initialize job", "Checkout MyFirstProject@master to s", "CmdLine", "Post-job: Checkout MyFirstProject@master to s", "Finalize Job" };
+-                Assert.Equal(5, steps.Count()); // Init, Checkout, CmdLine, Post, Finalize
++                Assert.Equal(5, steps.Count); // Init, Checkout, CmdLine, Post, Finalize
+                 for (var idx = 0; idx < steps.Count; idx++)
+                 {
+                     Assert.Equal(expectedSteps[idx], steps[idx].Name);
+@@ -72,7 +72,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+ 
+                 var steps = GetSteps();
+                 var expectedSteps = new[] { "Initialize job", "CmdLine", "Finalize Job" };
+-                Assert.Equal(3, steps.Count()); // Init, CmdLine, Finalize
++                Assert.Equal(3, steps.Count); // Init, CmdLine, Finalize
+                 for (var idx = 0; idx < steps.Count; idx++)
+                 {
+                     Assert.Equal(expectedSteps[idx], steps[idx].Name);
+@@ -84,7 +84,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+                     // Assert we used Node 10 from debug logs
+                     System.Diagnostics.Debugger.Launch();
+                     var log = GetTimelineLogLines(steps[1]);
+-                    Assert.Equal(1, log.Where(x => x.Contains("Using node path:") && x.Contains("node10")).Count());
++                    Assert.Equal(1, log.Count(x => x.Contains("Using node path:") && x.Contains("node10")));
+                 }
+             }
+             finally
+@@ -126,17 +126,17 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+                 AssertJobCompleted();
+ 
+                 var steps = GetSteps();
+-                Assert.Equal(3, steps.Count()); // Init, CmdLine, CmdLine, Finalize
++                Assert.Equal(3, steps.Count); // Init, CmdLine, CmdLine, Finalize
+                 var outputStep = steps[1];
+                 var log = GetTimelineLogLines(outputStep);
+ 
+                 if (disableInputTrimming)
+                 {
+-                    Assert.True(log.Where(x => x.Contains("echo   ")).Count() > 0, String.Join("\n", log) + " should contain \"echo   \"");
++                    Assert.True(log.Any(x => x.Contains("echo   ")), String.Join("\n", log) + " should contain \"echo   \"");
+                 }
+                 else
+                 {
+-                    Assert.False(log.Where(x => x.Contains("echo   ")).Count() > 0, String.Join("\n", log) + " should not contain \"echo   \"");
++                    Assert.False(log.Any(x => x.Contains("echo   ")), String.Join("\n", log) + " should not contain \"echo   \"");
+                 }
+             }
+             finally
+diff --git a/src/Test/L1/Worker/L1TestBase.cs b/src/Test/L1/Worker/L1TestBase.cs
+index 7d8b68cc..c3689ae5 100644
+--- a/src/Test/L1/Worker/L1TestBase.cs
++++ b/src/Test/L1/Worker/L1TestBase.cs
+@@ -72,7 +72,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+ 
+         protected void AssertJobCompleted(int buildCount = 1)
+         {
+-            Assert.Equal(buildCount, GetMockedService<FakeJobServer>().RecordedEvents.Where(x => x is JobCompletedEvent).Count());
++            Assert.Equal(buildCount, GetMockedService<FakeJobServer>().RecordedEvents.Count(x => x is JobCompletedEvent));
+         }
+ 
+         protected static Pipelines.AgentJobRequestMessage LoadTemplateMessage(string jobId = "12f1170f-54f2-53f3-20dd-22fc7dff55f9", string jobName = "__default", string jobDisplayName = "Job", string checkoutRepoAlias = "self", int additionalRepos = 1)
+diff --git a/src/Test/L1/Worker/SigningL1Tests.cs b/src/Test/L1/Worker/SigningL1Tests.cs
+index 34f92718..abbfa9f2 100644
+--- a/src/Test/L1/Worker/SigningL1Tests.cs
++++ b/src/Test/L1/Worker/SigningL1Tests.cs
+@@ -180,7 +180,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+                 var steps = GetSteps();
+                 var log = GetTimelineLogLines(steps[1]);
+ 
+-                Assert.Equal(1, log.Where(x => x.Contains("##[warning]Task signature verification failed.")).Count());
++                Assert.Equal(1, log.Count(x => x.Contains("##[warning]Task signature verification failed.")));
+             }
+             finally
+             {
+diff --git a/src/Test/L1/Worker/VariableL1Tests.cs b/src/Test/L1/Worker/VariableL1Tests.cs
+index d2ccd348..b6666cf6 100644
+--- a/src/Test/L1/Worker/VariableL1Tests.cs
++++ b/src/Test/L1/Worker/VariableL1Tests.cs
+@@ -40,11 +40,11 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.L1.Worker
+                 Assert.Equal(TaskResult.Succeeded, results.Result);
+ 
+                 var steps = GetSteps();
+-                Assert.Equal(4, steps.Count()); // Init, CmdLine, CmdLine, Finalize
++                Assert.Equal(4, steps.Count); // Init, CmdLine, CmdLine, Finalize
+                 var outputStep = steps[2];
+                 var log = GetTimelineLogLines(outputStep);
+ 
+-                Assert.True(log.Where(x => x.Contains("TestVar=b")).Count() > 0);
++                Assert.True(log.Any(x => x.Contains("TestVar=b")));
+             }
+             finally
+             {

@@ -1,0 +1,3393 @@
+diff --git a/Dev/Dev2.Activities.Designers.Tests/Designers2/Core/ActivityCollectionDesignerViewModelTests.cs b/Dev/Dev2.Activities.Designers.Tests/Designers2/Core/ActivityCollectionDesignerViewModelTests.cs
+index abc897e4b1..fa23b0743e 100644
+--- a/Dev/Dev2.Activities.Designers.Tests/Designers2/Core/ActivityCollectionDesignerViewModelTests.cs
++++ b/Dev/Dev2.Activities.Designers.Tests/Designers2/Core/ActivityCollectionDesignerViewModelTests.cs
+@@ -88,7 +88,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+ 
+             //assert
+             Assert.AreEqual(3, vm.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", 2), vm.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({2})", vm.ModelItem.GetProperty("DisplayName"));
+ 
+             
+             var mic = vm.ModelItem.Properties[vm.CollectionName].Collection;
+@@ -351,7 +351,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+             //------------Assert Results-------------------------
+             var actual = viewModel.ModelItem.GetProperty("DisplayName");
+ 
+-            Assert.AreEqual(string.Format("Activity ({0})", ItemCount - 1), actual);
++            Assert.AreEqual($"Activity ({ItemCount - 1})", actual);
+         }
+ 
+         [TestMethod]
+@@ -382,7 +382,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+ 
+             // Extra blank row is also added
+             Assert.AreEqual(ExpectedItemCount + 1, viewModel.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", ExpectedItemCount), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({ExpectedItemCount})", viewModel.ModelItem.GetProperty("DisplayName"));
+ 
+             System.Diagnostics.Debug.Assert(mic != null, "mic != null");
+             for(var i = 0; i < mic.Count; i++)
+@@ -469,7 +469,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+ 
+             
+ 
+-            Assert.AreEqual(string.Format("Activity ({0})", ExpectedItemCount - 1), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({ExpectedItemCount - 1})", viewModel.ModelItem.GetProperty("DisplayName"));
+         }
+ 
+         [TestMethod]
+@@ -509,7 +509,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+ 
+             
+ 
+-            Assert.AreEqual(string.Format("Activity ({0})", ExpectedItemCount - 1), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({ExpectedItemCount - 1})", viewModel.ModelItem.GetProperty("DisplayName"));
+         }
+ 
+         [TestMethod]
+@@ -547,7 +547,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+             var expectedItemCount = startItemCount;
+             var expectedNonBlankItemCount = expectedItemCount - 1;
+             Assert.AreEqual(expectedItemCount, viewModel.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", expectedNonBlankItemCount), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({expectedNonBlankItemCount})", viewModel.ModelItem.GetProperty("DisplayName"));
+ 
+             
+             var mic = viewModel.ModelItem.Properties[viewModel.CollectionName].Collection;
+@@ -595,7 +595,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+             var expectedItemCount = startItemCount;
+             var expectedNonBlankItemCount = expectedItemCount - 1;
+             Assert.AreEqual(expectedItemCount, viewModel.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", expectedNonBlankItemCount), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({expectedNonBlankItemCount})", viewModel.ModelItem.GetProperty("DisplayName"));
+ 
+             
+             var mic = viewModel.ModelItem.Properties[viewModel.CollectionName].Collection;
+@@ -637,7 +637,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+             const int ExpectedItemCount = 2;
+             const int ExpectedNonBlankItemCount = ExpectedItemCount - 1;
+             Assert.AreEqual(2, viewModel.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", ExpectedNonBlankItemCount), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({ExpectedNonBlankItemCount})", viewModel.ModelItem.GetProperty("DisplayName"));
+ 
+             
+             var mic = viewModel.ModelItem.Properties[viewModel.CollectionName].Collection;
+@@ -715,7 +715,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+             var expectedItemCount = isNewBlankRowAdded ? startItemCount + 1 : startItemCount;
+             var expectedNonBlankItemCount = expectedItemCount - 1;
+             Assert.AreEqual(expectedItemCount, viewModel.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", expectedNonBlankItemCount), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({expectedNonBlankItemCount})", viewModel.ModelItem.GetProperty("DisplayName"));
+ 
+             
+             var mic = viewModel.ModelItem.Properties[viewModel.CollectionName].Collection;
+@@ -878,7 +878,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+             var expectedItemCount = startItemCount - 1;
+             var expectedNonBlankItemCount = expectedItemCount - 1;
+             Assert.AreEqual(expectedItemCount, viewModel.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", expectedNonBlankItemCount), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({expectedNonBlankItemCount})", viewModel.ModelItem.GetProperty("DisplayName"));
+ 
+             
+             var mic = viewModel.ModelItem.Properties[viewModel.CollectionName].Collection;
+@@ -1041,7 +1041,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+             var expectedItemCount = startItemCount - 1;
+             var expectedNonBlankItemCount = expectedItemCount - 1;
+             Assert.AreEqual(expectedItemCount, viewModel.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", expectedNonBlankItemCount), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({expectedNonBlankItemCount})", viewModel.ModelItem.GetProperty("DisplayName"));
+ 
+             
+             var mic = viewModel.ModelItem.Properties[viewModel.CollectionName].Collection;
+@@ -1125,7 +1125,7 @@ namespace Dev2.Activities.Designers.Tests.Designers2.Core
+         {
+             var expectedNonBlankItemCount = expectedItemCount - 2;
+             Assert.AreEqual(expectedItemCount, viewModel.ItemCount);
+-            Assert.AreEqual(string.Format("Activity ({0})", expectedNonBlankItemCount), viewModel.ModelItem.GetProperty("DisplayName"));
++            Assert.AreEqual($"Activity ({expectedNonBlankItemCount})", viewModel.ModelItem.GetProperty("DisplayName"));
+ 
+             
+             var mic = viewModel.ModelItem.Properties[viewModel.CollectionName].Collection;
+diff --git a/Dev/Dev2.Activities.Designers.Tests/SqlBulkInsert/SqlBulkInsertDesignerViewModelTests.cs b/Dev/Dev2.Activities.Designers.Tests/SqlBulkInsert/SqlBulkInsertDesignerViewModelTests.cs
+index 0d9562bab7..467b6e71b6 100644
+--- a/Dev/Dev2.Activities.Designers.Tests/SqlBulkInsert/SqlBulkInsertDesignerViewModelTests.cs
++++ b/Dev/Dev2.Activities.Designers.Tests/SqlBulkInsert/SqlBulkInsertDesignerViewModelTests.cs
+@@ -484,7 +484,7 @@ namespace Dev2.Activities.Designers.Tests.SqlBulkInsert
+             //------------Assert Results-------------------------
+             var actualInputColumns = viewModel.InputMappings.Select(m => m.InputColumn).ToList();
+ 
+-            var expectedInputColumns = selectedTable.Columns.Select(c => string.Format("[[{0}(*).{1}]]", selectedTable.TableName, c.ColumnName)).ToList();
++            var expectedInputColumns = selectedTable.Columns.Select(c => $"[[{selectedTable.TableName}(*).{c.ColumnName}]]").ToList();
+ 
+             for (var i = 0; i < expectedInputColumns.Count; i++)
+             {
+@@ -1031,11 +1031,11 @@ namespace Dev2.Activities.Designers.Tests.SqlBulkInsert
+ 
+             foreach (var mapping in viewModel.InputMappings)
+             {
+-                var expectedInputColumn = string.Format("[[{0}(*).{1}]]", selectedTable.TableName, mapping.OutputColumn.ColumnName);
++                var expectedInputColumn = $"[[{selectedTable.TableName}(*).{mapping.OutputColumn.ColumnName}]]";
+                 Assert.AreEqual(expectedInputColumn, mapping.InputColumn);
+             }
+ 
+-            var expectedInputColumns = selectedTable.Columns.Select(c => string.Format("[[rs(*).{0}]]", c.ColumnName)).ToList();
++            var expectedInputColumns = selectedTable.Columns.Select(c => $"[[rs(*).{c.ColumnName}]]").ToList();
+             expectedInputColumns[1] = string.Empty; // randomly blank one of the values to simulate user leaving entry blank in QVI
+ 
+             //------------Execute Test---------------------------
+@@ -1112,7 +1112,7 @@ namespace Dev2.Activities.Designers.Tests.SqlBulkInsert
+             var expectedVariableList = string.Join(Environment.NewLine, selectedTable.Columns.Select(c => i++ == BlankIndex ? "" : c.ColumnName));
+ 
+             Assert.AreEqual(expectedVariableList, viewModel.QuickVariableInputViewModel.VariableListString);
+-            Assert.AreEqual(string.Format("{0}(*).", selectedTable.TableName), viewModel.QuickVariableInputViewModel.Prefix);
++            Assert.AreEqual($"{selectedTable.TableName}(*).", viewModel.QuickVariableInputViewModel.Prefix);
+         }
+ 
+ 
+@@ -1159,7 +1159,7 @@ namespace Dev2.Activities.Designers.Tests.SqlBulkInsert
+             var resourceRepo = new Mock<IResourceRepository>();
+ 
+             envModel.Setup(e => e.Connection.ExecuteCommand(It.Is<StringBuilder>(s => s.Contains("FindSourcesByType")), It.IsAny<Guid>()))
+-                .Returns(new StringBuilder(string.Format("<XmlData>{0}</XmlData>", sourceDefs == null ? "" : string.Join("\n", sourceDefs))));
++                .Returns(new StringBuilder($"<XmlData>{(sourceDefs == null ? "" : string.Join("\n", sourceDefs))}</XmlData>"));
+ 
+             // return the resource repository now ;)
+             envModel.Setup(e => e.ResourceRepository).Returns(resourceRepo.Object);
+diff --git a/Dev/Dev2.Activities.Designers/Designers2/Core/QuickVariableInput/QuickVariableInputViewModel.cs b/Dev/Dev2.Activities.Designers/Designers2/Core/QuickVariableInput/QuickVariableInputViewModel.cs
+index 8bbbb91e73..1440c9b63b 100644
+--- a/Dev/Dev2.Activities.Designers/Designers2/Core/QuickVariableInput/QuickVariableInputViewModel.cs
++++ b/Dev/Dev2.Activities.Designers/Designers2/Core/QuickVariableInput/QuickVariableInputViewModel.cs
+@@ -296,7 +296,7 @@ namespace Dev2.Activities.Designers2.Core.QuickVariableInput
+             const int MaxCount = 3;
+             var count = 1;
+ 
+-            var result = string.Join(Environment.NewLine, PreviewViewModel.Inputs.Take(MaxCount).Select(input => string.Format("{0} {1}", count++, input.Key)));
++            var result = string.Join(Environment.NewLine, PreviewViewModel.Inputs.Take(MaxCount).Select(input => $"{count++} {input.Key}"));
+             if (PreviewViewModel.Inputs.Count > MaxCount)
+             {
+                 result = string.Join(Environment.NewLine, result, "...");
+diff --git a/Dev/Dev2.Activities.Designers/Designers2/Decision/DecisionDesignerViewModel.cs b/Dev/Dev2.Activities.Designers/Designers2/Decision/DecisionDesignerViewModel.cs
+index 9a955a9dbd..b836bc09f1 100644
+--- a/Dev/Dev2.Activities.Designers/Designers2/Decision/DecisionDesignerViewModel.cs
++++ b/Dev/Dev2.Activities.Designers/Designers2/Decision/DecisionDesignerViewModel.cs
+@@ -285,16 +285,8 @@ namespace Dev2.Activities.Designers2.Decision
+ 
+             if (isIfOrDecision && dec != null && !_isInitializing && dec.IndexNumber == 1)
+             {
+-                DisplayName = string.Format("If {0} {3} {1} {2}", dec.MatchValue, dec.SearchType,
+-                    dec.IsBetweenCriteriaVisible
+-                        ? $"{dec.From} and {dec.To}"
+-                        : dec.SearchCriteria,
+-                    dec.SearchType == null || dec.SearchType.ToLower().Contains("is") ? "" : "Is");
+-                DisplayText = string.Format("If {0} {3} {1} {2}", dec.MatchValue, dec.SearchType,
+-                    dec.IsBetweenCriteriaVisible
+-                        ? $"{dec.From} and {dec.To}"
+-                        : dec.SearchCriteria,
+-                    dec.SearchType == null || dec.SearchType.ToLower().Contains("is") ? "" : "Is");
++                DisplayName = $"If {dec.MatchValue} {dec.SearchType} {(dec.IsBetweenCriteriaVisible ? $"{dec.From} and {dec.To}" : dec.SearchCriteria)} {(dec.SearchType == null || dec.SearchType.ToLower().Contains("is") ? "" : "Is")}";
++                DisplayText = $"If {dec.MatchValue} {dec.SearchType} {(dec.IsBetweenCriteriaVisible ? $"{dec.From} and {dec.To}" : dec.SearchCriteria)} {(dec.SearchType == null || dec.SearchType.ToLower().Contains("is") ? "" : "Is")}";
+             }
+         }
+ 
+diff --git a/Dev/Dev2.Activities.Designers/Designers2/Gate/GateDesignerViewModel.cs b/Dev/Dev2.Activities.Designers/Designers2/Gate/GateDesignerViewModel.cs
+index 4ea9d950f2..32243e76b9 100644
+--- a/Dev/Dev2.Activities.Designers/Designers2/Gate/GateDesignerViewModel.cs
++++ b/Dev/Dev2.Activities.Designers/Designers2/Gate/GateDesignerViewModel.cs
+@@ -100,7 +100,7 @@ namespace Dev2.Activities.Designers2.Gate
+         {
+             var designerView = FindDependencyParent.FindParent<System.Activities.Presentation.View.DesignerView>(_modelItem.View);
+ 
+-            if (designerView != null && designerView.DataContext is IWorkflowDesignerViewModel workflowDesignerViewModel)
++            if (designerView?.DataContext is IWorkflowDesignerViewModel workflowDesignerViewModel)
+             {
+                 Gates = workflowDesignerViewModel.GetSelectableGates(_modelItem.Properties["UniqueID"].ComputedValue.ToString());
+             }
+diff --git a/Dev/Dev2.Activities.Designers/Designers2/Sequence/SequenceDesignerViewModel.cs b/Dev/Dev2.Activities.Designers/Designers2/Sequence/SequenceDesignerViewModel.cs
+index 9ce9af1e3c..a5386f858f 100644
+--- a/Dev/Dev2.Activities.Designers/Designers2/Sequence/SequenceDesignerViewModel.cs
++++ b/Dev/Dev2.Activities.Designers/Designers2/Sequence/SequenceDesignerViewModel.cs
+@@ -150,7 +150,7 @@ namespace Dev2.Activities.Designers2.Sequence
+                 if (Application.Current != null && Application.Current.Dispatcher.CheckAccess() && Application.Current.MainWindow != null)
+                 {
+                     dynamic mvm = Application.Current.MainWindow.DataContext;
+-                    if (mvm != null && mvm.ActiveItem != null)
++                    if (mvm?.ActiveItem != null)
+                     {
+                         WorkflowDesignerUtils.CheckIfRemoteWorkflowAndSetProperties(d, resource, mvm.ActiveItem.Environment);
+                     }
+diff --git a/Dev/Dev2.Activities.Designers/Designers2/Service/ServiceDesignerViewModel.cs b/Dev/Dev2.Activities.Designers/Designers2/Service/ServiceDesignerViewModel.cs
+index d9926cedce..0622c3064f 100644
+--- a/Dev/Dev2.Activities.Designers/Designers2/Service/ServiceDesignerViewModel.cs
++++ b/Dev/Dev2.Activities.Designers/Designers2/Service/ServiceDesignerViewModel.cs
+@@ -188,8 +188,7 @@ namespace Dev2.Activities.Designers2.Service
+ 
+         static bool CanViewComplexObjects(Object itemx)
+         {
+-            var item = itemx as IDataListItemModel;
+-            return item != null && !item.IsComplexObject;
++            return itemx is IDataListItemModel item && !item.IsComplexObject;
+         }
+ 
+         static void ViewJsonObjects(IComplexObjectItemModel item, JsonObjectsView window)
+diff --git a/Dev/Dev2.Activities.Designers/Designers2/SqlBulkInsert/SqlBulkInsertDesignerViewModel.cs b/Dev/Dev2.Activities.Designers/Designers2/SqlBulkInsert/SqlBulkInsertDesignerViewModel.cs
+index bf7cc68fef..bacad0c20b 100644
+--- a/Dev/Dev2.Activities.Designers/Designers2/SqlBulkInsert/SqlBulkInsertDesignerViewModel.cs
++++ b/Dev/Dev2.Activities.Designers/Designers2/SqlBulkInsert/SqlBulkInsertDesignerViewModel.cs
+@@ -427,11 +427,11 @@ namespace Dev2.Activities.Designers2.SqlBulkInsert
+                         inputcolumn = inputcolumn.Replace("[", "");
+                         inputcolumn = inputcolumn.Replace("]", "");
+                         inputcolumn = inputcolumn.Replace(" ", "");
+-                        mapping.InputColumn = string.Format("[[{0}]]", inputcolumn);
++                        mapping.InputColumn = $"[[{inputcolumn}]]";
+                     }
+                     if (string.IsNullOrEmpty(mapping.InputColumn))
+                     {
+-                        mapping.InputColumn = string.Format("[[{0}(*).{1}]]", selectedTable.TableName.Replace("[", "").Replace("]", "").Replace(" ", ""), mapping.OutputColumn.ColumnName.Replace("[", "").Replace("]", "").Replace(" ", ""));
++                        mapping.InputColumn = $"[[{selectedTable.TableName.Replace("[", "").Replace("]", "").Replace(" ", "")}(*).{mapping.OutputColumn.ColumnName.Replace("[", "").Replace("]", "").Replace(" ", "")}]]";
+                     }
+ 
+                     ModelItemCollection.Add(mapping);
+diff --git a/Dev/Dev2.Activities.Designers/Utils/DropEnabledActivityDesignerUtils.cs b/Dev/Dev2.Activities.Designers/Utils/DropEnabledActivityDesignerUtils.cs
+index 117034cbd8..867a882168 100644
+--- a/Dev/Dev2.Activities.Designers/Utils/DropEnabledActivityDesignerUtils.cs
++++ b/Dev/Dev2.Activities.Designers/Utils/DropEnabledActivityDesignerUtils.cs
+@@ -87,8 +87,7 @@ namespace Dev2.Activities.Utils
+ 
+         bool ValidateDecision(object objectData, ModelItem data, bool dropEnabled)
+         {
+-            var stringValue = objectData as string;
+-            if ((data != null && data.ItemType.Name == "FlowDecision") || (stringValue != null && stringValue.Contains("Decision")))
++            if ((data != null && data.ItemType.Name == "FlowDecision") || (objectData is string stringValue && stringValue.Contains("Decision")))
+             {
+                 dropEnabled = false;
+             }
+@@ -102,8 +101,7 @@ namespace Dev2.Activities.Utils
+ 
+         bool ValidateSwitch(object objectData, ModelItem data, bool dropEnabled)
+         {
+-            var stringValue = objectData as string;
+-            if ((data != null && data.ItemType.Name == "FlowSwitch`1") || (stringValue != null && stringValue.Contains("Switch")))
++            if ((data != null && data.ItemType.Name == "FlowSwitch`1") || (objectData is string stringValue && stringValue.Contains("Switch")))
+             {
+                 dropEnabled = false;
+             }
+@@ -118,8 +116,7 @@ namespace Dev2.Activities.Utils
+ 
+         bool ValidateSelectAndApply(object objectData, ModelItem data, bool dropEnabled)
+         {
+-            var stringValue = objectData as string;
+-            if ((data != null && data.ItemType.Name == "DsfSelectAndApplyActivity") || (stringValue != null && stringValue.Contains("SelectAndApply")))
++            if ((data != null && data.ItemType.Name == "DsfSelectAndApplyActivity") || (objectData is string stringValue && stringValue.Contains("SelectAndApply")))
+             {
+                 dropEnabled = false;
+             }
+diff --git a/Dev/Dev2.Activities.Specs/Composition/DBSource/XmlFetch.cs b/Dev/Dev2.Activities.Specs/Composition/DBSource/XmlFetch.cs
+index 219e5e5fc9..0980fcb9f6 100644
+--- a/Dev/Dev2.Activities.Specs/Composition/DBSource/XmlFetch.cs
++++ b/Dev/Dev2.Activities.Specs/Composition/DBSource/XmlFetch.cs
+@@ -29,7 +29,7 @@ namespace Dev2.Activities.Specs.Composition.DBSource
+         /// <returns>The contents of the embedded XML file.</returns>
+         public static XElement Fetch(string name)
+         {
+-            var resourceName = string.Format("Dev2.Activities.Specs.Composition.DBSource.{0}.xml", name);
++            var resourceName = $"Dev2.Activities.Specs.Composition.DBSource.{name}.xml";
+             var assembly = Assembly.GetExecutingAssembly();
+             using(var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Activities.Specs/Composition/WorkflowExecutionSteps.cs b/Dev/Dev2.Activities.Specs/Composition/WorkflowExecutionSteps.cs
+index fbd8a548d0..d565a6df85 100644
+--- a/Dev/Dev2.Activities.Specs/Composition/WorkflowExecutionSteps.cs
++++ b/Dev/Dev2.Activities.Specs/Composition/WorkflowExecutionSteps.cs
+@@ -1428,7 +1428,7 @@ namespace Dev2.Activities.Specs.Composition
+                     {
+                         var errors = debugStates.Where(wf => wf.ErrorMessage != "");
+                         var errorsMessage = "";
+-                        if (errors.Count() > 0)
++                        if (errors.Any())
+                         {
+                             errorsMessage = " There were one or more errors found in other tools on the same workflow though: " + string.Join(", ", errors.Select(wf => wf.ErrorMessage).Distinct().ToArray());
+                         }
+@@ -1460,7 +1460,7 @@ namespace Dev2.Activities.Specs.Composition
+                 outputState = toolSpecificDebug.FirstOrDefault();
+             }
+ 
+-            if (outputState != null && outputState.Outputs != null)
++            if (outputState?.Outputs != null)
+             {
+                 var SelectResults = outputState.Outputs.SelectMany(s => s.ResultsList);
+                 if (SelectResults != null && SelectResults.ToList() != null)
+@@ -1530,7 +1530,7 @@ namespace Dev2.Activities.Specs.Composition
+                 outputState = toolSpecificDebug.FirstOrDefault();
+             }
+ 
+-            if (outputState != null && outputState.Outputs != null)
++            if (outputState?.Outputs != null)
+             {
+                 var SelectResults = outputState.Outputs.SelectMany(s => s.ResultsList);
+                 if (SelectResults != null && SelectResults.ToList() != null)
+@@ -1598,7 +1598,7 @@ namespace Dev2.Activities.Specs.Composition
+                 outputState = toolSpecificDebug.FirstOrDefault();
+             }
+ 
+-            if (outputState != null && outputState.Outputs != null)
++            if (outputState?.Outputs != null)
+             {
+                 var SelectResults = outputState.Outputs.SelectMany(s => s.ResultsList);
+                 if (SelectResults != null && SelectResults.ToList() != null)
+@@ -4739,7 +4739,7 @@ namespace Dev2.Activities.Specs.Composition
+                 inputState = toolSpecificDebug.Skip(toolNum - 1).FirstOrDefault();
+             }
+ 
+-            if (inputState != null && inputState.Inputs != null)
++            if (inputState?.Inputs != null)
+             {
+                 var SelectResults = inputState.Inputs.SelectMany(s => s.ResultsList);
+                 if (SelectResults != null && SelectResults.ToList() != null)
+diff --git a/Dev/Dev2.Activities.Specs/StudioTestFramework/StudioTestFrameworkSteps.cs b/Dev/Dev2.Activities.Specs/StudioTestFramework/StudioTestFrameworkSteps.cs
+index bede082bae..e49db75bb4 100644
+--- a/Dev/Dev2.Activities.Specs/StudioTestFramework/StudioTestFrameworkSteps.cs
++++ b/Dev/Dev2.Activities.Specs/StudioTestFramework/StudioTestFrameworkSteps.cs
+@@ -2175,8 +2175,7 @@ namespace Dev2.Activities.Specs.TestFramework
+             var actStartNode = act.StartNode;
+             if (act.Nodes.Count == 0 && actStartNode != null)
+             {
+-                var searchNode = actStartNode as FlowStep;
+-                while (searchNode != null)
++                while (actStartNode is FlowStep searchNode)
+                 {
+                     var isCorr = searchNode.Action.DisplayName.TrimEnd(' ').Equals(actNameToFind, StringComparison.InvariantCultureIgnoreCase);
+                     if (isCorr)
+@@ -2199,8 +2198,7 @@ namespace Dev2.Activities.Specs.TestFramework
+             {
+                 foreach (var flowNode in act.Nodes)
+                 {
+-                    var searchNode = flowNode as FlowStep;
+-                    var isCorr = searchNode != null && searchNode.Action.DisplayName.TrimEnd(' ').Equals(actNameToFind, StringComparison.InvariantCultureIgnoreCase);
++                    var isCorr = actStartNode is FlowStep searchNode && searchNode.Action.DisplayName.TrimEnd(' ').Equals(actNameToFind, StringComparison.InvariantCultureIgnoreCase);
+                     if (isCorr)
+                     {
+                         var modelItem = ModelItemUtils.CreateModelItem(flowNode);
+diff --git a/Dev/Dev2.Activities.Tests/Activities/DsfWebGetRequestWithTimeoutActivity/DsfWebGetRequestWithTimeoutActivityTests.cs b/Dev/Dev2.Activities.Tests/Activities/DsfWebGetRequestWithTimeoutActivity/DsfWebGetRequestWithTimeoutActivityTests.cs
+index f9f612a2f7..e084cacd9f 100644
+--- a/Dev/Dev2.Activities.Tests/Activities/DsfWebGetRequestWithTimeoutActivity/DsfWebGetRequestWithTimeoutActivityTests.cs
++++ b/Dev/Dev2.Activities.Tests/Activities/DsfWebGetRequestWithTimeoutActivity/DsfWebGetRequestWithTimeoutActivityTests.cs
+@@ -380,7 +380,7 @@ namespace Dev2.Tests.Activities.DsfWebGetRequestWithTimeoutActivityTests
+             {
+                 Action = activity
+             };
+-            TestData = string.Format("<root><Url>{0}</Url></root>", Url);
++            TestData = $"<root><Url>{Url}</Url></root>";
+             //------------Execute Test---------------------------
+             var result = ExecuteProcess();
+             //------------Assert Results-------------------------
+diff --git a/Dev/Dev2.Activities.Tests/ActivityTests/DataSplitActivityTest.cs b/Dev/Dev2.Activities.Tests/ActivityTests/DataSplitActivityTest.cs
+index 7e611d4942..a6bf5aa32a 100644
+--- a/Dev/Dev2.Activities.Tests/ActivityTests/DataSplitActivityTest.cs
++++ b/Dev/Dev2.Activities.Tests/ActivityTests/DataSplitActivityTest.cs
+@@ -248,8 +248,8 @@ namespace Dev2.Tests.Activities.ActivityTests
+             // remove test datalist ;)
+ 
+             var comparer = new ActivityUnitTests.Utils.StringComparer();
+-            Assert.AreEqual(4, actual.Count());
+-            Assert.AreEqual(4, expected.Count());
++            Assert.AreEqual(4, actual.Count);
++            Assert.AreEqual(4, expected.Count);
+             CollectionAssert.AreEqual(expected, actual, comparer);
+         }
+ 
+diff --git a/Dev/Dev2.Activities.Tests/ActivityTests/DropBox2016/Download/DsfDropBoxDownloadAcivtityTestShould.cs b/Dev/Dev2.Activities.Tests/ActivityTests/DropBox2016/Download/DsfDropBoxDownloadAcivtityTestShould.cs
+index aeeb7c4950..80ac05b1d4 100644
+--- a/Dev/Dev2.Activities.Tests/ActivityTests/DropBox2016/Download/DsfDropBoxDownloadAcivtityTestShould.cs
++++ b/Dev/Dev2.Activities.Tests/ActivityTests/DropBox2016/Download/DsfDropBoxDownloadAcivtityTestShould.cs
+@@ -119,7 +119,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.Download
+             //---------------Execute Test ----------------------
+             var debugInputs = dropBoxDownloadActivity.GetDebugInputs(null, 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(0, debugInputs.Count());
++            Assert.AreEqual(0, debugInputs.Count);
+         }
+ 
+         [TestMethod]
+@@ -135,7 +135,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.Download
+             //---------------Execute Test ----------------------
+             var debugInputs = dropBoxDownloadActivity.GetDebugInputs(CreateExecutionEnvironment(), 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(1, debugInputs.Count());
++            Assert.AreEqual(1, debugInputs.Count);
+         }
+ 
+         [TestMethod]
+@@ -151,7 +151,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.Download
+             //---------------Execute Test ----------------------
+             var debugInputs = dropBoxDownloadActivity.GetDebugInputs(CreateExecutionEnvironment(), 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(1, debugInputs.Count());
++            Assert.AreEqual(1, debugInputs.Count);
+         }
+         [TestMethod]
+         [Timeout(60000)]
+@@ -168,7 +168,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.Download
+             //---------------Execute Test ----------------------
+             var debugInputs = dropBoxDownloadActivity.GetDebugInputs(environment, 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(1, debugInputs.Count());
++            Assert.AreEqual(1, debugInputs.Count);
+         }
+ 
+         [TestMethod]
+@@ -182,7 +182,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.Download
+             //---------------Execute Test ----------------------
+             var debugOutputs = dropBoxDownloadActivity.GetDebugOutputs(null, 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(0, debugOutputs.Count());
++            Assert.AreEqual(0, debugOutputs.Count);
+         }
+ 
+         [TestMethod]
+@@ -196,7 +196,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.Download
+             //---------------Execute Test ----------------------
+             var debugOutputs = dropBoxDownloadActivity.GetDebugOutputs(CreateExecutionEnvironment(), 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(0, debugOutputs.Count());
++            Assert.AreEqual(0, debugOutputs.Count);
+         }
+ 
+         [TestMethod]
+@@ -216,7 +216,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.Download
+             //---------------Execute Test ----------------------
+             var debugOutputs = dropBoxDownloadActivity.Object.GetDebugOutputs(CreateExecutionEnvironment(), 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(1, debugOutputs.Count());
++            Assert.AreEqual(1, debugOutputs.Count);
+         }
+ 
+ 
+@@ -576,7 +576,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.Download
+             var mockExecutionEnv = new Mock<IExecutionEnvironment>();
+             var debugInputs = dropBoxDownloadActivity.GetDebugInputs(mockExecutionEnv.Object, 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(1, debugInputs.Count());
++            Assert.AreEqual(1, debugInputs.Count);
+         }
+     }
+ 
+diff --git a/Dev/Dev2.Activities.Tests/ActivityTests/DropBox2016/DropboxFiles/DropboxFileListActivityShould.cs b/Dev/Dev2.Activities.Tests/ActivityTests/DropBox2016/DropboxFiles/DropboxFileListActivityShould.cs
+index e0b1c2cf42..348ac3ba6b 100644
+--- a/Dev/Dev2.Activities.Tests/ActivityTests/DropBox2016/DropboxFiles/DropboxFileListActivityShould.cs
++++ b/Dev/Dev2.Activities.Tests/ActivityTests/DropBox2016/DropboxFiles/DropboxFileListActivityShould.cs
+@@ -95,7 +95,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.DropboxFiles
+             //---------------Execute Test ----------------------
+             var debugInputs = dropboxFileListActivity.GetDebugInputs(null, 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(0, debugInputs.Count());
++            Assert.AreEqual(0, debugInputs.Count);
+         }
+ 
+         [TestMethod]
+@@ -111,7 +111,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.DropboxFiles
+             //---------------Execute Test ----------------------
+             var debugInputs = dropboxFileListActivity.GetDebugInputs(CreateExecutionEnvironment(), 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(4, debugInputs.Count());
++            Assert.AreEqual(4, debugInputs.Count);
+         }
+ 
+         [TestMethod]
+@@ -153,7 +153,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.DropboxFiles
+             //---------------Execute Test ----------------------
+             var debugOutputs = dropBoxDownloadActivity.Object.GetDebugOutputs(CreateExecutionEnvironment(), 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(1, debugOutputs.Count());
++            Assert.AreEqual(1, debugOutputs.Count);
+         }
+ 
+         [TestMethod]
+@@ -572,7 +572,7 @@ namespace Dev2.Tests.Activities.ActivityTests.DropBox2016.DropboxFiles
+             var mockExecutionEnv = new Mock<IExecutionEnvironment>();
+             var debugInputs = dropboxFileListActivity.GetDebugInputs(mockExecutionEnv.Object, 0);
+             //---------------Test Result -----------------------
+-            Assert.AreEqual(4,debugInputs.Count());
++            Assert.AreEqual(4,debugInputs.Count);
+         }
+     }
+ 
+diff --git a/Dev/Dev2.Activities.Tests/ActivityTests/IndexActivityTests.cs b/Dev/Dev2.Activities.Tests/ActivityTests/IndexActivityTests.cs
+index 9634e1b71d..96e08db235 100644
+--- a/Dev/Dev2.Activities.Tests/ActivityTests/IndexActivityTests.cs
++++ b/Dev/Dev2.Activities.Tests/ActivityTests/IndexActivityTests.cs
+@@ -374,7 +374,7 @@ namespace Dev2.Tests.Activities.ActivityTests
+             //------------Execute Test---------------------------            
+             var stateItems = act.GetState();
+             //------------Assert Results-------------------------
+-            Assert.IsTrue(stateItems.Count() > 0);
++            Assert.IsTrue(stateItems.Any());
+             var expectedResults = new[]
+             {
+                 new StateVariable
+diff --git a/Dev/Dev2.Activities.Tests/ActivityTests/RabbitMQ/Consume/DsfConsumeRabbitMQActivityTests.cs b/Dev/Dev2.Activities.Tests/ActivityTests/RabbitMQ/Consume/DsfConsumeRabbitMQActivityTests.cs
+index 6adec1b2cb..ef40c8c5fe 100644
+--- a/Dev/Dev2.Activities.Tests/ActivityTests/RabbitMQ/Consume/DsfConsumeRabbitMQActivityTests.cs
++++ b/Dev/Dev2.Activities.Tests/ActivityTests/RabbitMQ/Consume/DsfConsumeRabbitMQActivityTests.cs
+@@ -516,7 +516,7 @@ namespace Dev2.Tests.Activities.ActivityTests.RabbitMQ.Consume
+             }
+             catch (Exception ex)
+             {
+-                Assert.AreEqual(ex.Message, string.Format("Nothing in the Queue : {0}", queueName));
++                Assert.AreEqual(ex.Message, $"Nothing in the Queue : {queueName}");
+             }
+             //------------Assert Results-------------------------
+         }
+@@ -554,7 +554,7 @@ namespace Dev2.Tests.Activities.ActivityTests.RabbitMQ.Consume
+             }
+             catch (Exception ex)
+             {
+-                Assert.AreEqual(ex.Message, string.Format("Nothing in the Queue : {0}", queueName));
++                Assert.AreEqual(ex.Message, $"Nothing in the Queue : {queueName}");
+             }
+             //------------Assert Results-------------------------
+ 
+@@ -718,7 +718,7 @@ namespace Dev2.Tests.Activities.ActivityTests.RabbitMQ.Consume
+             connection.Setup(c => c.CreateModel()).Returns(channel.Object);
+             channel.Setup(c => c.BasicQos(0, 1, false));
+             channel.Setup(c => c.BasicConsume(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, object>>(), It.IsAny<IBasicConsumer>()))
+-                .Throws(new Exception(string.Format("Queue '{0}' not found", queueName)));
++                .Throws(new Exception($"Queue '{queueName}' not found"));
+ 
+             var privateObject = new PrivateObject(dsfConsumeRabbitMQActivity);
+             privateObject.SetProperty("ConnectionFactory", connectionFactory.Object);
+@@ -731,7 +731,7 @@ namespace Dev2.Tests.Activities.ActivityTests.RabbitMQ.Consume
+             }
+             catch (Exception ex)
+             {
+-                Assert.AreEqual(ex.Message, string.Format("Queue {0} not found", queueName));
++                Assert.AreEqual(ex.Message, $"Queue {queueName} not found");
+             }
+             //------------Assert Results-------------------------
+         }
+@@ -774,7 +774,7 @@ namespace Dev2.Tests.Activities.ActivityTests.RabbitMQ.Consume
+             }
+             catch (Exception ex)
+             {
+-                Assert.AreEqual(ex.Message, string.Format("Queue {0} not found", queueName));
++                Assert.AreEqual(ex.Message, $"Queue {queueName} not found");
+             }
+             //------------Assert Results-------------------------
+         }
+@@ -802,9 +802,9 @@ namespace Dev2.Tests.Activities.ActivityTests.RabbitMQ.Consume
+             connection.Setup(c => c.CreateModel()).Returns(channel.Object);
+             channel.Setup(c => c.BasicQos(0, 1, false));
+             channel.Setup(c => c.BasicConsume(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, object>>(), It.IsAny<IBasicConsumer>()))
+-                .Throws(new Exception(string.Format("Queue '{0}' not found", queueName)));
++                .Throws(new Exception($"Queue '{queueName}' not found"));
+             channel.Setup(c => c.BasicGet(It.IsAny<string>(), It.IsAny<bool>()))
+-                .Throws(new Exception(string.Format("Queue '{0}' not found", queueName)));
++                .Throws(new Exception($"Queue '{queueName}' not found"));
+ 
+             var privateObject = new PrivateObject(dsfConsumeRabbitMQActivity);
+             privateObject.SetProperty("ConnectionFactory", connectionFactory.Object);
+@@ -819,7 +819,7 @@ namespace Dev2.Tests.Activities.ActivityTests.RabbitMQ.Consume
+             }
+             catch (Exception ex)
+             {
+-                Assert.AreEqual(ex.Message, string.Format("Queue {0} not found", queueName));
++                Assert.AreEqual(ex.Message, $"Queue {queueName} not found");
+             }
+             //------------Assert Results-------------------------
+         }
+@@ -940,7 +940,7 @@ namespace Dev2.Tests.Activities.ActivityTests.RabbitMQ.Consume
+             }
+             catch (Exception ex)
+             {
+-                Assert.AreEqual(ex.Message, string.Format("Nothing in the Queue : {0}", queueName));
++                Assert.AreEqual(ex.Message, $"Nothing in the Queue : {queueName}");
+             }
+             //------------Assert Results-------------------------
+         }
+diff --git a/Dev/Dev2.Activities.Tests/XML/XmlResource.cs b/Dev/Dev2.Activities.Tests/XML/XmlResource.cs
+index 2944c28036..45cee49707 100644
+--- a/Dev/Dev2.Activities.Tests/XML/XmlResource.cs
++++ b/Dev/Dev2.Activities.Tests/XML/XmlResource.cs
+@@ -29,7 +29,7 @@ namespace Dev2.Tests.Activities.XML
+         /// <returns>The contents of the embedded XML file.</returns>
+         public static XElement Fetch(string name)
+         {
+-            var resourceName = string.Format("Dev2.Tests.Activities.XML.{0}.xml", name);
++            var resourceName = $"Dev2.Tests.Activities.XML.{name}.xml";
+             var assembly = Assembly.GetExecutingAssembly();
+             using(var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Activities/Activities/ActivityParser.cs b/Dev/Dev2.Activities/Activities/ActivityParser.cs
+index 143249d28e..7e36ff3725 100644
+--- a/Dev/Dev2.Activities/Activities/ActivityParser.cs
++++ b/Dev/Dev2.Activities/Activities/ActivityParser.cs
+@@ -255,8 +255,7 @@ namespace Dev2.Activities
+ 
+         IEnumerable<IDev2Activity> ParseSwitch(FlowSwitch<string> switchFlowSwitch, List<IDev2Activity> seenActivities)
+         {
+-            var activity = switchFlowSwitch.Expression as DsfFlowSwitchActivity;
+-            if (activity != null)
++            if (switchFlowSwitch.Expression is DsfFlowSwitchActivity activity)
+             {
+                 if (seenActivities.Contains(activity))
+                 {
+@@ -288,9 +287,7 @@ namespace Dev2.Activities
+ 
+         IEnumerable<IDev2Activity> ParseDecision(FlowDecision decision, List<IDev2Activity> seenActivities)
+         {
+-
+-            var activity = decision.Condition as DsfFlowDecisionActivity;
+-            if (activity != null)
++            if (decision.Condition is DsfFlowDecisionActivity activity)
+             {
+                 if (seenActivities.Contains(activity))
+                 {
+diff --git a/Dev/Dev2.Activities/Activities/AdvancedRecordsetActivity.cs b/Dev/Dev2.Activities/Activities/AdvancedRecordsetActivity.cs
+index 28e7fd2b0e..ee1168dc52 100644
+--- a/Dev/Dev2.Activities/Activities/AdvancedRecordsetActivity.cs
++++ b/Dev/Dev2.Activities/Activities/AdvancedRecordsetActivity.cs
+@@ -393,7 +393,7 @@ namespace Dev2.Activities
+         {
+             if (DataListUtil.HasNegativeIndex(_activity.SqlQuery))
+             {
+-                allErrors.AddError(string.Format("Negative Recordset Index for SqlQuery: {0}", _activity.SqlQuery));
++                allErrors.AddError($"Negative Recordset Index for SqlQuery: {_activity.SqlQuery}");
+             }
+         }
+ 
+diff --git a/Dev/Dev2.Activities/Activities/DateAndTime/DsfDotNetDateTimeActivity.cs b/Dev/Dev2.Activities/Activities/DateAndTime/DsfDotNetDateTimeActivity.cs
+index 0ca6928397..24d175b09d 100644
+--- a/Dev/Dev2.Activities/Activities/DateAndTime/DsfDotNetDateTimeActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DateAndTime/DsfDotNetDateTimeActivity.cs
+@@ -204,15 +204,15 @@ namespace Dev2.Activities.DateAndTime
+         {
+             if (DataListUtil.HasNegativeIndex(InputFormat))
+             {
+-                allErrors.AddError(string.Format("Negative Recordset Index for Input Format: {0}", InputFormat));
++                allErrors.AddError($"Negative Recordset Index for Input Format: {InputFormat}");
+             }
+             if (DataListUtil.HasNegativeIndex(OutputFormat))
+             {
+-                allErrors.AddError(string.Format("Negative Recordset Index for Output Format: {0}", OutputFormat));
++                allErrors.AddError($"Negative Recordset Index for Output Format: {OutputFormat}");
+             }
+             if (DataListUtil.HasNegativeIndex(TimeModifierAmountDisplay))
+             {
+-                allErrors.AddError(string.Format("Negative Recordset Index for Add Time: {0}", TimeModifierAmountDisplay));
++                allErrors.AddError($"Negative Recordset Index for Add Time: {TimeModifierAmountDisplay}");
+             }
+         }
+ 
+@@ -225,7 +225,7 @@ namespace Dev2.Activities.DateAndTime
+                     AddDebugInputItem(new DebugEvalResult(DateTime, "Input", dataObject.Environment, update));
+                 }                
+ 
+-                var dateTimePattern = string.Format("{0}", GlobalConstants.Dev2DotNetDefaultDateTimeFormat);
++                var dateTimePattern = $"{GlobalConstants.Dev2DotNetDefaultDateTimeFormat}";
+ 
+                 if (string.IsNullOrEmpty(InputFormat))
+                 {
+diff --git a/Dev/Dev2.Activities/Activities/Debug/DebugItemWarewolfAtomListResult.cs b/Dev/Dev2.Activities/Activities/Debug/DebugItemWarewolfAtomListResult.cs
+index 6437973adc..fae71b8c19 100644
+--- a/Dev/Dev2.Activities/Activities/Debug/DebugItemWarewolfAtomListResult.cs
++++ b/Dev/Dev2.Activities/Activities/Debug/DebugItemWarewolfAtomListResult.cs
+@@ -252,10 +252,10 @@ namespace Dev2.Activities.Debug
+ 
+         void OldValueAtomListResult(List<IDebugItemResult> results)
+         {
+-            var recSetResult = _oldValue as CommonFunctions.WarewolfEvalResult.WarewolfAtomListresult;
+             string groupName = null;
+             var grpIdx = 0;
+-            if (recSetResult != null)
++
++            if (_oldValue is CommonFunctions.WarewolfEvalResult.WarewolfAtomListresult recSetResult)
+             {
+                 foreach (var item in recSetResult.Item)
+                 {
+diff --git a/Dev/Dev2.Activities/Activities/DropBox2016/DeleteActivity/DsfDropBoxDeleteActivity.cs b/Dev/Dev2.Activities/Activities/DropBox2016/DeleteActivity/DsfDropBoxDeleteActivity.cs
+index 7ca645f6c5..1123f7e8b1 100644
+--- a/Dev/Dev2.Activities/Activities/DropBox2016/DeleteActivity/DsfDropBoxDeleteActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DropBox2016/DeleteActivity/DsfDropBoxDeleteActivity.cs
+@@ -99,9 +99,9 @@ namespace Dev2.Activities.DropBox2016.DeleteActivity
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is DsfDropBoxDeleteActivity)
++            if (obj is DsfDropBoxDeleteActivity dsfDropBoxDeleteActivity)
+             {
+-                return Equals((DsfDropBoxDeleteActivity) obj);
++                return Equals(dsfDropBoxDeleteActivity);
+             }
+             return false;
+         }
+diff --git a/Dev/Dev2.Activities/Activities/DropBox2016/DownloadActivity/DsfDropBoxDownloadActivity.cs b/Dev/Dev2.Activities/Activities/DropBox2016/DownloadActivity/DsfDropBoxDownloadActivity.cs
+index 63dbe72e87..45eb313af8 100644
+--- a/Dev/Dev2.Activities/Activities/DropBox2016/DownloadActivity/DsfDropBoxDownloadActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DropBox2016/DownloadActivity/DsfDropBoxDownloadActivity.cs
+@@ -178,9 +178,9 @@ namespace Dev2.Activities.DropBox2016.DownloadActivity
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is DsfDropBoxDownloadActivity)
++            if (obj is DsfDropBoxDownloadActivity dsfDropBoxDownloadActivity)
+             {
+-                return Equals((DsfDropBoxDownloadActivity) obj);
++                return Equals(dsfDropBoxDownloadActivity);
+             }
+             return false;
+         }
+diff --git a/Dev/Dev2.Activities/Activities/DropBox2016/DropboxFileActivity/DsfDropboxFileListActivity.cs b/Dev/Dev2.Activities/Activities/DropBox2016/DropboxFileActivity/DsfDropboxFileListActivity.cs
+index 642e760cda..ce860836a1 100644
+--- a/Dev/Dev2.Activities/Activities/DropBox2016/DropboxFileActivity/DsfDropboxFileListActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DropBox2016/DropboxFileActivity/DsfDropboxFileListActivity.cs
+@@ -203,9 +203,9 @@ namespace Dev2.Activities.DropBox2016.DropboxFileActivity
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is DsfDropboxFileListActivity)
++            if (obj is DsfDropboxFileListActivity dsfDropboxFileListActivity)
+             {
+-                return Equals((DsfDropboxFileListActivity)obj);
++                return Equals(dsfDropboxFileListActivity);
+             }
+             return false;
+         }
+diff --git a/Dev/Dev2.Activities/Activities/DropBox2016/UploadActivity/DsfDropBoxUploadActivity.cs b/Dev/Dev2.Activities/Activities/DropBox2016/UploadActivity/DsfDropBoxUploadActivity.cs
+index 62572507c4..b36e1e5528 100644
+--- a/Dev/Dev2.Activities/Activities/DropBox2016/UploadActivity/DsfDropBoxUploadActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DropBox2016/UploadActivity/DsfDropBoxUploadActivity.cs
+@@ -160,9 +160,9 @@ namespace Dev2.Activities.DropBox2016.UploadActivity
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is DsfDropBoxUploadActivity)
++            if (obj is DsfDropBoxUploadActivity dsfDropBoxUploadActivity)
+             {
+-                return Equals((DsfDropBoxUploadActivity) obj);
++                return Equals(dsfDropBoxUploadActivity);
+             }
+             return false;
+         }
+diff --git a/Dev/Dev2.Activities/Activities/DsfBaseActivity.cs b/Dev/Dev2.Activities/Activities/DsfBaseActivity.cs
+index 7ac7ddc407..b02cd2201f 100644
+--- a/Dev/Dev2.Activities/Activities/DsfBaseActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfBaseActivity.cs
+@@ -63,7 +63,7 @@ namespace Dev2.Activities
+             }
+             catch (Exception ex)
+             {
+-                Dev2Logger.Error(string.Format("{0} Exception", DisplayName), ex, GlobalConstants.WarewolfError);
++                Dev2Logger.Error($"{DisplayName} Exception", ex, GlobalConstants.WarewolfError);
+                 allErrors.AddError(ex.Message);
+             }
+             finally
+diff --git a/Dev/Dev2.Activities/Activities/DsfBaseConvertActivity.cs b/Dev/Dev2.Activities/Activities/DsfBaseConvertActivity.cs
+index e3c788bf8a..cfd1b8a0b6 100644
+--- a/Dev/Dev2.Activities/Activities/DsfBaseConvertActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfBaseConvertActivity.cs
+@@ -262,10 +262,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             }
+             mic.Add(new BaseConvertTO(string.Empty, "Text", "Base 64", string.Empty, startIndex + 1));
+             var modelProperty = modelItem.Properties["DisplayName"];
+-            if (modelProperty != null)
+-            {
+-                modelProperty.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+-            }
++            modelProperty?.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+         }
+ 
+         string CreateDisplayName(ModelItem modelItem, int count)
+diff --git a/Dev/Dev2.Activities/Activities/DsfCaseConvertActivity.cs b/Dev/Dev2.Activities/Activities/DsfCaseConvertActivity.cs
+index e0ef8fa344..bdec234d2f 100644
+--- a/Dev/Dev2.Activities/Activities/DsfCaseConvertActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfCaseConvertActivity.cs
+@@ -292,10 +292,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             }
+             mic.Add(new CaseConvertTO(string.Empty, "UPPER", string.Empty, startIndex + 1));
+             var modelProperty = modelItem.Properties["DisplayName"];
+-            if (modelProperty != null)
+-            {
+-                modelProperty.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+-            }
++            modelProperty?.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+         }
+ 
+         string CreateDisplayName(ModelItem modelItem, int count)
+diff --git a/Dev/Dev2.Activities/Activities/DsfDataMergeActivity.cs b/Dev/Dev2.Activities/Activities/DsfDataMergeActivity.cs
+index 8f1885b445..4b6198798c 100644
+--- a/Dev/Dev2.Activities/Activities/DsfDataMergeActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfDataMergeActivity.cs
+@@ -392,10 +392,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             }
+             mic.Add(new DataMergeDTO(string.Empty, "None", string.Empty, startIndex + 1, " ", "Left To Right"));
+             var modelProperty = modelItem.Properties["DisplayName"];
+-            if (modelProperty != null)
+-            {
+-                modelProperty.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+-            }
++            modelProperty?.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+         }
+ 
+         string CreateDisplayName(ModelItem modelItem, int count)
+diff --git a/Dev/Dev2.Activities/Activities/DsfDataSplitActivity.cs b/Dev/Dev2.Activities/Activities/DsfDataSplitActivity.cs
+index cc58945b41..d0c513381e 100644
+--- a/Dev/Dev2.Activities/Activities/DsfDataSplitActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfDataSplitActivity.cs
+@@ -399,10 +399,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             }
+             mic.Add(new DataSplitDTO(string.Empty, "Chars", string.Empty, startIndex + 1));
+             var modelProperty = modelItem.Properties["DisplayName"];
+-            if (modelProperty != null)
+-            {
+-                modelProperty.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+-            }
++            modelProperty?.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+         }
+ 
+         string CreateDisplayName(ModelItem modelItem, int count)
+diff --git a/Dev/Dev2.Activities/Activities/DsfDateTimeActivity.cs b/Dev/Dev2.Activities/Activities/DsfDateTimeActivity.cs
+index 3482a0c570..f3b5b0c8b6 100644
+--- a/Dev/Dev2.Activities/Activities/DsfDateTimeActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfDateTimeActivity.cs
+@@ -178,13 +178,13 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+                 if (fieldInfo != null)
+                 {
+                     var val = fieldInfo.GetValue(CultureInfo.CurrentCulture);
+-                    var newCul = val as CultureInfo;
+-                    if (newCul != null)
++
++                    if (val is CultureInfo newCul)
+                     {
+                         Thread.CurrentThread.CurrentCulture = newCul;
+                     }
+                 }
+-                var dateTimePattern = string.Format("{0} {1}", Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern, Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongTimePattern);
++                var dateTimePattern = $"{Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern} {Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongTimePattern}";
+ 
+                 if (string.IsNullOrEmpty(InputFormat))
+                 {
+@@ -218,16 +218,16 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+ 
+             if (DataListUtil.HasNegativeIndex(InputFormat))
+             {
+-                allErrors.AddError(string.Format("Negative Recordset Index for Input Format: {0}", InputFormat));
++                allErrors.AddError($"Negative Recordset Index for Input Format: {InputFormat}");
+             }
+             if (DataListUtil.HasNegativeIndex(OutputFormat))
+             {
+-                allErrors.AddError(string.Format("Negative Recordset Index for Output Format: {0}", OutputFormat));
++                allErrors.AddError($"Negative Recordset Index for Output Format: {OutputFormat}");
+             }
+ 
+             if (DataListUtil.HasNegativeIndex(TimeModifierAmountDisplay))
+             {
+-                allErrors.AddError(string.Format("Negative Recordset Index for Add Time: {0}", TimeModifierAmountDisplay));
++                allErrors.AddError($"Negative Recordset Index for Add Time: {TimeModifierAmountDisplay}");
+             }
+             if (!allErrors.HasErrors())
+             {
+diff --git a/Dev/Dev2.Activities/Activities/DsfDotNetGatherSystemInformationActivity.cs b/Dev/Dev2.Activities/Activities/DsfDotNetGatherSystemInformationActivity.cs
+index a25f8c562e..80c82e9c52 100644
+--- a/Dev/Dev2.Activities/Activities/DsfDotNetGatherSystemInformationActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfDotNetGatherSystemInformationActivity.cs
+@@ -397,10 +397,7 @@ namespace Dev2.Activities
+             }
+             mic.Add(new GatherSystemInformationTO(enTypeOfSystemInformationToGather.FullDateTime, string.Empty, startIndex + 1));
+             var modelProperty = modelItem.Properties["DisplayName"];
+-            if (modelProperty != null)
+-            {
+-                modelProperty.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+-            }
++            modelProperty?.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+         }
+ 
+         string CreateDisplayName(ModelItem modelItem, int count)
+diff --git a/Dev/Dev2.Activities/Activities/DsfDotNetMultiAssignActivity.cs b/Dev/Dev2.Activities/Activities/DsfDotNetMultiAssignActivity.cs
+index fb570e2e92..147deea5fd 100644
+--- a/Dev/Dev2.Activities/Activities/DsfDotNetMultiAssignActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfDotNetMultiAssignActivity.cs
+@@ -347,8 +347,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+ 
+         private void AddScalarValueResult(IExecutionEnvironment environment, IAssignValue assignValue, int update, DebugItem debugItem, CommonFunctions.WarewolfEvalResult oldValueResult, CommonFunctions.WarewolfEvalResult newValueResult)
+         {
+-            var scalarResult = oldValueResult as CommonFunctions.WarewolfEvalResult.WarewolfAtomResult;
+-            if (newValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult valueResult && scalarResult != null)
++            if (newValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult valueResult && oldValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult scalarResult)
+             {
+                 AddDebugItem(new DebugItemWarewolfAtomResult(ExecutionEnvironment.WarewolfAtomToString(scalarResult.Item), ExecutionEnvironment.WarewolfAtomToString(valueResult.Item), assignValue.Name, environment.EvalToExpression(assignValue.Value, update), VariableLabelText, NewFieldLabelText, "="), debugItem);
+             }
+diff --git a/Dev/Dev2.Activities/Activities/DsfDotNetMultiAssignObjectActivity.cs b/Dev/Dev2.Activities/Activities/DsfDotNetMultiAssignObjectActivity.cs
+index 29e8ff1cde..c86208c23e 100644
+--- a/Dev/Dev2.Activities/Activities/DsfDotNetMultiAssignObjectActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfDotNetMultiAssignObjectActivity.cs
+@@ -285,9 +285,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             AddDefaultDebugItem(innerCount, debugItem);
+             if (oldValueResult.IsWarewolfAtomResult && newValueResult.IsWarewolfAtomResult)
+             {
+-                var valueResult = newValueResult as CommonFunctions.WarewolfEvalResult.WarewolfAtomResult;
+-                var scalarResult = oldValueResult as CommonFunctions.WarewolfEvalResult.WarewolfAtomResult;
+-                if (valueResult != null && scalarResult != null)
++                if (newValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult valueResult && oldValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult scalarResult)
+                 {
+                     AddDebugItem(new DebugItemWarewolfAtomResult(ExecutionEnvironment.WarewolfAtomToString(scalarResult.Item), ExecutionEnvironment.WarewolfAtomToString(valueResult.Item), assignValue.Name, environment.EvalToExpression(assignValue.Value, update), VariableLabelText, NewFieldLabelText, "="), debugItem);
+                 }
+diff --git a/Dev/Dev2.Activities/Activities/DsfFindRecordsMultipleCriteriaActivity.cs b/Dev/Dev2.Activities/Activities/DsfFindRecordsMultipleCriteriaActivity.cs
+index e239779bb0..74bdcc771a 100644
+--- a/Dev/Dev2.Activities/Activities/DsfFindRecordsMultipleCriteriaActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfFindRecordsMultipleCriteriaActivity.cs
+@@ -342,10 +342,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             }
+             mic.Add(new XPathDTO(string.Empty, "", startIndex + 1));
+             var modelProperty = modelItem.Properties["DisplayName"];
+-            if (modelProperty != null)
+-            {
+-                modelProperty.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+-            }
++            modelProperty?.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+         }
+ 
+         static string CreateDisplayName(ModelItem modelItem, int count)
+diff --git a/Dev/Dev2.Activities/Activities/DsfGatherSystemInformationActivity.cs b/Dev/Dev2.Activities/Activities/DsfGatherSystemInformationActivity.cs
+index b07422252e..c1b5cd7448 100644
+--- a/Dev/Dev2.Activities/Activities/DsfGatherSystemInformationActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfGatherSystemInformationActivity.cs
+@@ -437,10 +437,7 @@ namespace Dev2.Activities
+             }
+             mic.Add(new GatherSystemInformationTO(enTypeOfSystemInformationToGather.FullDateTime, string.Empty, startIndex + 1));
+             var modelProperty = modelItem.Properties["DisplayName"];
+-            if (modelProperty != null)
+-            {
+-                modelProperty.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+-            }
++            modelProperty?.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+         }
+ 
+         string CreateDisplayName(ModelItem modelItem, int count)
+diff --git a/Dev/Dev2.Activities/Activities/DsfMultiAssignActivity.cs b/Dev/Dev2.Activities/Activities/DsfMultiAssignActivity.cs
+index 1f2bca2fa0..8bd358bf84 100644
+--- a/Dev/Dev2.Activities/Activities/DsfMultiAssignActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfMultiAssignActivity.cs
+@@ -327,9 +327,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             AddDebugItem(new DebugItemStaticDataParams("", innerCount.ToString(CultureInfo.InvariantCulture)), debugItem);
+             if (oldValueResult.IsWarewolfAtomResult && newValueResult.IsWarewolfAtomResult)
+             {
+-                var valueResult = newValueResult as CommonFunctions.WarewolfEvalResult.WarewolfAtomResult;
+-                var scalarResult = oldValueResult as CommonFunctions.WarewolfEvalResult.WarewolfAtomResult;
+-                if (valueResult != null && scalarResult != null)
++                if (newValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult valueResult && oldValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult scalarResult)
+                 {
+                     AddDebugItem(new DebugItemWarewolfAtomResult(ExecutionEnvironment.WarewolfAtomToString(scalarResult.Item), ExecutionEnvironment.WarewolfAtomToString(valueResult.Item), assignValue.Name, environment.EvalToExpression(assignValue.Value, update), VariableLabelText, NewFieldLabelText, "="), debugItem);
+                 }
+diff --git a/Dev/Dev2.Activities/Activities/DsfMultiAssignObjectActivity.cs b/Dev/Dev2.Activities/Activities/DsfMultiAssignObjectActivity.cs
+index 2e44a005b1..0dac9cf480 100644
+--- a/Dev/Dev2.Activities/Activities/DsfMultiAssignObjectActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfMultiAssignObjectActivity.cs
+@@ -335,9 +335,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             AddDebugItem(new DebugItemStaticDataParams("", innerCount.ToString(CultureInfo.InvariantCulture)), debugItem);
+             if (oldValueResult.IsWarewolfAtomResult && newValueResult.IsWarewolfAtomResult)
+             {
+-                var valueResult = newValueResult as CommonFunctions.WarewolfEvalResult.WarewolfAtomResult;
+-                var scalarResult = oldValueResult as CommonFunctions.WarewolfEvalResult.WarewolfAtomResult;
+-                if (valueResult != null && scalarResult != null)
++                if (newValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult valueResult && oldValueResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult scalarResult)
+                 {
+                     AddDebugItem(new DebugItemWarewolfAtomResult(ExecutionEnvironment.WarewolfAtomToString(scalarResult.Item), ExecutionEnvironment.WarewolfAtomToString(valueResult.Item), assignValue.Name, environment.EvalToExpression(assignValue.Value, update), VariableLabelText, NewFieldLabelText, "="), debugItem);
+                 }
+diff --git a/Dev/Dev2.Activities/Activities/DsfNativeActivity.cs b/Dev/Dev2.Activities/Activities/DsfNativeActivity.cs
+index 2e5c786123..6e790650f0 100644
+--- a/Dev/Dev2.Activities/Activities/DsfNativeActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfNativeActivity.cs
+@@ -488,8 +488,8 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+                     var errorMessage = dataObject.Environment.FetchErrors();
+                     _debugState.ErrorMessage = errorMessage;
+                     _debugState.HasError = true;
+-                    var debugError = err as DebugCopyException;
+-                    if (debugError != null)
++
++                    if (err is DebugCopyException debugError)
+                     {
+                         _debugState.Inputs.Add(debugError.Item);
+                     }
+@@ -571,8 +571,8 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             }
+ 
+             serviceTestOutput.Result.RunTestResult = RunResult.TestInvalid;
+-            var dsfSwitch = this as DsfSwitch;
+-            if (dsfSwitch != null)
++
++            if (this is DsfSwitch dsfSwitch)
+             {
+                 var assertPassed = dsfSwitch.Result == serviceTestOutput.Value;
+                 serviceTestOutput.Result.RunTestResult = assertPassed ? RunResult.TestPassed : RunResult.TestFailed;
+@@ -605,8 +605,8 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+             }
+ 
+             serviceTestOutput.Result.RunTestResult = RunResult.TestInvalid;
+-            var dsfDecision = this as DsfDecision;
+-            if (dsfDecision != null)
++
++            if (this is DsfDecision dsfDecision)
+             {
+                 var assertPassed = dsfDecision.Result == serviceTestOutput.Value;
+                 serviceTestOutput.Result.RunTestResult = assertPassed ? RunResult.TestPassed : RunResult.TestFailed;
+@@ -741,8 +741,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+                 serviceTestOutput.Result.RunTestResult = RunResult.TestPending;
+             }
+ 
+-            var dsfDecision = this as DsfSwitch;
+-            if (dsfDecision != null)
++            if (this is DsfSwitch dsfDecision)
+             {
+                 var assertPassed = dsfDecision.Result == serviceTestOutput.Value;
+                 if (dataObject.ServiceTest != null)
+@@ -763,8 +762,7 @@ namespace Unlimited.Applications.BusinessDesignStudio.Activities
+                 serviceTestOutput.Result.RunTestResult = RunResult.TestPending;
+             }
+ 
+-            var dsfDecision = this as DsfDecision;
+-            if (dsfDecision != null)
++            if (this is DsfDecision dsfDecision)
+             {
+                 var assertPassed = dsfDecision.Result == serviceTestOutput.Value;
+                 if (dataObject.ServiceTest != null)
+diff --git a/Dev/Dev2.Activities/Activities/DsfSwitch.cs b/Dev/Dev2.Activities/Activities/DsfSwitch.cs
+index fafdaca433..fcdf01520a 100644
+--- a/Dev/Dev2.Activities/Activities/DsfSwitch.cs
++++ b/Dev/Dev2.Activities/Activities/DsfSwitch.cs
+@@ -230,10 +230,7 @@ namespace Dev2.Activities
+                     result.Add(itemToAdd);
+                     _debugInputs = result;
+ 
+-                    if (Inner != null)
+-                    {
+-                        Inner.SetDebugInputs(_debugInputs);
+-                    }
++                    Inner?.SetDebugInputs(_debugInputs);
+                 }
+             }
+             catch (Exception e)
+@@ -255,10 +252,7 @@ namespace Dev2.Activities
+                     result.Add(itemToAdd);
+                     _debugOutputs = result;
+ 
+-                    if (Inner != null)
+-                    {
+-                        Inner.SetDebugOutputs(_debugOutputs);
+-                    }
++                    Inner?.SetDebugOutputs(_debugOutputs);
+                 }
+             }
+ 
+diff --git a/Dev/Dev2.Activities/Activities/DsfWebActivityBase.cs b/Dev/Dev2.Activities/Activities/DsfWebActivityBase.cs
+index 612501b2ac..446ce14c68 100644
+--- a/Dev/Dev2.Activities/Activities/DsfWebActivityBase.cs
++++ b/Dev/Dev2.Activities/Activities/DsfWebActivityBase.cs
+@@ -80,7 +80,7 @@ namespace Dev2.Activities
+             var httpClient = new HttpClient();
+             if (source.AuthenticationType == AuthenticationType.User)
+             {
+-                var byteArray = Encoding.ASCII.GetBytes(String.Format("{0}:{1}", source.UserName, source.Password));
++                var byteArray = Encoding.ASCII.GetBytes($"{source.UserName}:{source.Password}");
+                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+             }
+ 
+diff --git a/Dev/Dev2.Activities/Activities/DsfWebPutActivity.cs b/Dev/Dev2.Activities/Activities/DsfWebPutActivity.cs
+index 8ce05b9e48..fef48c8a77 100644
+--- a/Dev/Dev2.Activities/Activities/DsfWebPutActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfWebPutActivity.cs
+@@ -106,7 +106,7 @@ namespace Dev2.Activities
+             var httpClient = new HttpClient();
+             if (source.AuthenticationType == AuthenticationType.User)
+             {
+-                var byteArray = Encoding.ASCII.GetBytes(String.Format("{0}:{1}", source.UserName, source.Password));
++                var byteArray = Encoding.ASCII.GetBytes($"{source.UserName}:{source.Password}");
+                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+             }
+ 
+diff --git a/Dev/Dev2.Activities/Activities/DsfXPathActivity.cs b/Dev/Dev2.Activities/Activities/DsfXPathActivity.cs
+index a79ec1bfae..76a9d7cdd5 100644
+--- a/Dev/Dev2.Activities/Activities/DsfXPathActivity.cs
++++ b/Dev/Dev2.Activities/Activities/DsfXPathActivity.cs
+@@ -379,10 +379,7 @@ namespace Dev2.Activities
+             }
+             mic.Add(new XPathDTO(string.Empty, "", startIndex + 1));
+             var modelProperty = modelItem.Properties["DisplayName"];
+-            if(modelProperty != null)
+-            {
+-                modelProperty.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+-            }
++            modelProperty?.SetValue(CreateDisplayName(modelItem, startIndex + 1));
+         }
+ 
+         string CreateDisplayName(ModelItem modelItem, int count)
+diff --git a/Dev/Dev2.Activities/Activities/RedisCache/RedisCacheActivity.cs b/Dev/Dev2.Activities/Activities/RedisCache/RedisCacheActivity.cs
+index cc7a6bc73e..635d8e15d1 100644
+--- a/Dev/Dev2.Activities/Activities/RedisCache/RedisCacheActivity.cs
++++ b/Dev/Dev2.Activities/Activities/RedisCache/RedisCacheActivity.cs
+@@ -181,7 +181,7 @@ namespace Dev2.Activities.RedisCache
+                     _errorsTo.AddError($"Activity drop box cannot be null");
+                 }
+ 
+-                if (_innerActivity.GetOutputs().Count() <= 0)
++                if (!_innerActivity.GetOutputs().Any())
+                 {
+                     _errorsTo.AddError($"{_innerActivity.GetDisplayName()} activity must have at least one output variable.");
+                 }
+diff --git a/Dev/Dev2.Activities/Activities/Sharepoint/SharepointUtils.cs b/Dev/Dev2.Activities/Activities/Sharepoint/SharepointUtils.cs
+index f1a7bce119..5d50630b43 100644
+--- a/Dev/Dev2.Activities/Activities/Sharepoint/SharepointUtils.cs
++++ b/Dev/Dev2.Activities/Activities/Sharepoint/SharepointUtils.cs
+@@ -128,7 +128,7 @@ namespace Dev2.Activities.Sharepoint
+                     else
+                     {
+                         var value = CastWarewolfValueToCorrectType(valueString, sharepointFieldTo.Type);
+-                        startSearchTerm += string.Format("<Value Type=\"{0}\">{1}</Value>", fieldType, value);
++                        startSearchTerm += $"<Value Type=\"{fieldType}\">{value}</Value>";
+                     }
+                 }
+             }
+diff --git a/Dev/Dev2.Activities/Utilities/ActivityHelper.cs b/Dev/Dev2.Activities/Utilities/ActivityHelper.cs
+index 0b80b93b54..d00b223173 100644
+--- a/Dev/Dev2.Activities/Utilities/ActivityHelper.cs
++++ b/Dev/Dev2.Activities/Utilities/ActivityHelper.cs
+@@ -32,10 +32,7 @@ namespace Dev2.Utilities
+                                                     "(\"", ds.SwitchVariable, "\",",
+                                                     GlobalConstants.InjectedDecisionDataListVariable,
+                                                     ")");
+-            if (activityExpression != null)
+-            {
+-                activityExpression.SetValue(expressionToInject);
+-            }
++            activityExpression?.SetValue(expressionToInject);
+             return expressionToInject;
+         }
+ 
+@@ -51,10 +48,7 @@ namespace Dev2.Utilities
+                                                     modelData, "\",",
+                                                     GlobalConstants.InjectedDecisionDataListVariable, ")");
+ 
+-            if (activityExpression != null)
+-            {
+-                activityExpression.SetValue(expressionToInject);
+-            }
++            activityExpression?.SetValue(expressionToInject);
+             return expressionToInject;
+         }
+ 
+@@ -84,10 +78,7 @@ namespace Dev2.Utilities
+             {
+                 var keyProperty = switchCase.Properties["Key"];
+ 
+-                if (keyProperty != null)
+-                {
+-                    keyProperty.SetValue(ds.SwitchExpression);
+-                }
++                keyProperty?.SetValue(ds.SwitchExpression);
+             }
+         }
+ 
+@@ -114,19 +105,13 @@ namespace Dev2.Utilities
+         {
+             var tArm = decisionActivity.Properties[armType];
+ 
+-            if (tArm != null)
+-            {
+-                tArm.SetValue(val);
+-            }
++            tArm?.SetValue(val);
+         }
+       
+         public static void SetDisplayName(ModelItem modelItem, IDev2FlowModel flow)
+         {
+             var displayName = modelItem.Properties[GlobalConstants.DisplayNamePropertyText];
+-            if(displayName != null)
+-            {
+-                displayName.SetValue(flow.DisplayText);
+-            }
++            displayName?.SetValue(flow.DisplayText);
+         }
+ 
+         [ExcludeFromCodeCoverage]
+diff --git a/Dev/Dev2.Activities/Utilities/WorkflowHelper.cs b/Dev/Dev2.Activities/Utilities/WorkflowHelper.cs
+index 565ec3b37d..d4057f0ba9 100644
+--- a/Dev/Dev2.Activities/Utilities/WorkflowHelper.cs
++++ b/Dev/Dev2.Activities/Utilities/WorkflowHelper.cs
+@@ -125,8 +125,8 @@ namespace Dev2.Utilities
+         public ActivityBuilder EnsureImplementation(ModelService modelService)
+         {
+             var builder = GetActivityBuilder(modelService);
+-            var chart = builder?.Implementation as Flowchart;
+-            if(chart != null)
++
++            if(builder?.Implementation is Flowchart chart)
+             {
+                 EnsureImplementation(builder, chart);
+             }
+@@ -190,8 +190,7 @@ namespace Dev2.Utilities
+         {
+             foreach(var node in chart.Nodes)
+             {
+-                var fd = node as FlowDecision;
+-                if(fd != null)
++                if(node is FlowDecision fd)
+                 {
+                     var decisionActivity = fd.Condition as DsfFlowDecisionActivity;
+                     if(isServerInvocation)
+diff --git a/Dev/Dev2.Common.Tests/DebugStateTreeBuilderTests.cs b/Dev/Dev2.Common.Tests/DebugStateTreeBuilderTests.cs
+index 3d9aa727c6..6163ad8879 100644
+--- a/Dev/Dev2.Common.Tests/DebugStateTreeBuilderTests.cs
++++ b/Dev/Dev2.Common.Tests/DebugStateTreeBuilderTests.cs
+@@ -29,7 +29,7 @@ namespace Dev2.Common.Tests
+             //---------------Set up test pack-------------------
+             var fetch = JsonResource.Fetch("FlatStates");
+             var debugStates = fetch.DeserializeToObject<List<IDebugState>>();
+-            Assert.AreEqual(6, debugStates.Count());
++            Assert.AreEqual(6, debugStates.Count);
+             var buildTree = DebugStateTreeBuilder.BuildTree(debugStates).ToList();
+             //---------------Assert Precondition----------------
+             Assert.IsNotNull(buildTree);
+@@ -47,7 +47,7 @@ namespace Dev2.Common.Tests
+             //---------------Set up test pack-------------------
+             var fetch = JsonResource.Fetch("FlatStates");
+             var debugStates = fetch.DeserializeToObject<List<IDebugState>>();
+-            Assert.AreEqual(6, debugStates.Count());
++            Assert.AreEqual(6, debugStates.Count);
+             var buildTree = DebugStateTreeBuilder.BuildTree(debugStates).ToList();
+             //---------------Assert Precondition----------------
+             Assert.IsTrue(buildTree.Any(state => state.Children.Any()));
+diff --git a/Dev/Dev2.Common.Tests/Person.cs b/Dev/Dev2.Common.Tests/Person.cs
+index 1fbc85b102..5d4a1981dd 100644
+--- a/Dev/Dev2.Common.Tests/Person.cs
++++ b/Dev/Dev2.Common.Tests/Person.cs
+@@ -7,7 +7,7 @@
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0}, {1}", LastName, FirstName);
++            return $"{LastName}, {FirstName}";
+         }
+     }
+ }
+diff --git a/Dev/Dev2.Common/DebugStateTreeBuilder.cs b/Dev/Dev2.Common/DebugStateTreeBuilder.cs
+index 2b504ae00c..850ed96737 100644
+--- a/Dev/Dev2.Common/DebugStateTreeBuilder.cs
++++ b/Dev/Dev2.Common/DebugStateTreeBuilder.cs
+@@ -31,7 +31,7 @@ namespace Dev2.Common
+             if (roots.Any())
+             {
+                 var dict = groups.Where(g => g.Key.HasValue).ToDictionary(g => g.Key.Value, g => g.ToList());
+-                for (var i = 0; i < roots.Count(); i++)
++                for (var i = 0; i < roots.Count; i++)
+                 {
+                     AddChildren(roots[i], dict);
+                 }
+diff --git a/Dev/Dev2.Common/Wrappers/DirectoryWrapper.cs b/Dev/Dev2.Common/Wrappers/DirectoryWrapper.cs
+index 1580c2eec3..bd8a104aba 100644
+--- a/Dev/Dev2.Common/Wrappers/DirectoryWrapper.cs
++++ b/Dev/Dev2.Common/Wrappers/DirectoryWrapper.cs
+@@ -148,7 +148,7 @@ namespace Dev2.Common.Wrappers
+             var _files = new List<string>();
+             foreach (string ext in extensions)
+             {
+-                var fyles = Directory.GetFiles(path, string.Format("*{0}", ext));
++                var fyles = Directory.GetFiles(path, $"*{ext}");
+                 foreach (var item in fyles)
+                 {
+                     _files.Add(item);
+diff --git a/Dev/Dev2.Common/Wrappers/IonicZipFileWrapper.cs b/Dev/Dev2.Common/Wrappers/IonicZipFileWrapper.cs
+index 23b9f69763..e3e995c0e6 100644
+--- a/Dev/Dev2.Common/Wrappers/IonicZipFileWrapper.cs
++++ b/Dev/Dev2.Common/Wrappers/IonicZipFileWrapper.cs
+@@ -37,10 +37,7 @@ namespace Dev2.Common.Wrappers
+ 
+         public void Dispose()
+         {
+-            if (_ionicZip != null)
+-            {
+-                _ionicZip.Dispose();
+-            }
++            _ionicZip?.Dispose();
+         }
+ 
+         public IEnumerator<IZipEntry> GetEnumerator()
+diff --git a/Dev/Dev2.Core/Converters/Graph/Poco/PocoNavigator.cs b/Dev/Dev2.Core/Converters/Graph/Poco/PocoNavigator.cs
+index c6adab5cab..1e9401feaf 100644
+--- a/Dev/Dev2.Core/Converters/Graph/Poco/PocoNavigator.cs
++++ b/Dev/Dev2.Core/Converters/Graph/Poco/PocoNavigator.cs
+@@ -135,10 +135,9 @@ namespace Unlimited.Framework.Converters.Graph.Poco
+             }
+             else if (path.ActualPath == PocoPath.EnumerableSymbol + PocoPath.SeperatorSymbol)
+             {
+-                var enumerableData = Data as IEnumerable;
+                 returnData = new List<object>();
+ 
+-                if (enumerableData != null)
++                if (Data is IEnumerable enumerableData)
+                 {
+                     var enumerator = enumerableData.GetEnumerator();
+                     enumerator.Reset();
+diff --git a/Dev/Dev2.Core/Converters/Graph/Poco/PocoPathSegment.cs b/Dev/Dev2.Core/Converters/Graph/Poco/PocoPathSegment.cs
+index b3fddeea8c..f1f5b28952 100644
+--- a/Dev/Dev2.Core/Converters/Graph/Poco/PocoPathSegment.cs
++++ b/Dev/Dev2.Core/Converters/Graph/Poco/PocoPathSegment.cs
+@@ -52,8 +52,7 @@ namespace Unlimited.Framework.Converters.Graph.Poco
+ 
+         public T As<T>() where T : class, IPathSegment
+         {
+-            var ret = this as T;
+-            if (ret != null)
++            if (this is T ret)
+             {
+                 return ret;
+             }
+diff --git a/Dev/Dev2.Core/Converters/Graph/String/Json/JsonPathSegment.cs b/Dev/Dev2.Core/Converters/Graph/String/Json/JsonPathSegment.cs
+index 37ad8a0993..f527d209e2 100644
+--- a/Dev/Dev2.Core/Converters/Graph/String/Json/JsonPathSegment.cs
++++ b/Dev/Dev2.Core/Converters/Graph/String/Json/JsonPathSegment.cs
+@@ -52,8 +52,7 @@ namespace Unlimited.Framework.Converters.Graph.String.Json
+ 
+         public T As<T>() where T : class, IPathSegment
+         {
+-            var ret = this as T;
+-            if (ret != null)
++            if (this is T ret)
+             {
+                 return ret;
+             }
+diff --git a/Dev/Dev2.Core/Converters/Graph/String/Xml/XmlNavigator.cs b/Dev/Dev2.Core/Converters/Graph/String/Xml/XmlNavigator.cs
+index d3305774c1..cabe5a644f 100644
+--- a/Dev/Dev2.Core/Converters/Graph/String/Xml/XmlNavigator.cs
++++ b/Dev/Dev2.Core/Converters/Graph/String/Xml/XmlNavigator.cs
+@@ -271,11 +271,10 @@ namespace Unlimited.Framework.Converters.Graph.String.Xml
+ 
+         static void XElementSegment(XmlPathSegment pathSegment, IPathSegment parentPathSegment, IndexedPathSegmentTreeNode<string> parentNode, IndexedPathSegmentTreeNode<string> newIndexedValueTreeNode)
+         {
+-            var parentCurentElement = parentNode.CurrentValue as XElement;
+ 
+             if (parentPathSegment != null && parentPathSegment.IsEnumarable)
+             {
+-                if (parentCurentElement != null)
++                if (parentNode.CurrentValue is XElement parentCurentElement)
+                 {
+                     ActualXElementSegment(pathSegment, newIndexedValueTreeNode, parentCurentElement);
+                 }
+@@ -284,7 +283,7 @@ namespace Unlimited.Framework.Converters.Graph.String.Xml
+             {
+                 if (pathSegment.IsAttribute)
+                 {
+-                    if (parentCurentElement != null)
++                    if (parentNode.CurrentValue is XElement parentCurentElement)
+                     {
+                         newIndexedValueTreeNode.CurrentValue = parentCurentElement.Attribute(pathSegment.ActualSegment);
+                     }
+@@ -297,7 +296,7 @@ namespace Unlimited.Framework.Converters.Graph.String.Xml
+                 }
+                 else
+                 {
+-                    if (parentCurentElement != null)
++                    if (parentNode.CurrentValue is XElement parentCurentElement)
+                     {
+                         newIndexedValueTreeNode.CurrentValue = parentCurentElement
+                             .Element(pathSegment.ActualSegment)
+@@ -457,7 +456,7 @@ namespace Unlimited.Framework.Converters.Graph.String.Xml
+             }
+             else
+             {
+-                throw new Exception(string.Format("Attribute {0} not found.", pathSegment.ActualSegment));
++                throw new Exception($"Attribute {pathSegment.ActualSegment} not found.");
+             }
+             return returnData;
+         }
+diff --git a/Dev/Dev2.Core/Converters/Graph/String/Xml/XmlPathSegment.cs b/Dev/Dev2.Core/Converters/Graph/String/Xml/XmlPathSegment.cs
+index e7b538aa32..3bd6e56314 100644
+--- a/Dev/Dev2.Core/Converters/Graph/String/Xml/XmlPathSegment.cs
++++ b/Dev/Dev2.Core/Converters/Graph/String/Xml/XmlPathSegment.cs
+@@ -40,8 +40,7 @@ namespace Unlimited.Framework.Converters.Graph.String.Xml
+ 
+         public T As<T>() where T : class, IPathSegment
+         {
+-            var ret = this as T;
+-            if (ret != null)
++            if (this is T ret)
+             {
+                 return ret;
+             }
+diff --git a/Dev/Dev2.Core/InterfaceImplementors/DsfDataObject.cs b/Dev/Dev2.Core/InterfaceImplementors/DsfDataObject.cs
+index 1bc99c53f5..20cadf0c6f 100644
+--- a/Dev/Dev2.Core/InterfaceImplementors/DsfDataObject.cs
++++ b/Dev/Dev2.Core/InterfaceImplementors/DsfDataObject.cs
+@@ -473,10 +473,7 @@ namespace Dev2.DynamicServices
+             {
+                 var pi = typeof(IDSFDataObject).GetProperty(key.LocalName);
+ 
+-                if (pi != null)
+-                {
+-                    pi.SetValue(this, readWriteValues[key], null);
+-                }
++                pi?.SetValue(this, readWriteValues[key], null);
+             }
+         }
+ 
+diff --git a/Dev/Dev2.CustomControls/Converters/IsValidDateTimeConverter.cs b/Dev/Dev2.CustomControls/Converters/IsValidDateTimeConverter.cs
+index 397503f4d2..dc16ce583c 100644
+--- a/Dev/Dev2.CustomControls/Converters/IsValidDateTimeConverter.cs
++++ b/Dev/Dev2.CustomControls/Converters/IsValidDateTimeConverter.cs
+@@ -18,9 +18,8 @@ namespace Dev2.CustomControls.Converters
+     {
+         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+         {
+-            if (value is DateTime)
++            if (value is DateTime dt)
+             {
+-                var dt = (DateTime) value;
+                 return dt != DateTime.MinValue;
+             }
+             return false;
+diff --git a/Dev/Dev2.CustomControls/Converters/RowToIndexConverter.cs b/Dev/Dev2.CustomControls/Converters/RowToIndexConverter.cs
+index 8bf9cc0def..bf5b4ef779 100644
+--- a/Dev/Dev2.CustomControls/Converters/RowToIndexConverter.cs
++++ b/Dev/Dev2.CustomControls/Converters/RowToIndexConverter.cs
+@@ -23,9 +23,7 @@ namespace Dev2.CustomControls.Converters
+ 
+         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+         {
+-            var row = value as ModelItem;
+-            var collection = row?.Parent as ModelItemCollection;
+-            if (row != null && collection != null)
++            if (value is ModelItem row && row?.Parent is ModelItemCollection collection)
+             {
+                 return collection.IndexOf(row) + 1;
+             }
+diff --git a/Dev/Dev2.CustomControls/WatermarkTextBox.cs b/Dev/Dev2.CustomControls/WatermarkTextBox.cs
+index 696b6ec716..3c5ec1ed42 100644
+--- a/Dev/Dev2.CustomControls/WatermarkTextBox.cs
++++ b/Dev/Dev2.CustomControls/WatermarkTextBox.cs
+@@ -105,8 +105,7 @@ namespace Dev2.CustomControls
+         {
+             if (c is TextBoxBase)
+             {
+-                var textBox = c as TextBox;
+-                return textBox != null && textBox.Text == string.Empty;
++                return c is TextBox textBox && textBox.Text == string.Empty;
+             }
+             return (c as ItemsControl)?.Items.Count == 0;
+         }
+diff --git a/Dev/Dev2.Data.Tests/Parsers/Dev2DataLanguageParserTests.cs b/Dev/Dev2.Data.Tests/Parsers/Dev2DataLanguageParserTests.cs
+index e2b1266ab5..953d09572c 100644
+--- a/Dev/Dev2.Data.Tests/Parsers/Dev2DataLanguageParserTests.cs
++++ b/Dev/Dev2.Data.Tests/Parsers/Dev2DataLanguageParserTests.cs
+@@ -89,10 +89,7 @@ namespace Dev2.Data.Tests.Parsers
+ 
+             Assert.IsTrue(tryAdd);
+             var fieldInfo = typeof(Dev2DataLanguageParser).GetField("_expressionCache", BindingFlags.Static | BindingFlags.NonPublic);
+-            if (fieldInfo != null)
+-            {
+-                fieldInfo.SetValue(parser, concurrentDictionary);
+-            }
++            fieldInfo?.SetValue(parser, concurrentDictionary);
+             //---------------Assert Precondition----------------
+             //---------------Execute Test ----------------------
+             var expressionIntoParts = parser.ParseExpressionIntoParts("[[a]]", new List<IDev2DataLanguageIntellisensePart>());
+diff --git a/Dev/Dev2.Data.Tests/XPathParserTests.cs b/Dev/Dev2.Data.Tests/XPathParserTests.cs
+index 378cdb3dbc..c7b97c4926 100644
+--- a/Dev/Dev2.Data.Tests/XPathParserTests.cs
++++ b/Dev/Dev2.Data.Tests/XPathParserTests.cs
+@@ -667,7 +667,7 @@ namespace Dev2.Data.Tests
+ 
+ 
+ 
+-            var resourceName = string.Format("Dev2.Data.Tests.TestingResources.{0}", name);
++            var resourceName = $"Dev2.Data.Tests.TestingResources.{name}";
+             var assembly = Assembly.GetExecutingAssembly();
+             using (var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Data/TO/Dev2Definition.cs b/Dev/Dev2.Data/TO/Dev2Definition.cs
+index 913c2fe9be..b056429750 100644
+--- a/Dev/Dev2.Data/TO/Dev2Definition.cs
++++ b/Dev/Dev2.Data/TO/Dev2Definition.cs
+@@ -51,7 +51,7 @@ namespace Dev2.DataList.Contract
+ 
+         public string Value { get; set; }
+ 
+-        public bool IsRecordSet => !(RecordSetName == null || RecordSetName.Equals(string.Empty));
++        public bool IsRecordSet => !(string.IsNullOrEmpty(RecordSetName));
+ 
+         public string RecordSetName { get; set; }
+ 
+diff --git a/Dev/Dev2.Data/Util/CommonDataUtils.cs b/Dev/Dev2.Data/Util/CommonDataUtils.cs
+index b5a0d070de..3a1be475bf 100644
+--- a/Dev/Dev2.Data/Util/CommonDataUtils.cs
++++ b/Dev/Dev2.Data/Util/CommonDataUtils.cs
+@@ -395,8 +395,7 @@ namespace Dev2.Data.Util
+ 
+             static void AtomInputs(CommonFunctions.WarewolfEvalResult warewolfEvalResult, IDev2Definition dev2ColumnDefinition, IExecutionEnvironment env)
+             {
+-                var recsetResult = warewolfEvalResult as CommonFunctions.WarewolfEvalResult.WarewolfAtomResult;
+-                if (dev2ColumnDefinition.IsRecordSet && recsetResult != null)
++                if (dev2ColumnDefinition.IsRecordSet && warewolfEvalResult is CommonFunctions.WarewolfEvalResult.WarewolfAtomResult recsetResult)
+                 {
+                     var correctRecSet = "[[" + dev2ColumnDefinition.RecordSetName + "(*)." + dev2ColumnDefinition.Name + "]]";
+                     env.AssignWithFrame(new AssignValue(correctRecSet, PublicFunctions.AtomtoString(recsetResult.Item)), 0);
+diff --git a/Dev/Dev2.Data/Util/Scrubber.cs b/Dev/Dev2.Data/Util/Scrubber.cs
+index 39a0fae428..3b12916276 100644
+--- a/Dev/Dev2.Data/Util/Scrubber.cs
++++ b/Dev/Dev2.Data/Util/Scrubber.cs
+@@ -24,7 +24,7 @@ namespace Dev2.Data.Util
+     public static class Scrubber
+     {
+         // Compiled regex are always faster ;)
+-        static readonly Regex XmlRegex = new Regex(string.Format("({0}).*?({1})", Regex.Escape("<?"), Regex.Escape("?>")));
++        static readonly Regex XmlRegex = new Regex($"({Regex.Escape("<?")}).*?({Regex.Escape("?>")})");
+ 
+         #region Scrub
+ 
+diff --git a/Dev/Dev2.Data/WarewolfIterator.cs b/Dev/Dev2.Data/WarewolfIterator.cs
+index 0ee8a36e09..cb85e414e0 100644
+--- a/Dev/Dev2.Data/WarewolfIterator.cs
++++ b/Dev/Dev2.Data/WarewolfIterator.cs
+@@ -140,7 +140,7 @@ namespace Dev2.Data
+                 {
+                     if (error == ErrorResource.IncorrectOperandType)
+                     {
+-                        error += string.Format("Unable to calculate: '{0}'. Try rewriting the expression.", cleanExpression);
++                        error += $"Unable to calculate: '{cleanExpression}'. Try rewriting the expression.";
+                     }
+ 
+                     throw new Exception(error);
+diff --git a/Dev/Dev2.Diagnostics/Debug/DebugItem.cs b/Dev/Dev2.Diagnostics/Debug/DebugItem.cs
+index a28f90c491..545d238f94 100644
+--- a/Dev/Dev2.Diagnostics/Debug/DebugItem.cs
++++ b/Dev/Dev2.Diagnostics/Debug/DebugItem.cs
+@@ -73,7 +73,7 @@ namespace Dev2.Diagnostics
+         {
+             if (!string.IsNullOrWhiteSpace(itemToAdd.GroupName) && itemToAdd.GroupIndex > MaxItemDispatchCount && !isDeserialize)
+             {
+-                _fileName = string.Format("{0}.txt", _itemId);
++                _fileName = $"{_itemId}.txt";
+                 var shouldCreateMoreLink = itemToAdd.GroupIndex == MaxItemDispatchCount + 1 && !_isMoreLinkCreated;
+                 if (shouldCreateMoreLink)
+                 {
+@@ -114,7 +114,7 @@ namespace Dev2.Diagnostics
+             var valueLengthTooLong = !string.IsNullOrEmpty(itemToAdd.Value) && itemToAdd.Value.Length > MaxCharDispatchCount;
+             if (valueOrVariable && valueLengthTooLong)
+             {
+-                itemToAdd.MoreLink = SaveFile(itemToAdd.Value, string.Format("{0}-{1}.txt", DateTime.Now.ToString("s"), Guid.NewGuid()));
++                itemToAdd.MoreLink = SaveFile(itemToAdd.Value, $"{DateTime.Now.ToString("s")}-{Guid.NewGuid()}.txt");
+                 itemToAdd.Value = itemToAdd.Value.Substring(0, ActCharDispatchCount);
+             }
+         }
+diff --git a/Dev/Dev2.Diagnostics/Debug/DebugItemResult.cs b/Dev/Dev2.Diagnostics/Debug/DebugItemResult.cs
+index 2db77fe056..ed3e49657f 100644
+--- a/Dev/Dev2.Diagnostics/Debug/DebugItemResult.cs
++++ b/Dev/Dev2.Diagnostics/Debug/DebugItemResult.cs
+@@ -30,7 +30,7 @@ namespace Dev2.Diagnostics
+         public bool TestStepHasError { get; set; }
+         public bool MockSelected { get; set; }
+ 
+-        public string GetMoreLinkItem() => string.IsNullOrEmpty(Variable) ? Value : string.Format("{0} {1} {2}", Variable, Operator, Value);
++        public string GetMoreLinkItem() => string.IsNullOrEmpty(Variable) ? Value : $"{Variable} {Operator} {Value}";
+         public IDebugItemResult Clone()
+         {
+             return new DebugItemResult
+diff --git a/Dev/Dev2.Diagnostics/Logging/EnvironmentVariables.cs b/Dev/Dev2.Diagnostics/Logging/EnvironmentVariables.cs
+index 9ace571ead..c336c12491 100644
+--- a/Dev/Dev2.Diagnostics/Logging/EnvironmentVariables.cs
++++ b/Dev/Dev2.Diagnostics/Logging/EnvironmentVariables.cs
+@@ -114,7 +114,7 @@ namespace Dev2.Common
+         }
+         public static string WorkflowDetailLogPath(Guid Id, string name)
+         {
+-            var wfDetailedLogPath = Path.Combine($"{DetailLogPath}", string.Format("{0}_{1}", Id, name));
++            var wfDetailedLogPath = Path.Combine($"{DetailLogPath}", $"{Id}_{name}");
+             if (!Directory.Exists(wfDetailedLogPath))
+             {
+                 Directory.CreateDirectory(wfDetailedLogPath);
+@@ -123,7 +123,7 @@ namespace Dev2.Common
+         }
+         public static string WorkflowDetailLogArchivePath(Guid Id, string name)
+         {
+-            return Path.Combine($"{DetailedLogsArchives}", string.Format("{0}_{1}.zip", Id, string.IsNullOrEmpty(name) ? "" : name));
++            return Path.Combine($"{DetailedLogsArchives}", $"{Id}_{(string.IsNullOrEmpty(name) ? "" : name)}.zip");
+         }
+         public static string AppDataPath
+         {
+diff --git a/Dev/Dev2.Infrastructure.Tests/Communication/MemoTests.cs b/Dev/Dev2.Infrastructure.Tests/Communication/MemoTests.cs
+index 0b21c49564..b774d0d1e5 100644
+--- a/Dev/Dev2.Infrastructure.Tests/Communication/MemoTests.cs
++++ b/Dev/Dev2.Infrastructure.Tests/Communication/MemoTests.cs
+@@ -28,7 +28,7 @@ namespace Dev2.Infrastructure.Tests.Communication
+             var memo = new Memo();
+             var diff = DateTime.Now - memo.Date;
+             var expected = diff < new TimeSpan(0, 0, 0, 5);
+-            Assert.IsTrue(expected,string.Format("The date should be close to date time now as it is set in the constructor to DateTime.Now. But got{0}", diff));
++            Assert.IsTrue(expected,$"The date should be close to date time now as it is set in the constructor to DateTime.Now. But got{diff}");
+         }
+ 
+         [TestMethod]
+diff --git a/Dev/Dev2.Infrastructure.Tests/XML/XmlResource.cs b/Dev/Dev2.Infrastructure.Tests/XML/XmlResource.cs
+index f69922502e..0ae3d26232 100644
+--- a/Dev/Dev2.Infrastructure.Tests/XML/XmlResource.cs
++++ b/Dev/Dev2.Infrastructure.Tests/XML/XmlResource.cs
+@@ -29,7 +29,7 @@ namespace Dev2.Infrastructure.Tests
+         /// <returns>The contents of the embedded XML file.</returns>
+         public static XElement Fetch(string name)
+         {
+-            var resourceName = string.Format("Dev2.Infrastructure.Tests.XML.{0}.xml", name);
++            var resourceName = $"Dev2.Infrastructure.Tests.XML.{name}.xml";
+             var assembly = Assembly.GetExecutingAssembly();
+             using (var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/MyPerfCounter.cs b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/MyPerfCounter.cs
+index 782b252c54..c8003660a0 100644
+--- a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/MyPerfCounter.cs
++++ b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/MyPerfCounter.cs
+@@ -56,10 +56,7 @@ namespace Dev2.PerformanceCounters.Counters
+ 
+         public void Dispose()
+         {
+-            if (_counter != null)
+-            {
+-                _counter.Dispose();
+-            }
++            _counter?.Dispose();
+         }
+     }
+ 
+diff --git a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfAverageExecutionTimePerformanceCounter.cs b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfAverageExecutionTimePerformanceCounter.cs
+index 1721f1a8c7..caf6c6bd2c 100644
+--- a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfAverageExecutionTimePerformanceCounter.cs
++++ b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfAverageExecutionTimePerformanceCounter.cs
+@@ -110,10 +110,7 @@ namespace Dev2.PerformanceCounters.Counters
+         new public void Dispose()
+         {
+             base.Dispose();
+-            if (_baseCounter != null)
+-            {
+-                _baseCounter.Dispose();
+-            }
++            _baseCounter?.Dispose();
+         }
+ 
+         public string Category => "Warewolf";
+diff --git a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfAuthErrors.cs b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfAuthErrors.cs
+index 5074170459..4eda3f2cac 100644
+--- a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfAuthErrors.cs
++++ b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfAuthErrors.cs
+@@ -90,10 +90,7 @@ namespace Dev2.PerformanceCounters.Counters
+ 
+         new public void Dispose()
+         {
+-            if (_counter != null)
+-            {
+-                _counter.Dispose();
+-            }
++            _counter?.Dispose();
+         }
+         #endregion
+     }
+diff --git a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfErrors.cs b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfErrors.cs
+index a0b389b9b3..3b0788f151 100644
+--- a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfErrors.cs
++++ b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfErrors.cs
+@@ -88,10 +88,7 @@ namespace Dev2.PerformanceCounters.Counters
+ 
+         new public void Dispose()
+         {
+-            if (_counter != null)
+-            {
+-                _counter.Dispose();
+-            }
++            _counter?.Dispose();
+         }
+ 
+         public string Category => "Warewolf";
+diff --git a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfErrorsByResource.cs b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfErrorsByResource.cs
+index 6bb4082c2a..54d4941598 100644
+--- a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfErrorsByResource.cs
++++ b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfNumberOfErrorsByResource.cs
+@@ -95,10 +95,7 @@ namespace Dev2.PerformanceCounters.Counters
+ 
+         new public void Dispose()
+         {
+-            if (_counter != null)
+-            {
+-                _counter.Dispose();
+-            }
++            _counter?.Dispose();
+         }
+ 
+         #region Implementation of IResourcePerformanceCounter
+diff --git a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfServicesNotFoundCounter.cs b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfServicesNotFoundCounter.cs
+index a65c51da18..cae0d88afd 100644
+--- a/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfServicesNotFoundCounter.cs
++++ b/Dev/Dev2.Infrastructure/PerformanceCounters/Counters/WarewolfServicesNotFoundCounter.cs
+@@ -93,10 +93,7 @@ namespace Dev2.PerformanceCounters.Counters
+ 
+         new public void Dispose()
+         {
+-            if (_counter != null)
+-            {
+-                _counter.Dispose();
+-            }
++            _counter?.Dispose();
+         }
+         #endregion
+     }
+diff --git a/Dev/Dev2.Infrastructure/PerformanceCounters/Management/WarewolfPerformanceCounterManager.cs b/Dev/Dev2.Infrastructure/PerformanceCounters/Management/WarewolfPerformanceCounterManager.cs
+index ddfa5b300a..737679413d 100644
+--- a/Dev/Dev2.Infrastructure/PerformanceCounters/Management/WarewolfPerformanceCounterManager.cs
++++ b/Dev/Dev2.Infrastructure/PerformanceCounters/Management/WarewolfPerformanceCounterManager.cs
+@@ -51,8 +51,7 @@ namespace Dev2.PerformanceCounters.Management
+         {
+             var toRemove = _resourceCounters.FirstOrDefault(a =>
+             {
+-                var resourcePerformanceCounter = a as IResourcePerformanceCounter;
+-                return resourcePerformanceCounter != null && (resourcePerformanceCounter.ResourceId == resourceId && resourcePerformanceCounter.PerfCounterType == type);
++                return a is IResourcePerformanceCounter resourcePerformanceCounter && (resourcePerformanceCounter.ResourceId == resourceId && resourcePerformanceCounter.PerfCounterType == type);
+             });
+ 
+             if (toRemove != null)
+diff --git a/Dev/Dev2.Infrastructure/Providers/Validation/Rules/IsValidCollectionRule.cs b/Dev/Dev2.Infrastructure/Providers/Validation/Rules/IsValidCollectionRule.cs
+index 81e64a3b13..579b0c43d4 100644
+--- a/Dev/Dev2.Infrastructure/Providers/Validation/Rules/IsValidCollectionRule.cs
++++ b/Dev/Dev2.Infrastructure/Providers/Validation/Rules/IsValidCollectionRule.cs
+@@ -35,7 +35,7 @@ namespace Dev2.Providers.Validation.Rules
+             if(!string.IsNullOrEmpty(value))
+             {
+                 var items = value.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
+-                if(items.Count(item => !IsValid(item)) > 0)
++                if(items.Any(item => !IsValid(item)))
+                 {
+                     return CreatError();
+                 }
+diff --git a/Dev/Dev2.Infrastructure/Providers/Validation/Rules/Rule.cs b/Dev/Dev2.Infrastructure/Providers/Validation/Rules/Rule.cs
+index 24710a4019..d20798a90d 100644
+--- a/Dev/Dev2.Infrastructure/Providers/Validation/Rules/Rule.cs
++++ b/Dev/Dev2.Infrastructure/Providers/Validation/Rules/Rule.cs
+@@ -51,7 +51,7 @@ namespace Dev2.Providers.Validation.Rules
+             }
+             return new ActionableErrorInfo(DoError)
+             {
+-               Message = string.Format("{0}{1}", message, ErrorText)
++               Message = $"{message}{ErrorText}"
+             };
+         }
+     }
+diff --git a/Dev/Dev2.Infrastructure/Services/Security/AuthorizationServiceBase.cs b/Dev/Dev2.Infrastructure/Services/Security/AuthorizationServiceBase.cs
+index feb0a50bc5..f46392b3ae 100644
+--- a/Dev/Dev2.Infrastructure/Services/Security/AuthorizationServiceBase.cs
++++ b/Dev/Dev2.Infrastructure/Services/Security/AuthorizationServiceBase.cs
+@@ -355,9 +355,9 @@ namespace Dev2.Services.Security
+         {
+             bool isInRole;
+             var sid = new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null);
+-            var windowsPrincipal = principal as WindowsPrincipal;
+             var windowsIdentity = principal.Identity as WindowsIdentity;
+-            if (windowsPrincipal != null)
++
++            if (principal is WindowsPrincipal windowsPrincipal)
+             {
+                 isInRole = IsInRole(windowsGroup, sid, windowsPrincipal, windowsIdentity);
+             }
+diff --git a/Dev/Dev2.Infrastructure/Shared Models/DbColumn.cs b/Dev/Dev2.Infrastructure/Shared Models/DbColumn.cs
+index 9afaeba0ce..74fd252e71 100644
+--- a/Dev/Dev2.Infrastructure/Shared Models/DbColumn.cs	
++++ b/Dev/Dev2.Infrastructure/Shared Models/DbColumn.cs	
+@@ -61,7 +61,7 @@ namespace Dev2.Runtime.ServiceModel.Data
+             {
+                 if(SqlDataType == SqlDbType.VarChar || SqlDataType == SqlDbType.Char || SqlDataType == SqlDbType.NVarChar || SqlDataType == SqlDbType.NChar || SqlDataType == SqlDbType.VarBinary || SqlDataType == SqlDbType.Binary)
+                 {
+-                    return string.Format("{0} ({1})", SqlDataType, MaxLength).ToLower();
++                    return $"{SqlDataType} ({MaxLength})".ToLower();
+                 }
+ 
+                 return SqlDataType.ToString().ToLower();
+@@ -81,7 +81,7 @@ namespace Dev2.Runtime.ServiceModel.Data
+                 // TODO: Implement Mapping CLR Parameter Data: http://technet.microsoft.com/en-us/library/ms131092.aspx
+                 if(DataType == typeof(string))
+                 {
+-                    return string.Format("{0}({1})", DataType.Name, MaxLength);
++                    return $"{DataType.Name}({MaxLength})";
+                 }
+ 
+                 return DataType.Name;
+diff --git a/Dev/Dev2.Infrastructure/Shared Models/DbTable.cs b/Dev/Dev2.Infrastructure/Shared Models/DbTable.cs
+index 74ec0973f5..359b947487 100644
+--- a/Dev/Dev2.Infrastructure/Shared Models/DbTable.cs	
++++ b/Dev/Dev2.Infrastructure/Shared Models/DbTable.cs	
+@@ -31,7 +31,7 @@ namespace Dev2.Runtime.ServiceModel.Data
+                 {
+                     return "";
+                 }
+-                return string.Format("{0}.{1}", Schema, TableName);
++                return $"{Schema}.{TableName}";
+             }
+         }
+         public List<IDbColumn> Columns { get; set; }
+diff --git a/Dev/Dev2.Intellisense/Helper/FileSystemQuery.cs b/Dev/Dev2.Intellisense/Helper/FileSystemQuery.cs
+index a4a924cac3..a709a95a8c 100644
+--- a/Dev/Dev2.Intellisense/Helper/FileSystemQuery.cs
++++ b/Dev/Dev2.Intellisense/Helper/FileSystemQuery.cs
+@@ -210,7 +210,7 @@ namespace Dev2.Intellisense.Helper
+             if(lastIndexOfDirSepChar > 0)
+             {
+                 var parentDir = searchPath.Substring(0, lastIndexOfDirSepChar + 1);
+-                var searchPattern = string.Format("*{0}*", searchPath.Substring(lastIndexOfDirSepChar + 1));
++                var searchPattern = $"*{searchPath.Substring(lastIndexOfDirSepChar + 1)}*";
+                 if (dir.Exists(parentDir))
+                 {
+                     queryCollection = new List<string>(dir.GetFileSystemEntries(parentDir, searchPattern));
+diff --git a/Dev/Dev2.Runtime.Configuration.Tests/XML/XmlResource.cs b/Dev/Dev2.Runtime.Configuration.Tests/XML/XmlResource.cs
+index b50fc8686a..3c6b82ef7d 100644
+--- a/Dev/Dev2.Runtime.Configuration.Tests/XML/XmlResource.cs
++++ b/Dev/Dev2.Runtime.Configuration.Tests/XML/XmlResource.cs
+@@ -29,7 +29,7 @@ namespace Dev2.Runtime.Configuration.Tests.XML
+         /// <returns>The contents of the embedded XML file.</returns>
+         public static XElement Fetch(string name)
+         {
+-            var resourceName = string.Format("Dev2.Runtime.Configuration.Tests.XML.{0}.xml", name);
++            var resourceName = $"Dev2.Runtime.Configuration.Tests.XML.{name}.xml";
+             var assembly = Assembly.GetExecutingAssembly();
+             using(var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Runtime.Configuration/CustomControls/VisualStates.cs b/Dev/Dev2.Runtime.Configuration/CustomControls/VisualStates.cs
+index 271867e422..06d03e1032 100644
+--- a/Dev/Dev2.Runtime.Configuration/CustomControls/VisualStates.cs
++++ b/Dev/Dev2.Runtime.Configuration/CustomControls/VisualStates.cs
+@@ -417,8 +417,8 @@ namespace System.Windows.Controls
+             return VisualStateManager.GetVisualStateGroups(root)
+ 
+                 .OfType<VisualStateGroup>()
+-                .Where(group => string.CompareOrdinal(groupName, group.Name) == 0)
+-                .FirstOrDefault();
++                .FirstOrDefault(group => string.CompareOrdinal(groupName, group.Name) == 0)
++;
+ 
+         }
+     }
+diff --git a/Dev/Dev2.Runtime.Services/DynamicProxy/DynamicProxyFactory.cs b/Dev/Dev2.Runtime.Services/DynamicProxy/DynamicProxyFactory.cs
+index 8f79f3e94e..f5a804a5db 100644
+--- a/Dev/Dev2.Runtime.Services/DynamicProxy/DynamicProxyFactory.cs
++++ b/Dev/Dev2.Runtime.Services/DynamicProxy/DynamicProxyFactory.cs
+@@ -104,19 +104,15 @@ namespace Dev2.Runtime.DynamicProxy
+ 
+         void AddDocumentToResults(object document, Collection<MetadataSection> results)
+         {
+-            var wsdl = document as WsdlNS.ServiceDescription;
+-            var schema = document as XmlSchema;
+-            var xmlDoc = document as XmlElement;
+-
+-            if (wsdl != null)
++            if (document is WsdlNS.ServiceDescription wsdl)
+             {
+                 results.Add(MetadataSection.CreateFromServiceDescription(wsdl));
+             }
+-            else if (schema != null)
++            else if (document is XmlSchema schema)
+             {
+                 results.Add(MetadataSection.CreateFromSchema(schema));
+             }
+-            else if (xmlDoc != null && xmlDoc.LocalName == "Policy")
++            else if (document is XmlElement xmlDoc && xmlDoc.LocalName == "Policy")
+             {
+                 results.Add(MetadataSection.CreateFromPolicy(xmlDoc, null));
+             }
+diff --git a/Dev/Dev2.Runtime.Services/Hosting/ResourceCatalogBuilder.cs b/Dev/Dev2.Runtime.Services/Hosting/ResourceCatalogBuilder.cs
+index e5654e15ca..41882654cb 100644
+--- a/Dev/Dev2.Runtime.Services/Hosting/ResourceCatalogBuilder.cs
++++ b/Dev/Dev2.Runtime.Services/Hosting/ResourceCatalogBuilder.cs
+@@ -387,7 +387,7 @@ namespace Dev2.Runtime.Hosting
+                     }
+                     else
+                     {
+-                        Dev2Logger.Debug(string.Format("'{0}' wasn't loaded because it isn't signed or has modified since it was signed.", currentItem._filePath), GlobalConstants.WarewolfDebug);
++                        Dev2Logger.Debug($"'{currentItem._filePath}' wasn't loaded because it isn't signed or has modified since it was signed.", GlobalConstants.WarewolfDebug);
+                     }
+                 }
+                 catch
+@@ -456,7 +456,7 @@ namespace Dev2.Runtime.Hosting
+                     }
+                     else
+                     {
+-                        Dev2Logger.Debug(string.Format("Resource '{0}' from file '{1}' wasn't loaded because a resource with the same name has already been loaded but cannot find its location.", res.ResourceName, filePath), GlobalConstants.WarewolfDebug);
++                        Dev2Logger.Debug($"Resource '{res.ResourceName}' from file '{filePath}' wasn't loaded because a resource with the same name has already been loaded but cannot find its location.", GlobalConstants.WarewolfDebug);
+                     }
+                 }
+             }
+diff --git a/Dev/Dev2.Runtime.Services/Hosting/ServerVersionRepository.cs b/Dev/Dev2.Runtime.Services/Hosting/ServerVersionRepository.cs
+index 6cbca95a64..6bfa6bbaa0 100644
+--- a/Dev/Dev2.Runtime.Services/Hosting/ServerVersionRepository.cs
++++ b/Dev/Dev2.Runtime.Services/Hosting/ServerVersionRepository.cs
+@@ -291,7 +291,7 @@ namespace Dev2.Runtime.Hosting
+                 {
+                     directory.CreateIfNotExists(folderName);
+                     var parts = _filePath.GetFileName(pathForVersion).Split('_');
+-                    var name = string.Format("{0}_{1}_{2}", parts[1], parts[2], parts[3]);
++                    var name = $"{parts[1]}_{parts[2]}_{parts[3]}";
+                     var destination = _filePath.Combine(folderName, name);
+                     if (!_file.Exists(destination))
+                     {
+diff --git a/Dev/Dev2.Runtime.Services/ServiceModel/Data/ExchangeSource.cs b/Dev/Dev2.Runtime.Services/ServiceModel/Data/ExchangeSource.cs
+index d2f042cb6c..76ed540e66 100644
+--- a/Dev/Dev2.Runtime.Services/ServiceModel/Data/ExchangeSource.cs
++++ b/Dev/Dev2.Runtime.Services/ServiceModel/Data/ExchangeSource.cs
+@@ -179,10 +179,10 @@ namespace Dev2.Runtime.ServiceModel.Data
+         {
+             var result = base.ToXml();
+             var connectionString = string.Join(";",
+-                string.Format("AutoDiscoverUrl={0}", AutoDiscoverUrl),
+-                string.Format("UserName={0}", UserName),
+-                string.Format("Password={0}", Password),
+-                string.Format("Timeout={0}", Timeout)
++                $"AutoDiscoverUrl={AutoDiscoverUrl}",
++                $"UserName={UserName}",
++                $"Password={Password}",
++                $"Timeout={Timeout}"
+                 );
+ 
+             result.Add(
+diff --git a/Dev/Dev2.Runtime.Services/ServiceModel/Data/Service.cs b/Dev/Dev2.Runtime.Services/ServiceModel/Data/Service.cs
+index fdfc222591..c0f1c6f40e 100644
+--- a/Dev/Dev2.Runtime.Services/ServiceModel/Data/Service.cs
++++ b/Dev/Dev2.Runtime.Services/ServiceModel/Data/Service.cs
+@@ -306,8 +306,8 @@ namespace Dev2.Runtime.ServiceModel.Data
+                     if (!string.IsNullOrEmpty(field.Alias))
+                     {
+                         value = string.IsNullOrEmpty(rsAlias)
+-                                    ? string.Format("[[{0}]]", field.Alias)
+-                                    : string.Format("[[{0}().{1}]]", rsAlias, field.Alias);
++                                    ? $"[[{field.Alias}]]"
++                                    : $"[[{rsAlias}().{field.Alias}]]";
+                     }
+ 
+                     if (path != null)
+diff --git a/Dev/Dev2.Runtime.Services/ServiceModel/Data/WcfProxyService.cs b/Dev/Dev2.Runtime.Services/ServiceModel/Data/WcfProxyService.cs
+index 4e1ce34060..1447496ad4 100644
+--- a/Dev/Dev2.Runtime.Services/ServiceModel/Data/WcfProxyService.cs
++++ b/Dev/Dev2.Runtime.Services/ServiceModel/Data/WcfProxyService.cs
+@@ -110,7 +110,7 @@ namespace Dev2.Runtime.ServiceModel.Data
+                 && !DataListUtil.IsXml(result.ToString()) && !DataListUtil.IsJson(result.ToString()))
+             {
+                 // add our special tags ;)
+-                result = string.Format("<{0}>{1}</{2}>", GlobalConstants.PrimitiveReturnValueTag, result, GlobalConstants.PrimitiveReturnValueTag);
++                result = $"<{GlobalConstants.PrimitiveReturnValueTag}>{result}</{GlobalConstants.PrimitiveReturnValueTag}>";
+             }
+ 
+             return result;
+diff --git a/Dev/Dev2.Runtime.Services/ServiceModel/Data/WcfSource.cs b/Dev/Dev2.Runtime.Services/ServiceModel/Data/WcfSource.cs
+index f3bd7eeef5..c83d4d44b8 100644
+--- a/Dev/Dev2.Runtime.Services/ServiceModel/Data/WcfSource.cs
++++ b/Dev/Dev2.Runtime.Services/ServiceModel/Data/WcfSource.cs
+@@ -112,7 +112,7 @@ namespace Dev2.Runtime.ServiceModel.Data
+         {
+             var result = base.ToXml();
+             var connectionString = string.Join(";",
+-                string.Format("EndpointUrl={0}", EndpointUrl)
++                $"EndpointUrl={EndpointUrl}"
+                 );
+ 
+             result.Add(
+diff --git a/Dev/Dev2.Runtime.Services/ServiceModel/Esb/Brokers/ComPlugin/ComPluginRuntimeHandler.cs b/Dev/Dev2.Runtime.Services/ServiceModel/Esb/Brokers/ComPlugin/ComPluginRuntimeHandler.cs
+index 91012b7130..3be3e395d6 100644
+--- a/Dev/Dev2.Runtime.Services/ServiceModel/Esb/Brokers/ComPlugin/ComPluginRuntimeHandler.cs
++++ b/Dev/Dev2.Runtime.Services/ServiceModel/Esb/Brokers/ComPlugin/ComPluginRuntimeHandler.cs
+@@ -69,9 +69,8 @@ namespace Dev2.Runtime.ServiceModel.Esb.Brokers.ComPlugin
+ 
+                 if (pluginResult != null)
+                 {
+-                    if (pluginResult is KeyValuePair<bool, string>)
++                    if (pluginResult is KeyValuePair<bool, string> pluginKeyValuePair)
+                     {
+-                        var pluginKeyValuePair = (KeyValuePair<bool, string>) pluginResult;
+                         serializedResult = "Exception: " + pluginKeyValuePair.Value;
+                     }
+                     else
+diff --git a/Dev/Dev2.Runtime.Services/ServiceModel/HubFactory.cs b/Dev/Dev2.Runtime.Services/ServiceModel/HubFactory.cs
+index c4ee5650f7..709be3361d 100644
+--- a/Dev/Dev2.Runtime.Services/ServiceModel/HubFactory.cs
++++ b/Dev/Dev2.Runtime.Services/ServiceModel/HubFactory.cs
+@@ -26,13 +26,11 @@ namespace Dev2.Runtime.ServiceModel
+         {
+             var serverUser = Common.Utilities.OrginalExecutingUser;
+             var principle = serverUser;
+-
+-            var identity = principle.Identity as WindowsIdentity;
+             WindowsImpersonationContext context = null;
+ 
+             try
+             {
+-                if (identity != null && connection.AuthenticationType == AuthenticationType.Windows)
++                if (principle.Identity is WindowsIdentity identity && connection.AuthenticationType == AuthenticationType.Windows)
+                 {
+                     context = identity.Impersonate();
+                 }
+diff --git a/Dev/Dev2.Runtime.Services/ServiceModel/WebSources.cs b/Dev/Dev2.Runtime.Services/ServiceModel/WebSources.cs
+index 4190a1b06a..0bf576ddb8 100644
+--- a/Dev/Dev2.Runtime.Services/ServiceModel/WebSources.cs
++++ b/Dev/Dev2.Runtime.Services/ServiceModel/WebSources.cs
+@@ -237,11 +237,7 @@ namespace Dev2.Runtime.ServiceModel
+                 {
+ 
+                     var fileKey = fileToUpload.Key;
+-                    var header = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n",
+-                        boundary,
+-                        fileKey,
+-                        fileToUpload.FileName ?? fileKey,
+-                        fileToUpload.ContentType ?? "application/octet-stream");
++                    var header = $"--{boundary}\r\nContent-Disposition: form-data; name=\"{fileKey}\"; filename=\"{fileToUpload.FileName ?? fileKey}\"\r\nContent-Type: {fileToUpload.ContentType ?? "application/octet-stream"}\r\n\r\n";
+ 
+                     var fileBytes = fileToUpload.FileBytes;
+ 
+@@ -252,10 +248,7 @@ namespace Dev2.Runtime.ServiceModel
+                 else if (formValueType is TextParameter textToUpload)
+                 {
+ 
+-                    var postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}",
+-                        boundary,
+-                        textToUpload.Key,
+-                        textToUpload.Value);
++                    var postData = $"--{boundary}\r\nContent-Disposition: form-data; name=\"{textToUpload.Key}\"\r\n\r\n{textToUpload.Value}";
+                     formDataStream.Write(encoding.GetBytes(postData), 0, encoding.GetByteCount(postData));
+                 }
+             }
+diff --git a/Dev/Dev2.Runtime.Services/Workspaces/WorkspaceItem.cs b/Dev/Dev2.Runtime.Services/Workspaces/WorkspaceItem.cs
+index e3e4d9a53f..9a5c564c1c 100644
+--- a/Dev/Dev2.Runtime.Services/Workspaces/WorkspaceItem.cs
++++ b/Dev/Dev2.Runtime.Services/Workspaces/WorkspaceItem.cs
+@@ -169,9 +169,7 @@ namespace Dev2.Workspaces
+             {
+                 return false;
+             }
+-
+-            var item = obj as IWorkspaceItem;
+-            return item != null && Equals(item);
++            return obj is IWorkspaceItem item && Equals(item);
+         }
+ 
+         public override int GetHashCode() => ID.GetHashCode();
+diff --git a/Dev/Dev2.Runtime.Tests/Json/JsonResource.cs b/Dev/Dev2.Runtime.Tests/Json/JsonResource.cs
+index 8be36fc26a..9833bb1f3d 100644
+--- a/Dev/Dev2.Runtime.Tests/Json/JsonResource.cs
++++ b/Dev/Dev2.Runtime.Tests/Json/JsonResource.cs
+@@ -22,7 +22,7 @@ namespace Dev2.Tests.Runtime.JSON
+         /// <returns>The contents of the embedded XML file.</returns>
+         public static string Fetch(string name)
+         {
+-            var resourceName = string.Format("Dev2.Tests.Runtime.Json.{0}.json", name);
++            var resourceName = $"Dev2.Tests.Runtime.Json.{name}.json";
+             var assembly = Assembly.GetExecutingAssembly();
+             using(var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Runtime.Tests/Plugins/DllExtractor.cs b/Dev/Dev2.Runtime.Tests/Plugins/DllExtractor.cs
+index 5e2d07ec67..14237dc77e 100644
+--- a/Dev/Dev2.Runtime.Tests/Plugins/DllExtractor.cs
++++ b/Dev/Dev2.Runtime.Tests/Plugins/DllExtractor.cs
+@@ -25,7 +25,7 @@ namespace Dev2.Tests.Runtime.Plugins
+         /// </returns>
+         public static string UnloadToFileSystem(string name, string dirToPlaceIn)
+         {
+-            var resourceName = string.Format("Dev2.Tests.Runtime.Plugins.{0}.dll", name);
++            var resourceName = $"Dev2.Tests.Runtime.Plugins.{name}.dll";
+             var assembly = Assembly.GetExecutingAssembly();
+             using(var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Runtime.Tests/Security/SecurityConfigFetcher.cs b/Dev/Dev2.Runtime.Tests/Security/SecurityConfigFetcher.cs
+index e441675667..43467c90a5 100644
+--- a/Dev/Dev2.Runtime.Tests/Security/SecurityConfigFetcher.cs
++++ b/Dev/Dev2.Runtime.Tests/Security/SecurityConfigFetcher.cs
+@@ -22,7 +22,7 @@ namespace Dev2.Tests.Runtime.Security
+         /// <returns>The contents of the embedded XML file.</returns>
+         public static string Fetch(string name)
+         {
+-            var resourceName = string.Format("Dev2.Tests.Runtime.Security.{0}", name);
++            var resourceName = $"Dev2.Tests.Runtime.Security.{name}";
+             var assembly = Assembly.GetExecutingAssembly();
+             using(var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Runtime.Tests/Security/ServerAuthorizationServiceTests.cs b/Dev/Dev2.Runtime.Tests/Security/ServerAuthorizationServiceTests.cs
+index 8403664e9b..f4f3fff491 100644
+--- a/Dev/Dev2.Runtime.Tests/Security/ServerAuthorizationServiceTests.cs
++++ b/Dev/Dev2.Runtime.Tests/Security/ServerAuthorizationServiceTests.cs
+@@ -486,7 +486,7 @@ namespace Dev2.Tests.Runtime.Security
+                 else
+                 {
+                     configPermission.ResourceID = Guid.NewGuid();
+-                    configPermission.ResourceName = string.Format("TestCategory\\{0}", authorizationRequest.Resource);
++                    configPermission.ResourceName = $"TestCategory\\{authorizationRequest.Resource}";
+                 }
+             }
+ 
+@@ -511,8 +511,7 @@ namespace Dev2.Tests.Runtime.Security
+             var authorized = authorizationService.IsAuthorized(authorizationRequest);
+ 
+             //------------Assert Results-------------------------
+-            Assert.AreEqual(expected, authorized, string.Format("\nUserIsInRole: {0}\nAllowed: {1}\nConfig: {2}\nIsServer: {3}\nURL: {4}",
+-                authorizationRequest.UserIsInRole, allowedPermissions, configPermissions.Permissions, configPermissions.IsServer, authorizationRequest.Url));
++            Assert.AreEqual(expected, authorized, $"\nUserIsInRole: {authorizationRequest.UserIsInRole}\nAllowed: {allowedPermissions}\nConfig: {configPermissions.Permissions}\nIsServer: {configPermissions.IsServer}\nURL: {authorizationRequest.Url}");
+         }
+ 
+         [TestMethod]
+diff --git a/Dev/Dev2.Runtime.Tests/ServiceModel/Data/PluginServiceTests.cs b/Dev/Dev2.Runtime.Tests/ServiceModel/Data/PluginServiceTests.cs
+index 86247dda68..08b30b93be 100644
+--- a/Dev/Dev2.Runtime.Tests/ServiceModel/Data/PluginServiceTests.cs
++++ b/Dev/Dev2.Runtime.Tests/ServiceModel/Data/PluginServiceTests.cs
+@@ -149,7 +149,7 @@ namespace Dev2.Tests.Runtime.ServiceModel.Data
+                     {
+                         Assert.AreEqual(expectedField.Path.ActualPath, actualField.Path.ActualPath);
+                         Assert.AreEqual(expectedField.Path.DisplayPath, actualField.Path.DisplayPath);
+-                        Assert.AreEqual(string.Format("[[{0}]]", expectedField.Alias), actualField.Path.OutputExpression);
++                        Assert.AreEqual($"[[{expectedField.Alias}]]", actualField.Path.OutputExpression);
+                         Assert.AreEqual(expectedField.Path.SampleData, actualField.Path.SampleData);
+                     }
+                 }
+diff --git a/Dev/Dev2.Runtime.Tests/ServiceModel/Data/ResourceTests.cs b/Dev/Dev2.Runtime.Tests/ServiceModel/Data/ResourceTests.cs
+index 8bf7a095fe..1105eb24e4 100644
+--- a/Dev/Dev2.Runtime.Tests/ServiceModel/Data/ResourceTests.cs
++++ b/Dev/Dev2.Runtime.Tests/ServiceModel/Data/ResourceTests.cs
+@@ -1891,7 +1891,7 @@ namespace Dev2.Tests.Runtime.ServiceModel.Data
+             const string Address = "http://www.webservicex.net/globalweather.asmx/GetCitiesByCountry?CountryName=South%20Africa";
+             const string AuthenticationType = "User";
+             const string UserName = "wert=9^4=&";
+-            var testStr = string.Format("address={0};AuthenticationType={1};UserName={2}", Address, AuthenticationType, UserName);
++            var testStr = $"address={Address};AuthenticationType={AuthenticationType};UserName={UserName}";
+ 
+             var properties = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+             {
+diff --git a/Dev/Dev2.Runtime.Tests/Services/FetchCurrentServerLogTests.cs b/Dev/Dev2.Runtime.Tests/Services/FetchCurrentServerLogTests.cs
+index e10c9fc90d..3dab695c71 100644
+--- a/Dev/Dev2.Runtime.Tests/Services/FetchCurrentServerLogTests.cs
++++ b/Dev/Dev2.Runtime.Tests/Services/FetchCurrentServerLogTests.cs
+@@ -62,7 +62,7 @@ namespace Dev2.Tests.Runtime.Services
+         [TestMethod]
+         public void FetchCurrentServerLogExecuteWithNonExistingLogExpectedReturnsEmptyString()
+         {
+-            var serverLogPath = Path.Combine(_testDir, string.Format("ServerLog_{0}.txt", Guid.NewGuid()));
++            var serverLogPath = Path.Combine(_testDir, $"ServerLog_{Guid.NewGuid()}.txt");
+ 
+             var esb = new FetchCurrentServerLog(serverLogPath);
+             var actual = esb.Execute(null, null);
+@@ -75,7 +75,7 @@ namespace Dev2.Tests.Runtime.Services
+         public void FetchCurrentServerLogExecuteWithExistingLogExpectedReturnsContentsOfLog()
+         {
+             const string Expected = "Hello world";
+-            var serverLogPath = Path.Combine(_testDir, string.Format("ServerLog_{0}.txt", Guid.NewGuid()));
++            var serverLogPath = Path.Combine(_testDir, $"ServerLog_{Guid.NewGuid()}.txt");
+             File.WriteAllText(serverLogPath, Expected);
+ 
+             var esb = new FetchCurrentServerLog(serverLogPath);
+diff --git a/Dev/Dev2.Runtime.Tests/Services/FetchDebugItemFileTests.cs b/Dev/Dev2.Runtime.Tests/Services/FetchDebugItemFileTests.cs
+index 23d0e1c111..93badc9e9f 100644
+--- a/Dev/Dev2.Runtime.Tests/Services/FetchDebugItemFileTests.cs
++++ b/Dev/Dev2.Runtime.Tests/Services/FetchDebugItemFileTests.cs
+@@ -95,7 +95,7 @@ namespace Dev2.Tests.Runtime.Services
+         public void FetchDebugItemFileExecuteWithExistingLogExpectedReturnsContentsOfLog()
+         {
+             const string Expected = "Hello world";
+-            var serverLogPath = Path.Combine(_testDir, string.Format("ServerLog_{0}.txt", Guid.NewGuid()));
++            var serverLogPath = Path.Combine(_testDir, $"ServerLog_{Guid.NewGuid()}.txt");
+             File.WriteAllText(serverLogPath, Expected);
+ 
+             var esb = new FetchDebugItemFile();
+@@ -116,7 +116,7 @@ namespace Dev2.Tests.Runtime.Services
+             multiLines.AppendLine("Line Two");
+             multiLines.AppendLine("Line Three");
+ 
+-            var serverLogPath = Path.Combine(_testDir, string.Format("ServerLog_{0}.txt", Guid.NewGuid()));
++            var serverLogPath = Path.Combine(_testDir, $"ServerLog_{Guid.NewGuid()}.txt");
+             var multiLineString = multiLines.ToString();    
+             File.WriteAllText(serverLogPath, multiLineString);
+ 
+diff --git a/Dev/Dev2.Runtime.Tests/WebServer/Responses/StringResponseWriterTests.cs b/Dev/Dev2.Runtime.Tests/WebServer/Responses/StringResponseWriterTests.cs
+index 5c231d6f98..975b1bd02a 100644
+--- a/Dev/Dev2.Runtime.Tests/WebServer/Responses/StringResponseWriterTests.cs
++++ b/Dev/Dev2.Runtime.Tests/WebServer/Responses/StringResponseWriterTests.cs
+@@ -128,7 +128,7 @@ namespace Dev2.Tests.Runtime.WebServer.Responses
+                 return string.Format("{{ \"value\" : \"{0}\" }}", text);
+             }
+ 
+-            return string.Format("<data>{0}</data>", text);
++            return $"<data>{text}</data>";
+         }
+     }
+ }
+diff --git a/Dev/Dev2.Runtime.Tests/WebServer/Security/AuthorizeWebAttributeTests.cs b/Dev/Dev2.Runtime.Tests/WebServer/Security/AuthorizeWebAttributeTests.cs
+index 59a928b701..6466d7589f 100644
+--- a/Dev/Dev2.Runtime.Tests/WebServer/Security/AuthorizeWebAttributeTests.cs
++++ b/Dev/Dev2.Runtime.Tests/WebServer/Security/AuthorizeWebAttributeTests.cs
+@@ -178,7 +178,7 @@ namespace Dev2.Tests.Runtime.WebServer.Security
+             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "http://localhost:8080/content/site.css");
+             if(!string.IsNullOrEmpty(actionName))
+             {
+-                httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, string.Format("http://localhost:8080/services/{0}", actionName));
++                httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:8080/services/{actionName}");
+             }
+             var actionContext = new HttpActionContext
+             {
+diff --git a/Dev/Dev2.Runtime.Tests/WebServer/WebServerRequestTests.cs b/Dev/Dev2.Runtime.Tests/WebServer/WebServerRequestTests.cs
+index 1197fac65a..9df4eb2b32 100644
+--- a/Dev/Dev2.Runtime.Tests/WebServer/WebServerRequestTests.cs
++++ b/Dev/Dev2.Runtime.Tests/WebServer/WebServerRequestTests.cs
+@@ -133,7 +133,7 @@ namespace Dev2.Tests.Runtime.WebServer
+                 { "Server", "Dev2" }
+             };
+ 
+-            var request = new HttpRequestMessage(HttpMethod.Get, string.Format("http://localhost/services/{0}?{1}={2}", boundVars[0], queryStr.Keys[0], queryStr[0]))
++            var request = new HttpRequestMessage(HttpMethod.Get, $"http://localhost/services/{boundVars[0]}?{queryStr.Keys[0]}={queryStr[0]}")
+             {
+                 Content = new StringContent(content, Encoding.UTF8)
+                 {
+diff --git a/Dev/Dev2.Runtime.Tests/XML/XmlResource.cs b/Dev/Dev2.Runtime.Tests/XML/XmlResource.cs
+index 85015e3614..9bdae33175 100644
+--- a/Dev/Dev2.Runtime.Tests/XML/XmlResource.cs
++++ b/Dev/Dev2.Runtime.Tests/XML/XmlResource.cs
+@@ -29,7 +29,7 @@ namespace Dev2.Tests.Runtime.XML
+         /// <returns>The contents of the embedded XML file.</returns>
+         public static XElement Fetch(string name)
+         {
+-            var resourceName = string.Format("Dev2.Tests.Runtime.XML.{0}.xml", name);
++            var resourceName = $"Dev2.Tests.Runtime.XML.{name}.xml";
+             var assembly = Assembly.GetExecutingAssembly();
+             using(var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Scheduler/ScheduledResource.cs b/Dev/Dev2.Scheduler/ScheduledResource.cs
+index 752a17a88c..af010f1ce5 100644
+--- a/Dev/Dev2.Scheduler/ScheduledResource.cs
++++ b/Dev/Dev2.Scheduler/ScheduledResource.cs
+@@ -370,7 +370,7 @@ namespace Dev2.Scheduler
+             return true;
+         }
+ 
+-        public override string ToString() => String.Format("Name:{0} ResourceId:{1}", Name, ResourceId);
++        public override string ToString() => $"Name:{Name} ResourceId:{ResourceId}";
+ 
+         public Guid ResourceId { get; set; }
+     }
+diff --git a/Dev/Dev2.Scheduler/ServerSchedulerFactory.cs b/Dev/Dev2.Scheduler/ServerSchedulerFactory.cs
+index 418ed770e2..69270ae828 100644
+--- a/Dev/Dev2.Scheduler/ServerSchedulerFactory.cs
++++ b/Dev/Dev2.Scheduler/ServerSchedulerFactory.cs
+@@ -27,8 +27,8 @@ namespace Dev2.Scheduler
+     {
+         readonly IDev2TaskService _service;
+         readonly ITaskServiceConvertorFactory _factory;
+-        readonly string _agentPath = string.Format("{0}\\{1}", Environment.CurrentDirectory, GlobalConstants.SchedulerAgentPath);
+-        readonly string _debugOutputPath = string.Format("{0}\\{1}", Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), GlobalConstants.SchedulerDebugPath);
++        readonly string _agentPath = $"{Environment.CurrentDirectory}\\{GlobalConstants.SchedulerAgentPath}";
++        readonly string _debugOutputPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\\{GlobalConstants.SchedulerDebugPath}";
+ 
+         readonly IDirectory _dir;
+         readonly Func<IScheduledResource, string> _pathResolve;
+diff --git a/Dev/Dev2.Server/ServerLifecycleManager.cs b/Dev/Dev2.Server/ServerLifecycleManager.cs
+index af000d6f1a..0d44e69cd1 100644
+--- a/Dev/Dev2.Server/ServerLifecycleManager.cs
++++ b/Dev/Dev2.Server/ServerLifecycleManager.cs
+@@ -356,15 +356,9 @@ namespace Dev2
+                 _timer = null;
+             }
+ 
+-            if (_pulseLogger != null)
+-            {
+-                _pulseLogger.Dispose();
+-            }
++            _pulseLogger?.Dispose();
+ 
+-            if (_pulseTracker != null)
+-            {
+-                _pulseTracker.Dispose();
+-            }
++            _pulseTracker?.Dispose();
+ 
+             if (_serverEnvironmentPreparer != null)
+             {
+diff --git a/Dev/Dev2.Services.Execution/DatabaseServiceExecution.cs b/Dev/Dev2.Services.Execution/DatabaseServiceExecution.cs
+index fd2adcb58b..b1c57d8375 100644
+--- a/Dev/Dev2.Services.Execution/DatabaseServiceExecution.cs
++++ b/Dev/Dev2.Services.Execution/DatabaseServiceExecution.cs
+@@ -273,7 +273,7 @@ namespace Dev2.Services.Execution
+         {
+             var command = connection.CreateCommand();
+             command.CommandType = CommandType.Text;
+-            command.CommandText = string.Format("sp_helptext '{0}'", procedureName);
++            command.CommandText = $"sp_helptext '{procedureName}'";
+             using (var reader = command.ExecuteReader(CommandBehavior.SchemaOnly & CommandBehavior.KeyInfo))
+             {
+                 var sb = new StringBuilder();
+@@ -287,7 +287,7 @@ namespace Dev2.Services.Execution
+                 }
+                 if (sb.Length == 0)
+                 {
+-                    throw new WarewolfDbException(string.Format("There is no text for object '{0}'.", procedureName));
++                    throw new WarewolfDbException($"There is no text for object '{procedureName}'.");
+                 }
+                 return sb.ToString();
+             }
+diff --git a/Dev/Dev2.Services.Sql/MySqlServer.cs b/Dev/Dev2.Services.Sql/MySqlServer.cs
+index 22ae599cff..75a59bb5ea 100644
+--- a/Dev/Dev2.Services.Sql/MySqlServer.cs
++++ b/Dev/Dev2.Services.Sql/MySqlServer.cs
+@@ -334,7 +334,7 @@ namespace Dev2.Services.Sql
+         {
+             using (
+                 IDbCommand command = _factory.CreateCommand(connection, CommandType.Text,
+-                    string.Format("SHOW CREATE PROCEDURE {0} ", objectName), CommandTimeout))
++                    $"SHOW CREATE PROCEDURE {objectName} ", CommandTimeout))
+             {
+                 return ExecuteReader(command, delegate (IDataAdapter reader)
+                     {
+@@ -375,9 +375,7 @@ namespace Dev2.Services.Sql
+             var parameters = new List<IDbDataParameter>();
+             command.CommandType = CommandType.Text;
+             command.CommandText =
+-                string.Format(
+-                    "SELECT param_list FROM mysql.proc WHERE db='{0}' AND name='{1}'",
+-                    dbName, procedureName);
++                $"SELECT param_list FROM mysql.proc WHERE db='{dbName}' AND name='{procedureName}'";
+             var dataTable = FetchDataTable(command);
+             foreach (DataRow row in dataTable.Rows)
+             {
+diff --git a/Dev/Dev2.Services.Sql/PostGreServer.cs b/Dev/Dev2.Services.Sql/PostGreServer.cs
+index 4b8aa5a9b5..9e5f05577b 100644
+--- a/Dev/Dev2.Services.Sql/PostGreServer.cs
++++ b/Dev/Dev2.Services.Sql/PostGreServer.cs
+@@ -129,10 +129,7 @@ namespace Dev2.Services.Sql
+             finally
+             {
+                 
+-                if (reader != null)
+-                {
+-                    reader.Close();
+-                }
++                reader?.Close();
+             }
+ 
+             return result;
+@@ -336,7 +333,7 @@ namespace Dev2.Services.Sql
+             using (
+                 var command = _factory.CreateCommand(connection, CommandType.Text,
+ 
+-                    string.Format("SHOW CREATE PROCEDURE {0} ", objectName), CommandTimeout))
++                    $"SHOW CREATE PROCEDURE {objectName} ", CommandTimeout))
+             {
+                 return ExecuteReader(command, delegate (IDataAdapter reader)
+                     {
+@@ -475,16 +472,10 @@ namespace Dev2.Services.Sql
+                 {
+                     // Dispose managed resources.
+ 
+-                    if (_transaction != null)
+-                    {
+-                        _transaction.Dispose();
+-                    }
++                    _transaction?.Dispose();
+ 
+ 
+-                    if (_command != null)
+-                    {
+-                        _command.Dispose();
+-                    }
++                    _command?.Dispose();
+ 
+                     DisposeConnection();
+                 }
+diff --git a/Dev/Dev2.Services.Sql/SqliteServer.cs b/Dev/Dev2.Services.Sql/SqliteServer.cs
+index 0da09652c1..665dde8ac5 100644
+--- a/Dev/Dev2.Services.Sql/SqliteServer.cs
++++ b/Dev/Dev2.Services.Sql/SqliteServer.cs
+@@ -179,10 +179,7 @@ namespace Dev2.Services.Sql
+ 			{
+ 				// Dispose managed resources.
+ 
+-				if (_command != null)
+-				{
+-					_command.Dispose();
+-				}
++				_command?.Dispose();
+ 
+ 				if (_connection != null)
+ 				{
+diff --git a/Dev/Dev2.Studio.Core.Tests/AppResources/Converters/CalculateIntellisenseTextConverterTests.cs b/Dev/Dev2.Studio.Core.Tests/AppResources/Converters/CalculateIntellisenseTextConverterTests.cs
+index 8e8e3f4323..323001d3f2 100644
+--- a/Dev/Dev2.Studio.Core.Tests/AppResources/Converters/CalculateIntellisenseTextConverterTests.cs
++++ b/Dev/Dev2.Studio.Core.Tests/AppResources/Converters/CalculateIntellisenseTextConverterTests.cs
+@@ -35,7 +35,7 @@ namespace Dev2.Core.Tests.AppResources.Converters
+         public void CalculateIntellisenseTextConverter_Convert_StringWithParameterAllowUserCalculateIsTrue_StringIsConverted()
+         {
+             var converter = new CalculateIntellisenseTextConverter();
+-             var inputText = string.Format("{0}sum(10,10){1}", GlobalConstants.CalculateTextConvertPrefix, GlobalConstants.CalculateTextConvertSuffix);
++             var inputText = $"{GlobalConstants.CalculateTextConvertPrefix}sum(10,10){GlobalConstants.CalculateTextConvertSuffix}";
+             var actual = (string)converter.Convert(inputText, typeof(bool), "True", null);
+             Assert.AreEqual("=sum(10,10)", actual);
+         }
+@@ -46,7 +46,7 @@ namespace Dev2.Core.Tests.AppResources.Converters
+         public void CalculateIntellisenseTextConverter_Convert_StringWithParameterAllowUserCalculateIsFalse_StringIsNotConverted()
+         {
+             var converter = new CalculateIntellisenseTextConverter();
+-            var expected = string.Format("{0}sum(10,10){1}", GlobalConstants.CalculateTextConvertPrefix, GlobalConstants.CalculateTextConvertSuffix);
++            var expected = $"{GlobalConstants.CalculateTextConvertPrefix}sum(10,10){GlobalConstants.CalculateTextConvertSuffix}";
+             var actual = (string)converter.Convert(expected, typeof(bool), "False", null);
+             Assert.AreEqual(expected, actual);
+         }
+@@ -78,7 +78,7 @@ namespace Dev2.Core.Tests.AppResources.Converters
+         public void CalculateIntellisenseTextConverter_ConvertBack_StringWithParameterAllowUserCalculateIsTrue_StringIsConverted()
+         {
+             var converter = new CalculateIntellisenseTextConverter();
+-            var expected = string.Format("{0}sum(10,10){1}", GlobalConstants.CalculateTextConvertPrefix, GlobalConstants.CalculateTextConvertSuffix);
++            var expected = $"{GlobalConstants.CalculateTextConvertPrefix}sum(10,10){GlobalConstants.CalculateTextConvertSuffix}";
+             var actual = (string)converter.ConvertBack("=sum(10,10)", typeof(bool), "True", null);
+             Assert.AreEqual(expected, actual);
+         }
+@@ -89,7 +89,7 @@ namespace Dev2.Core.Tests.AppResources.Converters
+         public void CalculateIntellisenseTextConverter_ConvertBack_StringWithParameterAllowUserCalculateIsFalse_StringIsNotConverted()
+         {
+             var converter = new CalculateIntellisenseTextConverter();
+-            var expected = string.Format("{0}sum(10,10){1}", GlobalConstants.CalculateTextConvertPrefix, GlobalConstants.CalculateTextConvertSuffix);
++            var expected = $"{GlobalConstants.CalculateTextConvertPrefix}sum(10,10){GlobalConstants.CalculateTextConvertSuffix}";
+             var actual = (string)converter.ConvertBack(expected, typeof(bool), "False", null);
+             Assert.AreEqual(expected, actual);
+         }
+diff --git a/Dev/Dev2.Studio.Core.Tests/DeployServiceTest.cs b/Dev/Dev2.Studio.Core.Tests/DeployServiceTest.cs
+index 4ee2457ddd..df1a740e34 100644
+--- a/Dev/Dev2.Studio.Core.Tests/DeployServiceTest.cs
++++ b/Dev/Dev2.Studio.Core.Tests/DeployServiceTest.cs
+@@ -204,7 +204,7 @@ namespace Dev2.Core.Tests
+             for(var i = 0; i < _numModels; i++)
+             {
+                 var moqRes = new Mock<ResourceModel>(environment);
+-                moqRes.Object.ResourceName = string.Format("Test{0}", i);
++                moqRes.Object.ResourceName = $"Test{i}";
+                 result.Add(moqRes.Object);
+             }
+             return result;
+diff --git a/Dev/Dev2.Studio.Core.Tests/Environments/EnviromentRepositoryTest.cs b/Dev/Dev2.Studio.Core.Tests/Environments/EnviromentRepositoryTest.cs
+index 56a945b2f2..c9300e9832 100644
+--- a/Dev/Dev2.Studio.Core.Tests/Environments/EnviromentRepositoryTest.cs
++++ b/Dev/Dev2.Studio.Core.Tests/Environments/EnviromentRepositoryTest.cs
+@@ -1347,7 +1347,7 @@ namespace Dev2.Core.Tests.Environments
+             env.Setup(e => e.IsConnected).Returns(true);
+             env.Setup(e => e.EnvironmentID).Returns(Guid.NewGuid());
+ 
+-            env.Setup(e => e.Name).Returns(string.Format("Server_{0}", rand.Next(1, 100)));
++            env.Setup(e => e.Name).Returns($"Server_{rand.Next(1, 100)}");
+ 
+             var models = new List<IResourceModel>();
+ 
+@@ -1375,8 +1375,8 @@ namespace Dev2.Core.Tests.Environments
+             var connection = new Mock<IEnvironmentConnection>();
+             connection.Setup(c => c.ServerID).Returns(Guid.NewGuid());
+             connection.Setup(c => c.ID).Returns(Guid.NewGuid());
+-            connection.Setup(c => c.AppServerUri).Returns(new Uri(string.Format("http://127.0.0.{0}:{1}/dsf", rand.Next(1, 100), rand.Next(1, 100))));
+-            connection.Setup(c => c.WebServerUri).Returns(new Uri(string.Format("http://127.0.0.{0}:{1}", rand.Next(1, 100), rand.Next(1, 100))));
++            connection.Setup(c => c.AppServerUri).Returns(new Uri($"http://127.0.0.{rand.Next(1, 100)}:{rand.Next(1, 100)}/dsf"));
++            connection.Setup(c => c.WebServerUri).Returns(new Uri($"http://127.0.0.{rand.Next(1, 100)}:{rand.Next(1, 100)}"));
+             connection.Setup(c => c.IsConnected).Returns(true);
+             connection.Setup(c => c.AuthenticationType).Returns(AuthenticationType.Windows);
+             connection.Setup(c => c.ServerEvents).Returns(new EventPublisher());
+diff --git a/Dev/Dev2.Studio.Core.Tests/QueryManagerProxyTest.cs b/Dev/Dev2.Studio.Core.Tests/QueryManagerProxyTest.cs
+index 2390bbed6e..3963f5e461 100644
+--- a/Dev/Dev2.Studio.Core.Tests/QueryManagerProxyTest.cs
++++ b/Dev/Dev2.Studio.Core.Tests/QueryManagerProxyTest.cs
+@@ -327,7 +327,7 @@ namespace Dev2.Core.Tests
+         {
+             var ser = new Dev2JsonSerializer();
+             var res = ser.SerializeToBuilder(new List<IPluginSource>());
+-            RunTest("FetchPluginSources", new ExecuteMessage { HasError = false, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count()), a => a.FetchPluginSources());
++            RunTest("FetchPluginSources", new ExecuteMessage { HasError = false, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count), a => a.FetchPluginSources());
+         }
+ 
+         [TestMethod]
+@@ -337,7 +337,7 @@ namespace Dev2.Core.Tests
+         {
+             var ser = new Dev2JsonSerializer();
+             var res = ser.SerializeToBuilder(new List<IComPluginSource>());
+-            RunTest("FetchComPluginSources", new ExecuteMessage { HasError = false, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count()), a => a.FetchComPluginSources());
++            RunTest("FetchComPluginSources", new ExecuteMessage { HasError = false, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count), a => a.FetchComPluginSources());
+         }
+ 
+         [TestMethod]
+@@ -348,7 +348,7 @@ namespace Dev2.Core.Tests
+         {
+             var ser = new Dev2JsonSerializer();
+             var res = ser.SerializeToBuilder(new List<IPluginSource>());
+-            RunTest("FetchPluginSources", new ExecuteMessage { HasError = true, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count()), a => a.FetchPluginSources());
++            RunTest("FetchPluginSources", new ExecuteMessage { HasError = true, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count), a => a.FetchPluginSources());
+         }
+ 
+         [TestMethod]
+@@ -359,7 +359,7 @@ namespace Dev2.Core.Tests
+         {
+             var ser = new Dev2JsonSerializer();
+             var res = ser.SerializeToBuilder(new List<IComPluginSource>());
+-            RunTest("FetchComPluginSources", new ExecuteMessage { HasError = true, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count()), a => a.FetchComPluginSources());
++            RunTest("FetchComPluginSources", new ExecuteMessage { HasError = true, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count), a => a.FetchComPluginSources());
+         }
+ 
+         [TestMethod]
+@@ -399,7 +399,7 @@ namespace Dev2.Core.Tests
+         {
+             var ser = new Dev2JsonSerializer();
+             var res = ser.SerializeToBuilder(new List<IToolDescriptor>());
+-            RunTest("FetchToolsService", new ExecuteMessage { HasError = false, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count()), a => a.FetchTools());
++            RunTest("FetchToolsService", new ExecuteMessage { HasError = false, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count), a => a.FetchTools());
+         }
+ 
+         [TestMethod]
+@@ -430,7 +430,7 @@ namespace Dev2.Core.Tests
+         {
+             var ser = new Dev2JsonSerializer();
+             var res = ser.SerializeToBuilder(new List<IExchangeSource>());
+-            RunTest("FetchExchangeSources", new ExecuteMessage { HasError = false, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count()), a => a.FetchExchangeSources());
++            RunTest("FetchExchangeSources", new ExecuteMessage { HasError = false, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count), a => a.FetchExchangeSources());
+         }
+ 
+         [TestMethod]
+@@ -441,7 +441,7 @@ namespace Dev2.Core.Tests
+         {
+             var ser = new Dev2JsonSerializer();
+             var res = ser.SerializeToBuilder(new List<IExchangeSource>());
+-            RunTest("FetchExchangeSources", new ExecuteMessage { HasError = true, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count()), a => a.FetchExchangeSources());
++            RunTest("FetchExchangeSources", new ExecuteMessage { HasError = true, Message = res }, new List<Tuple<string, object>>(), a => Assert.AreEqual(0, a.Count), a => a.FetchExchangeSources());
+         }
+         
+         public void ErrorRunTest<T>(string svcName, ExecuteMessage message, IList<Tuple<string, Object>> args, Action<T> resultAction, Func<IQueryManager, T> action)
+diff --git a/Dev/Dev2.Studio.Core.Tests/Workspaces/WorkspaceItemRepositoryTests.cs b/Dev/Dev2.Studio.Core.Tests/Workspaces/WorkspaceItemRepositoryTests.cs
+index 040d637d6a..a225b063ed 100644
+--- a/Dev/Dev2.Studio.Core.Tests/Workspaces/WorkspaceItemRepositoryTests.cs
++++ b/Dev/Dev2.Studio.Core.Tests/Workspaces/WorkspaceItemRepositoryTests.cs
+@@ -441,7 +441,7 @@ namespace Dev2.Core.Tests.Workspaces
+ 
+         static string GetUniqueRepositoryPath()
+         {
+-            return Path.Combine(_testDir, string.Format("WorkspaceItems{0}.xml", Guid.NewGuid()));
++            return Path.Combine(_testDir, $"WorkspaceItems{Guid.NewGuid()}.xml");
+         }
+ 
+         #endregion
+diff --git a/Dev/Dev2.Studio.Core.Tests/XML/XmlResource.cs b/Dev/Dev2.Studio.Core.Tests/XML/XmlResource.cs
+index 76f0b96f63..3dd89827b3 100644
+--- a/Dev/Dev2.Studio.Core.Tests/XML/XmlResource.cs
++++ b/Dev/Dev2.Studio.Core.Tests/XML/XmlResource.cs
+@@ -29,7 +29,7 @@ namespace Dev2.Core.Tests.XML
+         /// <returns>The contents of the embedded XML file.</returns>
+         public static XElement Fetch(string name)
+         {
+-            var resourceName = string.Format("Dev2.Core.Tests.XML.{0}.xml", name);
++            var resourceName = $"Dev2.Core.Tests.XML.{name}.xml";
+             var assembly = Assembly.GetExecutingAssembly();
+             using (var stream = assembly.GetManifestResourceStream(resourceName))
+             {
+diff --git a/Dev/Dev2.Studio.Core/Activities/Utils/ModelItemUtils.cs b/Dev/Dev2.Studio.Core/Activities/Utils/ModelItemUtils.cs
+index 225ba3286e..298be83ace 100644
+--- a/Dev/Dev2.Studio.Core/Activities/Utils/ModelItemUtils.cs
++++ b/Dev/Dev2.Studio.Core/Activities/Utils/ModelItemUtils.cs
+@@ -116,7 +116,7 @@ namespace Dev2.Studio.Core.Activities.Utils
+         public static Guid TryGetResourceID(ModelItem modelItem)
+         {
+             var resourceIdArg = modelItem.Properties["ResourceID"];
+-            if (resourceIdArg != null && resourceIdArg.ComputedValue != null)
++            if (resourceIdArg?.ComputedValue != null)
+             {
+                 if (resourceIdArg.ComputedValue is InArgument<Guid> argument)
+                 {
+diff --git a/Dev/Dev2.Studio.Core/AppResources/Behaviors/PreventHorizontalScrollWhenFocusedTreeViewItemBehavior.cs b/Dev/Dev2.Studio.Core/AppResources/Behaviors/PreventHorizontalScrollWhenFocusedTreeViewItemBehavior.cs
+index eb9b1ba2f9..3e161daac4 100644
+--- a/Dev/Dev2.Studio.Core/AppResources/Behaviors/PreventHorizontalScrollWhenFocusedTreeViewItemBehavior.cs
++++ b/Dev/Dev2.Studio.Core/AppResources/Behaviors/PreventHorizontalScrollWhenFocusedTreeViewItemBehavior.cs
+@@ -24,9 +24,9 @@ namespace Dev2.Studio.Core.AppResources.Behaviors
+         {
+             base.OnAttached();
+             var item = AssociatedObject.GetParentByType(typeof(TreeViewItem));
+-            if(item is TreeViewItem)
++            if(item is TreeViewItem treeViewItem)
+             {
+-                _treeViewItem = (TreeViewItem)item;
++                _treeViewItem = treeViewItem;
+                 _treeViewItem.RequestBringIntoView += AssociatedObject_RequestBringIntoView;
+             }
+         }
+diff --git a/Dev/Dev2.Studio.Core/AppResources/Converters/IntToVisibilityConverter.cs b/Dev/Dev2.Studio.Core/AppResources/Converters/IntToVisibilityConverter.cs
+index 63b62c15f9..b58162bd71 100644
+--- a/Dev/Dev2.Studio.Core/AppResources/Converters/IntToVisibilityConverter.cs
++++ b/Dev/Dev2.Studio.Core/AppResources/Converters/IntToVisibilityConverter.cs
+@@ -28,9 +28,9 @@ namespace Dev2.Studio.Core.AppResources.Converters
+             }
+ 
+             var negate = false;
+-            if(parameter is bool)
++            if(parameter is bool b)
+             {
+-                negate = (bool)parameter;
++                negate = b;
+             }
+ 
+             if(negate)
+diff --git a/Dev/Dev2.Studio.Core/DataList/RecordsetHandler.cs b/Dev/Dev2.Studio.Core/DataList/RecordsetHandler.cs
+index d999c3adc3..fbe5845300 100644
+--- a/Dev/Dev2.Studio.Core/DataList/RecordsetHandler.cs
++++ b/Dev/Dev2.Studio.Core/DataList/RecordsetHandler.cs
+@@ -261,7 +261,7 @@ namespace Dev2.Studio.Core.DataList
+             }
+             else
+             {
+-                if (!string.IsNullOrEmpty(part.Field) && recset[0].Children.Count(c => c.DisplayName == part.Field) == 0)
++                if (!string.IsNullOrEmpty(part.Field) && !recset[0].Children.Any(c => c.DisplayName == part.Field))
+                 {
+                     missingDataParts.Add(part);
+                 }
+diff --git a/Dev/Dev2.Studio.Core/DependencyGraph/DependencyVisualization/CircularDependency.cs b/Dev/Dev2.Studio.Core/DependencyGraph/DependencyVisualization/CircularDependency.cs
+index af3f1c0729..be5f8bfae6 100644
+--- a/Dev/Dev2.Studio.Core/DependencyGraph/DependencyVisualization/CircularDependency.cs
++++ b/Dev/Dev2.Studio.Core/DependencyGraph/DependencyVisualization/CircularDependency.cs
+@@ -30,11 +30,8 @@ namespace Dev2.Common.DependencyVisualization
+         
+         public override bool Equals(object obj)
+         {
+-            var other = obj as CircularDependency;
+             return
+-                other != null &&
+-                other.Nodes.Count == Nodes.Count &&
+-                other.Nodes.Intersect(Nodes).Count() == Nodes.Count;
++obj is CircularDependency other && other.Nodes.Count == Nodes.Count && other.Nodes.Intersect(Nodes).Count() == Nodes.Count;
+         }
+ 
+         public override int GetHashCode() => Nodes.GetHashCode();
+diff --git a/Dev/Dev2.Studio.Core/Diagnostics/DebugStateTreeViewItemViewModel.cs b/Dev/Dev2.Studio.Core/Diagnostics/DebugStateTreeViewItemViewModel.cs
+index 409a591693..0024eb35d2 100644
+--- a/Dev/Dev2.Studio.Core/Diagnostics/DebugStateTreeViewItemViewModel.cs
++++ b/Dev/Dev2.Studio.Core/Diagnostics/DebugStateTreeViewItemViewModel.cs
+@@ -244,7 +244,7 @@ namespace Dev2.Studio.Core
+             {
+                 if (!groups.TryGetValue(result.GroupName, out DebugLineGroup group))
+                 {
+-                    var label = isInputs ? string.Format("{0} = ", result.Label) : result.Label;
++                    var label = isInputs ? $"{result.Label} = " : result.Label;
+                     group = new DebugLineGroup(result.GroupName, label)
+                     {
+                         MoreLink = result.MoreLink
+diff --git a/Dev/Dev2.Studio.Core/Network/WebServer.cs b/Dev/Dev2.Studio.Core/Network/WebServer.cs
+index 259ea1731b..7acdd9bc11 100644
+--- a/Dev/Dev2.Studio.Core/Network/WebServer.cs
++++ b/Dev/Dev2.Studio.Core/Network/WebServer.cs
+@@ -110,7 +110,7 @@ namespace Dev2.Studio.Core.Network
+                 return null;
+             }
+ 
+-            var relativeUrl = string.Format("/internal/{0}", serviceName);
++            var relativeUrl = $"/internal/{serviceName}";
+             Uri.TryCreate(connection.WebServerUri, relativeUrl, out Uri url);
+             return url;
+         }
+diff --git a/Dev/Dev2.Studio/Bootstrapper.cs b/Dev/Dev2.Studio/Bootstrapper.cs
+index e8ebcf83f8..235aeb4cb3 100644
+--- a/Dev/Dev2.Studio/Bootstrapper.cs
++++ b/Dev/Dev2.Studio/Bootstrapper.cs
+@@ -82,8 +82,7 @@ namespace Dev2
+         {
+             if (_serverServiceStartedFromStudio)
+             {
+-                var app = Application.Current as IApp;
+-                if (app != null)
++                if (Application.Current is IApp app)
+                 {
+                     app.ShouldRestart = true;
+                 }
+diff --git a/Dev/Dev2.Studio/CustomControls/Progress/ProgressDialogViewModel.cs b/Dev/Dev2.Studio/CustomControls/Progress/ProgressDialogViewModel.cs
+index ceae3feb69..61fee707c7 100644
+--- a/Dev/Dev2.Studio/CustomControls/Progress/ProgressDialogViewModel.cs
++++ b/Dev/Dev2.Studio/CustomControls/Progress/ProgressDialogViewModel.cs
+@@ -52,7 +52,7 @@ namespace Dev2.CustomControls.Progress
+ 
+         public void StatusChanged(string fileName, int progressPercent, long totalBytes)
+         {
+-            Label = string.Format("{0} downloaded {1}% of {2:0} KB", fileName, progressPercent, totalBytes / 1024);
++            Label = $"{fileName} downloaded {progressPercent}% of {totalBytes / 1024:0} KB";
+             ProgressValue = progressPercent;
+         }
+         
+diff --git a/Dev/Dev2.Studio/ViewModels/Diagnostics/DebugOutputViewModel.cs b/Dev/Dev2.Studio/ViewModels/Diagnostics/DebugOutputViewModel.cs
+index 5073e30fd7..3c00c12aa3 100644
+--- a/Dev/Dev2.Studio/ViewModels/Diagnostics/DebugOutputViewModel.cs
++++ b/Dev/Dev2.Studio/ViewModels/Diagnostics/DebugOutputViewModel.cs
+@@ -122,11 +122,7 @@ namespace Dev2.Studio.ViewModels.Diagnostics
+         void AddNewTest(IEventAggregator eventPublisher)
+         {
+             var applicationTracker = CustomContainer.Get<IApplicationTracker>();
+-            if (applicationTracker != null)
+-            {
+-                applicationTracker.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventMenu.EventCategory,
+-                                                Warewolf.Studio.Resources.Languages.TrackEventMenu.CreateNewTest);
+-            }
++            applicationTracker?.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventMenu.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventMenu.CreateNewTest);
+                 var newTestFromDebugMessage = new NewTestFromDebugMessage
+             {
+                 ResourceID = ResourceID,
+diff --git a/Dev/Dev2.Studio/ViewModels/Merge/Utils/ConflictRowListBuilder.cs b/Dev/Dev2.Studio/ViewModels/Merge/Utils/ConflictRowListBuilder.cs
+index 5a68f7228e..397278a61a 100644
+--- a/Dev/Dev2.Studio/ViewModels/Merge/Utils/ConflictRowListBuilder.cs
++++ b/Dev/Dev2.Studio/ViewModels/Merge/Utils/ConflictRowListBuilder.cs
+@@ -234,9 +234,9 @@ namespace Dev2.ViewModels.Merge.Utils
+             armConnectorsDiff = diff?.Activity.ArmConnectors().OrderBy(i => i.Key ?? "").ToList();
+ 
+             maxCount = current == null
+-                ? armConnectorsDiff.Count()
++                ? armConnectorsDiff.Count
+                 : diff == null
+-                ? armConnectorsCurrent.Count()
++                ? armConnectorsCurrent.Count
+                 : Math.Max(armConnectorsCurrent.Count, armConnectorsDiff.Count);
+         }
+     }
+diff --git a/Dev/Dev2.Studio/ViewModels/ShellViewModel.cs b/Dev/Dev2.Studio/ViewModels/ShellViewModel.cs
+index 28d608c7a7..8acacf2dbb 100644
+--- a/Dev/Dev2.Studio/ViewModels/ShellViewModel.cs
++++ b/Dev/Dev2.Studio/ViewModels/ShellViewModel.cs
+@@ -2321,8 +2321,8 @@ namespace Dev2.Studio.ViewModels
+             {
+                 var key = WorkSurfaceKeyFactory.CreateKey(resource);
+                 var currentContext = FindWorkSurfaceContextViewModel(key);
+-                var vm = currentContext?.WorkSurfaceViewModel as IWorkflowDesignerViewModel;
+-                if (vm != null)
++
++                if (currentContext?.WorkSurfaceViewModel is IWorkflowDesignerViewModel vm)
+                 {
+                     vm.CanMerge = true;
+                 }
+diff --git a/Dev/Dev2.Studio/ViewModels/WorkSurface/WorkSurfaceContextViewModel.cs b/Dev/Dev2.Studio/ViewModels/WorkSurface/WorkSurfaceContextViewModel.cs
+index 9b51e7ce0c..e8bccb980c 100644
+--- a/Dev/Dev2.Studio/ViewModels/WorkSurface/WorkSurfaceContextViewModel.cs
++++ b/Dev/Dev2.Studio/ViewModels/WorkSurface/WorkSurfaceContextViewModel.cs
+@@ -324,10 +324,7 @@ namespace Dev2.Studio.ViewModels.WorkSurface
+ 
+         public void Debug(IContextualResourceModel resourceModel, bool isDebug)
+         {
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackEvent(TrackEventDebugOutput.EventCategory, TrackEventDebugOutput.Debug);
+-            }
++            _applicationTracker?.TrackEvent(TrackEventDebugOutput.EventCategory, TrackEventDebugOutput.Debug);
+             if (resourceModel?.Environment == null || !resourceModel.Environment.IsConnected)
+             {
+                 return;
+@@ -397,10 +394,7 @@ namespace Dev2.Studio.ViewModels.WorkSurface
+ 
+         public void QuickViewInBrowser()
+         {
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackEvent(TrackEventDebugOutput.EventCategory,TrackEventDebugOutput.F7Browser);
+-            }
++            _applicationTracker?.TrackEvent(TrackEventDebugOutput.EventCategory, TrackEventDebugOutput.F7Browser);
+             if (!ContextualResourceModel.IsWorkflowSaved)
+             {
+                 var successfuleSave = Save(ContextualResourceModel, true);
+@@ -430,10 +424,7 @@ namespace Dev2.Studio.ViewModels.WorkSurface
+ 
+         public void QuickDebug()
+         {
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackEvent(TrackEventDebugOutput.EventCategory,TrackEventDebugOutput.F6Debug);
+-            }
++            _applicationTracker?.TrackEvent(TrackEventDebugOutput.EventCategory, TrackEventDebugOutput.F6Debug);
+             if (DebugOutputViewModel.IsProcessing)
+             {
+                 StopExecution();
+diff --git a/Dev/Dev2.Studio/ViewModels/Workflow/WorkflowDesignerViewModel.cs b/Dev/Dev2.Studio/ViewModels/Workflow/WorkflowDesignerViewModel.cs
+index 4ff8922d2e..bd45d84d9f 100644
+--- a/Dev/Dev2.Studio/ViewModels/Workflow/WorkflowDesignerViewModel.cs
++++ b/Dev/Dev2.Studio/ViewModels/Workflow/WorkflowDesignerViewModel.cs
+@@ -1019,11 +1019,7 @@ namespace Dev2.Studio.ViewModels.Workflow
+             //Track added items when dragged on design surface
+             if (computedValue != null && computedValue.GetType() != typeof(DsfActivity))
+             {
+-                if (_applicationTracker != null)
+-                {
+-                    _applicationTracker.TrackCustomEvent(Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.EventCategory,
+-                                                    Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.ItemDragged, computedValue.ToString());
+-                }
++                _applicationTracker?.TrackCustomEvent(Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.ItemDragged, computedValue.ToString());
+             }
+             if (computedValue == null && (mi.ItemType == typeof(DsfFlowDecisionActivity) ||
+                                           mi.ItemType == typeof(DsfFlowSwitchActivity)))
+@@ -1050,11 +1046,7 @@ namespace Dev2.Studio.ViewModels.Workflow
+             else if (mi.ItemType == typeof(FlowDecision))
+             {
+                 InitializeFlowDecision(mi);
+-                if (_applicationTracker != null)
+-                {
+-                    _applicationTracker.TrackCustomEvent(Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.EventCategory,
+-                                                    Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.ItemDragged, mi.ItemType.Name);
+-                }
++                _applicationTracker?.TrackCustomEvent(Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.ItemDragged, mi.ItemType.Name);
+             }
+             else if (mi.ItemType == typeof(FlowStep))
+             {
+@@ -1201,10 +1193,7 @@ namespace Dev2.Studio.ViewModels.Workflow
+             droppedActivity = DsfActivityFactory.CreateDsfActivity(resource, droppedActivity, false, serverRepository, _resourceModel.Environment.IsLocalHostCheck());
+             WorkflowDesignerUtils.CheckIfRemoteWorkflowAndSetProperties(droppedActivity, resource, serverRepository.ActiveServer);
+             modelProperty1.SetValue(droppedActivity);
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackCustomEvent(Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.ItemDragged, displayName);
+-            }
++            _applicationTracker?.TrackCustomEvent(Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.ItemDragged, displayName);
+         }
+ 
+         void InitializeFlowSwitch(ModelItem mi)
+@@ -2121,11 +2110,7 @@ namespace Dev2.Studio.ViewModels.Workflow
+                 if (!IsStartNodeErrorMessageSet)
+                 {
+                     IsStartNodeErrorMessageSet = true;
+-                    if (_applicationTracker != null)
+-                    {
+-                        _applicationTracker.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.EventCategory,
+-                                                        Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.StartNodeNotConnected);
+-                    }
++                    _applicationTracker?.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventWorkflowTabs.StartNodeNotConnected);
+                 }
+             }
+         }
+@@ -2635,7 +2620,7 @@ namespace Dev2.Studio.ViewModels.Workflow
+             if (Application.Current != null && Application.Current.Dispatcher.CheckAccess() && Application.Current.MainWindow != null)
+             {
+                 dynamic mvm = Application.Current.MainWindow.DataContext;
+-                if (mvm != null && mvm.ActiveItem != null)
++                if (mvm?.ActiveItem != null)
+                 {
+                     WorkflowDesignerUtils.CheckIfRemoteWorkflowAndSetProperties(d, resource, mvm.ActiveItem.Environment);
+                 }
+diff --git a/Dev/Dev2.Studio/ViewModels/WorksurfaceContextManager.cs b/Dev/Dev2.Studio/ViewModels/WorksurfaceContextManager.cs
+index 27595a3dac..eefd17beee 100644
+--- a/Dev/Dev2.Studio/ViewModels/WorksurfaceContextManager.cs
++++ b/Dev/Dev2.Studio/ViewModels/WorksurfaceContextManager.cs
+@@ -233,7 +233,7 @@ namespace Dev2.Studio.ViewModels
+             if (found != null)
+             {
+                 var vm = found.WorkSurfaceViewModel;
+-                if (vm != null && vm is IStudioTestWorkSurfaceViewModel testVm)
++                if (vm is IStudioTestWorkSurfaceViewModel testVm)
+                 {
+                     var serviceTestViewModel = testVm?.ViewModel;
+                     serviceTestViewModel?.PrePopulateTestsUsingDebug(message.RootItems);
+@@ -1284,22 +1284,14 @@ namespace Dev2.Studio.ViewModels
+ 
+         public void AddSettingsWorkSurface()
+         {
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventMenu.EventCategory,
+-                    Warewolf.Studio.Resources.Languages.TrackEventMenu.Settings);
+-            }
++            _applicationTracker?.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventMenu.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventMenu.Settings);
+ 
+             ActivateOrCreateUniqueWorkSurface<SettingsViewModel>(WorkSurfaceContext.Settings);
+         }
+ 
+         public void AddSchedulerWorkSurface()
+         {
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventMenu.EventCategory,
+-                    Warewolf.Studio.Resources.Languages.TrackEventMenu.Task);
+-            }
++            _applicationTracker?.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventMenu.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventMenu.Task);
+ 
+             ActivateOrCreateUniqueWorkSurface<SchedulerViewModel>(WorkSurfaceContext.Scheduler);
+         }
+@@ -1312,11 +1304,7 @@ namespace Dev2.Studio.ViewModels
+ 
+         public TriggersViewModel AddTriggersWorkSurface()
+         {
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventMenu.EventCategory,
+-                    Warewolf.Studio.Resources.Languages.TrackEventMenu.Task);
+-            }
++            _applicationTracker?.TrackEvent(Warewolf.Studio.Resources.Languages.TrackEventMenu.EventCategory, Warewolf.Studio.Resources.Languages.TrackEventMenu.Task);
+ 
+             return ActivateOrCreateUniqueWorkSurface<TriggersViewModel>(WorkSurfaceContext.Triggers);
+         }
+@@ -1355,7 +1343,7 @@ namespace Dev2.Studio.ViewModels
+             if (workSurfaceContextViewModel != null)
+             {
+                 var workSurfaceViewModel = workSurfaceContextViewModel.WorkSurfaceViewModel;
+-                if (workSurfaceViewModel != null && workSurfaceViewModel is SchedulerViewModel findWorkSurfaceContextViewModel)
++                if (workSurfaceViewModel is SchedulerViewModel findWorkSurfaceContextViewModel)
+                 {
+                     if (findWorkSurfaceContextViewModel.IsDirty)
+                     {
+diff --git a/Dev/Dev2.Studio/Views/Workflow/WorkflowDesignerView.xaml.cs b/Dev/Dev2.Studio/Views/Workflow/WorkflowDesignerView.xaml.cs
+index 61d7cbdb93..31ed1794d8 100644
+--- a/Dev/Dev2.Studio/Views/Workflow/WorkflowDesignerView.xaml.cs
++++ b/Dev/Dev2.Studio/Views/Workflow/WorkflowDesignerView.xaml.cs
+@@ -44,8 +44,7 @@ namespace Dev2.Studio.Views.Workflow
+             }
+             if (e.ChangedButton == MouseButton.Right)
+             {
+-                var node = e.OriginalSource as DependencyObject;
+-                while (node != null)
++                while (e.OriginalSource is DependencyObject node)
+                 {
+                     if (node is ActivityDesigner)
+                     {
+@@ -64,7 +63,6 @@ namespace Dev2.Studio.Views.Workflow
+ 
+         private void RightClickStartNode(MouseButtonEventArgs e)
+         {
+-            var rect = e.OriginalSource as System.Windows.Shapes.Rectangle;
+             if (e.OriginalSource is Grid grid)
+             {
+                 grid.ContextMenu = WorkflowDesigner.Resources["StartNodeContextMenu"] as ContextMenu;
+@@ -77,7 +75,7 @@ namespace Dev2.Studio.Views.Workflow
+             }
+             else
+             {
+-                if (rect != null)
++                if (e.OriginalSource is System.Windows.Shapes.Rectangle rect)
+                 {
+                     rect.ContextMenu = WorkflowDesigner.Resources["StartNodeContextMenu"] as ContextMenu;
+                     if (rect.ContextMenu != null)
+@@ -98,7 +96,6 @@ namespace Dev2.Studio.Views.Workflow
+                              ((FrameworkElement)e.Source)
+                              .DataContext).ResourceModel).ID;
+             var data = dataObject.GetData("Warewolf.Studio.ViewModels.ExplorerItemViewModel");
+-            var itemBeingDraggedOntoTheSurface = data as Warewolf.Studio.ViewModels.ExplorerItemViewModel;
+ 
+             if (e.OriginalSource.GetType() == typeof(ScrollViewer))
+             {
+@@ -118,7 +115,7 @@ namespace Dev2.Studio.Views.Workflow
+                     e.Handled = true;
+                 }
+             }
+-            else if (itemBeingDraggedOntoTheSurface != null && workSurfaceServiceId == itemBeingDraggedOntoTheSurface.ResourceId)
++            else if (data is Warewolf.Studio.ViewModels.ExplorerItemViewModel itemBeingDraggedOntoTheSurface && workSurfaceServiceId == itemBeingDraggedOntoTheSurface.ResourceId)
+             {
+                 e.Effects = DragDropEffects.None;
+                 e.Handled = true;
+diff --git a/Dev/Dev2.TaskScheduler.Wrappers/TaskServiceConvertorFactory.cs b/Dev/Dev2.TaskScheduler.Wrappers/TaskServiceConvertorFactory.cs
+index da2328d9ce..9e0abd7ee2 100644
+--- a/Dev/Dev2.TaskScheduler.Wrappers/TaskServiceConvertorFactory.cs
++++ b/Dev/Dev2.TaskScheduler.Wrappers/TaskServiceConvertorFactory.cs
+@@ -128,8 +128,8 @@ namespace Dev2.TaskScheduler.Wrappers
+ 
+                     break;
+                 case TaskTriggerType.Event:
+-                    var evt = resource.Instance as EventTrigger;
+-                    if (evt != null)
++
++                    if (resource.Instance is EventTrigger evt)
+                     {
+                         evt.GetBasic(out string log, out string source, out int? eventId);
+ 
+@@ -143,8 +143,8 @@ namespace Dev2.TaskScheduler.Wrappers
+ 
+                     break;
+                 case TaskTriggerType.Logon:
+-                    var logonTrigger = resource.Instance as LogonTrigger;
+-                    if (logonTrigger != null)
++
++                    if (resource.Instance is LogonTrigger logonTrigger)
+                     {
+                         trigger = new Dev2LogonTrigger(this, new LogonTrigger {UserId = logonTrigger.UserId});
+                     }
+@@ -173,8 +173,7 @@ namespace Dev2.TaskScheduler.Wrappers
+                     break;
+                 case TaskTriggerType.SessionStateChange:
+ 
+-                    var sessionStateChangeTrigger = resource.Instance as SessionStateChangeTrigger;
+-                    if (sessionStateChangeTrigger != null)
++                    if (resource.Instance is SessionStateChangeTrigger sessionStateChangeTrigger)
+                     {
+                         trigger = new Dev2Trigger(this,
+                             new SessionStateChangeTrigger
+diff --git a/Dev/Warewolf.Core/InputsFromJson.cs b/Dev/Warewolf.Core/InputsFromJson.cs
+index 18e7ce5226..b05b2953f5 100644
+--- a/Dev/Warewolf.Core/InputsFromJson.cs
++++ b/Dev/Warewolf.Core/InputsFromJson.cs
+@@ -102,7 +102,7 @@ namespace Warewolf.Core
+                 }
+             }
+ 
+-            if (recSetObj != null && recSetObj.Value is JObject recSetDataObj)
++            if (recSetObj?.Value is JObject recSetDataObj)
+             {
+                 var positionItems = (recSetDataObj.Property("WarewolfPositionColumn").Value as JArray).ToList();
+                 foreach (var recSetData in recSetDataObj.Properties())
+diff --git a/Dev/Warewolf.MergeParser/ServiceDifferenceParser.cs b/Dev/Warewolf.MergeParser/ServiceDifferenceParser.cs
+index 7a74604a43..80fd294e4e 100644
+--- a/Dev/Warewolf.MergeParser/ServiceDifferenceParser.cs
++++ b/Dev/Warewolf.MergeParser/ServiceDifferenceParser.cs
+@@ -166,7 +166,7 @@ namespace Warewolf.MergeParser
+                 }
+                 nextNodes = newNextNodes;
+             }
+-            if (nodes.Count() != flowchartDiff?.Nodes?.Count)
++            if (nodes.Count != flowchartDiff?.Nodes?.Count)
+             {
+                 AddMissingConflictNodes(idsLocations, nodes, flowchartDiff);
+             }
+diff --git a/Dev/Warewolf.Security.Specs/SettingsPermissionsSteps.cs b/Dev/Warewolf.Security.Specs/SettingsPermissionsSteps.cs
+index 8511be0be4..826fd6e22d 100644
+--- a/Dev/Warewolf.Security.Specs/SettingsPermissionsSteps.cs
++++ b/Dev/Warewolf.Security.Specs/SettingsPermissionsSteps.cs
+@@ -245,7 +245,7 @@ namespace Dev2.Activities.Specs.Permissions
+                 }
+             }
+             var resourceModels = environmentModel.ResourceRepository.All();
+-            Assert.IsTrue(resourceModels.Count() > 0, "Cannot load any resources from " + environmentModel.DisplayName);
++            Assert.IsTrue(resourceModels.Any(), "Cannot load any resources from " + environmentModel.DisplayName);
+             var allMatch = resourceModels.Count(model => model.UserPermissions == resourcePermissions);
+             var totalNumberOfResources = resourceModels.Count;
+             var totalNumberOfResourcesWithoutMatch = totalNumberOfResources - allMatch;
+@@ -348,7 +348,7 @@ namespace Dev2.Activities.Specs.Permissions
+         [Given(@"I have a server ""(.*)""")]
+         public void GivenIHaveAServer(string serverName)
+         {
+-            AppUsageStats.LocalHost = string.Format("http://{0}:3142", Environment.MachineName.ToLowerInvariant());
++            AppUsageStats.LocalHost = $"http://{Environment.MachineName.ToLowerInvariant()}:3142";
+             var environmentModel = ServerRepository.Instance.Source;
+             _scenarioContext.Add("environment", environmentModel);
+         }
+diff --git a/Dev/Warewolf.Security/Encryption/AESThenHMAC.cs b/Dev/Warewolf.Security/Encryption/AESThenHMAC.cs
+index aacc60c868..9e06154509 100644
+--- a/Dev/Warewolf.Security/Encryption/AESThenHMAC.cs
++++ b/Dev/Warewolf.Security/Encryption/AESThenHMAC.cs
+@@ -151,10 +151,10 @@ namespace Warewolf.Security.Encryption
+         {
+             //User Error Checks
+             if (cryptKey == null || cryptKey.Length != KeyBitSize / 8)
+-                throw new ArgumentException(String.Format("Key needs to be {0} bit!", KeyBitSize), nameof(cryptKey));
++                throw new ArgumentException($"Key needs to be {KeyBitSize} bit!", nameof(cryptKey));
+ 
+             if (authKey == null || authKey.Length != KeyBitSize / 8)
+-                throw new ArgumentException(String.Format("Key needs to be {0} bit!", KeyBitSize), nameof(authKey));
++                throw new ArgumentException($"Key needs to be {KeyBitSize} bit!", nameof(authKey));
+ 
+             if (secretMessage == null || secretMessage.Length < 1)
+                 throw new ArgumentException("Secret Message Required!", nameof(secretMessage));
+@@ -230,10 +230,10 @@ namespace Warewolf.Security.Encryption
+ 
+             //Basic Usage Error Checks
+             if (cryptKey == null || cryptKey.Length != KeyBitSize / 8)
+-                throw new ArgumentException(String.Format("CryptKey needs to be {0} bit!", KeyBitSize), nameof(cryptKey));
++                throw new ArgumentException($"CryptKey needs to be {KeyBitSize} bit!", nameof(cryptKey));
+ 
+             if (authKey == null || authKey.Length != KeyBitSize / 8)
+-                throw new ArgumentException(String.Format("AuthKey needs to be {0} bit!", KeyBitSize), nameof(authKey));
++                throw new ArgumentException($"AuthKey needs to be {KeyBitSize} bit!", nameof(authKey));
+ 
+             if (encryptedMessage == null || encryptedMessage.Length == 0)
+                 throw new ArgumentException("Encrypted Message Required!", nameof(encryptedMessage));
+@@ -315,7 +315,7 @@ namespace Warewolf.Security.Encryption
+ 
+             //User Error Checks
+             if (string.IsNullOrWhiteSpace(password) || password.Length < MinPasswordLength)
+-                throw new ArgumentException(String.Format("Must have a password of at least {0} characters!", MinPasswordLength), nameof(password));
++                throw new ArgumentException($"Must have a password of at least {MinPasswordLength} characters!", nameof(password));
+ 
+             if (secretMessage == null || secretMessage.Length == 0)
+                 throw new ArgumentException("Secret Message Required!", nameof(secretMessage));
+@@ -374,7 +374,7 @@ namespace Warewolf.Security.Encryption
+         {
+             //User Error Checks
+             if (string.IsNullOrWhiteSpace(password) || password.Length < MinPasswordLength)
+-                throw new ArgumentException(String.Format("Must have a password of at least {0} characters!", MinPasswordLength), nameof(password));
++                throw new ArgumentException($"Must have a password of at least {MinPasswordLength} characters!", nameof(password));
+ 
+             if (encryptedMessage == null || encryptedMessage.Length == 0)
+                 throw new ArgumentException("Encrypted Message Required!", nameof(encryptedMessage));
+diff --git a/Dev/Warewolf.Sharepoint/SharepointHelper.cs b/Dev/Warewolf.Sharepoint/SharepointHelper.cs
+index 105e180b0c..e82ce2dd10 100644
+--- a/Dev/Warewolf.Sharepoint/SharepointHelper.cs
++++ b/Dev/Warewolf.Sharepoint/SharepointHelper.cs
+@@ -239,7 +239,7 @@ namespace Warewolf.Sharepoint
+ 
+                     var newfileName = !string.IsNullOrEmpty(fileName) ? fileName : localFile.Name;
+ 
+-                    var fileUrl = string.Format("{0}/{1}", folder.ServerRelativeUrl, newfileName);
++                    var fileUrl = $"{folder.ServerRelativeUrl}/{newfileName}";
+ 
+                     File.SaveBinaryDirect(ctx, fileUrl, fs, true);
+                 }
+@@ -339,8 +339,8 @@ namespace Warewolf.Sharepoint
+                 case FieldType.Integer:
+                 case FieldType.Counter:
+                     sharepointFieldTo.Type = SharepointFieldType.Integer;
+-                    var intField = field as FieldNumber;
+-                    if (intField != null)
++
++                    if (field is FieldNumber intField)
+                     {
+                         sharepointFieldTo.MaxValue = intField.MaximumValue;
+                         sharepointFieldTo.MinValue = intField.MinimumValue;
+@@ -354,8 +354,8 @@ namespace Warewolf.Sharepoint
+                 case FieldType.Text:
+                 case FieldType.Choice:
+                     sharepointFieldTo.Type = SharepointFieldType.Text;
+-                    var textField = field as FieldText;
+-                    if (textField != null)
++
++                    if (field is FieldText textField)
+                     {
+                         sharepointFieldTo.MaxLength = textField.MaxLength;
+                     }
+@@ -374,9 +374,9 @@ namespace Warewolf.Sharepoint
+                     break;
+ 
+                 case FieldType.Number:
+-                    var numberField = field as FieldNumber;
+                     sharepointFieldTo.Type = SharepointFieldType.Number;
+-                    if (numberField != null)
++
++                    if (field is FieldNumber numberField)
+                     {
+                         sharepointFieldTo.MaxValue = numberField.MaximumValue;
+                         sharepointFieldTo.MinValue = numberField.MinimumValue;
+diff --git a/Dev/Warewolf.Storage/ExecutionEnvironment.cs b/Dev/Warewolf.Storage/ExecutionEnvironment.cs
+index 15d03ddbe4..55d5574018 100644
+--- a/Dev/Warewolf.Storage/ExecutionEnvironment.cs
++++ b/Dev/Warewolf.Storage/ExecutionEnvironment.cs
+@@ -60,7 +60,7 @@ namespace Warewolf.Storage
+             {
+                 if (throwsifnotexists && e is NullValueInVariableException && e.Message.Contains("variable not found"))
+                 {
+-                    throw new Exception(string.Format("variable {0} not found", (e as NullValueInVariableException).VariableName));
++                    throw new Exception($"variable {(e as NullValueInVariableException).VariableName} not found");
+                 }
+ 
+                 if (throwsifnotexists || e is IndexOutOfRangeException || e.Message.Contains(@"index was not an int"))
+@@ -889,7 +889,7 @@ namespace Warewolf.Storage
+                     }
+                 }
+ 
+-                if (recSetObj != null && recSetObj.Value is JObject recSetDataObj)
++                if (recSetObj?.Value is JObject recSetDataObj)
+                 {
+                     var positionItems = (recSetDataObj.Property("WarewolfPositionColumn").Value as JArray).ToList();
+                     foreach (var recSetData in recSetDataObj.Properties())
+diff --git a/Dev/Warewolf.Studio.CustomControls/WidthConverter.cs b/Dev/Warewolf.Studio.CustomControls/WidthConverter.cs
+index ddbf983663..08d1430c67 100644
+--- a/Dev/Warewolf.Studio.CustomControls/WidthConverter.cs
++++ b/Dev/Warewolf.Studio.CustomControls/WidthConverter.cs
+@@ -41,8 +41,7 @@ namespace Warewolf.Studio.CustomControls
+ 
+             try
+             {
+-                var xamDataTreeNodeControl = values[0] as TreeViewItem;
+-                if (xamDataTreeNodeControl != null)
++                if (values[0] is TreeViewItem xamDataTreeNodeControl)
+                 {
+                     return xamDataTreeNodeControl.ActualWidth - 22;
+                 }
+@@ -65,8 +64,7 @@ namespace Warewolf.Studio.CustomControls
+         {
+             try
+             {
+-                var expander = values[0] as Expander;
+-                if (expander != null)
++                if (values[0] is Expander expander)
+                 {
+                     return expander.ActualWidth - 80;
+                 }
+diff --git a/Dev/Warewolf.Studio.ViewModels/ConnectControlViewModel.cs b/Dev/Warewolf.Studio.ViewModels/ConnectControlViewModel.cs
+index 9a1035f0fb..457c37f4d9 100644
+--- a/Dev/Warewolf.Studio.ViewModels/ConnectControlViewModel.cs
++++ b/Dev/Warewolf.Studio.ViewModels/ConnectControlViewModel.cs
+@@ -342,10 +342,7 @@ namespace Warewolf.Studio.ViewModels
+ 
+         void NewServer()
+         {
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackEvent(Resources.Languages.TrackEventMenu.EventCategory, Resources.Languages.TrackEventMenu.NewRemoteServer);
+-            }
++            _applicationTracker?.TrackEvent(Resources.Languages.TrackEventMenu.EventCategory, Resources.Languages.TrackEventMenu.NewRemoteServer);
+             var mainViewModel = CustomContainer.Get<IShellViewModel>();
+             if (mainViewModel != null && ShouldUpdateActiveEnvironment)
+             {
+diff --git a/Dev/Warewolf.Studio.ViewModels/ToolBox/ToolboxViewModel.cs b/Dev/Warewolf.Studio.ViewModels/ToolBox/ToolboxViewModel.cs
+index 731534f018..7ab4ba1b8e 100644
+--- a/Dev/Warewolf.Studio.ViewModels/ToolBox/ToolboxViewModel.cs
++++ b/Dev/Warewolf.Studio.ViewModels/ToolBox/ToolboxViewModel.cs
+@@ -149,11 +149,7 @@ namespace Warewolf.Studio.ViewModels.ToolBox
+             var searchWords = filterText.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+ 
+ 
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackCustomEvent(Resources.Languages.TrackEventToolbox.EventCategory,
+-                                                Resources.Languages.TrackEventToolbox.ToolBoxSearch, filterText);
+-            }
++            _applicationTracker?.TrackCustomEvent(Resources.Languages.TrackEventToolbox.EventCategory, Resources.Languages.TrackEventToolbox.ToolBoxSearch, filterText);
+             var results = _backedUpTools.Where(i =>
+                      searchWords.All(s => i.Tool.Name.ToLower().Contains(s))
+                      || searchWords.All(s => i.Tool.Category.ToLower().Contains(s))
+@@ -197,11 +193,7 @@ namespace Warewolf.Studio.ViewModels.ToolBox
+         {
+             var mainViewModel = CustomContainer.Get<IShellViewModel>();
+             mainViewModel?.HelpViewModel.UpdateHelpText(helpText);
+-            if (_applicationTracker != null)
+-            {
+-                _applicationTracker.TrackCustomEvent(Resources.Languages.TrackEventHelp.EventCategory,
+-                                                Resources.Languages.TrackEventHelp.Help, helpText);
+-            }
++            _applicationTracker?.TrackCustomEvent(Resources.Languages.TrackEventHelp.EventCategory, Resources.Languages.TrackEventHelp.Help, helpText);
+         }
+     }
+ }
+diff --git a/Dev/Warewolf.Studio.Views/ManageComPluginSourceControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManageComPluginSourceControl.xaml.cs
+index 4719244b6c..90076209b5 100644
+--- a/Dev/Warewolf.Studio.Views/ManageComPluginSourceControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManageComPluginSourceControl.xaml.cs
+@@ -110,8 +110,7 @@ namespace Warewolf.Studio.Views
+             switch (controlName)
+             {
+                 case "Save":
+-                    var viewModel = DataContext as ManageComPluginSourceViewModel;
+-                    return viewModel != null && viewModel.OkCommand.CanExecute(null);
++                    return DataContext is ManageComPluginSourceViewModel viewModel && viewModel.OkCommand.CanExecute(null);
+                 case "Filter":
+                     return SearchTextBox.IsEnabled;
+                 default:
+diff --git a/Dev/Warewolf.Studio.Views/ManageDatabaseSourceControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManageDatabaseSourceControl.xaml.cs
+index e246632cdb..dec4b7408a 100644
+--- a/Dev/Warewolf.Studio.Views/ManageDatabaseSourceControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManageDatabaseSourceControl.xaml.cs
+@@ -36,8 +36,7 @@ namespace Warewolf.Studio.Views
+             switch (controlName)
+             {
+                 case "Save":
+-                    var viewModel = DataContext as DatabaseSourceViewModelBase;
+-                    return viewModel != null && viewModel.OkCommand.CanExecute(null);
++                    return DataContext is DatabaseSourceViewModelBase viewModel && viewModel.OkCommand.CanExecute(null);
+                 case "Test Connection":
+                     return TestConnectionButton.Command.CanExecute(null);
+                 default:
+diff --git a/Dev/Warewolf.Studio.Views/ManageEmailSourceControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManageEmailSourceControl.xaml.cs
+index e86fad805f..76ed0623f9 100644
+--- a/Dev/Warewolf.Studio.Views/ManageEmailSourceControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManageEmailSourceControl.xaml.cs
+@@ -37,8 +37,7 @@ namespace Warewolf.Studio.Views
+                 case "Send":
+                     return TestSendCommand.Command.CanExecute(null);
+                 case "Save":
+-                    var viewModel = DataContext as ManageEmailSourceViewModel;
+-                    return viewModel != null && viewModel.OkCommand.CanExecute(null);
++                    return DataContext is ManageEmailSourceViewModel viewModel && viewModel.OkCommand.CanExecute(null);
+                 default:
+                     break;
+             }
+diff --git a/Dev/Warewolf.Studio.Views/ManageExchangeSourceControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManageExchangeSourceControl.xaml.cs
+index f655dd317f..6b0d249bf1 100644
+--- a/Dev/Warewolf.Studio.Views/ManageExchangeSourceControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManageExchangeSourceControl.xaml.cs
+@@ -39,8 +39,7 @@ namespace Warewolf.Studio.Views
+                 case "Send":
+                     return TestSendCommand.Command.CanExecute(null);
+                 case "Save":
+-                    var viewModel = DataContext as ManageEmailSourceViewModel;
+-                    return viewModel != null && viewModel.OkCommand.CanExecute(null);
++                    return DataContext is ManageEmailSourceViewModel viewModel && viewModel.OkCommand.CanExecute(null);
+                 default:
+                     break;
+             }
+diff --git a/Dev/Warewolf.Studio.Views/ManagePluginSourceControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManagePluginSourceControl.xaml.cs
+index 98685a800f..f749db8dd5 100644
+--- a/Dev/Warewolf.Studio.Views/ManagePluginSourceControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManagePluginSourceControl.xaml.cs
+@@ -40,8 +40,7 @@ namespace Warewolf.Studio.Views
+             switch (controlName)
+             {
+                 case "Save":
+-                    var viewModel = DataContext as ManagePluginSourceViewModel;
+-                    return viewModel != null && viewModel.OkCommand.CanExecute(null);
++                    return DataContext is ManagePluginSourceViewModel viewModel && viewModel.OkCommand.CanExecute(null);
+                 case "AssemblyName":
+                     return AssemblyNameTextBox.IsEnabled;
+                 case "ConfigFile":
+diff --git a/Dev/Warewolf.Studio.Views/ManageRabbitMQSourceControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManageRabbitMQSourceControl.xaml.cs
+index 4725eef0b7..942a7f5726 100644
+--- a/Dev/Warewolf.Studio.Views/ManageRabbitMQSourceControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManageRabbitMQSourceControl.xaml.cs
+@@ -63,8 +63,7 @@ namespace Warewolf.Studio.Views
+                 case "Test Connection":
+                     return TestPublishCommand.Command.CanExecute(null);
+                 case "Save":
+-                    var viewModel = DataContext as ManageRabbitMQSourceViewModel;
+-                    return viewModel != null && viewModel.OkCommand.CanExecute(null);
++                    return DataContext is ManageRabbitMQSourceViewModel viewModel && viewModel.OkCommand.CanExecute(null);
+                 default:
+                     break;
+             }
+diff --git a/Dev/Warewolf.Studio.Views/ManageServerControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManageServerControl.xaml.cs
+index 5b1d7328e1..b79e6923de 100644
+--- a/Dev/Warewolf.Studio.Views/ManageServerControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManageServerControl.xaml.cs
+@@ -162,8 +162,7 @@ namespace Warewolf.Studio.Views
+             switch (controlName)
+             {
+                 case "Save":
+-                    var viewModel = DataContext as IManageNewServerViewModel;
+-                    return viewModel != null && viewModel.OkCommand.CanExecute(null);
++                    return DataContext is IManageNewServerViewModel viewModel && viewModel.OkCommand.CanExecute(null);
+                 case "Test":
+                     return TestConnectionButton.Command.CanExecute(null);
+                 default:
+diff --git a/Dev/Warewolf.Studio.Views/ManageWcfSourceControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManageWcfSourceControl.xaml.cs
+index b33ed81ace..1420609b6b 100644
+--- a/Dev/Warewolf.Studio.Views/ManageWcfSourceControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManageWcfSourceControl.xaml.cs
+@@ -46,8 +46,7 @@ namespace Warewolf.Studio.Views
+                 case "Test Connection":
+                     return TestSendCommand.Command.CanExecute(null);
+                 case "Save":
+-                    var viewModel = DataContext as ManageWcfSourceViewModel;
+-                    return viewModel != null && viewModel.SaveCommand.CanExecute(null);
++                    return DataContext is ManageWcfSourceViewModel viewModel && viewModel.SaveCommand.CanExecute(null);
+                 default:
+                     break;
+             }
+diff --git a/Dev/Warewolf.Studio.Views/ManageWebserviceSourceControl.xaml.cs b/Dev/Warewolf.Studio.Views/ManageWebserviceSourceControl.xaml.cs
+index 4706d3d9c7..7ea655b276 100644
+--- a/Dev/Warewolf.Studio.Views/ManageWebserviceSourceControl.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/ManageWebserviceSourceControl.xaml.cs
+@@ -47,8 +47,7 @@ namespace Warewolf.Studio.Views
+             switch (controlName)
+             {
+                 case "Save":
+-                    var viewModel = DataContext as ManageWebserviceSourceViewModel;
+-                    return viewModel != null && viewModel.OkCommand.CanExecute(null);
++                    return DataContext is ManageWebserviceSourceViewModel viewModel && viewModel.OkCommand.CanExecute(null);
+                 case "Test Connection":
+                     return TestConnectionButton.Command.CanExecute(null);
+                 case "TestQuery":
+diff --git a/Dev/Warewolf.Studio.Views/SharepointServerSource.xaml.cs b/Dev/Warewolf.Studio.Views/SharepointServerSource.xaml.cs
+index 82faf0e7e5..8799779524 100644
+--- a/Dev/Warewolf.Studio.Views/SharepointServerSource.xaml.cs
++++ b/Dev/Warewolf.Studio.Views/SharepointServerSource.xaml.cs
+@@ -49,8 +49,7 @@ namespace Warewolf.Studio.Views
+             switch (controlName)
+             {
+                 case "Save":
+-                    var viewModel = DataContext as SharepointServerSourceViewModel;
+-                    return viewModel != null && viewModel.SaveCommand.CanExecute(null);
++                    return DataContext is SharepointServerSourceViewModel viewModel && viewModel.SaveCommand.CanExecute(null);
+                 case "Test Connection":
+                     return TestConnection.Command.CanExecute(null);
+                 default:
+diff --git a/Dev/Warewolf.UnitTestAttributes/Depends.cs b/Dev/Warewolf.UnitTestAttributes/Depends.cs
+index 53354ac3b1..e1658558cf 100644
+--- a/Dev/Warewolf.UnitTestAttributes/Depends.cs
++++ b/Dev/Warewolf.UnitTestAttributes/Depends.cs
+@@ -407,10 +407,7 @@ namespace Warewolf.UnitTestAttributes
+             }
+             finally
+             {
+-                if (pinger != null)
+-                {
+-                    pinger.Dispose();
+-                }
++                pinger?.Dispose();
+             }
+ 
+             return ipAddress;

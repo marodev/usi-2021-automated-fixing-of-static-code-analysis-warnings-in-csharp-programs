@@ -1,0 +1,32 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: AutoMapper(net461)
+    #1 Path: D:\a\1\s\src\AutoMapper\AutoMapperConfigurationException.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: AutoMapper.IntegrationTests(net461)
+    #2 Path: D:\a\1\s\src\IntegrationTests\CustomMapFrom\MapObjectPropertyFromSubQuery.cs, Line: 139, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #3 Path: D:\a\1\s\src\IntegrationTests\CustomMapFrom\MapObjectPropertyFromSubQuery.cs, Line: 21, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #4 Path: D:\a\1\s\src\IntegrationTests\CustomMapFrom\MapObjectPropertyFromSubQuery.cs, Line: 231, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #5 Path: D:\a\1\s\src\IntegrationTests\CustomMapFrom\MapObjectPropertyFromSubQuery.cs, Line: 326, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #6 Path: D:\a\1\s\src\IntegrationTests\CustomMapFrom\MapObjectPropertyFromSubQuery.cs, Line: 426, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #7 Path: D:\a\1\s\src\IntegrationTests\CustomMapFrom\MapObjectPropertyFromSubQuery.cs, Line: 532, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+--- Rules Summary ---
+R4: 6
+R9: 1
+
+--- Summary ---
+Fixed ReSharper issues: 7
+Fixed SonarQube issues: 6
+Total fixed issues: 7
+
+Finished in: 20 s
+
+No errors reported.
+

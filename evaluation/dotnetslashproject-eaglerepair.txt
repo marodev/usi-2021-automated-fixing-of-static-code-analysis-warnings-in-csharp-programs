@@ -1,0 +1,30 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Microsoft.VisualStudio.ProjectSystem.Managed.VS
+    #1 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\Automation\VisualBasic\VisualBasicNamespaceImportsList.cs, Line: 173, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\Automation\VisualBasic\VisualBasicNamespaceImportsList.cs, Line: 184, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\Automation\VisualBasic\VisualBasicNamespaceImportsList.cs, Line: 194, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\Automation\VisualBasic\VisualBasicNamespaceImportsList.cs, Line: 203, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\Automation\VisualBasic\VisualBasicVSImports.cs, Line: 115, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #6 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\Automation\VisualBasic\VisualBasicVSImports.cs, Line: 77, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\PropertyPages\DebugPageViewModel.cs, Line: 1041, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\PropertyPages\DebugPageViewModel.cs, Line: 108, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #9 Path: D:\a\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\ProjectSystem\VS\PropertyPages\DebugPageViewModel.cs, Line: 30, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 8
+R3: 1
+
+--- Summary ---
+Fixed ReSharper issues: 9
+Fixed SonarQube issues: 1
+Total fixed issues: 9
+
+Finished in: 18 s
+
+No errors reported.
+

@@ -1,0 +1,29 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Dropbox.Api(net45)
+    #1 Path: D:\a\1\s\dropbox-sdk-dotnet\Dropbox.Api\DropboxAppClient.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: D:\a\1\s\dropbox-sdk-dotnet\Dropbox.Api\DropboxRequestHandler.cs, Line: 369, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Dropbox.Api.Integration.Tests
+    #3 Path: D:\a\1\s\dropbox-sdk-dotnet\Dropbox.Api.Integration.Tests\DropboxApiTests.cs, Line: 322, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+--- Rules Summary ---
+R9: 1
+R7: 1
+R4: 1
+
+--- Summary ---
+Fixed ReSharper issues: 3
+Fixed SonarQube issues: 1
+Total fixed issues: 3
+
+Finished in: 11 s
+
+No errors reported.
+

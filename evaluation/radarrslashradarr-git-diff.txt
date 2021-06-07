@@ -1,0 +1,2361 @@
+diff --git a/src/NzbDrone.Api/Logs/LogFileModuleBase.cs b/src/NzbDrone.Api/Logs/LogFileModuleBase.cs
+index 7acf4fdf2..a80a6b816 100644
+--- a/src/NzbDrone.Api/Logs/LogFileModuleBase.cs
++++ b/src/NzbDrone.Api/Logs/LogFileModuleBase.cs
+@@ -45,8 +45,8 @@ private List<LogFileResource> GetLogFilesResponse()
+                     Id = i + 1,
+                     Filename = filename,
+                     LastWriteTime = _diskProvider.FileGetLastWrite(file),
+-                    ContentsUrl = string.Format("{0}/api/{1}/{2}", _configFileProvider.UrlBase, Resource, filename),
+-                    DownloadUrl = string.Format("{0}/{1}/{2}", _configFileProvider.UrlBase, DownloadUrlRoot, filename)
++                    ContentsUrl = $"{_configFileProvider.UrlBase}/api/{Resource}/{filename}",
++                    DownloadUrl = $"{_configFileProvider.UrlBase}/{DownloadUrlRoot}/{filename}"
+                 });
+             }
+ 
+diff --git a/src/NzbDrone.Api/Profiles/LegacyProfileModule.cs b/src/NzbDrone.Api/Profiles/LegacyProfileModule.cs
+index 043ee4665..1b79da1ff 100644
+--- a/src/NzbDrone.Api/Profiles/LegacyProfileModule.cs
++++ b/src/NzbDrone.Api/Profiles/LegacyProfileModule.cs
+@@ -11,7 +11,7 @@ public LegacyProfileModule()
+             Get("/", x =>
+             {
+                 string queryString = ConvertQueryParams(Request.Query);
+-                var url = string.Format("/api/profile?{0}", queryString);
++                var url = $"/api/profile?{queryString}";
+ 
+                 return Response.AsRedirect(url);
+             });
+diff --git a/src/NzbDrone.Api/ProviderModuleBase.cs b/src/NzbDrone.Api/ProviderModuleBase.cs
+index 24a48d728..c97311264 100644
+--- a/src/NzbDrone.Api/ProviderModuleBase.cs
++++ b/src/NzbDrone.Api/ProviderModuleBase.cs
+@@ -120,8 +120,7 @@ protected virtual void MapToResource(TProviderResource resource, TProviderDefini
+             resource.Fields = SchemaBuilder.ToSchema(definition.Settings);
+ 
+             //Radarr_Supported_{0} are custom build redirect pages; if passing a new var, create a new redirect
+-            resource.InfoLink = string.Format("https://wiki.servarr.com/Radarr_Supported_{0}",
+-                definition.Implementation.ToLower());
++            resource.InfoLink = $"https://wiki.servarr.com/Radarr_Supported_{definition.Implementation.ToLower()}";
+         }
+ 
+         protected virtual void MapToModel(TProviderDefinition definition, TProviderResource resource)
+diff --git a/src/NzbDrone.Api/Wanted/LegacyMissingModule.cs b/src/NzbDrone.Api/Wanted/LegacyMissingModule.cs
+index 51b7ba624..5a9420c58 100644
+--- a/src/NzbDrone.Api/Wanted/LegacyMissingModule.cs
++++ b/src/NzbDrone.Api/Wanted/LegacyMissingModule.cs
+@@ -11,7 +11,7 @@ public LegacyMissingModule()
+             Get("/", x =>
+             {
+                 string queryString = ConvertQueryParams(Request.Query);
+-                var url = string.Format("/api/wanted/missing?{0}", queryString);
++                var url = $"/api/wanted/missing?{queryString}";
+ 
+                 return Response.AsRedirect(url);
+             });
+diff --git a/src/NzbDrone.Common/ArchiveService.cs b/src/NzbDrone.Common/ArchiveService.cs
+index 57335ae7c..e43db3e76 100644
+--- a/src/NzbDrone.Common/ArchiveService.cs
++++ b/src/NzbDrone.Common/ArchiveService.cs
+@@ -64,7 +64,7 @@ private void ExtractZip(string compressedFile, string destination)
+ 
+                 if (!zipFile.TestArchive(true, TestStrategy.FindFirstError, OnZipError))
+                 {
+-                    throw new IOException(string.Format("File {0} failed archive validation.", compressedFile));
++                    throw new IOException($"File {compressedFile} failed archive validation.");
+                 }
+ 
+                 foreach (ZipEntry zipEntry in zipFile)
+diff --git a/src/NzbDrone.Common/Cache/CachedDictionary.cs b/src/NzbDrone.Common/Cache/CachedDictionary.cs
+index 6332f5054..661dd17a8 100644
+--- a/src/NzbDrone.Common/Cache/CachedDictionary.cs
++++ b/src/NzbDrone.Common/Cache/CachedDictionary.cs
+@@ -90,7 +90,7 @@ public TValue Get(string key)
+ 
+             if (!_items.TryGetValue(key, out result))
+             {
+-                throw new KeyNotFoundException(string.Format("Item {0} not found in cache.", key));
++                throw new KeyNotFoundException($"Item {key} not found in cache.");
+             }
+ 
+             return result;
+diff --git a/src/NzbDrone.Common/Disk/DiskProviderBase.cs b/src/NzbDrone.Common/Disk/DiskProviderBase.cs
+index bbcfc618f..29bd36596 100644
+--- a/src/NzbDrone.Common/Disk/DiskProviderBase.cs
++++ b/src/NzbDrone.Common/Disk/DiskProviderBase.cs
+@@ -130,7 +130,7 @@ public bool FolderWritable(string path)
+             try
+             {
+                 var testPath = Path.Combine(path, "radarr_write_test.txt");
+-                var testContent = string.Format("This file was created to verify if '{0}' is writable. It should've been automatically deleted. Feel free to delete it.", path);
++                var testContent = $"This file was created to verify if '{path}' is writable. It should've been automatically deleted. Feel free to delete it.";
+                 WriteAllText(testPath, testContent);
+                 File.Delete(testPath);
+                 return true;
+@@ -206,7 +206,7 @@ public void CloneFile(string source, string destination, bool overwrite = false)
+ 
+             if (source.PathEquals(destination))
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", source));
++                throw new IOException($"Source and destination can't be the same {source}");
+             }
+ 
+             CloneFileInternal(source, destination, overwrite);
+@@ -224,7 +224,7 @@ public void CopyFile(string source, string destination, bool overwrite = false)
+ 
+             if (source.PathEquals(destination))
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", source));
++                throw new IOException($"Source and destination can't be the same {source}");
+             }
+ 
+             CopyFileInternal(source, destination, overwrite);
+@@ -242,7 +242,7 @@ public void MoveFile(string source, string destination, bool overwrite = false)
+ 
+             if (source.PathEquals(destination))
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", source));
++                throw new IOException($"Source and destination can't be the same {source}");
+             }
+ 
+             if (FileExists(destination) && overwrite)
+@@ -483,7 +483,7 @@ public virtual IMount GetMount(string path)
+             }
+             catch (Exception ex)
+             {
+-                Logger.Debug(ex, string.Format("Failed to get mount for path {0}", path));
++                Logger.Debug(ex, $"Failed to get mount for path {path}");
+                 return null;
+             }
+         }
+diff --git a/src/NzbDrone.Common/Disk/DiskTransferService.cs b/src/NzbDrone.Common/Disk/DiskTransferService.cs
+index 44d28a9df..0a44188eb 100644
+--- a/src/NzbDrone.Common/Disk/DiskTransferService.cs
++++ b/src/NzbDrone.Common/Disk/DiskTransferService.cs
+@@ -53,7 +53,7 @@ public TransferMode TransferFolder(string sourcePath, string targetPath, Transfe
+ 
+             if (sourcePath == targetPath)
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", sourcePath));
++                throw new IOException($"Source and destination can't be the same {sourcePath}");
+             }
+ 
+             if (mode == TransferMode.Move && sourcePath.PathEquals(targetPath, StringComparison.InvariantCultureIgnoreCase) && _diskProvider.FolderExists(targetPath))
+@@ -267,14 +267,14 @@ public TransferMode TransferFile(string sourcePath, string targetPath, TransferM
+ 
+             if (sourcePath == targetPath)
+             {
+-                throw new IOException(string.Format("Source and destination can't be the same {0}", sourcePath));
++                throw new IOException($"Source and destination can't be the same {sourcePath}");
+             }
+ 
+             if (sourcePath.PathEquals(targetPath, StringComparison.InvariantCultureIgnoreCase))
+             {
+                 if (mode.HasFlag(TransferMode.HardLink) || mode.HasFlag(TransferMode.Copy))
+                 {
+-                    throw new IOException(string.Format("Source and destination can't be the same {0}", sourcePath));
++                    throw new IOException($"Source and destination can't be the same {sourcePath}");
+                 }
+ 
+                 if (mode.HasFlag(TransferMode.Move))
+@@ -311,7 +311,7 @@ public TransferMode TransferFile(string sourcePath, string targetPath, TransferM
+ 
+             if (sourcePath.IsParentPath(targetPath))
+             {
+-                throw new IOException(string.Format("Destination cannot be a child of the source [{0}] => [{1}]", sourcePath, targetPath));
++                throw new IOException($"Destination cannot be a child of the source [{sourcePath}] => [{targetPath}]");
+             }
+ 
+             ClearTargetPath(sourcePath, targetPath, overwrite);
+@@ -478,7 +478,7 @@ private void TryCopyFileVerified(string sourcePath, string targetPath, long orig
+                 var targetSize = _diskProvider.GetFileSize(targetPath);
+                 if (targetSize != originalSize)
+                 {
+-                    throw new IOException(string.Format("File copy incomplete. [{0}] was {1} bytes long instead of {2} bytes.", targetPath, targetSize, originalSize));
++                    throw new IOException($"File copy incomplete. [{targetPath}] was {targetSize} bytes long instead of {originalSize} bytes.");
+                 }
+             }
+             catch
+@@ -497,7 +497,7 @@ private void TryMoveFileVerified(string sourcePath, string targetPath, long orig
+                 var targetSize = _diskProvider.GetFileSize(targetPath);
+                 if (targetSize != originalSize)
+                 {
+-                    throw new IOException(string.Format("File move incomplete, data loss may have occurred. [{0}] was {1} bytes long instead of the expected {2}.", targetPath, targetSize, originalSize));
++                    throw new IOException($"File move incomplete, data loss may have occurred. [{targetPath}] was {targetSize} bytes long instead of the expected {originalSize}.");
+                 }
+             }
+             catch
+diff --git a/src/NzbDrone.Common/Disk/DriveInfoMount.cs b/src/NzbDrone.Common/Disk/DriveInfoMount.cs
+index bedaccd26..1c5feba31 100644
+--- a/src/NzbDrone.Common/Disk/DriveInfoMount.cs
++++ b/src/NzbDrone.Common/Disk/DriveInfoMount.cs
+@@ -55,7 +55,7 @@ public string VolumeName
+                     return Name;
+                 }
+ 
+-                return string.Format("{0} ({1})", Name, VolumeLabel);
++                return $"{Name} ({VolumeLabel})";
+             }
+         }
+     }
+diff --git a/src/NzbDrone.Common/Disk/OsPath.cs b/src/NzbDrone.Common/Disk/OsPath.cs
+index c4327ddeb..be8596a9b 100644
+--- a/src/NzbDrone.Common/Disk/OsPath.cs
++++ b/src/NzbDrone.Common/Disk/OsPath.cs
+@@ -208,9 +208,9 @@ public override int GetHashCode()
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is OsPath)
++            if (obj is OsPath osPath)
+             {
+-                return Equals((OsPath)obj);
++                return Equals(osPath);
+             }
+ 
+             if (obj is string)
+@@ -314,7 +314,7 @@ public bool Equals(OsPath other)
+         {
+             if (left.Kind != right.Kind && right.Kind != OsPathKind.Unknown)
+             {
+-                throw new Exception(string.Format("Cannot combine OsPaths of different platforms ('{0}' + '{1}')", left, right));
++                throw new Exception($"Cannot combine OsPaths of different platforms ('{left}' + '{right}')");
+             }
+ 
+             if (right.IsEmpty)
+diff --git a/src/NzbDrone.Common/EnsureThat/EnsureStringExtensions.cs b/src/NzbDrone.Common/EnsureThat/EnsureStringExtensions.cs
+index 1c10c9f28..0d5cf2261 100644
+--- a/src/NzbDrone.Common/EnsureThat/EnsureStringExtensions.cs
++++ b/src/NzbDrone.Common/EnsureThat/EnsureStringExtensions.cs
+@@ -99,12 +99,12 @@ public static Param<string> IsRelativePath(this Param<string> param)
+ 
+             if (!param.Value.EndsWith("\\"))
+             {
+-                throw ExceptionFactory.CreateForParamValidation(param.Name, string.Format("value [{0}]  is not a valid relative path. relative paths must end with \\", param.Value));
++                throw ExceptionFactory.CreateForParamValidation(param.Name, $"value [{param.Value}]  is not a valid relative path. relative paths must end with \\");
+             }
+ 
+             if (param.Value.Length > 1 && param.Value.StartsWith("\\"))
+             {
+-                throw ExceptionFactory.CreateForParamValidation(param.Name, string.Format("value [{0}]  is not a valid relative path. relative paths can not start with \\", param.Value));
++                throw ExceptionFactory.CreateForParamValidation(param.Name, $"value [{param.Value}]  is not a valid relative path. relative paths can not start with \\");
+             }
+ 
+             return param;
+@@ -125,10 +125,10 @@ public static Param<string> IsValidPath(this Param<string> param)
+ 
+             if (OsInfo.IsWindows)
+             {
+-                throw ExceptionFactory.CreateForParamValidation(param.Name, string.Format("value [{0}]  is not a valid Windows path. paths must be a full path eg. C:\\Windows", param.Value));
++                throw ExceptionFactory.CreateForParamValidation(param.Name, $"value [{param.Value}]  is not a valid Windows path. paths must be a full path eg. C:\\Windows");
+             }
+ 
+-            throw ExceptionFactory.CreateForParamValidation(param.Name, string.Format("value [{0}]  is not a valid *nix path. paths must start with /", param.Value));
++            throw ExceptionFactory.CreateForParamValidation(param.Name, $"value [{param.Value}]  is not a valid *nix path. paths must start with /");
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Common/EnsureThat/ExpressionExtensions.cs b/src/NzbDrone.Common/EnsureThat/ExpressionExtensions.cs
+index 11e3598c5..a1276e249 100644
+--- a/src/NzbDrone.Common/EnsureThat/ExpressionExtensions.cs
++++ b/src/NzbDrone.Common/EnsureThat/ExpressionExtensions.cs
+@@ -7,9 +7,8 @@ internal static class ExpressionExtensions
+         internal static string ToPath(this MemberExpression e)
+         {
+             var path = "";
+-            var parent = e.Expression as MemberExpression;
+ 
+-            if (parent != null)
++            if (e.Expression is MemberExpression parent)
+             {
+                 path = parent.ToPath() + ".";
+             }
+@@ -24,9 +23,9 @@ internal static string GetPath(this Expression expression)
+ 
+         private static MemberExpression GetRightMostMember(Expression e)
+         {
+-            if (e is LambdaExpression)
++            if (e is LambdaExpression lambdaExpression)
+             {
+-                return GetRightMostMember(((LambdaExpression)e).Body);
++                return GetRightMostMember(lambdaExpression.Body);
+             }
+ 
+             if (e is MemberExpression)
+@@ -34,10 +33,8 @@ private static MemberExpression GetRightMostMember(Expression e)
+                 return (MemberExpression)e;
+             }
+ 
+-            if (e is MethodCallExpression)
++            if (e is MethodCallExpression callExpression)
+             {
+-                var callExpression = (MethodCallExpression)e;
+-
+                 if (callExpression.Object is MethodCallExpression || callExpression.Object is MemberExpression)
+                 {
+                     return GetRightMostMember(callExpression.Object);
+@@ -47,9 +44,8 @@ private static MemberExpression GetRightMostMember(Expression e)
+                 return GetRightMostMember(member);
+             }
+ 
+-            if (e is UnaryExpression)
++            if (e is UnaryExpression unaryExpression)
+             {
+-                var unaryExpression = (UnaryExpression)e;
+                 return GetRightMostMember(unaryExpression.Operand);
+             }
+ 
+diff --git a/src/NzbDrone.Common/Expansive/Expansive.cs b/src/NzbDrone.Common/Expansive/Expansive.cs
+index f6a2ff3c5..66711eb08 100644
+--- a/src/NzbDrone.Common/Expansive/Expansive.cs
++++ b/src/NzbDrone.Common/Expansive/Expansive.cs
+@@ -63,12 +63,12 @@ public static string Expand(this string source, params string[] args)
+                     foreach (Match match in tokenPattern.Matches(newArg))
+                     {
+                         var token = _patternStyle.TokenReplaceFilter(match.Value);
+-                        if (calls.Contains(string.Format("{0}:{1}", callingToken, token)))
++                        if (calls.Contains($"{callingToken}:{token}"))
+                         {
+-                            throw new CircularReferenceException(string.Format("Circular Reference Detected for token '{0}'.", callingToken));
++                            throw new CircularReferenceException($"Circular Reference Detected for token '{callingToken}'.");
+                         }
+ 
+-                        calls.Push(string.Format("{0}:{1}", callingToken, token));
++                        calls.Push($"{callingToken}:{token}");
+                         callingToken = token;
+                         newArg = Regex.Replace(newArg, _patternStyle.OutputFilter(match.Value), args[tokens.IndexOf(token)]);
+                     }
+@@ -145,10 +145,7 @@ private static string Explode(this string source, Regex pattern, PatternStyle pa
+                     // if we have already encountered this token in this call tree, we have a circular reference
+                     if (thisNode.CallTree.Contains(token))
+                     {
+-                        throw new CircularReferenceException(string.Format("Circular Reference Detected for token '{0}'. Call Tree: {1}->{2}",
+-                                                                           token,
+-                                                                           string.Join("->", thisNode.CallTree.ToArray().Reverse()),
+-                                                                           token));
++                        throw new CircularReferenceException($"Circular Reference Detected for token '{token}'. Call Tree: {string.Join("->", thisNode.CallTree.ToArray().Reverse())}->{token}");
+                     }
+ 
+                     // expand this match
+diff --git a/src/NzbDrone.Common/Http/HttpException.cs b/src/NzbDrone.Common/Http/HttpException.cs
+index d78dd5b3e..536eff1d7 100644
+--- a/src/NzbDrone.Common/Http/HttpException.cs
++++ b/src/NzbDrone.Common/Http/HttpException.cs
+@@ -15,7 +15,7 @@ public HttpException(HttpRequest request, HttpResponse response, string message)
+         }
+ 
+         public HttpException(HttpRequest request, HttpResponse response)
+-            : this(request, response, string.Format("HTTP request failed: [{0}:{1}] [{2}] at [{3}]", (int)response.StatusCode, response.StatusCode, request.Method, request.Url))
++            : this(request, response, $"HTTP request failed: [{(int)response.StatusCode}:{response.StatusCode}] [{request.Method}] at [{request.Url}]")
+         {
+         }
+ 
+diff --git a/src/NzbDrone.Common/Http/HttpRequestBuilder.cs b/src/NzbDrone.Common/Http/HttpRequestBuilder.cs
+index 2e9bf1a5b..980d96a10 100644
+--- a/src/NzbDrone.Common/Http/HttpRequestBuilder.cs
++++ b/src/NzbDrone.Common/Http/HttpRequestBuilder.cs
+@@ -57,7 +57,7 @@ public static string BuildBaseUrl(bool useHttps, string host, int port, string u
+                 urlBase = "/" + urlBase;
+             }
+ 
+-            return string.Format("{0}://{1}:{2}{3}", protocol, host, port, urlBase);
++            return $"{protocol}://{host}:{port}{urlBase}";
+         }
+ 
+         public virtual HttpRequestBuilder Clone()
+@@ -162,8 +162,8 @@ protected virtual void ApplyFormData(HttpRequest request)
+             if (shouldSendAsMultipart)
+             {
+                 var boundary = "-----------------------------" + DateTime.Now.Ticks.ToString("x14");
+-                var partBoundary = string.Format("--{0}\r\n", boundary);
+-                var endBoundary = string.Format("--{0}--\r\n", boundary);
++                var partBoundary = $"--{boundary}\r\n";
++                var endBoundary = $"--{boundary}--\r\n";
+ 
+                 var bodyStream = new MemoryStream();
+                 var summary = new StringBuilder();
+@@ -224,7 +224,7 @@ protected virtual void ApplyFormData(HttpRequest request)
+             }
+             else
+             {
+-                var parameters = FormData.Select(v => string.Format("{0}={1}", v.Name, Uri.EscapeDataString(Encoding.UTF8.GetString(v.ContentData))));
++                var parameters = FormData.Select(v => $"{v.Name}={Uri.EscapeDataString(Encoding.UTF8.GetString(v.ContentData))}");
+                 var urlencoded = string.Join("&", parameters);
+                 var body = Encoding.UTF8.GetBytes(urlencoded);
+ 
+@@ -246,7 +246,7 @@ public virtual HttpRequestBuilder Resource(string resourceUrl)
+             }
+             else
+             {
+-                ResourceUrl = string.Format("{0}/{1}", ResourceUrl.TrimEnd('/'), resourceUrl);
++                ResourceUrl = $"{ResourceUrl.TrimEnd('/')}/{resourceUrl}";
+             }
+ 
+             return this;
+@@ -332,7 +332,7 @@ public virtual HttpRequestBuilder SetSegment(string segment, string value, bool
+ 
+             if (!dontCheck && !CreateUri().ToString().Contains(key))
+             {
+-                throw new InvalidOperationException(string.Format("Segment {0} is not defined in Uri", segment));
++                throw new InvalidOperationException($"Segment {segment} is not defined in Uri");
+             }
+ 
+             Segments[key] = value;
+diff --git a/src/NzbDrone.Common/Http/HttpResponse.cs b/src/NzbDrone.Common/Http/HttpResponse.cs
+index a5e68de4a..375361faa 100644
+--- a/src/NzbDrone.Common/Http/HttpResponse.cs
++++ b/src/NzbDrone.Common/Http/HttpResponse.cs
+@@ -78,7 +78,7 @@ public string[] GetCookieHeaders()
+ 
+         public override string ToString()
+         {
+-            var result = string.Format("Res: [{0}] {1}: {2}.{3}", Request.Method, Request.Url, (int)StatusCode, StatusCode);
++            var result = $"Res: [{Request.Method}] {Request.Url}: {(int)StatusCode}.{StatusCode}";
+ 
+             if (HasHttpError && Headers.ContentType.IsNotNullOrWhiteSpace() && !Headers.ContentType.Equals("text/html", StringComparison.InvariantCultureIgnoreCase))
+             {
+diff --git a/src/NzbDrone.Common/Http/HttpUri.cs b/src/NzbDrone.Common/Http/HttpUri.cs
+index a636071d9..9c9e7486a 100644
+--- a/src/NzbDrone.Common/Http/HttpUri.cs
++++ b/src/NzbDrone.Common/Http/HttpUri.cs
+@@ -223,13 +223,13 @@ public override string ToString()
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj is string)
++            if (obj is string s)
+             {
+-                return _uri.Equals((string)obj);
++                return _uri.Equals(s);
+             }
+-            else if (obj is Uri)
++            else if (obj is Uri uri)
+             {
+-                return _uri.Equals(((Uri)obj).OriginalString);
++                return _uri.Equals(uri.OriginalString);
+             }
+             else
+             {
+diff --git a/src/NzbDrone.Common/Http/JsonRpcRequestBuilder.cs b/src/NzbDrone.Common/Http/JsonRpcRequestBuilder.cs
+index ae987a23d..0cf4e1f4d 100644
+--- a/src/NzbDrone.Common/Http/JsonRpcRequestBuilder.cs
++++ b/src/NzbDrone.Common/Http/JsonRpcRequestBuilder.cs
+@@ -68,7 +68,7 @@ protected override void Apply(HttpRequest request)
+ 
+             if (request.ContentSummary == null)
+             {
+-                request.ContentSummary = string.Format("{0}({1})", JsonMethod, string.Join(", ", parameterSummary));
++                request.ContentSummary = $"{JsonMethod}({string.Join(", ", parameterSummary)})";
+             }
+         }
+ 
+@@ -77,7 +77,7 @@ private void ConvertParameter(object value, out object data, out string summary)
+             if (value is byte[])
+             {
+                 data = Convert.ToBase64String(value as byte[]);
+-                summary = string.Format("[blob {0} bytes]", (value as byte[]).Length);
++                summary = $"[blob {(value as byte[]).Length} bytes]";
+             }
+             else if (value is Array && ((Array)value).Length > 0)
+             {
+diff --git a/src/NzbDrone.Common/Http/NzbDroneWebClient.cs b/src/NzbDrone.Common/Http/NzbDroneWebClient.cs
+index ccd369bb7..123ed57f7 100644
+--- a/src/NzbDrone.Common/Http/NzbDroneWebClient.cs
++++ b/src/NzbDrone.Common/Http/NzbDroneWebClient.cs
+@@ -8,9 +8,9 @@ public class NzbDroneWebClient : WebClient
+         protected override WebRequest GetWebRequest(Uri address)
+         {
+             var request = base.GetWebRequest(address);
+-            if (request is HttpWebRequest)
++            if (request is HttpWebRequest httpWebRequest)
+             {
+-                ((HttpWebRequest)request).KeepAlive = false;
++                httpWebRequest.KeepAlive = false;
+                 ((HttpWebRequest)request).ServicePoint.Expect100Continue = false;
+             }
+ 
+diff --git a/src/NzbDrone.Common/Http/Proxy/ManagedWebProxyFactory.cs b/src/NzbDrone.Common/Http/Proxy/ManagedWebProxyFactory.cs
+index ca58fedee..62b3c75ec 100644
+--- a/src/NzbDrone.Common/Http/Proxy/ManagedWebProxyFactory.cs
++++ b/src/NzbDrone.Common/Http/Proxy/ManagedWebProxyFactory.cs
+@@ -66,7 +66,7 @@ private static IPAddress GetProxyIpAddress(string host)
+                 }
+                 catch (Exception e)
+                 {
+-                    throw new InvalidOperationException(string.Format("Unable to resolve proxy hostname '{0}' to a valid IP address.", host), e);
++                    throw new InvalidOperationException($"Unable to resolve proxy hostname '{host}' to a valid IP address.", e);
+                 }
+             }
+ 
+diff --git a/src/NzbDrone.Common/Instrumentation/InitializeLogger.cs b/src/NzbDrone.Common/Instrumentation/InitializeLogger.cs
+index 038be8da8..0573181a4 100644
+--- a/src/NzbDrone.Common/Instrumentation/InitializeLogger.cs
++++ b/src/NzbDrone.Common/Instrumentation/InitializeLogger.cs
+@@ -17,10 +17,7 @@ public InitializeLogger(IOsInfo osInfo)
+         public void Initialize()
+         {
+             var sentryTarget = LogManager.Configuration.AllTargets.OfType<SentryTarget>().FirstOrDefault();
+-            if (sentryTarget != null)
+-            {
+-                sentryTarget.UpdateScope(_osInfo);
+-            }
++            sentryTarget?.UpdateScope(_osInfo);
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Common/Instrumentation/Sentry/SentryTarget.cs b/src/NzbDrone.Common/Instrumentation/Sentry/SentryTarget.cs
+index 11cd1bdf3..565bf4269 100644
+--- a/src/NzbDrone.Common/Instrumentation/Sentry/SentryTarget.cs
++++ b/src/NzbDrone.Common/Instrumentation/Sentry/SentryTarget.cs
+@@ -182,9 +182,7 @@ public void UpdateScope(Version databaseVersion, int migration, string updateBra
+ 
+         private void OnError(Exception ex)
+         {
+-            var webException = ex as WebException;
+-
+-            if (webException != null)
++            if (ex is WebException webException)
+             {
+                 var response = webException.Response as HttpWebResponse;
+                 var statusCode = response?.StatusCode;
+@@ -242,8 +240,7 @@ public bool IsSentryMessage(LogEventInfo logEvent)
+             {
+                 if (FilterEvents)
+                 {
+-                    var sqlEx = logEvent.Exception as SQLiteException;
+-                    if (sqlEx != null && FilteredSQLiteErrors.Contains(sqlEx.ResultCode))
++                    if (logEvent.Exception is SQLiteException sqlEx && FilteredSQLiteErrors.Contains(sqlEx.ResultCode))
+                     {
+                         return false;
+                     }
+diff --git a/src/NzbDrone.Common/Model/ProcessInfo.cs b/src/NzbDrone.Common/Model/ProcessInfo.cs
+index 4f4943189..b5cd6e982 100644
+--- a/src/NzbDrone.Common/Model/ProcessInfo.cs
++++ b/src/NzbDrone.Common/Model/ProcessInfo.cs
+@@ -8,7 +8,7 @@ public class ProcessInfo
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0}:{1} [{2}]", Id, Name ?? "Unknown", StartPath ?? "Unknown");
++            return $"{Id}:{Name ?? "Unknown"} [{StartPath ?? "Unknown"}]";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Common/OAuth/OAuthTools.cs b/src/NzbDrone.Common/OAuth/OAuthTools.cs
+index 20ea671b6..711148d14 100644
+--- a/src/NzbDrone.Common/OAuth/OAuthTools.cs
++++ b/src/NzbDrone.Common/OAuth/OAuthTools.cs
+@@ -247,8 +247,8 @@ public static string ConstructRequestUrl(Uri url)
+ 
+             var sb = new StringBuilder();
+ 
+-            var requestUrl = string.Format("{0}://{1}", url.Scheme, url.Host);
+-            var qualified = string.Format(":{0}", url.Port);
++            var requestUrl = $"{url.Scheme}://{url.Host}";
++            var qualified = $":{url.Port}";
+             var basic = url.Scheme == "http" && url.Port == 80;
+             var secure = url.Scheme == "https" && url.Port == 443;
+ 
+diff --git a/src/NzbDrone.Common/Processes/ProcessOutputLine.cs b/src/NzbDrone.Common/Processes/ProcessOutputLine.cs
+index 189c1f494..6d1899bfd 100644
+--- a/src/NzbDrone.Common/Processes/ProcessOutputLine.cs
++++ b/src/NzbDrone.Common/Processes/ProcessOutputLine.cs
+@@ -17,7 +17,7 @@ public ProcessOutputLine(ProcessOutputLevel level, string content)
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0} - {1} - {2}", Time, Level, Content);
++            return $"{Time} - {Level} - {Content}";
+         }
+     }
+ 
+diff --git a/src/NzbDrone.Common/Reflection/ReflectionExtensions.cs b/src/NzbDrone.Common/Reflection/ReflectionExtensions.cs
+index 12749df9e..776672fca 100644
+--- a/src/NzbDrone.Common/Reflection/ReflectionExtensions.cs
++++ b/src/NzbDrone.Common/Reflection/ReflectionExtensions.cs
+@@ -54,7 +54,7 @@ public static T GetAttribute<T>(this MemberInfo member, bool isRequired = true)
+ 
+             if (attribute == null && isRequired)
+             {
+-                throw new ArgumentException(string.Format("The {0} attribute must be defined on member {1}", typeof(T).Name, member.Name));
++                throw new ArgumentException($"The {typeof(T).Name} attribute must be defined on member {member.Name}");
+             }
+ 
+             return (T)attribute;
+diff --git a/src/NzbDrone.Common/TinyIoC.cs b/src/NzbDrone.Common/TinyIoC.cs
+index a9750319d..9f3142915 100644
+--- a/src/NzbDrone.Common/TinyIoC.cs
++++ b/src/NzbDrone.Common/TinyIoC.cs
+@@ -1393,7 +1393,7 @@ public MultiRegisterOptions RegisterMultiple(Type registrationType, IEnumerable<
+                 if (!registrationType.IsAssignableFrom(type))
+ 
+                     //#endif
+-                    throw new ArgumentException(string.Format("types: The type {0} is not assignable from {1}", registrationType.FullName, type.FullName));
++                    throw new ArgumentException($"types: The type {registrationType.FullName} is not assignable from {type.FullName}");
+ 
+             if (implementationTypes.Count() != implementationTypes.Distinct().Count())
+             {
+@@ -1404,7 +1404,7 @@ into j
+                                               select j.Key.FullName;
+ 
+                 var fullNamesOfDuplicatedTypes = string.Join(",\n", queryForDuplicatedTypes.ToArray());
+-                var multipleRegMessage = string.Format("types: The same implementation type cannot be specified multiple times for {0}\n\n{1}", registrationType.FullName, fullNamesOfDuplicatedTypes);
++                var multipleRegMessage = $"types: The same implementation type cannot be specified multiple times for {registrationType.FullName}\n\n{fullNamesOfDuplicatedTypes}";
+                 throw new ArgumentException(multipleRegMessage);
+             }
+ 
+@@ -2632,9 +2632,7 @@ public override void SetConstructor(ConstructorInfo constructor)
+ 
+             public void Dispose()
+             {
+-                var disposable = _instance as IDisposable;
+-
+-                if (disposable != null)
++                if (_instance is IDisposable disposable)
+                     disposable.Dispose();
+             }
+         }
+@@ -2696,9 +2694,7 @@ public override void SetConstructor(ConstructorInfo constructor)
+ 
+             public void Dispose()
+             {
+-                var disposable = _instance.Target as IDisposable;
+-
+-                if (disposable != null)
++                if (_instance.Target is IDisposable disposable)
+                     disposable.Dispose();
+             }
+         }
+@@ -2767,9 +2763,7 @@ public void Dispose()
+                 if (this._Current == null)
+                     return;
+ 
+-                var disposable = this._Current as IDisposable;
+-
+-                if (disposable != null)
++                if (this._Current is IDisposable disposable)
+                     disposable.Dispose();
+             }
+         }
+diff --git a/src/NzbDrone.Core.Test/Datastore/Migration/180_fix_invalid_profile_referencesFixture.cs b/src/NzbDrone.Core.Test/Datastore/Migration/180_fix_invalid_profile_referencesFixture.cs
+index ee6218366..80b57530a 100644
+--- a/src/NzbDrone.Core.Test/Datastore/Migration/180_fix_invalid_profile_referencesFixture.cs
++++ b/src/NzbDrone.Core.Test/Datastore/Migration/180_fix_invalid_profile_referencesFixture.cs
+@@ -59,7 +59,7 @@ private void AddMovie(fix_invalid_profile_references m, string movieTitle, int t
+                 OriginalLanguage = 1,
+                 ProfileId = profileId,
+                 MovieFileId = 1,
+-                Path = string.Format("/Movies/{0}", movieTitle),
++                Path = $"/Movies/{movieTitle}",
+                 TitleSlug = movieTitle,
+                 TmdbId = tmdbId
+             };
+diff --git a/src/NzbDrone.Core.Test/Datastore/Migration/186_fix_tmdb_duplicatesFixture.cs b/src/NzbDrone.Core.Test/Datastore/Migration/186_fix_tmdb_duplicatesFixture.cs
+index 9a4f1971b..977d3c6b9 100644
+--- a/src/NzbDrone.Core.Test/Datastore/Migration/186_fix_tmdb_duplicatesFixture.cs
++++ b/src/NzbDrone.Core.Test/Datastore/Migration/186_fix_tmdb_duplicatesFixture.cs
+@@ -29,7 +29,7 @@ private void AddMovie(fix_tmdb_duplicates m, int id, string movieTitle, string t
+                 OriginalLanguage = 1,
+                 ProfileId = 1,
+                 MovieFileId = movieFileId,
+-                Path = string.Format("/Movies/{0}", movieTitle),
++                Path = $"/Movies/{movieTitle}",
+                 TitleSlug = titleSlug,
+                 TmdbId = tmdbId,
+                 Added = added,
+diff --git a/src/NzbDrone.Core.Test/Download/Pending/PendingReleaseServiceTests/RemovePendingFixture.cs b/src/NzbDrone.Core.Test/Download/Pending/PendingReleaseServiceTests/RemovePendingFixture.cs
+index b7a626fcd..3d972d376 100644
+--- a/src/NzbDrone.Core.Test/Download/Pending/PendingReleaseServiceTests/RemovePendingFixture.cs
++++ b/src/NzbDrone.Core.Test/Download/Pending/PendingReleaseServiceTests/RemovePendingFixture.cs
+@@ -62,7 +62,7 @@ public void should_remove_same_release()
+         {
+             AddPending(id: 1, title: "Movie", year: 2001);
+ 
+-            var queueId = HashConverter.GetHashInt31(string.Format("pending-{0}-movie{1}", 1, _movie.Id));
++            var queueId = HashConverter.GetHashInt31($"pending-{1}-movie{_movie.Id}");
+ 
+             Subject.RemovePendingQueueItems(queueId);
+ 
+diff --git a/src/NzbDrone.Core.Test/Framework/DirectDataMapper.cs b/src/NzbDrone.Core.Test/Framework/DirectDataMapper.cs
+index 9b7039022..662805690 100644
+--- a/src/NzbDrone.Core.Test/Framework/DirectDataMapper.cs
++++ b/src/NzbDrone.Core.Test/Framework/DirectDataMapper.cs
+@@ -88,7 +88,7 @@ protected T MapToObject<T>(DataRow dataRow)
+ 
+                 if (propertyInfo == null)
+                 {
+-                    throw new Exception(string.Format("Column {0} doesn't exist on type {1}.", columnName, typeof(T)));
++                    throw new Exception($"Column {columnName} doesn't exist on type {typeof(T)}.");
+                 }
+ 
+                 var propertyType = propertyInfo.PropertyType;
+diff --git a/src/NzbDrone.Core.Test/ParserTests/QualityParserFixture.cs b/src/NzbDrone.Core.Test/ParserTests/QualityParserFixture.cs
+index 8d1b4c942..b0ae3432e 100644
+--- a/src/NzbDrone.Core.Test/ParserTests/QualityParserFixture.cs
++++ b/src/NzbDrone.Core.Test/ParserTests/QualityParserFixture.cs
+@@ -343,7 +343,7 @@ public void should_parse_quality_from_other_source(string qualityString, Source
+         {
+             foreach (var c in new char[] { '-', '.', ' ', '_' })
+             {
+-                var title = string.Format("My series S01E01 {0}", qualityString.Replace(' ', c));
++                var title = $"My series S01E01 {qualityString.Replace(' ', c)}";
+ 
+                 ParseAndVerifyQuality(title, source, false, resolution, modifier);
+             }
+diff --git a/src/NzbDrone.Core/Datastore/Extensions/BuilderExtensions.cs b/src/NzbDrone.Core/Datastore/Extensions/BuilderExtensions.cs
+index 97ce5d731..1b0798352 100644
+--- a/src/NzbDrone.Core/Datastore/Extensions/BuilderExtensions.cs
++++ b/src/NzbDrone.Core/Datastore/Extensions/BuilderExtensions.cs
+@@ -127,7 +127,7 @@ public static string GetSqlLogString(string sql, object paramsObject)
+ 
+             foreach (var p in parameters.ToDictionary())
+             {
+-                var val = (p.Value is string) ? string.Format("\"{0}\"", p.Value) : p.Value;
++                var val = (p.Value is string) ? $"\"{p.Value}\"" : p.Value;
+                 sb.AppendFormat("{0} = [{1}]", p.Key, val.ToJson() ?? "NULL").AppendLine();
+             }
+ 
+diff --git a/src/NzbDrone.Core/Datastore/Migration/109_add_movie_formats_to_naming_config.cs b/src/NzbDrone.Core/Datastore/Migration/109_add_movie_formats_to_naming_config.cs
+index ca7f447a5..0bc8bbaca 100644
+--- a/src/NzbDrone.Core/Datastore/Migration/109_add_movie_formats_to_naming_config.cs
++++ b/src/NzbDrone.Core/Datastore/Migration/109_add_movie_formats_to_naming_config.cs
+@@ -32,9 +32,9 @@ private void ConvertConfig(IDbConnection conn, IDbTransaction tran)
+ 
+                         movieTitlePattern = "{Movie Title}";
+ 
+-                        var standardMovieFormat = string.Format("{0} {1} {2}", movieTitlePattern, movieYearPattern, qualityFormat);
++                        var standardMovieFormat = $"{movieTitlePattern} {movieYearPattern} {qualityFormat}";
+ 
+-                        var movieFolderFormat = string.Format("{0} {1}", movieTitlePattern, movieYearPattern);
++                        var movieFolderFormat = $"{movieTitlePattern} {movieYearPattern}";
+ 
+                         using (IDbCommand updateCmd = conn.CreateCommand())
+                         {
+diff --git a/src/NzbDrone.Core/Datastore/Migration/137_add_import_exclusions_table.cs b/src/NzbDrone.Core/Datastore/Migration/137_add_import_exclusions_table.cs
+index 25b68583a..f8579206c 100644
+--- a/src/NzbDrone.Core/Datastore/Migration/137_add_import_exclusions_table.cs
++++ b/src/NzbDrone.Core/Datastore/Migration/137_add_import_exclusions_table.cs
+@@ -40,9 +40,7 @@ private void AddExisting(IDbConnection conn, IDbTransaction tran)
+ 
+                         var importExclusions = value.Split(',').Select(x =>
+                         {
+-                            return string.Format("(\"{0}\", \"{1}\")",
+-                                Regex.Replace(x, @"^.*\-(.*)$", "$1"),
+-                                textInfo.ToTitleCase(string.Join(" ", x.Split('-').DropLast(1))));
++                            return $"(\"{Regex.Replace(x, @"^.*\-(.*)$", "$1")}\", \"{textInfo.ToTitleCase(string.Join(" ", x.Split('-').DropLast(1)))}\")";
+                         }).ToList();
+ 
+                         using (IDbCommand updateCmd = conn.CreateCommand())
+diff --git a/src/NzbDrone.Core/Datastore/Migration/187_swap_filechmod_for_folderchmod.cs b/src/NzbDrone.Core/Datastore/Migration/187_swap_filechmod_for_folderchmod.cs
+index a1580efa4..fa4cefded 100644
+--- a/src/NzbDrone.Core/Datastore/Migration/187_swap_filechmod_for_folderchmod.cs
++++ b/src/NzbDrone.Core/Datastore/Migration/187_swap_filechmod_for_folderchmod.cs
+@@ -22,8 +22,7 @@ private void ConvertFileChmodToFolderChmod(IDbConnection conn, IDbTransaction tr
+                 getFileChmodCmd.Transaction = tran;
+                 getFileChmodCmd.CommandText = @"SELECT Value FROM Config WHERE Key = 'filechmod'";
+ 
+-                var fileChmod = getFileChmodCmd.ExecuteScalar() as string;
+-                if (fileChmod != null)
++                if (getFileChmodCmd.ExecuteScalar() is string fileChmod)
+                 {
+                     if (fileChmod.IsNotNullOrWhiteSpace())
+                     {
+diff --git a/src/NzbDrone.Core/Datastore/Migration/Framework/NzbDroneSQLiteProcessor.cs b/src/NzbDrone.Core/Datastore/Migration/Framework/NzbDroneSQLiteProcessor.cs
+index 8158edd65..e786aa8ca 100644
+--- a/src/NzbDrone.Core/Datastore/Migration/Framework/NzbDroneSQLiteProcessor.cs
++++ b/src/NzbDrone.Core/Datastore/Migration/Framework/NzbDroneSQLiteProcessor.cs
+@@ -34,7 +34,7 @@ public override void Process(AlterColumnExpression expression)
+ 
+             if (columnIndex == -1)
+             {
+-                throw new ApplicationException(string.Format("Column {0} does not exist on table {1}.", expression.Column.Name, expression.TableName));
++                throw new ApplicationException($"Column {expression.Column.Name} does not exist on table {expression.TableName}.");
+             }
+ 
+             columnDefinitions[columnIndex] = expression.Column;
+@@ -61,7 +61,7 @@ public override void Process(DeleteColumnExpression expression)
+ 
+             if (columnsToRemove.Any())
+             {
+-                throw new ApplicationException(string.Format("Column {0} does not exist on table {1}.", columnsToRemove.First(), expression.TableName));
++                throw new ApplicationException($"Column {columnsToRemove.First()} does not exist on table {expression.TableName}.");
+             }
+ 
+             ProcessAlterTable(tableDefinition);
+@@ -77,12 +77,12 @@ public override void Process(RenameColumnExpression expression)
+ 
+             if (columnIndex == -1)
+             {
+-                throw new ApplicationException(string.Format("Column {0} does not exist on table {1}.", expression.OldName, expression.TableName));
++                throw new ApplicationException($"Column {expression.OldName} does not exist on table {expression.TableName}.");
+             }
+ 
+             if (columnDefinitions.Any(c => c.Name == expression.NewName))
+             {
+-                throw new ApplicationException(string.Format("Column {0} already exists on table {1}.", expression.NewName, expression.TableName));
++                throw new ApplicationException($"Column {expression.NewName} already exists on table {expression.TableName}.");
+             }
+ 
+             oldColumnDefinitions[columnIndex] = (ColumnDefinition)columnDefinitions[columnIndex].Clone();
+@@ -133,7 +133,7 @@ protected virtual void ProcessAlterTable(TableDefinition tableDefinition, List<C
+ 
+             Process(new CreateTableExpression() { TableName = tempTableName, Columns = tableDefinition.Columns.ToList() });
+ 
+-            Process(string.Format("INSERT INTO {0} ({1}) SELECT {2} FROM {3}", quoter.QuoteTableName(tempTableName), columnsToInsert, columnsToFetch, quoter.QuoteTableName(tableName)));
++            Process($"INSERT INTO {quoter.QuoteTableName(tempTableName)} ({columnsToInsert}) SELECT {columnsToFetch} FROM {quoter.QuoteTableName(tableName)}");
+ 
+             Process(new DeleteTableExpression() { TableName = tableName });
+ 
+diff --git a/src/NzbDrone.Core/Datastore/Migration/Framework/SqliteSyntaxReader.cs b/src/NzbDrone.Core/Datastore/Migration/Framework/SqliteSyntaxReader.cs
+index 77d53175c..e084f9f36 100644
+--- a/src/NzbDrone.Core/Datastore/Migration/Framework/SqliteSyntaxReader.cs
++++ b/src/NzbDrone.Core/Datastore/Migration/Framework/SqliteSyntaxReader.cs
+@@ -265,7 +265,7 @@ protected string ReadEscapedString(char escape)
+ 
+         public SyntaxErrorException CreateSyntaxException(string message, params object[] args)
+         {
+-            return new SyntaxErrorException(string.Format("{0}. Syntax Error near: {1}", string.Format(message, args), Buffer.Substring(_previousIndex)));
++            return new SyntaxErrorException($"{string.Format(message, args)}. Syntax Error near: {Buffer.Substring(_previousIndex)}");
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Datastore/WhereBuilder.cs b/src/NzbDrone.Core/Datastore/WhereBuilder.cs
+index da94e20e1..67f693122 100644
+--- a/src/NzbDrone.Core/Datastore/WhereBuilder.cs
++++ b/src/NzbDrone.Core/Datastore/WhereBuilder.cs
+@@ -21,7 +21,7 @@ public class WhereBuilder : ExpressionVisitor
+ 
+         public WhereBuilder(Expression filter, bool requireConcreteValue, int seq)
+         {
+-            _paramNamePrefix = string.Format("Clause{0}", seq + 1);
++            _paramNamePrefix = $"Clause{seq + 1}";
+             _requireConcreteValue = requireConcreteValue;
+             _sb = new StringBuilder();
+ 
+@@ -78,7 +78,7 @@ protected override Expression VisitMethodCall(MethodCallExpression expression)
+                     break;
+ 
+                 default:
+-                    var msg = string.Format("'{0}' expressions are not yet implemented in the where clause expression tree parser.", method);
++                    var msg = $"'{method}' expressions are not yet implemented in the where clause expression tree parser.";
+                     throw new NotImplementedException(msg);
+             }
+ 
+@@ -221,7 +221,7 @@ private object GetFieldValue(object entity, MemberInfo member)
+                 return (member as PropertyInfo).GetValue(entity);
+             }
+ 
+-            throw new ArgumentException(string.Format("WhereBuilder could not get the value for {0}.{1}.", entity.GetType().Name, member.Name));
++            throw new ArgumentException($"WhereBuilder could not get the value for {entity.GetType().Name}.{member.Name}.");
+         }
+ 
+         private bool IsNullVariable(Expression expression)
+@@ -267,7 +267,7 @@ private string Decode(BinaryExpression expression)
+                 case ExpressionType.NotEqual: return "<>";
+                 case ExpressionType.OrElse: return "OR";
+                 case ExpressionType.Or: return "OR";
+-                default: throw new NotSupportedException(string.Format("{0} statement is not supported", expression.NodeType.ToString()));
++                default: throw new NotSupportedException($"{expression.NodeType.ToString()} statement is not supported");
+             }
+         }
+ 
+diff --git a/src/NzbDrone.Core/DecisionEngine/Rejection.cs b/src/NzbDrone.Core/DecisionEngine/Rejection.cs
+index 723968f9b..02c960190 100644
+--- a/src/NzbDrone.Core/DecisionEngine/Rejection.cs
++++ b/src/NzbDrone.Core/DecisionEngine/Rejection.cs
+@@ -13,7 +13,7 @@ public Rejection(string reason, RejectionType type = RejectionType.Permanent)
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}] {1}", Type, Reason);
++            return $"[{Type}] {Reason}";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/DecisionEngine/Specifications/TorrentSeedingSpecification.cs b/src/NzbDrone.Core/DecisionEngine/Specifications/TorrentSeedingSpecification.cs
+index a7a6d5369..c90180c18 100644
+--- a/src/NzbDrone.Core/DecisionEngine/Specifications/TorrentSeedingSpecification.cs
++++ b/src/NzbDrone.Core/DecisionEngine/Specifications/TorrentSeedingSpecification.cs
+@@ -40,9 +40,7 @@ public Decision IsSatisfiedBy(RemoteMovie subject, SearchCriteriaBase searchCrit
+                 return Decision.Accept();
+             }
+ 
+-            var torrentIndexerSettings = indexer.Settings as ITorrentIndexerSettings;
+-
+-            if (torrentIndexerSettings != null)
++            if (indexer.Settings is ITorrentIndexerSettings torrentIndexerSettings)
+             {
+                 var minimumSeeders = torrentIndexerSettings.MinimumSeeders;
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/Blackhole/TorrentBlackhole.cs b/src/NzbDrone.Core/Download/Clients/Blackhole/TorrentBlackhole.cs
+index da5f54b6b..650190f69 100644
+--- a/src/NzbDrone.Core/Download/Clients/Blackhole/TorrentBlackhole.cs
++++ b/src/NzbDrone.Core/Download/Clients/Blackhole/TorrentBlackhole.cs
+@@ -68,7 +68,7 @@ protected override string AddFromTorrentFile(RemoteMovie remoteMovie, string has
+ 
+             title = FileNameBuilder.CleanFileName(title);
+ 
+-            var filepath = Path.Combine(Settings.TorrentFolder, string.Format("{0}.torrent", title));
++            var filepath = Path.Combine(Settings.TorrentFolder, $"{title}.torrent");
+ 
+             using (var stream = _diskProvider.OpenWriteStream(filepath))
+             {
+diff --git a/src/NzbDrone.Core/Download/Clients/Deluge/DelugeProxy.cs b/src/NzbDrone.Core/Download/Clients/Deluge/DelugeProxy.cs
+index ee24b5349..f101dbea1 100644
+--- a/src/NzbDrone.Core/Download/Clients/Deluge/DelugeProxy.cs
++++ b/src/NzbDrone.Core/Download/Clients/Deluge/DelugeProxy.cs
+@@ -295,7 +295,7 @@ private void VerifyResponse<TResult>(JsonRpcResponse<TResult> response)
+ 
+         private void AuthenticateClient(JsonRpcRequestBuilder requestBuilder, DelugeSettings settings, bool reauthenticate = false)
+         {
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var cookies = _authCookieCache.Find(authKey);
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortex.cs b/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortex.cs
+index c62051994..9e926ca1f 100644
+--- a/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortex.cs
++++ b/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortex.cs
+@@ -256,7 +256,7 @@ private OsPath GetOutputPath(NzbVortexQueueItem vortexQueueItem, DownloadClientI
+ 
+             if (filesResponse.Count > 1)
+             {
+-                var message = string.Format("Download contains multiple files and is not in a job folder: {0}", outputPath);
++                var message = $"Download contains multiple files and is not in a job folder: {outputPath}";
+ 
+                 queueItem.Status = DownloadItemStatus.Warning;
+                 queueItem.Message = message;
+diff --git a/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortexProxy.cs b/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortexProxy.cs
+index 3b7187a63..2a1c5518c 100644
+--- a/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortexProxy.cs
++++ b/src/NzbDrone.Core/Download/Clients/NzbVortex/NzbVortexProxy.cs
+@@ -57,7 +57,7 @@ public string DownloadNzb(byte[] nzbData, string filename, int priority, NzbVort
+ 
+         public void Remove(int id, bool deleteData, NzbVortexSettings settings)
+         {
+-            var requestBuilder = BuildRequest(settings).Resource(string.Format("nzb/{0}/{1}", id, deleteData ? "cancelDelete" : "cancel"));
++            var requestBuilder = BuildRequest(settings).Resource($"nzb/{id}/{(deleteData ? "cancelDelete" : "cancel")}");
+ 
+             ProcessRequest<NzbVortexResponseBase>(requestBuilder, true, settings);
+         }
+@@ -106,7 +106,7 @@ public List<NzbVortexQueueItem> GetQueue(int doneLimit, NzbVortexSettings settin
+ 
+         public List<NzbVortexFile> GetFiles(int id, NzbVortexSettings settings)
+         {
+-            var requestBuilder = BuildRequest(settings).Resource(string.Format("file/{0}", id));
++            var requestBuilder = BuildRequest(settings).Resource($"file/{id}");
+ 
+             var response = ProcessRequest<NzbVortexFilesResponse>(requestBuilder, true, settings);
+ 
+@@ -176,7 +176,7 @@ private T ProcessRequest<T>(HttpRequestBuilder requestBuilder, bool requiresAuth
+ 
+         private void AuthenticateClient(HttpRequestBuilder requestBuilder, NzbVortexSettings settings, bool reauthenticate = false)
+         {
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.ApiKey);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.ApiKey}";
+ 
+             var sessionId = _authSessionIdCache.Find(authKey);
+ 
+@@ -191,7 +191,7 @@ private void AuthenticateClient(HttpRequestBuilder requestBuilder, NzbVortexSett
+ 
+                 var cnonce = Guid.NewGuid().ToString();
+ 
+-                var hashString = string.Format("{0}:{1}:{2}", nonce, cnonce, settings.ApiKey);
++                var hashString = $"{nonce}:{cnonce}:{settings.ApiKey}";
+                 var hash = Convert.ToBase64String(hashString.SHA256Hash().HexToByteArray());
+ 
+                 var authRequest = BuildRequest(settings).Resource("auth/login")
+diff --git a/src/NzbDrone.Core/Download/Clients/Nzbget/ErrorModel.cs b/src/NzbDrone.Core/Download/Clients/Nzbget/ErrorModel.cs
+index 5a917c636..0f227dad2 100644
+--- a/src/NzbDrone.Core/Download/Clients/Nzbget/ErrorModel.cs
++++ b/src/NzbDrone.Core/Download/Clients/Nzbget/ErrorModel.cs
+@@ -8,7 +8,7 @@ public class ErrorModel
+ 
+         public override string ToString()
+         {
+-            return string.Format("Name: {0}, Code: {1}, Message: {2}", Name, Code, Message);
++            return $"Name: {Name}, Code: {Code}, Message: {Message}";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Download/Clients/Pneumatic/Pneumatic.cs b/src/NzbDrone.Core/Download/Clients/Pneumatic/Pneumatic.cs
+index 1455c3bb7..d44f8697c 100644
+--- a/src/NzbDrone.Core/Download/Clients/Pneumatic/Pneumatic.cs
++++ b/src/NzbDrone.Core/Download/Clients/Pneumatic/Pneumatic.cs
+@@ -126,7 +126,7 @@ private string WriteStrmFile(string title, string nzbFile)
+                 throw new DownloadClientException("Strm Folder needs to be set for Pneumatic Downloader");
+             }
+ 
+-            var contents = string.Format("plugin://plugin.program.pneumatic/?mode=strm&type=add_file&nzb={0}&nzbname={1}", nzbFile, title);
++            var contents = $"plugin://plugin.program.pneumatic/?mode=strm&type=add_file&nzb={nzbFile}&nzbname={title}";
+             var filename = Path.Combine(Settings.StrmFolder, title + ".strm");
+ 
+             _diskProvider.WriteAllText(filename, contents);
+diff --git a/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV1.cs b/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV1.cs
+index e7e8f1e6e..2e8b02319 100644
+--- a/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV1.cs
++++ b/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV1.cs
+@@ -323,7 +323,7 @@ private void AuthenticateClient(HttpRequestBuilder requestBuilder, QBittorrentSe
+                 return;
+             }
+ 
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var cookies = _authCookieCache.Find(authKey);
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV2.cs b/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV2.cs
+index 29a3551b0..a6db7eebb 100644
+--- a/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV2.cs
++++ b/src/NzbDrone.Core/Download/Clients/QBittorrent/QBittorrentProxyV2.cs
+@@ -346,7 +346,7 @@ private void AuthenticateClient(HttpRequestBuilder requestBuilder, QBittorrentSe
+                 return;
+             }
+ 
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var cookies = _authCookieCache.Find(authKey);
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionBase.cs b/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionBase.cs
+index 2c94d2719..99f8c2787 100644
+--- a/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionBase.cs
++++ b/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionBase.cs
+@@ -178,7 +178,7 @@ public override DownloadClientInfo GetStatus()
+ 
+                 if (Settings.MovieCategory.IsNotNullOrWhiteSpace())
+                 {
+-                    destDir = string.Format("{0}/{1}", destDir, Settings.MovieCategory);
++                    destDir = $"{destDir}/{Settings.MovieCategory}";
+                 }
+             }
+ 
+diff --git a/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionProxy.cs b/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionProxy.cs
+index b30d14497..11a85f70b 100644
+--- a/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionProxy.cs
++++ b/src/NzbDrone.Core/Download/Clients/Transmission/TransmissionProxy.cs
+@@ -208,7 +208,7 @@ private HttpRequestBuilder BuildRequest(TransmissionSettings settings)
+ 
+         private void AuthenticateClient(HttpRequestBuilder requestBuilder, TransmissionSettings settings, bool reauthenticate = false)
+         {
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var sessionId = _authSessionIDCache.Find(authKey);
+ 
+@@ -269,7 +269,7 @@ public TransmissionResponse ProcessRequest(string action, object arguments, Tran
+                 }
+ 
+                 request.SetContent(data.ToJson());
+-                request.ContentSummary = string.Format("{0}(...)", action);
++                request.ContentSummary = $"{action}(...)";
+ 
+                 var response = _httpClient.Execute(request);
+ 
+@@ -280,7 +280,7 @@ public TransmissionResponse ProcessRequest(string action, object arguments, Tran
+                     request = requestBuilder.Post().Build();
+ 
+                     request.SetContent(data.ToJson());
+-                    request.ContentSummary = string.Format("{0}(...)", action);
++                    request.ContentSummary = $"{action}(...)";
+ 
+                     response = _httpClient.Execute(request);
+                 }
+diff --git a/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrent.cs b/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrent.cs
+index 0b12cc535..099d662de 100644
+--- a/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrent.cs
++++ b/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrent.cs
+@@ -178,7 +178,7 @@ private List<UTorrentTorrent> GetTorrents()
+         {
+             List<UTorrentTorrent> torrents;
+ 
+-            var cacheKey = string.Format("{0}:{1}:{2}", Settings.Host, Settings.Port, Settings.MovieCategory);
++            var cacheKey = $"{Settings.Host}:{Settings.Port}:{Settings.MovieCategory}";
+             var cache = _torrentCache.Find(cacheKey);
+ 
+             var response = _proxy.GetTorrents(cache == null ? null : cache.CacheID, Settings);
+diff --git a/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrentProxy.cs b/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrentProxy.cs
+index 1e35c1f33..07c4e6d3e 100644
+--- a/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrentProxy.cs
++++ b/src/NzbDrone.Core/Download/Clients/uTorrent/UTorrentProxy.cs
+@@ -244,7 +244,7 @@ public UTorrentResponse ProcessRequest(HttpRequestBuilder requestBuilder, UTorre
+ 
+         private void AuthenticateClient(HttpRequestBuilder requestBuilder, UTorrentSettings settings, bool reauthenticate = false)
+         {
+-            var authKey = string.Format("{0}:{1}", requestBuilder.BaseUrl, settings.Password);
++            var authKey = $"{requestBuilder.BaseUrl}:{settings.Password}";
+ 
+             var cookies = _authCookieCache.Find(authKey);
+             var authToken = _authTokenCache.Find(authKey);
+diff --git a/src/NzbDrone.Core/Download/DownloadClientBase.cs b/src/NzbDrone.Core/Download/DownloadClientBase.cs
+index b4520d92b..ab5a07778 100644
+--- a/src/NzbDrone.Core/Download/DownloadClientBase.cs
++++ b/src/NzbDrone.Core/Download/DownloadClientBase.cs
+@@ -116,7 +116,7 @@ protected virtual void DeleteItemData(string downloadId)
+             }
+             catch (Exception ex)
+             {
+-                _logger.Warn(ex, string.Format("[{0}] Error occurred while trying to delete data from '{1}'.", item.Title, item.OutputPath));
++                _logger.Warn(ex, $"[{item.Title}] Error occurred while trying to delete data from '{item.OutputPath}'.");
+             }
+         }
+ 
+@@ -145,7 +145,7 @@ protected ValidationFailure TestFolder(string folder, string propertyName, bool
+             {
+                 return new NzbDroneValidationFailure(propertyName, "Folder does not exist")
+                 {
+-                    DetailedDescription = string.Format("The folder you specified does not exist or is inaccessible. Please verify the folder permissions for the user account '{0}', which is used to execute Radarr.", Environment.UserName)
++                    DetailedDescription = $"The folder you specified does not exist or is inaccessible. Please verify the folder permissions for the user account '{Environment.UserName}', which is used to execute Radarr."
+                 };
+             }
+ 
+@@ -154,7 +154,7 @@ protected ValidationFailure TestFolder(string folder, string propertyName, bool
+                 _logger.Error("Folder '{0}' is not writable.", folder);
+                 return new NzbDroneValidationFailure(propertyName, "Unable to write to folder")
+                 {
+-                    DetailedDescription = string.Format("The folder you specified is not writable. Please verify the folder permissions for the user account '{0}', which is used to execute Radarr.", Environment.UserName)
++                    DetailedDescription = $"The folder you specified is not writable. Please verify the folder permissions for the user account '{Environment.UserName}', which is used to execute Radarr."
+                 };
+             }
+ 
+diff --git a/src/NzbDrone.Core/Download/DownloadService.cs b/src/NzbDrone.Core/Download/DownloadService.cs
+index 48395ab18..144b92f6e 100644
+--- a/src/NzbDrone.Core/Download/DownloadService.cs
++++ b/src/NzbDrone.Core/Download/DownloadService.cs
+@@ -86,8 +86,7 @@ public void DownloadReport(RemoteMovie remoteMovie)
+             }
+             catch (ReleaseDownloadException ex)
+             {
+-                var http429 = ex.InnerException as TooManyRequestsException;
+-                if (http429 != null)
++                if (ex.InnerException is TooManyRequestsException http429)
+                 {
+                     _indexerStatusService.RecordFailure(remoteMovie.Release.IndexerId, http429.RetryAfter);
+                 }
+diff --git a/src/NzbDrone.Core/Download/Pending/PendingReleaseService.cs b/src/NzbDrone.Core/Download/Pending/PendingReleaseService.cs
+index 6336412da..9def939d2 100644
+--- a/src/NzbDrone.Core/Download/Pending/PendingReleaseService.cs
++++ b/src/NzbDrone.Core/Download/Pending/PendingReleaseService.cs
+@@ -393,7 +393,7 @@ private PendingRelease FindPendingRelease(int queueId)
+ 
+         private int GetQueueId(PendingRelease pendingRelease, Movie movie)
+         {
+-            return HashConverter.GetHashInt31(string.Format("pending-{0}-movie{1}", pendingRelease.Id, movie.Id));
++            return HashConverter.GetHashInt31($"pending-{pendingRelease.Id}-movie{movie.Id}");
+         }
+ 
+         private int PrioritizeDownloadProtocol(Movie movie, DownloadProtocol downloadProtocol)
+diff --git a/src/NzbDrone.Core/Download/TorrentClientBase.cs b/src/NzbDrone.Core/Download/TorrentClientBase.cs
+index 44dd120cd..d5657126c 100644
+--- a/src/NzbDrone.Core/Download/TorrentClientBase.cs
++++ b/src/NzbDrone.Core/Download/TorrentClientBase.cs
+@@ -44,7 +44,6 @@ public abstract class TorrentClientBase<TSettings> : DownloadClientBase<TSetting
+ 
+         public override string Download(RemoteMovie remoteMovie)
+         {
+-            var torrentInfo = remoteMovie.Release as TorrentInfo;
+ 
+             string magnetUrl = null;
+             string torrentUrl = null;
+@@ -58,7 +57,7 @@ public override string Download(RemoteMovie remoteMovie)
+                 torrentUrl = remoteMovie.Release.DownloadUrl;
+             }
+ 
+-            if (torrentInfo != null && !torrentInfo.MagnetUrl.IsNullOrWhiteSpace())
++            if (remoteMovie.Release is TorrentInfo torrentInfo && !torrentInfo.MagnetUrl.IsNullOrWhiteSpace())
+             {
+                 magnetUrl = torrentInfo.MagnetUrl;
+             }
+@@ -185,7 +184,7 @@ private string DownloadFromWebUrl(RemoteMovie remoteMovie, string torrentUrl)
+                 throw new ReleaseDownloadException(remoteMovie.Release, "Downloading torrent failed", ex);
+             }
+ 
+-            var filename = string.Format("{0}.torrent", FileNameBuilder.CleanFileName(remoteMovie.Release.Title));
++            var filename = $"{FileNameBuilder.CleanFileName(remoteMovie.Release.Title)}.torrent";
+             var hash = _torrentFileInfoReader.GetHashFromTorrentFile(torrentFile);
+             var actualHash = AddFromTorrentFile(remoteMovie, hash, filename, torrentFile);
+ 
+diff --git a/src/NzbDrone.Core/Exceptions/MovieNotFoundExceptions.cs b/src/NzbDrone.Core/Exceptions/MovieNotFoundExceptions.cs
+index 5018b2889..93eca8877 100644
+--- a/src/NzbDrone.Core/Exceptions/MovieNotFoundExceptions.cs
++++ b/src/NzbDrone.Core/Exceptions/MovieNotFoundExceptions.cs
+@@ -7,13 +7,13 @@ public class MovieNotFoundException : NzbDroneException
+         public int TmdbMovieId { get; set; }
+ 
+         public MovieNotFoundException(int tmdbMovieId)
+-            : base(string.Format("Movie with tmdbId {0} was not found, it may have been removed from TMDb.", tmdbMovieId))
++            : base($"Movie with tmdbId {tmdbMovieId} was not found, it may have been removed from TMDb.")
+         {
+             TmdbMovieId = tmdbMovieId;
+         }
+ 
+         public MovieNotFoundException(string imdbId)
+-            : base(string.Format("Movie with IMDBId {0} was not found, it may have been removed from TMDb.", imdbId))
++            : base($"Movie with IMDBId {imdbId} was not found, it may have been removed from TMDb.")
+         {
+             TmdbMovieId = 0;
+         }
+diff --git a/src/NzbDrone.Core/Extras/Metadata/Consumers/Xbmc/XbmcMetadata.cs b/src/NzbDrone.Core/Extras/Metadata/Consumers/Xbmc/XbmcMetadata.cs
+index 1497ee45a..a2c9ad3aa 100644
+--- a/src/NzbDrone.Core/Extras/Metadata/Consumers/Xbmc/XbmcMetadata.cs
++++ b/src/NzbDrone.Core/Extras/Metadata/Consumers/Xbmc/XbmcMetadata.cs
+@@ -188,7 +188,7 @@ public override MetadataFileResult MovieMetadata(Movie movie, MovieFile movieFil
+ 
+                     foreach (var poster in posters)
+                     {
+-                        if (poster != null && poster.Url != null)
++                        if (poster?.Url != null)
+                         {
+                             details.Add(new XElement("thumb", new XAttribute("aspect", "poster"), new XAttribute("preview", poster.Url), poster.Url));
+                         }
+@@ -199,7 +199,7 @@ public override MetadataFileResult MovieMetadata(Movie movie, MovieFile movieFil
+                         var fanartElement = new XElement("fanart");
+                         foreach (var fanart in fanarts)
+                         {
+-                            if (fanart != null && fanart.Url != null)
++                            if (fanart?.Url != null)
+                             {
+                                 fanartElement.Add(new XElement("thumb", new XAttribute("preview", fanart.Url), fanart.Url));
+                             }
+@@ -336,7 +336,7 @@ public override MetadataFileResult MovieMetadata(Movie movie, MovieFile movieFil
+ 
+                                 var headshot = credit.Images.FirstOrDefault(m => m.CoverType == MediaCoverTypes.Headshot);
+ 
+-                                if (headshot != null && headshot.Url != null)
++                                if (headshot?.Url != null)
+                                 {
+                                     actorElement.Add(new XElement("thumb", headshot.Url));
+                                 }
+diff --git a/src/NzbDrone.Core/Extras/Others/OtherExtraFileRenamer.cs b/src/NzbDrone.Core/Extras/Others/OtherExtraFileRenamer.cs
+index 4f68b2e37..e6064fbd1 100644
+--- a/src/NzbDrone.Core/Extras/Others/OtherExtraFileRenamer.cs
++++ b/src/NzbDrone.Core/Extras/Others/OtherExtraFileRenamer.cs
+@@ -39,7 +39,7 @@ public void RenameOtherExtraFile(Movie movie, string path)
+ 
+             var relativePath = movie.Path.GetRelativePath(path);
+ 
+-            var otherExtraFile = _otherExtraFileService.GetFilesByMovie(movie.Id).Where(e => e.RelativePath == relativePath).SingleOrDefault();
++            var otherExtraFile = _otherExtraFileService.GetFilesByMovie(movie.Id).SingleOrDefault(e => e.RelativePath == relativePath);
+             if (otherExtraFile != null)
+             {
+                 var newPath = path + "-orig";
+@@ -64,7 +64,7 @@ private void RemoveOtherExtraFile(Movie movie, string path)
+ 
+             var relativePath = movie.Path.GetRelativePath(path);
+ 
+-            var otherExtraFile = _otherExtraFileService.GetFilesByMovie(movie.Id).Where(e => e.RelativePath == relativePath).SingleOrDefault();
++            var otherExtraFile = _otherExtraFileService.GetFilesByMovie(movie.Id).SingleOrDefault(e => e.RelativePath == relativePath);
+             if (otherExtraFile != null)
+             {
+                 _recycleBinProvider.DeleteFile(path);
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/ImportListRootFolderCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/ImportListRootFolderCheck.cs
+index 21f21a774..01e95cda1 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/ImportListRootFolderCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/ImportListRootFolderCheck.cs
+@@ -53,7 +53,7 @@ public override HealthCheck Check()
+                     return new HealthCheck(GetType(), HealthCheckResult.Error, $"Missing root folder for import list(s): {FormatRootFolder(missingRootFolder.Key, missingRootFolder.Value)}", "#import_list_missing_root_folder");
+                 }
+ 
+-                var message = string.Format("Multiple root folders are missing for import lists: {0}", string.Join(" | ", missingRootFolders.Select(m => FormatRootFolder(m.Key, m.Value))));
++                var message = $"Multiple root folders are missing for import lists: {string.Join(" | ", missingRootFolders.Select(m => FormatRootFolder(m.Key, m.Value)))}";
+                 return new HealthCheck(GetType(), HealthCheckResult.Error, message, "#import_list_missing_root_folder");
+             }
+ 
+diff --git a/src/NzbDrone.Core/HealthCheck/Checks/MountCheck.cs b/src/NzbDrone.Core/HealthCheck/Checks/MountCheck.cs
+index c6636eb47..b295f4f22 100644
+--- a/src/NzbDrone.Core/HealthCheck/Checks/MountCheck.cs
++++ b/src/NzbDrone.Core/HealthCheck/Checks/MountCheck.cs
+@@ -23,7 +23,7 @@ public override HealthCheck Check()
+             // Not best for optimization but due to possible symlinks and junctions, we get mounts based on series path so internals can handle mount resolution.
+             var mounts = _movieService.AllMoviePaths()
+                                       .Select(p => _diskProvider.GetMount(p.Value))
+-                                      .Where(m => m != null && m.MountOptions != null && m.MountOptions.IsReadOnly)
++                                      .Where(m => m?.MountOptions != null && m.MountOptions.IsReadOnly)
+                                       .DistinctBy(m => m.RootDirectory)
+                                       .ToList();
+ 
+diff --git a/src/NzbDrone.Core/History/HistoryService.cs b/src/NzbDrone.Core/History/HistoryService.cs
+index 5e02843b0..604205fab 100644
+--- a/src/NzbDrone.Core/History/HistoryService.cs
++++ b/src/NzbDrone.Core/History/HistoryService.cs
+@@ -160,9 +160,7 @@ public void Handle(MovieGrabbedEvent message)
+                 history.Data.Add("ReleaseHash", message.Movie.ParsedMovieInfo.ReleaseHash);
+             }
+ 
+-            var torrentRelease = message.Movie.Release as TorrentInfo;
+-
+-            if (torrentRelease != null)
++            if (message.Movie.Release is TorrentInfo torrentRelease)
+             {
+                 history.Data.Add("TorrentInfoHash", torrentRelease.InfoHash);
+             }
+diff --git a/src/NzbDrone.Core/ImportLists/ImportExclusions/ImportExclusion.cs b/src/NzbDrone.Core/ImportLists/ImportExclusions/ImportExclusion.cs
+index 6ffa61a17..419d42e49 100644
+--- a/src/NzbDrone.Core/ImportLists/ImportExclusions/ImportExclusion.cs
++++ b/src/NzbDrone.Core/ImportLists/ImportExclusions/ImportExclusion.cs
+@@ -10,7 +10,7 @@ public class ImportExclusion : ModelBase
+ 
+         public new string ToString()
+         {
+-            return string.Format("Excluded Movie: [{0}][{1} {2}]", TmdbId, MovieTitle, MovieYear);
++            return $"Excluded Movie: [{TmdbId}][{MovieTitle} {MovieYear}]";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/ImportLists/ImportListSyncService.cs b/src/NzbDrone.Core/ImportLists/ImportListSyncService.cs
+index 7fb5a01ee..375908835 100644
+--- a/src/NzbDrone.Core/ImportLists/ImportListSyncService.cs
++++ b/src/NzbDrone.Core/ImportLists/ImportListSyncService.cs
+@@ -40,7 +40,7 @@ public class ImportListSyncService : IExecute<ImportListSyncCommand>
+ 
+         private void SyncList(ImportListDefinition definition)
+         {
+-            _logger.ProgressInfo(string.Format("Starting Import List Refresh for List {0}", definition.Name));
++            _logger.ProgressInfo($"Starting Import List Refresh for List {definition.Name}");
+ 
+             var result = _listFetcherAndParser.FetchSingleList(definition);
+ 
+@@ -80,7 +80,7 @@ private void ProcessMovieReport(ImportListDefinition importList, ImportListMovie
+             }
+ 
+             // Check to see if movie excluded
+-            var excludedMovie = listExclusions.Where(s => s.TmdbId == report.TmdbId).SingleOrDefault();
++            var excludedMovie = listExclusions.SingleOrDefault(s => s.TmdbId == report.TmdbId);
+ 
+             if (excludedMovie != null)
+             {
+diff --git a/src/NzbDrone.Core/ImportLists/RSSImport/RSSImportParser.cs b/src/NzbDrone.Core/ImportLists/RSSImport/RSSImportParser.cs
+index e67e53ed2..afef1aa5a 100644
+--- a/src/NzbDrone.Core/ImportLists/RSSImport/RSSImportParser.cs
++++ b/src/NzbDrone.Core/ImportLists/RSSImport/RSSImportParser.cs
+@@ -233,7 +233,7 @@ protected virtual string ParseUrl(string value)
+             }
+             catch (Exception ex)
+             {
+-                _logger.Debug(ex, string.Format("Failed to parse Url {0}, ignoring.", value));
++                _logger.Debug(ex, $"Failed to parse Url {value}, ignoring.");
+                 return null;
+             }
+         }
+diff --git a/src/NzbDrone.Core/ImportLists/Radarr/RadarrImport.cs b/src/NzbDrone.Core/ImportLists/Radarr/RadarrImport.cs
+index 92162c46b..d556416fb 100644
+--- a/src/NzbDrone.Core/ImportLists/Radarr/RadarrImport.cs
++++ b/src/NzbDrone.Core/ImportLists/Radarr/RadarrImport.cs
+@@ -124,7 +124,7 @@ private static MediaCover.MediaCover MapImage(MediaCover.MediaCover arg, string
+         {
+             var newImage = new MediaCover.MediaCover
+             {
+-                Url = string.Format("{0}{1}", baseUrl, arg.Url),
++                Url = $"{baseUrl}{arg.Url}",
+                 CoverType = arg.CoverType
+             };
+ 
+diff --git a/src/NzbDrone.Core/ImportLists/RadarrList/RadarrListParser.cs b/src/NzbDrone.Core/ImportLists/RadarrList/RadarrListParser.cs
+index 29231930d..fbb94254d 100644
+--- a/src/NzbDrone.Core/ImportLists/RadarrList/RadarrListParser.cs
++++ b/src/NzbDrone.Core/ImportLists/RadarrList/RadarrListParser.cs
+@@ -41,7 +41,7 @@ protected virtual bool PreProcess(ImportListResponse importListResponse)
+             {
+                 var error = JsonConvert.DeserializeObject<RadarrErrors>(importListResponse.HttpResponse.Content);
+ 
+-                if (error != null && error.Errors != null && error.Errors.Count != 0)
++                if (error?.Errors != null && error.Errors.Count != 0)
+                 {
+                     throw new RadarrListException(error);
+                 }
+diff --git a/src/NzbDrone.Core/IndexerSearch/Definitions/MovieSearchCriteria.cs b/src/NzbDrone.Core/IndexerSearch/Definitions/MovieSearchCriteria.cs
+index 567dae930..c5893adc4 100644
+--- a/src/NzbDrone.Core/IndexerSearch/Definitions/MovieSearchCriteria.cs
++++ b/src/NzbDrone.Core/IndexerSearch/Definitions/MovieSearchCriteria.cs
+@@ -4,7 +4,7 @@ public class MovieSearchCriteria : SearchCriteriaBase
+     {
+         public override string ToString()
+         {
+-            return string.Format("[{0}]", Movie.Title);
++            return $"[{Movie.Title}]";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/IndexerSearch/MoviesSearchService.cs b/src/NzbDrone.Core/IndexerSearch/MoviesSearchService.cs
+index bc7e2c946..5f2a20cbb 100644
+--- a/src/NzbDrone.Core/IndexerSearch/MoviesSearchService.cs
++++ b/src/NzbDrone.Core/IndexerSearch/MoviesSearchService.cs
+@@ -110,7 +110,7 @@ private void SearchForMissingMovies(List<Movie> movies, bool userInvokedSearch)
+                 }
+                 catch (Exception ex)
+                 {
+-                    var message = string.Format("Unable to search for missing movie {0}", movieId.Key);
++                    var message = $"Unable to search for missing movie {movieId.Key}";
+                     _logger.Error(ex, message);
+                     continue;
+                 }
+diff --git a/src/NzbDrone.Core/Indexers/FileList/FileListParser.cs b/src/NzbDrone.Core/Indexers/FileList/FileListParser.cs
+index 0936eba62..4d983ad25 100644
+--- a/src/NzbDrone.Core/Indexers/FileList/FileListParser.cs
++++ b/src/NzbDrone.Core/Indexers/FileList/FileListParser.cs
+@@ -49,7 +49,7 @@ public IList<ReleaseInfo> ParseResponse(IndexerResponse indexerResponse)
+ 
+                 torrentInfos.Add(new TorrentInfo()
+                 {
+-                    Guid = string.Format("FileList-{0}", id),
++                    Guid = $"FileList-{id}",
+                     Title = result.Name,
+                     Size = result.Size,
+                     DownloadUrl = GetDownloadUrl(id),
+diff --git a/src/NzbDrone.Core/Indexers/FileList/FileListRequestGenerator.cs b/src/NzbDrone.Core/Indexers/FileList/FileListRequestGenerator.cs
+index 1d6ac1445..8490051e2 100644
+--- a/src/NzbDrone.Core/Indexers/FileList/FileListRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/FileList/FileListRequestGenerator.cs
+@@ -26,14 +26,14 @@ public virtual IndexerPageableRequestChain GetSearchRequests(MovieSearchCriteria
+ 
+             if (searchCriteria.Movie.ImdbId.IsNotNullOrWhiteSpace())
+             {
+-                pageableRequests.Add(GetRequest("search-torrents", string.Format("&type=imdb&query={0}", searchCriteria.Movie.ImdbId)));
++                pageableRequests.Add(GetRequest("search-torrents", $"&type=imdb&query={searchCriteria.Movie.ImdbId}"));
+             }
+             else
+             {
+                 foreach (var queryTitle in searchCriteria.QueryTitles)
+                 {
+-                    var titleYearSearchQuery = string.Format("{0}+{1}", queryTitle, searchCriteria.Movie.Year);
+-                    pageableRequests.Add(GetRequest("search-torrents", string.Format("&type=name&query={0}", titleYearSearchQuery.Trim())));
++                    var titleYearSearchQuery = $"{queryTitle}+{searchCriteria.Movie.Year}";
++                    pageableRequests.Add(GetRequest("search-torrents", $"&type=name&query={titleYearSearchQuery.Trim()}"));
+                 }
+             }
+ 
+@@ -44,7 +44,7 @@ private IEnumerable<IndexerRequest> GetRequest(string searchType, string paramet
+         {
+             var categoriesQuery = string.Join(",", Settings.Categories.Distinct());
+ 
+-            var baseUrl = string.Format("{0}/api.php?action={1}&category={2}&username={3}&passkey={4}{5}", Settings.BaseUrl.TrimEnd('/'), searchType, categoriesQuery, Settings.Username.Trim(), Settings.Passkey.Trim(), parameters);
++            var baseUrl = $"{Settings.BaseUrl.TrimEnd('/')}/api.php?action={searchType}&category={categoriesQuery}&username={Settings.Username.Trim()}&passkey={Settings.Passkey.Trim()}{parameters}";
+ 
+             yield return new IndexerRequest(baseUrl, HttpAccept.Json);
+         }
+diff --git a/src/NzbDrone.Core/Indexers/HDBits/HDBitsParser.cs b/src/NzbDrone.Core/Indexers/HDBits/HDBitsParser.cs
+index a772e9f74..825852ad6 100644
+--- a/src/NzbDrone.Core/Indexers/HDBits/HDBitsParser.cs
++++ b/src/NzbDrone.Core/Indexers/HDBits/HDBitsParser.cs
+@@ -67,7 +67,7 @@ public IList<ReleaseInfo> ParseResponse(IndexerResponse indexerResponse)
+ 
+                 torrentInfos.Add(new HDBitsInfo()
+                 {
+-                    Guid = string.Format("HDBits-{0}", id),
++                    Guid = $"HDBits-{id}",
+                     Title = result.Name,
+                     Size = result.Size,
+                     InfoHash = result.Hash,
+diff --git a/src/NzbDrone.Core/Indexers/Newznab/NewznabCapabilitiesProvider.cs b/src/NzbDrone.Core/Indexers/Newznab/NewznabCapabilitiesProvider.cs
+index 51074704a..f9c4b48be 100644
+--- a/src/NzbDrone.Core/Indexers/Newznab/NewznabCapabilitiesProvider.cs
++++ b/src/NzbDrone.Core/Indexers/Newznab/NewznabCapabilitiesProvider.cs
+@@ -40,7 +40,7 @@ private NewznabCapabilities FetchCapabilities(NewznabSettings indexerSettings)
+         {
+             var capabilities = new NewznabCapabilities();
+ 
+-            var url = string.Format("{0}{1}?t=caps", indexerSettings.BaseUrl.TrimEnd('/'), indexerSettings.ApiPath.TrimEnd('/'));
++            var url = $"{indexerSettings.BaseUrl.TrimEnd('/')}{indexerSettings.ApiPath.TrimEnd('/')}?t=caps";
+ 
+             if (indexerSettings.ApiKey.IsNotNullOrWhiteSpace())
+             {
+diff --git a/src/NzbDrone.Core/Indexers/Newznab/NewznabRequestGenerator.cs b/src/NzbDrone.Core/Indexers/Newznab/NewznabRequestGenerator.cs
+index f40e5513c..0bfafbc04 100644
+--- a/src/NzbDrone.Core/Indexers/Newznab/NewznabRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/Newznab/NewznabRequestGenerator.cs
+@@ -121,14 +121,14 @@ private void AddMovieIdPageableRequests(IndexerPageableRequestChain chain, int m
+                     chain.Add(GetPagedRequests(maxPages,
+                         categories,
+                         "movie",
+-                        string.Format("&tmdbid={0}", searchCriteria.Movie.TmdbId)));
++                        $"&tmdbid={searchCriteria.Movie.TmdbId}"));
+                 }
+                 else if (includeImdbSearch)
+                 {
+                     chain.Add(GetPagedRequests(maxPages,
+                         categories,
+                         "movie",
+-                        string.Format("&imdbid={0}", searchCriteria.Movie.ImdbId.Substring(2))));
++                        $"&imdbid={searchCriteria.Movie.ImdbId.Substring(2)}"));
+                 }
+             }
+ 
+@@ -141,13 +141,13 @@ private void AddMovieIdPageableRequests(IndexerPageableRequestChain chain, int m
+ 
+                     if (!Settings.RemoveYear)
+                     {
+-                        searchQuery = string.Format("{0} {1}", searchQuery, searchCriteria.Movie.Year);
++                        searchQuery = $"{searchQuery} {searchCriteria.Movie.Year}";
+                     }
+ 
+                     chain.Add(GetPagedRequests(MaxPages,
+                         Settings.Categories,
+                         "movie",
+-                        string.Format("&q={0}", NewsnabifyTitle(searchQuery))));
++                        $"&q={NewsnabifyTitle(searchQuery)}"));
+                 }
+             }
+         }
+@@ -161,7 +161,7 @@ private IEnumerable<IndexerRequest> GetPagedRequests(int maxPages, IEnumerable<i
+ 
+             var categoriesQuery = string.Join(",", categories.Distinct());
+ 
+-            var baseUrl = string.Format("{0}{1}?t={2}&cat={3}&extended=1{4}", Settings.BaseUrl.TrimEnd('/'), Settings.ApiPath.TrimEnd('/'), searchType, categoriesQuery, Settings.AdditionalParameters);
++            var baseUrl = $"{Settings.BaseUrl.TrimEnd('/')}{Settings.ApiPath.TrimEnd('/')}?t={searchType}&cat={categoriesQuery}&extended=1{Settings.AdditionalParameters}";
+ 
+             if (Settings.ApiKey.IsNotNullOrWhiteSpace())
+             {
+@@ -170,13 +170,13 @@ private IEnumerable<IndexerRequest> GetPagedRequests(int maxPages, IEnumerable<i
+ 
+             if (PageSize == 0)
+             {
+-                yield return new IndexerRequest(string.Format("{0}{1}", baseUrl, parameters), HttpAccept.Rss);
++                yield return new IndexerRequest($"{baseUrl}{parameters}", HttpAccept.Rss);
+             }
+             else
+             {
+                 for (var page = 0; page < maxPages; page++)
+                 {
+-                    yield return new IndexerRequest(string.Format("{0}&offset={1}&limit={2}{3}", baseUrl, page * PageSize, PageSize, parameters), HttpAccept.Rss);
++                    yield return new IndexerRequest($"{baseUrl}&offset={page * PageSize}&limit={PageSize}{parameters}", HttpAccept.Rss);
+                 }
+             }
+         }
+diff --git a/src/NzbDrone.Core/Indexers/Nyaa/NyaaRequestGenerator.cs b/src/NzbDrone.Core/Indexers/Nyaa/NyaaRequestGenerator.cs
+index 103e872b4..f6a7c457f 100644
+--- a/src/NzbDrone.Core/Indexers/Nyaa/NyaaRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/Nyaa/NyaaRequestGenerator.cs
+@@ -29,7 +29,7 @@ public virtual IndexerPageableRequestChain GetRecentRequests()
+ 
+         private IEnumerable<IndexerRequest> GetPagedRequests(int maxPages, string term)
+         {
+-            var baseUrl = string.Format("{0}/?page=rss{1}", Settings.BaseUrl.TrimEnd('/'), Settings.AdditionalParameters);
++            var baseUrl = $"{Settings.BaseUrl.TrimEnd('/')}/?page=rss{Settings.AdditionalParameters}";
+ 
+             if (term != null)
+             {
+@@ -62,7 +62,7 @@ public IndexerPageableRequestChain GetSearchRequests(MovieSearchCriteria searchC
+ 
+             foreach (var queryTitle in searchCriteria.QueryTitles)
+             {
+-                pageableRequests.Add(GetPagedRequests(MaxPages, PrepareQuery(string.Format("{0} {1}", queryTitle, searchCriteria.Movie.Year))));
++                pageableRequests.Add(GetPagedRequests(MaxPages, PrepareQuery($"{queryTitle} {searchCriteria.Movie.Year}")));
+             }
+ 
+             return pageableRequests;
+diff --git a/src/NzbDrone.Core/Indexers/Omgwtfnzbs/OmgwtfnzbsRequestGenerator.cs b/src/NzbDrone.Core/Indexers/Omgwtfnzbs/OmgwtfnzbsRequestGenerator.cs
+index b2bf7d5aa..66356592a 100644
+--- a/src/NzbDrone.Core/Indexers/Omgwtfnzbs/OmgwtfnzbsRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/Omgwtfnzbs/OmgwtfnzbsRequestGenerator.cs
+@@ -32,8 +32,7 @@ public IndexerPageableRequestChain GetSearchRequests(MovieSearchCriteria searchC
+ 
+             foreach (var queryTitle in searchCriteria.QueryTitles)
+             {
+-                pageableRequests.Add(GetPagedRequests(string.Format("{0}",
+-                    queryTitle)));
++                pageableRequests.Add(GetPagedRequests($"{queryTitle}"));
+             }
+ 
+             return pageableRequests;
+diff --git a/src/NzbDrone.Core/Indexers/PassThePopcorn/PassThePopcornParser.cs b/src/NzbDrone.Core/Indexers/PassThePopcorn/PassThePopcornParser.cs
+index ac3e9372e..c84d0429e 100644
+--- a/src/NzbDrone.Core/Indexers/PassThePopcorn/PassThePopcornParser.cs
++++ b/src/NzbDrone.Core/Indexers/PassThePopcorn/PassThePopcornParser.cs
+@@ -90,7 +90,7 @@ public IList<ReleaseInfo> ParseResponse(IndexerResponse indexerResponse)
+                     {
+                         torrentInfos.Add(new PassThePopcornInfo()
+                         {
+-                            Guid = string.Format("PassThePopcorn-{0}", id),
++                            Guid = $"PassThePopcorn-{id}",
+                             Title = title,
+                             Size = long.Parse(torrent.Size),
+                             DownloadUrl = GetDownloadUrl(id, jsonResponse.AuthKey, jsonResponse.PassKey),
+diff --git a/src/NzbDrone.Core/Indexers/PassThePopcorn/PassThePopcornRequestGenerator.cs b/src/NzbDrone.Core/Indexers/PassThePopcorn/PassThePopcornRequestGenerator.cs
+index 9a93c7673..d17508abc 100644
+--- a/src/NzbDrone.Core/Indexers/PassThePopcorn/PassThePopcornRequestGenerator.cs
++++ b/src/NzbDrone.Core/Indexers/PassThePopcorn/PassThePopcornRequestGenerator.cs
+@@ -37,7 +37,7 @@ public IndexerPageableRequestChain GetSearchRequests(MovieSearchCriteria searchC
+             {
+                 foreach (var queryTitle in searchCriteria.QueryTitles)
+                 {
+-                    pageableRequests.Add(GetRequest(string.Format("{0}&year={1}", queryTitle, searchCriteria.Movie.Year)));
++                    pageableRequests.Add(GetRequest($"{queryTitle}&year={searchCriteria.Movie.Year}"));
+                 }
+             }
+ 
+diff --git a/src/NzbDrone.Core/Indexers/Rarbg/RarbgParser.cs b/src/NzbDrone.Core/Indexers/Rarbg/RarbgParser.cs
+index dd7f7d713..bdaa00ae8 100644
+--- a/src/NzbDrone.Core/Indexers/Rarbg/RarbgParser.cs
++++ b/src/NzbDrone.Core/Indexers/Rarbg/RarbgParser.cs
+@@ -86,11 +86,11 @@ private string GetGuid(RarbgTorrent torrent)
+ 
+             if (match.Success)
+             {
+-                return string.Format("rarbg-{0}", match.Groups[1].Value);
++                return $"rarbg-{match.Groups[1].Value}";
+             }
+             else
+             {
+-                return string.Format("rarbg-{0}", torrent.download);
++                return $"rarbg-{torrent.download}";
+             }
+         }
+     }
+diff --git a/src/NzbDrone.Core/Indexers/RssParser.cs b/src/NzbDrone.Core/Indexers/RssParser.cs
+index 8ae83a624..c37597798 100644
+--- a/src/NzbDrone.Core/Indexers/RssParser.cs
++++ b/src/NzbDrone.Core/Indexers/RssParser.cs
+@@ -349,7 +349,7 @@ protected virtual string ParseUrl(string value)
+             }
+             catch (Exception ex)
+             {
+-                _logger.Debug(ex, string.Format("Failed to parse Url {0}, ignoring.", value));
++                _logger.Debug(ex, $"Failed to parse Url {value}, ignoring.");
+                 return null;
+             }
+         }
+diff --git a/src/NzbDrone.Core/Indexers/RssSyncService.cs b/src/NzbDrone.Core/Indexers/RssSyncService.cs
+index 8f4a07a04..95ed7872f 100644
+--- a/src/NzbDrone.Core/Indexers/RssSyncService.cs
++++ b/src/NzbDrone.Core/Indexers/RssSyncService.cs
+@@ -50,7 +50,7 @@ private ProcessedDecisions Sync()
+             var decisions = _downloadDecisionMaker.GetRssDecision(reports);
+             var processed = _processDownloadDecisions.ProcessDecisions(decisions);
+ 
+-            var message = string.Format("RSS Sync Completed. Reports found: {0}, Reports grabbed: {1}", reports.Count, processed.Grabbed.Count);
++            var message = $"RSS Sync Completed. Reports found: {reports.Count}, Reports grabbed: {processed.Grabbed.Count}";
+ 
+             if (processed.Pending.Any())
+             {
+diff --git a/src/NzbDrone.Core/Indexers/SeedConfigProvider.cs b/src/NzbDrone.Core/Indexers/SeedConfigProvider.cs
+index e61116feb..4c2beac2d 100644
+--- a/src/NzbDrone.Core/Indexers/SeedConfigProvider.cs
++++ b/src/NzbDrone.Core/Indexers/SeedConfigProvider.cs
+@@ -36,7 +36,7 @@ public TorrentSeedConfiguration GetSeedConfiguration(RemoteMovie remoteMovie)
+                 var indexer = _indexerFactory.Get(remoteMovie.Release.IndexerId);
+                 var torrentIndexerSettings = indexer.Settings as ITorrentIndexerSettings;
+ 
+-                if (torrentIndexerSettings != null && torrentIndexerSettings.SeedCriteria != null)
++                if (torrentIndexerSettings?.SeedCriteria != null)
+                 {
+                     var seedConfig = new TorrentSeedConfiguration
+                     {
+diff --git a/src/NzbDrone.Core/Indexers/TorrentPotato/TorrentPotatoParser.cs b/src/NzbDrone.Core/Indexers/TorrentPotato/TorrentPotatoParser.cs
+index 847a965d3..abbceecea 100644
+--- a/src/NzbDrone.Core/Indexers/TorrentPotato/TorrentPotatoParser.cs
++++ b/src/NzbDrone.Core/Indexers/TorrentPotato/TorrentPotatoParser.cs
+@@ -57,11 +57,11 @@ private string GetGuid(Result torrent)
+ 
+             if (match.Success)
+             {
+-                return string.Format("potato-{0}", match.Groups[1].Value);
++                return $"potato-{match.Groups[1].Value}";
+             }
+             else
+             {
+-                return string.Format("potato-{0}", torrent.download_url);
++                return $"potato-{torrent.download_url}";
+             }
+         }
+     }
+diff --git a/src/NzbDrone.Core/Indexers/TorrentRss/TorrentRssSettingsDetector.cs b/src/NzbDrone.Core/Indexers/TorrentRss/TorrentRssSettingsDetector.cs
+index 4947fabcc..537fbec1a 100644
+--- a/src/NzbDrone.Core/Indexers/TorrentRss/TorrentRssSettingsDetector.cs
++++ b/src/NzbDrone.Core/Indexers/TorrentRss/TorrentRssSettingsDetector.cs
+@@ -49,7 +49,7 @@ public TorrentRssIndexerParserSettings Detect(TorrentRssIndexerSettings indexerS
+             }
+             catch (Exception ex)
+             {
+-                _logger.Warn(ex, string.Format("Unable to connect to indexer {0}: {1}", request.Url, ex.Message));
++                _logger.Warn(ex, $"Unable to connect to indexer {request.Url}: {ex.Message}");
+                 return null;
+             }
+ 
+diff --git a/src/NzbDrone.Core/Instrumentation/ReconfigureSentry.cs b/src/NzbDrone.Core/Instrumentation/ReconfigureSentry.cs
+index 2d8f14b20..de546ad80 100644
+--- a/src/NzbDrone.Core/Instrumentation/ReconfigureSentry.cs
++++ b/src/NzbDrone.Core/Instrumentation/ReconfigureSentry.cs
+@@ -28,10 +28,7 @@ public void Reconfigure()
+         {
+             // Extended sentry config
+             var sentryTarget = LogManager.Configuration.AllTargets.OfType<SentryTarget>().FirstOrDefault();
+-            if (sentryTarget != null)
+-            {
+-                sentryTarget.UpdateScope(_database.Version, _database.Migration, _configFileProvider.Branch, _platformInfo);
+-            }
++            sentryTarget?.UpdateScope(_database.Version, _database.Migration, _configFileProvider.Branch, _platformInfo);
+         }
+ 
+         public void HandleAsync(ApplicationStartedEvent message)
+diff --git a/src/NzbDrone.Core/Localization/LocalizationService.cs b/src/NzbDrone.Core/Localization/LocalizationService.cs
+index 66fda0b60..aaf255aa2 100644
+--- a/src/NzbDrone.Core/Localization/LocalizationService.cs
++++ b/src/NzbDrone.Core/Localization/LocalizationService.cs
+@@ -91,7 +91,7 @@ private string GetSetLanguageFileName()
+ 
+             if (isoLanguage.CountryCode.IsNotNullOrWhiteSpace())
+             {
+-                language = string.Format("{0}_{1}", language, isoLanguage.CountryCode);
++                language = $"{language}_{isoLanguage.CountryCode}";
+             }
+ 
+             return language;
+diff --git a/src/NzbDrone.Core/MediaFiles/DownloadedMovieImportService.cs b/src/NzbDrone.Core/MediaFiles/DownloadedMovieImportService.cs
+index 244a183c8..2768110f5 100644
+--- a/src/NzbDrone.Core/MediaFiles/DownloadedMovieImportService.cs
++++ b/src/NzbDrone.Core/MediaFiles/DownloadedMovieImportService.cs
+@@ -241,7 +241,7 @@ private List<ImportResult> ProcessFile(FileInfo fileInfo, ImportMode importMode,
+ 
+                 return new List<ImportResult>
+                        {
+-                           UnknownMovieResult(string.Format("Unknown Movie for file: {0}", fileInfo.Name), fileInfo.FullName)
++                           UnknownMovieResult($"Unknown Movie for file: {fileInfo.Name}", fileInfo.FullName)
+                        };
+             }
+ 
+diff --git a/src/NzbDrone.Core/MediaFiles/MediaFileTableCleanupService.cs b/src/NzbDrone.Core/MediaFiles/MediaFileTableCleanupService.cs
+index 2649234a4..7d47632dd 100644
+--- a/src/NzbDrone.Core/MediaFiles/MediaFileTableCleanupService.cs
++++ b/src/NzbDrone.Core/MediaFiles/MediaFileTableCleanupService.cs
+@@ -48,7 +48,7 @@ public void Clean(Movie movie, List<string> filesOnDisk)
+                 }
+                 catch (Exception ex)
+                 {
+-                    var errorMessage = string.Format("Unable to cleanup MovieFile in DB: {0}", movieFile.Id);
++                    var errorMessage = $"Unable to cleanup MovieFile in DB: {movieFile.Id}";
+                     _logger.Error(ex, errorMessage);
+                 }
+             }
+diff --git a/src/NzbDrone.Core/MediaFiles/MediaInfo/MediaInfoFormatter.cs b/src/NzbDrone.Core/MediaFiles/MediaInfo/MediaInfoFormatter.cs
+index 168d11853..dce690dda 100644
+--- a/src/NzbDrone.Core/MediaFiles/MediaInfo/MediaInfoFormatter.cs
++++ b/src/NzbDrone.Core/MediaFiles/MediaInfo/MediaInfoFormatter.cs
+@@ -496,7 +496,7 @@ public static string FormatVideoCodecLegacy(MediaInfoModel mediaInfo, string sce
+ 
+                         if (channelSplit.Length == 3)
+                         {
+-                            positions += decimal.Parse(string.Format("{0}.{1}", channelSplit[1], channelSplit[2]), CultureInfo.InvariantCulture);
++                            positions += decimal.Parse($"{channelSplit[1]}.{channelSplit[2]}", CultureInfo.InvariantCulture);
+                         }
+                         else
+                         {
+diff --git a/src/NzbDrone.Core/MediaFiles/MovieFile.cs b/src/NzbDrone.Core/MediaFiles/MovieFile.cs
+index a443e51df..9a2cd58ab 100644
+--- a/src/NzbDrone.Core/MediaFiles/MovieFile.cs
++++ b/src/NzbDrone.Core/MediaFiles/MovieFile.cs
+@@ -29,7 +29,7 @@ public class MovieFile : ModelBase
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}] {1}", Id, RelativePath);
++            return $"[{Id}] {RelativePath}";
+         }
+ 
+         public string GetSceneOrFileName()
+diff --git a/src/NzbDrone.Core/MediaFiles/MovieFileMovingService.cs b/src/NzbDrone.Core/MediaFiles/MovieFileMovingService.cs
+index bf469db4a..7efac7b15 100644
+--- a/src/NzbDrone.Core/MediaFiles/MovieFileMovingService.cs
++++ b/src/NzbDrone.Core/MediaFiles/MovieFileMovingService.cs
+@@ -148,7 +148,7 @@ private void EnsureMovieFolder(MovieFile movieFile, Movie movie, string filePath
+ 
+             if (!_diskProvider.FolderExists(rootFolder))
+             {
+-                throw new RootFolderNotFoundException(string.Format("Root folder '{0}' was not found.", rootFolder));
++                throw new RootFolderNotFoundException($"Root folder '{rootFolder}' was not found.");
+             }
+ 
+             var changed = false;
+diff --git a/src/NzbDrone.Core/MediaFiles/MovieImport/Manual/ManualImportService.cs b/src/NzbDrone.Core/MediaFiles/MovieImport/Manual/ManualImportService.cs
+index df17bac5e..f1b7cf73d 100644
+--- a/src/NzbDrone.Core/MediaFiles/MovieImport/Manual/ManualImportService.cs
++++ b/src/NzbDrone.Core/MediaFiles/MovieImport/Manual/ManualImportService.cs
+@@ -143,7 +143,7 @@ private List<ManualImportItem> ProcessFolder(string rootFolder, string baseFolde
+                 // If the movie is unknown for the directory and there are more than 100 files in the folder don't process the items before returning.
+                 var files = _diskScanService.FilterPaths(rootFolder, _diskScanService.GetVideoFiles(baseFolder, false));
+ 
+-                if (files.Count() > 100)
++                if (files.Count > 100)
+                 {
+                     return ProcessDownloadDirectory(rootFolder, files);
+                 }
+diff --git a/src/NzbDrone.Core/Messaging/Events/EventAggregator.cs b/src/NzbDrone.Core/Messaging/Events/EventAggregator.cs
+index 78bc5f15c..d7683c9f0 100644
+--- a/src/NzbDrone.Core/Messaging/Events/EventAggregator.cs
++++ b/src/NzbDrone.Core/Messaging/Events/EventAggregator.cs
+@@ -132,7 +132,7 @@ private static string GetEventName(Type eventType)
+                 return eventType.Name;
+             }
+ 
+-            return string.Format("{0}<{1}>", eventType.Name.Remove(eventType.Name.IndexOf('`')), eventType.GetGenericArguments()[0].Name);
++            return $"{eventType.Name.Remove(eventType.Name.IndexOf('`'))}<{eventType.GetGenericArguments()[0].Name}>";
+         }
+ 
+         internal static int GetEventHandleOrder<TEvent>(IHandle<TEvent> eventHandler)
+diff --git a/src/NzbDrone.Core/Movies/Movie.cs b/src/NzbDrone.Core/Movies/Movie.cs
+index c87541d39..6999d7c0a 100644
+--- a/src/NzbDrone.Core/Movies/Movie.cs
++++ b/src/NzbDrone.Core/Movies/Movie.cs
+@@ -157,7 +157,7 @@ public DateTime PhysicalReleaseDate()
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{1} ({2})][{0}, {3}]", ImdbId, Title.NullSafe(), Year.NullSafe(), TmdbId);
++            return $"[{ImdbId} ({Title.NullSafe()})][{Year.NullSafe()}, {TmdbId}]";
+         }
+ 
+         public void ApplyChanges(Movie otherMovie)
+diff --git a/src/NzbDrone.Core/Movies/MovieRepository.cs b/src/NzbDrone.Core/Movies/MovieRepository.cs
+index fb55ec880..7244dc4c5 100644
+--- a/src/NzbDrone.Core/Movies/MovieRepository.cs
++++ b/src/NzbDrone.Core/Movies/MovieRepository.cs
+@@ -282,7 +282,7 @@ private string BuildQualityCutoffWhereClause(List<QualitiesBelowCutoff> qualitie
+                 }
+             }
+ 
+-            return string.Format("({0})", string.Join(" OR ", clauses));
++            return $"({string.Join(" OR ", clauses)})";
+         }
+ 
+         public Movie FindByPath(string path)
+diff --git a/src/NzbDrone.Core/Notifications/Discord/Discord.cs b/src/NzbDrone.Core/Notifications/Discord/Discord.cs
+index 56780c274..389eb0958 100644
+--- a/src/NzbDrone.Core/Notifications/Discord/Discord.cs
++++ b/src/NzbDrone.Core/Notifications/Discord/Discord.cs
+@@ -90,7 +90,7 @@ public override void OnGrab(GrabMessage message)
+                         break;
+                     case DiscordGrabFieldType.Release:
+                         discordField.Name = "Release";
+-                        discordField.Value = string.Format("```{0}```", message.RemoteMovie.Release.Title);
++                        discordField.Value = $"```{message.RemoteMovie.Release.Title}```";
+                         break;
+                     case DiscordGrabFieldType.Links:
+                         discordField.Name = "Links";
+@@ -169,10 +169,7 @@ public override void OnDownload(DownloadMessage message)
+                     case DiscordImportFieldType.Codecs:
+                         discordField.Name = "Codecs";
+                         discordField.Inline = true;
+-                        discordField.Value = string.Format("{0} / {1} {2}",
+-                            MediaInfoFormatter.FormatVideoCodec(message.MovieFile.MediaInfo, null),
+-                            MediaInfoFormatter.FormatAudioCodec(message.MovieFile.MediaInfo, null),
+-                            MediaInfoFormatter.FormatAudioChannels(message.MovieFile.MediaInfo));
++                        discordField.Value = $"{MediaInfoFormatter.FormatVideoCodec(message.MovieFile.MediaInfo, null)} / {MediaInfoFormatter.FormatAudioCodec(message.MovieFile.MediaInfo, null)} {MediaInfoFormatter.FormatAudioChannels(message.MovieFile.MediaInfo)}";
+                         break;
+                     case DiscordImportFieldType.Group:
+                         discordField.Name = "Group";
+@@ -193,7 +190,7 @@ public override void OnDownload(DownloadMessage message)
+                         break;
+                     case DiscordImportFieldType.Release:
+                         discordField.Name = "Release";
+-                        discordField.Value = string.Format("```{0}```", message.MovieFile.SceneName);
++                        discordField.Value = $"```{message.MovieFile.SceneName}```";
+                         break;
+                     case DiscordImportFieldType.Links:
+                         discordField.Name = "Links";
+@@ -296,26 +293,26 @@ private static string BytesToString(long byteCount)
+             var bytes = Math.Abs(byteCount);
+             var place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+             var num = Math.Round(bytes / Math.Pow(1024, place), 1);
+-            return string.Format("{0} {1}", (Math.Sign(byteCount) * num).ToString(), suf[place]);
++            return $"{(Math.Sign(byteCount) * num).ToString()} {suf[place]}";
+         }
+ 
+         private static string GetLinksString(Movie movie)
+         {
+-            var links = string.Format("[{0}]({1})", "TMDb", $"https://themoviedb.org/movie/{movie.TmdbId}");
+-            links += string.Format(" / [{0}]({1})", "Trakt", $"https://trakt.tv/search/tmdb/{movie.TmdbId}?id_type=movie");
++            var links = $"[{"TMDb"}]({$"https://themoviedb.org/movie/{movie.TmdbId}"})";
++            links += $" / [{"Trakt"}]({$"https://trakt.tv/search/tmdb/{movie.TmdbId}?id_type=movie"})";
+             if (movie.ImdbId.IsNotNullOrWhiteSpace())
+             {
+-                links += string.Format(" / [{0}]({1})", "IMDb", $"https://imdb.com/title/{movie.ImdbId}/");
++                links += $" / [{"IMDb"}]({$"https://imdb.com/title/{movie.ImdbId}/"})";
+             }
+ 
+             if (movie.YouTubeTrailerId.IsNotNullOrWhiteSpace())
+             {
+-                links += string.Format(" / [{0}]({1})", "YouTube", $"https://www.youtube.com/watch?v={movie.YouTubeTrailerId}");
++                links += $" / [{"YouTube"}]({$"https://www.youtube.com/watch?v={movie.YouTubeTrailerId}"})";
+             }
+ 
+             if (movie.Website.IsNotNullOrWhiteSpace())
+             {
+-                links += string.Format(" / [{0}]({1})", "Website", movie.Website);
++                links += $" / [{"Website"}]({movie.Website})";
+             }
+ 
+             return links;
+diff --git a/src/NzbDrone.Core/Notifications/NotificationService.cs b/src/NzbDrone.Core/Notifications/NotificationService.cs
+index a6662872a..7c7cc94ae 100644
+--- a/src/NzbDrone.Core/Notifications/NotificationService.cs
++++ b/src/NzbDrone.Core/Notifications/NotificationService.cs
+@@ -41,11 +41,7 @@ private string GetMessage(Movie movie, QualityModel quality)
+                 qualityString += " Proper";
+             }
+ 
+-            return string.Format("{0} ({1}) [{2}] {3}",
+-                                    movie.Title,
+-                                    movie.Year,
+-                                    qualityString,
+-                                    imdbUrl);
++            return $"{movie.Title} ({movie.Year}) [{qualityString}] {imdbUrl}";
+         }
+ 
+         private bool ShouldHandleMovie(ProviderDefinition definition, Movie movie)
+diff --git a/src/NzbDrone.Core/Notifications/Synology/SynologyIndexerProxy.cs b/src/NzbDrone.Core/Notifications/Synology/SynologyIndexerProxy.cs
+index 89d213567..2b6012457 100644
+--- a/src/NzbDrone.Core/Notifications/Synology/SynologyIndexerProxy.cs
++++ b/src/NzbDrone.Core/Notifications/Synology/SynologyIndexerProxy.cs
+@@ -89,7 +89,7 @@ private void ExecuteCommand(string args, bool throwOnStdOut = true)
+ 
+         private string Escape(string arg)
+         {
+-            return string.Format("\"{0}\"", arg.Replace("\"", "\\\""));
++            return $"\"{arg.Replace("\"", "\\\"")}\"";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Notifications/Trakt/TraktProxy.cs b/src/NzbDrone.Core/Notifications/Trakt/TraktProxy.cs
+index fb6a64fa3..ae3977359 100644
+--- a/src/NzbDrone.Core/Notifications/Trakt/TraktProxy.cs
++++ b/src/NzbDrone.Core/Notifications/Trakt/TraktProxy.cs
+@@ -77,7 +77,7 @@ public string GetUserName(string accessToken)
+             {
+                 var response = _httpClient.Get<TraktUserSettingsResource>(request);
+ 
+-                if (response != null && response.Resource != null)
++                if (response?.Resource != null)
+                 {
+                     return response.Resource.User.Ids.Slug;
+                 }
+diff --git a/src/NzbDrone.Core/Notifications/Trakt/TraktService.cs b/src/NzbDrone.Core/Notifications/Trakt/TraktService.cs
+index edd68a584..fed34a7a2 100644
+--- a/src/NzbDrone.Core/Notifications/Trakt/TraktService.cs
++++ b/src/NzbDrone.Core/Notifications/Trakt/TraktService.cs
+@@ -167,16 +167,16 @@ private string MapResolution(int resolution, string scanType)
+                     traktResolution = "uhd_4k";
+                     break;
+                 case 1080:
+-                    traktResolution = string.Format("hd_1080{0}", scanIdentifier);
++                    traktResolution = $"hd_1080{scanIdentifier}";
+                     break;
+                 case 720:
+                     traktResolution = "hd_720p";
+                     break;
+                 case 576:
+-                    traktResolution = string.Format("sd_576{0}", scanIdentifier);
++                    traktResolution = $"sd_576{scanIdentifier}";
+                     break;
+                 case 480:
+-                    traktResolution = string.Format("sd_480{0}", scanIdentifier);
++                    traktResolution = $"sd_480{scanIdentifier}";
+                     break;
+             }
+ 
+diff --git a/src/NzbDrone.Core/Notifications/Twitter/TwitterService.cs b/src/NzbDrone.Core/Notifications/Twitter/TwitterService.cs
+index 39af507f3..a38b289eb 100644
+--- a/src/NzbDrone.Core/Notifications/Twitter/TwitterService.cs
++++ b/src/NzbDrone.Core/Notifications/Twitter/TwitterService.cs
+@@ -61,7 +61,7 @@ public string GetOAuthRedirect(string consumerKey, string consumerSecret, string
+             oAuthRequest.RequestUrl = "https://api.twitter.com/oauth/request_token";
+             var qscoll = OAuthQuery(oAuthRequest);
+ 
+-            return string.Format("https://api.twitter.com/oauth/authorize?oauth_token={0}", qscoll["oauth_token"]);
++            return $"https://api.twitter.com/oauth/authorize?oauth_token={qscoll["oauth_token"]}";
+         }
+ 
+         public void SendNotification(string message, TwitterSettings settings)
+@@ -86,7 +86,7 @@ public void SendNotification(string message, TwitterSettings settings)
+                 {
+                     if (settings.Mention.IsNotNullOrWhiteSpace())
+                     {
+-                        message += string.Format(" @{0}", settings.Mention);
++                        message += $" @{settings.Mention}";
+                     }
+ 
+                     twitter.UpdateStatus(message);
+diff --git a/src/NzbDrone.Core/Notifications/Xbmc/Xbmc.cs b/src/NzbDrone.Core/Notifications/Xbmc/Xbmc.cs
+index 9f42d57c6..851af3948 100644
+--- a/src/NzbDrone.Core/Notifications/Xbmc/Xbmc.cs
++++ b/src/NzbDrone.Core/Notifications/Xbmc/Xbmc.cs
+@@ -68,7 +68,7 @@ private void Notify(XbmcSettings settings, string header, string message)
+             }
+             catch (SocketException ex)
+             {
+-                var logMessage = string.Format("Unable to connect to Kodi Host: {0}:{1}", Settings.Host, Settings.Port);
++                var logMessage = $"Unable to connect to Kodi Host: {Settings.Host}:{Settings.Port}";
+                 _logger.Debug(ex, logMessage);
+             }
+         }
+@@ -89,7 +89,7 @@ private void UpdateAndCleanMovie(Movie movie, bool clean = true)
+             }
+             catch (SocketException ex)
+             {
+-                var logMessage = string.Format("Unable to connect to Kodi Host: {0}:{1}", Settings.Host, Settings.Port);
++                var logMessage = $"Unable to connect to Kodi Host: {Settings.Host}:{Settings.Port}";
+                 _logger.Debug(ex, logMessage);
+             }
+         }
+diff --git a/src/NzbDrone.Core/Notifications/Xbmc/XbmcJsonApiProxy.cs b/src/NzbDrone.Core/Notifications/Xbmc/XbmcJsonApiProxy.cs
+index 153cad05d..1c7565b98 100644
+--- a/src/NzbDrone.Core/Notifications/Xbmc/XbmcJsonApiProxy.cs
++++ b/src/NzbDrone.Core/Notifications/Xbmc/XbmcJsonApiProxy.cs
+@@ -110,7 +110,7 @@ private void CheckForError(HttpResponse response)
+                 var code = error.Error["code"];
+                 var message = error.Error["message"];
+ 
+-                var errorMessage = string.Format("XBMC Json Error. Code = {0}, Message: {1}", code, message);
++                var errorMessage = $"XBMC Json Error. Code = {code}, Message: {message}";
+                 throw new XbmcJsonException(errorMessage);
+             }
+         }
+diff --git a/src/NzbDrone.Core/Notifications/Xbmc/XbmcSettings.cs b/src/NzbDrone.Core/Notifications/Xbmc/XbmcSettings.cs
+index 0898a1ecd..4c3d92d5b 100644
+--- a/src/NzbDrone.Core/Notifications/Xbmc/XbmcSettings.cs
++++ b/src/NzbDrone.Core/Notifications/Xbmc/XbmcSettings.cs
+@@ -55,7 +55,7 @@ public XbmcSettings()
+         public bool AlwaysUpdate { get; set; }
+ 
+         [JsonIgnore]
+-        public string Address => string.Format("{0}:{1}", Host, Port);
++        public string Address => $"{Host}:{Port}";
+ 
+         public NzbDroneValidationResult Validate()
+         {
+diff --git a/src/NzbDrone.Core/Organizer/FileNameBuilder.cs b/src/NzbDrone.Core/Organizer/FileNameBuilder.cs
+index 1990a1a4f..4b2500059 100644
+--- a/src/NzbDrone.Core/Organizer/FileNameBuilder.cs
++++ b/src/NzbDrone.Core/Organizer/FileNameBuilder.cs
+@@ -282,7 +282,7 @@ private void AddReleaseDateTokens(Dictionary<string, Func<TokenMatch, string>> t
+                 return;
+             }
+ 
+-            tokenHandlers["{Release Year}"] = m => string.Format("{0}", releaseYear.ToString()); //Do I need m.CustomFormat?
++            tokenHandlers["{Release Year}"] = m => $"{releaseYear.ToString()}"; //Do I need m.CustomFormat?
+         }
+ 
+         private void AddIdTokens(Dictionary<string, Func<TokenMatch, string>> tokenHandlers, Movie movie)
+@@ -314,7 +314,7 @@ private void AddQualityTokens(Dictionary<string, Func<TokenMatch, string>> token
+             var qualityProper = GetQualityProper(movie, movieFile.Quality);
+             var qualityReal = GetQualityReal(movie, movieFile.Quality);
+ 
+-            tokenHandlers["{Quality Full}"] = m => string.Format("{0} {1} {2}", qualityTitle, qualityProper, qualityReal);
++            tokenHandlers["{Quality Full}"] = m => $"{qualityTitle} {qualityProper} {qualityReal}";
+             tokenHandlers["{Quality Title}"] = m => qualityTitle;
+             tokenHandlers["{Quality Proper}"] = m => qualityProper;
+             tokenHandlers["{Quality Real}"] = m => qualityReal;
+diff --git a/src/NzbDrone.Core/Parser/Model/ParsedMovieInfo.cs b/src/NzbDrone.Core/Parser/Model/ParsedMovieInfo.cs
+index d24f2f4ea..4bbf439f6 100644
+--- a/src/NzbDrone.Core/Parser/Model/ParsedMovieInfo.cs
++++ b/src/NzbDrone.Core/Parser/Model/ParsedMovieInfo.cs
+@@ -24,7 +24,7 @@ public class ParsedMovieInfo
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0} - {1} {2}", MovieTitle, Year, Quality);
++            return $"{MovieTitle} - {Year} {Quality}";
+         }
+     }
+ }
+diff --git a/src/NzbDrone.Core/Parser/Model/ReleaseInfo.cs b/src/NzbDrone.Core/Parser/Model/ReleaseInfo.cs
+index 9b9aeeeb6..ef38b799c 100644
+--- a/src/NzbDrone.Core/Parser/Model/ReleaseInfo.cs
++++ b/src/NzbDrone.Core/Parser/Model/ReleaseInfo.cs
+@@ -57,7 +57,7 @@ public double AgeMinutes
+ 
+         public override string ToString()
+         {
+-            return string.Format("[{0}] {1} [{2}]", PublishDate, Title, Size);
++            return $"[{PublishDate}] {Title} [{Size}]";
+         }
+ 
+         public virtual string ToString(string format)
+diff --git a/src/NzbDrone.Core/Qualities/QualityModel.cs b/src/NzbDrone.Core/Qualities/QualityModel.cs
+index e081b5c3a..0bf4e3138 100644
+--- a/src/NzbDrone.Core/Qualities/QualityModel.cs
++++ b/src/NzbDrone.Core/Qualities/QualityModel.cs
+@@ -37,7 +37,7 @@ public QualityModel(Quality quality, Revision revision = null)
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0} {1}", Quality, Revision);
++            return $"{Quality} {Revision}";
+         }
+ 
+         public override int GetHashCode()
+diff --git a/src/NzbDrone.Core/Queue/QueueService.cs b/src/NzbDrone.Core/Queue/QueueService.cs
+index 9c2718e5c..e1499247c 100644
+--- a/src/NzbDrone.Core/Queue/QueueService.cs
++++ b/src/NzbDrone.Core/Queue/QueueService.cs
+@@ -78,7 +78,7 @@ private Queue MapMovie(TrackedDownload trackedDownload, Movie movie)
+                 OutputPath = trackedDownload.DownloadItem.OutputPath.ToString()
+             };
+ 
+-            queue.Id = HashConverter.GetHashInt31(string.Format("trackedDownload-{0}", trackedDownload.DownloadItem.DownloadId));
++            queue.Id = HashConverter.GetHashInt31($"trackedDownload-{trackedDownload.DownloadItem.DownloadId}");
+ 
+             if (queue.Timeleft.HasValue)
+             {
+diff --git a/src/NzbDrone.Core/RootFolders/RootFolderService.cs b/src/NzbDrone.Core/RootFolders/RootFolderService.cs
+index c7bf54edf..90d00674f 100644
+--- a/src/NzbDrone.Core/RootFolders/RootFolderService.cs
++++ b/src/NzbDrone.Core/RootFolders/RootFolderService.cs
+@@ -111,7 +111,7 @@ public RootFolder Add(RootFolder rootFolder)
+ 
+             if (!_diskProvider.FolderWritable(rootFolder.Path))
+             {
+-                throw new UnauthorizedAccessException(string.Format("Root folder path '{0}' is not writable by user '{1}'", rootFolder.Path, Environment.UserName));
++                throw new UnauthorizedAccessException($"Root folder path '{rootFolder.Path}' is not writable by user '{Environment.UserName}'");
+             }
+ 
+             _rootFolderRepository.Insert(rootFolder);
+diff --git a/src/NzbDrone.Core/TinyTwitter.cs b/src/NzbDrone.Core/TinyTwitter.cs
+index 9f772095d..995e538a0 100644
+--- a/src/NzbDrone.Core/TinyTwitter.cs
++++ b/src/NzbDrone.Core/TinyTwitter.cs
+@@ -141,12 +141,12 @@ private string GetRequestUrl()
+                     return _url;
+                 }
+ 
+-                return string.Format("{0}?{1}", _url, GetCustomParametersString());
++                return $"{_url}?{GetCustomParametersString()}";
+             }
+ 
+             private string GetCustomParametersString()
+             {
+-                return _customParameters.Select(x => string.Format("{0}={1}", x.Key, x.Value)).Join("&");
++                return _customParameters.Select(x => $"{x.Key}={x.Value}").Join("&");
+             }
+ 
+             private string GenerateAuthorizationHeaderValue(IEnumerable<KeyValuePair<string, string>> parameters, string signature)
+@@ -154,7 +154,7 @@ private string GenerateAuthorizationHeaderValue(IEnumerable<KeyValuePair<string,
+                 return new StringBuilder("OAuth ")
+                     .Append(parameters.Concat(new KeyValuePair<string, string>("oauth_signature", signature))
+                                 .Where(x => x.Key.StartsWith("oauth_"))
+-                                .Select(x => string.Format("{0}=\"{1}\"", x.Key, x.Value.EncodeRFC3986()))
++                                .Select(x => $"{x.Key}=\"{x.Value.EncodeRFC3986()}\"")
+                                 .Join(","))
+                     .ToString();
+             }
+@@ -166,11 +166,11 @@ private string GenerateSignature(IEnumerable<KeyValuePair<string, string>> param
+                     .Append(_url.EncodeRFC3986()).Append('&')
+                     .Append(parameters
+                                 .OrderBy(x => x.Key)
+-                                .Select(x => string.Format("{0}={1}", x.Key, x.Value))
++                                .Select(x => $"{x.Key}={x.Value}")
+                                 .Join("&")
+                                 .EncodeRFC3986());
+ 
+-                var signatureKey = string.Format("{0}&{1}", _oauth.ConsumerSecret.EncodeRFC3986(), _oauth.AccessSecret.EncodeRFC3986());
++                var signatureKey = $"{_oauth.ConsumerSecret.EncodeRFC3986()}&{_oauth.AccessSecret.EncodeRFC3986()}";
+                 var sha1 = new HMACSHA1(Encoding.ASCII.GetBytes(signatureKey));
+ 
+                 var signatureBytes = sha1.ComputeHash(Encoding.ASCII.GetBytes(dataToSign.ToString()));
+diff --git a/src/NzbDrone.Core/Validation/NzbDroneValidationExtensions.cs b/src/NzbDrone.Core/Validation/NzbDroneValidationExtensions.cs
+index 648e0316c..09d8bcc35 100644
+--- a/src/NzbDrone.Core/Validation/NzbDroneValidationExtensions.cs
++++ b/src/NzbDrone.Core/Validation/NzbDroneValidationExtensions.cs
+@@ -26,8 +26,7 @@ public static bool HasErrors(this List<ValidationFailure> list)
+         {
+             foreach (var item in list)
+             {
+-                var extended = item as NzbDroneValidationFailure;
+-                if (extended != null && extended.IsWarning)
++                if (item is NzbDroneValidationFailure extended && extended.IsWarning)
+                 {
+                     continue;
+                 }
+diff --git a/src/NzbDrone.Host/BrowserService.cs b/src/NzbDrone.Host/BrowserService.cs
+index 81ca0ed9a..450a53419 100644
+--- a/src/NzbDrone.Host/BrowserService.cs
++++ b/src/NzbDrone.Host/BrowserService.cs
+@@ -28,7 +28,7 @@ public BrowserService(IProcessProvider processProvider, IConfigFileProvider conf
+ 
+         public void LaunchWebUI()
+         {
+-            var url = string.Format("http://localhost:{0}", _configFileProvider.Port);
++            var url = $"http://localhost:{_configFileProvider.Port}";
+             try
+             {
+                 if (_runtimeInfo.IsUserInteractive)
+diff --git a/src/NzbDrone.Integration.Test/IntegrationTestBase.cs b/src/NzbDrone.Integration.Test/IntegrationTestBase.cs
+index 116c27cd5..fed99bb15 100644
+--- a/src/NzbDrone.Integration.Test/IntegrationTestBase.cs
++++ b/src/NzbDrone.Integration.Test/IntegrationTestBase.cs
+@@ -296,7 +296,7 @@ public MovieFileResource EnsureMovieFile(MovieResource movie, Quality quality)
+ 
+             if (result.MovieFile == null)
+             {
+-                var path = Path.Combine(MovieRootFolder, movie.Title, string.Format("{0} ({1}) - {2}.strm", movie.Title, movie.Year, quality.Name));
++                var path = Path.Combine(MovieRootFolder, movie.Title, $"{movie.Title} ({movie.Year}) - {quality.Name}.strm");
+ 
+                 Directory.CreateDirectory(Path.GetDirectoryName(path));
+ 
+diff --git a/src/NzbDrone.Mono/Disk/ProcMount.cs b/src/NzbDrone.Mono/Disk/ProcMount.cs
+index ec6fb9484..9632cd676 100644
+--- a/src/NzbDrone.Mono/Disk/ProcMount.cs
++++ b/src/NzbDrone.Mono/Disk/ProcMount.cs
+@@ -49,7 +49,7 @@ public string VolumeName
+                     return Name;
+                 }
+ 
+-                return string.Format("{0} ({1})", Name, VolumeLabel);
++                return $"{Name} ({VolumeLabel})";
+             }
+         }
+     }
+diff --git a/src/NzbDrone.Test.Common/AutoMoq/AutoMoqer.cs b/src/NzbDrone.Test.Common/AutoMoq/AutoMoqer.cs
+index 04abf96e9..e5b4b0b7d 100644
+--- a/src/NzbDrone.Test.Common/AutoMoq/AutoMoqer.cs
++++ b/src/NzbDrone.Test.Common/AutoMoq/AutoMoqer.cs
+@@ -136,10 +136,7 @@ public void VerifyAllMocks()
+             foreach (var registeredMock in _registeredMocks)
+             {
+                 var mock = registeredMock.Value as Mock;
+-                if (mock != null)
+-                {
+-                    mock.VerifyAll();
+-                }
++                mock?.VerifyAll();
+             }
+         }
+ 
+diff --git a/src/NzbDrone.Test.Common/ExceptionVerification.cs b/src/NzbDrone.Test.Common/ExceptionVerification.cs
+index bcf417434..f51d80081 100644
+--- a/src/NzbDrone.Test.Common/ExceptionVerification.cs
++++ b/src/NzbDrone.Test.Common/ExceptionVerification.cs
+@@ -50,10 +50,10 @@ private static string GetLogsString(IEnumerable<LogEventInfo> logs)
+                 string exception = "";
+                 if (log.Exception != null)
+                 {
+-                    exception = string.Format("[{0}: {1}]", log.Exception.GetType(), log.Exception.Message);
++                    exception = $"[{log.Exception.GetType()}: {log.Exception.Message}]";
+                 }
+ 
+-                errors += Environment.NewLine + string.Format("[{0}] {1}: {2} {3}", log.Level, log.LoggerName, log.FormattedMessage, exception);
++                errors += Environment.NewLine + $"[{log.Level}] {log.LoggerName}: {log.FormattedMessage} {exception}";
+             }
+ 
+             return errors;
+@@ -145,11 +145,7 @@ private static void Expected(LogLevel level, int count)
+ 
+                 if (levelLogs.Count != count)
+                 {
+-                    var message = string.Format("{0} {1}(s) were expected but {2} were logged.\n\r{3}",
+-                        count,
+-                        level,
+-                        levelLogs.Count,
+-                        GetLogsString(levelLogs));
++                    var message = $"{count} {level}(s) were expected but {levelLogs.Count} were logged.\n\r{GetLogsString(levelLogs)}";
+ 
+                     message = "\n\r****************************************************************************************\n\r"
+                         + message +
+diff --git a/src/NzbDrone.Windows/Disk/DiskProvider.cs b/src/NzbDrone.Windows/Disk/DiskProvider.cs
+index d8b9dc448..fd50c4463 100644
+--- a/src/NzbDrone.Windows/Disk/DiskProvider.cs
++++ b/src/NzbDrone.Windows/Disk/DiskProvider.cs
+@@ -167,7 +167,7 @@ public override bool TryCreateHardLink(string source, string destination)
+             }
+             catch (Exception ex)
+             {
+-                Logger.Debug(ex, string.Format("Hardlink '{0}' to '{1}' failed.", source, destination));
++                Logger.Debug(ex, $"Hardlink '{source}' to '{destination}' failed.");
+                 return false;
+             }
+         }
+diff --git a/src/NzbDrone/SysTray/SysTrayApp.cs b/src/NzbDrone/SysTray/SysTrayApp.cs
+index 157ce4e47..5e481e061 100644
+--- a/src/NzbDrone/SysTray/SysTrayApp.cs
++++ b/src/NzbDrone/SysTray/SysTrayApp.cs
+@@ -38,7 +38,7 @@ public void Start()
+             _trayMenu.Items.Add(new ToolStripMenuItem("-"));
+             _trayMenu.Items.Add(new ToolStripMenuItem("Exit", null, OnExit));
+ 
+-            _trayIcon.Text = string.Format("Radarr - {0}", BuildInfo.Version);
++            _trayIcon.Text = $"Radarr - {BuildInfo.Version}";
+             _trayIcon.Icon = Properties.Resources.Radarr;
+ 
+             _trayIcon.ContextMenuStrip = _trayMenu;
+diff --git a/src/NzbDrone/WindowsApp.cs b/src/NzbDrone/WindowsApp.cs
+index 803310240..9ae4ae132 100644
+--- a/src/NzbDrone/WindowsApp.cs
++++ b/src/NzbDrone/WindowsApp.cs
+@@ -30,7 +30,7 @@ public static void Main(string[] args)
+             catch (Exception e)
+             {
+                 Logger.Fatal(e, "EPIC FAIL: " + e.Message);
+-                var message = string.Format("{0}: {1}", e.GetType().Name, e.Message);
++                var message = $"{e.GetType().Name}: {e.Message}";
+                 MessageBox.Show(text: message, buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Error, caption: "Epic Fail!");
+             }
+         }
+diff --git a/src/Radarr.Api.V3/Logs/LogFileModuleBase.cs b/src/Radarr.Api.V3/Logs/LogFileModuleBase.cs
+index a970f672a..2ae05aed3 100644
+--- a/src/Radarr.Api.V3/Logs/LogFileModuleBase.cs
++++ b/src/Radarr.Api.V3/Logs/LogFileModuleBase.cs
+@@ -45,8 +45,8 @@ private List<LogFileResource> GetLogFilesResponse()
+                     Id = i + 1,
+                     Filename = filename,
+                     LastWriteTime = _diskProvider.FileGetLastWrite(file),
+-                    ContentsUrl = string.Format("{0}/api/v3/{1}/{2}", _configFileProvider.UrlBase, Resource, filename),
+-                    DownloadUrl = string.Format("{0}/{1}/{2}", _configFileProvider.UrlBase, DownloadUrlRoot, filename)
++                    ContentsUrl = $"{_configFileProvider.UrlBase}/api/v3/{Resource}/{filename}",
++                    DownloadUrl = $"{_configFileProvider.UrlBase}/{DownloadUrlRoot}/{filename}"
+                 });
+             }
+ 
+diff --git a/src/Radarr.Api.V3/ProviderResource.cs b/src/Radarr.Api.V3/ProviderResource.cs
+index 5e37d3952..12223d626 100644
+--- a/src/Radarr.Api.V3/ProviderResource.cs
++++ b/src/Radarr.Api.V3/ProviderResource.cs
+@@ -39,8 +39,7 @@ public virtual TProviderResource ToResource(TProviderDefinition definition)
+                 Fields = SchemaBuilder.ToSchema(definition.Settings),
+ 
+                 //Radarr_Supported_{0} are custom build redirect pages; if passing a new var, create a new redirect
+-                InfoLink = string.Format("https://wiki.servarr.com/Radarr_Supported_{0}",
+-                    definition.Implementation.ToLower())
++                InfoLink = $"https://wiki.servarr.com/Radarr_Supported_{definition.Implementation.ToLower()}"
+             };
+         }
+ 
+diff --git a/src/Radarr.Http/Frontend/Mappers/HtmlMapperBase.cs b/src/Radarr.Http/Frontend/Mappers/HtmlMapperBase.cs
+index d9becf153..629434e60 100644
+--- a/src/Radarr.Http/Frontend/Mappers/HtmlMapperBase.cs
++++ b/src/Radarr.Http/Frontend/Mappers/HtmlMapperBase.cs
+@@ -67,7 +67,7 @@ protected string GetHtmlText()
+                     url = cacheBreakProvider.AddCacheBreakerToPath(match.Groups["path"].Value);
+                 }
+ 
+-                return string.Format("{0}=\"{1}{2}\"", match.Groups["attribute"].Value, UrlBase, url);
++                return $"{match.Groups["attribute"].Value}=\"{UrlBase}{url}\"";
+             });
+ 
+             _generatedContent = text;
+diff --git a/src/Radarr.Http/Mapping/MappingValidation.cs b/src/Radarr.Http/Mapping/MappingValidation.cs
+index 059866919..949259528 100644
+--- a/src/Radarr.Http/Mapping/MappingValidation.cs
++++ b/src/Radarr.Http/Mapping/MappingValidation.cs
+@@ -45,7 +45,7 @@ private static string GetError(Type resourceType, PropertyInfo modelProperty)
+ 
+             if (resourceProperty.PropertyType != modelProperty.PropertyType && !typeof(RestResource).IsAssignableFrom(resourceProperty.PropertyType))
+             {
+-                return string.Format("Expected {0}.{1} to have type of {2} but found {3}", resourceType.Name, resourceProperty.Name, modelProperty.PropertyType, resourceProperty.PropertyType);
++                return $"Expected {resourceType.Name}.{resourceProperty.Name} to have type of {modelProperty.PropertyType} but found {resourceProperty.PropertyType}";
+             }
+ 
+             return null;
+diff --git a/src/Radarr.Http/Validation/EmptyCollectionValidator.cs b/src/Radarr.Http/Validation/EmptyCollectionValidator.cs
+index 835832618..2d0d6561c 100644
+--- a/src/Radarr.Http/Validation/EmptyCollectionValidator.cs
++++ b/src/Radarr.Http/Validation/EmptyCollectionValidator.cs
+@@ -18,9 +18,7 @@ protected override bool IsValid(PropertyValidatorContext context)
+                 return true;
+             }
+ 
+-            var collection = context.PropertyValue as IEnumerable<T>;
+-
+-            return collection != null && collection.Empty();
++            return context.PropertyValue is IEnumerable<T> collection && collection.Empty();
+         }
+     }
+ }

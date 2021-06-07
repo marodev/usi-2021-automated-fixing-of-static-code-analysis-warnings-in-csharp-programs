@@ -1,0 +1,51 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: SteamKit2
+    #1 Path: D:\a\1\s\SteamKit2\SteamKit2\Networking\Steam3\UdpConnection.cs, Line: 474, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #2 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\CDNClient.cs, Line: 149, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #3 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\CDNClient.cs, Line: 358, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #4 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\CDNClient.cs, Line: 484, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\Handlers\SteamApps\Callbacks.cs, Line: 510, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #6 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\Handlers\SteamUnifiedMessages\SteamUnifiedMessages.cs, Line: 72, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\SteamClient\CallbackMgr\CallbackMgr_Internals.cs, Line: 77, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #8 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\SteamClient\SteamClient.cs, Line: 124, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\WebAPI\ContentServerDirectoryService.cs, Line: 86, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\WebAPI\SteamDirectory.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\WebAPI\WebAPI.cs, Line: 271, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: D:\a\1\s\SteamKit2\SteamKit2\Steam\WebAPI\WebAPI.cs, Line: 388, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #13 Path: D:\a\1\s\SteamKit2\SteamKit2\Types\KeyValue.cs, Line: 494, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #14 Path: D:\a\1\s\SteamKit2\SteamKit2\Util\DebugLog.cs, Line: 182, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\SteamKit2\SteamKit2\Util\LZMA\Compress\LZMA\LzmaEncoder.cs, Line: 1289, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: SteamLanguageParser
+    #16 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\CSharpGen.cs, Line: 236, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #17 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\CSharpGen.cs, Line: 239, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #18 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\CSharpGen.cs, Line: 317, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\CSharpGen.cs, Line: 322, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\CSharpGen.cs, Line: 327, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\CSharpGen.cs, Line: 38, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #22 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\ObjCImplementationGen.cs, Line: 147, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #23 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\ObjCImplementationGen.cs, Line: 152, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\Resources\SteamLanguageParser\Generator\ObjCImplementationGen.cs, Line: 157, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 19
+R7: 2
+R8: 2
+R2: 1
+
+--- Summary ---
+Fixed ReSharper issues: 23
+Fixed SonarQube issues: 0
+Total fixed issues: 24
+
+Finished in: 16 s
+
+No errors reported.
+

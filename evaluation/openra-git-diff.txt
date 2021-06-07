@@ -1,0 +1,765 @@
+diff --git a/OpenRA.Game/Actor.cs b/OpenRA.Game/Actor.cs
+index c5b50101d..541ac4041 100644
+--- a/OpenRA.Game/Actor.cs
++++ b/OpenRA.Game/Actor.cs
+@@ -365,8 +365,7 @@ public override int GetHashCode()
+ 
+ 		public override bool Equals(object obj)
+ 		{
+-			var o = obj as Actor;
+-			return o != null && Equals(o);
++			return obj is Actor o && Equals(o);
+ 		}
+ 
+ 		public bool Equals(Actor other)
+diff --git a/OpenRA.Game/Graphics/Util.cs b/OpenRA.Game/Graphics/Util.cs
+index 011d4fe96..e6c123784 100644
+--- a/OpenRA.Game/Graphics/Util.cs
++++ b/OpenRA.Game/Graphics/Util.cs
+@@ -41,8 +41,8 @@ public static void FastCreateQuad(Vertex[] vertices, in float3 o, Sprite r, int2
+ 			// See shp.vert for documentation on the channel attribute format
+ 			var attribC = r.Channel == TextureChannel.RGBA ? 0x02 : ((byte)r.Channel) << 1 | 0x01;
+ 			attribC |= samplers.X << 6;
+-			var ss = r as SpriteWithSecondaryData;
+-			if (ss != null)
++
++			if (r is SpriteWithSecondaryData ss)
+ 			{
+ 				sl = ss.SecondaryLeft;
+ 				st = ss.SecondaryTop;
+diff --git a/OpenRA.Game/Map/Map.cs b/OpenRA.Game/Map/Map.cs
+index bbc7fe954..c8a5fb22c 100644
+--- a/OpenRA.Game/Map/Map.cs
++++ b/OpenRA.Game/Map/Map.cs
+@@ -695,7 +695,7 @@ public byte[] SaveBinaryData()
+ 		public byte[] SavePreview()
+ 		{
+ 			var actorTypes = Rules.Actors.Values.Where(a => a.HasTraitInfo<IMapPreviewSignatureInfo>());
+-			var actors = ActorDefinitions.Where(a => actorTypes.Where(ai => ai.Name == a.Value.Value).Any());
++			var actors = ActorDefinitions.Where(a => actorTypes.Any(ai => ai.Name == a.Value.Value));
+ 			var positions = new List<(MPos Position, Color Color)>();
+ 			foreach (var actor in actors)
+ 			{
+diff --git a/OpenRA.Game/Map/MapCache.cs b/OpenRA.Game/Map/MapCache.cs
+index 16bf4c0da..83f2e5111 100644
+--- a/OpenRA.Game/Map/MapCache.cs
++++ b/OpenRA.Game/Map/MapCache.cs
+@@ -149,8 +149,7 @@ public IEnumerable<IReadWritePackage> EnumerateMapPackagesWithoutCaching(MapClas
+ 				{
+ 					foreach (var map in package.Contents)
+ 					{
+-						var mapPackage = package.OpenPackage(map, modData.ModFiles) as IReadWritePackage;
+-						if (mapPackage != null)
++						if (package.OpenPackage(map, modData.ModFiles) is IReadWritePackage mapPackage)
+ 							yield return mapPackage;
+ 					}
+ 				}
+diff --git a/OpenRA.Game/MiniYaml.cs b/OpenRA.Game/MiniYaml.cs
+index 455ffe054..d57005778 100644
+--- a/OpenRA.Game/MiniYaml.cs
++++ b/OpenRA.Game/MiniYaml.cs
+@@ -479,7 +479,7 @@ yield return (hasKey ? key + ":" : "")
+ 
+ 		public static List<MiniYamlNode> Load(IReadOnlyFileSystem fileSystem, IEnumerable<string> files, MiniYaml mapRules)
+ 		{
+-			if (mapRules != null && mapRules.Value != null)
++			if (mapRules?.Value != null)
+ 			{
+ 				var mapFiles = FieldLoader.GetValue<string[]>("value", mapRules.Value);
+ 				files = files.Append(mapFiles);
+diff --git a/OpenRA.Game/Orders/UnitOrderGenerator.cs b/OpenRA.Game/Orders/UnitOrderGenerator.cs
+index 03134b2c9..c4f8c5228 100644
+--- a/OpenRA.Game/Orders/UnitOrderGenerator.cs
++++ b/OpenRA.Game/Orders/UnitOrderGenerator.cs
+@@ -79,7 +79,7 @@ public virtual string GetCursor(World world, CPos cell, int2 worldPixel, MouseIn
+ 			{
+ 				var ordersWithCursor = world.Selection.Actors
+ 					.Select(a => OrderForUnit(a, target, actorsAt, cell, mi))
+-					.Where(o => o != null && o.Cursor != null);
++					.Where(o => o?.Cursor != null);
+ 
+ 				var cursorOrder = ordersWithCursor.MaxByOrDefault(o => o.Order.OrderPriority);
+ 				if (cursorOrder != null)
+diff --git a/OpenRA.Game/Primitives/SegmentStream.cs b/OpenRA.Game/Primitives/SegmentStream.cs
+index e34c73246..a947acbca 100644
+--- a/OpenRA.Game/Primitives/SegmentStream.cs
++++ b/OpenRA.Game/Primitives/SegmentStream.cs
+@@ -130,8 +130,8 @@ static long GetOverallNestedOffset(Stream stream, out Stream overallBaseStream)
+ 		{
+ 			var offset = 0L;
+ 			overallBaseStream = stream;
+-			var segmentStream = stream as SegmentStream;
+-			if (segmentStream != null)
++
++			if (stream is SegmentStream segmentStream)
+ 				offset += segmentStream.BaseOffset + GetOverallNestedOffset(segmentStream.BaseStream, out overallBaseStream);
+ 			return offset;
+ 		}
+diff --git a/OpenRA.Game/Scripting/ScriptMemberExts.cs b/OpenRA.Game/Scripting/ScriptMemberExts.cs
+index 8500a0420..43c070395 100644
+--- a/OpenRA.Game/Scripting/ScriptMemberExts.cs
++++ b/OpenRA.Game/Scripting/ScriptMemberExts.cs
+@@ -44,15 +44,13 @@ public static string LuaDocString(this ParameterInfo pi)
+ 
+ 		public static string LuaDocString(this MemberInfo mi)
+ 		{
+-			var methodInfo = mi as MethodInfo;
+-			if (methodInfo != null)
++			if (mi is MethodInfo methodInfo)
+ 			{
+ 				var parameters = methodInfo.GetParameters().Select(pi => pi.LuaDocString());
+ 				return "{0} {1}({2})".F(methodInfo.ReturnType.LuaDocString(), mi.Name, parameters.JoinWith(", "));
+ 			}
+ 
+-			var propertyInfo = mi as PropertyInfo;
+-			if (propertyInfo != null)
++			if (mi is PropertyInfo propertyInfo)
+ 			{
+ 				var types = new List<string>();
+ 				if (propertyInfo.GetGetMethod() != null)
+diff --git a/OpenRA.Game/Scripting/ScriptMemberWrapper.cs b/OpenRA.Game/Scripting/ScriptMemberWrapper.cs
+index 552193581..ceec77827 100644
+--- a/OpenRA.Game/Scripting/ScriptMemberWrapper.cs
++++ b/OpenRA.Game/Scripting/ScriptMemberWrapper.cs
+@@ -131,10 +131,8 @@ public static IEnumerable<MemberInfo> WrappableMembers(Type t)
+ 				// Properties are always wrappable
+ 				if (mi is PropertyInfo)
+ 					return true;
+-
+ 				// Methods are allowed if they aren't generic, and aren't generated by the compiler
+-				var method = mi as MethodInfo;
+-				if (method != null && !method.IsGenericMethodDefinition && !method.IsSpecialName)
++				if (mi is MethodInfo method && !method.IsGenericMethodDefinition && !method.IsSpecialName)
+ 					return true;
+ 
+ 				// Fields aren't allowed
+diff --git a/OpenRA.Game/Scripting/ScriptTypes.cs b/OpenRA.Game/Scripting/ScriptTypes.cs
+index b11b6aca1..caf9905a8 100644
+--- a/OpenRA.Game/Scripting/ScriptTypes.cs
++++ b/OpenRA.Game/Scripting/ScriptTypes.cs
+@@ -173,9 +173,8 @@ public static LuaValue ToLuaValue(this object obj, ScriptContext context)
+ 				return new LuaCustomClrObject(obj);
+ 			}
+ 
+-			if (obj is Array)
++			if (obj is Array array)
+ 			{
+-				var array = (Array)obj;
+ 				var i = 1;
+ 				var table = context.CreateTable();
+ 
+diff --git a/OpenRA.Game/Support/ExceptionHandler.cs b/OpenRA.Game/Support/ExceptionHandler.cs
+index bed6f3dee..79e7c5122 100644
+--- a/OpenRA.Game/Support/ExceptionHandler.cs
++++ b/OpenRA.Game/Support/ExceptionHandler.cs
+@@ -63,13 +63,11 @@ static StringBuilder BuildExceptionReport(Exception ex, StringBuilder sb, int in
+ 
+ 			sb.AppendIndentedFormatLine(indent, "Exception of type `{0}`: {1}", ex.GetType().FullName, ex.Message);
+ 
+-			var tle = ex as TypeLoadException;
+-			var oom = ex as OutOfMemoryException;
+-			if (tle != null)
++			if (ex is TypeLoadException tle)
+ 			{
+ 				sb.AppendIndentedFormatLine(indent, "TypeName=`{0}`", tle.TypeName);
+ 			}
+-			else if (oom != null)
++			else if (ex is OutOfMemoryException oom)
+ 			{
+ 				var gcMemoryBeforeCollect = GC.GetTotalMemory(false);
+ 				GC.Collect();
+diff --git a/OpenRA.Game/World.cs b/OpenRA.Game/World.cs
+index 2001bf0df..74f6f6328 100644
+--- a/OpenRA.Game/World.cs
++++ b/OpenRA.Game/World.cs
+@@ -345,8 +345,7 @@ public void Add(IEffect e)
+ 			if (sp == null)
+ 				unpartitionedEffects.Add(e);
+ 
+-			var se = e as ISync;
+-			if (se != null)
++			if (e is ISync se)
+ 				syncedEffects.Add(se);
+ 		}
+ 
+@@ -358,8 +357,7 @@ public void Remove(IEffect e)
+ 			if (sp == null)
+ 				unpartitionedEffects.Remove(e);
+ 
+-			var se = e as ISync;
+-			if (se != null)
++			if (e is ISync se)
+ 				syncedEffects.Remove(se);
+ 		}
+ 
+diff --git a/OpenRA.Mods.Cnc/Activities/LayMines.cs b/OpenRA.Mods.Cnc/Activities/LayMines.cs
+index 60c7462f4..64bbb4fc3 100644
+--- a/OpenRA.Mods.Cnc/Activities/LayMines.cs
++++ b/OpenRA.Mods.Cnc/Activities/LayMines.cs
+@@ -109,10 +109,9 @@ public void CleanMineField(Actor self)
+ 			if (minefield != null)
+ 			{
+ 				var positionable = (IPositionable)movement;
+-				var mobile = positionable as Mobile;
+ 				minefield.RemoveAll(c => self.World.ActorMap.GetActorsAt(c)
+ 					.Any(a => a.Info.Name == minelayer.Info.Mine.ToLowerInvariant() && a.CanBeViewedByPlayer(self.Owner)) ||
+-						((!positionable.CanEnterCell(c, null, BlockedByActor.Immovable) || (mobile != null && !mobile.CanStayInCell(c)))
++						((!positionable.CanEnterCell(c, null, BlockedByActor.Immovable) || (positionable is Mobile mobile && !mobile.CanStayInCell(c)))
+ 						&& self.Owner.Shroud.IsVisible(c)));
+ 			}
+ 		}
+diff --git a/OpenRA.Mods.Cnc/Traits/Minelayer.cs b/OpenRA.Mods.Cnc/Traits/Minelayer.cs
+index fe1fc0f2e..f2ffac861 100644
+--- a/OpenRA.Mods.Cnc/Traits/Minelayer.cs
++++ b/OpenRA.Mods.Cnc/Traits/Minelayer.cs
+@@ -138,11 +138,10 @@ void IResolveOrder.ResolveOrder(Actor self, Order order)
+ 				minefieldStart = order.ExtraLocation;
+ 
+ 				var movement = self.Trait<IPositionable>();
+-				var mobile = movement as Mobile;
+ 
+ 				var minefield = GetMinefieldCells(minefieldStart, cell, Info.MinefieldDepth)
+ 					.Where(c => IsCellAcceptable(self, c) && self.Owner.Shroud.IsExplored(c)
+-						&& movement.CanEnterCell(c, null, BlockedByActor.Immovable) && (mobile != null && mobile.CanStayInCell(c)))
++						&& movement.CanEnterCell(c, null, BlockedByActor.Immovable) && (movement is Mobile mobile && mobile.CanStayInCell(c)))
+ 					.OrderBy(c => (c - minefieldStart).LengthSquared).ToList();
+ 
+ 				self.QueueActivity(order.Queued, new LayMines(self, minefield));
+@@ -295,7 +294,6 @@ protected override IEnumerable<IRenderable> RenderAboveShroud(WorldRenderer wr,
+ 					minelayers.Max(m => m.Info.TraitInfo<MinelayerInfo>().MinefieldDepth));
+ 
+ 				var movement = minelayer.Trait<IPositionable>();
+-				var mobile = movement as Mobile;
+ 				var pal = wr.Palette(TileSet.TerrainPaletteInternalName);
+ 				foreach (var c in minefield)
+ 				{
+@@ -317,7 +315,7 @@ protected override IEnumerable<IRenderable> RenderAboveShroud(WorldRenderer wr,
+ 						alpha = unknownAlpha;
+ 					}
+ 					else if (!this.minelayer.IsCellAcceptable(minelayer, c)
+-						|| !movement.CanEnterCell(c, null, BlockedByActor.Immovable) || (mobile != null && !mobile.CanStayInCell(c)))
++						|| !movement.CanEnterCell(c, null, BlockedByActor.Immovable) || (movement is Mobile mobile && !mobile.CanStayInCell(c)))
+ 					{
+ 						tile = blockedTile;
+ 						alpha = blockedAlpha;
+diff --git a/OpenRA.Mods.Common/Activities/Attack.cs b/OpenRA.Mods.Common/Activities/Attack.cs
+index 9c0ebadd3..17395e1c8 100644
+--- a/OpenRA.Mods.Common/Activities/Attack.cs
++++ b/OpenRA.Mods.Common/Activities/Attack.cs
+@@ -191,10 +191,9 @@ protected virtual AttackStatus TickAttack(Actor self, AttackFrontal attack)
+ 			maxRange = armaments.Min(a => a.MaxRange());
+ 
+ 			var pos = self.CenterPosition;
+-			var mobile = move as Mobile;
+ 			if (!target.IsInRange(pos, maxRange)
+ 				|| (minRange.Length != 0 && target.IsInRange(pos, minRange))
+-				|| (mobile != null && !mobile.CanInteractWithGroundLayer(self)))
++				|| (move is Mobile mobile && !mobile.CanInteractWithGroundLayer(self)))
+ 			{
+ 				// Try to move within range, drop the target otherwise
+ 				if (move == null)
+diff --git a/OpenRA.Mods.Common/ActorInitializer.cs b/OpenRA.Mods.Common/ActorInitializer.cs
+index 03290c9dc..0db4de9ad 100644
+--- a/OpenRA.Mods.Common/ActorInitializer.cs
++++ b/OpenRA.Mods.Common/ActorInitializer.cs
+@@ -104,8 +104,7 @@ public override object ConvertTo(ITypeDescriptorContext context, System.Globaliz
+ 		{
+ 			if (destinationType == typeof(string))
+ 			{
+-				var reference = value as ActorInitActorReference;
+-				if (reference != null)
++				if (value is ActorInitActorReference reference)
+ 					return reference.InternalName;
+ 			}
+ 
+diff --git a/OpenRA.Mods.Common/Lint/CheckAngle.cs b/OpenRA.Mods.Common/Lint/CheckAngle.cs
+index 6737d3344..3dfa4f944 100644
+--- a/OpenRA.Mods.Common/Lint/CheckAngle.cs
++++ b/OpenRA.Mods.Common/Lint/CheckAngle.cs
+@@ -20,8 +20,7 @@ public void Run(Action<string> emitError, Action<string> emitWarning, ModData mo
+ 		{
+ 			foreach (var weaponInfo in rules.Weapons)
+ 			{
+-				var missile = weaponInfo.Value.Projectile as MissileInfo;
+-				if (missile != null)
++				if (weaponInfo.Value.Projectile is MissileInfo missile)
+ 				{
+ 					var minAngle = missile.MinimumLaunchAngle.Angle;
+ 					var maxAngle = missile.MaximumLaunchAngle.Angle;
+@@ -31,8 +30,7 @@ public void Run(Action<string> emitError, Action<string> emitWarning, ModData mo
+ 					CheckLaunchAngles(weaponInfo.Key, minAngle, testMaxAngle, maxAngle, emitError);
+ 				}
+ 
+-				var bullet = weaponInfo.Value.Projectile as BulletInfo;
+-				if (bullet != null)
++				if (weaponInfo.Value.Projectile is BulletInfo bullet)
+ 				{
+ 					var minAngle = bullet.LaunchAngle[0].Angle;
+ 					var maxAngle = bullet.LaunchAngle.Length > 1 ? bullet.LaunchAngle[1].Angle : minAngle;
+diff --git a/OpenRA.Mods.Common/Lint/CheckRangeLimit.cs b/OpenRA.Mods.Common/Lint/CheckRangeLimit.cs
+index 132cf25f3..9cc453972 100644
+--- a/OpenRA.Mods.Common/Lint/CheckRangeLimit.cs
++++ b/OpenRA.Mods.Common/Lint/CheckRangeLimit.cs
+@@ -21,9 +21,8 @@ public void Run(Action<string> emitError, Action<string> emitWarning, ModData mo
+ 			foreach (var weaponInfo in rules.Weapons)
+ 			{
+ 				var range = weaponInfo.Value.Range;
+-				var missile = weaponInfo.Value.Projectile as MissileInfo;
+ 
+-				if (missile != null && missile.RangeLimit > WDist.Zero && missile.RangeLimit < range)
++				if (weaponInfo.Value.Projectile is MissileInfo missile && missile.RangeLimit > WDist.Zero && missile.RangeLimit < range)
+ 					emitError("Weapon `{0}`: projectile RangeLimit lower than weapon range!"
+ 						.F(weaponInfo.Key));
+ 			}
+diff --git a/OpenRA.Mods.Common/Orders/PlaceBuildingOrderGenerator.cs b/OpenRA.Mods.Common/Orders/PlaceBuildingOrderGenerator.cs
+index aab376904..02153836e 100644
+--- a/OpenRA.Mods.Common/Orders/PlaceBuildingOrderGenerator.cs
++++ b/OpenRA.Mods.Common/Orders/PlaceBuildingOrderGenerator.cs
+@@ -61,7 +61,7 @@ public VariantWrapper(WorldRenderer wr, ProductionQueue queue, ActorInfo ai)
+ 				{
+ 					string faction;
+ 					var buildableInfo = ActorInfo.TraitInfoOrDefault<BuildableInfo>();
+-					if (buildableInfo != null && buildableInfo.ForceFaction != null)
++					if (buildableInfo?.ForceFaction != null)
+ 						faction = buildableInfo.ForceFaction;
+ 					else
+ 					{
+@@ -325,8 +325,8 @@ IEnumerable<Order> ClearBlockersOrders(World world, CPos topLeft)
+ 			foreach (var blocker in blockers)
+ 			{
+ 				CPos moveCell;
+-				var mobile = blocker.Trait as Mobile;
+-				if (mobile != null)
++
++				if (blocker.Trait is Mobile mobile)
+ 				{
+ 					var availableCells = adjacentTiles.Where(t => mobile.CanEnterCell(t)).ToList();
+ 					if (availableCells.Count == 0)
+diff --git a/OpenRA.Mods.Common/ServerTraits/LobbyCommands.cs b/OpenRA.Mods.Common/ServerTraits/LobbyCommands.cs
+index dde2984eb..cf9252306 100644
+--- a/OpenRA.Mods.Common/ServerTraits/LobbyCommands.cs
++++ b/OpenRA.Mods.Common/ServerTraits/LobbyCommands.cs
+@@ -310,7 +310,7 @@ static bool SlotOpen(S server, Connection conn, Session.Client client, string s)
+ 
+ 				// Slot may have a bot in it
+ 				var occupant = server.LobbyInfo.ClientInSlot(s);
+-				if (occupant != null && occupant.Bot != null)
++				if (occupant?.Bot != null)
+ 				{
+ 					server.LobbyInfo.Clients.Remove(occupant);
+ 					var ping = server.LobbyInfo.PingFromClient(occupant);
+@@ -703,7 +703,7 @@ static bool MakeAdmin(S server, Connection conn, Session.Client client, string s
+ 
+ 				var bots = server.LobbyInfo.Slots
+ 					.Select(slot => server.LobbyInfo.ClientInSlot(slot.Key))
+-					.Where(c => c != null && c.Bot != null);
++					.Where(c => c?.Bot != null);
+ 				foreach (var b in bots)
+ 					b.BotControllerClientIndex = newAdminId;
+ 
+diff --git a/OpenRA.Mods.Common/Traits/AutoTarget.cs b/OpenRA.Mods.Common/Traits/AutoTarget.cs
+index e0d922da4..e1795319b 100644
+--- a/OpenRA.Mods.Common/Traits/AutoTarget.cs
++++ b/OpenRA.Mods.Common/Traits/AutoTarget.cs
+@@ -237,7 +237,7 @@ void INotifyDamage.Damaged(Actor self, AttackInfo e)
+ 			{
+ 				// If the aggressor is in a transport, then attack the transport instead
+ 				var passenger = attacker.TraitOrDefault<Passenger>();
+-				if (passenger != null && passenger.Transport != null)
++				if (passenger?.Transport != null)
+ 					attacker = passenger.Transport;
+ 			}
+ 
+diff --git a/OpenRA.Mods.Common/Traits/BotModules/UnitBuilderBotModule.cs b/OpenRA.Mods.Common/Traits/BotModules/UnitBuilderBotModule.cs
+index 3ce7151ab..fdc81eb19 100644
+--- a/OpenRA.Mods.Common/Traits/BotModules/UnitBuilderBotModule.cs
++++ b/OpenRA.Mods.Common/Traits/BotModules/UnitBuilderBotModule.cs
+@@ -125,9 +125,7 @@ void BuildUnit(IBot bot, string category, bool buildRandom)
+ 				Info.UnitDelays[name] > world.WorldTick)
+ 				return;
+ 
+-			if (Info.UnitLimits != null &&
+-				Info.UnitLimits.ContainsKey(name) &&
+-				world.Actors.Count(a => a.Owner == player && a.Info.Name == name) >= Info.UnitLimits[name])
++			if (Info.UnitLimits != null && Info.UnitLimits.ContainsKey(name) && world.Actors.Count(a => a.Owner == player && a.Info.Name == name) >= Info.UnitLimits[name])
+ 				return;
+ 
+ 			bot.QueueOrder(Order.StartProduction(queue.Actor, name, 1));
+diff --git a/OpenRA.Mods.Common/Traits/Buildings/Reservable.cs b/OpenRA.Mods.Common/Traits/Buildings/Reservable.cs
+index c94ef7040..e529281db 100644
+--- a/OpenRA.Mods.Common/Traits/Buildings/Reservable.cs
++++ b/OpenRA.Mods.Common/Traits/Buildings/Reservable.cs
+@@ -69,7 +69,7 @@ public IDisposable Reserve(Actor self, Actor forActor, Aircraft forAircraft)
+ 		public static bool IsReserved(Actor a)
+ 		{
+ 			var res = a.TraitOrDefault<Reservable>();
+-			return res != null && res.reservedForAircraft != null && !res.reservedForAircraft.MayYieldReservation;
++			return res?.reservedForAircraft != null && !res.reservedForAircraft.MayYieldReservation;
+ 		}
+ 
+ 		public static bool IsAvailableFor(Actor reservable, Actor forActor)
+diff --git a/OpenRA.Mods.Common/Traits/CombatDebugOverlay.cs b/OpenRA.Mods.Common/Traits/CombatDebugOverlay.cs
+index 213683e62..5b289b875 100644
+--- a/OpenRA.Mods.Common/Traits/CombatDebugOverlay.cs
++++ b/OpenRA.Mods.Common/Traits/CombatDebugOverlay.cs
+@@ -91,8 +91,7 @@ IEnumerable<IRenderable> RenderAnnotations(Actor self, WorldRenderer wr)
+ 		IEnumerable<IRenderable> RenderArmaments(Actor self, AttackBase attack)
+ 		{
+ 			// Fire ports on garrisonable structures
+-			var garrison = attack as AttackGarrisoned;
+-			if (garrison != null)
++			if (attack is AttackGarrisoned garrison)
+ 			{
+ 				var bodyOrientation = coords.Value.QuantizeOrientation(self, self.Orientation);
+ 				foreach (var p in garrison.Info.Ports)
+diff --git a/OpenRA.Mods.Common/Traits/Player/PlaceBuilding.cs b/OpenRA.Mods.Common/Traits/Player/PlaceBuilding.cs
+index 304ec13dc..d929f04f6 100644
+--- a/OpenRA.Mods.Common/Traits/Player/PlaceBuilding.cs
++++ b/OpenRA.Mods.Common/Traits/Player/PlaceBuilding.cs
+@@ -95,7 +95,7 @@ void IResolveOrder.ResolveOrder(Actor self, Order order)
+ 				var buildingInfo = actorInfo.TraitInfo<BuildingInfo>();
+ 
+ 				var buildableInfo = actorInfo.TraitInfoOrDefault<BuildableInfo>();
+-				if (buildableInfo != null && buildableInfo.ForceFaction != null)
++				if (buildableInfo?.ForceFaction != null)
+ 					faction = buildableInfo.ForceFaction;
+ 
+ 				if (os == "LineBuild")
+diff --git a/OpenRA.Mods.Common/Traits/World/EditorActorPreview.cs b/OpenRA.Mods.Common/Traits/World/EditorActorPreview.cs
+index 579e34de5..7b7717792 100644
+--- a/OpenRA.Mods.Common/Traits/World/EditorActorPreview.cs
++++ b/OpenRA.Mods.Common/Traits/World/EditorActorPreview.cs
+@@ -214,12 +214,10 @@ public MiniYaml Save()
+ 		{
+ 			Func<object, bool> saveInit = init =>
+ 			{
+-				var factionInit = init as FactionInit;
+-				if (factionInit != null && factionInit.Value == Owner.Faction)
++				if (init is FactionInit factionInit && factionInit.Value == Owner.Faction)
+ 					return false;
+ 
+-				var healthInit = init as HealthInit;
+-				if (healthInit != null && healthInit.Value == 100)
++				if (init is HealthInit healthInit && healthInit.Value == 100)
+ 					return false;
+ 
+ 				// TODO: Other default values will need to be filtered
+diff --git a/OpenRA.Mods.Common/Traits/World/Locomotor.cs b/OpenRA.Mods.Common/Traits/World/Locomotor.cs
+index 18c99cd82..c3e4ff8a2 100644
+--- a/OpenRA.Mods.Common/Traits/World/Locomotor.cs
++++ b/OpenRA.Mods.Common/Traits/World/Locomotor.cs
+@@ -303,8 +303,7 @@ bool IsBlockedBy(Actor actor, Actor otherActor, Actor ignoreActor, CPos cell, Bl
+ 			if (check <= BlockedByActor.Immovable && cellFlag.HasCellFlag(CellFlag.HasMovableActor) &&
+ 				actor.Owner.RelationshipWith(otherActor.Owner) == PlayerRelationship.Ally)
+ 			{
+-				var mobile = otherActor.OccupiesSpace as Mobile;
+-				if (mobile != null && !mobile.IsTraitDisabled && !mobile.IsTraitPaused && !mobile.IsImmovable)
++				if (otherActor.OccupiesSpace is Mobile mobile && !mobile.IsTraitDisabled && !mobile.IsTraitPaused && !mobile.IsImmovable)
+ 					return false;
+ 			}
+ 
+@@ -324,8 +323,7 @@ bool IsBlockedBy(Actor actor, Actor otherActor, Actor ignoreActor, CPos cell, Bl
+ 			if (cellFlag.HasCellFlag(CellFlag.HasTransitOnlyActor))
+ 			{
+ 				// Transit only tiles should not block movement
+-				var building = otherActor.OccupiesSpace as Building;
+-				if (building != null && building.TransitOnlyCells().Contains(cell))
++				if (otherActor.OccupiesSpace is Building building && building.TransitOnlyCells().Contains(cell))
+ 					return false;
+ 			}
+ 
+diff --git a/OpenRA.Mods.Common/UtilityCommands/CheckExplicitInterfacesCommand.cs b/OpenRA.Mods.Common/UtilityCommands/CheckExplicitInterfacesCommand.cs
+index bbd71f16e..0f0f0a61f 100644
+--- a/OpenRA.Mods.Common/UtilityCommands/CheckExplicitInterfacesCommand.cs
++++ b/OpenRA.Mods.Common/UtilityCommands/CheckExplicitInterfacesCommand.cs
+@@ -49,8 +49,7 @@ void IUtilityCommand.Run(Utility utility, string[] args)
+ 						if (interfaceMember.Name.StartsWith("get_") || interfaceMember.Name.StartsWith("set_") || interfaceMember.Name.StartsWith("add_") || interfaceMember.Name.StartsWith("remove_"))
+ 							continue;
+ 
+-						var interfaceMethod = interfaceMember as MethodInfo;
+-						if (interfaceMethod != null)
++						if (interfaceMember is MethodInfo interfaceMethod)
+ 						{
+ 							var interfaceMethodParams = interfaceMethod.GetParameters();
+ 							foreach (var implementingMethod in implementingType.GetMethods())
+@@ -84,8 +83,7 @@ void IUtilityCommand.Run(Utility utility, string[] args)
+ 							}
+ 						}
+ 
+-						var interfaceProperty = interfaceMember as PropertyInfo;
+-						if (interfaceProperty != null)
++						if (interfaceMember is PropertyInfo interfaceProperty)
+ 						{
+ 							var implementingProperties = implementingType.GetProperties();
+ 							foreach (var implementingProperty in implementingProperties)
+diff --git a/OpenRA.Mods.Common/UtilityCommands/ExtractMapRules.cs b/OpenRA.Mods.Common/UtilityCommands/ExtractMapRules.cs
+index 8493c30be..26c3e7b32 100644
+--- a/OpenRA.Mods.Common/UtilityCommands/ExtractMapRules.cs
++++ b/OpenRA.Mods.Common/UtilityCommands/ExtractMapRules.cs
+@@ -24,7 +24,7 @@ void MergeAndPrint(Map map, string key, MiniYaml value)
+ 		{
+ 			var nodes = new List<MiniYamlNode>();
+ 			var includes = new List<string>();
+-			if (value != null && value.Value != null)
++			if (value?.Value != null)
+ 			{
+ 				// The order of the included files matter, so we can defer to system files
+ 				// only as long as they are included first.
+diff --git a/OpenRA.Mods.Common/UtilityCommands/ExtractSettingsDocsCommand.cs b/OpenRA.Mods.Common/UtilityCommands/ExtractSettingsDocsCommand.cs
+index 3ec611b81..3272eb442 100644
+--- a/OpenRA.Mods.Common/UtilityCommands/ExtractSettingsDocsCommand.cs
++++ b/OpenRA.Mods.Common/UtilityCommands/ExtractSettingsDocsCommand.cs
+@@ -59,7 +59,7 @@ void IUtilityCommand.Run(Utility utility, string[] args)
+ 			foreach (var section in sections.OrderBy(s => s.Key))
+ 			{
+ 				var fields = section.Value.GetType().GetFields();
+-				if (fields.Length > 0 && fields.Where(field => field.GetCustomAttributes<DescAttribute>(false).Length > 0).Count() > 0)
++				if (fields.Length > 0 && fields.Where(field => field.GetCustomAttributes<DescAttribute>(false).Length > 0).Any())
+ 					Console.WriteLine("## {0}", section.Key);
+ 				else
+ 					Console.WriteLine();
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/AssetBrowserLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/AssetBrowserLogic.cs
+index 1c6cbce50..ef83c18ba 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/AssetBrowserLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/AssetBrowserLogic.cs
+@@ -371,9 +371,8 @@ bool LoadAsset(IReadOnlyPackage package, string filename)
+ 				currentPackage = package;
+ 				currentFilename = filename;
+ 				var prefix = "";
+-				var fs = modData.DefaultFileSystem as OpenRA.FileSystem.FileSystem;
+ 
+-				if (fs != null)
++				if (modData.DefaultFileSystem is OpenRA.FileSystem.FileSystem fs)
+ 				{
+ 					prefix = fs.GetPrefix(package);
+ 					if (prefix != null)
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/Editor/ActorEditLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/Editor/ActorEditLogic.cs
+index b10727509..12254df97 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/Editor/ActorEditLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/Editor/ActorEditLogic.cs
+@@ -265,9 +265,8 @@ public override void Tick()
+ 
+ 					foreach (var o in options)
+ 					{
+-						if (o is EditorActorCheckbox)
++						if (o is EditorActorCheckbox co)
+ 						{
+-							var co = (EditorActorCheckbox)o;
+ 							var checkboxContainer = checkboxOptionTemplate.Clone();
+ 							checkboxContainer.Bounds.Y = initContainer.Bounds.Height;
+ 							initContainer.Bounds.Height += checkboxContainer.Bounds.Height;
+@@ -288,9 +287,8 @@ public override void Tick()
+ 
+ 							initContainer.AddChild(checkboxContainer);
+ 						}
+-						else if (o is EditorActorSlider)
++						else if (o is EditorActorSlider so)
+ 						{
+-							var so = (EditorActorSlider)o;
+ 							var sliderContainer = sliderOptionTemplate.Clone();
+ 							sliderContainer.Bounds.Y = initContainer.Bounds.Height;
+ 							initContainer.Bounds.Height += sliderContainer.Bounds.Height;
+@@ -324,9 +322,8 @@ public override void Tick()
+ 
+ 							initContainer.AddChild(sliderContainer);
+ 						}
+-						else if (o is EditorActorDropdown)
++						else if (o is EditorActorDropdown ddo)
+ 						{
+-							var ddo = (EditorActorDropdown)o;
+ 							var dropdownContainer = dropdownOptionTemplate.Clone();
+ 							dropdownContainer.Bounds.Y = initContainer.Bounds.Height;
+ 							initContainer.Bounds.Height += dropdownContainer.Bounds.Height;
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/Ingame/AddFactionSuffixLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/Ingame/AddFactionSuffixLogic.cs
+index d3340c723..8e59d7656 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/Ingame/AddFactionSuffixLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/Ingame/AddFactionSuffixLogic.cs
+@@ -23,15 +23,15 @@ public AddFactionSuffixLogic(Widget widget, World world)
+ 				faction = world.LocalPlayer.Faction.InternalName;
+ 			var suffix = "-" + faction;
+ 
+-			if (widget is ButtonWidget)
+-				((ButtonWidget)widget).Background += suffix;
+-			else if (widget is ImageWidget)
+-				((ImageWidget)widget).ImageCollection += suffix;
+-			else if (widget is BackgroundWidget)
+-				((BackgroundWidget)widget).Background += suffix;
+-			else if (widget is ProductionTabsWidget)
++			if (widget is ButtonWidget buttonWidget)
++				buttonWidget.Background += suffix;
++			else if (widget is ImageWidget imageWidget)
++				imageWidget.ImageCollection += suffix;
++			else if (widget is BackgroundWidget backgroundWidget)
++				backgroundWidget.Background += suffix;
++			else if (widget is ProductionTabsWidget productionTabsWidget)
+ 			{
+-				((ProductionTabsWidget)widget).Button += suffix;
++				productionTabsWidget.Button += suffix;
+ 				((ProductionTabsWidget)widget).Background += suffix;
+ 			}
+ 			else
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/Ingame/CommandBarLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/Ingame/CommandBarLogic.cs
+index 9096042f8..6b286c933 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/Ingame/CommandBarLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/Ingame/CommandBarLogic.cs
+@@ -273,12 +273,10 @@ public override void Tick()
+ 
+ 		bool IsForceModifiersActive(Modifiers modifiers)
+ 		{
+-			var fmog = world.OrderGenerator as ForceModifiersOrderGenerator;
+-			if (fmog != null && fmog.Modifiers.HasFlag(modifiers))
++			if (world.OrderGenerator is ForceModifiersOrderGenerator fmog && fmog.Modifiers.HasFlag(modifiers))
+ 				return true;
+ 
+-			var uog = world.OrderGenerator as UnitOrderGenerator;
+-			if (uog != null && Game.GetModifierKeys().HasFlag(modifiers))
++			if (world.OrderGenerator is UnitOrderGenerator uog && Game.GetModifierKeys().HasFlag(modifiers))
+ 				return true;
+ 
+ 			return false;
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/Ingame/GameInfoLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/Ingame/GameInfoLogic.cs
+index c8e908ee3..5cd14160c 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/Ingame/GameInfoLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/Ingame/GameInfoLogic.cs
+@@ -33,7 +33,7 @@ public GameInfoLogic(Widget widget, World world, IngameInfoPanel activePanel, Ac
+ 			var scriptContext = world.WorldActor.TraitOrDefault<LuaScript>();
+ 			var hasError = scriptContext != null && scriptContext.FatalErrorOccurred;
+ 			var iop = world.WorldActor.TraitsImplementing<IObjectivesPanel>().FirstOrDefault();
+-			var hasObjectivesPanel = hasError || (iop != null && iop.PanelName != null);
++			var hasObjectivesPanel = hasError || (iop?.PanelName != null);
+ 
+ 			if (hasObjectivesPanel)
+ 			{
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyLogic.cs
+index 7b16da3bb..ee1d2e8b3 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyLogic.cs
+@@ -203,7 +203,7 @@ void ConnectionStateChanged(OrderManager om)
+ 				slotsButton.IsVisible = () => panel != PanelType.Servers;
+ 				slotsButton.IsDisabled = () => configurationDisabled() || panel != PanelType.Players ||
+ 					(orderManager.LobbyInfo.Slots.Values.All(s => !s.AllowBots) &&
+-					orderManager.LobbyInfo.Slots.Count(s => !s.Value.LockTeam && orderManager.LobbyInfo.ClientInSlot(s.Key) != null) == 0);
++!orderManager.LobbyInfo.Slots.Any(s => !s.Value.LockTeam && orderManager.LobbyInfo.ClientInSlot(s.Key) != null));
+ 
+ 				slotsButton.OnMouseDown = _ =>
+ 				{
+@@ -225,7 +225,7 @@ void ConnectionStateChanged(OrderManager om)
+ 									{
+ 										var bot = botTypes.Random(Game.CosmeticRandom);
+ 										var c = orderManager.LobbyInfo.ClientInSlot(slot.Key);
+-										if (slot.Value.AllowBots == true && (c == null || c.Bot != null))
++										if (slot.Value.AllowBots == true && (c?.Bot != null))
+ 											orderManager.IssueOrder(Order.Command("slot_bot {0} {1} {2}".F(slot.Key, botController.Index, bot)));
+ 									}
+ 								}
+@@ -243,7 +243,7 @@ void ConnectionStateChanged(OrderManager om)
+ 									foreach (var slot in orderManager.LobbyInfo.Slots)
+ 									{
+ 										var c = orderManager.LobbyInfo.ClientInSlot(slot.Key);
+-										if (c != null && c.Bot != null)
++										if (c?.Bot != null)
+ 											orderManager.IssueOrder(Order.Command("slot_open " + slot.Value.PlayerReference));
+ 									}
+ 								}
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyOptionsLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyOptionsLogic.cs
+index cdd85b855..62d262ca4 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyOptionsLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyOptionsLogic.cs
+@@ -97,8 +97,8 @@ void RebuildOptions()
+ 					row.Bounds.Y = optionsContainer.Bounds.Height;
+ 					optionsContainer.Bounds.Height += row.Bounds.Height;
+ 					foreach (var child in row.Children)
+-						if (child is CheckboxWidget)
+-							checkboxColumns.Enqueue((CheckboxWidget)child);
++						if (child is CheckboxWidget checkboxWidget)
++							checkboxColumns.Enqueue(checkboxWidget);
+ 
+ 					optionsContainer.AddChild(row);
+ 				}
+@@ -126,8 +126,8 @@ void RebuildOptions()
+ 					row.Bounds.Y = optionsContainer.Bounds.Height;
+ 					optionsContainer.Bounds.Height += row.Bounds.Height;
+ 					foreach (var child in row.Children)
+-						if (child is DropDownButtonWidget)
+-							dropdownColumns.Enqueue((DropDownButtonWidget)child);
++						if (child is DropDownButtonWidget dropDownButtonWidget)
++							dropdownColumns.Enqueue(dropDownButtonWidget);
+ 
+ 					optionsContainer.AddChild(row);
+ 				}
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyUtils.cs b/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyUtils.cs
+index b87d742de..3ca73e802 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyUtils.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/Lobby/LobbyUtils.cs
+@@ -372,7 +372,7 @@ public static void SetupProfileWidget(Widget parent, Session.Client c, OrderMana
+ 			var profileTooltip = parent.GetOrNull<ClientTooltipRegionWidget>("PROFILE_TOOLTIP");
+ 			if (profileTooltip != null)
+ 			{
+-				if (c != null && c.Fingerprint != null)
++				if (c?.Fingerprint != null)
+ 					profileTooltip.Template = "REGISTERED_PLAYER_TOOLTIP";
+ 
+ 				if (visible)
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/MissionBrowserLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/MissionBrowserLogic.cs
+index e4de8f624..37a733cb9 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/MissionBrowserLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/MissionBrowserLogic.cs
+@@ -384,7 +384,7 @@ void StartMissionClicked()
+ 			orders.Add(Order.Command("state {0}".F(Session.ClientState.Ready)));
+ 
+ 			var missionData = selectedMap.Rules.Actors["world"].TraitInfoOrDefault<MissionDataInfo>();
+-			if (missionData != null && missionData.StartVideo != null && modData.DefaultFileSystem.Exists(missionData.StartVideo))
++			if (missionData?.StartVideo != null && modData.DefaultFileSystem.Exists(missionData.StartVideo))
+ 			{
+ 				var fsPlayer = fullscreenVideoPlayer.Get<VideoPlayerWidget>("PLAYER");
+ 				fullscreenVideoPlayer.Visible = true;
+diff --git a/OpenRA.Mods.Common/Widgets/Logic/ReplayBrowserLogic.cs b/OpenRA.Mods.Common/Widgets/Logic/ReplayBrowserLogic.cs
+index 7debaa029..0acc2b5ca 100644
+--- a/OpenRA.Mods.Common/Widgets/Logic/ReplayBrowserLogic.cs
++++ b/OpenRA.Mods.Common/Widgets/Logic/ReplayBrowserLogic.cs
+@@ -445,7 +445,7 @@ void SetupManagement()
+ 			};
+ 
+ 			var deleteAllButton = panel.Get<ButtonWidget>("MNG_DELALL_BUTTON");
+-			deleteAllButton.IsDisabled = () => replayState.Count(kvp => kvp.Value.Visible) == 0;
++			deleteAllButton.IsDisabled = () => !replayState.Any(kvp => kvp.Value.Visible);
+ 			deleteAllButton.OnClick = () =>
+ 			{
+ 				var list = replayState.Where(kvp => kvp.Value.Visible).Select(kvp => kvp.Key).ToList();
+diff --git a/OpenRA.Mods.Common/Widgets/ObserverSupportPowerIconsWidget.cs b/OpenRA.Mods.Common/Widgets/ObserverSupportPowerIconsWidget.cs
+index daea82b54..d537fc72f 100644
+--- a/OpenRA.Mods.Common/Widgets/ObserverSupportPowerIconsWidget.cs
++++ b/OpenRA.Mods.Common/Widgets/ObserverSupportPowerIconsWidget.cs
+@@ -113,7 +113,7 @@ public override void Draw()
+ 					clocks.Add(power.a.Key, new Animation(world, ClockAnimation));
+ 			}
+ 
+-			Bounds.Width = powers.Count() * (IconWidth + IconSpacing);
++			Bounds.Width = powers.Count * (IconWidth + IconSpacing);
+ 
+ 			Game.Renderer.EnableAntialiasingFilter();
+ 
+diff --git a/OpenRA.Mods.Common/Widgets/ScrollPanelWidget.cs b/OpenRA.Mods.Common/Widgets/ScrollPanelWidget.cs
+index 57c6f93aa..073a60604 100644
+--- a/OpenRA.Mods.Common/Widgets/ScrollPanelWidget.cs
++++ b/OpenRA.Mods.Common/Widgets/ScrollPanelWidget.cs
+@@ -291,8 +291,7 @@ public void ScrollToItem(string itemKey, bool smooth = false)
+ 		{
+ 			var item = Children.FirstOrDefault(c =>
+ 			{
+-				var si = c as ScrollItemWidget;
+-				return si != null && si.ItemKey == itemKey;
++				return c is ScrollItemWidget si && si.ItemKey == itemKey;
+ 			});
+ 
+ 			if (item != null)
+@@ -303,8 +302,7 @@ public void ScrollToSelectedItem()
+ 		{
+ 			var item = Children.FirstOrDefault(c =>
+ 			{
+-				var si = c as ScrollItemWidget;
+-				return si != null && si.IsSelected();
++				return c is ScrollItemWidget si && si.IsSelected();
+ 			});
+ 
+ 			if (item != null)

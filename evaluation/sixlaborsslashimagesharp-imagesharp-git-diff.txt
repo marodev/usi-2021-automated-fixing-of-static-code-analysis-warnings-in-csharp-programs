@@ -1,0 +1,6 @@
+diff --git a/shared-infrastructure b/shared-infrastructure
+--- a/shared-infrastructure
++++ b/shared-infrastructure
+@@ -1 +1 @@
+-Subproject commit 06a733983486638b9e38197c7c6eb197ecac43e6
++Subproject commit 06a733983486638b9e38197c7c6eb197ecac43e6-dirty

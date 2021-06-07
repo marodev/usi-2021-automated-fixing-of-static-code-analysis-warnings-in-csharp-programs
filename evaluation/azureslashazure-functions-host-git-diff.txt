@@ -1,0 +1,1558 @@
+diff --git a/src/WebJobs.Script.Grpc/Channel/GrpcWorkerChannelFactory.cs b/src/WebJobs.Script.Grpc/Channel/GrpcWorkerChannelFactory.cs
+index b84b7dc7e..0d326eea5 100644
+--- a/src/WebJobs.Script.Grpc/Channel/GrpcWorkerChannelFactory.cs
++++ b/src/WebJobs.Script.Grpc/Channel/GrpcWorkerChannelFactory.cs
+@@ -37,7 +37,7 @@ public class GrpcWorkerChannelFactory : IRpcWorkerChannelFactory
+ 
+         public IRpcWorkerChannel Create(string scriptRootPath, string runtime, IMetricsLogger metricsLogger, int attemptCount, IEnumerable<RpcWorkerConfig> workerConfigs)
+         {
+-            var languageWorkerConfig = workerConfigs.Where(c => c.Description.Language.Equals(runtime, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
++            var languageWorkerConfig = workerConfigs.FirstOrDefault(c => c.Description.Language.Equals(runtime, StringComparison.OrdinalIgnoreCase));
+             if (languageWorkerConfig == null)
+             {
+                 throw new InvalidOperationException($"WorkerCofig for runtime: {runtime} not found");
+diff --git a/src/WebJobs.Script.WebHost/DependencyInjection/DependencyValidator/ServiceMatch.cs b/src/WebJobs.Script.WebHost/DependencyInjection/DependencyValidator/ServiceMatch.cs
+index bc3247dad..1ba72ba70 100644
+--- a/src/WebJobs.Script.WebHost/DependencyInjection/DependencyValidator/ServiceMatch.cs
++++ b/src/WebJobs.Script.WebHost/DependencyInjection/DependencyValidator/ServiceMatch.cs
+@@ -281,7 +281,7 @@ private static string GetPublicKeyTokenString(byte[] token)
+ 
+                 for (int i = 0; i < token.Length; i++)
+                 {
+-                    tokenString += string.Format("{0:x2}", token[i]);
++                    tokenString += $"{token[i]:x2}";
+                 }
+ 
+                 return tokenString;
+diff --git a/src/WebJobs.Script.WebHost/DependencyInjection/DryIoc/ImTools.cs b/src/WebJobs.Script.WebHost/DependencyInjection/DryIoc/ImTools.cs
+index b3a9967d2..62a6e4627 100644
+--- a/src/WebJobs.Script.WebHost/DependencyInjection/DryIoc/ImTools.cs
++++ b/src/WebJobs.Script.WebHost/DependencyInjection/DryIoc/ImTools.cs
+@@ -215,8 +215,7 @@ public static T FindFirst<T>(this T[] source, Func<T, bool> predicate)
+         /// <returns>First item matching condition or default value.</returns>
+         public static T FindFirst<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+         {
+-            var sourceArr = source as T[];
+-            if (sourceArr != null)
++            if (source is T[] sourceArr)
+                 return sourceArr.FindFirst(predicate);
+             return source.FirstOrDefault(predicate);
+         }
+@@ -228,8 +227,7 @@ public static T SingleOrDefaultIfMany<T>(this IEnumerable<T> source)
+             if (source == null)
+                 return default(T);
+ 
+-            var list = source as IList<T>;
+-            if (list != null)
++            if (source is IList<T> list)
+                 return list.Count == 1 ? list[0] : default(T);
+ 
+             using (var e = source.GetEnumerator())
+@@ -463,8 +461,8 @@ public static T[] Match<T>(this T[] source, Func<T, bool> condition)
+         {
+             if (source == null)
+                 return null;
+-            var arr = source as T[];
+-            if (arr != null)
++
++            if (source is T[] arr)
+                 return arr.Map(map);
+             return source.Select(map);
+         }
+@@ -478,8 +476,8 @@ public static IEnumerable<T> Match<T>(this IEnumerable<T> source, Func<T, bool>
+         {
+             if (source == null)
+                 return null;
+-            var arr = source as T[];
+-            if (arr != null)
++
++            if (source is T[] arr)
+                 return arr.Match(condition);
+             return source.Where(condition);
+         }
+@@ -494,8 +492,8 @@ public static IEnumerable<T> Match<T>(this IEnumerable<T> source, Func<T, bool>
+         {
+             if (source == null)
+                 return null;
+-            var arr = source as T[];
+-            if (arr != null)
++
++            if (source is T[] arr)
+                 return arr.Match(condition, map);
+             return source.Where(condition).Select(map);
+         }
+@@ -639,8 +637,7 @@ public KV(K key, V value)
+         /// <summary>Returns true if both key and value are equal to corresponding key-value of other object.</summary>
+         public override bool Equals(object obj)
+         {
+-            var other = obj as KV<K, V>;
+-            return other != null
++            return obj is KV<K, V> other
+                    && (ReferenceEquals(other.Key, Key) || Equals(other.Key, Key))
+                    && (ReferenceEquals(other.Value, Value) || Equals(other.Value, Value));
+         }
+diff --git a/src/WebJobs.Script.WebHost/Diagnostics/MetricsEventManager.cs b/src/WebJobs.Script.WebHost/Diagnostics/MetricsEventManager.cs
+index e522774f0..020fac88c 100644
+--- a/src/WebJobs.Script.WebHost/Diagnostics/MetricsEventManager.cs
++++ b/src/WebJobs.Script.WebHost/Diagnostics/MetricsEventManager.cs
+@@ -76,8 +76,7 @@ public void EndEvent(object eventHandle)
+                 throw new ArgumentNullException(nameof(eventHandle));
+             }
+ 
+-            SystemMetricEvent evt = eventHandle as SystemMetricEvent;
+-            if (evt != null)
++            if (eventHandle is SystemMetricEvent evt)
+             {
+                 evt.Complete();
+                 long latencyMS = (long)evt.Duration.TotalMilliseconds;
+@@ -299,10 +298,7 @@ protected virtual void Dispose(bool disposing)
+                     // flush any outstanding events
+                     TimerFlush(state: null);
+ 
+-                    if (_metricsFlushTimer != null)
+-                    {
+-                        _metricsFlushTimer.Dispose();
+-                    }
++                    _metricsFlushTimer?.Dispose();
+ 
+                     if (_functionActivityTracker != null)
+                     {
+@@ -513,19 +509,7 @@ private void RaiseFunctionMetricEvent(FunctionStartedEvent runningFunctionInfo,
+                     (long)executionTimespan,
+                     runningFunctionInfo.Success);
+ 
+-                if (_metricsPublisher != null)
+-                {
+-                    _metricsPublisher.AddFunctionExecutionActivity(
+-                        runningFunctionInfo.FunctionMetadata.Name,
+-                        runningFunctionInfo.InvocationId.ToString(),
+-                        concurrency,
+-                        executionStage.ToString(),
+-                        runningFunctionInfo.Success,
+-                        (long)executionTimespan,
+-                        _executionId,
+-                        currentTime,
+-                        runningFunctionInfo.Timestamp);
+-                }
++                _metricsPublisher?.AddFunctionExecutionActivity(runningFunctionInfo.FunctionMetadata.Name, runningFunctionInfo.InvocationId.ToString(), concurrency, executionStage.ToString(), runningFunctionInfo.Success, (long)executionTimespan, _executionId, currentTime, runningFunctionInfo.Timestamp);
+ 
+                 if (_linuxContainerActivityPublisher != null)
+                 {
+diff --git a/src/WebJobs.Script.WebHost/Diagnostics/WebHostMetricsLogger.cs b/src/WebJobs.Script.WebHost/Diagnostics/WebHostMetricsLogger.cs
+index c84a79133..dcdfb475a 100644
+--- a/src/WebJobs.Script.WebHost/Diagnostics/WebHostMetricsLogger.cs
++++ b/src/WebJobs.Script.WebHost/Diagnostics/WebHostMetricsLogger.cs
+@@ -64,8 +64,7 @@ public void EndEvent(MetricEvent metricEvent)
+ 
+         public void LogEvent(MetricEvent metricEvent)
+         {
+-            HostStarted hostStartedEvent = metricEvent as HostStarted;
+-            if (hostStartedEvent != null)
++            if (metricEvent is HostStarted hostStartedEvent)
+             {
+                 _metricsEventManager.HostStarted(hostStartedEvent.Host);
+             }
+@@ -82,10 +81,7 @@ protected virtual void Dispose(bool disposing)
+             {
+                 if (disposing)
+                 {
+-                    if (_metricsEventManager != null)
+-                    {
+-                        _metricsEventManager.Dispose();
+-                    }
++                    _metricsEventManager?.Dispose();
+                 }
+ 
+                 disposed = true;
+diff --git a/src/WebJobs.Script.WebHost/Filters/ArmExtensionResourceFilter.cs b/src/WebJobs.Script.WebHost/Filters/ArmExtensionResourceFilter.cs
+index bbf2a6a5d..9e065ca3f 100644
+--- a/src/WebJobs.Script.WebHost/Filters/ArmExtensionResourceFilter.cs
++++ b/src/WebJobs.Script.WebHost/Filters/ArmExtensionResourceFilter.cs
+@@ -36,7 +36,7 @@ public async Task OnResourceExecutionAsync(ResourceExecutingContext context, Res
+                 if (!request.HasHeaderValue(ScriptConstants.AntaresClientAuthorizationSourceHeader, "legacy"))
+                 {
+                     var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+-                    if (controllerActionDescriptor != null && controllerActionDescriptor.MethodInfo != null &&
++                    if (controllerActionDescriptor?.MethodInfo != null &&
+                         Utility.GetHierarchicalAttributeOrNull<ResourceContainsSecretsAttribute>(controllerActionDescriptor.MethodInfo) != null)
+                     {
+                         // if the resource returned by the action contains secrets, fail the request
+diff --git a/src/WebJobs.Script.WebHost/Management/FunctionsSyncManager.cs b/src/WebJobs.Script.WebHost/Management/FunctionsSyncManager.cs
+index 75d4d9179..ab72cba5c 100644
+--- a/src/WebJobs.Script.WebHost/Management/FunctionsSyncManager.cs
++++ b/src/WebJobs.Script.WebHost/Management/FunctionsSyncManager.cs
+@@ -427,10 +427,8 @@ private async Task<DurableConfig> ReadDurableTaskConfig()
+                 if (hostJson != null &&
+                     hostJson.TryGetValue("extensions", StringComparison.OrdinalIgnoreCase, out JToken extensionsValue))
+                 {
+-                    // we will allow case insensitivity given it is likely user hand edited
+-                    // see https://github.com/Azure/azure-functions-durable-extension/issues/111
+-                    var extensions = extensionsValue as JObject;
+-                    if (extensions != null &&
++                    // we will allow case insensitivity given it is likely user hand edited                    // see https://github.com/Azure/azure-functions-durable-extension/issues/111
++                    if (extensionsValue is JObject extensions &&
+                         extensions.TryGetValue(DurableTask, StringComparison.OrdinalIgnoreCase, out JToken durableTaskValue))
+                     {
+                         durableHostConfig = durableTaskValue as JObject;
+diff --git a/src/WebJobs.Script.WebHost/Management/VirtualFileSystem.cs b/src/WebJobs.Script.WebHost/Management/VirtualFileSystem.cs
+index 5ff1932e3..3e61497bb 100644
+--- a/src/WebJobs.Script.WebHost/Management/VirtualFileSystem.cs
++++ b/src/WebJobs.Script.WebHost/Management/VirtualFileSystem.cs
+@@ -70,7 +70,7 @@ public virtual Task<HttpResponseMessage> GetItem(HttpRequest request)
+ 
+             if (info.Attributes < 0)
+             {
+-                var notFoundResponse = CreateResponse(HttpStatusCode.NotFound, string.Format("'{0}' not found.", info.FullName));
++                var notFoundResponse = CreateResponse(HttpStatusCode.NotFound, $"'{info.FullName}' not found.");
+                 return Task.FromResult(notFoundResponse);
+             }
+             else if ((info.Attributes & FileAttributes.Directory) != 0)
+@@ -149,7 +149,7 @@ public virtual Task<HttpResponseMessage> DeleteItem(HttpRequest request, bool re
+ 
+             if (dirInfo.Attributes < 0)
+             {
+-                var notFoundResponse = CreateResponse(HttpStatusCode.NotFound, string.Format("'{0}' not found.", dirInfo.FullName));
++                var notFoundResponse = CreateResponse(HttpStatusCode.NotFound, $"'{dirInfo.FullName}' not found.");
+                 return Task.FromResult(notFoundResponse);
+             }
+             else if ((dirInfo.Attributes & FileAttributes.Directory) != 0)
+@@ -301,10 +301,7 @@ protected Task<HttpResponseMessage> CreateItemGetResponse(HttpRequest request, F
+                 // including a Content-Range header with the current size.
+                 _logger.LogWarning(invalidByteRangeException.Message);
+                 var invalidByteRangeResponse = CreateResponse(HttpStatusCode.RequestedRangeNotSatisfiable, invalidByteRangeException);
+-                if (fileStream != null)
+-                {
+-                    fileStream.Close();
+-                }
++                fileStream?.Close();
+                 return Task.FromResult(invalidByteRangeResponse);
+             }
+             catch (Exception ex)
+@@ -312,10 +309,7 @@ protected Task<HttpResponseMessage> CreateItemGetResponse(HttpRequest request, F
+                 // Could not read the file
+                 _logger.LogError(ex, "Unable to read file: " + ex.Message);
+                 var errorResponse = CreateResponse(HttpStatusCode.NotFound, ex);
+-                if (fileStream != null)
+-                {
+-                    fileStream.Close();
+-                }
++                fileStream?.Close();
+                 return Task.FromResult(errorResponse);
+             }
+         }
+diff --git a/src/WebJobs.Script.WebHost/Metrics/LinuxContainerMetricsPublisher.cs b/src/WebJobs.Script.WebHost/Metrics/LinuxContainerMetricsPublisher.cs
+index 4214db840..4d59c174b 100644
+--- a/src/WebJobs.Script.WebHost/Metrics/LinuxContainerMetricsPublisher.cs
++++ b/src/WebJobs.Script.WebHost/Metrics/LinuxContainerMetricsPublisher.cs
+@@ -215,11 +215,11 @@ private async Task PublishActivity<T>(ConcurrentQueue<T> currentActivities, Bloc
+ 
+                 if (_errorCount < _maxErrorLimit)
+                 {
+-                    _logger.LogWarning(ex, string.Format("Error count {0} within threshold. Will retry this batch later.", _errorCount));
++                    _logger.LogWarning(ex, $"Error count {_errorCount} within threshold. Will retry this batch later.");
+                 }
+                 else
+                 {
+-                    _logger.LogError(ex, string.Format("LinuxContainerMetricsPublisher : Max error limit reached. Draining current activities for {0} for publish path: {1}", _containerName, publishPath));
++                    _logger.LogError(ex, $"LinuxContainerMetricsPublisher : Max error limit reached. Draining current activities for {_containerName} for publish path: {publishPath}");
+                     DrainActivities(currentActivities, activitiesToProcess);
+                     _errorCount = 0;
+                 }
+@@ -255,7 +255,7 @@ public void Start()
+             _processMonitorTimer = new Timer(OnProcessMonitorTimer, null, _timerStartDelay, _memorySnapshotInterval);
+             _metricsPublisherTimer = new Timer(OnFunctionMetricsPublishTimer, null, _timerStartDelay, _metricPublishInterval);
+ 
+-            _logger.LogInformation(string.Format("Starting metrics publisher for container : {0}. Publishing endpoint is {1}", _containerName, _requestUri));
++            _logger.LogInformation($"Starting metrics publisher for container : {_containerName}. Publishing endpoint is {_requestUri}");
+         }
+ 
+         private void OnProcessMonitorTimer(object state)
+diff --git a/src/WebJobs.Script.WebHost/Middleware/FunctionInvocationMiddleware.cs b/src/WebJobs.Script.WebHost/Middleware/FunctionInvocationMiddleware.cs
+index d95289ea3..8a61ea3cb 100644
+--- a/src/WebJobs.Script.WebHost/Middleware/FunctionInvocationMiddleware.cs
++++ b/src/WebJobs.Script.WebHost/Middleware/FunctionInvocationMiddleware.cs
+@@ -150,9 +150,8 @@ private void PopulateRouteData(HttpContext context)
+             var routeData = new Dictionary<string, object>(routingFeature.RouteData.Values);
+ 
+             // Get optional parameters that were not used and had no default
+-            Route functionRoute = routingFeature.RouteData.Routers.FirstOrDefault(r => r is Route) as Route;
+ 
+-            if (functionRoute != null)
++            if (routingFeature.RouteData.Routers.FirstOrDefault(r => r is Route) is Route functionRoute)
+             {
+                 var optionalParameters = functionRoute.ParsedTemplate.Parameters.Where(p => p.IsOptional && p.DefaultValue == null);
+ 
+diff --git a/src/WebJobs.Script.WebHost/Middleware/VirtualFileSystemMiddleware.cs b/src/WebJobs.Script.WebHost/Middleware/VirtualFileSystemMiddleware.cs
+index 442554820..ecb5a2ba0 100755
+--- a/src/WebJobs.Script.WebHost/Middleware/VirtualFileSystemMiddleware.cs
++++ b/src/WebJobs.Script.WebHost/Middleware/VirtualFileSystemMiddleware.cs
+@@ -89,10 +89,7 @@ private async Task InternalInvokeAsync(HttpContext context)
+             }
+             catch (Exception e)
+             {
+-                if (response != null)
+-                {
+-                    response.Dispose();
+-                }
++                response?.Dispose();
+ 
+                 await context.Response.WriteAsync(e.Message);
+             }
+diff --git a/src/WebJobs.Script.WebHost/Scale/TableStorageScaleMetricsRepository.cs b/src/WebJobs.Script.WebHost/Scale/TableStorageScaleMetricsRepository.cs
+index b8ecfec5f..7ac31575d 100644
+--- a/src/WebJobs.Script.WebHost/Scale/TableStorageScaleMetricsRepository.cs
++++ b/src/WebJobs.Script.WebHost/Scale/TableStorageScaleMetricsRepository.cs
+@@ -287,7 +287,7 @@ internal static TableOperation CreateMetricsInsertOperation(ScaleMetrics metrics
+ 
+         internal static string GetRowKey(DateTime now)
+         {
+-            return string.Format("{0:D19}-{1}", DateTime.MaxValue.Ticks - now.Ticks, Guid.NewGuid());
++            return $"{DateTime.MaxValue.Ticks - now.Ticks:D19}-{Guid.NewGuid()}";
+         }
+ 
+         internal async Task<IEnumerable<DynamicTableEntity>> ExecuteQuerySafeAsync(CloudTable metricsTable, TableQuery query)
+@@ -313,7 +313,7 @@ internal async Task<IEnumerable<DynamicTableEntity>> ReadRecentMetrics(CloudTabl
+             // based on the configurable max age
+             string hostId = await _hostIdProvider.GetHostIdAsync(CancellationToken.None);
+             var cuttoff = DateTime.UtcNow - _scaleOptions.ScaleMetricsMaxAge;
+-            var ticks = string.Format("{0:D19}", DateTime.MaxValue.Ticks - cuttoff.Ticks);
++            var ticks = $"{DateTime.MaxValue.Ticks - cuttoff.Ticks:D19}";
+             string filter = TableQuery.CombineFilters(
+                 TableQuery.GenerateFilterCondition(nameof(TableEntity.PartitionKey), QueryComparisons.Equal, hostId),
+                 TableOperators.And,
+diff --git a/src/WebJobs.Script.WebHost/Security/KeyManagement/BlobStorageSecretsRepository.cs b/src/WebJobs.Script.WebHost/Security/KeyManagement/BlobStorageSecretsRepository.cs
+index c00ff711a..0454b8da2 100644
+--- a/src/WebJobs.Script.WebHost/Security/KeyManagement/BlobStorageSecretsRepository.cs
++++ b/src/WebJobs.Script.WebHost/Security/KeyManagement/BlobStorageSecretsRepository.cs
+@@ -41,7 +41,7 @@ public BlobStorageSecretsRepository(string secretSentinelDirectoryPath, string a
+             }
+ 
+             _secretsBlobPath = siteSlotName.ToLowerInvariant();
+-            _hostSecretsBlobPath = string.Format("{0}/{1}", _secretsBlobPath, ScriptConstants.HostMetadataFileName);
++            _hostSecretsBlobPath = $"{_secretsBlobPath}/{ScriptConstants.HostMetadataFileName}";
+             _accountConnectionString = accountConnectionString;
+         }
+ 
+@@ -154,7 +154,7 @@ public override async Task<string[]> GetSecretSnapshots(ScriptSecretsType type,
+             BlobResultSegment segmentResult;
+             try
+             {
+-                segmentResult = await Container.ListBlobsSegmentedAsync(string.Format("{0}/{1}", _secretsBlobPath, prefix.ToLowerInvariant()), null);
++                segmentResult = await Container.ListBlobsSegmentedAsync($"{_secretsBlobPath}/{prefix.ToLowerInvariant()}", null);
+             }
+             catch (Exception e)
+             {
+@@ -168,7 +168,7 @@ private string GetSecretsBlobPath(ScriptSecretsType secretsType, string function
+         {
+             return secretsType == ScriptSecretsType.Host
+                 ? _hostSecretsBlobPath
+-                : string.Format("{0}/{1}", _secretsBlobPath, GetSecretFileName(functionName));
++                : $"{_secretsBlobPath}/{GetSecretFileName(functionName)}";
+         }
+ 
+         private async Task WriteToBlobAsync(string blobPath, string secretsContent)
+diff --git a/src/WebJobs.Script.WebHost/Security/KeyManagement/DataProtectionKeyValueConverter.cs b/src/WebJobs.Script.WebHost/Security/KeyManagement/DataProtectionKeyValueConverter.cs
+index 2a0449329..39e0c3b02 100644
+--- a/src/WebJobs.Script.WebHost/Security/KeyManagement/DataProtectionKeyValueConverter.cs
++++ b/src/WebJobs.Script.WebHost/Security/KeyManagement/DataProtectionKeyValueConverter.cs
+@@ -33,9 +33,7 @@ private Key Unprotect(Key key)
+         {
+             var resultKey = new Key(key.Name, null);
+ 
+-            var protector = _dataProtector as IPersistedDataProtector;
+-
+-            if (protector != null)
++            if (_dataProtector is IPersistedDataProtector protector)
+             {
+                 bool wasRevoked, requiresMigration;
+                 byte[] data = WebEncoders.Base64UrlDecode(key.Value);
+diff --git a/src/WebJobs.Script.WebHost/Security/KeyManagement/KeyVaultSecretsRepository.cs b/src/WebJobs.Script.WebHost/Security/KeyManagement/KeyVaultSecretsRepository.cs
+index 58179e294..ba94ef457 100644
+--- a/src/WebJobs.Script.WebHost/Security/KeyManagement/KeyVaultSecretsRepository.cs
++++ b/src/WebJobs.Script.WebHost/Security/KeyManagement/KeyVaultSecretsRepository.cs
+@@ -245,9 +245,8 @@ private string GetVaultBaseUrl()
+         public static Dictionary<string, string> GetDictionaryFromScriptSecrets(ScriptSecrets secrets, string functionName)
+         {
+             Dictionary<string, string> dic = new Dictionary<string, string>();
+-            HostSecrets hostSecrets = secrets as HostSecrets;
+-            FunctionSecrets functionSecrets = secrets as FunctionSecrets;
+-            if (hostSecrets != null)
++
++            if (secrets is HostSecrets hostSecrets)
+             {
+                 if (hostSecrets.MasterKey != null)
+                 {
+@@ -270,7 +269,7 @@ private string GetVaultBaseUrl()
+                     }
+                 }
+             }
+-            else if (functionSecrets != null)
++            else if (secrets is FunctionSecrets functionSecrets)
+             {
+                 if (functionSecrets.Keys != null)
+                 {
+diff --git a/src/WebJobs.Script.WebHost/Security/SimpleWebTokenHelper.cs b/src/WebJobs.Script.WebHost/Security/SimpleWebTokenHelper.cs
+index 7976e6780..a6bb1d48a 100644
+--- a/src/WebJobs.Script.WebHost/Security/SimpleWebTokenHelper.cs
++++ b/src/WebJobs.Script.WebHost/Security/SimpleWebTokenHelper.cs
+@@ -47,7 +47,7 @@ internal static string Encrypt(string value, byte[] key = null, IEnvironment env
+                     }
+ 
+                     // return {iv}.{swt}.{sha236(key)}
+-                    return string.Format("{0}.{1}.{2}", iv, Convert.ToBase64String(cipherStream.ToArray()), GetSHA256Base64String(aes.Key));
++                    return $"{iv}.{Convert.ToBase64String(cipherStream.ToArray())}.{GetSHA256Base64String(aes.Key)}";
+                 }
+             }
+         }
+@@ -66,7 +66,7 @@ public static string Decrypt(byte[] encryptionKey, string value)
+ 
+             if (!string.IsNullOrEmpty(base64KeyHash) && !string.Equals(GetSHA256Base64String(encryptionKey), base64KeyHash))
+             {
+-                throw new InvalidOperationException(string.Format("Key with hash {0} does not exist.", base64KeyHash));
++                throw new InvalidOperationException($"Key with hash {base64KeyHash} does not exist.");
+             }
+ 
+             using (var aes = new AesManaged { Key = encryptionKey })
+diff --git a/src/WebJobs.Script/Binding/CoreExtensionsScriptBindingProvider.cs b/src/WebJobs.Script/Binding/CoreExtensionsScriptBindingProvider.cs
+index f4ae4ad46..5e459af0f 100644
+--- a/src/WebJobs.Script/Binding/CoreExtensionsScriptBindingProvider.cs
++++ b/src/WebJobs.Script/Binding/CoreExtensionsScriptBindingProvider.cs
+@@ -74,7 +74,7 @@ public override Collection<Attribute> GetAttributes()
+                     };
+                     if (CrontabSchedule.TryParse(schedule, options) == null)
+                     {
+-                        throw new ArgumentException(string.Format("'{0}' is not a valid CRON expression.", schedule));
++                        throw new ArgumentException($"'{schedule}' is not a valid CRON expression.");
+                     }
+                 }
+ 
+diff --git a/src/WebJobs.Script/Binding/Extensibility/ScriptBindingContext.cs b/src/WebJobs.Script/Binding/Extensibility/ScriptBindingContext.cs
+index c58b658ec..e7052db35 100644
+--- a/src/WebJobs.Script/Binding/Extensibility/ScriptBindingContext.cs
++++ b/src/WebJobs.Script/Binding/Extensibility/ScriptBindingContext.cs
+@@ -131,10 +131,7 @@ private static string PrettyTypeName(Type t)
+         {
+             if (t.IsGenericType)
+             {
+-                return string.Format(
+-                    "{0}<{1}>",
+-                    t.Name.Substring(0, t.Name.LastIndexOf("`", StringComparison.Ordinal)),
+-                    string.Join(", ", t.GetGenericArguments().Select(PrettyTypeName)));
++                return $"{t.Name.Substring(0, t.Name.LastIndexOf("`", StringComparison.Ordinal))}<{string.Join(", ", t.GetGenericArguments().Select(PrettyTypeName))}>";
+             }
+ 
+             return t.Name;
+diff --git a/src/WebJobs.Script/Binding/FunctionBinding.cs b/src/WebJobs.Script/Binding/FunctionBinding.cs
+index 9b148c9ca..b6c1bb4b5 100644
+--- a/src/WebJobs.Script/Binding/FunctionBinding.cs
++++ b/src/WebJobs.Script/Binding/FunctionBinding.cs
+@@ -104,10 +104,10 @@ internal static IEnumerable ReadAsEnumerable(object value)
+                 return jArray;
+             }
+ 
+-            if (value is Stream)
++            if (value is Stream stream)
+             {
+                 // first deserialize the stream as a string
+-                ConvertStreamToValue((Stream)value, DataType.String, ref value);
++                ConvertStreamToValue(stream, DataType.String, ref value);
+             }
+ 
+             string stringValue = value as string;
+@@ -152,9 +152,9 @@ internal static async Task BindAsyncCollectorAsync<T>(BindingContext context)
+                 object converted = null;
+                 if (typeof(T) == typeof(string))
+                 {
+-                    if (value is ExpandoObject)
++                    if (value is ExpandoObject expandoObject)
+                     {
+-                        converted = Utility.ToJson((ExpandoObject)value, Formatting.None);
++                        converted = Utility.ToJson(expandoObject, Formatting.None);
+                     }
+                     else
+                     {
+@@ -163,13 +163,13 @@ internal static async Task BindAsyncCollectorAsync<T>(BindingContext context)
+                 }
+                 else if (typeof(T) == typeof(JObject))
+                 {
+-                    if (value is JObject)
++                    if (value is JObject jObject)
+                     {
+-                        converted = (JObject)value;
++                        converted = jObject;
+                     }
+-                    else if (value is ExpandoObject)
++                    else if (value is ExpandoObject expandoObject)
+                     {
+-                        converted = Utility.ToJObject((ExpandoObject)value);
++                        converted = Utility.ToJObject(expandoObject);
+                     }
+                 }
+                 else if (typeof(T) == typeof(byte[]))
+@@ -178,9 +178,9 @@ internal static async Task BindAsyncCollectorAsync<T>(BindingContext context)
+                     if (bytes == null)
+                     {
+                         string stringValue = null;
+-                        if (value is ExpandoObject)
++                        if (value is ExpandoObject expandoObject)
+                         {
+-                            stringValue = Utility.ToJson((ExpandoObject)value, Formatting.None);
++                            stringValue = Utility.ToJson(expandoObject, Formatting.None);
+                         }
+                         else
+                         {
+@@ -272,15 +272,14 @@ public static void ConvertValueToStream(object value, Stream stream)
+                 {
+                     bytes = BitConverter.GetBytes((double)value);
+                 }
+-                else if (value is JToken)
++                else if (value is JToken jToken)
+                 {
+-                    JToken jToken = (JToken)value;
+                     string json = jToken.ToString(Formatting.None);
+                     bytes = Encoding.UTF8.GetBytes(json);
+                 }
+-                else if (value is ExpandoObject)
++                else if (value is ExpandoObject expandoObject)
+                 {
+-                    string json = Utility.ToJson((ExpandoObject)value, Formatting.None);
++                    string json = Utility.ToJson(expandoObject, Formatting.None);
+                     bytes = Encoding.UTF8.GetBytes(json);
+                 }
+ 
+diff --git a/src/WebJobs.Script/Binding/Http/HttpBinding.cs b/src/WebJobs.Script/Binding/Http/HttpBinding.cs
+index 791bc53e1..d20af5542 100644
+--- a/src/WebJobs.Script/Binding/Http/HttpBinding.cs
++++ b/src/WebJobs.Script/Binding/Http/HttpBinding.cs
+@@ -40,19 +40,19 @@ public override Collection<CustomAttributeBuilder> GetCustomAttributes(Type para
+         public override Task BindAsync(BindingContext context)
+         {
+             HttpRequest request = (HttpRequest)context.TriggerValue;
+-            HttpResponseMessage invocationResponseMessage = context.Value as HttpResponseMessage;
+-            if (invocationResponseMessage != null)
++
++            if (context.Value is HttpResponseMessage invocationResponseMessage)
+             {
+                 request.HttpContext.Items[ScriptConstants.AzureFunctionsHttpResponseKey] = invocationResponseMessage;
+             }
+             else
+             {
+                 object content = context.Value;
+-                if (content is Stream)
++                if (content is Stream stream)
+                 {
+                     // for script language functions (e.g. PowerShell, BAT, etc.) the value
+                     // will be a Stream which we need to convert to string
+-                    ConvertStreamToValue((Stream)content, DataType.String, ref content);
++                    ConvertStreamToValue(stream, DataType.String, ref content);
+                 }
+ 
+                 IActionResult response = CreateResult(request, content);
+@@ -63,8 +63,7 @@ public override Task BindAsync(BindingContext context)
+ 
+         internal static IActionResult CreateResult(HttpRequest request, object content)
+         {
+-            string stringContent = content as string;
+-            if (stringContent != null)
++            if (content is string stringContent)
+             {
+                 try
+                 {
+@@ -168,10 +167,9 @@ internal static bool TryParseStatusCode(IDictionary<string, object> responseObje
+                 statusCode = Convert.ToInt32(statusValue);
+                 return true;
+             }
+-
+-            var stringValue = statusValue as string;
+             int parsedStatusCode;
+-            if (stringValue != null && int.TryParse(stringValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedStatusCode))
++
++            if (statusValue is string stringValue && int.TryParse(stringValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedStatusCode))
+             {
+                 statusCode = parsedStatusCode;
+                 return true;
+@@ -250,11 +248,11 @@ internal static void LegacySetResponse(HttpRequest request, object result)
+ 
+             if (!(result is IActionResult actionResult))
+             {
+-                if (result is Stream)
++                if (result is Stream stream)
+                 {
+                     // for script language functions (e.g. PowerShell, BAT, etc.) the value
+                     // will be a Stream which we need to convert to string
+-                    FunctionBinding.ConvertStreamToValue((Stream)result, DataType.String, ref result);
++                    FunctionBinding.ConvertStreamToValue(stream, DataType.String, ref result);
+                     actionResult = CreateResult(request, result);
+                 }
+                 else if (result is JObject)
+diff --git a/src/WebJobs.Script/Binding/Manual/ManualTriggerAttributeBindingProvider.cs b/src/WebJobs.Script/Binding/Manual/ManualTriggerAttributeBindingProvider.cs
+index 6ba8090e4..cae222d94 100644
+--- a/src/WebJobs.Script/Binding/Manual/ManualTriggerAttributeBindingProvider.cs
++++ b/src/WebJobs.Script/Binding/Manual/ManualTriggerAttributeBindingProvider.cs
+@@ -94,9 +94,9 @@ public async Task<ITriggerData> BindAsync(object value, ValueBindingContext cont
+                 {
+                     if (value != null && value.GetType() != _parameter.ParameterType)
+                     {
+-                        if (value is string)
++                        if (value is string s)
+                         {
+-                            value = JsonConvert.DeserializeObject((string)value, _parameter.ParameterType);
++                            value = JsonConvert.DeserializeObject(s, _parameter.ParameterType);
+                         }
+                         else
+                         {
+diff --git a/src/WebJobs.Script/Description/DotNet/Compilation/CSharp/CSharpCompilation.cs b/src/WebJobs.Script/Description/DotNet/Compilation/CSharp/CSharpCompilation.cs
+index 5791cf2e9..5f4d2823c 100644
+--- a/src/WebJobs.Script/Description/DotNet/Compilation/CSharp/CSharpCompilation.cs
++++ b/src/WebJobs.Script/Description/DotNet/Compilation/CSharp/CSharpCompilation.cs
+@@ -82,9 +82,7 @@ private static bool IsOrUsesAssemblyType(ITypeSymbol typeSymbol, IAssemblySymbol
+             {
+                 return true;
+             }
+-
+-            INamedTypeSymbol namedTypeSymbol = typeSymbol as INamedTypeSymbol;
+-            return namedTypeSymbol != null && namedTypeSymbol.IsGenericType
++            return typeSymbol is INamedTypeSymbol namedTypeSymbol && namedTypeSymbol.IsGenericType
+                 && namedTypeSymbol.TypeArguments.Any(t => IsOrUsesAssemblyType(t, assemblySymbol));
+         }
+ 
+diff --git a/src/WebJobs.Script/Description/DotNet/FunctionSignature.cs b/src/WebJobs.Script/Description/DotNet/FunctionSignature.cs
+index 1b0084407..fadf385c4 100644
+--- a/src/WebJobs.Script/Description/DotNet/FunctionSignature.cs
++++ b/src/WebJobs.Script/Description/DotNet/FunctionSignature.cs
+@@ -61,11 +61,7 @@ public bool Equals(FunctionSignature other)
+                 return false;
+             }
+ 
+-            if (!string.Equals(ParentTypeName, other.ParentTypeName) ||
+-                !string.Equals(MethodName, other.MethodName) ||
+-                !string.Equals(ReturnTypeName, other.ReturnTypeName) ||
+-                HasLocalTypeReference != other.HasLocalTypeReference ||
+-                _parameters.Count() != other._parameters.Count())
++            if (!string.Equals(ParentTypeName, other.ParentTypeName) || !string.Equals(MethodName, other.MethodName) || !string.Equals(ReturnTypeName, other.ReturnTypeName) || HasLocalTypeReference != other.HasLocalTypeReference || _parameters.Count() != other._parameters.Count())
+             {
+                 return false;
+             }
+diff --git a/src/WebJobs.Script/Description/DotNet/LocalSharedAssemblyProvider.cs b/src/WebJobs.Script/Description/DotNet/LocalSharedAssemblyProvider.cs
+index 70ec702cc..9c8e8ddeb 100644
+--- a/src/WebJobs.Script/Description/DotNet/LocalSharedAssemblyProvider.cs
++++ b/src/WebJobs.Script/Description/DotNet/LocalSharedAssemblyProvider.cs
+@@ -51,7 +51,7 @@ public bool TryResolveAssembly(string assemblyName, AssemblyLoadContext targetCo
+ 
+             if (_nameRegex.IsMatch(assemblyName))
+             {
+-                string assemblyPath = Path.Combine(_assembliesPath, string.Format("{0}.dll", assemblyName));
++                string assemblyPath = Path.Combine(_assembliesPath, $"{assemblyName}.dll");
+                 if (File.Exists(assemblyPath))
+                 {
+                     assembly = Assembly.LoadFrom(assemblyPath);
+diff --git a/src/WebJobs.Script/Description/DotNet/ScriptFunctionMetadataResolver.cs b/src/WebJobs.Script/Description/DotNet/ScriptFunctionMetadataResolver.cs
+index d43bdbdf6..403b5fbc7 100644
+--- a/src/WebJobs.Script/Description/DotNet/ScriptFunctionMetadataResolver.cs
++++ b/src/WebJobs.Script/Description/DotNet/ScriptFunctionMetadataResolver.cs
+@@ -108,8 +108,7 @@ private static string GetBinDirectory(string baseDirectory)
+ 
+         public override bool Equals(object other)
+         {
+-            var otherResolver = other as ScriptFunctionMetadataResolver;
+-            return otherResolver != null && string.Compare(_id, otherResolver._id, StringComparison.Ordinal) == 0;
++            return other is ScriptFunctionMetadataResolver otherResolver && string.Compare(_id, otherResolver._id, StringComparison.Ordinal) == 0;
+         }
+ 
+         public override int GetHashCode()
+diff --git a/src/WebJobs.Script/Description/FunctionDescriptor.cs b/src/WebJobs.Script/Description/FunctionDescriptor.cs
+index 28f7195d4..35a89ae1f 100644
+--- a/src/WebJobs.Script/Description/FunctionDescriptor.cs
++++ b/src/WebJobs.Script/Description/FunctionDescriptor.cs
+@@ -65,8 +65,7 @@ internal FunctionDescriptor()
+ 
+         private TAttribute GetTriggerAttributeOrNull<TAttribute>()
+         {
+-            var extensionBinding = TriggerBinding as ExtensionBinding;
+-            if (extensionBinding != null)
++            if (TriggerBinding is ExtensionBinding extensionBinding)
+             {
+                 return extensionBinding.Attributes.OfType<TAttribute>().SingleOrDefault();
+             }
+diff --git a/src/WebJobs.Script/Description/FunctionDescriptorProvider.cs b/src/WebJobs.Script/Description/FunctionDescriptorProvider.cs
+index 06a94622e..8eadf6f82 100644
+--- a/src/WebJobs.Script/Description/FunctionDescriptorProvider.cs
++++ b/src/WebJobs.Script/Description/FunctionDescriptorProvider.cs
+@@ -67,10 +67,7 @@ public virtual async Task<(bool, FunctionDescriptor)> TryCreate(FunctionMetadata
+             {
+                 Host.Logger.LogDebug(ex, $"Creating function descriptor for function {functionMetadata.Name} failed");
+                 IDisposable disposableInvoker = invoker as IDisposable;
+-                if (disposableInvoker != null)
+-                {
+-                    disposableInvoker.Dispose();
+-                }
++                disposableInvoker?.Dispose();
+ 
+                 throw;
+             }
+@@ -193,7 +190,7 @@ protected internal virtual void ValidateFunction(FunctionMetadata functionMetada
+                 // Ensure no duplicate binding names
+                 if (names.Contains(binding.Name))
+                 {
+-                    throw new InvalidOperationException(string.Format("Multiple bindings with name '{0}' discovered. Binding names must be unique.", binding.Name));
++                    throw new InvalidOperationException($"Multiple bindings with name '{binding.Name}' discovered. Binding names must be unique.");
+                 }
+                 else
+                 {
+diff --git a/src/WebJobs.Script/Description/FunctionGenerator.cs b/src/WebJobs.Script/Description/FunctionGenerator.cs
+index 8205445c9..0c660f4af 100644
+--- a/src/WebJobs.Script/Description/FunctionGenerator.cs
++++ b/src/WebJobs.Script/Description/FunctionGenerator.cs
+@@ -53,7 +53,7 @@ public static Type Generate(string functionAssemblyName, string typeName, Collec
+                     continue;
+                 }
+ 
+-                var retValue = function.Parameters.Where(x => x.Name == ScriptConstants.SystemReturnParameterName).FirstOrDefault();
++                var retValue = function.Parameters.FirstOrDefault(x => x.Name == ScriptConstants.SystemReturnParameterName);
+                 var parameters = function.Parameters.Where(x => x != retValue).ToArray();
+ 
+                 MethodBuilder methodBuilder = tb.DefineMethod(function.Name, MethodAttributes.Public | MethodAttributes.Static);
+diff --git a/src/WebJobs.Script/Description/Workers/WorkerFunctionInvoker.cs b/src/WebJobs.Script/Description/Workers/WorkerFunctionInvoker.cs
+index 5f0e527f8..b1427ac40 100644
+--- a/src/WebJobs.Script/Description/Workers/WorkerFunctionInvoker.cs
++++ b/src/WebJobs.Script/Description/Workers/WorkerFunctionInvoker.cs
+@@ -173,10 +173,10 @@ private async Task BindOutputsAsync(object input, Binder binder, ScriptInvocatio
+ 
+         private object TransformInput(object input, Dictionary<string, object> bindingData)
+         {
+-            if (input is Stream)
++            if (input is Stream stream)
+             {
+                 var dataType = _bindingMetadata.DataType ?? DataType.String;
+-                FunctionBinding.ConvertStreamToValue((Stream)input, dataType, ref input);
++                FunctionBinding.ConvertStreamToValue(stream, dataType, ref input);
+             }
+ 
+             // TODO: investigate moving POCO style binding addition to sdk
+diff --git a/src/WebJobs.Script/Diagnostics/FileWriter.cs b/src/WebJobs.Script/Diagnostics/FileWriter.cs
+index 64a9fdb13..e3c044f1a 100644
+--- a/src/WebJobs.Script/Diagnostics/FileWriter.cs
++++ b/src/WebJobs.Script/Diagnostics/FileWriter.cs
+@@ -127,10 +127,7 @@ protected virtual void Dispose(bool disposing)
+             {
+                 if (disposing)
+                 {
+-                    if (_flushTimer != null)
+-                    {
+-                        _flushTimer.Dispose();
+-                    }
++                    _flushTimer?.Dispose();
+ 
+                     // ensure any remaining logs are flushed
+                     Flush();
+diff --git a/src/WebJobs.Script/Extensions/ScriptLoggingBuilderExtensions.cs b/src/WebJobs.Script/Extensions/ScriptLoggingBuilderExtensions.cs
+index 350a3276e..1c7a1d29c 100644
+--- a/src/WebJobs.Script/Extensions/ScriptLoggingBuilderExtensions.cs
++++ b/src/WebJobs.Script/Extensions/ScriptLoggingBuilderExtensions.cs
+@@ -36,7 +36,7 @@ internal static bool Filter(string category, LogLevel actualLevel, LogLevel minL
+ 
+         private static bool IsFiltered(string category)
+         {
+-            return _filteredCategoryCache.GetOrAdd(category, c => ScriptConstants.SystemLogCategoryPrefixes.Where(p => category.StartsWith(p)).Any());
++            return _filteredCategoryCache.GetOrAdd(category, c => ScriptConstants.SystemLogCategoryPrefixes.Any(p => category.StartsWith(p)));
+         }
+ 
+         public static void AddConsoleIfEnabled(this ILoggingBuilder builder, HostBuilderContext context)
+diff --git a/src/WebJobs.Script/Host/FunctionMetadataProvider.cs b/src/WebJobs.Script/Host/FunctionMetadataProvider.cs
+index 092c95fc2..01f6cd129 100644
+--- a/src/WebJobs.Script/Host/FunctionMetadataProvider.cs
++++ b/src/WebJobs.Script/Host/FunctionMetadataProvider.cs
+@@ -112,7 +112,7 @@ internal void ValidateName(string name, bool isProxy = false)
+         {
+             if (!Utility.IsValidFunctionName(name))
+             {
+-                throw new InvalidOperationException(string.Format("'{0}' is not a valid {1} name.", name, isProxy ? "proxy" : "function"));
++                throw new InvalidOperationException($"'{name}' is not a valid {(isProxy ? "proxy" : "function")} name.");
+             }
+         }
+ 
+diff --git a/src/WebJobs.Script/Scale/HostPerformanceManager.cs b/src/WebJobs.Script/Scale/HostPerformanceManager.cs
+index 5038341d5..c6bdae581 100644
+--- a/src/WebJobs.Script/Scale/HostPerformanceManager.cs
++++ b/src/WebJobs.Script/Scale/HostPerformanceManager.cs
+@@ -160,10 +160,7 @@ internal async Task<bool> ProcessThresholdsExceeded(Collection<string> exceededC
+                 if (aggregateAverage >= adjustedThreshold)
+                 {
+                     logger?.HostCpuThresholdExceeded(aggregateAverage, adjustedThreshold);
+-                    if (exceededCounters != null)
+-                    {
+-                        exceededCounters.Add("CPU");
+-                    }
++                    exceededCounters?.Add("CPU");
+                     return true;
+                 }
+             }
+diff --git a/src/WebJobs.Script/Workers/ProcessManagement/JobObjectRegistry.cs b/src/WebJobs.Script/Workers/ProcessManagement/JobObjectRegistry.cs
+index 7683b80cc..4e4d17e94 100644
+--- a/src/WebJobs.Script/Workers/ProcessManagement/JobObjectRegistry.cs
++++ b/src/WebJobs.Script/Workers/ProcessManagement/JobObjectRegistry.cs
+@@ -33,7 +33,7 @@ public JobObjectRegistry()
+ 
+             if (!SetInformationJobObject(_handle, JobObjectInfoType.ExtendedLimitInformation, extendedInfoPtr, (uint)length))
+             {
+-                throw new Exception(string.Format("Unable to set information.  Error: {0}", Marshal.GetLastWin32Error()));
++                throw new Exception($"Unable to set information.  Error: {Marshal.GetLastWin32Error()}");
+             }
+         }
+ 
+diff --git a/src/WebJobs.Script/Workers/Rpc/FunctionRegistration/RpcFunctionInvocationDispatcher.cs b/src/WebJobs.Script/Workers/Rpc/FunctionRegistration/RpcFunctionInvocationDispatcher.cs
+index ed8e95e64..d197b8635 100644
+--- a/src/WebJobs.Script/Workers/Rpc/FunctionRegistration/RpcFunctionInvocationDispatcher.cs
++++ b/src/WebJobs.Script/Workers/Rpc/FunctionRegistration/RpcFunctionInvocationDispatcher.cs
+@@ -171,13 +171,13 @@ public async Task InitializeAsync(IEnumerable<FunctionMetadata> functions, Cance
+                 return;
+             }
+ 
+-            if (functions == null || functions.Count() == 0)
++            if (functions == null || !functions.Any())
+             {
+                 // do not initialize function dispatcher if there are no functions
+                 return;
+             }
+ 
+-            var workerConfig = _workerConfigs.Where(c => c.Description.Language.Equals(_workerRuntime, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
++            var workerConfig = _workerConfigs.FirstOrDefault(c => c.Description.Language.Equals(_workerRuntime, StringComparison.OrdinalIgnoreCase));
+             if (workerConfig == null)
+             {
+                 // Only throw if workerConfig is null AND some functions have been found.
+@@ -213,7 +213,7 @@ public async Task InitializeAsync(IEnumerable<FunctionMetadata> functions, Cance
+                             }
+                         }
+                     }
+-                    StartWorkerProcesses(webhostLanguageWorkerChannels.Count(), InitializeWebhostLanguageWorkerChannel);
++                    StartWorkerProcesses(webhostLanguageWorkerChannels.Count, InitializeWebhostLanguageWorkerChannel);
+                     SetFunctionDispatcherStateToInitializedAndLog();
+                 }
+                 else
+@@ -367,7 +367,7 @@ private async Task DisposeAndRestartWorkerChannel(string runtime, string workerI
+             if (ShouldRestartWorkerChannel(runtime, isWebHostChannelDisposed, isJobHostChannelDisposed))
+             {
+                 // Set state to "WorkerProcessRestarting" if there are no other workers to handle work
+-                if ((await GetInitializedWorkerChannelsAsync()).Count() == 0)
++                if (!(await GetInitializedWorkerChannelsAsync()).Any())
+                 {
+                     State = FunctionInvocationDispatcherState.WorkerProcessRestarting;
+                     _logger.LogDebug("No initialized worker channels for runtime '{runtime}'. Delaying future invocations", runtime);
+@@ -417,7 +417,7 @@ private async Task RestartWorkerChannel(string runtime)
+                     }
+                 }
+             }
+-            else if (_jobHostLanguageWorkerChannelManager.GetChannels().Count() == 0)
++            else if (!_jobHostLanguageWorkerChannelManager.GetChannels().Any())
+             {
+                 _logger.LogError("Exceeded language worker restart retry count for runtime:{runtime}. Shutting down and proactively recycling the Functions Host to recover", runtime);
+                 _applicationLifetime.StopApplication();
+diff --git a/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/MemoryMappedFileAccessorUnix.cs b/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/MemoryMappedFileAccessorUnix.cs
+index 3dfb3b0d5..63dcd6641 100644
+--- a/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/MemoryMappedFileAccessorUnix.cs
++++ b/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/MemoryMappedFileAccessorUnix.cs
+@@ -111,10 +111,7 @@ public override bool TryOpen(string mapName, out MemoryMappedFile mmf)
+ 
+         public override void Delete(string mapName, MemoryMappedFile mmf)
+         {
+-            if (mmf != null)
+-            {
+-                mmf.Dispose();
+-            }
++            mmf?.Dispose();
+ 
+             try
+             {
+diff --git a/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/MemoryMappedFileAccessorWindows.cs b/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/MemoryMappedFileAccessorWindows.cs
+index 0bbf567e0..6974f50c3 100644
+--- a/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/MemoryMappedFileAccessorWindows.cs
++++ b/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/MemoryMappedFileAccessorWindows.cs
+@@ -79,10 +79,7 @@ public override bool TryOpen(string mapName, out MemoryMappedFile mmf)
+ 
+         public override void Delete(string mapName, MemoryMappedFile mmf)
+         {
+-            if (mmf != null)
+-            {
+-                mmf.Dispose();
+-            }
++            mmf?.Dispose();
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/SharedMemoryMap.cs b/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/SharedMemoryMap.cs
+index a703a95c0..ed3840d44 100644
+--- a/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/SharedMemoryMap.cs
++++ b/src/WebJobs.Script/Workers/SharedMemoryDataTransfer/SharedMemoryMap.cs
+@@ -173,10 +173,7 @@ public void Dispose(bool deleteFile)
+                 _mapAccessor.Delete(_mapName, _memoryMappedFile);
+             }
+ 
+-            if (_memoryMappedFile != null)
+-            {
+-                _memoryMappedFile.Dispose();
+-            }
++            _memoryMappedFile?.Dispose();
+         }
+ 
+         public void Dispose()
+diff --git a/test/WebJobs.Script.Tests.Integration/ApplicationInsights/ApplicationInsightsEndToEndTestsBase.cs b/test/WebJobs.Script.Tests.Integration/ApplicationInsights/ApplicationInsightsEndToEndTestsBase.cs
+index 146e6821e..6aca47bb5 100644
+--- a/test/WebJobs.Script.Tests.Integration/ApplicationInsights/ApplicationInsightsEndToEndTestsBase.cs
++++ b/test/WebJobs.Script.Tests.Integration/ApplicationInsights/ApplicationInsightsEndToEndTestsBase.cs
+@@ -72,8 +72,8 @@ public async Task Validate_Manual()
+                     // Do some additional metric validation
+                     MetricTelemetry metric = _fixture.Channel.Telemetries
+                         .OfType<MetricTelemetry>()
+-                        .Where(t => GetInvocationId(t) == invocationId)
+-                        .Single();
++                        .Single(t => GetInvocationId(t) == invocationId)
++;
+                     ValidateMetric(metric, invocationId, functionName);
+                 }
+             }
+@@ -125,8 +125,8 @@ private async Task RunHttpTest(string functionName, string scenario, HttpStatusC
+             // Perform some additional validation on HTTP properties
+             RequestTelemetry requestTelemetry = _fixture.Channel.Telemetries
+                 .OfType<RequestTelemetry>()
+-                .Where(t => GetInvocationId(t) == invocationId)
+-                .Single();
++                .Single(t => GetInvocationId(t) == invocationId)
++;
+ 
+             Assert.Equal(((int)expectedStatusCode).ToString(), requestTelemetry.ResponseCode);
+             Assert.Equal("POST", requestTelemetry.Properties["HttpMethod"]);
+@@ -140,8 +140,8 @@ private async Task<string> ValidateEndToEndTestAsync(string functionName, string
+             // function's invocation id.
+             TraceTelemetry trace = _fixture.Channel.Telemetries
+                     .OfType<TraceTelemetry>()
+-                    .Where(t => t.Message.Contains(functionTrace))
+-                    .Single();
++                    .Single(t => t.Message.Contains(functionTrace))
++;
+ 
+             // functions need to log JSON that contains the invocationId and trace
+             JObject logPayload = JObject.Parse(trace.Message);
+@@ -190,8 +190,8 @@ private async Task<string> ValidateEndToEndTestAsync(string functionName, string
+             {
+                 requestTelemetry = _fixture.Channel.Telemetries
+                    .OfType<RequestTelemetry>()
+-                   .Where(t => GetInvocationId(t) == invocationId)
+-                   .SingleOrDefault();
++                   .SingleOrDefault(t => GetInvocationId(t) == invocationId)
++;
+ 
+                 return requestTelemetry != null;
+             });
+diff --git a/test/WebJobs.Script.Tests.Integration/Diagnostics/MetricsEventManagerTests.cs b/test/WebJobs.Script.Tests.Integration/Diagnostics/MetricsEventManagerTests.cs
+index 569a64e5f..b96a543d5 100644
+--- a/test/WebJobs.Script.Tests.Integration/Diagnostics/MetricsEventManagerTests.cs
++++ b/test/WebJobs.Script.Tests.Integration/Diagnostics/MetricsEventManagerTests.cs
+@@ -422,7 +422,7 @@ public async Task TimerFlush_MultipleEventsQueued_EmitsExpectedEvents()
+ 
+             _metricsEventManager.TimerFlush(null);
+ 
+-            Assert.Equal(expectedEventCount, _events.Count());
++            Assert.Equal(expectedEventCount, _events.Count);
+ 
+             SystemMetricEvent evt = _events.Single(p => p.EventName == "event1");
+             Assert.True(evt.Average > 0);
+@@ -501,7 +501,7 @@ public void Dispose_FlushesQueuedEvents()
+ 
+             _metricsEventManager.Dispose();
+ 
+-            Assert.Equal(3, _events.Count());
++            Assert.Equal(3, _events.Count);
+             Assert.Equal(0, _metricsEventManager.QueuedEvents.Count);
+         }
+ 
+@@ -602,12 +602,10 @@ public async Task MetricsEventManager_MultipleConcurrentLongFunctionExecutions()
+             // All events should have the same executionId
+             var invalidArgsList = _functionExecutionEventArguments.Where(e => e.ExecutionId != _functionExecutionEventArguments[0].ExecutionId).ToList();
+             Assert.True(invalidArgsList.Count == 0,
+-                string.Format("There are events with different execution ids. List:{0} Invalid entries:{1}",
+-                    SerializeFunctionExecutionEventArguments(_functionExecutionEventArguments),
+-                    SerializeFunctionExecutionEventArguments(invalidArgsList)));
++                $"There are events with different execution ids. List:{SerializeFunctionExecutionEventArguments(_functionExecutionEventArguments)} Invalid entries:{SerializeFunctionExecutionEventArguments(invalidArgsList)}");
+ 
+             Assert.True(_functionExecutionEventArguments.Count >= concurrency * 2,
+-                string.Format("Each function invocation should emit atleast two etw events. List:{0}", SerializeFunctionExecutionEventArguments(_functionExecutionEventArguments)));
++                $"Each function invocation should emit atleast two etw events. List:{SerializeFunctionExecutionEventArguments(_functionExecutionEventArguments)}");
+ 
+             var uniqueInvocationIds = _functionExecutionEventArguments.Select(i => i.InvocationId).Distinct().ToList();
+ 
+@@ -617,9 +615,7 @@ public async Task MetricsEventManager_MultipleConcurrentLongFunctionExecutions()
+                         || !_functionExecutionEventArguments.Exists(arg => arg.InvocationId == i && arg.ExecutionStage == ExecutionStage.InProgress.ToString())).ToList();
+ 
+             Assert.True(invalidInvocationIds.Count == 0,
+-                string.Format("Each invocation should have atleast one 'InProgress' event. Invalid invocation ids:{0} List:{1}",
+-                    string.Join(",", invalidInvocationIds),
+-                    SerializeFunctionExecutionEventArguments(_functionExecutionEventArguments)));
++                $"Each invocation should have atleast one 'InProgress' event. Invalid invocation ids:{string.Join(",", invalidInvocationIds)} List:{SerializeFunctionExecutionEventArguments(_functionExecutionEventArguments)}");
+         }
+ 
+         [Fact]
+@@ -753,7 +749,7 @@ private static void ValidateFunctionExecutionEventArgumentsList(List<FunctionExe
+         {
+             Assert.True(
+                 ValidateFunctionExecutionEventArgumentsList(list, noOfFuncExecutions, out FunctionExecutionEventArguments invalidElement, out string errorMessage),
+-                string.Format("ErrorMessage:{0} InvalidElement:{1} List:{2}", errorMessage, invalidElement?.ToString(), SerializeFunctionExecutionEventArguments(list)));
++                $"ErrorMessage:{errorMessage} InvalidElement:{invalidElement?.ToString()} List:{SerializeFunctionExecutionEventArguments(list)}");
+         }
+ 
+         private static bool ValidateFunctionExecutionEventArgumentsList(List<FunctionExecutionEventArguments> list, int noOfFuncExecutions, out FunctionExecutionEventArguments invalidElement, out string errorMessage)
+@@ -829,7 +825,7 @@ private static bool ValidateFunctionExecutionEventArgumentsList(List<FunctionExe
+                             || relatedEventIds.Count > maxEventsExpected))
+                         {
+                             invalidElement = lastEvent;
+-                            errorMessage = string.Format("Long running function doesn't contain expected number of Etw events. Minimum:{0} Maximum:{1} Actual:{2}", minEventsExpected, maxEventsExpected, relatedEventIds.Count);
++                            errorMessage = $"Long running function doesn't contain expected number of Etw events. Minimum:{minEventsExpected} Maximum:{maxEventsExpected} Actual:{relatedEventIds.Count}";
+                             return false;
+                         }
+ 
+@@ -851,14 +847,14 @@ private static bool ValidateFunctionExecutionEventArgumentsList(List<FunctionExe
+             if (unprocessedEvents.Count > 0)
+             {
+                 invalidElement = unprocessedEvents.FirstOrDefault()?.EventArguments;
+-                errorMessage = string.Format("There are unprocessed events: {0}", SerializeFunctionExecutionEventArguments(unprocessedEvents.Select(e => e.EventArguments).ToList()));
++                errorMessage = $"There are unprocessed events: {SerializeFunctionExecutionEventArguments(unprocessedEvents.Select(e => e.EventArguments).ToList())}";
+                 return false;
+             }
+ 
+             if (hashes.Count != noOfFuncExecutions)
+             {
+                 invalidElement = unprocessedEvents.FirstOrDefault()?.EventArguments;
+-                errorMessage = string.Format("No of finished events does not match with number of function executions: Expected:{0} Actual:{1}", noOfFuncExecutions, hashes.Count);
++                errorMessage = $"No of finished events does not match with number of function executions: Expected:{noOfFuncExecutions} Actual:{hashes.Count}";
+                 return false;
+             }
+ 
+@@ -953,15 +949,7 @@ internal FunctionExecutionEventArguments(string executionId, string siteName, in
+ 
+             public override string ToString()
+             {
+-                return string.Format("ExecutionId:{0} SiteName:{1} Concurrency:{2} FunctionName:{3} InvocationId:{4} ExecutionStage:{5} ExecutionTimeSpan:{6} Success:{7}",
+-                    ExecutionId,
+-                    SiteName,
+-                    Concurrency,
+-                    FunctionName,
+-                    InvocationId,
+-                    ExecutionStage,
+-                    ExecutionTimeSpan,
+-                    Success);
++                return $"ExecutionId:{ExecutionId} SiteName:{SiteName} Concurrency:{Concurrency} FunctionName:{FunctionName} InvocationId:{InvocationId} ExecutionStage:{ExecutionStage} ExecutionTimeSpan:{ExecutionTimeSpan} Success:{Success}";
+             }
+         }
+     }
+diff --git a/test/WebJobs.Script.Tests.Integration/Host/SecretsRepositoryTests.cs b/test/WebJobs.Script.Tests.Integration/Host/SecretsRepositoryTests.cs
+index b5c97abe4..2b53fd294 100644
+--- a/test/WebJobs.Script.Tests.Integration/Host/SecretsRepositoryTests.cs
++++ b/test/WebJobs.Script.Tests.Integration/Host/SecretsRepositoryTests.cs
+@@ -471,7 +471,7 @@ public void Dispose()
+ 
+             private string RelativeBlobPath(string functionNameOrHost)
+             {
+-                return string.Format("{0}/{1}.json", TestSiteName.ToLowerInvariant(), functionNameOrHost.ToLowerInvariant());
++                return $"{TestSiteName.ToLowerInvariant()}/{functionNameOrHost.ToLowerInvariant()}.json";
+             }
+ 
+             private string GetKeyVaultBaseUrl()
+diff --git a/test/WebJobs.Script.Tests.Integration/Host/StandbyManager/StandbyManagerE2ETests_Linux.cs b/test/WebJobs.Script.Tests.Integration/Host/StandbyManager/StandbyManagerE2ETests_Linux.cs
+index 4342d8428..e8dd5cf9a 100644
+--- a/test/WebJobs.Script.Tests.Integration/Host/StandbyManager/StandbyManagerE2ETests_Linux.cs
++++ b/test/WebJobs.Script.Tests.Integration/Host/StandbyManager/StandbyManagerE2ETests_Linux.cs
+@@ -107,7 +107,7 @@ public async Task StandbyModeE2E_LinuxContainer()
+ 
+             // verify the expected logs
+             var logLines = _loggerProvider.GetAllLogMessages().Where(p => p.FormattedMessage != null).Select(p => p.FormattedMessage).ToArray();
+-            Assert.True(logLines.Count(p => p.Contains("Stopping JobHost")) >= 1);
++            Assert.True(logLines.Any(p => p.Contains("Stopping JobHost")));
+             Assert.Equal(1, logLines.Count(p => p.Contains("Creating StandbyMode placeholder function directory")));
+             Assert.Equal(1, logLines.Count(p => p.Contains("StandbyMode placeholder function directory created")));
+             Assert.Equal(2, logLines.Count(p => p.Contains("Host is in standby mode")));
+diff --git a/test/WebJobs.Script.Tests.Integration/Host/StandbyManager/StandbyManagerE2ETests_Windows.cs b/test/WebJobs.Script.Tests.Integration/Host/StandbyManager/StandbyManagerE2ETests_Windows.cs
+index 6e5da4297..4288abefa 100644
+--- a/test/WebJobs.Script.Tests.Integration/Host/StandbyManager/StandbyManagerE2ETests_Windows.cs
++++ b/test/WebJobs.Script.Tests.Integration/Host/StandbyManager/StandbyManagerE2ETests_Windows.cs
+@@ -66,7 +66,7 @@ public async Task StandbyModeE2E_Dotnet()
+             // verify the rest of the expected logs
+             logLines = _loggerProvider.GetAllLogMessages().Where(p => p.FormattedMessage != null).Select(p => p.FormattedMessage).ToArray();
+ 
+-            Assert.True(logLines.Count(p => p.Contains("Stopping JobHost")) >= 1);
++            Assert.True(logLines.Any(p => p.Contains("Stopping JobHost")));
+             Assert.Equal(1, logLines.Count(p => p.Contains("Creating StandbyMode placeholder function directory")));
+             Assert.Equal(1, logLines.Count(p => p.Contains("StandbyMode placeholder function directory created")));
+             Assert.Equal(2, logLines.Count(p => p.Contains("Host is in standby mode")));
+@@ -188,7 +188,7 @@ private async Task Verify_StandbyModeE2E_Java()
+             Assert.Equal(javaProcessesBefore.Count(), javaProcessesAfter.Count());
+ 
+             //Verify atleast one java process is running
+-            Assert.True(javaProcessesAfter.Count() >= 1);
++            Assert.True(javaProcessesAfter.Any());
+ 
+             // Verify Java same java process is used after host restart
+             var result = javaProcessesBefore.Where(pId1 => !javaProcessesAfter.Any(pId2 => pId2 == pId1));
+@@ -230,7 +230,7 @@ private async Task Verify_StandbyModeE2E_Node()
+             Assert.Equal(nodeProcessesBefore.Count(), nodeProcessesAfter.Count());
+ 
+             //Verify atleast one java process is running
+-            Assert.True(nodeProcessesAfter.Count() >= 1);
++            Assert.True(nodeProcessesAfter.Any());
+ 
+             // Verify Java same java process is used after host restart
+             var result = nodeProcessesBefore.Where(pId1 => !nodeProcessesAfter.Any(pId2 => pId2 == pId1));
+diff --git a/test/WebJobs.Script.Tests.Integration/Scale/TableStorageScaleMetricsRepositoryTests.cs b/test/WebJobs.Script.Tests.Integration/Scale/TableStorageScaleMetricsRepositoryTests.cs
+index 03059ef32..bf96cc3ae 100644
+--- a/test/WebJobs.Script.Tests.Integration/Scale/TableStorageScaleMetricsRepositoryTests.cs
++++ b/test/WebJobs.Script.Tests.Integration/Scale/TableStorageScaleMetricsRepositoryTests.cs
+@@ -395,7 +395,7 @@ public async Task QueueBackgroundMetricsTablePurge_PurgesTables()
+             await TestHelpers.Await(async () =>
+             {
+                 tables = await _repository.ListOldMetricsTablesAsync();
+-                return tables.Count() == 0;
++                return !tables.Any();
+             }, timeout: 5000);
+         }
+ 
+diff --git a/test/WebJobs.Script.Tests.Integration/ScriptHostEndToEnd/ScriptHostEndToEndTestFixture.cs b/test/WebJobs.Script.Tests.Integration/ScriptHostEndToEnd/ScriptHostEndToEndTestFixture.cs
+index f50f11512..e05e39baf 100644
+--- a/test/WebJobs.Script.Tests.Integration/ScriptHostEndToEnd/ScriptHostEndToEndTestFixture.cs
++++ b/test/WebJobs.Script.Tests.Integration/ScriptHostEndToEnd/ScriptHostEndToEndTestFixture.cs
+@@ -177,7 +177,7 @@ public async Task InitializeAsync()
+ 
+         public async Task<CloudQueue> GetNewQueue(string queueName)
+         {
+-            var queue = QueueClient.GetQueueReference(string.Format("{0}-{1}", queueName, FixtureId));
++            var queue = QueueClient.GetQueueReference($"{queueName}-{FixtureId}");
+             await queue.CreateIfNotExistsAsync();
+             await queue.ClearAsync();
+             return queue;
+@@ -185,7 +185,7 @@ public async Task<CloudQueue> GetNewQueue(string queueName)
+ 
+         protected virtual async Task CreateTestStorageEntities()
+         {
+-            TestQueue = QueueClient.GetQueueReference(string.Format("test-input-{0}", FixtureId));
++            TestQueue = QueueClient.GetQueueReference($"test-input-{FixtureId}");
+             await TestQueue.CreateIfNotExistsAsync();
+             await TestQueue.ClearAsync();
+ 
+@@ -193,14 +193,14 @@ protected virtual async Task CreateTestStorageEntities()
+             MobileTablesQueue = QueueClient.GetQueueReference("mobiletables-input");
+             await MobileTablesQueue.CreateIfNotExistsAsync(); // do not clear this queue since it is currently shared between fixtures
+ 
+-            TestInputContainer = BlobClient.GetContainerReference(string.Format("test-input-{0}", FixtureId));
++            TestInputContainer = BlobClient.GetContainerReference($"test-input-{FixtureId}");
+             await TestInputContainer.CreateIfNotExistsAsync();
+ 
+             // Processing a large number of blobs on startup can take a while,
+             // so let's start with an empty container.
+             await TestHelpers.ClearContainerAsync(TestInputContainer);
+ 
+-            TestOutputContainer = BlobClient.GetContainerReference(string.Format("test-output-{0}", FixtureId));
++            TestOutputContainer = BlobClient.GetContainerReference($"test-output-{FixtureId}");
+             await TestOutputContainer.CreateIfNotExistsAsync();
+             await TestHelpers.ClearContainerAsync(TestOutputContainer);
+ 
+@@ -235,7 +235,7 @@ public async Task DeleteEntities(CloudTable table, string partition = null)
+             TableQuery query = new TableQuery();
+             if (partition != null)
+             {
+-                query.FilterString = string.Format("PartitionKey eq '{0}'", partition);
++                query.FilterString = $"PartitionKey eq '{partition}'";
+             }
+ 
+             var entities = await table.ExecuteQuerySegmentedAsync(query, null);
+diff --git a/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/EndToEndTestFixture.cs b/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/EndToEndTestFixture.cs
+index 18eb73a76..c593971d1 100644
+--- a/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/EndToEndTestFixture.cs
++++ b/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/EndToEndTestFixture.cs
+@@ -166,7 +166,7 @@ public virtual void ConfigureWebHost(IServiceCollection services)
+ 
+         public async Task<CloudQueue> GetNewQueue(string queueName)
+         {
+-            var queue = QueueClient.GetQueueReference(string.Format("{0}-{1}", queueName, FixtureId));
++            var queue = QueueClient.GetQueueReference($"{queueName}-{FixtureId}");
+             await queue.CreateIfNotExistsAsync();
+             await queue.ClearAsync();
+             return queue;
+@@ -174,7 +174,7 @@ public async Task<CloudQueue> GetNewQueue(string queueName)
+ 
+         protected virtual async Task CreateTestStorageEntities()
+         {
+-            TestQueue = QueueClient.GetQueueReference(string.Format("test-input-{0}", FixtureId));
++            TestQueue = QueueClient.GetQueueReference($"test-input-{FixtureId}");
+             await TestQueue.CreateIfNotExistsAsync();
+             await TestQueue.ClearAsync();
+ 
+@@ -182,14 +182,14 @@ protected virtual async Task CreateTestStorageEntities()
+             MobileTablesQueue = QueueClient.GetQueueReference("mobiletables-input");
+             await MobileTablesQueue.CreateIfNotExistsAsync(); // do not clear this queue since it is currently shared between fixtures
+ 
+-            TestInputContainer = BlobClient.GetContainerReference(string.Format("test-input-{0}", FixtureId));
++            TestInputContainer = BlobClient.GetContainerReference($"test-input-{FixtureId}");
+             await TestInputContainer.CreateIfNotExistsAsync();
+ 
+             // Processing a large number of blobs on startup can take a while,
+             // so let's start with an empty container.
+             await TestHelpers.ClearContainerAsync(TestInputContainer);
+ 
+-            TestOutputContainer = BlobClient.GetContainerReference(string.Format("test-output-{0}", FixtureId));
++            TestOutputContainer = BlobClient.GetContainerReference($"test-output-{FixtureId}");
+             await TestOutputContainer.CreateIfNotExistsAsync();
+             await TestHelpers.ClearContainerAsync(TestOutputContainer);
+ 
+@@ -224,7 +224,7 @@ public async Task DeleteEntities(CloudTable table, string partition = null)
+             TableQuery query = new TableQuery();
+             if (partition != null)
+             {
+-                query.FilterString = string.Format("PartitionKey eq '{0}'", partition);
++                query.FilterString = $"PartitionKey eq '{partition}'";
+             }
+ 
+             var entities = await table.ExecuteQuerySegmentedAsync(query, null);
+diff --git a/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/SamplesEndToEndTests_CSharp.cs b/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/SamplesEndToEndTests_CSharp.cs
+index 2c5149a85..eb3fa95d5 100644
+--- a/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/SamplesEndToEndTests_CSharp.cs
++++ b/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/SamplesEndToEndTests_CSharp.cs
+@@ -261,26 +261,26 @@ public async Task HostLog_AdminLevel_Succeeds()
+                 {
+                     Level = System.Diagnostics.TraceLevel.Verbose,
+                     Source = "ScaleController",
+-                    Message = string.Format("Test Verbose log {0}", Guid.NewGuid().ToString())
++                    Message = $"Test Verbose log {Guid.NewGuid().ToString()}"
+                 },
+                 new HostLogEntry
+                 {
+                     Level = System.Diagnostics.TraceLevel.Info,
+                     Source = "ScaleController",
+-                    Message = string.Format("Test Info log {0}", Guid.NewGuid().ToString())
++                    Message = $"Test Info log {Guid.NewGuid().ToString()}"
+                 },
+                 new HostLogEntry
+                 {
+                     Level = System.Diagnostics.TraceLevel.Warning,
+                     Source = "ScaleController",
+-                    Message = string.Format("Test Warning log {0}", Guid.NewGuid().ToString())
++                    Message = $"Test Warning log {Guid.NewGuid().ToString()}"
+                 },
+                 new HostLogEntry
+                 {
+                     Level = System.Diagnostics.TraceLevel.Error,
+                     Source = "ScaleController",
+                     FunctionName = "TestFunction",
+-                    Message = string.Format("Test Error log {0}", Guid.NewGuid().ToString())
++                    Message = $"Test Error log {Guid.NewGuid().ToString()}"
+                 }
+             };
+             var serializer = new JsonSerializer();
+@@ -311,7 +311,7 @@ public async Task HostLog_SingletonLog_ReturnsBadRequest()
+             {
+                 Level = System.Diagnostics.TraceLevel.Verbose,
+                 Source = "ScaleController",
+-                Message = string.Format("Test Verbose log {0}", Guid.NewGuid().ToString())
++                Message = $"Test Verbose log {Guid.NewGuid().ToString()}"
+             };
+             request.Content = new StringContent(log.ToString());
+             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+diff --git a/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/SpecializationE2ETests.cs b/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/SpecializationE2ETests.cs
+index 5002c2868..40221a186 100644
+--- a/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/SpecializationE2ETests.cs
++++ b/test/WebJobs.Script.Tests.Integration/WebHostEndToEnd/SpecializationE2ETests.cs
+@@ -129,8 +129,8 @@ public async Task ApplicationInsights_InvocationsContainDifferentOperationIds()
+ 
+                 var startupRequest = channel.Telemetries
+                     .OfType<RequestTelemetry>()
+-                    .Where(p => p.Name == "FunctionExecutionContext")
+-                    .Single();
++                    .Single(p => p.Name == "FunctionExecutionContext")
++;
+ 
+                 // Make sure that auto-Http tracking worked with this request.
+                 Assert.Equal("200", startupRequest.ResponseCode);
+diff --git a/test/WebJobs.Script.Tests.Shared/TestNameResolver.cs b/test/WebJobs.Script.Tests.Shared/TestNameResolver.cs
+index 37a530a1c..f37afa771 100644
+--- a/test/WebJobs.Script.Tests.Shared/TestNameResolver.cs
++++ b/test/WebJobs.Script.Tests.Shared/TestNameResolver.cs
+@@ -26,7 +26,7 @@ public string Resolve(string name)
+             {
+                 return value;
+             }
+-            throw new NotSupportedException(string.Format("Cannot resolve name: '{0}'", name));
++            throw new NotSupportedException($"Cannot resolve name: '{name}'");
+         }
+     }
+ }
+diff --git a/test/WebJobs.Script.Tests/Controllers/Admin/HostControllerTests.cs b/test/WebJobs.Script.Tests/Controllers/Admin/HostControllerTests.cs
+index c5a727055..92d3f7403 100644
+--- a/test/WebJobs.Script.Tests/Controllers/Admin/HostControllerTests.cs
++++ b/test/WebJobs.Script.Tests/Controllers/Admin/HostControllerTests.cs
+@@ -76,13 +76,13 @@ public async Task SetState_Succeeds(string desiredState, ScriptHostState current
+ 
+             var result = await _hostController.SetState(desiredState);
+             var resultStatus = HttpStatusCode.InternalServerError;
+-            if (result is StatusCodeResult)
++            if (result is StatusCodeResult statusCodeResult)
+             {
+-                resultStatus = (HttpStatusCode)((StatusCodeResult)result).StatusCode;
++                resultStatus = (HttpStatusCode)statusCodeResult.StatusCode;
+             }
+-            else if (result is ObjectResult)
++            else if (result is ObjectResult objectResult)
+             {
+-                resultStatus = (HttpStatusCode)((ObjectResult)result).StatusCode;
++                resultStatus = (HttpStatusCode)objectResult.StatusCode;
+             }
+             else
+             {
+diff --git a/test/WebJobs.Script.Tests/Description/FunctionGeneratorTests.cs b/test/WebJobs.Script.Tests/Description/FunctionGeneratorTests.cs
+index 84606873e..c20aa07df 100644
+--- a/test/WebJobs.Script.Tests/Description/FunctionGeneratorTests.cs
++++ b/test/WebJobs.Script.Tests/Description/FunctionGeneratorTests.cs
+@@ -112,9 +112,9 @@ public async Task Generate_WithReturnValue(string userFuncName, Type generatedMe
+         internal static async Task<object> Unwrap(object result)
+         {
+             // unwrap the task
+-            if (result is Task)
++            if (result is Task task)
+             {
+-                result = await ((Task)result).ContinueWith(t => GetTaskResult(t), TaskContinuationOptions.ExecuteSynchronously);
++                result = await task.ContinueWith(t => GetTaskResult(t), TaskContinuationOptions.ExecuteSynchronously);
+             }
+ 
+             return result;
+diff --git a/test/WebJobs.Script.Tests/Diagnostics/FileWriterTests.cs b/test/WebJobs.Script.Tests/Diagnostics/FileWriterTests.cs
+index 466cf50a1..9271c227f 100644
+--- a/test/WebJobs.Script.Tests/Diagnostics/FileWriterTests.cs
++++ b/test/WebJobs.Script.Tests/Diagnostics/FileWriterTests.cs
+@@ -58,7 +58,7 @@ public async Task SetLogFile_PurgesOldLogFiles()
+             var logFiles = new List<FileInfo>();
+             for (int i = 0; i < 5; i++)
+             {
+-                string fileName = string.Format("{0}-{1}.log", i, FileWriter.GetInstanceId());
++                string fileName = $"{i}-{FileWriter.GetInstanceId()}.log";
+                 string path = Path.Combine(_logFilePath, fileName);
+                 File.WriteAllText(path, "Test Logs");
+                 logFiles.Add(new FileInfo(path));
+diff --git a/test/WebJobs.Script.Tests/FunctionMetadataProviderTests.cs b/test/WebJobs.Script.Tests/FunctionMetadataProviderTests.cs
+index 2da2c348c..eed6d6349 100644
+--- a/test/WebJobs.Script.Tests/FunctionMetadataProviderTests.cs
++++ b/test/WebJobs.Script.Tests/FunctionMetadataProviderTests.cs
+@@ -108,7 +108,7 @@ public void ValidateFunctionName_ThrowsOnInvalidName(string functionName)
+                 metadataProvider.ValidateName(functionName);
+             });
+ 
+-            Assert.Equal(string.Format("'{0}' is not a valid function name.", functionName), ex.Message);
++            Assert.Equal($"'{functionName}' is not a valid function name.", ex.Message);
+         }
+ 
+         [Theory]
+diff --git a/test/WebJobs.Script.Tests/HttpWorker/DefaultHttpWorkerServiceTests.cs b/test/WebJobs.Script.Tests/HttpWorker/DefaultHttpWorkerServiceTests.cs
+index 5220d78fe..99c4f3ea3 100644
+--- a/test/WebJobs.Script.Tests/HttpWorker/DefaultHttpWorkerServiceTests.cs
++++ b/test/WebJobs.Script.Tests/HttpWorker/DefaultHttpWorkerServiceTests.cs
+@@ -85,7 +85,7 @@ public async Task ProcessDefaultInvocationRequest_Succeeds()
+ 
+             var expectedHttpScriptInvocationResult = HttpWorkerTestUtilities.GetTestHttpScriptInvocationResult();
+             var testLogs = _functionLogger.GetLogMessages();
+-            Assert.True(testLogs.Count() == expectedHttpScriptInvocationResult.Logs.Count());
++            Assert.True(testLogs.Count == expectedHttpScriptInvocationResult.Logs.Count());
+             Assert.True(testLogs.All(m => m.FormattedMessage.Contains("invocation log")));
+             Assert.Equal(expectedHttpScriptInvocationResult.Outputs.Count(), invocationResult.Outputs.Count());
+             Assert.Equal(expectedHttpScriptInvocationResult.ReturnValue, invocationResult.Return);
+@@ -120,7 +120,7 @@ public async Task ProcessDefaultInvocationRequest_CustomHandler_EnableRequestFor
+             response.TryGetValue<object>("Body", out var body, ignoreCase: true);
+             response.TryGetValue<object>("StatusCode", out var statusCode, ignoreCase: true);
+ 
+-            Assert.True(testLogs.Count() == expectedHttpScriptInvocationResult.Logs.Count());
++            Assert.True(testLogs.Count == expectedHttpScriptInvocationResult.Logs.Count());
+             Assert.True(testLogs.All(m => m.FormattedMessage.Contains("invocation log")));
+             Assert.Equal(expectedHttpScriptInvocationResult.Outputs.Count(), invocationResult.Outputs.Count());
+             Assert.Equal(expectedHttpScriptInvocationResult.ReturnValue, invocationResult.Return);
+@@ -147,7 +147,7 @@ public async Task ProcessDefaultInvocationRequest_DataType_Binary_Succeeds()
+ 
+             var expectedHttpScriptInvocationResult = HttpWorkerTestUtilities.GetTestHttpScriptInvocationResult_DataType_Binary_Outputs();
+             var testLogs = _functionLogger.GetLogMessages();
+-            Assert.True(testLogs.Count() == expectedHttpScriptInvocationResult.Logs.Count());
++            Assert.True(testLogs.Count == expectedHttpScriptInvocationResult.Logs.Count());
+             Assert.True(testLogs.All(m => m.FormattedMessage.Contains("invocation log")));
+             Assert.Equal(expectedHttpScriptInvocationResult.Outputs.Count(), invocationResult.Outputs.Count());
+ 
+@@ -183,7 +183,7 @@ public async Task ProcessDefaultInvocationRequest_BinaryData_Succeeds()
+ 
+             var expectedHttpScriptInvocationResult = HttpWorkerTestUtilities.GetTestHttpScriptInvocationResult_Binary_Outputs();
+             var testLogs = _functionLogger.GetLogMessages();
+-            Assert.True(testLogs.Count() == expectedHttpScriptInvocationResult.Logs.Count());
++            Assert.True(testLogs.Count == expectedHttpScriptInvocationResult.Logs.Count());
+             Assert.True(testLogs.All(m => m.FormattedMessage.Contains("invocation log")));
+             Assert.Equal(expectedHttpScriptInvocationResult.Outputs.Count(), invocationResult.Outputs.Count());
+ 
+@@ -239,7 +239,7 @@ public async Task ProcessSimpleHttpTriggerInvocationRequest_Succeeds()
+             var expectedResponseContent = await expectedHttpResponseMessage.Content.ReadAsStringAsync();
+ 
+             var testLogs = _functionLogger.GetLogMessages();
+-            Assert.Equal(0, testLogs.Count());
++            Assert.Equal(0, testLogs.Count);
+ 
+             Assert.Equal(1, invocationResult.Outputs.Count());
+             var httpOutputResponse = invocationResult.Outputs.FirstOrDefault().Value as HttpResponseMessage;
+@@ -277,7 +277,7 @@ public async Task ProcessSimpleHttpTriggerInvocationRequest_CustomHandler_Enable
+             var expectedResponseContent = await expectedHttpResponseMessage.Content.ReadAsStringAsync();
+ 
+             var testLogs = _functionLogger.GetLogMessages();
+-            Assert.Equal(0, testLogs.Count());
++            Assert.Equal(0, testLogs.Count);
+ 
+             Assert.Equal(1, invocationResult.Outputs.Count());
+             var httpOutputResponse = invocationResult.Outputs.FirstOrDefault().Value as HttpResponseMessage;
+@@ -340,7 +340,7 @@ public async Task ProcessSimpleHttpTriggerInvocationRequest_Sets_ExpectedResult(
+             var expectedResponseContent = await expectedHttpResponseMessage.Content.ReadAsStringAsync();
+ 
+             var testLogs = _functionLogger.GetLogMessages();
+-            Assert.Equal(0, testLogs.Count());
++            Assert.Equal(0, testLogs.Count);
+ 
+             Assert.Equal(1, invocationResult.Outputs.Count());
+             var httpOutputResponse = invocationResult.Outputs.FirstOrDefault().Value as HttpResponseMessage;
+@@ -450,7 +450,7 @@ public void ProcessOutputLogs_Succeeds(HttpScriptInvocationResult httpScriptInvo
+             var testLogs = _functionLogger.GetLogMessages();
+             if (httpScriptInvocationResult.Logs != null && httpScriptInvocationResult.Logs.Any())
+             {
+-                Assert.True(testLogs.Count() == httpScriptInvocationResult.Logs?.Count());
++                Assert.True(testLogs.Count == httpScriptInvocationResult.Logs?.Count());
+                 Assert.True(testLogs.All(m => m.FormattedMessage.Contains("test log")));
+             }
+         }
+@@ -527,7 +527,7 @@ private async void ValidateDefaultInvocationRequest(HttpRequestMessage httpReque
+ 
+             // Verify Metadata
+             var expectedMetadata = HttpWorkerTestUtilities.GetScriptInvocationBindingData();
+-            Assert.Equal(expectedMetadata.Count(), httpScriptInvocationContext.Metadata.Count());
++            Assert.Equal(expectedMetadata.Count, httpScriptInvocationContext.Metadata.Count());
+             foreach (var key in expectedMetadata.Keys)
+             {
+                 if (expectedMetadata[key] is DateTime)
+@@ -546,7 +546,7 @@ private async void ValidateDefaultInvocationRequest(HttpRequestMessage httpReque
+ 
+             // Verify Data
+             var expectedData = HttpWorkerTestUtilities.GetScriptInvocationInputs();
+-            Assert.Equal(expectedData.Count(), httpScriptInvocationContext.Data.Count());
++            Assert.Equal(expectedData.Count, httpScriptInvocationContext.Data.Count());
+             foreach (var item in expectedData)
+             {
+                 Assert.True(httpScriptInvocationContext.Data.Keys.Contains(item.name));
+@@ -565,7 +565,7 @@ private async void ValidateeSimpleHttpTriggerSentAsDefaultInvocationRequest(Http
+ 
+             // Verify Metadata
+             var expectedMetadata = HttpWorkerTestUtilities.GetScriptInvocationBindingData();
+-            Assert.Equal(expectedMetadata.Count(), httpScriptInvocationContext.Metadata.Count());
++            Assert.Equal(expectedMetadata.Count, httpScriptInvocationContext.Metadata.Count());
+             foreach (var key in expectedMetadata.Keys)
+             {
+                 Assert.Equal(JsonConvert.SerializeObject(expectedMetadata[key]), httpScriptInvocationContext.Metadata[key]);
+diff --git a/test/WebJobs.Script.Tests/Security/SecretManagerTests.cs b/test/WebJobs.Script.Tests/Security/SecretManagerTests.cs
+index d70bcd5e0..3ca119899 100644
+--- a/test/WebJobs.Script.Tests/Security/SecretManagerTests.cs
++++ b/test/WebJobs.Script.Tests/Security/SecretManagerTests.cs
+@@ -361,7 +361,7 @@ public async Task GetFunctionSecretsAsync_SecretGenerationIsSerialized()
+                 // verify all calls return the same result
+                 Assert.Equal(1, testRepository.FunctionSecrets.Count);
+                 var functionSecrets = (FunctionSecrets)testRepository.FunctionSecrets[testFunctionName];
+-                string defaultKeyValue = functionSecrets.Keys.Where(p => p.Name == "default").Single().Value;
++                string defaultKeyValue = functionSecrets.Keys.Single(p => p.Name == "default").Value;
+                 Assert.True(tasks.Select(p => p.Result).All(t => t["default"] == defaultKeyValue));
+             }
+         }
+diff --git a/test/WebJobs.Script.Tests/UtilityTests.cs b/test/WebJobs.Script.Tests/UtilityTests.cs
+index 65185e864..18b085217 100644
+--- a/test/WebJobs.Script.Tests/UtilityTests.cs
++++ b/test/WebJobs.Script.Tests/UtilityTests.cs
+@@ -717,7 +717,7 @@ public void IsCodelessDotNetLanguageFunction_Returns_Expected(bool setIsCodeless
+ 
+         private static void VerifyLogLevel(IList<LogMessage> allLogs, string msg, LogLevel expectedLevel)
+         {
+-            var message = allLogs.Where(l => l.FormattedMessage.Contains(msg)).FirstOrDefault();
++            var message = allLogs.FirstOrDefault(l => l.FormattedMessage.Contains(msg));
+             Assert.NotNull(message);
+             Assert.Equal(expectedLevel, message.Level);
+         }
+diff --git a/test/WebJobs.Script.Tests/Workers/Rpc/RpcWorkerConfigFactoryTests.cs b/test/WebJobs.Script.Tests/Workers/Rpc/RpcWorkerConfigFactoryTests.cs
+index f9c405713..beb30c665 100644
+--- a/test/WebJobs.Script.Tests/Workers/Rpc/RpcWorkerConfigFactoryTests.cs
++++ b/test/WebJobs.Script.Tests/Workers/Rpc/RpcWorkerConfigFactoryTests.cs
+@@ -97,7 +97,7 @@ public void JavaPath_FromEnvVars()
+             var testLogger = new TestLogger("test");
+             var configFactory = new RpcWorkerConfigFactory(config, testLogger, _testSysRuntimeInfo, _testEnvironment, new TestMetricsLogger());
+             var workerConfigs = configFactory.GetConfigs();
+-            var javaPath = workerConfigs.Where(c => c.Description.Language.Equals("java", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Description.DefaultExecutablePath;
++            var javaPath = workerConfigs.FirstOrDefault(c => c.Description.Language.Equals("java", StringComparison.OrdinalIgnoreCase)).Description.DefaultExecutablePath;
+             Assert.DoesNotContain(@"%JAVA_HOME%", javaPath);
+             Assert.Contains(@"/bin/java", javaPath);
+         }
+@@ -118,8 +118,8 @@ public void DefaultWorkerConfigs_Overrides_DefaultWorkerRuntimeVersion_AppSettin
+             {
+                 var configFactory = new RpcWorkerConfigFactory(config, testLogger, _testSysRuntimeInfo, _testEnvironment, new TestMetricsLogger());
+                 var workerConfigs = configFactory.GetConfigs();
+-                var pythonWorkerConfig = workerConfigs.Where(w => w.Description.Language.Equals("python", StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+-                var powershellWorkerConfig = workerConfigs.Where(w => w.Description.Language.Equals("powershell", StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
++                var pythonWorkerConfig = workerConfigs.FirstOrDefault(w => w.Description.Language.Equals("python", StringComparison.OrdinalIgnoreCase));
++                var powershellWorkerConfig = workerConfigs.FirstOrDefault(w => w.Description.Language.Equals("powershell", StringComparison.OrdinalIgnoreCase));
+                 Assert.Equal(4, workerConfigs.Count);
+                 Assert.NotNull(pythonWorkerConfig);
+                 Assert.NotNull(powershellWorkerConfig);
+@@ -140,7 +140,7 @@ public void DefaultWorkerConfigs_Overrides_VersionAppSetting()
+             var testLogger = new TestLogger("test");
+             var configFactory = new RpcWorkerConfigFactory(config, testLogger, _testSysRuntimeInfo, testEnvironment, new TestMetricsLogger());
+             var workerConfigs = configFactory.GetConfigs();
+-            var powershellWorkerConfig = workerConfigs.Where(w => w.Description.Language.Equals("powershell", StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
++            var powershellWorkerConfig = workerConfigs.FirstOrDefault(w => w.Description.Language.Equals("powershell", StringComparison.OrdinalIgnoreCase));
+             Assert.Equal(1, workerConfigs.Count);
+             Assert.NotNull(powershellWorkerConfig);
+             Assert.Equal("7", powershellWorkerConfig.Description.DefaultRuntimeVersion);
+diff --git a/test/WebJobs.Script.Tests/Workers/Rpc/RpcWorkerConfigTests.cs b/test/WebJobs.Script.Tests/Workers/Rpc/RpcWorkerConfigTests.cs
+index ef0df0346..02c8117ee 100644
+--- a/test/WebJobs.Script.Tests/Workers/Rpc/RpcWorkerConfigTests.cs
++++ b/test/WebJobs.Script.Tests/Workers/Rpc/RpcWorkerConfigTests.cs
+@@ -153,7 +153,7 @@ public void ReadWorkerProviderFromConfig_InvalidConfigFile()
+             var workerConfigs = TestReadWorkerProviderFromConfig(configs, testLogger, testMetricsLogger);
+             AreRequiredMetricsEmitted(testMetricsLogger);
+             var logs = testLogger.GetLogMessages();
+-            var errorLog = logs.Where(log => log.Level == LogLevel.Error).FirstOrDefault();
++            var errorLog = logs.FirstOrDefault(log => log.Level == LogLevel.Error);
+             Assert.NotNull(errorLog);
+             Assert.NotNull(errorLog.Exception);
+             Assert.True(errorLog.FormattedMessage.Contains("Failed to initialize"));
+diff --git a/test/WebJobs.Script.Tests/Workers/Rpc/WebHostRpcWorkerChannelManagerTests.cs b/test/WebJobs.Script.Tests/Workers/Rpc/WebHostRpcWorkerChannelManagerTests.cs
+index c3eae3bce..3dfaf253b 100644
+--- a/test/WebJobs.Script.Tests/Workers/Rpc/WebHostRpcWorkerChannelManagerTests.cs
++++ b/test/WebJobs.Script.Tests/Workers/Rpc/WebHostRpcWorkerChannelManagerTests.cs
+@@ -270,7 +270,7 @@ public async Task SpecializeAsync_NotReadOnly_KillsProcess(string languageWorker
+ 
+             // Verify logs
+             var traces = _testLogger.GetLogMessages();
+-            Assert.True(traces.Count() == 0);
++            Assert.True(!traces.Any());
+ 
+             // Verify channel
+             var initializedChannel = await _rpcWorkerChannelManager.GetChannelAsync(languageWorkerName);
+@@ -295,7 +295,7 @@ public async Task SpecializeAsync_Node_V2CompatibilityWithV3Extension_KillsProce
+ 
+             // Verify logs
+             var traces = _testLogger.GetLogMessages();
+-            Assert.True(traces.Count() == 0);
++            Assert.True(!traces.Any());
+ 
+             // Verify channel
+             var initializedChannel = await _rpcWorkerChannelManager.GetChannelAsync(languageWorkerName);
+diff --git a/test/WebJobs.Script.Tests/Workers/WorkerConsoleLogServiceTests.cs b/test/WebJobs.Script.Tests/Workers/WorkerConsoleLogServiceTests.cs
+index 1311c74b5..0dd159728 100644
+--- a/test/WebJobs.Script.Tests/Workers/WorkerConsoleLogServiceTests.cs
++++ b/test/WebJobs.Script.Tests/Workers/WorkerConsoleLogServiceTests.cs
+@@ -55,7 +55,7 @@ public async Task WorkerConsoleLogService_ConsoleLogs_LogLevel_Expected(bool use
+ 
+         private static void VerifyLogLevel(IList<LogMessage> allLogs, string msg, LogLevel expectedLevel)
+         {
+-            var message = allLogs.Where(l => l.FormattedMessage.Contains(msg)).FirstOrDefault();
++            var message = allLogs.FirstOrDefault(l => l.FormattedMessage.Contains(msg));
+             Assert.NotNull(message);
+             Assert.DoesNotContain(WorkerConstants.LanguageWorkerConsoleLogPrefix, message.FormattedMessage);
+             Assert.Equal(expectedLevel, message.Level);

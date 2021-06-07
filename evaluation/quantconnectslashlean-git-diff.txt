@@ -1,0 +1,2176 @@
+diff --git a/Algorithm.CSharp/AddAlphaModelAlgorithm.cs b/Algorithm.CSharp/AddAlphaModelAlgorithm.cs
+index 66056bc31..9e1069448 100644
+--- a/Algorithm.CSharp/AddAlphaModelAlgorithm.cs
++++ b/Algorithm.CSharp/AddAlphaModelAlgorithm.cs
+@@ -62,9 +62,7 @@ namespace QuantConnect.Algorithm.CSharp
+         private void OnInsightsGeneratedVerifier(IAlgorithm algorithm,
+             GeneratedInsightsCollection insightsCollection)
+         {
+-            if (insightsCollection.Insights.Count(insight => insight.Symbol == _fb) != 1
+-                || insightsCollection.Insights.Count(insight => insight.Symbol == _spy) != 1
+-                || insightsCollection.Insights.Count(insight => insight.Symbol == _ibm) != 1)
++            if (insightsCollection.Insights.Count(insight => insight.Symbol == _fb) != 1 || insightsCollection.Insights.Count(insight => insight.Symbol == _spy) != 1 || insightsCollection.Insights.Count(insight => insight.Symbol == _ibm) != 1)
+             {
+                 throw new Exception("Unexpected insights were emitted");
+             }
+diff --git a/Algorithm.CSharp/Alphas/GasAndCrudeOilEnergyCorrelationAlpha.cs b/Algorithm.CSharp/Alphas/GasAndCrudeOilEnergyCorrelationAlpha.cs
+index 660306a2f..b907fa979 100644
+--- a/Algorithm.CSharp/Alphas/GasAndCrudeOilEnergyCorrelationAlpha.cs
++++ b/Algorithm.CSharp/Alphas/GasAndCrudeOilEnergyCorrelationAlpha.cs
+@@ -192,7 +192,7 @@ namespace QuantConnect.Algorithm.CSharp.Alphas
+                 // Initialize data for added securities
+                 var symbols = changes.AddedSecurities.Select(x => x.Symbol);
+                 var dailyHistory = algorithm.History(symbols, _historyDays + 1, Resolution.Daily);
+-                if (symbols.Count() > 0 && dailyHistory.Count() == 0)
++                if (symbols.Any() && !dailyHistory.Any())
+                 {
+                     algorithm.Debug($"{algorithm.Time} :: No daily data");
+                 }
+diff --git a/Algorithm.CSharp/Alphas/GreenblattMagicFormulaAlpha.cs b/Algorithm.CSharp/Alphas/GreenblattMagicFormulaAlpha.cs
+index d751541a7..eac8ca0aa 100644
+--- a/Algorithm.CSharp/Alphas/GreenblattMagicFormulaAlpha.cs
++++ b/Algorithm.CSharp/Alphas/GreenblattMagicFormulaAlpha.cs
+@@ -124,7 +124,7 @@ namespace QuantConnect.Algorithm.CSharp.Alphas
+                 // Initialize data for added securities
+                 var symbols = changes.AddedSecurities.Select(x => x.Symbol);
+                 var history = algorithm.History(symbols, _lookback, _resolution);
+-                if (symbols.Count() == 0 && history.Count() == 0)
++                if (!symbols.Any() && !history.Any())
+                 {
+                     return;
+                 }
+diff --git a/Algorithm.CSharp/Alphas/MeanReversionLunchBreakAlpha.cs b/Algorithm.CSharp/Alphas/MeanReversionLunchBreakAlpha.cs
+index 346b6d1e8..4ec94abbf 100644
+--- a/Algorithm.CSharp/Alphas/MeanReversionLunchBreakAlpha.cs
++++ b/Algorithm.CSharp/Alphas/MeanReversionLunchBreakAlpha.cs
+@@ -123,7 +123,7 @@ namespace QuantConnect.Algorithm.CSharp.Alphas
+                 // and update the indicators in the SymbolData object
+                 var symbols = changes.AddedSecurities.Select(x => x.Symbol);
+                 var history = algorithm.History(symbols, 1, _resolution);
+-                if (symbols.Count() > 0 && history.Count() == 0)
++                if (symbols.Any() && !history.Any())
+                 {
+                     algorithm.Debug($"No data on {algorithm.Time}");
+                 }
+diff --git a/Algorithm.CSharp/FilteredIdentityAlgorithm.cs b/Algorithm.CSharp/FilteredIdentityAlgorithm.cs
+index 3fed82900..15f09bf4c 100644
+--- a/Algorithm.CSharp/FilteredIdentityAlgorithm.cs
++++ b/Algorithm.CSharp/FilteredIdentityAlgorithm.cs
+@@ -53,8 +53,7 @@ namespace QuantConnect.Algorithm.CSharp
+         /// <returns>True if we have TickType.Trade</returns>
+         private bool Filter(IBaseData data)
+         {
+-            var tick = data as Tick;
+-            if (tick != null)
++            if (data is Tick tick)
+             {
+                 return tick.TickType == TickType.Trade;
+             }
+diff --git a/Algorithm.CSharp/OptionChainProviderAlgorithm.cs b/Algorithm.CSharp/OptionChainProviderAlgorithm.cs
+index de3cf919c..c54d82d3f 100644
+--- a/Algorithm.CSharp/OptionChainProviderAlgorithm.cs
++++ b/Algorithm.CSharp/OptionChainProviderAlgorithm.cs
+@@ -63,7 +63,7 @@ namespace QuantConnect.Algorithm.CSharp
+                                 where ((symbol.ID.Date - data.Time).TotalDays < 30 && (symbol.ID.Date - data.Time).TotalDays > 10)
+                                 select symbol);
+ 
+-                if (otmCalls.Count() != 0)
++                if (otmCalls.Any())
+                 {
+                     _optionContract = otmCalls.OrderBy(x => x.ID.Date)
+                                           .ThenBy(x => (x.ID.StrikePrice - underlyingPrice))
+diff --git a/Algorithm.CSharp/OptionChainUniverseRemovalRegressionAlgorithm.cs b/Algorithm.CSharp/OptionChainUniverseRemovalRegressionAlgorithm.cs
+index e24ae92f9..6b0c12706 100644
+--- a/Algorithm.CSharp/OptionChainUniverseRemovalRegressionAlgorithm.cs
++++ b/Algorithm.CSharp/OptionChainUniverseRemovalRegressionAlgorithm.cs
+@@ -156,11 +156,8 @@ namespace QuantConnect.Algorithm.CSharp
+                 }
+ 
+                 // later we expect the options to be Removed
+-                if (changes.RemovedSecurities.Count != 6
+-                    // the removal of the raw underlying subscription from the option chain universe
+-                    || changes.RemovedSecurities.Single(security => security.Symbol.SecurityType != SecurityType.Option).Symbol != _aapl
+-                    // the removal of the 5 option contracts
+-                    || changes.RemovedSecurities.Count(security => security.Symbol.SecurityType == SecurityType.Option) != 5)
++                if (changes.RemovedSecurities.Count != 6 // the removal of the raw underlying subscription from the option chain universe
++|| changes.RemovedSecurities.Single(security => security.Symbol.SecurityType != SecurityType.Option).Symbol != _aapl || changes.RemovedSecurities.Count(security => security.Symbol.SecurityType == SecurityType.Option) != 5)
+                 {
+                     throw new Exception($"Unexpected SecurityChanges: {changes}");
+                 }
+diff --git a/Algorithm.CSharp/TickDataFilteringAlgorithm.cs b/Algorithm.CSharp/TickDataFilteringAlgorithm.cs
+index e593ecd52..f553657b8 100644
+--- a/Algorithm.CSharp/TickDataFilteringAlgorithm.cs
++++ b/Algorithm.CSharp/TickDataFilteringAlgorithm.cs
+@@ -135,12 +135,10 @@ namespace QuantConnect.Algorithm.CSharp
+         /// <param name="asset">Vehicle of this filter.</param>
+         public bool Filter(Security asset, BaseData data)
+         {
+-            // TRUE -->  Accept Tick
+-            // FALSE --> Reject Tick
+-            var tick = data as Tick;
++            // TRUE -->  Accept Tick            // FALSE --> Reject Tick
+ 
+             // This is a tick bar
+-            if (tick != null)
++            if (data is Tick tick)
+             {
+                 if (tick.Exchange == "P") //MarketCodesFilter.AllowedExchanges.Contains()
+                 {
+diff --git a/Algorithm.Framework/Portfolio/SectorWeightingPortfolioConstructionModel.cs b/Algorithm.Framework/Portfolio/SectorWeightingPortfolioConstructionModel.cs
+index b6edcf62e..781fc1e62 100644
+--- a/Algorithm.Framework/Portfolio/SectorWeightingPortfolioConstructionModel.cs
++++ b/Algorithm.Framework/Portfolio/SectorWeightingPortfolioConstructionModel.cs
+@@ -153,7 +153,7 @@ namespace QuantConnect.Algorithm.Framework.Portfolio
+                 var insights = kvp.Value;
+ 
+                 // give equal weighting to each security
+-                var count = insights.Count();
++                var count = insights.Count;
+                 var percent = count == 0 ? 0 : sectorPercent / count;
+ 
+                 foreach (var insight in insights)
+diff --git a/Algorithm/Alphas/AlphaModelExtensions.cs b/Algorithm/Alphas/AlphaModelExtensions.cs
+index e58bf1b7e..7c361f41b 100644
+--- a/Algorithm/Alphas/AlphaModelExtensions.cs
++++ b/Algorithm/Alphas/AlphaModelExtensions.cs
+@@ -25,8 +25,7 @@ namespace QuantConnect.Algorithm.Framework.Alphas
+         /// </summary>
+         public static string GetModelName(this IAlphaModel model)
+         {
+-            var namedModel = model as INamedModel;
+-            if (namedModel != null)
++            if (model is INamedModel namedModel)
+             {
+                 return namedModel.Name;
+             }
+diff --git a/Algorithm/QCAlgorithm.Framework.cs b/Algorithm/QCAlgorithm.Framework.cs
+index d0c05c423..524f24150 100644
+--- a/Algorithm/QCAlgorithm.Framework.cs
++++ b/Algorithm/QCAlgorithm.Framework.cs
+@@ -274,8 +274,7 @@ namespace QuantConnect.Algorithm
+         {
+             if (UniverseSelection.GetType() != typeof(NullUniverseSelectionModel))
+             {
+-                var compositeUniverseSelection = UniverseSelection as CompositeUniverseSelectionModel;
+-                if (compositeUniverseSelection != null)
++                if (UniverseSelection is CompositeUniverseSelectionModel compositeUniverseSelection)
+                 {
+                     compositeUniverseSelection.AddUniverseSelection(universeSelection);
+                 }
+@@ -307,8 +306,7 @@ namespace QuantConnect.Algorithm
+         {
+             if (Alpha.GetType() != typeof(NullAlphaModel))
+             {
+-                var compositeAlphaModel = Alpha as CompositeAlphaModel;
+-                if (compositeAlphaModel != null)
++                if (Alpha is CompositeAlphaModel compositeAlphaModel)
+                 {
+                     compositeAlphaModel.AddAlpha(alpha);
+                 }
+@@ -358,8 +356,7 @@ namespace QuantConnect.Algorithm
+         {
+             if (RiskManagement.GetType() != typeof(NullRiskManagementModel))
+             {
+-                var compositeRiskModel = RiskManagement as CompositeRiskManagementModel;
+-                if (compositeRiskModel != null)
++                if (RiskManagement is CompositeRiskManagementModel compositeRiskModel)
+                 {
+                     compositeRiskModel.AddRiskManagement(riskManagement);
+                 }
+@@ -442,10 +439,7 @@ namespace QuantConnect.Algorithm
+                     insights[i] = InitializeInsightFields(insights[i]);
+ 
+                     // If we already had an invalid insight, this will have been initialized storing the valid ones.
+-                    if (validInsights != null)
+-                    {
+-                        validInsights.Add(insights[i]);
+-                    }
++                    validInsights?.Add(insights[i]);
+                 }
+             }
+ 
+diff --git a/Algorithm/QCAlgorithm.Universe.cs b/Algorithm/QCAlgorithm.Universe.cs
+index 82cb052fc..12100859c 100644
+--- a/Algorithm/QCAlgorithm.Universe.cs
++++ b/Algorithm/QCAlgorithm.Universe.cs
+@@ -122,10 +122,9 @@ namespace QuantConnect.Algorithm
+                                 requiredHistoryRequests.Add(underlyingSecurity, (Resolution)Math.Max((int)resolution, (int)Resolution.Minute));
+                             }
+                         }
+-                        // set the underlying security on the derivative -- we do this in two places since it's possible
+-                        // to do AddOptionContract w/out the underlying already added and normalized properly
+-                        var derivative = security as IDerivativeSecurity;
+-                        if (derivative != null)
++
++                        // set the underlying security on the derivative -- we do this in two places since it's possible                        // to do AddOptionContract w/out the underlying already added and normalized properly
++                        if (security is IDerivativeSecurity derivative)
+                         {
+                             derivative.Underlying = underlyingSecurity;
+                         }
+@@ -560,8 +559,7 @@ namespace QuantConnect.Algorithm
+                 }
+             }
+ 
+-            var userDefinedUniverse = universe as UserDefinedUniverse;
+-            if (userDefinedUniverse != null)
++            if (universe is UserDefinedUniverse userDefinedUniverse)
+             {
+                 lock (_pendingUniverseAdditionsLock)
+                 {
+diff --git a/Algorithm/QCAlgorithm.cs b/Algorithm/QCAlgorithm.cs
+index 898cc3638..a56c9c6f8 100644
+--- a/Algorithm/QCAlgorithm.cs
++++ b/Algorithm/QCAlgorithm.cs
+@@ -523,8 +523,7 @@ namespace QuantConnect.Algorithm
+                 throw new ArgumentException("Please select an algorithm end date greater than start date.");
+             }
+ 
+-            var portfolioConstructionModel = PortfolioConstruction as PortfolioConstructionModel;
+-            if (portfolioConstructionModel != null)
++            if (PortfolioConstruction is PortfolioConstructionModel portfolioConstructionModel)
+             {
+                 // only override default values if user set the algorithm setting
+                 if (Settings.RebalancePortfolioOnSecurityChanges.HasValue)
+@@ -1728,8 +1727,7 @@ namespace QuantConnect.Algorithm
+             }
+ 
+             // update the universe
+-            var optionUniverse = universe as OptionContractUniverse;
+-            if (optionUniverse != null)
++            if (universe is OptionContractUniverse optionUniverse)
+             {
+                 foreach (var subscriptionDataConfig in configs.Concat(underlyingConfigs))
+                 {
+diff --git a/Brokerages/Bitfinex/BitfinexBrokerage.cs b/Brokerages/Bitfinex/BitfinexBrokerage.cs
+index b4b37b607..bb9240a80 100644
+--- a/Brokerages/Bitfinex/BitfinexBrokerage.cs
++++ b/Brokerages/Bitfinex/BitfinexBrokerage.cs
+@@ -60,8 +60,7 @@ namespace QuantConnect.Brokerages.Bitfinex
+                 { "price", GetOrderPrice(order).ToStringInvariant() }
+             };
+ 
+-            var orderProperties = order.Properties as BitfinexOrderProperties;
+-            if (orderProperties != null)
++            if (order.Properties is BitfinexOrderProperties orderProperties)
+             {
+                 if (order.Type == OrderType.Limit)
+                 {
+diff --git a/Brokerages/Bitfinex/BitfinexSubscriptionManager.cs b/Brokerages/Bitfinex/BitfinexSubscriptionManager.cs
+index 32d5aa017..e6dc69af1 100644
+--- a/Brokerages/Bitfinex/BitfinexSubscriptionManager.cs
++++ b/Brokerages/Bitfinex/BitfinexSubscriptionManager.cs
+@@ -501,7 +501,7 @@ namespace QuantConnect.Brokerages.Bitfinex
+ 
+                     _onUnsubscribeEvent.Set();
+ 
+-                    if (channels.Values.Count(c => c.Symbol.Equals(channel.Symbol)) == 0)
++                    if (!channels.Values.Any(c => c.Symbol.Equals(channel.Symbol)))
+                     {
+                         List<BitfinexWebSocketWrapper> subscriptions;
+                         if (_subscriptionsBySymbol.TryGetValue(channel.Symbol, out subscriptions))
+diff --git a/Brokerages/Fxcm/FxcmBrokerage.Messaging.cs b/Brokerages/Fxcm/FxcmBrokerage.Messaging.cs
+index be74605c5..9966e7507 100644
+--- a/Brokerages/Fxcm/FxcmBrokerage.Messaging.cs
++++ b/Brokerages/Fxcm/FxcmBrokerage.Messaging.cs
+@@ -193,26 +193,26 @@ namespace QuantConnect.Brokerages.Fxcm
+ 
+             lock (_locker)
+             {
+-                if (message is TradingSessionStatus)
+-                    OnTradingSessionStatus((TradingSessionStatus)message);
++                if (message is TradingSessionStatus tradingSessionStatus)
++                    OnTradingSessionStatus(tradingSessionStatus);
+ 
+-                else if (message is CollateralReport)
+-                    OnCollateralReport((CollateralReport)message);
++                else if (message is CollateralReport collateralReport)
++                    OnCollateralReport(collateralReport);
+ 
+-                else if (message is MarketDataSnapshot)
+-                    OnMarketDataSnapshot((MarketDataSnapshot)message);
++                else if (message is MarketDataSnapshot marketDataSnapshot)
++                    OnMarketDataSnapshot(marketDataSnapshot);
+ 
+-                else if (message is ExecutionReport)
+-                    OnExecutionReport((ExecutionReport)message);
++                else if (message is ExecutionReport executionReport)
++                    OnExecutionReport(executionReport);
+ 
+-                else if (message is RequestForPositionsAck)
+-                    OnRequestForPositionsAck((RequestForPositionsAck)message);
++                else if (message is RequestForPositionsAck requestForPositionsAck)
++                    OnRequestForPositionsAck(requestForPositionsAck);
+ 
+-                else if (message is PositionReport)
+-                    OnPositionReport((PositionReport)message);
++                else if (message is PositionReport positionReport)
++                    OnPositionReport(positionReport);
+ 
+-                else if (message is OrderCancelReject)
+-                    OnOrderCancelReject((OrderCancelReject)message);
++                else if (message is OrderCancelReject orderCancelReject)
++                    OnOrderCancelReject(orderCancelReject);
+ 
+                 else if (message is UserResponse || message is CollateralInquiryAck || message is Logout ||
+                     message is MarketDataRequestReject || message is BusinessMessageReject || message is SecurityStatus)
+diff --git a/Brokerages/GDAX/GDAXBrokerage.cs b/Brokerages/GDAX/GDAXBrokerage.cs
+index c6f6364b0..805e8c5c1 100644
+--- a/Brokerages/GDAX/GDAXBrokerage.cs
++++ b/Brokerages/GDAX/GDAXBrokerage.cs
+@@ -79,8 +79,7 @@ namespace QuantConnect.Brokerages.GDAX
+                 payload.overdraft_enabled = true;
+             }
+ 
+-            var orderProperties = order.Properties as GDAXOrderProperties;
+-            if (orderProperties != null)
++            if (order.Properties is GDAXOrderProperties orderProperties)
+             {
+                 if (order.Type == OrderType.Limit)
+                 {
+diff --git a/Brokerages/InteractiveBrokers/InteractiveBrokersBrokerage.cs b/Brokerages/InteractiveBrokers/InteractiveBrokersBrokerage.cs
+index 5791c1537..c4f7f6259 100644
+--- a/Brokerages/InteractiveBrokers/InteractiveBrokersBrokerage.cs
++++ b/Brokerages/InteractiveBrokers/InteractiveBrokersBrokerage.cs
+@@ -1010,8 +1010,7 @@ namespace QuantConnect.Brokerages.InteractiveBrokers
+                     order.Type == OrderType.StopMarket ||
+                     order.Type == OrderType.StopLimit)
+                 {
+-                    var orderProperties = order.Properties as InteractiveBrokersOrderProperties;
+-                    if (orderProperties != null)
++                    if (order.Properties is InteractiveBrokersOrderProperties orderProperties)
+                     {
+                         outsideRth = orderProperties.OutsideRegularTradingHours;
+                     }
+@@ -1726,8 +1725,7 @@ namespace QuantConnect.Brokerages.InteractiveBrokers
+                 OutsideRth = outsideRth
+             };
+ 
+-            var gtdTimeInForce = order.TimeInForce as GoodTilDateTimeInForce;
+-            if (gtdTimeInForce != null)
++            if (order.TimeInForce is GoodTilDateTimeInForce gtdTimeInForce)
+             {
+                 DateTime expiryUtc;
+                 if (order.SecurityType == SecurityType.Forex)
+@@ -1750,25 +1748,21 @@ namespace QuantConnect.Brokerages.InteractiveBrokers
+                 ibOrder.GoodTillDate = expiryUtc.ToString("yyyyMMdd HH:mm:ss UTC", CultureInfo.InvariantCulture);
+             }
+ 
+-            var limitOrder = order as LimitOrder;
+-            var stopMarketOrder = order as StopMarketOrder;
+-            var stopLimitOrder = order as StopLimitOrder;
+-            var limitIfTouchedOrder = order as LimitIfTouchedOrder;
+-            if (limitOrder != null)
++            if (order is LimitOrder limitOrder)
+             {
+                 ibOrder.LmtPrice = Convert.ToDouble(RoundPrice(limitOrder.LimitPrice, GetMinTick(contract, order.Symbol)));
+             }
+-            else if (stopMarketOrder != null)
++            else if (order is StopMarketOrder stopMarketOrder)
+             {
+                 ibOrder.AuxPrice = Convert.ToDouble(RoundPrice(stopMarketOrder.StopPrice, GetMinTick(contract, order.Symbol)));
+             }
+-            else if (stopLimitOrder != null)
++            else if (order is StopLimitOrder stopLimitOrder)
+             {
+                 var minTick = GetMinTick(contract, order.Symbol);
+                 ibOrder.LmtPrice = Convert.ToDouble(RoundPrice(stopLimitOrder.LimitPrice, minTick));
+                 ibOrder.AuxPrice = Convert.ToDouble(RoundPrice(stopLimitOrder.StopPrice, minTick));
+             }
+-            else if (limitIfTouchedOrder != null)
++            else if (order is LimitIfTouchedOrder limitIfTouchedOrder)
+             {
+                 var minTick = GetMinTick(contract, order.Symbol);
+                 ibOrder.LmtPrice = Convert.ToDouble(RoundPrice(limitIfTouchedOrder.LimitPrice, minTick));
+@@ -1779,9 +1773,7 @@ namespace QuantConnect.Brokerages.InteractiveBrokers
+             if (IsFinancialAdvisor)
+             {
+                 // https://interactivebrokers.github.io/tws-api/financial_advisor.html#gsc.tab=0
+-
+-                var orderProperties = order.Properties as InteractiveBrokersOrderProperties;
+-                if (orderProperties != null)
++                if (order.Properties is InteractiveBrokersOrderProperties orderProperties)
+                 {
+                     if (!string.IsNullOrWhiteSpace(orderProperties.Account))
+                     {
+diff --git a/Brokerages/Oanda/RestV20/Client/ApiClient.cs b/Brokerages/Oanda/RestV20/Client/ApiClient.cs
+index 1d947372f..8fca64db4 100644
+--- a/Brokerages/Oanda/RestV20/Client/ApiClient.cs
++++ b/Brokerages/Oanda/RestV20/Client/ApiClient.cs
+@@ -231,8 +231,8 @@ namespace Oanda.RestV20.Client
+         /// <returns>FileParameter.</returns>
+         public FileParameter ParameterToFile(string name, Stream stream)
+         {
+-            if (stream is FileStream)
+-                return FileParameter.Create(name, ReadAsBytes(stream), Path.GetFileName(((FileStream)stream).Name));
++            if (stream is FileStream fileStream)
++                return FileParameter.Create(name, ReadAsBytes(stream), Path.GetFileName(fileStream.Name));
+             else
+                 return FileParameter.Create(name, ReadAsBytes(stream), "no_file_name_provided");
+         }
+@@ -246,18 +246,18 @@ namespace Oanda.RestV20.Client
+         /// <returns>Formatted string.</returns>
+         public string ParameterToString(object obj)
+         {
+-            if (obj is DateTime)
++            if (obj is DateTime dateTime)
+                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
+                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
+                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+                 // For example: 2009-06-15T13:45:30.0000000
+-                return ((DateTime)obj).ToStringInvariant(Configuration.DateTimeFormat);
+-            else if (obj is DateTimeOffset)
++                return dateTime.ToStringInvariant(Configuration.DateTimeFormat);
++            else if (obj is DateTimeOffset dateTimeOffset)
+                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
+                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
+                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+                 // For example: 2009-06-15T13:45:30.0000000
+-                return ((DateTimeOffset)obj).ToStringInvariant(Configuration.DateTimeFormat);
++                return dateTimeOffset.ToStringInvariant(Configuration.DateTimeFormat);
+             else if (obj is IList)
+             {
+                 var flattenedString = new StringBuilder();
+diff --git a/Brokerages/Oanda/RestV20/Session/StreamSession.cs b/Brokerages/Oanda/RestV20/Session/StreamSession.cs
+index 854aa3cf6..1acbb34b3 100644
+--- a/Brokerages/Oanda/RestV20/Session/StreamSession.cs
++++ b/Brokerages/Oanda/RestV20/Session/StreamSession.cs
+@@ -78,10 +78,7 @@ namespace Oanda.RestV20.Session
+             try
+             {
+                 // wait for task to finish
+-                if (_runningTask != null)
+-                {
+-                    _runningTask.Wait();
+-                }
++                _runningTask?.Wait();
+             }
+             catch (Exception)
+             {
+@@ -91,8 +88,7 @@ namespace Oanda.RestV20.Session
+             try
+             {
+                 // close and dispose of previous session
+-                var httpResponse = _response as HttpWebResponse;
+-                if (httpResponse != null)
++                if (_response is HttpWebResponse httpResponse)
+                 {
+                     httpResponse.Close();
+                     httpResponse.Dispose();
+diff --git a/Brokerages/Tradier/TradierBrokerage.cs b/Brokerages/Tradier/TradierBrokerage.cs
+index 13da356d7..4e87c41aa 100644
+--- a/Brokerages/Tradier/TradierBrokerage.cs
++++ b/Brokerages/Tradier/TradierBrokerage.cs
+@@ -1034,7 +1034,7 @@ namespace QuantConnect.Brokerages.Tradier
+                     { Status = OrderStatus.Invalid });
+ 
+                 string message = _previousResponseRaw;
+-                if (response != null && response.Errors != null && !response.Errors.Errors.IsNullOrEmpty())
++                if (response?.Errors != null && !response.Errors.Errors.IsNullOrEmpty())
+                 {
+                     message = "Order " + order.QCOrder.Id + ": " + string.Join(Environment.NewLine, response.Errors.Errors);
+                     if (string.IsNullOrEmpty(order.QCOrder.Tag))
+@@ -1745,13 +1745,12 @@ namespace QuantConnect.Brokerages.Tradier
+         /// </summary>
+         protected static decimal GetStopPrice(Order order)
+         {
+-            var stopm = order as StopMarketOrder;
+-            if (stopm != null)
++            if (order is StopMarketOrder stopm)
+             {
+                 return stopm.StopPrice;
+             }
+-            var stopl = order as StopLimitOrder;
+-            if (stopl != null)
++
++            if (order is StopLimitOrder stopl)
+             {
+                 return stopl.StopPrice;
+             }
+@@ -1765,13 +1764,12 @@ namespace QuantConnect.Brokerages.Tradier
+         /// <returns></returns>
+         protected static decimal GetLimitPrice(Order order)
+         {
+-            var limit = order as LimitOrder;
+-            if (limit != null)
++            if (order is LimitOrder limit)
+             {
+                 return limit.LimitPrice;
+             }
+-            var stopl = order as StopLimitOrder;
+-            if (stopl != null)
++
++            if (order is StopLimitOrder stopl)
+             {
+                 return stopl.LimitPrice;
+             }
+diff --git a/Brokerages/Zerodha/Utils.cs b/Brokerages/Zerodha/Utils.cs
+index 17ab655d6..5b66a9435 100644
+--- a/Brokerages/Zerodha/Utils.cs
++++ b/Brokerages/Zerodha/Utils.cs
+@@ -144,9 +144,9 @@ namespace QuantConnect.Brokerages.Zerodha
+         /// <returns>Combined string</returns>
+         public static string BuildParam(string Key, dynamic Value)
+         {
+-            if (Value is string)
++            if (Value is string s)
+             {
+-                return HttpUtility.UrlEncode(Key) + "=" + HttpUtility.UrlEncode((string)Value);
++                return HttpUtility.UrlEncode(Key) + "=" + HttpUtility.UrlEncode(s);
+             }
+             else
+             {
+diff --git a/Brokerages/Zerodha/ZerodhaBrokerage.cs b/Brokerages/Zerodha/ZerodhaBrokerage.cs
+index 22100d10f..63880e547 100644
+--- a/Brokerages/Zerodha/ZerodhaBrokerage.cs
++++ b/Brokerages/Zerodha/ZerodhaBrokerage.cs
+@@ -167,7 +167,7 @@ namespace QuantConnect.Brokerages.Zerodha
+         /// <param name="symbols">The list of symbols to subscribe</param>
+         public void Subscribe(IEnumerable<Symbol> symbols)
+         {
+-            if (symbols.Count() <= 0)
++            if (!symbols.Any())
+             {
+                 return;
+             }
+diff --git a/Brokerages/Zerodha/ZerodhaSymbolMapper.cs b/Brokerages/Zerodha/ZerodhaSymbolMapper.cs
+index 8bf4d3499..60c0c8c8c 100644
+--- a/Brokerages/Zerodha/ZerodhaSymbolMapper.cs
++++ b/Brokerages/Zerodha/ZerodhaSymbolMapper.cs
+@@ -268,7 +268,7 @@ namespace QuantConnect.Brokerages.Zerodha
+         /// <returns>A new Lean Symbol instance</returns>
+         public uint GetZerodhaInstrumentToken(string brokerageSymbol, string market)
+         {
+-            var symbol = KnownSymbols.Where(s => s.Value == brokerageSymbol.Replace(" ", "").Trim() && s.ID.Market.ToUpperInvariant()==market.ToUpperInvariant()).FirstOrDefault();
++            var symbol = KnownSymbols.FirstOrDefault(s => s.Value == brokerageSymbol.Replace(" ", "").Trim() && s.ID.Market.ToUpperInvariant()==market.ToUpperInvariant());
+             uint token = 0;
+             if (symbol != null && ZerodhaInstrumentsList.TryGetValue(symbol.ID.Symbol + "^" + symbol.ID.Market, out token))
+             {
+@@ -315,7 +315,7 @@ namespace QuantConnect.Brokerages.Zerodha
+             var _symbol = ZerodhaInstrumentsList.FirstOrDefault(x => x.Value == ZerodhaSymbol).Key.Replace(" ","").Split("^".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+ 
+             // return as it is due to Zerodha has similar Symbol format
+-            return KnownSymbolsList.Where(s => s.Value == _symbol[0] && s.ID.Market == _symbol[1]).FirstOrDefault();
++            return KnownSymbolsList.FirstOrDefault(s => s.Value == _symbol[0] && s.ID.Market == _symbol[1]);
+         }
+ 
+         /// <summary>
+diff --git a/Common/Brokerages/FxcmBrokerageModel.cs b/Common/Brokerages/FxcmBrokerageModel.cs
+index 2e2befafb..e58412ed2 100644
+--- a/Common/Brokerages/FxcmBrokerageModel.cs
++++ b/Common/Brokerages/FxcmBrokerageModel.cs
+@@ -103,14 +103,12 @@ namespace QuantConnect.Brokerages
+             }
+ 
+             // validate stop/limit orders prices
+-            var limit = order as LimitOrder;
+-            if (limit != null)
++            if (order is LimitOrder limit)
+             {
+                 return IsValidOrderPrices(security, OrderType.Limit, limit.Direction, security.Price, limit.LimitPrice, ref message);
+             }
+ 
+-            var stopMarket = order as StopMarketOrder;
+-            if (stopMarket != null)
++            if (order is StopMarketOrder stopMarket)
+             {
+                 return IsValidOrderPrices(security, OrderType.StopMarket, stopMarket.Direction, stopMarket.StopPrice, security.Price, ref message);
+             }
+diff --git a/Common/Brokerages/TradingTechnologiesBrokerageModel.cs b/Common/Brokerages/TradingTechnologiesBrokerageModel.cs
+index 8ed2d3509..78185d43e 100644
+--- a/Common/Brokerages/TradingTechnologiesBrokerageModel.cs
++++ b/Common/Brokerages/TradingTechnologiesBrokerageModel.cs
+@@ -127,14 +127,12 @@ namespace QuantConnect.Brokerages
+             }
+ 
+             // validate stop orders prices
+-            var stopMarket = order as StopMarketOrder;
+-            if (stopMarket != null)
++            if (order is StopMarketOrder stopMarket)
+             {
+                 return IsValidOrderPrices(security, OrderType.StopMarket, stopMarket.Direction, stopMarket.StopPrice, security.Price, ref message);
+             }
+ 
+-            var stopLimit = order as StopLimitOrder;
+-            if (stopLimit != null)
++            if (order is StopLimitOrder stopLimit)
+             {
+                 return IsValidOrderPrices(security, OrderType.StopMarket, stopLimit.Direction, stopLimit.StopPrice, stopLimit.LimitPrice, ref message);
+             }
+diff --git a/Common/Data/Auxiliary/FactorFile.cs b/Common/Data/Auxiliary/FactorFile.cs
+index 3bcc0d38c..94fc4cd97 100644
+--- a/Common/Data/Auxiliary/FactorFile.cs
++++ b/Common/Data/Auxiliary/FactorFile.cs
+@@ -337,14 +337,13 @@ namespace QuantConnect.Data.Auxiliary
+             foreach (var datum in combinedData)
+             {
+                 FactorFileRow nextEntry = null;
+-                var split = datum as Split;
+-                var dividend = datum as Dividend;
+-                if (dividend != null)
++
++                if (datum is Dividend dividend)
+                 {
+                     nextEntry = lastEntry.Apply(dividend, exchangeHours);
+                     lastEntry = nextEntry;
+                 }
+-                else if (split != null)
++                else if (datum is Split split)
+                 {
+                     nextEntry = lastEntry.Apply(split, exchangeHours);
+                     lastEntry = nextEntry;
+diff --git a/Common/Data/BaseData.cs b/Common/Data/BaseData.cs
+index 35c8aee16..5390defc6 100644
+--- a/Common/Data/BaseData.cs
++++ b/Common/Data/BaseData.cs
+@@ -401,14 +401,12 @@ namespace QuantConnect.Data
+         {
+             var deserialized = JsonConvert.DeserializeObject(serialized, JsonSerializerSettings);
+ 
+-            var enumerable = deserialized as IEnumerable<BaseData>;
+-            if (enumerable != null)
++            if (deserialized is IEnumerable<BaseData> enumerable)
+             {
+                 return enumerable;
+             }
+ 
+-            var data = deserialized as BaseData;
+-            if (data != null)
++            if (deserialized is BaseData data)
+             {
+                 return new[] { data };
+             }
+diff --git a/Common/Data/DynamicData.cs b/Common/Data/DynamicData.cs
+index cc629d058..a9b3738a3 100644
+--- a/Common/Data/DynamicData.cs
++++ b/Common/Data/DynamicData.cs
+@@ -61,9 +61,9 @@ namespace QuantConnect.Data
+             }
+             if (name == "symbol")
+             {
+-                if (value is string)
++                if (value is string s)
+                 {
+-                    Symbol = SymbolCache.GetSymbol((string) value);
++                    Symbol = SymbolCache.GetSymbol(s);
+                 }
+                 else
+                 {
+diff --git a/Common/Data/Slice.cs b/Common/Data/Slice.cs
+index f78257bdb..176e20f4e 100644
+--- a/Common/Data/Slice.cs
++++ b/Common/Data/Slice.cs
+@@ -572,8 +572,7 @@ namespace QuantConnect.Data
+             {
+                 var data = kvp.Value.GetData();
+ 
+-                var dataPoints = data as IEnumerable<BaseData>;
+-                if (dataPoints != null)
++                if (data is IEnumerable<BaseData> dataPoints)
+                 {
+                     foreach (var dataPoint in dataPoints)
+                     {
+diff --git a/Common/Extensions.cs b/Common/Extensions.cs
+index 9a5fd3fab..22b7436f3 100644
+--- a/Common/Extensions.cs
++++ b/Common/Extensions.cs
+@@ -329,24 +329,24 @@ namespace QuantConnect
+                             // this is required to avoid any small differences between python and C#
+                             var order = pair.Value;
+                             order.Price = order.Price.SmartRounding();
+-                            var limit = order as LimitOrder;
+-                            if (limit != null)
++
++                            if (order is LimitOrder limit)
+                             {
+                                 limit.LimitPrice = limit.LimitPrice.SmartRounding();
+                             }
+-                            var stopLimit = order as StopLimitOrder;
+-                            if (stopLimit != null)
++
++                            if (order is StopLimitOrder stopLimit)
+                             {
+                                 stopLimit.LimitPrice = stopLimit.LimitPrice.SmartRounding();
+                                 stopLimit.StopPrice = stopLimit.StopPrice.SmartRounding();
+                             }
+-                            var stopMarket = order as StopMarketOrder;
+-                            if (stopMarket != null)
++
++                            if (order is StopMarketOrder stopMarket)
+                             {
+                                 stopMarket.StopPrice = stopMarket.StopPrice.SmartRounding();
+                             }
+-                            var limitIfTouched = order as LimitIfTouchedOrder;
+-                            if (limitIfTouched != null)
++
++                            if (order is LimitIfTouchedOrder limitIfTouched)
+                             {
+                                 limitIfTouched.LimitPrice = limitIfTouched.LimitPrice.SmartRounding();
+                                 limitIfTouched.TriggerPrice = limitIfTouched.TriggerPrice.SmartRounding();
+@@ -2495,8 +2495,8 @@ namespace QuantConnect
+             switch (data.DataType)
+             {
+                 case MarketDataType.TradeBar:
+-                    var tradeBar = data as TradeBar;
+-                    if (tradeBar != null)
++
++                    if (data is TradeBar tradeBar)
+                     {
+                         tradeBar.Open = factor(tradeBar.Open);
+                         tradeBar.High = factor(tradeBar.High);
+@@ -2543,8 +2543,8 @@ namespace QuantConnect
+                     tick.Value = (tick.BidPrice + tick.AskPrice) / 2m;
+                     break;
+                 case MarketDataType.QuoteBar:
+-                    var quoteBar = data as QuoteBar;
+-                    if (quoteBar != null)
++
++                    if (data is QuoteBar quoteBar)
+                     {
+                         if (quoteBar.Ask != null)
+                         {
+diff --git a/Common/Field.cs b/Common/Field.cs
+index 46a0bbeaf..9ee9aa18b 100644
+--- a/Common/Field.cs
++++ b/Common/Field.cs
+@@ -108,8 +108,7 @@ namespace QuantConnect
+         {
+             return x =>
+             {
+-                var bar = x as IBaseDataBar;
+-                if (bar != null)
++                if (x is IBaseDataBar bar)
+                 {
+                     return selector(bar);
+                 }
+diff --git a/Common/Orders/OrderTicket.cs b/Common/Orders/OrderTicket.cs
+index 3f3089087..005cf50cb 100644
+--- a/Common/Orders/OrderTicket.cs
++++ b/Common/Orders/OrderTicket.cs
+@@ -616,8 +616,8 @@ namespace QuantConnect.Orders
+             {
+                 return requestSelector(ticket._submitRequest);
+             }
+-            var typedOrder = order as T;
+-            if (typedOrder != null)
++
++            if (order is T typedOrder)
+             {
+                 return orderSelector(typedOrder);
+             }
+diff --git a/Common/Python/PandasData.cs b/Common/Python/PandasData.cs
+index 3ff98e4cc..ee5b88c60 100644
+--- a/Common/Python/PandasData.cs
++++ b/Common/Python/PandasData.cs
+@@ -387,14 +387,14 @@ setattr(modules[__name__], 'concat', wrap_function(pd.concat))");
+             {
+                 var key = member.Name.ToLowerInvariant();
+                 var endTime = ((IBaseData) baseData).EndTime;
+-                var propertyMember = member as PropertyInfo;
+-                if (propertyMember != null)
++
++                if (member is PropertyInfo propertyMember)
+                 {
+                     AddToSeries(key, endTime, propertyMember.GetValue(baseData));
+                     continue;
+                 }
+-                var fieldMember = member as FieldInfo;
+-                if (fieldMember != null)
++
++                if (member is FieldInfo fieldMember)
+                 {
+                     AddToSeries(key, endTime, fieldMember.GetValue(baseData));
+                 }
+diff --git a/Common/Scheduling/FluentScheduledEventBuilder.cs b/Common/Scheduling/FluentScheduledEventBuilder.cs
+index d8af5312e..67a4fcead 100644
+--- a/Common/Scheduling/FluentScheduledEventBuilder.cs
++++ b/Common/Scheduling/FluentScheduledEventBuilder.cs
+@@ -67,10 +67,8 @@ namespace QuantConnect.Scheduling
+                 return this;
+             }
+ 
+-            // if it's already a composite, open it up and make a new composite
+-            // prevent nesting composites
+-            var compositeTimeRule = _timeRule as CompositeTimeRule;
+-            if (compositeTimeRule != null)
++            // if it's already a composite, open it up and make a new composite            // prevent nesting composites
++            if (_timeRule is CompositeTimeRule compositeTimeRule)
+             {
+                 var rules = compositeTimeRule.Rules;
+                 _timeRule = new CompositeTimeRule(rules.Concat(new[] { rule }));
+diff --git a/Common/Securities/CashAmount.cs b/Common/Securities/CashAmount.cs
+index 11354e3ff..98897fff1 100644
+--- a/Common/Securities/CashAmount.cs
++++ b/Common/Securities/CashAmount.cs
+@@ -69,9 +69,8 @@ namespace QuantConnect.Securities
+         /// <returns>True if <see cref="Currency"/> and <see cref="Amount"/> are equal</returns>
+         public override bool Equals(object obj)
+         {
+-            if (obj is CashAmount)
++            if (obj is CashAmount cashAmountObj)
+             {
+-                var cashAmountObj = (CashAmount) obj;
+                 return Amount == cashAmountObj.Amount
+                     && Currency == cashAmountObj.Currency;
+             }
+diff --git a/Common/Securities/CashBuyingPowerModel.cs b/Common/Securities/CashBuyingPowerModel.cs
+index 104e76946..fca18084a 100644
+--- a/Common/Securities/CashBuyingPowerModel.cs
++++ b/Common/Securities/CashBuyingPowerModel.cs
+@@ -425,9 +425,8 @@ namespace QuantConnect.Securities
+             foreach (var openOrder in openOrders)
+             {
+                 var orderSecurity = portfolio.Securities[openOrder.Symbol];
+-                var orderBaseCurrency = orderSecurity as IBaseCurrencySymbol;
+ 
+-                if (orderBaseCurrency != null)
++                if (orderSecurity is IBaseCurrencySymbol orderBaseCurrency)
+                 {
+                     // convert order value to target currency
+                     var quantityInTargetCurrency = openOrder.AbsoluteQuantity;
+diff --git a/Common/Securities/DefaultMarginCallModel.cs b/Common/Securities/DefaultMarginCallModel.cs
+index 09fb6b140..7e6498cbd 100644
+--- a/Common/Securities/DefaultMarginCallModel.cs
++++ b/Common/Securities/DefaultMarginCallModel.cs
+@@ -99,8 +99,7 @@ namespace QuantConnect.Securities
+ 
+                     if (security.Holdings.Quantity != 0 && security.Price != 0)
+                     {
+-                        var buyingPowerModel = security.BuyingPowerModel as SecurityMarginModel;
+-                        if (buyingPowerModel != null)
++                        if (security.BuyingPowerModel is SecurityMarginModel buyingPowerModel)
+                         {
+                             var marginCallOrder = GenerateMarginCallOrder(security, totalPortfolioValue, totalMarginUsed);
+                             if (marginCallOrder != null && marginCallOrder.Quantity != 0)
+diff --git a/Common/Securities/DynamicSecurityData.cs b/Common/Securities/DynamicSecurityData.cs
+index 11903e2c4..cb4d11ff2 100644
+--- a/Common/Securities/DynamicSecurityData.cs
++++ b/Common/Securities/DynamicSecurityData.cs
+@@ -182,8 +182,7 @@ namespace QuantConnect.Securities
+                 return data;
+             }
+ 
+-            var baseDataList = data as IReadOnlyList<BaseData>;
+-            if (baseDataList != null)
++            if (data is IReadOnlyList<BaseData> baseDataList)
+             {
+                 var listType = GetGenericListType(type);
+                 var list = (IList)Activator.CreateInstance(listType);
+diff --git a/Common/Securities/Option/ConstantQLUnderlyingVolatilityEstimator.cs b/Common/Securities/Option/ConstantQLUnderlyingVolatilityEstimator.cs
+index 61a9c811f..0b9f6e4d6 100644
+--- a/Common/Securities/Option/ConstantQLUnderlyingVolatilityEstimator.cs
++++ b/Common/Securities/Option/ConstantQLUnderlyingVolatilityEstimator.cs
+@@ -43,8 +43,7 @@ namespace QuantConnect.Securities.Option
+         {
+             var option = security as Option;
+ 
+-            if (option != null &&
+-                option.Underlying != null &&
++            if (option?.Underlying != null &&
+                 option.Underlying.VolatilityModel != null &&
+                 option.Underlying.VolatilityModel.Volatility > 0m)
+             {
+diff --git a/Common/Securities/Option/StrategyMatcher/ConstantOptionStrategyLegPredicateReferenceValue.cs b/Common/Securities/Option/StrategyMatcher/ConstantOptionStrategyLegPredicateReferenceValue.cs
+index d276bf96e..e297522d7 100644
+--- a/Common/Securities/Option/StrategyMatcher/ConstantOptionStrategyLegPredicateReferenceValue.cs
++++ b/Common/Securities/Option/StrategyMatcher/ConstantOptionStrategyLegPredicateReferenceValue.cs
+@@ -61,19 +61,19 @@ namespace QuantConnect.Securities.Option.StrategyMatcher
+         /// </summary>
+         public static IOptionStrategyLegPredicateReferenceValue Create(object value)
+         {
+-            if (value is DateTime)
++            if (value is DateTime dateTime)
+             {
+-                return new ConstantOptionStrategyLegPredicateReferenceValue<DateTime>((DateTime) value, PredicateTargetValue.Expiration);
++                return new ConstantOptionStrategyLegPredicateReferenceValue<DateTime>(dateTime, PredicateTargetValue.Expiration);
+             }
+ 
+-            if (value is decimal)
++            if (value is decimal d)
+             {
+-                return new ConstantOptionStrategyLegPredicateReferenceValue<decimal>((decimal) value, PredicateTargetValue.Strike);
++                return new ConstantOptionStrategyLegPredicateReferenceValue<decimal>(d, PredicateTargetValue.Strike);
+             }
+ 
+-            if (value is OptionRight)
++            if (value is OptionRight optionRight)
+             {
+-                return new ConstantOptionStrategyLegPredicateReferenceValue<OptionRight>((OptionRight) value, PredicateTargetValue.Right);
++                return new ConstantOptionStrategyLegPredicateReferenceValue<OptionRight>(optionRight, PredicateTargetValue.Right);
+             }
+ 
+             throw new NotSupportedException($"{value?.GetType().GetBetterTypeName()} is not supported.");
+diff --git a/Common/Securities/SecurityPortfolioManager.cs b/Common/Securities/SecurityPortfolioManager.cs
+index b3258f952..0e351bb9f 100644
+--- a/Common/Securities/SecurityPortfolioManager.cs
++++ b/Common/Securities/SecurityPortfolioManager.cs
+@@ -721,8 +721,7 @@ namespace QuantConnect.Securities
+             next.Value *= split.SplitFactor;
+ 
+             // make sure to modify open/high/low as well for tradebar data types
+-            var tradeBar = next as TradeBar;
+-            if (tradeBar != null)
++            if (next is TradeBar tradeBar)
+             {
+                 tradeBar.Open *= split.SplitFactor;
+                 tradeBar.High *= split.SplitFactor;
+@@ -730,8 +729,7 @@ namespace QuantConnect.Securities
+             }
+ 
+             // make sure to modify bid/ask as well for tradebar data types
+-            var tick = next as Tick;
+-            if (tick != null)
++            if (next is Tick tick)
+             {
+                 tick.AskPrice *= split.SplitFactor;
+                 tick.BidPrice *= split.SplitFactor;
+@@ -816,8 +814,7 @@ namespace QuantConnect.Securities
+                   Invariant($"MarginRemaining: {MarginRemaining:F2}")
+               );
+ 
+-            var orderSubmitRequest = orderRequest as SubmitOrderRequest;
+-            if (orderSubmitRequest != null)
++            if (orderRequest is SubmitOrderRequest orderSubmitRequest)
+             {
+                 var direction = orderSubmitRequest.Quantity > 0 ? OrderDirection.Buy : OrderDirection.Sell;
+                 var security = Securities[orderSubmitRequest.Symbol];
+diff --git a/Common/Securities/SecurityTransactionManager.cs b/Common/Securities/SecurityTransactionManager.cs
+index 16e1b3606..e4c81330b 100644
+--- a/Common/Securities/SecurityTransactionManager.cs
++++ b/Common/Securities/SecurityTransactionManager.cs
+@@ -141,10 +141,7 @@ namespace QuantConnect.Securities
+             }
+ 
+             var submit = request as SubmitOrderRequest;
+-            if (submit != null)
+-            {
+-                submit.SetOrderId(GetIncrementOrderId());
+-            }
++            submit?.SetOrderId(GetIncrementOrderId());
+             return _orderProcessor.Process(request);
+         }
+ 
+diff --git a/Common/Statistics/Statistics.cs b/Common/Statistics/Statistics.cs
+index d85980349..5a8740ecc 100644
+--- a/Common/Statistics/Statistics.cs
++++ b/Common/Statistics/Statistics.cs
+@@ -525,13 +525,13 @@ namespace QuantConnect.Statistics
+         public static double TrackingError(List<double> algoPerformance, List<double> benchmarkPerformance, double tradingDaysPerYear = 252)
+         {
+             // Un-equal lengths will blow up other statistics, but this will handle the case here
+-            if (algoPerformance.Count() != benchmarkPerformance.Count())
++            if (algoPerformance.Count != benchmarkPerformance.Count)
+             {
+                 return 0.0;
+             }
+ 
+             var performanceDifference = new List<double>();
+-            for (var i = 0; i < algoPerformance.Count(); i++)
++            for (var i = 0; i < algoPerformance.Count; i++)
+             {
+                 performanceDifference.Add(algoPerformance[i] - benchmarkPerformance[i]);
+             }
+diff --git a/Common/StringExtensions.cs b/Common/StringExtensions.cs
+index 020218cc7..c5c5a884f 100644
+--- a/Common/StringExtensions.cs
++++ b/Common/StringExtensions.cs
+@@ -56,8 +56,8 @@ namespace QuantConnect
+                     throw new ArgumentException("StringExtensions.ConvertInvariant does not support converting to TypeCode.Empty");
+ 
+                 case TypeCode.Object:
+-                    var convertible = value as IConvertible;
+-                    if (convertible != null)
++
++                    if (value is IConvertible convertible)
+                     {
+                         return convertible.ToType(conversionType, FormatProvider);
+                     }
+diff --git a/Common/Symbol.cs b/Common/Symbol.cs
+index 520ee2e47..d6fa4f697 100644
+--- a/Common/Symbol.cs
++++ b/Common/Symbol.cs
+@@ -374,8 +374,7 @@ namespace QuantConnect
+             if (ReferenceEquals(this, obj)) return true;
+ 
+             // compare strings just as you would a symbol object
+-            var sidString = obj as string;
+-            if (sidString != null)
++            if (obj is string sidString)
+             {
+                 SecurityIdentifier sid;
+                 if (SecurityIdentifier.TryParse(sidString, out sid))
+@@ -385,9 +384,9 @@ namespace QuantConnect
+             }
+ 
+             // compare a sid just as you would a symbol object
+-            if (obj is SecurityIdentifier)
++            if (obj is SecurityIdentifier securityIdentifier)
+             {
+-                return ID.Equals((SecurityIdentifier) obj);
++                return ID.Equals(securityIdentifier);
+             }
+ 
+             if (obj.GetType() != GetType()) return false;
+@@ -416,13 +415,12 @@ namespace QuantConnect
+         /// <param name="obj">An object to compare with this instance. </param><exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception><filterpriority>2</filterpriority>
+         public int CompareTo(object obj)
+         {
+-            var str = obj as string;
+-            if (str != null)
++            if (obj is string str)
+             {
+                 return string.Compare(Value, str, StringComparison.OrdinalIgnoreCase);
+             }
+-            var sym = obj as Symbol;
+-            if (sym != null)
++
++            if (obj is Symbol sym)
+             {
+                 return string.Compare(Value, sym.Value, StringComparison.OrdinalIgnoreCase);
+             }
+diff --git a/Common/SymbolValueJsonConverter.cs b/Common/SymbolValueJsonConverter.cs
+index 497da1446..844049196 100644
+--- a/Common/SymbolValueJsonConverter.cs
++++ b/Common/SymbolValueJsonConverter.cs
+@@ -32,8 +32,7 @@ namespace QuantConnect
+         /// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param><param name="value">The value.</param><param name="serializer">The calling serializer.</param>
+         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+         {
+-            var symbol = value as Symbol;
+-            if (symbol != null)
++            if (value is Symbol symbol)
+             {
+                 writer.WriteValue(symbol.Value);
+             }
+diff --git a/Common/Util/Composer.cs b/Common/Util/Composer.cs
+index 4a9c3d6b0..4f5e73af3 100644
+--- a/Common/Util/Composer.cs
++++ b/Common/Util/Composer.cs
+@@ -219,7 +219,7 @@ namespace QuantConnect.Util
+                         }
+                     }
+ 
+-                    var typeT = _exportedTypes.Where(type1 =>
++                    var typeT = _exportedTypes.FirstOrDefault(type1 =>
+                             {
+                                 try
+                                 {
+@@ -230,7 +230,7 @@ namespace QuantConnect.Util
+                                     return false;
+                                 }
+                             })
+-                        .FirstOrDefault();
++;
+ 
+                     if (typeT != null)
+                     {
+@@ -241,7 +241,7 @@ namespace QuantConnect.Util
+                     {
+                         // we want to get the requested part without instantiating each one of that type
+                         var selectedPart = _composableParts.Result
+-                            .Where(x =>
++                            .FirstOrDefault(x =>
+                                 {
+                                     try
+                                     {
+@@ -254,7 +254,7 @@ namespace QuantConnect.Util
+                                     }
+                                 }
+                             )
+-                            .FirstOrDefault();
++;
+ 
+                         if (selectedPart == null)
+                         {
+diff --git a/Common/Util/JsonRoundingConverter.cs b/Common/Util/JsonRoundingConverter.cs
+index 589de8c06..bb957c9d0 100644
+--- a/Common/Util/JsonRoundingConverter.cs
++++ b/Common/Util/JsonRoundingConverter.cs
+@@ -67,9 +67,9 @@ namespace QuantConnect.Util
+         /// <param name="serializer">The calling serializer.</param>
+         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+         {
+-            if (value is double)
++            if (value is double d)
+             {
+-                var rounded = Math.Round((double)value, FractionalDigits);
++                var rounded = Math.Round(d, FractionalDigits);
+                 writer.WriteValue(rounded.ToString(CultureInfo.InvariantCulture));
+             }
+             else
+diff --git a/Common/Util/LeanData.cs b/Common/Util/LeanData.cs
+index 373896abb..b62e44813 100644
+--- a/Common/Util/LeanData.cs
++++ b/Common/Util/LeanData.cs
+@@ -80,13 +80,13 @@ namespace QuantConnect.Util
+                             break;
+                         case Resolution.Minute:
+                         case Resolution.Second:
+-                            var tradeBar = data as TradeBar;
+-                            if (tradeBar != null)
++
++                            if (data is TradeBar tradeBar)
+                             {
+                                 return ToCsv(milliseconds, Scale(tradeBar.Open), Scale(tradeBar.High), Scale(tradeBar.Low), Scale(tradeBar.Close), tradeBar.Volume);
+                             }
+-                            var quoteBar = data as QuoteBar;
+-                            if (quoteBar != null)
++
++                            if (data is QuoteBar quoteBar)
+                             {
+                                 return ToCsv(milliseconds,
+                                     ToScaledCsv(quoteBar.Bid), quoteBar.LastBidSize,
+@@ -96,13 +96,13 @@ namespace QuantConnect.Util
+ 
+                         case Resolution.Hour:
+                         case Resolution.Daily:
+-                            var bigTradeBar = data as TradeBar;
+-                            if (bigTradeBar != null)
++
++                            if (data is TradeBar bigTradeBar)
+                             {
+                                 return ToCsv(longTime, Scale(bigTradeBar.Open), Scale(bigTradeBar.High), Scale(bigTradeBar.Low), Scale(bigTradeBar.Close), bigTradeBar.Volume);
+                             }
+-                            var bigQuoteBar = data as QuoteBar;
+-                            if (bigQuoteBar != null)
++
++                            if (data is QuoteBar bigQuoteBar)
+                             {
+                                 return ToCsv(longTime,
+                                     ToScaledCsv(bigQuoteBar.Bid), bigQuoteBar.LastBidSize,
+@@ -132,15 +132,15 @@ namespace QuantConnect.Util
+                             throw new ArgumentException("Cryto tick could not be created");
+                         case Resolution.Second:
+                         case Resolution.Minute:
+-                            var quoteBar = data as QuoteBar;
+-                            if (quoteBar != null)
++
++                            if (data is QuoteBar quoteBar)
+                             {
+                                 return ToCsv(milliseconds,
+                                     ToNonScaledCsv(quoteBar.Bid), quoteBar.LastBidSize,
+                                     ToNonScaledCsv(quoteBar.Ask), quoteBar.LastAskSize);
+                             }
+-                            var tradeBar = data as TradeBar;
+-                            if (tradeBar != null)
++
++                            if (data is TradeBar tradeBar)
+                             {
+                                 return ToCsv(milliseconds, tradeBar.Open, tradeBar.High, tradeBar.Low, tradeBar.Close, tradeBar.Volume);
+                             }
+@@ -148,15 +148,15 @@ namespace QuantConnect.Util
+ 
+                         case Resolution.Hour:
+                         case Resolution.Daily:
+-                            var bigQuoteBar = data as QuoteBar;
+-                            if (bigQuoteBar != null)
++
++                            if (data is QuoteBar bigQuoteBar)
+                             {
+                                 return ToCsv(longTime,
+                                     ToNonScaledCsv(bigQuoteBar.Bid), bigQuoteBar.LastBidSize,
+                                     ToNonScaledCsv(bigQuoteBar.Ask), bigQuoteBar.LastAskSize);
+                             }
+-                            var bigTradeBar = data as TradeBar;
+-                            if (bigTradeBar != null)
++
++                            if (data is TradeBar bigTradeBar)
+                             {
+                                 return ToCsv(longTime,
+                                              bigTradeBar.Open,
+@@ -227,22 +227,22 @@ namespace QuantConnect.Util
+ 
+                         case Resolution.Second:
+                         case Resolution.Minute:
++
+                             // option and future data can be quote or trade bars
+-                            var quoteBar = data as QuoteBar;
+-                            if (quoteBar != null)
++                            if (data is QuoteBar quoteBar)
+                             {
+                                 return ToCsv(milliseconds,
+                                     ToScaledCsv(quoteBar.Bid), quoteBar.LastBidSize,
+                                     ToScaledCsv(quoteBar.Ask), quoteBar.LastAskSize);
+                             }
+-                            var tradeBar = data as TradeBar;
+-                            if (tradeBar != null)
++
++                            if (data is TradeBar tradeBar)
+                             {
+                                 return ToCsv(milliseconds,
+                                     Scale(tradeBar.Open), Scale(tradeBar.High), Scale(tradeBar.Low), Scale(tradeBar.Close), tradeBar.Volume);
+                             }
+-                            var openInterest = data as OpenInterest;
+-                            if (openInterest != null)
++
++                            if (data is OpenInterest openInterest)
+                             {
+                                 return ToCsv(milliseconds, openInterest.Value);
+                             }
+@@ -250,21 +250,21 @@ namespace QuantConnect.Util
+ 
+                         case Resolution.Hour:
+                         case Resolution.Daily:
++
+                             // option and future data can be quote or trade bars
+-                            var bigQuoteBar = data as QuoteBar;
+-                            if (bigQuoteBar != null)
++                            if (data is QuoteBar bigQuoteBar)
+                             {
+                                 return ToCsv(longTime,
+                                     ToScaledCsv(bigQuoteBar.Bid), bigQuoteBar.LastBidSize,
+                                     ToScaledCsv(bigQuoteBar.Ask), bigQuoteBar.LastAskSize);
+                             }
+-                            var bigTradeBar = data as TradeBar;
+-                            if (bigTradeBar != null)
++
++                            if (data is TradeBar bigTradeBar)
+                             {
+                                 return ToCsv(longTime, ToScaledCsv(bigTradeBar), bigTradeBar.Volume);
+                             }
+-                            var bigOpenInterest = data as OpenInterest;
+-                            if (bigOpenInterest != null)
++
++                            if (data is OpenInterest bigOpenInterest)
+                             {
+                                 return ToCsv(milliseconds, bigOpenInterest.Value);
+                             }
+@@ -298,22 +298,22 @@ namespace QuantConnect.Util
+ 
+                         case Resolution.Second:
+                         case Resolution.Minute:
++
+                             // option and future data can be quote or trade bars
+-                            var quoteBar = data as QuoteBar;
+-                            if (quoteBar != null)
++                            if (data is QuoteBar quoteBar)
+                             {
+                                 return ToCsv(milliseconds,
+                                     ToNonScaledCsv(quoteBar.Bid), quoteBar.LastBidSize,
+                                     ToNonScaledCsv(quoteBar.Ask), quoteBar.LastAskSize);
+                             }
+-                            var tradeBar = data as TradeBar;
+-                            if (tradeBar != null)
++
++                            if (data is TradeBar tradeBar)
+                             {
+                                 return ToCsv(milliseconds,
+                                     tradeBar.Open, tradeBar.High, tradeBar.Low, tradeBar.Close, tradeBar.Volume);
+                             }
+-                            var openInterest = data as OpenInterest;
+-                            if (openInterest != null)
++
++                            if (data is OpenInterest openInterest)
+                             {
+                                 return ToCsv(milliseconds, openInterest.Value);
+                             }
+@@ -321,21 +321,21 @@ namespace QuantConnect.Util
+ 
+                         case Resolution.Hour:
+                         case Resolution.Daily:
++
+                             // option and future data can be quote or trade bars
+-                            var bigQuoteBar = data as QuoteBar;
+-                            if (bigQuoteBar != null)
++                            if (data is QuoteBar bigQuoteBar)
+                             {
+                                 return ToCsv(longTime,
+                                     ToNonScaledCsv(bigQuoteBar.Bid), bigQuoteBar.LastBidSize,
+                                     ToNonScaledCsv(bigQuoteBar.Ask), bigQuoteBar.LastAskSize);
+                             }
+-                            var bigTradeBar = data as TradeBar;
+-                            if (bigTradeBar != null)
++
++                            if (data is TradeBar bigTradeBar)
+                             {
+                                 return ToCsv(longTime, ToNonScaledCsv(bigTradeBar), bigTradeBar.Volume);
+                             }
+-                            var bigOpenInterest = data as OpenInterest;
+-                            if (bigOpenInterest != null)
++
++                            if (data is OpenInterest bigOpenInterest)
+                             {
+                                 return ToCsv(milliseconds, bigOpenInterest.Value);
+                             }
+@@ -369,22 +369,22 @@ namespace QuantConnect.Util
+ 
+                         case Resolution.Second:
+                         case Resolution.Minute:
++
+                             // option and future data can be quote or trade bars
+-                            var quoteBar = data as QuoteBar;
+-                            if (quoteBar != null)
++                            if (data is QuoteBar quoteBar)
+                             {
+                                 return ToCsv(milliseconds,
+                                     ToNonScaledCsv(quoteBar.Bid), quoteBar.LastBidSize,
+                                     ToNonScaledCsv(quoteBar.Ask), quoteBar.LastAskSize);
+                             }
+-                            var tradeBar = data as TradeBar;
+-                            if (tradeBar != null)
++
++                            if (data is TradeBar tradeBar)
+                             {
+                                 return ToCsv(milliseconds,
+                                              tradeBar.Open, tradeBar.High, tradeBar.Low, tradeBar.Close, tradeBar.Volume);
+                             }
+-                            var openInterest = data as OpenInterest;
+-                            if (openInterest != null)
++
++                            if (data is OpenInterest openInterest)
+                             {
+                                 return ToCsv(milliseconds, openInterest.Value);
+                             }
+@@ -392,21 +392,21 @@ namespace QuantConnect.Util
+ 
+                         case Resolution.Hour:
+                         case Resolution.Daily:
++
+                             // option and future data can be quote or trade bars
+-                            var bigQuoteBar = data as QuoteBar;
+-                            if (bigQuoteBar != null)
++                            if (data is QuoteBar bigQuoteBar)
+                             {
+                                 return ToCsv(longTime,
+                                     ToNonScaledCsv(bigQuoteBar.Bid), bigQuoteBar.LastBidSize,
+                                     ToNonScaledCsv(bigQuoteBar.Ask), bigQuoteBar.LastAskSize);
+                             }
+-                            var bigTradeBar = data as TradeBar;
+-                            if (bigTradeBar != null)
++
++                            if (data is TradeBar bigTradeBar)
+                             {
+                                 return ToCsv(longTime, ToNonScaledCsv(bigTradeBar), bigTradeBar.Volume);
+                             }
+-                            var bigOpenInterest = data as OpenInterest;
+-                            if (bigOpenInterest != null)
++
++                            if (data is OpenInterest bigOpenInterest)
+                             {
+                                 return ToCsv(longTime, bigOpenInterest.Value);
+                             }
+@@ -826,9 +826,9 @@ namespace QuantConnect.Util
+             for (var i = 0; i < args.Length; i++)
+             {
+                 var value = args[i];
+-                if (value is decimal)
++                if (value is decimal d)
+                 {
+-                    args[i] = ((decimal) value).Normalize();
++                    args[i] = d.Normalize();
+                 }
+             }
+ 
+diff --git a/Engine/AlgorithmManager.cs b/Engine/AlgorithmManager.cs
+index bd99ee3f9..a19612ec9 100644
+--- a/Engine/AlgorithmManager.cs
++++ b/Engine/AlgorithmManager.cs
+@@ -791,8 +791,7 @@ namespace QuantConnect.Lean.Engine
+                             var list = new List<BaseData>();
+                             Type dataType;
+ 
+-                            var ticks = data as List<Tick>;
+-                            if (ticks != null)
++                            if (data is List<Tick> ticks)
+                             {
+                                 list.AddRange(ticks);
+                                 dataType = typeof(Tick);
+@@ -1008,8 +1007,7 @@ namespace QuantConnect.Lean.Engine
+                         var universe = ukvp.Value;
+                         if (universe.ContainsMember(security.Symbol))
+                         {
+-                            var userUniverse = universe as UserDefinedUniverse;
+-                            if (userUniverse != null)
++                            if (universe is UserDefinedUniverse userUniverse)
+                             {
+                                 userUniverse.Remove(security.Symbol);
+                             }
+diff --git a/Engine/DataFeeds/AggregationManager.cs b/Engine/DataFeeds/AggregationManager.cs
+index 3e09c4dd8..a7c2af6f2 100644
+--- a/Engine/DataFeeds/AggregationManager.cs
++++ b/Engine/DataFeeds/AggregationManager.cs
+@@ -140,8 +140,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+                         // for non tick resolution subscriptions drop suspicious ticks
+                         if (kvp.Key.Resolution != Resolution.Tick)
+                         {
+-                            var tick = input as Tick;
+-                            if (tick != null && tick.Suspicious)
++                            if (input is Tick tick && tick.Suspicious)
+                             {
+                                 continue;
+                             }
+diff --git a/Engine/DataFeeds/DataPermissionManager.cs b/Engine/DataFeeds/DataPermissionManager.cs
+index e1ce07ee2..c52f2c438 100644
+--- a/Engine/DataFeeds/DataPermissionManager.cs
++++ b/Engine/DataFeeds/DataPermissionManager.cs
+@@ -38,8 +38,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+         /// <param name="job">The job packet</param>
+         public virtual void Initialize(AlgorithmNodePacket job)
+         {
+-            var liveJob = job as LiveNodePacket;
+-            if (liveJob != null)
++            if (job is LiveNodePacket liveJob)
+             {
+                 Log.Trace($"LiveTradingDataFeed.GetDataChannelProvider(): will use {liveJob.DataChannelProvider}");
+                 DataChannelProvider = Composer.Instance.GetExportedValueByTypeName<IDataChannelProvider>(liveJob.DataChannelProvider);
+diff --git a/Engine/DataFeeds/Enumerators/Factories/LiveCustomDataSubscriptionEnumeratorFactory.cs b/Engine/DataFeeds/Enumerators/Factories/LiveCustomDataSubscriptionEnumeratorFactory.cs
+index 59c933187..61fc8b579 100644
+--- a/Engine/DataFeeds/Enumerators/Factories/LiveCustomDataSubscriptionEnumeratorFactory.cs
++++ b/Engine/DataFeeds/Enumerators/Factories/LiveCustomDataSubscriptionEnumeratorFactory.cs
+@@ -103,9 +103,9 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Enumerators.Factories
+                     // unroll collections into individual data points after fast forward/rate limiting applied
+                     enumerator = enumerator.SelectMany(data =>
+                     {
+-                        var collection = data as BaseDataCollection;
+                         IEnumerator<BaseData> collectionEnumerator;
+-                        if (collection != null)
++
++                        if (data is BaseDataCollection collection)
+                         {
+                             if (source.TransportMedium == SubscriptionTransportMedium.Rest)
+                             {
+diff --git a/Engine/DataFeeds/Enumerators/Factories/TimeTriggeredUniverseSubscriptionEnumeratorFactory.cs b/Engine/DataFeeds/Enumerators/Factories/TimeTriggeredUniverseSubscriptionEnumeratorFactory.cs
+index 1186353f0..738a1e053 100644
+--- a/Engine/DataFeeds/Enumerators/Factories/TimeTriggeredUniverseSubscriptionEnumeratorFactory.cs
++++ b/Engine/DataFeeds/Enumerators/Factories/TimeTriggeredUniverseSubscriptionEnumeratorFactory.cs
+@@ -63,8 +63,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Enumerators.Factories
+                 .Select(x => new Tick { Time = x, Symbol = request.Configuration.Symbol })
+                 .GetEnumerator();
+ 
+-            var universe = request.Universe as UserDefinedUniverse;
+-            if (universe != null)
++            if (request.Universe is UserDefinedUniverse universe)
+             {
+                 enumerator = new InjectionEnumerator(enumerator);
+ 
+diff --git a/Engine/DataFeeds/Enumerators/FuturesChainUniverseDataCollectionAggregatorEnumerator.cs b/Engine/DataFeeds/Enumerators/FuturesChainUniverseDataCollectionAggregatorEnumerator.cs
+index b8dd59d45..e2825a3e7 100644
+--- a/Engine/DataFeeds/Enumerators/FuturesChainUniverseDataCollectionAggregatorEnumerator.cs
++++ b/Engine/DataFeeds/Enumerators/FuturesChainUniverseDataCollectionAggregatorEnumerator.cs
+@@ -48,8 +48,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Enumerators
+ 
+         private static void AddSingleItem(FuturesChainUniverseDataCollection collection, BaseData current)
+         {
+-            var baseDataCollection = current as BaseDataCollection;
+-            if (baseDataCollection != null)
++            if (current is BaseDataCollection baseDataCollection)
+             {
+                 foreach (var data in baseDataCollection.Data)
+                 {
+diff --git a/Engine/DataFeeds/Enumerators/OptionChainUniverseDataCollectionEnumerator.cs b/Engine/DataFeeds/Enumerators/OptionChainUniverseDataCollectionEnumerator.cs
+index aff87a3e8..4dd0ed711 100644
+--- a/Engine/DataFeeds/Enumerators/OptionChainUniverseDataCollectionEnumerator.cs
++++ b/Engine/DataFeeds/Enumerators/OptionChainUniverseDataCollectionEnumerator.cs
+@@ -43,8 +43,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Enumerators
+         /// <param name="current">The data to be added</param>
+         protected override void Add(OptionChainUniverseDataCollection collection, BaseData current)
+         {
+-            var baseDataCollection = current as BaseDataCollection;
+-            if (baseDataCollection != null)
++            if (current is BaseDataCollection baseDataCollection)
+             {
+                 if (baseDataCollection.Data.Count > 1)
+                     SetData(collection, baseDataCollection.Data);
+diff --git a/Engine/DataFeeds/Enumerators/QuoteBarFillForwardEnumerator.cs b/Engine/DataFeeds/Enumerators/QuoteBarFillForwardEnumerator.cs
+index 40e7fecb6..18eb2ee3e 100644
+--- a/Engine/DataFeeds/Enumerators/QuoteBarFillForwardEnumerator.cs
++++ b/Engine/DataFeeds/Enumerators/QuoteBarFillForwardEnumerator.cs
+@@ -69,8 +69,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Enumerators
+         {
+             if (!_enumerator.MoveNext()) return false;
+ 
+-            var bar = _enumerator.Current as QuoteBar;
+-            if (bar != null)
++            if (_enumerator.Current is QuoteBar bar)
+             {
+                 if (_previous != null)
+                 {
+diff --git a/Engine/DataFeeds/Enumerators/RefreshEnumerator.cs b/Engine/DataFeeds/Enumerators/RefreshEnumerator.cs
+index 3e440183f..e6f06e20b 100644
+--- a/Engine/DataFeeds/Enumerators/RefreshEnumerator.cs
++++ b/Engine/DataFeeds/Enumerators/RefreshEnumerator.cs
+@@ -77,10 +77,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Enumerators
+         /// <exception cref="T:System.InvalidOperationException">The collection was modified after the enumerator was created. </exception><filterpriority>2</filterpriority>
+         public void Reset()
+         {
+-            if (_enumerator != null)
+-            {
+-                _enumerator.Reset();
+-            }
++            _enumerator?.Reset();
+         }
+ 
+         /// <summary>
+@@ -112,10 +109,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Enumerators
+         /// <filterpriority>2</filterpriority>
+         public void Dispose()
+         {
+-            if (_enumerator != null)
+-            {
+-                _enumerator.Dispose();
+-            }
++            _enumerator?.Dispose();
+         }
+     }
+ }
+diff --git a/Engine/DataFeeds/LiveTradingDataFeed.cs b/Engine/DataFeeds/LiveTradingDataFeed.cs
+index 87f069675..606fb6871 100644
+--- a/Engine/DataFeeds/LiveTradingDataFeed.cs
++++ b/Engine/DataFeeds/LiveTradingDataFeed.cs
+@@ -308,8 +308,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+ 
+             IEnumerator<BaseData> enumerator = null;
+ 
+-            var timeTriggered = request.Universe as ITimeTriggeredUniverse;
+-            if (timeTriggered != null)
++            if (request.Universe is ITimeTriggeredUniverse timeTriggered)
+             {
+                 Log.Trace($"LiveTradingDataFeed.CreateUniverseSubscription(): Creating user defined universe: {config.Symbol.ID}");
+ 
+diff --git a/Engine/DataFeeds/SubscriptionDataReader.cs b/Engine/DataFeeds/SubscriptionDataReader.cs
+index fe8a1a568..cd2a04c22 100644
+--- a/Engine/DataFeeds/SubscriptionDataReader.cs
++++ b/Engine/DataFeeds/SubscriptionDataReader.cs
+@@ -187,8 +187,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+             }
+ 
+             //If its quandl set the access token in data factory:
+-            var quandl = _dataFactory as Quandl;
+-            if (quandl != null)
++            if (_dataFactory is Quandl quandl)
+             {
+                 if (!Quandl.IsAuthCodeSet)
+                 {
+@@ -197,8 +196,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+             }
+ 
+             // If Tiingo data, set the access token in data factory
+-            var tiingo = _dataFactory as TiingoPrice;
+-            if (tiingo != null)
++            if (_dataFactory is TiingoPrice tiingo)
+             {
+                 if (!Tiingo.IsAuthCodeSet)
+                 {
+@@ -207,8 +205,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+             }
+ 
+             // If USEnergyAPI data, set the access token in data factory
+-            var energyInformation = _dataFactory as USEnergyAPI;
+-            if (energyInformation != null)
++            if (_dataFactory is USEnergyAPI energyInformation)
+             {
+                 if (!USEnergyAPI.IsAuthCodeSet)
+                 {
+@@ -217,8 +214,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+             }
+ 
+             // If Fred data, set the access token in data factory
+-            var fred = _dataFactory as FredApi;
+-            if (fred != null)
++            if (_dataFactory is FredApi fred)
+             {
+                 if (!FredApi.IsAuthCodeSet)
+                 {
+@@ -519,10 +515,9 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+                 }
+             };
+ 
+-            if (dataSourceReader is TextSubscriptionDataSourceReader)
++            if (dataSourceReader is TextSubscriptionDataSourceReader textSubscriptionFactory)
+             {
+                 // handle empty files/instantiation errors
+-                var textSubscriptionFactory = (TextSubscriptionDataSourceReader)dataSourceReader;
+                 textSubscriptionFactory.CreateStreamReaderError += (sender, args) =>
+                 {
+                     if (_config.IsCustomData && !_config.Type.GetBaseDataInstance().IsSparseData())
+diff --git a/Engine/DataFeeds/UniverseSelection.cs b/Engine/DataFeeds/UniverseSelection.cs
+index 4a6a9dc58..f23cefdd3 100644
+--- a/Engine/DataFeeds/UniverseSelection.cs
++++ b/Engine/DataFeeds/UniverseSelection.cs
+@@ -113,8 +113,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+             IEnumerable<Symbol> selectSymbolsResult;
+ 
+             // check if this universe must be filtered with fine fundamental data
+-            var fineFiltered = universe as FineFundamentalFilteredUniverse;
+-            if (fineFiltered != null
++            if (universe is FineFundamentalFilteredUniverse fineFiltered
+                 // if the universe has been disposed we don't perform selection. This us handled bellow by 'Universe.PerformSelection'
+                 // but in this case we directly call 'SelectSymbols' because we want to perform fine selection even if coarse returns the same
+                 // symbols, see 'Universe.PerformSelection', which detects this and returns 'Universe.Unchanged'
+@@ -395,8 +394,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
+             {
+                 _initializedSecurityBenchmark = true;
+ 
+-                var securityBenchmark = _algorithm.Benchmark as SecurityBenchmark;
+-                if (securityBenchmark != null)
++                if (_algorithm.Benchmark is SecurityBenchmark securityBenchmark)
+                 {
+                     var dataConfig = _algorithm.SubscriptionManager.SubscriptionDataConfigService.Add(
+                         securityBenchmark.Security.Symbol,
+diff --git a/Engine/Results/BacktestingResultHandler.cs b/Engine/Results/BacktestingResultHandler.cs
+index f3ca8ec46..9ce8702d7 100644
+--- a/Engine/Results/BacktestingResultHandler.cs
++++ b/Engine/Results/BacktestingResultHandler.cs
+@@ -294,9 +294,8 @@ namespace QuantConnect.Lean.Engine.Results
+                 if (packet.Type != PacketType.BacktestResult) return;
+ 
+                 // Port to packet format:
+-                var result = packet as BacktestResultPacket;
+ 
+-                if (result != null)
++                if (packet is BacktestResultPacket result)
+                 {
+                     // Get Storage Location:
+                     var key = $"{AlgorithmId}.json";
+diff --git a/Engine/Results/LiveTradingResultHandler.cs b/Engine/Results/LiveTradingResultHandler.cs
+index 479937d0f..227374d07 100644
+--- a/Engine/Results/LiveTradingResultHandler.cs
++++ b/Engine/Results/LiveTradingResultHandler.cs
+@@ -857,9 +857,8 @@ namespace QuantConnect.Lean.Engine.Results
+                 if (packet.Type != PacketType.LiveResult) return;
+ 
+                 // Port to packet format:
+-                var live = packet as LiveResultPacket;
+ 
+-                if (live != null)
++                if (packet is LiveResultPacket live)
+                 {
+                     if (live.Results.OrderEvents != null)
+                     {
+diff --git a/Indicators/FunctionalIndicator.cs b/Indicators/FunctionalIndicator.cs
+index c68c652c4..7c14bc200 100644
+--- a/Indicators/FunctionalIndicator.cs
++++ b/Indicators/FunctionalIndicator.cs
+@@ -84,11 +84,7 @@ namespace QuantConnect.Indicators
+         /// </summary>
+         public override void Reset()
+         {
+-            if (_reset != null)
+-            {
+-                // if a reset function was specified then use that
+-                _reset.Invoke();
+-            }
++            _reset?.Invoke();
+             base.Reset();
+         }
+     }
+diff --git a/Indicators/HeikinAshi.cs b/Indicators/HeikinAshi.cs
+index 722b1aa90..47e10acd3 100644
+--- a/Indicators/HeikinAshi.cs
++++ b/Indicators/HeikinAshi.cs
+@@ -108,13 +108,13 @@ namespace QuantConnect.Indicators
+             }
+ 
+             var volume = 0.0m;
+-            if (input is TradeBar)
++            if (input is TradeBar tradeBar)
+             {
+-                volume = ((TradeBar) input).Volume;
++                volume = tradeBar.Volume;
+             }
+-            else if (input is RenkoBar)
++            else if (input is RenkoBar renkoBar)
+             {
+-                volume = ((RenkoBar) input).Volume;
++                volume = renkoBar.Volume;
+             }
+             Volume.Update(input.Time, volume);
+ 
+diff --git a/Optimizer/Strategies/EulerSearchOptimizationStrategy.cs b/Optimizer/Strategies/EulerSearchOptimizationStrategy.cs
+index 08fce59de..e28b8666f 100644
+--- a/Optimizer/Strategies/EulerSearchOptimizationStrategy.cs
++++ b/Optimizer/Strategies/EulerSearchOptimizationStrategy.cs
+@@ -95,8 +95,7 @@ namespace QuantConnect.Optimizer.Strategies
+                     var parameterSet = Solution.ParameterSet;
+                     foreach (var optimizationParameter in OptimizationParameters)
+                     {
+-                        var optimizationStepParameter = optimizationParameter as OptimizationStepParameter;
+-                        if (optimizationStepParameter != null && optimizationStepParameter.Step > optimizationStepParameter.MinStep)
++                        if (optimizationParameter is OptimizationStepParameter optimizationStepParameter && optimizationStepParameter.Step > optimizationStepParameter.MinStep)
+                         {
+                             var newStep = Math.Max(optimizationStepParameter.MinStep.Value, optimizationStepParameter.Step.Value / _segmentsAmount);
+                             var fractal = newStep * ((decimal)_segmentsAmount / 2);
+diff --git a/Optimizer/Strategies/StepBaseOptimizationStrategy.cs b/Optimizer/Strategies/StepBaseOptimizationStrategy.cs
+index 94e0a934c..38fe7b6e4 100644
+--- a/Optimizer/Strategies/StepBaseOptimizationStrategy.cs
++++ b/Optimizer/Strategies/StepBaseOptimizationStrategy.cs
+@@ -235,8 +235,7 @@ namespace QuantConnect.Optimizer.Strategies
+ 
+         private IEnumerator<string> GetEnumerator(OptimizationParameter parameter)
+         {
+-            var staticOptimizationParameter = parameter as StaticOptimizationParameter;
+-            if (staticOptimizationParameter != null)
++            if (parameter is StaticOptimizationParameter staticOptimizationParameter)
+             {
+                 return new List<string> { staticOptimizationParameter.Value }.GetEnumerator();
+             }
+diff --git a/Report/DeedleUtil.cs b/Report/DeedleUtil.cs
+index 22b33e3a2..e748048ab 100644
+--- a/Report/DeedleUtil.cs
++++ b/Report/DeedleUtil.cs
+@@ -184,7 +184,7 @@ namespace QuantConnect.Report
+         /// <remarks>Equivalent to `df.dropna(how='all')`</remarks>
+         public static Frame<TRowKey, TColumnKey> DropSparseRowsAll<TRowKey, TColumnKey>(this Frame<TRowKey, TColumnKey> frame)
+         {
+-            if (frame.ColumnKeys.Count() == 0)
++            if (!frame.ColumnKeys.Any())
+             {
+                 return Frame.CreateEmpty<TRowKey, TColumnKey>();
+             }
+diff --git a/Report/PortfolioLooper/PortfolioLooper.cs b/Report/PortfolioLooper/PortfolioLooper.cs
+index 829c1f8e8..2301f6b99 100644
+--- a/Report/PortfolioLooper/PortfolioLooper.cs
++++ b/Report/PortfolioLooper/PortfolioLooper.cs
+@@ -351,11 +351,9 @@ namespace QuantConnect.Report
+                 // security price got updated
+                 Algorithm.Portfolio.InvalidateTotalPortfolioValue();
+ 
+-                // Check if we have a base currency (i.e. forex or crypto that requires currency conversion)
+-                // to ensure the proper conversion rate is set for them
+-                var baseCurrency = orderSecurity as IBaseCurrencySymbol;
++                // Check if we have a base currency (i.e. forex or crypto that requires currency conversion)                // to ensure the proper conversion rate is set for them
+ 
+-                if (baseCurrency != null)
++                if (orderSecurity is IBaseCurrencySymbol baseCurrency)
+                 {
+                     // We want slices that apply to either this point in time, or the last most recent point in time
+                     var updateSlices = _conversionSlices.Where(x => x.Time <= order.Time).ToList();
+diff --git a/Report/ReportElements/DrawdownReportElement.cs b/Report/ReportElements/DrawdownReportElement.cs
+index d15c4c366..9549333d3 100644
+--- a/Report/ReportElements/DrawdownReportElement.cs
++++ b/Report/ReportElements/DrawdownReportElement.cs
+@@ -84,7 +84,7 @@ namespace QuantConnect.Report.ReportElements
+                 foreach (var group in drawdownCollection.Drawdowns)
+                 {
+                     // Skip drawdown periods that are overlapping
+-                    if (previousDrawdownPeriods.Where(kvp => (group.Start >= kvp.Key && group.Start <= kvp.Value) || (group.End >= kvp.Key && group.End <= kvp.Value)).Any())
++                    if (previousDrawdownPeriods.Any(kvp => (group.Start >= kvp.Key && group.Start <= kvp.Value) || (group.End >= kvp.Key && group.End <= kvp.Value)))
+                     {
+                         continue;
+                     }
+diff --git a/Tests/Algorithm/AlgorithmAddDataTests.cs b/Tests/Algorithm/AlgorithmAddDataTests.cs
+index da22f6170..ae15582bf 100644
+--- a/Tests/Algorithm/AlgorithmAddDataTests.cs
++++ b/Tests/Algorithm/AlgorithmAddDataTests.cs
+@@ -229,14 +229,14 @@ namespace QuantConnect.Tests.Algorithm
+             // Dummy here is meant to try to corrupt the SymbolCache. Ideally, SymbolCache should return non-custom data types with higher priority
+             // in case we want to add two custom data types, but still have them associated with the equity from the cache if we're using it.
+             // This covers the case where two idential data subscriptions are created.
+-            var dummy = qcAlgorithm.AddData(customDataType, asset.Symbol, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First().DataTimeZone);
+-            var customData = qcAlgorithm.AddData(customDataType, asset.Symbol, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First().DataTimeZone);
++            var dummy = qcAlgorithm.AddData(customDataType, asset.Symbol, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType).DataTimeZone);
++            var customData = qcAlgorithm.AddData(customDataType, asset.Symbol, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType).DataTimeZone);
+ 
+             Assert.IsTrue(customData.Symbol.HasUnderlying, $"{customDataType.Name} added as {ticker} Symbol with SecurityType {securityType} does not have underlying");
+             Assert.AreEqual(customData.Symbol.Underlying, asset.Symbol, $"Custom data underlying does not match {securityType} Symbol for {ticker}");
+ 
+-            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First();
+-            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Base).Single();
++            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType);
++            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Base);
+ 
+             var assetShouldBeMapped = assetSubscription.TickerShouldBeMapped();
+             var customShouldBeMapped = customDataSubscription.TickerShouldBeMapped();
+@@ -297,14 +297,14 @@ namespace QuantConnect.Tests.Algorithm
+             // Dummy here is meant to try to corrupt the SymbolCache. Ideally, SymbolCache should return non-custom data types with higher priority
+             // in case we want to add two custom data types, but still have them associated with the equity from the cache if we're using it.
+             // This covers the case where two idential data subscriptions are created.
+-            var dummy = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First().DataTimeZone);
+-            var customData = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First().DataTimeZone);
++            var dummy = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType).DataTimeZone);
++            var customData = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType).DataTimeZone);
+ 
+             Assert.IsTrue(customData.Symbol.HasUnderlying, $"Custom data added as {ticker} Symbol with SecurityType {securityType} does not have underlying");
+             Assert.AreEqual(customData.Symbol.Underlying, asset.Symbol, $"Custom data underlying does not match {securityType} Symbol for {ticker}");
+ 
+-            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First();
+-            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Base).Single();
++            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType);
++            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Base);
+ 
+             var assetShouldBeMapped = assetSubscription.TickerShouldBeMapped();
+             var customShouldBeMapped = customDataSubscription.TickerShouldBeMapped();
+@@ -361,15 +361,15 @@ namespace QuantConnect.Tests.Algorithm
+             // Dummy here is meant to try to corrupt the SymbolCache. Ideally, SymbolCache should return non-custom data types with higher priority
+             // in case we want to add two custom data types, but still have them associated with the equity from the cache if we're using it.
+             // This covers the case where two idential data subscriptions are created.
+-            var dummy = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First().DataTimeZone);
+-            var customData = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First().DataTimeZone);
++            var dummy = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType).DataTimeZone);
++            var customData = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType).DataTimeZone);
+ 
+             // Check to see if we have an underlying symbol when we shouldn't
+             Assert.IsFalse(customData.Symbol.HasUnderlying, $"{customDataType.Name} has underlying symbol for SecurityType {securityType} with ticker {ticker}");
+             Assert.AreEqual(customData.Symbol.Underlying, null, $"{customDataType.Name} - Custom data underlying Symbol for SecurityType {securityType} is not null");
+ 
+-            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == securityType).First();
+-            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Base).Single();
++            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.First(x => x.SecurityType == securityType);
++            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Base);
+ 
+             var assetShouldBeMapped = assetSubscription.TickerShouldBeMapped();
+             var customShouldBeMapped = customDataSubscription.TickerShouldBeMapped();
+@@ -467,8 +467,8 @@ namespace QuantConnect.Tests.Algorithm
+             // Dummy here is meant to try to corrupt the SymbolCache. Ideally, SymbolCache should return non-custom data types with higher priority
+             // in case we want to add two custom data types, but still have them associated with the equity from the cache if we're using it.
+             // This covers the case where two idential data subscriptions are created.
+-            var dummy = qcAlgorithm.AddData(customDataType, asset.Symbol, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single().DataTimeZone);
+-            var customData = qcAlgorithm.AddData(customDataType, asset.Symbol, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single().DataTimeZone);
++            var dummy = qcAlgorithm.AddData(customDataType, asset.Symbol, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option).DataTimeZone);
++            var customData = qcAlgorithm.AddData(customDataType, asset.Symbol, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option).DataTimeZone);
+ 
+             // Check to see if we have an underlying symbol when we shouldn't
+             Assert.IsTrue(customData.Symbol.HasUnderlying, $"{customDataType.Name} - {ticker} has no underlying Symbol");
+@@ -476,8 +476,8 @@ namespace QuantConnect.Tests.Algorithm
+             Assert.AreEqual(customData.Symbol.Underlying.Underlying, asset.Symbol.Underlying);
+             Assert.AreEqual(customData.Symbol.Underlying.Underlying.Underlying, null);
+ 
+-            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single();
+-            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Base).Single();
++            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option);
++            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Base);
+ 
+             Assert.IsTrue(assetSubscription.TickerShouldBeMapped());
+             Assert.AreEqual(customDataShouldBeMapped, customDataSubscription.TickerShouldBeMapped());
+@@ -500,8 +500,8 @@ namespace QuantConnect.Tests.Algorithm
+             // Dummy here is meant to try to corrupt the SymbolCache. Ideally, SymbolCache should return non-custom data types with higher priority
+             // in case we want to add two custom data types, but still have them associated with the equity from the cache if we're using it.
+             // This covers the case where two idential data subscriptions are created.
+-            var dummy = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single().DataTimeZone);
+-            var customData = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single().DataTimeZone);
++            var dummy = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option).DataTimeZone);
++            var customData = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option).DataTimeZone);
+ 
+             // Check to see if we have an underlying symbol when we shouldn't
+             Assert.IsTrue(customData.Symbol.HasUnderlying, $"{customDataType.Name} - {ticker} has no underlying Symbol");
+@@ -509,8 +509,8 @@ namespace QuantConnect.Tests.Algorithm
+             Assert.IsFalse(customData.Symbol.Underlying.HasUnderlying);
+             Assert.AreEqual(customData.Symbol.Underlying, asset.Symbol.Underlying);
+ 
+-            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single();
+-            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Base).Single();
++            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option);
++            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Base);
+ 
+             Assert.IsTrue(assetSubscription.TickerShouldBeMapped());
+             Assert.IsTrue(customDataSubscription.TickerShouldBeMapped());
+@@ -531,14 +531,14 @@ namespace QuantConnect.Tests.Algorithm
+             // Dummy here is meant to try to corrupt the SymbolCache. Ideally, SymbolCache should return non-custom data types with higher priority
+             // in case we want to add two custom data types, but still have them associated with the equity from the cache if we're using it.
+             // This covers the case where two idential data subscriptions are created.
+-            var dummy = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single().DataTimeZone);
+-            var customData = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single().DataTimeZone);
++            var dummy = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option).DataTimeZone);
++            var customData = qcAlgorithm.AddData(customDataType, ticker, Resolution.Daily, qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option).DataTimeZone);
+ 
+             // Check to see if we have an underlying symbol when we shouldn't
+             Assert.IsFalse(customData.Symbol.HasUnderlying, $"{customDataType.Name} has an underlying Symbol");
+ 
+-            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Option).Single();
+-            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Where(x => x.SecurityType == SecurityType.Base).Single();
++            var assetSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Option);
++            var customDataSubscription = qcAlgorithm.SubscriptionManager.Subscriptions.Single(x => x.SecurityType == SecurityType.Base);
+ 
+             Assert.IsTrue(assetSubscription.TickerShouldBeMapped());
+             Assert.IsFalse(customDataSubscription.TickerShouldBeMapped());
+diff --git a/Tests/AlgorithmRunner.cs b/Tests/AlgorithmRunner.cs
+index e63c59df5..1d5caef26 100644
+--- a/Tests/AlgorithmRunner.cs
++++ b/Tests/AlgorithmRunner.cs
+@@ -200,9 +200,9 @@ namespace QuantConnect.Tests
+             var func = selector.Compile();
+             var expectedValue = func(expected);
+             var actualValue = func(actual);
+-            if (expectedValue is double)
++            if (expectedValue is double d)
+             {
+-                Assert.AreEqual((double)expectedValue, (double)actualValue, 1e-4, "Failed on alpha statistics " + field);
++                Assert.AreEqual(d, (double)actualValue, 1e-4, "Failed on alpha statistics " + field);
+             }
+             else
+             {
+@@ -219,8 +219,8 @@ namespace QuantConnect.Tests
+             public override IAlgorithm CreateAlgorithmInstance(AlgorithmNodePacket algorithmNodePacket, string assemblyPath)
+             {
+                 Algorithm = base.CreateAlgorithmInstance(algorithmNodePacket, assemblyPath);
+-                var framework = Algorithm as QCAlgorithm;
+-                if (framework != null)
++
++                if (Algorithm is QCAlgorithm framework)
+                 {
+                     framework.DebugMode = true;
+                 }
+diff --git a/Tests/Brokerages/Binance/BinanceBrokerageTests.cs b/Tests/Brokerages/Binance/BinanceBrokerageTests.cs
+index 17421425f..cbcf109d1 100644
+--- a/Tests/Brokerages/Binance/BinanceBrokerageTests.cs
++++ b/Tests/Brokerages/Binance/BinanceBrokerageTests.cs
+@@ -179,13 +179,13 @@ namespace QuantConnect.Tests.Brokerages.Binance
+             Log.Trace("GET ACCOUNT HOLDINGS");
+             Log.Trace("");
+             var before = Brokerage.GetAccountHoldings();
+-            Assert.AreEqual(0, before.Count());
++            Assert.AreEqual(0, before.Count);
+ 
+             PlaceOrderWaitForStatus(new MarketOrder(Symbol, GetDefaultQuantity(), DateTime.Now));
+             Thread.Sleep(3000);
+ 
+             var after = Brokerage.GetAccountHoldings();
+-            Assert.AreEqual(0, after.Count());
++            Assert.AreEqual(0, after.Count);
+         }
+ 
+         protected override void ModifyOrderUntilFilled(Order order, OrderTestParameters parameters, double secondsTimeout = 90)
+diff --git a/Tests/Brokerages/BrokerageTests.cs b/Tests/Brokerages/BrokerageTests.cs
+index 4be561457..4647edb76 100644
+--- a/Tests/Brokerages/BrokerageTests.cs
++++ b/Tests/Brokerages/BrokerageTests.cs
+@@ -625,10 +625,7 @@ namespace QuantConnect.Tests.Brokerages
+                     while (enumerator.MoveNext() && !cancellationToken.IsCancellationRequested)
+                     {
+                         BaseData tick = enumerator.Current;
+-                        if (callback != null)
+-                        {
+-                            callback.Invoke(tick);
+-                        }
++                        callback?.Invoke(tick);
+                     }
+                 }
+                 catch (AssertionException)
+diff --git a/Tests/Brokerages/InteractiveBrokers/InteractiveBrokersBrokerageDataQueueHandlerTest.cs b/Tests/Brokerages/InteractiveBrokers/InteractiveBrokersBrokerageDataQueueHandlerTest.cs
+index 54802b3f5..7bf1d7897 100644
+--- a/Tests/Brokerages/InteractiveBrokers/InteractiveBrokersBrokerageDataQueueHandlerTest.cs
++++ b/Tests/Brokerages/InteractiveBrokers/InteractiveBrokersBrokerageDataQueueHandlerTest.cs
+@@ -126,10 +126,7 @@ namespace QuantConnect.Tests.Brokerages.InteractiveBrokers
+                     while (enumerator.MoveNext() && !cancellationToken.IsCancellationRequested)
+                     {
+                         BaseData tick = enumerator.Current;
+-                        if (callback != null)
+-                        {
+-                            callback.Invoke(tick);
+-                        }
++                        callback?.Invoke(tick);
+                     }
+                 }
+                 catch (AssertionException)
+diff --git a/Tests/Common/Securities/FutureMarginBuyingPowerModelTests.cs b/Tests/Common/Securities/FutureMarginBuyingPowerModelTests.cs
+index eab640c53..a258ddded 100644
+--- a/Tests/Common/Securities/FutureMarginBuyingPowerModelTests.cs
++++ b/Tests/Common/Securities/FutureMarginBuyingPowerModelTests.cs
+@@ -902,7 +902,7 @@ namespace QuantConnect.Tests.Common.Securities
+ 
+                 // Having an initial margin equal to the maintenance is a valid case.
+                 // Using '>' and not '>=' here is intentional.
+-                Assert.IsFalse(csv.Where(x => x.Item3 > x.Item2).Any(), errorMessage);
++                Assert.IsFalse(csv.Any(x => x.Item3 > x.Item2), errorMessage);
+             }
+         }
+ 
+diff --git a/Tests/Common/Securities/TradingCalendarTests.cs b/Tests/Common/Securities/TradingCalendarTests.cs
+index 5e0ef0592..7f951d3cc 100644
+--- a/Tests/Common/Securities/TradingCalendarTests.cs
++++ b/Tests/Common/Securities/TradingCalendarTests.cs
+@@ -111,7 +111,7 @@ namespace QuantConnect.Tests.Common.Securities
+ 
+             var days = cal.GetTradingDays(new DateTime(2016, 02, 16), new DateTime(2016, 03, 19));
+ 
+-            var optionAndfutureDays = days.Where(x => x.FutureExpirations.Any() || x.OptionExpirations.Any()).Count();
++            var optionAndfutureDays = days.Count(x => x.FutureExpirations.Any() || x.OptionExpirations.Any());
+             Assert.AreEqual(3, optionAndfutureDays);
+ 
+             // why? because option1 and future1 expire in one day 2016-02-16. Lets have a look.
+@@ -119,10 +119,10 @@ namespace QuantConnect.Tests.Common.Securities
+             Assert.AreEqual(1, day.OptionExpirations.Count());
+             Assert.AreEqual(1, day.FutureExpirations.Count());
+ 
+-            var businessDays = days.Where(x => x.BusinessDay).Count();
++            var businessDays = days.Count(x => x.BusinessDay);
+             Assert.AreEqual(24, businessDays);
+ 
+-            var weekends = days.Where(x => x.Weekend).Count();
++            var weekends = days.Count(x => x.Weekend);
+             Assert.AreEqual(9, weekends);
+ 
+             Assert.AreEqual(24 + 9, (new DateTime(2016, 03, 19) - new DateTime(2016, 02, 16)).TotalDays + 1 /*inclusive*/);
+diff --git a/Tests/Common/Statistics/AnnualPerformanceTests.cs b/Tests/Common/Statistics/AnnualPerformanceTests.cs
+index f99d378bf..66a1bcb22 100644
+--- a/Tests/Common/Statistics/AnnualPerformanceTests.cs
++++ b/Tests/Common/Statistics/AnnualPerformanceTests.cs
+@@ -51,7 +51,7 @@ namespace QuantConnect.Tests.Common.Statistics
+         {
+             var performance = new List<double>();
+ 
+-            for (var i = 1; i < _spy.Count(); i++)
++            for (var i = 1; i < _spy.Count; i++)
+             {
+                 performance.Add((double)((_spy[i].Close / _spy[i - 1].Close) - 1));
+             }
+@@ -67,7 +67,7 @@ namespace QuantConnect.Tests.Common.Statistics
+             var performance = new List<double>();
+             var start = new DateTime(2008, 5, 1);
+             var end = new DateTime(2009, 1, 1);
+-            for (var i = 1; i < _spy.Count(); i++)
++            for (var i = 1; i < _spy.Count; i++)
+             {
+                 if ((_spy[i].EndTime < start) || (_spy[i].EndTime > end))
+                 {
+@@ -87,7 +87,7 @@ namespace QuantConnect.Tests.Common.Statistics
+             var performance = new List<double>();
+             var start = new DateTime(2017, 1, 1);
+             var end = new DateTime(2018, 1, 1);
+-            for (var i = 1; i < _spy.Count(); i++)
++            for (var i = 1; i < _spy.Count; i++)
+             {
+                 if ((_spy[i].EndTime < start) || (_spy[i].EndTime > end))
+                 {
+diff --git a/Tests/Common/Statistics/TrackingErrorTests.cs b/Tests/Common/Statistics/TrackingErrorTests.cs
+index 0401263a8..df9e7b851 100644
+--- a/Tests/Common/Statistics/TrackingErrorTests.cs
++++ b/Tests/Common/Statistics/TrackingErrorTests.cs
+@@ -46,7 +46,7 @@ namespace QuantConnect.Tests.Common.Statistics
+                 }
+             }
+ 
+-            for (var i = 1; i < _spy.Count(); i++)
++            for (var i = 1; i < _spy.Count; i++)
+             {
+                 _spyPerformance.Add((double)((_spy[i].Close / _spy[i - 1].Close) - 1));
+             }
+@@ -64,7 +64,7 @@ namespace QuantConnect.Tests.Common.Statistics
+                 }
+             }
+ 
+-            for (var i = 1; i < _aapl.Count(); i++)
++            for (var i = 1; i < _aapl.Count; i++)
+             {
+                 _aaplPerformance.Add((double)((_aapl[i].Close / _aapl[i - 1].Close) - 1));
+             }
+diff --git a/Tests/Engine/DataFeeds/AggregationManagerTests.cs b/Tests/Engine/DataFeeds/AggregationManagerTests.cs
+index a9c6f5475..de5f08686 100644
+--- a/Tests/Engine/DataFeeds/AggregationManagerTests.cs
++++ b/Tests/Engine/DataFeeds/AggregationManagerTests.cs
+@@ -174,8 +174,8 @@ namespace QuantConnect.Tests.Engine.DataFeeds
+             while (enumerator.Current != null)
+             {
+                 Assert.IsTrue(enumerator.Current.GetType() == type);
+-                var tick = enumerator.Current as Tick;
+-                if (tick != null)
++
++                if (enumerator.Current is Tick tick)
+                 {
+                     Assert.IsTrue(tick.TickType == tickType);
+                 }
+diff --git a/Tests/Engine/DataFeeds/Enumerators/FillForwardEnumeratorTests.cs b/Tests/Engine/DataFeeds/Enumerators/FillForwardEnumeratorTests.cs
+index 21e83c119..a83539cbd 100644
+--- a/Tests/Engine/DataFeeds/Enumerators/FillForwardEnumeratorTests.cs
++++ b/Tests/Engine/DataFeeds/Enumerators/FillForwardEnumeratorTests.cs
+@@ -2088,8 +2088,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds.Enumerators
+             {
+                 if (data.ContainsKey(_symbol))
+                 {
+-                    var tradeBar = data[_symbol] as TradeBar;
+-                    if (tradeBar != null && tradeBar.IsFillForward)
++                    if (data[_symbol] is TradeBar tradeBar && tradeBar.IsFillForward)
+                     {
+                         FillForwardBars.Add($"{tradeBar.EndTime:d H:m:s} {Time:d H:m:s}");
+                     }
+@@ -2121,8 +2120,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds.Enumerators
+             {
+                 if (data.ContainsKey(_symbol))
+                 {
+-                    var bar = data[_symbol] as QuoteBar;
+-                    if (bar != null && bar.IsFillForward)
++                    if (data[_symbol] is QuoteBar bar && bar.IsFillForward)
+                     {
+                         FillForwardBars.Add($"{bar.Time:yyyy.MM.dd H:m:s} - {bar.EndTime:yyyy.MM.dd H:m:s}");
+                     }
+diff --git a/ToolBox/AlgoSeekFuturesConverter/AlgoSeekFuturesConverter.cs b/ToolBox/AlgoSeekFuturesConverter/AlgoSeekFuturesConverter.cs
+index da77c6328..6d0cb6508 100644
+--- a/ToolBox/AlgoSeekFuturesConverter/AlgoSeekFuturesConverter.cs
++++ b/ToolBox/AlgoSeekFuturesConverter/AlgoSeekFuturesConverter.cs
+@@ -73,11 +73,11 @@ namespace QuantConnect.ToolBox.AlgoSeekFuturesConverter
+                 .Select(remote => remote.CopyTo(Path.Combine(Path.GetTempPath(), remote.Name), true))
+                 .ToList();
+ 
+-            Log.Trace("AlgoSeekFuturesConverter.Convert(): Loading {0} AlgoSeekFuturesReader for {1} ", files.Count(), _referenceDate);
++            Log.Trace("AlgoSeekFuturesConverter.Convert(): Loading {0} AlgoSeekFuturesReader for {1} ", files.Count, _referenceDate);
+ 
+             //Initialize parameters
+             var totalLinesProcessed = 0L;
+-            var totalFiles = files.Count();
++            var totalFiles = files.Count;
+             var totalFilesProcessed = 0;
+             var start = DateTime.MinValue;
+ 
+diff --git a/ToolBox/CoarseUniverseGenerator/CoarseUniverseGeneratorProgram.cs b/ToolBox/CoarseUniverseGenerator/CoarseUniverseGeneratorProgram.cs
+index 00d1a28f6..b8d94af0e 100644
+--- a/ToolBox/CoarseUniverseGenerator/CoarseUniverseGeneratorProgram.cs
++++ b/ToolBox/CoarseUniverseGenerator/CoarseUniverseGeneratorProgram.cs
+@@ -269,7 +269,7 @@ namespace QuantConnect.ToolBox.CoarseUniverseGenerator
+             // e.g. YHOO -> AABA (YHOO R735QTJ8XC9X)
+             // The dates right after the acquisition, valid fine fundamental data for AABA are still under the former ticker folder.
+             // Therefore if no fine fundamental data is found in the 'fundamental/fine/aaba' folder, it searches into the 'yhoo' folder.
+-            if (mapFile != null && mapFile.Count() > 2 && !hasFundamentalDataForDate)
++            if (mapFile != null && mapFile.Count() > 2&& !hasFundamentalDataForDate)
+             {
+                 var previousTicker = mapFile.LastOrDefault(m => m.Date < date)?.MappedSymbol;
+                 if (previousTicker != null)
+diff --git a/ToolBox/EstimizeDataDownloader/EstimizeConsensusDataDownloader.cs b/ToolBox/EstimizeDataDownloader/EstimizeConsensusDataDownloader.cs
+index feae60f3c..0245bf150 100644
+--- a/ToolBox/EstimizeDataDownloader/EstimizeConsensusDataDownloader.cs
++++ b/ToolBox/EstimizeDataDownloader/EstimizeConsensusDataDownloader.cs
+@@ -90,7 +90,7 @@ namespace QuantConnect.ToolBox.EstimizeDataDownloader
+                         // We detect duplicates by checking for release IDs that match consensus IDs
+                         // in consensus files and ensuring that no more updates will be published to
+                         // consensus data by making sure the release has been made public
+-                        if ((utcNow - release.ReleaseDate).TotalDays > 1 && existingConsensus.Where(x => x.Id == release.Id).Any())
++                        if ((utcNow - release.ReleaseDate).TotalDays > 1 && existingConsensus.Any(x => x.Id == release.Id))
+                         {
+                             Log.Trace($"EstimizeConsensusDataDownloader.Run(): Duplicate entry found for ID {release.Id} in {finalPath} on: {release.ReleaseDate}");
+                             continue;
+diff --git a/ToolBox/FxcmDownloader/FxcmDataDownloader.cs b/ToolBox/FxcmDownloader/FxcmDataDownloader.cs
+index fbf4286e6..6a51e5d4c 100644
+--- a/ToolBox/FxcmDownloader/FxcmDataDownloader.cs
++++ b/ToolBox/FxcmDownloader/FxcmDataDownloader.cs
+@@ -243,11 +243,11 @@ namespace QuantConnect.ToolBox.FxcmDownloader
+             // Dispatch message to specific handler
+             lock (_locker)
+             {
+-                if (message is TradingSessionStatus)
+-                    OnTradingSessionStatus((TradingSessionStatus)message);
++                if (message is TradingSessionStatus tradingSessionStatus)
++                    OnTradingSessionStatus(tradingSessionStatus);
+ 
+-                else if (message is MarketDataSnapshot)
+-                    OnMarketDataSnapshot((MarketDataSnapshot)message);
++                else if (message is MarketDataSnapshot marketDataSnapshot)
++                    OnMarketDataSnapshot(marketDataSnapshot);
+             }
+         }
+ 
+diff --git a/ToolBox/LazyStreamWriter.cs b/ToolBox/LazyStreamWriter.cs
+index dc4fd79ee..974c206e7 100644
+--- a/ToolBox/LazyStreamWriter.cs
++++ b/ToolBox/LazyStreamWriter.cs
+@@ -53,10 +53,7 @@ namespace QuantConnect.ToolBox
+         /// </summary>
+         public void Flush()
+         {
+-            if (_streamWriter != null)
+-            {
+-                _streamWriter.Flush();
+-            }
++            _streamWriter?.Flush();
+         }
+ 
+         /// <summary>
+@@ -64,10 +61,7 @@ namespace QuantConnect.ToolBox
+         /// </summary>
+         public void Close()
+         {
+-            if (_streamWriter != null)
+-            {
+-                _streamWriter.Close();
+-            }
++            _streamWriter?.Close();
+         }
+ 
+         /// <summary>

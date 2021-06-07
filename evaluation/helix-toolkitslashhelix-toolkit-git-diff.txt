@@ -1,0 +1,2665 @@
+diff --git a/Source/Examples/SharpDX.Core/CoreWpfTest/MainViewModel.cs b/Source/Examples/SharpDX.Core/CoreWpfTest/MainViewModel.cs
+index 49e62469..7c74d00d 100644
+--- a/Source/Examples/SharpDX.Core/CoreWpfTest/MainViewModel.cs
++++ b/Source/Examples/SharpDX.Core/CoreWpfTest/MainViewModel.cs
+@@ -262,10 +262,7 @@ public void StopAnimation()
+ 
+         private void CompositeHelper_Rendering(object sender, System.Windows.Media.RenderingEventArgs e)
+         {
+-            if(animationUpdater != null)
+-            {
+-                animationUpdater.Update(Stopwatch.GetTimestamp(), Stopwatch.Frequency);
+-            }
++            animationUpdater?.Update(Stopwatch.GetTimestamp(), Stopwatch.Frequency);
+         }
+ 
+         private void ExportFile()
+diff --git a/Source/Examples/WPF.SharpDX/BoneSkinDemo/MainViewModel.cs b/Source/Examples/WPF.SharpDX/BoneSkinDemo/MainViewModel.cs
+index dd194e7e..74a17463 100644
+--- a/Source/Examples/WPF.SharpDX/BoneSkinDemo/MainViewModel.cs
++++ b/Source/Examples/WPF.SharpDX/BoneSkinDemo/MainViewModel.cs
+@@ -86,7 +86,7 @@ public string SelectedAnimation
+                 if(SetValue(ref selectedAnimation, value))
+                 {
+                     reset = true;
+-                    var curr = scene.Animations.Where(x => x.Name == value).FirstOrDefault();
++                    var curr = scene.Animations.FirstOrDefault(x => x.Name == value);
+                     animationUpdater = new NodeAnimationUpdater(curr);
+                 }
+             }
+diff --git a/Source/Examples/WPF.SharpDX/ExampleBrowser/MainWindow.xaml.cs b/Source/Examples/WPF.SharpDX/ExampleBrowser/MainWindow.xaml.cs
+index fe5bdde2..d49ed901 100644
+--- a/Source/Examples/WPF.SharpDX/ExampleBrowser/MainWindow.xaml.cs
++++ b/Source/Examples/WPF.SharpDX/ExampleBrowser/MainWindow.xaml.cs
+@@ -73,8 +73,8 @@ private static void CreateThumbnail(Window window, int width, string path, doubl
+         private void ListBoxMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+         {
+             var lb = (ListBox)sender;
+-            var example = lb.SelectedItem as Example;
+-            if (example != null)
++
++            if (lb.SelectedItem is Example example)
+             {
+                 var window = example.Create();
+                 window.Show();
+@@ -95,8 +95,7 @@ private IEnumerable<Example> GetExamples(Assembly assembly)
+         {
+             foreach (var type in assembly.GetTypes())
+             {
+-                var ea = type.GetCustomAttributes(typeof(ExampleAttribute), false).FirstOrDefault() as ExampleAttribute;
+-                if (ea != null)
++                if (type.GetCustomAttributes(typeof(ExampleAttribute), false).FirstOrDefault() is ExampleAttribute ea)
+                 {
+                     yield return new Example(type, ea.Title, ea.Description);
+                 }
+diff --git a/Source/Examples/WPF.SharpDX/FileLoadDemo/MainViewModel.cs b/Source/Examples/WPF.SharpDX/FileLoadDemo/MainViewModel.cs
+index dd604956..c599fad6 100644
+--- a/Source/Examples/WPF.SharpDX/FileLoadDemo/MainViewModel.cs
++++ b/Source/Examples/WPF.SharpDX/FileLoadDemo/MainViewModel.cs
+@@ -323,10 +323,7 @@ public void StopAnimation()
+ 
+         private void CompositeHelper_Rendering(object sender, System.Windows.Media.RenderingEventArgs e)
+         {
+-            if (animationUpdater != null)
+-            {
+-                animationUpdater.Update(Stopwatch.GetTimestamp(), Stopwatch.Frequency);
+-            }
++            animationUpdater?.Update(Stopwatch.GetTimestamp(), Stopwatch.Frequency);
+         }
+ 
+         private void ExportFile()
+diff --git a/Source/Examples/WPF.SharpDX/MemoryLeakTester/MainWindow.xaml.cs b/Source/Examples/WPF.SharpDX/MemoryLeakTester/MainWindow.xaml.cs
+index eaafb909..3bf64bc9 100644
+--- a/Source/Examples/WPF.SharpDX/MemoryLeakTester/MainWindow.xaml.cs
++++ b/Source/Examples/WPF.SharpDX/MemoryLeakTester/MainWindow.xaml.cs
+@@ -105,10 +105,7 @@ private void CreateWindow()
+                 var pair = ProjectWinPairs[projectCombo.SelectedIndex];
+                 testWin = Activator.CreateInstance(pair.Item2) as Window;
+             }
+-            if (testWin != null)
+-            {
+-                testWin.Show();
+-            }
++            testWin?.Show();
+         }
+ 
+         internal sealed class SystemStateParams
+diff --git a/Source/Examples/WPF.SharpDX/MouseDragDemo/InteractionHandle3D.cs b/Source/Examples/WPF.SharpDX/MouseDragDemo/InteractionHandle3D.cs
+index 39392ccc..ace0be00 100644
+--- a/Source/Examples/WPF.SharpDX/MouseDragDemo/InteractionHandle3D.cs
++++ b/Source/Examples/WPF.SharpDX/MouseDragDemo/InteractionHandle3D.cs
+@@ -358,8 +358,7 @@ private static void MaterialChanged(DependencyObject d, DependencyPropertyChange
+             {
+                 foreach (var item in ((GroupModel3D)d).Children)
+                 {
+-                    var model = item as MaterialGeometryModel3D;
+-                    if (model != null)
++                    if (item is MaterialGeometryModel3D model)
+                     {
+                         model.Material = e.NewValue as PhongMaterial;
+                     }                    
+diff --git a/Source/Examples/WPF.SharpDX/PolygonTriangulationDemo/MainWindow.xaml.cs b/Source/Examples/WPF.SharpDX/PolygonTriangulationDemo/MainWindow.xaml.cs
+index 44df71f8..4721ba72 100644
+--- a/Source/Examples/WPF.SharpDX/PolygonTriangulationDemo/MainWindow.xaml.cs
++++ b/Source/Examples/WPF.SharpDX/PolygonTriangulationDemo/MainWindow.xaml.cs
+@@ -140,7 +140,7 @@ private void generatePolygonButton_Click(object sender, RoutedEventArgs e)
+             
+             // Set the InfoLabel Text
+             var timeNeeded = (after - before).TotalMilliseconds;
+-            infoLabel.Content = String.Format("Last triangulation of {0} Points took {1:0.##} Milliseconds!", triangulatedPolygon.Geometry.Positions.Count, timeNeeded);
++            infoLabel.Content = $"Last triangulation of {triangulatedPolygon.Geometry.Positions.Count} Points took {timeNeeded:0.##} Milliseconds!";
+         }
+ 
+         /// <summary>
+diff --git a/Source/Examples/WPF.SharpDX/SimpleDemo/Extensions.cs b/Source/Examples/WPF.SharpDX/SimpleDemo/Extensions.cs
+index fbba8ef2..03e9bc1e 100644
+--- a/Source/Examples/WPF.SharpDX/SimpleDemo/Extensions.cs
++++ b/Source/Examples/WPF.SharpDX/SimpleDemo/Extensions.cs
+@@ -143,8 +143,7 @@ public static IEnumerable<IList<Point[]>> GetTextOutlines(string text, string fo
+ 
+         private static void AppendOutlines(Geometry geometry, List<List<Point[]>> outlines)
+         {
+-            var group = geometry as GeometryGroup;
+-            if (group != null)
++            if (geometry is GeometryGroup group)
+             {
+                 foreach (var g in group.Children)
+                 {
+@@ -154,8 +153,7 @@ private static void AppendOutlines(Geometry geometry, List<List<Point[]>> outlin
+                 return;
+             }
+ 
+-            var pathGeometry = geometry as PathGeometry;
+-            if (pathGeometry != null)
++            if (geometry is PathGeometry pathGeometry)
+             {
+                 var figures = pathGeometry.Figures.Select(figure => figure.ToPolyLine()).ToList();
+                 outlines.Add(figures);
+@@ -171,16 +169,14 @@ public static Point[] ToPolyLine(this PathFigure figure)
+             var previousPoint = figure.StartPoint;
+             foreach (var segment in figure.Segments)
+             {
+-                var polyline = segment as PolyLineSegment;
+-                if (polyline != null)
++                if (segment is PolyLineSegment polyline)
+                 {
+                     outline.AddRange(polyline.Points);
+                     previousPoint = polyline.Points.Last();
+                     continue;
+                 }
+ 
+-                var polybezier = segment as PolyBezierSegment;
+-                if (polybezier != null)
++                if (segment is PolyBezierSegment polybezier)
+                 {
+                     for (int i = -1; i + 3 < polybezier.Points.Count; i += 3)
+                     {
+@@ -192,16 +188,14 @@ public static Point[] ToPolyLine(this PathFigure figure)
+                     continue;
+                 }
+ 
+-                var lineSegment = segment as LineSegment;
+-                if (lineSegment != null)
++                if (segment is LineSegment lineSegment)
+                 {
+                     outline.Add(lineSegment.Point);
+                     previousPoint = lineSegment.Point;
+                     continue;
+                 }
+ 
+-                var bezierSegment = segment as BezierSegment;
+-                if (bezierSegment != null)
++                if (segment is BezierSegment bezierSegment)
+                 {
+                     outline.AddRange(FlattenBezier(previousPoint, bezierSegment.Point1, bezierSegment.Point2, bezierSegment.Point3, 10));
+                     previousPoint = bezierSegment.Point3;
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/AudioCapture.cs b/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/AudioCapture.cs
+index d063f510..4a35a5b6 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/AudioCapture.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/AudioCapture.cs
+@@ -101,10 +101,7 @@ void OnDataAvailable(object sender, WaveInEventArgs e)
+ 
+         public void CloseRecording()
+         {
+-            if (captureDevice != null)
+-            {
+-                captureDevice.StopRecording();
+-            }
++            captureDevice?.StopRecording();
+ 
+             if (writer != null)
+             {
+@@ -126,10 +123,7 @@ void OnRecordingStopped(object sender, EventArgs e)
+ 
+         public void Stop()
+         {
+-            if (captureDevice != null)
+-            {
+-                captureDevice.StopRecording();
+-            }
++            captureDevice?.StopRecording();
+         }
+ 
+         private void RaiseCaptureStopped()
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/AudioPlayback.cs b/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/AudioPlayback.cs
+index 288ff306..43662b28 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/AudioPlayback.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/AudioPlayback.cs
+@@ -123,10 +123,7 @@ public void Play()
+ 
+         public void Stop()
+         {
+-            if (playbackDevice != null)
+-            {
+-                playbackDevice.Stop();
+-            }
++            playbackDevice?.Stop();
+             CloseFile();
+         }
+ 
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/ControlPanelViewModel.cs b/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/ControlPanelViewModel.cs
+index 7f93e2b8..2cfe1d6c 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/ControlPanelViewModel.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/Audio/NAudioWpfDemo/ControlPanelViewModel.cs
+@@ -142,7 +142,7 @@ private void PlayFile()
+                 try
+                 {
+                     audioGraph.PlayFile(file);
+-                    Title = string.Format("{0} - {1}", AppTitle, Path.GetFileNameWithoutExtension(file));
++                    Title = $"{AppTitle} - {Path.GetFileNameWithoutExtension(file)}";
+                 }
+                 catch (Exception e)
+                 {
+@@ -157,7 +157,7 @@ private void Capture()
+             // todo: return if already capturing
+             try
+             {
+-                Title = string.Format("{0} - Capturing", AppTitle);
++                Title = $"{AppTitle} - Capturing";
+                 audioGraph.StartCapture(CaptureSeconds);
+             }
+             catch (Exception e)
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/BuildingDemo/BoundsConverter.cs b/Source/Examples/WPF/ExampleBrowser/Examples/BuildingDemo/BoundsConverter.cs
+index b3b02214..71268b89 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/BuildingDemo/BoundsConverter.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/BuildingDemo/BoundsConverter.cs
+@@ -18,8 +18,7 @@ public class BoundsConverter : IValueConverter
+     {
+         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+         {
+-            var visual = value as Visual3D;
+-            return visual != null ? visual.FindBounds(Transform3D.Identity) : Rect3D.Empty;
++            return value is Visual3D visual ? visual.FindBounds(Transform3D.Identity) : Rect3D.Empty;
+         }
+ 
+         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/DataTemplate3D.cs b/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/DataTemplate3D.cs
+index 2dae0fb6..7403f0f5 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/DataTemplate3D.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/DataTemplate3D.cs
+@@ -165,9 +165,8 @@ private object GetValueOf(object obj, PathInfo path)
+                 var pi = obj.GetType().GetProperty(path.Name);
+                 return pi.GetValue(obj);
+             }
+-
+-            var collection = obj as IEnumerable;
+-            if (collection != null)
++
++            if (obj is IEnumerable collection)
+             {
+                 var value = collection.Cast<object>()
+                                       .Skip(path.Position)
+@@ -175,7 +174,7 @@ private object GetValueOf(object obj, PathInfo path)
+ 
+                 // check that the object type is the correct one
+                 if (value.GetType().Name != path.Name)
+-                    throw new Exception(String.Format("Class name mismatch: {0} vs {1}", value.GetType().Name, path.Name));
++                    throw new Exception($"Class name mismatch: {value.GetType().Name} vs {path.Name}");
+ 
+                 return value;
+             };
+@@ -265,7 +264,7 @@ private XmlDocument ObjectToXaml(object obj)
+ 
+             if (HasGeneratedContent)
+             {
+-                var contentNode = xmlDoc.DocumentElement.ChildNodes.Cast<XmlNode>().Where(n => n.LocalName.EndsWith(".Content")).FirstOrDefault();
++                var contentNode = xmlDoc.DocumentElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(n => n.LocalName.EndsWith(".Content"));
+ 
+                 // reomve generated content except when it is a Binding/MultiBinding sub node
+                 if (contentNode != null && (contentNode.ChildNodes.Count != 1 || !new[] { "Binding", "MultiBinding" }.Contains(contentNode.ChildNodes[0].LocalName)))
+@@ -314,9 +313,8 @@ private bool UpdateBindingSource(object obj, object dataContext, ICollection<Pat
+             }
+ 
+             var type = nestedObj.GetType();
+-
+-            var visual = nestedObj as DependencyObject;
+-            if (visual != null)
++
++            if (nestedObj is DependencyObject visual)
+             {
+                 var secondLastSegment = path.ElementAt(path.Count - 2);
+                 if (secondLastSegment.PublicDependencyProperties == null)
+@@ -326,8 +324,7 @@ private bool UpdateBindingSource(object obj, object dataContext, ICollection<Pat
+ 
+                 foreach (var fi in secondLastSegment.PublicDependencyProperties)
+                 {
+-                    var dp = fi.GetValue(null) as DependencyProperty;
+-                    if (dp != null && dp.Name == lastSegmentName)
++                    if (fi.GetValue(null) is DependencyProperty dp && dp.Name == lastSegmentName)
+                     {
+                         var binding = BindingOperations.GetBinding(visual, dp);
+                         if (binding != null && binding.Source == null)
+@@ -349,8 +346,7 @@ private bool UpdateBindingSource(object obj, object dataContext, ICollection<Pat
+ 
+                             for (int a = 0; a < multiBinding.Bindings.Count; a++)
+                             {
+-                                var innerBinding = multiBinding.Bindings[a] as Binding;
+-                                if (innerBinding != null && innerBinding.Source == null)
++                                if (multiBinding.Bindings[a] is Binding innerBinding && innerBinding.Source == null)
+                                 {
+                                     var newInnerBinding = innerBinding.Clone();
+                                     newInnerBinding.Source = dataContext;
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/DefaultDataTemplateSelctor3D.cs b/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/DefaultDataTemplateSelctor3D.cs
+index 38057b45..9581cc56 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/DefaultDataTemplateSelctor3D.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/DefaultDataTemplateSelctor3D.cs
+@@ -6,16 +6,15 @@ public class DefaultDataTemplateSelctor3D : DataTemplateSelector3D
+     {
+         public override DataTemplate3D SelectTemplate(object item, DependencyObject container)
+         {
+-            var element = container as FrameworkElement;
+-            if (element != null && item != null)
++            if (container is FrameworkElement element && item != null)
+             {
+                 // go through all types and base types to find a matching DataTemplate3D
+                 // this mirrors the behavior of DataTemplate
+                 foreach (var type in item.GetType().GetTypeAndBaseTypes())
+                 {
+                     var key = type;
+-                    var template = element.TryFindResource(key) as DataTemplate3D;
+-                    if (template != null)
++
++                    if (element.TryFindResource(key) is DataTemplate3D template)
+                         return template;
+                 }
+             }
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/ItemsVisual3D.cs b/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/ItemsVisual3D.cs
+index 0dc2285c..894c19e9 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/ItemsVisual3D.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/DataTemplate/ItemsVisual3D.cs
+@@ -140,14 +140,12 @@ public bool RefreshChildrenOnChange
+         /// </exception>
+         private void ItemsSourceChanged(DependencyPropertyChangedEventArgs e)
+         {
+-            var oldObservableCollection = e.OldValue as INotifyCollectionChanged;
+-            if (oldObservableCollection != null)
++            if (e.OldValue is INotifyCollectionChanged oldObservableCollection)
+             {
+                 oldObservableCollection.CollectionChanged -= this.CollectionChanged;
+             }
+-
+-            var observableCollection = e.NewValue as INotifyCollectionChanged;
+-            if (observableCollection != null)
++
++            if (e.NewValue is INotifyCollectionChanged observableCollection)
+             {
+                 observableCollection.CollectionChanged += this.CollectionChanged;
+             }
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/Export/OctaneLauncher.cs b/Source/Examples/WPF/ExampleBrowser/Examples/Export/OctaneLauncher.cs
+index dd38b791..0905dce0 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/Export/OctaneLauncher.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/Export/OctaneLauncher.cs
+@@ -194,9 +194,8 @@ public void SetCamera(ProjectionCamera camera, bool changeUpDirectionFromZtoY =
+                 this.CamTarget = this.SwitchYZ(this.CamTarget);
+                 this.CamPos = this.SwitchYZ(this.CamPos);
+             }
+-
+-            var pc = camera as PerspectiveCamera;
+-            if (pc != null)
++
++            if (camera is PerspectiveCamera pc)
+             {
+                 this.FieldOfView = pc.FieldOfView;
+             }
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/ExtrudedText/Extensions.cs b/Source/Examples/WPF/ExampleBrowser/Examples/ExtrudedText/Extensions.cs
+index dfdbbe55..c5e1d96c 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/ExtrudedText/Extensions.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/ExtrudedText/Extensions.cs
+@@ -135,8 +135,7 @@ public static IEnumerable<IList<Point[]>> GetTextOutlines(string text, string fo
+ 
+         private static void AppendOutlines(Geometry geometry, List<List<Point[]>> outlines)
+         {
+-            var group = geometry as GeometryGroup;
+-            if (group != null)
++            if (geometry is GeometryGroup group)
+             {
+                 foreach (var g in group.Children)
+                 {
+@@ -146,8 +145,7 @@ private static void AppendOutlines(Geometry geometry, List<List<Point[]>> outlin
+                 return;
+             }
+ 
+-            var pathGeometry = geometry as PathGeometry;
+-            if (pathGeometry != null)
++            if (geometry is PathGeometry pathGeometry)
+             {
+                 var figures = pathGeometry.Figures.Select(figure => figure.ToPolyLine()).ToList();
+                 outlines.Add(figures);
+@@ -163,16 +161,14 @@ public static Point[] ToPolyLine(this PathFigure figure)
+             var previousPoint = figure.StartPoint;
+             foreach (var segment in figure.Segments)
+             {
+-                var polyline = segment as PolyLineSegment;
+-                if (polyline != null)
++                if (segment is PolyLineSegment polyline)
+                 {
+                     outline.AddRange(polyline.Points);
+                     previousPoint = polyline.Points.Last();
+                     continue;
+                 }
+ 
+-                var polybezier = segment as PolyBezierSegment;
+-                if (polybezier != null)
++                if (segment is PolyBezierSegment polybezier)
+                 {
+                     for (int i = -1; i + 3 < polybezier.Points.Count; i += 3)
+                     {
+@@ -184,16 +180,14 @@ public static Point[] ToPolyLine(this PathFigure figure)
+                     continue;
+                 }
+ 
+-                var lineSegment = segment as LineSegment;
+-                if (lineSegment != null)
++                if (segment is LineSegment lineSegment)
+                 {
+                     outline.Add(lineSegment.Point);
+                     previousPoint = lineSegment.Point;
+                     continue;
+                 }
+ 
+-                var bezierSegment = segment as BezierSegment;
+-                if (bezierSegment != null)
++                if (segment is BezierSegment bezierSegment)
+                 {
+                     outline.AddRange(FlattenBezier(previousPoint, bezierSegment.Point1, bezierSegment.Point2, bezierSegment.Point3, 10));
+                     previousPoint = bezierSegment.Point3;
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/Flights/Airport.cs b/Source/Examples/WPF/ExampleBrowser/Examples/Flights/Airport.cs
+index b0ce7d0a..65661463 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/Flights/Airport.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/Flights/Airport.cs
+@@ -19,7 +19,7 @@ public class Airport
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0}, {1} {2} ({3})", AirportName, City, Country, IATA);
++            return $"{AirportName}, {City} {Country} ({IATA})";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/Flights/FlightVisual3D.cs b/Source/Examples/WPF/ExampleBrowser/Examples/Flights/FlightVisual3D.cs
+index 4baffeba..27831111 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/Flights/FlightVisual3D.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/Flights/FlightVisual3D.cs
+@@ -48,8 +48,8 @@ public FlightVisual3D(Point3D p1, Point3D p2)
+             double lat1, lon1, lat2, lon2;
+             PointToLatLon(p1, out lat1, out lon1);
+             PointToLatLon(p2, out lat2, out lon2);
+-            From = String.Format("{0:0.00} {1:0.00}", lat1, lon1);
+-            To = String.Format("{0:0.00} {1:0.00}", lat2, lon2);
++            From = $"{lat1:0.00} {lon1:0.00}";
++            To = $"{lat2:0.00} {lon2:0.00}";
+ 
+             CruisingSpeed = DefaultCruisingSpeed;
+             double cruisingRadius = EarthRadius + DefaultCruisingAltitude;
+@@ -145,7 +145,7 @@ public static Point3D LatLonToPoint(double latitude, double longitude)
+ 
+         public override string ToString()
+         {
+-            return String.Format("Distance: {0:0} km, Time: {1}", Distance, Time);
++            return $"Distance: {Distance:0} km, Time: {Time}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/Flights/MainWindow.xaml.cs b/Source/Examples/WPF/ExampleBrowser/Examples/Flights/MainWindow.xaml.cs
+index e5a4744e..c7a40505 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/Flights/MainWindow.xaml.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/Flights/MainWindow.xaml.cs
+@@ -82,7 +82,7 @@ private void OnMouseMove(object sender, MouseEventArgs e)
+             {
+                 double lat, lon;
+                 FlightVisual3D.PointToLatLon(pt.Value, out lat, out lon);
+-                text2.Text = String.Format("Lat: {0:0.00} Lon: {1:0.00}", lat, lon);
++                text2.Text = $"Lat: {lat:0.00} Lon: {lon:0.00}";
+             }
+         }
+ 
+@@ -189,8 +189,7 @@ private Airport FindAirport(string text)
+ 
+         private void FromToChanged(object sender, KeyEventArgs keyEventArgs)
+         {
+-            var box = sender as ComboBox;
+-            if (box != null)
++            if (sender is ComboBox box)
+             {
+                 var result = FindAirports(box.Text);
+                 box.ItemsSource = result.Length < 1000 ? result : null;
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/HalfEdgeMesh/HalfEdgeMesh.cs b/Source/Examples/WPF/ExampleBrowser/Examples/HalfEdgeMesh/HalfEdgeMesh.cs
+index 1ed435d3..c4fd06ca 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/HalfEdgeMesh/HalfEdgeMesh.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/HalfEdgeMesh/HalfEdgeMesh.cs
+@@ -330,11 +330,7 @@ public IEnumerable<Vertex> Vertices
+             /// </returns>
+             public override string ToString()
+             {
+-                return string.Format(
+-                    "f{0}: {1} | {2}",
+-                    this.Index,
+-                    this.Vertices.Select(v => v.Index).EnumerateToString("v"),
+-                    this.Edges.Select(e => e.Index).EnumerateToString("e"));
++                return $"f{this.Index}: {this.Vertices.Select(v => v.Index).EnumerateToString("v")} | {this.Edges.Select(e => e.Index).EnumerateToString("e")}";
+             }
+ 
+             /// <summary>
+@@ -450,14 +446,7 @@ public bool IsOnBoundary()
+             /// </returns>
+             public override string ToString()
+             {
+-                return string.Format(
+-                    "e{0}: v{1}->v{2} ae{3} f{4} af{5}",
+-                    this.Index,
+-                    this.StartVertex.Index,
+-                    this.EndVertex.Index,
+-                    this.AdjacentEdge != null ? this.AdjacentEdge.Index.ToString(CultureInfo.InvariantCulture) : "-",
+-                    this.Face.Index,
+-                    this.AdjacentFace != null ? this.AdjacentFace.Index.ToString(CultureInfo.InvariantCulture) : "-");
++                return $"e{this.Index}: v{this.StartVertex.Index}->v{this.EndVertex.Index} ae{(this.AdjacentEdge != null ? this.AdjacentEdge.Index.ToString(CultureInfo.InvariantCulture) : "-")} f{this.Face.Index} af{(this.AdjacentFace != null ? this.AdjacentFace.Index.ToString(CultureInfo.InvariantCulture) : "-")}";
+             }
+ 
+         }
+@@ -573,13 +562,7 @@ public bool IsOnBoundary()
+             /// </returns>
+             public override string ToString()
+             {
+-                return string.Format(
+-                    "v{0}: {1} | {2} | {3} | {4}",
+-                    this.Index,
+-                    this.FirstIncomingEdge.Face.Edges.Select(e => e.Index).EnumerateToString("e"),
+-                    this.IncomingEdges.Select(e => e.Index).EnumerateToString("ie"),
+-                    this.OutgoingEdges.Select(e => e.Index).EnumerateToString("oe"),
+-                    this.AdjacentFaces.Select(f => f.Index).EnumerateToString("af"));
++                return $"v{this.Index}: {this.FirstIncomingEdge.Face.Edges.Select(e => e.Index).EnumerateToString("e")} | {this.IncomingEdges.Select(e => e.Index).EnumerateToString("ie")} | {this.OutgoingEdges.Select(e => e.Index).EnumerateToString("oe")} | {this.AdjacentFaces.Select(f => f.Index).EnumerateToString("af")}";
+             }
+ 
+         }
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/RectSelection/MainWindow.xaml.cs b/Source/Examples/WPF/ExampleBrowser/Examples/RectSelection/MainWindow.xaml.cs
+index 04ff6035..4bd78c80 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/RectSelection/MainWindow.xaml.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/RectSelection/MainWindow.xaml.cs
+@@ -90,8 +90,8 @@ private void HandleSelectionModelsEvent(object sender, ModelsSelectedEventArgs a
+         {
+             this.ChangeMaterial(this.selectedModels, Materials.Blue);
+             this.selectedModels = args.SelectedModels;
+-            var rectangleSelectionArgs = args as ModelsSelectedByRectangleEventArgs;
+-            if (rectangleSelectionArgs != null)
++
++            if (args is ModelsSelectedByRectangleEventArgs rectangleSelectionArgs)
+             {
+                 this.ChangeMaterial(
+                     this.selectedModels,
+@@ -112,8 +112,7 @@ private void ChangeMaterial(IEnumerable<Model3D> models, Material material)
+ 
+             foreach (var model in models)
+             {
+-                var geometryModel = model as GeometryModel3D;
+-                if (geometryModel != null)
++                if (model is GeometryModel3D geometryModel)
+                 {
+                     geometryModel.Material = geometryModel.BackMaterial = material;
+                 }
+diff --git a/Source/Examples/WPF/ExampleBrowser/Examples/Subdivision/MainWindow.xaml.cs b/Source/Examples/WPF/ExampleBrowser/Examples/Subdivision/MainWindow.xaml.cs
+index 46eb560d..daa9fe74 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Examples/Subdivision/MainWindow.xaml.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Examples/Subdivision/MainWindow.xaml.cs
+@@ -177,7 +177,7 @@ public void UpdateModel()
+             long meshGenerationTime = w.ElapsedMilliseconds;
+             model3.Transform = new TranslateTransform3D(bounds.SizeX * 2.4, 0, 0);
+ 
+-            subdivisionStatus.Text = string.Format("Subdivision time: {0} ms, mesh generation time: {1} ms,  triangles: {2} (original mesh: {3})", subDivisionTime, meshGenerationTime, (mesh3.Faces.Count), (triangularMesh.TriangleIndices.Count / 3));
++            subdivisionStatus.Text = $"Subdivision time: {subDivisionTime} ms, mesh generation time: {meshGenerationTime} ms,  triangles: {(mesh3.Faces.Count)} (original mesh: {(triangularMesh.TriangleIndices.Count / 3)})";
+ 
+             this.Cursor = Cursors.Arrow;
+         }
+diff --git a/Source/Examples/WPF/ExampleBrowser/MainWindow.xaml.cs b/Source/Examples/WPF/ExampleBrowser/MainWindow.xaml.cs
+index 0e4c9233..3f2fced9 100644
+--- a/Source/Examples/WPF/ExampleBrowser/MainWindow.xaml.cs
++++ b/Source/Examples/WPF/ExampleBrowser/MainWindow.xaml.cs
+@@ -64,8 +64,8 @@ private static void CreateThumbnail(Window window, int width, string path)
+         private void ListBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
+         {
+             var lb = (ListBox)sender;
+-            var example = lb.SelectedItem as Example;
+-            if (example != null)
++
++            if (lb.SelectedItem is Example example)
+             {
+                 var window = example.Create();
+                 window.Show();
+@@ -91,8 +91,7 @@ private IEnumerable<Example> GetExamples(Assembly assembly)
+         {
+             foreach (var type in assembly.GetTypes())
+             {
+-                var ea = type.GetCustomAttributes(typeof(ExampleAttribute), false).FirstOrDefault() as ExampleAttribute;
+-                if (ea != null)
++                if (type.GetCustomAttributes(typeof(ExampleAttribute), false).FirstOrDefault() is ExampleAttribute ea)
+                 {
+                     yield return new Example(type, ea.Title, ea.Description);
+                 }
+diff --git a/Source/Examples/WPF/ExampleBrowser/Workitems/Workitem10046/FaceTheCameraBillboard.cs b/Source/Examples/WPF/ExampleBrowser/Workitems/Workitem10046/FaceTheCameraBillboard.cs
+index 6f76c3e8..027d268e 100644
+--- a/Source/Examples/WPF/ExampleBrowser/Workitems/Workitem10046/FaceTheCameraBillboard.cs
++++ b/Source/Examples/WPF/ExampleBrowser/Workitems/Workitem10046/FaceTheCameraBillboard.cs
+@@ -279,8 +279,7 @@ protected override MeshGeometry3D Tessellate()
+          // Get the value from the camera if a camera exists.
+          Viewport3D viewport = this.GetViewport3D();
+          if (viewport != null) {
+-            ProjectionCamera camera = viewport.Camera as ProjectionCamera;
+-            if (camera != null) {
++            if (viewport.Camera is ProjectionCamera camera) {
+                Point3D cameraPosition = camera.Position;
+                // Get direction to observer
+                //upVector = camera.UpDirection;
+diff --git a/Source/Examples/WPF/SurfaceDemo/Window1.xaml.cs b/Source/Examples/WPF/SurfaceDemo/Window1.xaml.cs
+index 1ff275a8..2a8ef78e 100644
+--- a/Source/Examples/WPF/SurfaceDemo/Window1.xaml.cs
++++ b/Source/Examples/WPF/SurfaceDemo/Window1.xaml.cs
+@@ -57,7 +57,7 @@ public Window1()
+ 
+             foreach (string m in models)
+             {
+-                var uri = new Uri(String.Format("pack://application:,,/Expressions/{0}.txt", m));
++                var uri = new Uri($"pack://application:,,/Expressions/{m}.txt");
+                 AddToMenu(m, uri);
+             }
+             SearchForSurfaces("Expressions");
+@@ -138,8 +138,7 @@ private void AddToMenu(string h, object f)
+ 
+         private void SurfaceFile_Click(object sender, RoutedEventArgs e)
+         {
+-            var menu = sender as MenuItem;
+-            if (menu != null)
++            if (sender is MenuItem menu)
+             {
+                 if (menu.Tag is Uri)
+                     Load(menu.Tag as Uri);
+diff --git a/Source/HelixToolkit.Shared/Geometry/MeshBuilder.cs b/Source/HelixToolkit.Shared/Geometry/MeshBuilder.cs
+index cb73aecb..8b01dc6f 100644
+--- a/Source/HelixToolkit.Shared/Geometry/MeshBuilder.cs
++++ b/Source/HelixToolkit.Shared/Geometry/MeshBuilder.cs
+@@ -4108,12 +4108,12 @@ public void CheckPerformanceLimits()
+         {
+             if (this.positions.Count > 20000)
+             {
+-                Trace.WriteLine(string.Format("Too many positions ({0}).", this.positions.Count));
++                Trace.WriteLine($"Too many positions ({this.positions.Count}).");
+             }
+ 
+             if (this.triangleIndices.Count > 60002)
+             {
+-                Trace.WriteLine(string.Format("Too many triangle indices ({0}).", this.triangleIndices.Count));
++                Trace.WriteLine($"Too many triangle indices ({this.triangleIndices.Count}).");
+             }
+         }
+ #endif
+diff --git a/Source/HelixToolkit.Shared/Geometry/MeshGeometryHelper.cs b/Source/HelixToolkit.Shared/Geometry/MeshGeometryHelper.cs
+index 532afccf..d3714dd1 100644
+--- a/Source/HelixToolkit.Shared/Geometry/MeshGeometryHelper.cs
++++ b/Source/HelixToolkit.Shared/Geometry/MeshGeometryHelper.cs
+@@ -744,7 +744,7 @@ public static MeshGeometry3D RemoveIsolatedVertices(this MeshGeometry3D mesh)
+             textureOut = null;
+             normalOut = null;
+             List<List<int>> tracking = new List<List<int>>(vertices.Count);
+-            Debug.WriteLine(string.Format("NumVert:{0}; NumTriangle:{1};", vertices.Count, triangles.Count));
++            Debug.WriteLine($"NumVert:{vertices.Count}; NumTriangle:{triangles.Count};");
+             for (int i = 0; i < vertices.Count; ++i)
+             {
+                 tracking.Add(new List<int>());
+@@ -800,7 +800,7 @@ public static MeshGeometry3D RemoveIsolatedVertices(this MeshGeometry3D mesh)
+                     ++counter;
+                 }
+             }
+-            Debug.WriteLine(string.Format("Remesh finished. Output NumVert:{0};", verticesOut.Count));
++            Debug.WriteLine($"Remesh finished. Output NumVert:{verticesOut.Count};");
+         }
+ 
+         /// <summary>
+diff --git a/Source/HelixToolkit.SharpDX.Assimp.Shared/ImporterPartial_Animation.cs b/Source/HelixToolkit.SharpDX.Assimp.Shared/ImporterPartial_Animation.cs
+index ae022e19..d8dd23fc 100644
+--- a/Source/HelixToolkit.SharpDX.Assimp.Shared/ImporterPartial_Animation.cs
++++ b/Source/HelixToolkit.SharpDX.Assimp.Shared/ImporterPartial_Animation.cs
+@@ -173,7 +173,7 @@ private ErrorCode LoadAnimations(HelixInternalScene scene)
+ 
+                 if (scene.AssimpScene.HasAnimations)
+                 {
+-                    bool hasBoneSkinnedMesh = scene.Meshes.Where(x => x.Mesh is BoneSkinnedMeshGeometry3D).Count() > 0 ? true : false;
++                    bool hasBoneSkinnedMesh = scene.Meshes.Where(x => x.Mesh is BoneSkinnedMeshGeometry3D).Any()? true : false;
+                     var animationList = new List<HxAnimations.Animation>(scene.AssimpScene.AnimationCount);
+                     if (Configuration.EnableParallelProcessing)
+                     {
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/LineBufferModel.cs b/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/LineBufferModel.cs
+index 452162cf..96d1741e 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/LineBufferModel.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/LineBufferModel.cs
+@@ -113,7 +113,7 @@ public class DefaultLineGeometryBufferModel : LineGeometryBufferModel<LinesVerte
+             protected override void OnCreateVertexBuffer(DeviceContextProxy context, IElementsBufferProxy buffer, int bufferIndex, Geometry3D geometry, IDeviceResources deviceResources)
+             {
+                 // -- set geometry if given
+-                if (geometry != null && geometry.Positions != null && geometry.Positions.Count > 0)
++                if (geometry?.Positions != null && geometry.Positions.Count > 0)
+                 {
+                     // --- get geometry
+                     var data = OnBuildVertexArray(geometry);
+@@ -139,7 +139,7 @@ protected override bool IsVertexBufferChanged(string propertyName, int vertexBuf
+             /// <param name="deviceResources">The device resources.</param>
+             protected override void OnCreateIndexBuffer(DeviceContextProxy context, IElementsBufferProxy buffer, Geometry3D geometry, IDeviceResources deviceResources)
+             {
+-                if (geometry != null && geometry.Indices != null && geometry.Indices.Count > 0)
++                if (geometry?.Indices != null && geometry.Indices.Count > 0)
+                 {
+                     buffer.UploadDataToBuffer(context, geometry.Indices, geometry.Indices.Count, 0, geometry.PreDefinedIndexCount);
+                 }
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/MeshBufferModel.cs b/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/MeshBufferModel.cs
+index 08d12b01..6697646f 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/MeshBufferModel.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/MeshBufferModel.cs
+@@ -102,7 +102,7 @@ protected MeshGeometryBufferModel(PrimitiveTopology topology, IElementsBufferPro
+             /// <param name="deviceResources">The device resources.</param>
+             protected override void OnCreateIndexBuffer(DeviceContextProxy context, IElementsBufferProxy buffer, Geometry3D geometry, IDeviceResources deviceResources)
+             {
+-                if (geometry != null && geometry.Indices != null && geometry.Indices.Count > 0)
++                if (geometry?.Indices != null && geometry.Indices.Count > 0)
+                 {
+                     buffer.UploadDataToBuffer(context, geometry.Indices, geometry.Indices.Count, 0, geometry.PreDefinedIndexCount);
+                 }
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/PointBufferModel.cs b/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/PointBufferModel.cs
+index b37085f3..5986cae6 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/PointBufferModel.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Core/Buffers/PointBufferModel.cs
+@@ -99,7 +99,7 @@ public class DefaultPointGeometryBufferModel : PointGeometryBufferModel<PointsVe
+             protected override void OnCreateVertexBuffer(DeviceContextProxy context, IElementsBufferProxy buffer, int bufferIndex, Geometry3D geometry, IDeviceResources deviceResources)
+             {
+                 // -- set geometry if given
+-                if (geometry != null && geometry.Positions != null && geometry.Positions.Count > 0)
++                if (geometry?.Positions != null && geometry.Positions.Count > 0)
+                 {
+                     // --- get geometry
+                     var data = OnBuildVertexArray(geometry);
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Core/SkyBoxRenderCore.cs b/Source/HelixToolkit.SharpDX.Shared/Core/SkyBoxRenderCore.cs
+index b252b290..edb8a8cb 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Core/SkyBoxRenderCore.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Core/SkyBoxRenderCore.cs
+@@ -272,7 +272,7 @@ public SkyBoxBufferModel() : base(Vector3.SizeInBytes)
+                 protected override void OnCreateVertexBuffer(DeviceContextProxy context, IElementsBufferProxy buffer, int bufferIndex, Geometry3D geometry, IDeviceResources deviceResources)
+                 {
+                     // -- set geometry if given
+-                    if (geometry != null && geometry.Positions != null && geometry.Positions.Count > 0)
++                    if (geometry?.Positions != null && geometry.Positions.Count > 0)
+                     {
+ 
+                         buffer.UploadDataToBuffer(context, geometry.Positions, geometry.Positions.Count);
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Core/VolumeRenderCore.cs b/Source/HelixToolkit.SharpDX.Shared/Core/VolumeRenderCore.cs
+index f6f2cafb..0bbaca38 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Core/VolumeRenderCore.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Core/VolumeRenderCore.cs
+@@ -212,7 +212,7 @@ public VolumeCubeBufferModel() : base(Vector3.SizeInBytes)
+                 protected override void OnCreateVertexBuffer(DeviceContextProxy context, IElementsBufferProxy buffer, int bufferIndex, Geometry3D geometry, IDeviceResources deviceResources)
+                 {
+                     // -- set geometry if given
+-                    if (geometry != null && geometry.Positions != null && geometry.Positions.Count > 0)
++                    if (geometry?.Positions != null && geometry.Positions.Count > 0)
+                     {
+ 
+                         buffer.UploadDataToBuffer(context, geometry.Positions, geometry.Positions.Count);
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Extensions/IViewportExtensions.cs b/Source/HelixToolkit.SharpDX.Shared/Extensions/IViewportExtensions.cs
+index 69f26b79..f6e88bb1 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Extensions/IViewportExtensions.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Extensions/IViewportExtensions.cs
+@@ -398,7 +398,7 @@ internal static BoundingBox FindBoundsInternal(this IViewport3DX viewport)
+                     return true;
+                 }
+                 return false;
+-            }).Where(x =>
++            }).FirstOrDefault(x =>
+             {
+                 if (x is IBoundable b)
+                 {
+@@ -409,7 +409,7 @@ internal static BoundingBox FindBoundsInternal(this IViewport3DX viewport)
+                 {
+                     return false;
+                 }
+-            }).FirstOrDefault();
++            });
+             if (firstModel == null)
+             {
+                 return new BoundingBox();
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Model/Geometry/BillboardBase.cs b/Source/HelixToolkit.SharpDX.Shared/Model/Geometry/BillboardBase.cs
+index ef57688a..cf9aa1aa 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Model/Geometry/BillboardBase.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Model/Geometry/BillboardBase.cs
+@@ -180,7 +180,7 @@ public void Invalidate()
+                     result.Distance = dist;
+                     result.Geometry = this;
+                     AssignResultAdditional(result, i);
+-                    Debug.WriteLine(string.Format("Hit; HitPoint:{0}; Text={1}", result.PointHit, result.TextInfo == null ? Type.ToString() : result.TextInfo.Text));
++                    Debug.WriteLine($"Hit; HitPoint:{result.PointHit}; Text={(result.TextInfo == null ? Type.ToString() : result.TextInfo.Text)}");
+                 }
+             }
+             if (h)
+@@ -255,7 +255,7 @@ protected override void OnClearAllGeometryData()
+                     result.Distance = dist;
+                     result.Geometry = this;
+                     AssignResultAdditional(result, i);
+-                    Debug.WriteLine(string.Format("Hit; HitPoint:{0}; Text={1}", result.PointHit, result.TextInfo == null ? Type.ToString() : result.TextInfo.Text));
++                    Debug.WriteLine($"Hit; HitPoint:{result.PointHit}; Text={(result.TextInfo == null ? Type.ToString() : result.TextInfo.Text)}");
+                 }
+             }
+             if (h)
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Model/Scene/Abstract/SceneNode.cs b/Source/HelixToolkit.SharpDX.Shared/Model/Scene/Abstract/SceneNode.cs
+index 0271abc2..7b9dccdf 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Model/Scene/Abstract/SceneNode.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Model/Scene/Abstract/SceneNode.cs
+@@ -974,7 +974,7 @@ protected override void OnDispose(bool disposeManagedResources)
+             /// <returns></returns>
+             public bool RemoveSelf()
+             {
+-                if(parent != null && parent is GroupNodeBase group)
++                if(parent is GroupNodeBase group)
+                 {
+                     return group.RemoveChildNode(this);
+                 }
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/DDSHelper.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/DDSHelper.cs
+index 67bf8c4e..07029a08 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/DDSHelper.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/DDSHelper.cs
+@@ -307,7 +307,7 @@ private static unsafe bool DecodeDDSHeader(IntPtr headerPtr, int size, DDSFlags
+                         break;
+ 
+                     default:
+-                        throw new InvalidOperationException(string.Format("Unexpected dimension [{0}] from DDS HeaderDX10", headerDX10.ResourceDimension));
++                        throw new InvalidOperationException($"Unexpected dimension [{headerDX10.ResourceDimension}] from DDS HeaderDX10");
+                 }
+             }
+             else
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/DepthStencilBuffer.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/DepthStencilBuffer.cs
+index 754497fe..24d667a5 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/DepthStencilBuffer.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/DepthStencilBuffer.cs
+@@ -274,7 +274,7 @@ private static DepthFormat ComputeViewFormat(DXGI.Format format)
+                 case SharpDX.DXGI.Format.R32_Float_X8X24_Typeless:
+                     return DepthFormat.Depth32Stencil8X24;
+             }
+-            throw new InvalidOperationException(string.Format("Unsupported DXGI.FORMAT [{0}] for depth buffer", format));
++            throw new InvalidOperationException($"Unsupported DXGI.FORMAT [{format}] for depth buffer");
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Image.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Image.cs
+index 134600cf..2ddaea48 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Image.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Image.cs
+@@ -452,10 +452,8 @@ public unsafe static Image Load(byte[] buffer)
+         /// <remarks>This method support the following format: <c>dds, bmp, jpg, png, gif, tiff, wmp, tga</c>.</remarks>
+         public static Image Load(Stream imageStream)
+         {
+-            // Use fast path using NativeFileStream
+-            // TODO: THIS IS NOT OPTIMIZED IN THE CASE THE STREAM IS NOT AN IMAGE. FIND A WAY TO OPTIMIZE THIS CASE.
+-            var nativeImageStream = imageStream as NativeFileStream;
+-            if (nativeImageStream != null)
++            // Use fast path using NativeFileStream            // TODO: THIS IS NOT OPTIMIZED IN THE CASE THE STREAM IS NOT AN IMAGE. FIND A WAY TO OPTIMIZE THIS CASE.
++            if (imageStream is NativeFileStream nativeImageStream)
+             {
+                 var imageBuffer = IntPtr.Zero;
+                 Image image = null;
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/ImageDescription.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/ImageDescription.cs
+index e80c49af..6db8c317 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/ImageDescription.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/ImageDescription.cs
+@@ -157,7 +157,7 @@ public override int GetHashCode()
+         /// <returns></returns>
+         public override string ToString()
+         {
+-            return string.Format("Dimension: {0}, Width: {1}, Height: {2}, Depth: {3}, Format: {4}, ArraySize: {5}, MipLevels: {6}", Dimension, Width, Height, Depth, Format, ArraySize, MipLevels);
++            return $"Dimension: {Dimension}, Width: {Width}, Height: {Height}, Depth: {Depth}, Format: {Format}, ArraySize: {ArraySize}, MipLevels: {MipLevels}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/PixelBuffer.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/PixelBuffer.cs
+index dc6706ed..529edb39 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/PixelBuffer.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/PixelBuffer.cs
+@@ -82,7 +82,7 @@ public Format Format
+             {
+                 if (PixelSize != (int)FormatHelper.SizeOfInBytes(value))
+                 {
+-                    throw new ArgumentException(string.Format("Format [{0}] doesn't have same pixel size in bytes than current format [{1}]", value, format));
++                    throw new ArgumentException($"Format [{value}] doesn't have same pixel size in bytes than current format [{format}]");
+                 }
+                 format = value;
+             }
+@@ -197,7 +197,7 @@ public unsafe void CopyTo(PixelBuffer pixelBuffer)
+             var sizeOfOutputPixel = Utilities.SizeOf<T>();
+             var totalSize = Width * Height * pixelSize;
+             if ((totalSize % sizeOfOutputPixel) != 0)
+-                throw new ArgumentException(string.Format("Invalid sizeof(T), not a multiple of current size [{0}]in bytes ", totalSize));
++                throw new ArgumentException($"Invalid sizeof(T), not a multiple of current size [{totalSize}]in bytes ");
+ 
+             var buffer = new T[totalSize / sizeOfOutputPixel];
+             GetPixels(buffer, yOffset);
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/PixelFormat.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/PixelFormat.cs
+index dbf601c6..06161798 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/PixelFormat.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/PixelFormat.cs
+@@ -774,7 +774,7 @@ public override int GetHashCode()
+         /// <returns></returns>
+         public override string ToString()
+         {
+-            return string.Format("{0}", Value);
++            return $"{Value}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/ShaderResourceViewSelector.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/ShaderResourceViewSelector.cs
+index 4b8bc04c..2c4a2a1d 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/ShaderResourceViewSelector.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/ShaderResourceViewSelector.cs
+@@ -33,7 +33,7 @@ internal ShaderResourceViewSelector(Texture thisTexture)
+             {
+                 if(FormatHelper.IsTypeless(texture.Format))
+                 {
+-                    throw new InvalidOperationException(string.Format("Cannot create a SRV on a TypeLess texture format [{0}]", texture.Format));
++                    throw new InvalidOperationException($"Cannot create a SRV on a TypeLess texture format [{texture.Format}]");
+                 }
+                 return texture.GetShaderResourceView(texture.Format, viewType, arrayOrDepthSlice, mipIndex);
+             }
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture.cs
+index 6a820e69..0d812662 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture.cs
+@@ -159,7 +159,7 @@ public static int CalculateMipLevels(int width, MipMapCount mipLevels)
+             {
+                 int maxMips = CountMips(width);
+                 if (mipLevels > maxMips)
+-                    throw new InvalidOperationException(String.Format("MipLevels must be <= {0}", maxMips));
++                    throw new InvalidOperationException($"MipLevels must be <= {maxMips}");
+             }
+             else if (mipLevels == 0)
+             {
+@@ -185,7 +185,7 @@ public static int CalculateMipLevels(int width, int height, MipMapCount mipLevel
+             {
+                 int maxMips = CountMips(width, height);
+                 if (mipLevels > maxMips)
+-                    throw new InvalidOperationException(String.Format("MipLevels must be <= {0}", maxMips));
++                    throw new InvalidOperationException($"MipLevels must be <= {maxMips}");
+             }
+             else if (mipLevels == 0)
+             {
+@@ -215,7 +215,7 @@ public static int CalculateMipLevels(int width, int height, int depth, MipMapCou
+ 
+                 int maxMips = CountMips(width, height, depth);
+                 if (mipLevels > maxMips)
+-                    throw new InvalidOperationException(String.Format("MipLevels must be <= {0}", maxMips));
++                    throw new InvalidOperationException($"MipLevels must be <= {maxMips}");
+             }
+             else if (mipLevels == 0)
+             {
+@@ -579,7 +579,7 @@ protected override void OnPropertyChanged(string propertyName)
+                         foreach(var shaderResourceViewItem in shaderResourceViews)
+                         {
+                             var shaderResourceView = shaderResourceViewItem.Value;
+-                            if (shaderResourceView != null) shaderResourceView.View.DebugName = Name == null ? null : String.Format("{0} SRV[{1}]", i, Name);
++                            if (shaderResourceView != null) shaderResourceView.View.DebugName = Name == null ? null : $"{i} SRV[{Name}]";
+                             i++;
+                         }
+                     }
+@@ -589,7 +589,7 @@ protected override void OnPropertyChanged(string propertyName)
+                         for (int i = 0; i < this.renderTargetViews.Length; i++)
+                         {
+                             var renderTargetView = this.renderTargetViews[i];
+-                            if (renderTargetView != null) renderTargetView.View.DebugName = Name == null ? null : String.Format("{0} RTV[{1}]", i, Name);
++                            if (renderTargetView != null) renderTargetView.View.DebugName = Name == null ? null : $"{i} RTV[{Name}]";
+                         }
+                     }
+ 
+@@ -598,7 +598,7 @@ protected override void OnPropertyChanged(string propertyName)
+                         for (int i = 0; i < this.unorderedAccessViews.Length; i++)
+                         {
+                             var unorderedAccessView = this.unorderedAccessViews[i];
+-                            if (unorderedAccessView != null) unorderedAccessView.DebugName = Name == null ? null : String.Format("{0} UAV[{1}]", i, Name);
++                            if (unorderedAccessView != null) unorderedAccessView.DebugName = Name == null ? null : $"{i} UAV[{Name}]";
+                         }
+                     }
+                 }
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture1D.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture1D.cs
+index ce048cfb..160ad316 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture1D.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture1D.cs
+@@ -175,7 +175,7 @@ public static new Texture1D Load(Device device, Stream stream, TextureFlags flag
+         {
+             var texture = Texture.Load(device, stream, flags, usage);
+             if (!(texture is Texture1D))
+-                throw new ArgumentException(string.Format("Texture is not type of [Texture1D] but [{0}]", texture.GetType().Name));
++                throw new ArgumentException($"Texture is not type of [Texture1D] but [{texture.GetType().Name}]");
+             return (Texture1D)texture;
+         }
+ 
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture2D.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture2D.cs
+index 40ad6328..c4647f0e 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture2D.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture2D.cs
+@@ -197,7 +197,7 @@ public static new Texture2D Load(Device device, Stream stream, TextureFlags flag
+         {
+             var texture = Texture.Load(device, stream, flags, usage);
+             if (!(texture is Texture2D))
+-                throw new ArgumentException(string.Format("Texture is not type of [Texture2D] but [{0}]", texture.GetType().Name));
++                throw new ArgumentException($"Texture is not type of [Texture2D] but [{texture.GetType().Name}]");
+             return (Texture2D)texture;
+         }
+ 
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture3D.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture3D.cs
+index 181f156c..228b6b23 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture3D.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/Texture3D.cs
+@@ -203,7 +203,7 @@ public static new Texture3D Load(Device device, Stream stream, TextureFlags flag
+         {
+             var texture = Texture.Load(device, stream, flags, usage);
+             if (!(texture is Texture3D))
+-                throw new ArgumentException(string.Format("Texture is not type of [Texture3D] but [{0}]", texture.GetType().Name));
++                throw new ArgumentException($"Texture is not type of [Texture3D] but [{texture.GetType().Name}]");
+             return (Texture3D)texture;
+         }
+ 
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/TextureCube.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/TextureCube.cs
+index 0eedd829..dd520fd2 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/TextureCube.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/TextureCube.cs
+@@ -210,7 +210,7 @@ public static new TextureCube Load(Device device, Stream stream, TextureFlags fl
+         {
+             var texture = Texture.Load(device, stream, flags | TextureFlags.ShaderResource, usage);
+             if (!(texture is TextureCube))
+-                throw new ArgumentException(string.Format("Texture is not type of [TextureCube] but [{0}]", texture.GetType().Name));
++                throw new ArgumentException($"Texture is not type of [TextureCube] but [{texture.GetType().Name}]");
+             return (TextureCube)texture;
+         }
+ 
+diff --git a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/TextureView.cs b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/TextureView.cs
+index 01371de0..3dd93869 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/TextureView.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/SharpDX.Toolkit/Graphics/TextureView.cs
+@@ -33,27 +33,23 @@ protected override void Initialize(DeviceChild view)
+         {
+             // The initialize method will override the view.Tag, so we are setting it back
+             base.Initialize(view);
+-
+-            var shaderResourceView = view as ShaderResourceView;
+             int mipLevel = 0;
+             bool isMultisampled = Texture.Description.SampleDescription.Count > 1;
+ 
+-            if (shaderResourceView != null)
++            if (view is ShaderResourceView shaderResourceView)
+             {
+                 mipLevel = isMultisampled ? 0 : shaderResourceView.Description.Texture1D.MostDetailedMip;
+             }
+             else
+             {
+-                var renderTargetView = view as RenderTargetView;
+-                if (renderTargetView != null)
++                if (view is RenderTargetView renderTargetView)
+                 {
+                     IsRenderView = true;
+                     mipLevel = isMultisampled ? 0 : renderTargetView.Description.Texture1D.MipSlice;
+                 }
+                 else
+                 {
+-                    var depthStencilView = view as DepthStencilView;
+-                    if (depthStencilView != null)
++                    if (view is DepthStencilView depthStencilView)
+                     {
+                         IsDepthStencilView = true;
+                         mipLevel = isMultisampled ? 0 : depthStencilView.Description.Texture1D.MipSlice;
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Utilities/DisposeObject.cs b/Source/HelixToolkit.SharpDX.Shared/Utilities/DisposeObject.cs
+index b3137785..1c49ca5d 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Utilities/DisposeObject.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Utilities/DisposeObject.cs
+@@ -100,7 +100,7 @@ public T Collect<T>(T toDispose)
+         /// <param name="objectToDispose">Object to dispose.</param>
+         public void RemoveAndDispose<T>(ref T objectToDispose)
+         {
+-            if (objectToDispose != null && objectToDispose is IDisposable disposible)
++            if (objectToDispose is IDisposable disposible)
+             {
+                 Remove(disposible);
+                 // Dispose the component
+@@ -273,7 +273,7 @@ public T Collect<T>(T toDispose)
+         /// <param name="objectToDispose">Object to dispose.</param>
+         public void RemoveAndDispose<T>(ref T objectToDispose)
+         {
+-            if (objectToDispose != null && objectToDispose is IDisposable disposible)
++            if (objectToDispose is IDisposable disposible)
+             {
+                 Remove(disposible);
+                 // Dispose the component
+diff --git a/Source/HelixToolkit.SharpDX.Shared/Utilities/ImportExport/ObjReader.cs b/Source/HelixToolkit.SharpDX.Shared/Utilities/ImportExport/ObjReader.cs
+index 46ea217b..35d5000d 100644
+--- a/Source/HelixToolkit.SharpDX.Shared/Utilities/ImportExport/ObjReader.cs
++++ b/Source/HelixToolkit.SharpDX.Shared/Utilities/ImportExport/ObjReader.cs
+@@ -532,7 +532,7 @@ private void SetSmoothingGroup(string values)
+                     {
+                         return;
+                     }
+-                    throw new FileFormatException(string.Format("Invalid smoothing group ({0}) at line {1}.", values, this.currentLineNo));
++                    throw new FileFormatException($"Invalid smoothing group ({values}) at line {this.currentLineNo}.");
+                 }
+             }
+         }
+@@ -609,7 +609,7 @@ private void AddFace(string values)
+                         return;
+                     }
+ 
+-                    throw new FileFormatException(string.Format("Invalid vertex index ({0}) on line {1}.", vi, this.currentLineNo));
++                    throw new FileFormatException($"Invalid vertex index ({vi}) on line {this.currentLineNo}.");
+                 }
+ 
+                 if (vti == int.MaxValue)
+@@ -634,7 +634,7 @@ private void AddFace(string values)
+                         return;
+                     }
+ 
+-                    throw new FileFormatException(string.Format("Invalid texture coordinate index ({0}) on line {1}.", vti, this.currentLineNo));
++                    throw new FileFormatException($"Invalid texture coordinate index ({vti}) on line {this.currentLineNo}.");
+                 }
+ 
+                 // check if the normal index is valid
+@@ -645,7 +645,7 @@ private void AddFace(string values)
+                         return;
+                     }
+ 
+-                    throw new FileFormatException(string.Format("Invalid normal index ({0}) on line {1}.", vni, this.currentLineNo));
++                    throw new FileFormatException($"Invalid normal index ({vni}) on line {this.currentLineNo}.");
+                 }
+ 
+                 bool addVertex = true;
+@@ -742,7 +742,7 @@ private void AddFace(string values)
+             }
+             catch (Exception ex)
+             {
+-                throw new Exception(string.Format("Error composing polygonal object: {0}", ex.Message));
++                throw new Exception($"Error composing polygonal object: {ex.Message}");
+             }
+         }
+ 
+diff --git a/Source/HelixToolkit.Wpf.Shared/Controls/CameraController/CameraSetting.cs b/Source/HelixToolkit.Wpf.Shared/Controls/CameraController/CameraSetting.cs
+index 1bde0d18..244f34ee 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Controls/CameraController/CameraSetting.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Controls/CameraController/CameraSetting.cs
+@@ -90,14 +90,13 @@ public void UpdateCamera(ProjectionCamera camera)
+             camera.UpDirection = this.UpDirection;
+             camera.NearPlaneDistance = this.NearPlaneDistance;
+             camera.FarPlaneDistance = this.FarPlaneDistance;
+-            var pcamera = camera as PerspectiveCamera;
+-            if (pcamera != null)
++
++            if (camera is PerspectiveCamera pcamera)
+             {
+                 pcamera.FieldOfView = this.FieldOfView;
+             }
+ 
+-            var ocamera = camera as OrthographicCamera;
+-            if (ocamera != null)
++            if (camera is OrthographicCamera ocamera)
+             {
+                 ocamera.Width = this.Width;
+             }
+diff --git a/Source/HelixToolkit.Wpf.Shared/Controls/CameraController/ZoomHandler.cs b/Source/HelixToolkit.Wpf.Shared/Controls/CameraController/ZoomHandler.cs
+index e27b9e2b..1bc3443c 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Controls/CameraController/ZoomHandler.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Controls/CameraController/ZoomHandler.cs
+@@ -124,8 +124,7 @@ public void ZoomByChangingCameraWidth(double delta, Point3D zoomAround)
+                     this.ChangeCameraDistance(delta, zoomAround);
+ 
+                     // Modify the camera width
+-                    var ocamera = this.Camera as OrthographicCamera;
+-                    if (ocamera != null)
++                    if (this.Camera is OrthographicCamera ocamera)
+                     {
+                         ocamera.Width *= Math.Pow(2.5, delta);
+                     }
+diff --git a/Source/HelixToolkit.Wpf.Shared/Controls/HelixViewport3D.cs b/Source/HelixToolkit.Wpf.Shared/Controls/HelixViewport3D.cs
+index c4fa2a24..d7d485f8 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Controls/HelixViewport3D.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Controls/HelixViewport3D.cs
+@@ -3559,8 +3559,7 @@ protected virtual void OnCameraChanged()
+ 
+                 if (this.coordinateSystemLights != null)
+                 {
+-                    var cshl = this.coordinateSystemLights.Children[0] as DirectionalLight;
+-                    if (cshl != null)
++                    if (this.coordinateSystemLights.Children[0] is DirectionalLight cshl)
+                     {
+                         cshl.Direction = this.Camera.LookDirection;
+                     }
+@@ -3734,8 +3733,7 @@ private void AddItems(IEnumerable newValue)
+             {
+                 foreach (var element in newValue)
+                 {
+-                    var visual = element as Visual3D;
+-                    if (visual != null)
++                    if (element is Visual3D visual)
+                     {
+                         this.Children.Add(visual);
+                     }
+@@ -3789,7 +3787,7 @@ private void CompositionTargetRendering(object sender, RenderingEventArgs e)
+             if (this.ShowTriangleCountInfo && this.infoFrameCounter > 100)
+             {
+                 var count = this.viewport.GetTotalNumberOfTriangles();
+-                this.TriangleCountInfo = string.Format("Triangles: {0}", count);
++                this.TriangleCountInfo = $"Triangles: {count}";
+                 this.infoFrameCounter = 0;
+             }
+         }
+@@ -3926,8 +3924,7 @@ private void RemoveItems(IEnumerable oldValue)
+             {
+                 foreach (var element in oldValue)
+                 {
+-                    var visual = element as Visual3D;
+-                    if (visual != null)
++                    if (element is Visual3D visual)
+                     {
+                         this.Children.Remove(visual);
+                     }
+@@ -3973,7 +3970,7 @@ private void UpdateCameraInfo()
+         private void UpdateFieldOfViewInfo()
+         {
+             var pc = this.Camera as PerspectiveCamera;
+-            this.FieldOfViewText = pc != null ? string.Format("FoV ∠ {0:0}°", pc.FieldOfView) : null;
++            this.FieldOfViewText = pc != null ? $"FoV ∠ {pc.FieldOfView:0}°" : null;
+         }
+ 
+         /// <summary>
+diff --git a/Source/HelixToolkit.Wpf.Shared/Exporters/ColladaExporter.cs b/Source/HelixToolkit.Wpf.Shared/Exporters/ColladaExporter.cs
+index a645fddc..3febb326 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Exporters/ColladaExporter.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Exporters/ColladaExporter.cs
+@@ -210,13 +210,13 @@ private void WriteAssets(XmlWriter writer, Viewport3D viewport)
+             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+ 
+             var assemblyName = assembly.GetName();
+-            var authoringTool = string.Format("{0} {1}", assemblyName.Name, assemblyName.Version.ToString(3));
++            var authoringTool = $"{assemblyName.Name} {assemblyName.Version.ToString(3)}";
+ 
+             var created = DateTime.Now;
+             var createdString = created.ToString("u").Replace(' ', 'T');
+-            var projectionCamera = viewport.Camera as ProjectionCamera;
+             var upAxis = "Z_UP";
+-            if (projectionCamera != null && projectionCamera.UpDirection.Y > projectionCamera.UpDirection.Z)
++
++            if (viewport.Camera is ProjectionCamera projectionCamera && projectionCamera.UpDirection.Y > projectionCamera.UpDirection.Z)
+             {
+                 upAxis = "Y_UP";
+             }
+@@ -452,24 +452,21 @@ private void ExportLight(XmlWriter writer, Light light)
+             writer.WriteAttributeString("name", id);
+             writer.WriteStartElement("technique_common");
+ 
+-            var al = light as AmbientLight;
+-            if (al != null)
++            if (light is AmbientLight al)
+             {
+                 writer.WriteStartElement("ambient");
+                 this.WriteColor(writer, al.Color);
+                 writer.WriteEndElement();
+             }
+ 
+-            var dl = light as DirectionalLight;
+-            if (dl != null)
++            if (light is DirectionalLight dl)
+             {
+                 writer.WriteStartElement("directional");
+                 this.WriteColor(writer, dl.Color);
+                 writer.WriteEndElement();
+             }
+ 
+-            var pl = light as PointLight;
+-            if (pl != null)
++            if (light is PointLight pl)
+             {
+                 writer.WriteStartElement("point");
+                 this.WriteColor(writer, pl.Color);
+@@ -479,8 +476,7 @@ private void ExportLight(XmlWriter writer, Light light)
+                 writer.WriteEndElement();
+             }
+ 
+-            var sl = light as SpotLight;
+-            if (sl != null)
++            if (light is SpotLight sl)
+             {
+                 writer.WriteStartElement("spot");
+                 this.WriteColor(writer, sl.Color);
+diff --git a/Source/HelixToolkit.Wpf.Shared/Exporters/Exporter.cs b/Source/HelixToolkit.Wpf.Shared/Exporters/Exporter.cs
+index 3eda952a..691b94ac 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Exporters/Exporter.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Exporters/Exporter.cs
+@@ -167,11 +167,9 @@ protected void RenderBrush(Stream stm, Brush brush, int w, int h)
+         /// <returns>RenderTargetBitmap.</returns>
+         protected RenderTargetBitmap RenderBrush(Brush brush, int w, int h)
+         {
+-            var ib = brush as ImageBrush;
+-            if (ib != null)
++            if (brush is ImageBrush ib)
+             {
+-                var bi = ib.ImageSource as BitmapImage;
+-                if (bi != null)
++                if (ib.ImageSource is BitmapImage bi)
+                 {
+                     w = bi.PixelWidth;
+                     h = bi.PixelHeight;
+diff --git a/Source/HelixToolkit.Wpf.Shared/Exporters/KerkytheaExporter.cs b/Source/HelixToolkit.Wpf.Shared/Exporters/KerkytheaExporter.cs
+index b0b16dad..cb458699 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Exporters/KerkytheaExporter.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Exporters/KerkytheaExporter.cs
+@@ -263,7 +263,7 @@ public void ExportMesh(KerkytheaWriter writer, MeshGeometry3D m)
+                     int j = m.TriangleIndices[a3 + 1];
+                     int k = m.TriangleIndices[a3 + 2];
+                     writer.WriteStartElement("F");
+-                    writer.WriteAttributeString("ijk", string.Format("{0} {1} {2}", i, j, k));
++                    writer.WriteAttributeString("ijk", $"{i} {j} {k}");
+                     writer.WriteEndElement();
+                 }
+             }
+@@ -892,14 +892,14 @@ private void ExportMaterial(KerkytheaWriter writer, string name, Material materi
+ 
+                 if (alpha > 0)
+                 {
+-                    this.WriteWhittedMaterial(writer, string.Format("#{0}", weights.Count), texture, color, null, null);
++                    this.WriteWhittedMaterial(writer, $"#{weights.Count}", texture, color, null, null);
+                     weights.Add(alpha);
+                 }
+ 
+                 // The refractive part
+                 if (alpha < 1)
+                 {
+-                    this.WriteWhittedMaterial(writer, string.Format("#{0}", weights.Count), null, null, null, Colors.White);
++                    this.WriteWhittedMaterial(writer, $"#{weights.Count}", null, null, null, Colors.White);
+                     weights.Add(1 - alpha);
+                 }
+             }
+@@ -910,7 +910,7 @@ private void ExportMaterial(KerkytheaWriter writer, string name, Material materi
+                 var color = this.GetSolidColor(s.Brush, s.Color);
+ 
+                 // color = Color.FromArgb((byte)(color.A * factor), (byte)(color.R * factor), (byte)(color.G * factor), (byte)(color.B * factor));
+-                this.WriteWhittedMaterial(writer, string.Format("#{0}", weights.Count), null, null, color, null, s.SpecularPower * 0.5);
++                this.WriteWhittedMaterial(writer, $"#{weights.Count}", null, null, color, null, s.SpecularPower * 0.5);
+                 double weight = color.A / 255.0;
+                 weight *= 0.01;
+                 weights.Add(weight);
+@@ -941,7 +941,7 @@ private void ExportMaterial(KerkytheaWriter writer, Material material)
+             if (this.registeredMaterials.ContainsKey(material))
+             {
+                 var doc = this.registeredMaterials[material];
+-                if (doc != null && doc.DocumentElement != null)
++                if (doc?.DocumentElement != null)
+                 {
+                     foreach (XmlNode e in doc.DocumentElement.ChildNodes)
+                     {
+diff --git a/Source/HelixToolkit.Wpf.Shared/Exporters/ObjExporter.cs b/Source/HelixToolkit.Wpf.Shared/Exporters/ObjExporter.cs
+index 9e7ff7ce..bd9aa891 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Exporters/ObjExporter.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Exporters/ObjExporter.cs
+@@ -179,7 +179,7 @@ public void ExportMesh(StreamWriter writer, MeshGeometry3D m, Transform3D t)
+                             this.SwitchYZ ? -p.Y : p.Z));
+                 }
+ 
+-                writer.WriteLine(string.Format("# {0} vertices", index));
++                writer.WriteLine($"# {index} vertices");
+             }
+ 
+             if (m.TextureCoordinates != null)
+@@ -191,7 +191,7 @@ public void ExportMesh(StreamWriter writer, MeshGeometry3D m, Transform3D t)
+                     writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "vt {0} {1}", vt.X, 1 - vt.Y));
+                 }
+ 
+-                writer.WriteLine(string.Format("# {0} texture coordinates", index));
++                writer.WriteLine($"# {index} texture coordinates");
+             }
+ 
+             if (m.Normals != null && ExportNormals)
+@@ -204,7 +204,7 @@ public void ExportMesh(StreamWriter writer, MeshGeometry3D m, Transform3D t)
+                         string.Format(CultureInfo.InvariantCulture, "vn {0} {1} {2}", vn.X, this.SwitchYZ ? vn.Z : vn.Y, this.SwitchYZ ? -vn.Y : vn.Z));
+                 }
+ 
+-                writer.WriteLine(string.Format("# {0} normals", index));
++                writer.WriteLine($"# {index} normals");
+             }
+ 
+             Func<int, string> formatIndices = i0 =>
+@@ -213,17 +213,17 @@ public void ExportMesh(StreamWriter writer, MeshGeometry3D m, Transform3D t)
+                     bool hasNormalIndex = normalIndexMap.ContainsKey(i0);
+                     if (hasTextureIndex && hasNormalIndex)
+                     {
+-                        return string.Format("{0}/{1}/{2}", vertexIndexMap[i0], textureIndexMap[i0], normalIndexMap[i0]);
++                        return $"{vertexIndexMap[i0]}/{textureIndexMap[i0]}/{normalIndexMap[i0]}";
+                     }
+ 
+                     if (hasTextureIndex)
+                     {
+-                        return string.Format("{0}/{1}", vertexIndexMap[i0], textureIndexMap[i0]);
++                        return $"{vertexIndexMap[i0]}/{textureIndexMap[i0]}";
+                     }
+ 
+                     if (hasNormalIndex)
+                     {
+-                        return string.Format("{0}//{1}", vertexIndexMap[i0], normalIndexMap[i0]);
++                        return $"{vertexIndexMap[i0]}//{normalIndexMap[i0]}";
+                     }
+ 
+                     return vertexIndexMap[i0].ToString();
+@@ -240,7 +240,7 @@ public void ExportMesh(StreamWriter writer, MeshGeometry3D m, Transform3D t)
+                     writer.WriteLine("f {0} {1} {2}", formatIndices(i0), formatIndices(i1), formatIndices(i2));
+                 }
+ 
+-                writer.WriteLine(string.Format("# {0} faces", m.TriangleIndices.Count / 3));
++                writer.WriteLine($"# {m.TriangleIndices.Count / 3} faces");
+             }
+ 
+             writer.WriteLine();
+@@ -301,7 +301,7 @@ protected override void ExportModel(ObjWriters writer, GeometryModel3D model, Tr
+             }
+             else
+             {
+-                string matName = string.Format("mat{0}", this.matNo++);
++                string matName = $"mat{this.matNo++}";
+                 writer.ObjWriter.WriteLine("usemtl {0}", matName);
+                 this.ExportMaterial(writer.MaterialsWriter, matName, model.Material, model.BackMaterial);
+                 this.exportedMaterials.Add(model.Material, matName);
+@@ -348,7 +348,7 @@ private void ExportMaterial(StreamWriter materialWriter, string matName, Materia
+                 var scb = dm.Brush as SolidColorBrush;
+                 if (scb != null)
+                 {
+-                    materialWriter.WriteLine(string.Format("Kd {0}", this.ToColorString(scb.Color)));
++                    materialWriter.WriteLine($"Kd {this.ToColorString(scb.Color)}");
+ 
+                     if (this.UseDissolveForTransparency)
+                     {
+@@ -380,7 +380,7 @@ private void ExportMaterial(StreamWriter materialWriter, string matName, Materia
+                         }
+                     }
+ 
+-                    materialWriter.WriteLine(string.Format("map_Kd {0}", textureFilename));
++                    materialWriter.WriteLine($"map_Kd {textureFilename}");
+                 }
+             }
+ 
+@@ -395,8 +395,7 @@ private void ExportMaterial(StreamWriter materialWriter, string matName, Materia
+             {
+                 var scb = sm.Brush as SolidColorBrush;
+                 materialWriter.WriteLine(
+-                    string.Format(
+-                        "Ks {0}", this.ToColorString(scb != null ? scb.Color : Color.FromScRgb(1.0f, 0.2f, 0.2f, 0.2f))));
++                    $"Ks {this.ToColorString(scb != null ? scb.Color : Color.FromScRgb(1.0f, 0.2f, 0.2f, 0.2f))}");
+ 
+                 // Illumination model 2
+                 // This is a diffuse and specular illumination model using Lambertian
+@@ -412,13 +411,13 @@ private void ExportMaterial(StreamWriter materialWriter, string matName, Materia
+             }
+ 
+             // roughness
+-            materialWriter.WriteLine(string.Format("Ns {0}", 2));
++            materialWriter.WriteLine($"Ns {2}");
+ 
+             // Optical density (index of refraction)
+-            materialWriter.WriteLine(string.Format("Ni {0}", 1));
++            materialWriter.WriteLine($"Ni {1}");
+ 
+             // Transmission filter
+-            materialWriter.WriteLine(string.Format("Tf {0} {1} {2}", 1, 1, 1));
++            materialWriter.WriteLine($"Tf {1} {1} {1}");
+ 
+             // Illumination model
+             // Illumination    Properties that are turned on in the
+diff --git a/Source/HelixToolkit.Wpf.Shared/Exporters/XamlExporter.cs b/Source/HelixToolkit.Wpf.Shared/Exporters/XamlExporter.cs
+index 5adea26d..8098c162 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Exporters/XamlExporter.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Exporters/XamlExporter.cs
+@@ -51,8 +51,8 @@ public XamlExporter()
+         public static ResourceDictionary WrapInResourceDictionary(object obj)
+         {
+             var rd = new ResourceDictionary();
+-            var list = obj as IEnumerable;
+-            if (list != null)
++
++            if (obj is IEnumerable list)
+             {
+                 int i = 1;
+                 foreach (var o in list)
+diff --git a/Source/HelixToolkit.Wpf.Shared/Helpers/CameraHelper.cs b/Source/HelixToolkit.Wpf.Shared/Helpers/CameraHelper.cs
+index 34ea6d11..86e246da 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Helpers/CameraHelper.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Helpers/CameraHelper.cs
+@@ -161,19 +161,15 @@ public static void Copy(this ProjectionCamera source, ProjectionCamera dest, boo
+                 dest.FarPlaneDistance = source.FarPlaneDistance;
+             }
+ 
+-            var psrc = source as PerspectiveCamera;
+-            var osrc = source as OrthographicCamera;
+-            var pdest = dest as PerspectiveCamera;
+-            var odest = dest as OrthographicCamera;
+-            if (pdest != null)
++            if (dest is PerspectiveCamera pdest)
+             {
+                 double fov = 45;
+-                if (psrc != null)
++                if (source is PerspectiveCamera psrc)
+                 {
+                     fov = psrc.FieldOfView;
+                 }
+ 
+-                if (osrc != null)
++                if (source is OrthographicCamera osrc)
+                 {
+                     double dist = source.LookDirection.Length;
+                     fov = Math.Atan(osrc.Width / 2 / dist) * 180 / Math.PI * 2;
+@@ -182,16 +178,17 @@ public static void Copy(this ProjectionCamera source, ProjectionCamera dest, boo
+                 pdest.FieldOfView = fov;
+             }
+ 
+-            if (odest != null)
++            if (dest is OrthographicCamera odest)
+             {
+                 double width = 100;
+-                if (psrc != null)
++
++                if (source is PerspectiveCamera psrc)
+                 {
+                     double dist = source.LookDirection.Length;
+                     width = Math.Tan(psrc.FieldOfView / 180 * Math.PI / 2) * dist * 2;
+                 }
+ 
+-                if (osrc != null)
++                if (source is OrthographicCamera osrc)
+                 {
+                     width = osrc.Width;
+                 }
+@@ -250,13 +247,10 @@ public static PerspectiveCamera CreateDefaultCamera()
+         /// </returns>
+         public static string GetInfo(this Camera camera)
+         {
+-            var matrixCamera = camera as MatrixCamera;
+-            var perspectiveCamera = camera as PerspectiveCamera;
+-            var projectionCamera = camera as ProjectionCamera;
+-            var orthographicCamera = camera as OrthographicCamera;
+             var sb = new StringBuilder();
+             sb.AppendLine(camera.GetType().Name);
+-            if (projectionCamera != null)
++
++            if (camera is ProjectionCamera projectionCamera)
+             {
+                 sb.AppendLine(
+                     string.Format(
+@@ -294,19 +288,19 @@ public static string GetInfo(this Camera camera)
+                     string.Format(CultureInfo.InvariantCulture, "FarPlaneDist:\t{0}", projectionCamera.FarPlaneDistance));
+             }
+ 
+-            if (perspectiveCamera != null)
++            if (camera is PerspectiveCamera perspectiveCamera)
+             {
+                 sb.AppendLine(
+                     string.Format(CultureInfo.InvariantCulture, "FieldOfView:\t{0:0.#}°", perspectiveCamera.FieldOfView));
+             }
+ 
+-            if (orthographicCamera != null)
++            if (camera is OrthographicCamera orthographicCamera)
+             {
+                 sb.AppendLine(
+                     string.Format(CultureInfo.InvariantCulture, "Width:\t{0:0.###}", orthographicCamera.Width));
+             }
+ 
+-            if (matrixCamera != null)
++            if (camera is MatrixCamera matrixCamera)
+             {
+                 sb.AppendLine("ProjectionMatrix:");
+                 sb.AppendLine(matrixCamera.ProjectionMatrix.ToString(CultureInfo.InvariantCulture));
+@@ -376,15 +370,13 @@ public static void LookAt(this ProjectionCamera camera, Point3D target, Vector3D
+         {
+             var newPosition = target - newLookDirection;
+ 
+-            var perspectiveCamera = camera as PerspectiveCamera;
+-            if (perspectiveCamera != null)
++            if (camera is PerspectiveCamera perspectiveCamera)
+             {
+                 AnimateTo(perspectiveCamera, newPosition, newLookDirection, newUpDirection, animationTime);
+                 return;
+             }
+ 
+-            var orthographicCamera = camera as OrthographicCamera;
+-            if (orthographicCamera != null)
++            if (camera is OrthographicCamera orthographicCamera)
+             {
+                 AnimateTo(orthographicCamera, newPosition, newLookDirection, newUpDirection, animationTime);
+             }
+@@ -420,14 +412,12 @@ public static void LookAt(this ProjectionCamera camera, Point3D target, double d
+         /// </param>
+         public static void Reset(this Camera camera)
+         {
+-            var pcamera = camera as PerspectiveCamera;
+-            if (pcamera != null)
++            if (camera is PerspectiveCamera pcamera)
+             {
+                 Reset(pcamera);
+             }
+ 
+-            var ocamera = camera as OrthographicCamera;
+-            if (ocamera != null)
++            if (camera is OrthographicCamera ocamera)
+             {
+                 Reset(ocamera);
+             }
+@@ -491,14 +481,12 @@ public static Matrix3D GetViewMatrix(this Camera camera)
+                 throw new ArgumentNullException(nameof(camera));
+             }
+ 
+-            var matrixCamera = camera as MatrixCamera;
+-            if (matrixCamera != null)
++            if (camera is MatrixCamera matrixCamera)
+             {
+                 return matrixCamera.ViewMatrix;
+             }
+ 
+-            var projectionCamera = camera as ProjectionCamera;
+-            if (projectionCamera != null)
++            if (camera is ProjectionCamera projectionCamera)
+             {
+                 var zaxis = -projectionCamera.LookDirection;
+                 zaxis.Normalize();
+@@ -544,8 +532,7 @@ public static Matrix3D GetProjectionMatrix(this Camera camera, double aspectRati
+                 throw new ArgumentNullException(nameof(camera));
+             }
+ 
+-            var perspectiveCamera = camera as PerspectiveCamera;
+-            if (perspectiveCamera != null)
++            if (camera is PerspectiveCamera perspectiveCamera)
+             {
+                 // The angle-to-radian formula is a little off because only
+                 // half the angle enters the calculation.
+@@ -559,8 +546,7 @@ public static Matrix3D GetProjectionMatrix(this Camera camera, double aspectRati
+                 return new Matrix3D(xscale, 0, 0, 0, 0, yscale, 0, 0, 0, 0, zscale, -1, 0, 0, zoffset, 0);
+             }
+ 
+-            var orthographicCamera = camera as OrthographicCamera;
+-            if (orthographicCamera != null)
++            if (camera is OrthographicCamera orthographicCamera)
+             {
+                 double xscale = 2.0 / orthographicCamera.Width;
+                 double yscale = xscale * aspectRatio;
+@@ -578,8 +564,7 @@ public static Matrix3D GetProjectionMatrix(this Camera camera, double aspectRati
+                 return m;
+             }
+ 
+-            var matrixCamera = camera as MatrixCamera;
+-            if (matrixCamera != null)
++            if (camera is MatrixCamera matrixCamera)
+             {
+                 return matrixCamera.ProjectionMatrix;
+             }
+@@ -656,15 +641,13 @@ public static Matrix3D GetInverseTransform(this Camera camera, double aspectRati
+             Viewport3D viewport,
+             double animationTime = 0)
+         {
+-            var perspectiveCamera = camera as PerspectiveCamera;
+-            if (perspectiveCamera != null)
++            if (camera is PerspectiveCamera perspectiveCamera)
+             {
+                 FitView(camera, viewport, perspectiveCamera.LookDirection, perspectiveCamera.UpDirection, animationTime);
+                 return;
+             }
+ 
+-            var orthoCamera = camera as OrthographicCamera;
+-            if (orthoCamera != null)
++            if (camera is OrthographicCamera orthoCamera)
+             {
+                 FitView(camera, viewport, orthoCamera.LookDirection, orthoCamera.UpDirection, animationTime);
+             }
+@@ -737,15 +720,13 @@ public static void ZoomExtents(this ProjectionCamera camera, Viewport3D viewport
+             Rect3D bounds,
+             double animationTime = 0)
+         {
+-            var perspectiveCamera = camera as PerspectiveCamera;
+-            if (perspectiveCamera != null)
++            if (camera is PerspectiveCamera perspectiveCamera)
+             {
+                 FitView(camera, viewport, bounds, perspectiveCamera.LookDirection, perspectiveCamera.UpDirection, animationTime);
+                 return;
+             }
+ 
+-            var orthoCamera = camera as OrthographicCamera;
+-            if (orthoCamera != null)
++            if (camera is OrthographicCamera orthoCamera)
+             {
+                 FitView(camera, viewport, bounds, orthoCamera.LookDirection, orthoCamera.UpDirection, animationTime);
+             }
+@@ -793,15 +774,13 @@ public static void FitView(this ProjectionCamera camera, Viewport3D viewport, Re
+             double radius,
+             double animationTime = 0)
+         {
+-            var perspectiveCamera = camera as PerspectiveCamera;
+-            if (perspectiveCamera != null)
++            if (camera is PerspectiveCamera perspectiveCamera)
+             {
+                 FitView(camera, viewport, center, radius, perspectiveCamera.LookDirection, perspectiveCamera.UpDirection, animationTime);
+                 return;
+             }
+ 
+-            var orthoCamera = camera as OrthographicCamera;
+-            if (orthoCamera != null)
++            if (camera is OrthographicCamera orthoCamera)
+             {
+                 FitView(camera, viewport, center, radius, orthoCamera.LookDirection, orthoCamera.UpDirection, animationTime);
+             }
+@@ -826,8 +805,7 @@ public static void FitView(this ProjectionCamera camera, Viewport3D viewport, Re
+             Vector3D upDirection,
+             double animationTime = 0)
+         {
+-            var perspectiveCamera = camera as PerspectiveCamera;
+-            if (perspectiveCamera != null)
++            if (camera is PerspectiveCamera perspectiveCamera)
+             {
+                 var pcam = perspectiveCamera;
+                 double disth = radius / Math.Tan(0.5 * pcam.FieldOfView * Math.PI / 180);
+@@ -845,8 +823,7 @@ public static void FitView(this ProjectionCamera camera, Viewport3D viewport, Re
+                 return;
+             }
+ 
+-            var orthographicCamera = camera as OrthographicCamera;
+-            if (orthographicCamera != null)
++            if (camera is OrthographicCamera orthographicCamera)
+             {
+                 var dir = lookDirection;
+                 dir.Normalize();
+@@ -895,8 +872,8 @@ public static void ZoomToRectangle(this ProjectionCamera camera, Viewport3D view
+             u.Normalize();
+             v.Normalize();
+             w.Normalize();
+-            var perspectiveCamera = camera as PerspectiveCamera;
+-            if (perspectiveCamera != null)
++
++            if (camera is PerspectiveCamera perspectiveCamera)
+             {
+                 var distance = camera.LookDirection.Length;
+ 
+@@ -914,8 +891,7 @@ public static void ZoomToRectangle(this ProjectionCamera camera, Viewport3D view
+                 //    LookAt(camera, newTarget, distance * w, 0);
+             }
+ 
+-            var orthographicCamera = camera as OrthographicCamera;
+-            if (orthographicCamera != null)
++            if (camera is OrthographicCamera orthographicCamera)
+             {
+                 orthographicCamera.Width *= zoomRectangle.Width / viewport.ActualWidth;
+                 var oldTarget = camera.Position + camera.LookDirection;
+diff --git a/Source/HelixToolkit.Wpf.Shared/Helpers/ElementSortingHelper.cs b/Source/HelixToolkit.Wpf.Shared/Helpers/ElementSortingHelper.cs
+index 288311ac..98edb298 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Helpers/ElementSortingHelper.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Helpers/ElementSortingHelper.cs
+@@ -91,8 +91,7 @@ public static double GetDistanceSquared(Point3D position, GeometryModel3D model)
+         /// </returns>
+         public static bool IsTransparent(Visual3D v)
+         {
+-            var mv3D = v as ModelVisual3D;
+-            if (mv3D != null)
++            if (v is ModelVisual3D mv3D)
+             {
+                 // check if Model3D is transparent
+                 if (IsTransparent(mv3D.Content))
+@@ -118,8 +117,7 @@ public static bool IsTransparent(Visual3D v)
+         /// </returns>
+         public static bool IsTransparent(Model3D model)
+         {
+-            var gm3D = model as GeometryModel3D;
+-            if (gm3D != null)
++            if (model is GeometryModel3D gm3D)
+             {
+                 if (IsTransparent(gm3D))
+                 {
+@@ -127,8 +125,7 @@ public static bool IsTransparent(Model3D model)
+                 }
+             }
+ 
+-            var mg = model as Model3DGroup;
+-            if (mg != null)
++            if (model is Model3DGroup mg)
+             {
+                 return mg.Children.Any(IsTransparent);
+             }
+@@ -171,8 +168,7 @@ public static bool IsTransparent(GeometryModel3D gm3D)
+         /// </returns>
+         public static bool IsTransparent(Material material)
+         {
+-            var g = material as MaterialGroup;
+-            if (g != null)
++            if (material is MaterialGroup g)
+             {
+                 if (g.Children.Any(IsTransparent))
+                 {
+@@ -180,8 +176,7 @@ public static bool IsTransparent(Material material)
+                 }
+             }
+ 
+-            var dm = material as DiffuseMaterial;
+-            if (dm != null)
++            if (material is DiffuseMaterial dm)
+             {
+                 if (IsTransparent(dm.Brush))
+                 {
+@@ -213,14 +208,12 @@ public static bool IsTransparent(Brush brush)
+                 return true;
+             }
+ 
+-            var scb = brush as SolidColorBrush;
+-            if (scb != null)
++            if (brush is SolidColorBrush scb)
+             {
+                 return scb.Color.A < 255;
+             }
+ 
+-            var gb = brush as GradientBrush;
+-            if (gb != null)
++            if (brush is GradientBrush gb)
+             {
+                 return gb.GradientStops.Any(gs => gs.Color.A < 255);
+             }
+diff --git a/Source/HelixToolkit.Wpf.Shared/Helpers/MaterialHelper.cs b/Source/HelixToolkit.Wpf.Shared/Helpers/MaterialHelper.cs
+index 0f648f5a..dc32f66a 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Helpers/MaterialHelper.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Helpers/MaterialHelper.cs
+@@ -29,8 +29,7 @@ public static class MaterialHelper
+         /// Remember that the material must not be frozen.</remarks>
+         public static void ChangeOpacity(Material material, double opacity)
+         {
+-            var mg = material as MaterialGroup;
+-            if (mg != null)
++            if (material is MaterialGroup mg)
+             {
+                 foreach (var m in mg.Children)
+                 {
+@@ -39,7 +38,7 @@ public static void ChangeOpacity(Material material, double opacity)
+             }
+ 
+             var dm = material as DiffuseMaterial;
+-            if (dm != null && dm.Brush != null)
++            if (dm?.Brush != null)
+             {
+                 dm.Brush.Opacity = opacity;
+             }
+@@ -251,8 +250,7 @@ public static Material CreateMaterial(Brush diffuse, Brush emissive, Brush specu
+                 return (T)material;
+             }
+ 
+-            var mg = material as MaterialGroup;
+-            if (mg != null)
++            if (material is MaterialGroup mg)
+             {
+                 return mg.Children.Select(GetFirst<T>).FirstOrDefault(m => m != null);
+             }
+diff --git a/Source/HelixToolkit.Wpf.Shared/Helpers/Model3DHelper.cs b/Source/HelixToolkit.Wpf.Shared/Helpers/Model3DHelper.cs
+index 1be9df6b..64fac071 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Helpers/Model3DHelper.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Helpers/Model3DHelper.cs
+@@ -40,8 +40,7 @@ public static GeneralTransform3D GetTransform(this Model3D current, Model3D mode
+                 return currentTransform;
+             }
+ 
+-            var mg = current as Model3DGroup;
+-            if (mg != null)
++            if (current is Model3DGroup mg)
+             {
+                 foreach (var m in mg.Children)
+                 {
+@@ -91,8 +90,7 @@ public static GeneralTransform3D GetTransform(this Model3D current, Model3D mode
+         public static void Traverse<T>(this Model3D model, Transform3D transform, Action<T, Transform3D> action)
+             where T : Model3D
+         {
+-            var mg = model as Model3DGroup;
+-            if (mg != null)
++            if (model is Model3DGroup mg)
+             {
+                 var childTransform = Transform3DHelper.CombineTransform(model.Transform, transform);
+                 foreach (var m in mg.Children)
+@@ -101,8 +99,7 @@ public static void Traverse<T>(this Model3D model, Transform3D transform, Action
+                 }
+             }
+ 
+-            var gm = model as T;
+-            if (gm != null)
++            if (model is T gm)
+             {
+                 var childTransform = Transform3DHelper.CombineTransform(model.Transform, transform);
+                 action(gm, childTransform);
+@@ -130,8 +127,7 @@ public static void Traverse<T>(this Model3D model, Transform3D transform, Action
+         public static void Traverse<T>(this Model3D model, Visual3D visual, Transform3D transform, Action<T, Visual3D, Transform3D> action)
+             where T : Model3D
+         {
+-            var mg = model as Model3DGroup;
+-            if (mg != null)
++            if (model is Model3DGroup mg)
+             {
+                 var childTransform = Transform3DHelper.CombineTransform(model.Transform, transform);
+                 foreach (var m in mg.Children)
+@@ -140,8 +136,7 @@ public static void Traverse<T>(this Model3D model, Visual3D visual, Transform3D
+                 }
+             }
+ 
+-            var gm = model as T;
+-            if (gm != null)
++            if (model is T gm)
+             {
+                 var childTransform = Transform3DHelper.CombineTransform(model.Transform, transform);
+                 action(gm, visual, childTransform);
+diff --git a/Source/HelixToolkit.Wpf.Shared/Helpers/Viewport3DHelper.cs b/Source/HelixToolkit.Wpf.Shared/Helpers/Viewport3DHelper.cs
+index 4823cc8d..aa9fe742 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Helpers/Viewport3DHelper.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Helpers/Viewport3DHelper.cs
+@@ -158,8 +158,7 @@ public static IList<HitResult> FindHits(this Viewport3D viewport, Point position
+             var result = new List<HitResult>();
+             HitTestResultCallback callback = hit =>
+                 {
+-                    var rayHit = hit as RayMeshGeometry3DHitTestResult;
+-                    if (rayHit != null)
++                    if (hit is RayMeshGeometry3DHitTestResult rayHit)
+                     {
+                         if (rayHit.MeshHit != null)
+                         {
+@@ -312,8 +311,7 @@ public static bool FindNearest(this Viewport3D viewport, Point position, out Poi
+                 null,
+                 delegate (HitTestResult hit)
+                 {
+-                    var rayHit = hit as RayMeshGeometry3DHitTestResult;
+-                    if (rayHit != null)
++                    if (hit is RayMeshGeometry3DHitTestResult rayHit)
+                     {
+                         var mesh = rayHit.MeshHit;
+                         if (mesh != null)
+@@ -958,7 +956,7 @@ public static int GetTotalNumberOfTriangles(this Viewport3D viewport)
+             viewport.Children.Traverse<GeometryModel3D>((m, t) =>
+                 {
+                     var geometry = m.Geometry as MeshGeometry3D;
+-                    if (geometry != null && geometry.TriangleIndices != null)
++                    if (geometry?.TriangleIndices != null)
+                     {
+                         count += geometry.TriangleIndices.Count / 3;
+                     }
+@@ -1182,8 +1180,7 @@ private static void SearchFor(IEnumerable<Visual3D> collection, Type type, IList
+             // TODO: change to use Stack/Queue
+             foreach (var visual in collection)
+             {
+-                var modelVisual = visual as ModelVisual3D;
+-                if (modelVisual != null)
++                if (visual is ModelVisual3D modelVisual)
+                 {
+                     var model = modelVisual.Content;
+                     if (model != null)
+@@ -1197,8 +1194,7 @@ private static void SearchFor(IEnumerable<Visual3D> collection, Type type, IList
+                         SearchFor(modelVisual.Children, type, output);
+                     }
+ 
+-                    var modelGroup = model as Model3DGroup;
+-                    if (modelGroup != null)
++                    if (model is Model3DGroup modelGroup)
+                     {
+                         SearchFor(modelGroup.Children, type, output);
+                     }
+@@ -1227,8 +1223,7 @@ private static void SearchFor(IEnumerable<Model3D> collection, Type type, IList<
+                     output.Add(model);
+                 }
+ 
+-                var group = model as Model3DGroup;
+-                if (group != null)
++                if (model is Model3DGroup group)
+                 {
+                     SearchFor(group.Children, type, output);
+                 }
+diff --git a/Source/HelixToolkit.Wpf.Shared/Helpers/Visual3DHelper.cs b/Source/HelixToolkit.Wpf.Shared/Helpers/Visual3DHelper.cs
+index 93d61d9b..45dd250d 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Helpers/Visual3DHelper.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Helpers/Visual3DHelper.cs
+@@ -52,11 +52,9 @@ public static class Visual3DHelper
+                 }
+             }
+ 
+-            var model = parent as ModelVisual3D;
+-            if (model != null)
++            if (parent is ModelVisual3D model)
+             {
+-                var modelGroup = model.Content as Model3DGroup;
+-                if (modelGroup != null)
++                if (model.Content is Model3DGroup modelGroup)
+                 {
+                     return modelGroup.Children.OfType<T>().FirstOrDefault();
+                 }
+@@ -176,8 +174,7 @@ public static Viewport3D GetViewport3D(this Visual3D visual)
+             DependencyObject obj = visual;
+             while (obj != null)
+             {
+-                var vis = obj as Viewport3DVisual;
+-                if (vis != null)
++                if (obj is Viewport3DVisual vis)
+                 {
+                     return VisualTreeHelper.GetParent(obj) as Viewport3D;
+                 }
+@@ -204,16 +201,14 @@ public static Matrix3D GetViewportTransform(this Visual3D visual)
+             DependencyObject obj = visual;
+             while (obj != null)
+             {
+-                var viewport3DVisual = obj as Viewport3DVisual;
+-                if (viewport3DVisual != null)
++                if (obj is Viewport3DVisual viewport3DVisual)
+                 {
+                     var viewportTotalTransform = viewport3DVisual.GetTotalTransform();
+                     totalTransform.Append(viewportTotalTransform);
+                     return totalTransform;
+                 }
+ 
+-                var mv = obj as ModelVisual3D;
+-                if (mv != null)
++                if (obj is ModelVisual3D mv)
+                 {
+                     if (mv.Transform != null)
+                     {
+@@ -243,8 +238,7 @@ public static bool IsAttachedToViewport3D(this Visual3D visual)
+             DependencyObject obj = visual;
+             while (obj != null)
+             {
+-                var vis = obj as Viewport3DVisual;
+-                if (vis != null)
++                if (obj is Viewport3DVisual vis)
+                 {
+                     return true;
+                 }
+@@ -356,8 +350,7 @@ public static Viewport3D GetViewport(this Visual3D visual)
+             DependencyObject parent = visual;
+             while (parent != null)
+             {
+-                var vp = parent as Viewport3DVisual;
+-                if (vp != null)
++                if (parent is Viewport3DVisual vp)
+                 {
+                     return (Viewport3D)vp.Parent;
+                 }
+@@ -404,8 +397,8 @@ private static IEnumerable<Visual3D> GetChildren(this Visual3D parent)
+         private static Model3D GetModel(this Visual3D visual)
+         {
+             Model3D model;
+-            var mv = visual as ModelVisual3D;
+-            if (mv != null)
++
++            if (visual is ModelVisual3D mv)
+             {
+                 model = mv.Content;
+             }
+@@ -437,10 +430,7 @@ private static void Traverse<T>(Visual3D visual, Transform3D transform, Action<T
+         {
+             var childTransform = Transform3DHelper.CombineTransform(visual.Transform, transform);
+             var model = GetModel(visual);
+-            if (model != null)
+-            {
+-                model.Traverse(childTransform, action);
+-            }
++            model?.Traverse(childTransform, action);
+ 
+             foreach (var child in GetChildren(visual))
+             {
+@@ -452,10 +442,7 @@ private static void Traverse<T>(Visual3D visual, Transform3D transform, Action<T
+         {
+             var childTransform = Transform3DHelper.CombineTransform(visual.Transform, transform);
+             var model = GetModel(visual);
+-            if (model != null)
+-            {
+-                model.Traverse(visual, childTransform, action);
+-            }
++            model?.Traverse(visual, childTransform, action);
+ 
+             foreach (var child in GetChildren(visual))
+             {
+diff --git a/Source/HelixToolkit.Wpf.Shared/Helpers/XamlHelper.cs b/Source/HelixToolkit.Wpf.Shared/Helpers/XamlHelper.cs
+index 2266ccba..29f5453a 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Helpers/XamlHelper.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Helpers/XamlHelper.cs
+@@ -40,7 +40,7 @@ public static string GetXaml(Viewport3D view)
+                 string xaml = sb.ToString();
+                 xaml =
+                     xaml.Replace(
+-                        string.Format("<Viewport3D Height=\"{0}\" Width=\"{1}\" ", view.ActualHeight, view.ActualWidth),
++                        $"<Viewport3D Height=\"{view.ActualHeight}\" Width=\"{view.ActualWidth}\" ",
+                         "<Viewport3D ");
+ 
+                 return xaml;
+diff --git a/Source/HelixToolkit.Wpf.Shared/Importers/ObjReader.cs b/Source/HelixToolkit.Wpf.Shared/Importers/ObjReader.cs
+index 6f65e352..4fb8093b 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Importers/ObjReader.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Importers/ObjReader.cs
+@@ -452,7 +452,7 @@ private void SetSmoothingGroup(string values)
+                         return;
+                     }
+ 
+-                    throw new FileFormatException(string.Format("Invalid smoothing group ({0}) at line {1}.", values, this.currentLineNo));
++                    throw new FileFormatException($"Invalid smoothing group ({values}) at line {this.currentLineNo}.");
+                 }
+             }
+         }
+@@ -528,7 +528,7 @@ private void AddFace(string values)
+                         return;
+                     }
+ 
+-                    throw new FileFormatException(string.Format("Invalid vertex index ({0}) on line {1}.", vi, this.currentLineNo));
++                    throw new FileFormatException($"Invalid vertex index ({vi}) on line {this.currentLineNo}.");
+                 }
+ 
+                 if (vti == int.MaxValue)
+@@ -552,8 +552,7 @@ private void AddFace(string values)
+                     }
+ 
+                     throw new FileFormatException(
+-                            string.Format(
+-                                "Invalid texture coordinate index ({0}) on line {1}.", vti, this.currentLineNo));
++                            $"Invalid texture coordinate index ({vti}) on line {this.currentLineNo}.");
+                 }
+ 
+                 // check if the normal index is valid
+@@ -565,7 +564,7 @@ private void AddFace(string values)
+                     }
+ 
+                     throw new FileFormatException(
+-                            string.Format("Invalid normal index ({0}) on line {1}.", vni, this.currentLineNo));
++                            $"Invalid normal index ({vni}) on line {this.currentLineNo}.");
+                 }
+ 
+                 bool addVertex = true;
+diff --git a/Source/HelixToolkit.Wpf.Shared/Visual3Ds/Composite/LightVisual3D.cs b/Source/HelixToolkit.Wpf.Shared/Visual3Ds/Composite/LightVisual3D.cs
+index 65d98bdd..6391298a 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Visual3Ds/Composite/LightVisual3D.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Visual3Ds/Composite/LightVisual3D.cs
+@@ -66,8 +66,7 @@ protected virtual void OnLightChanged()
+                 return;
+             }
+ 
+-            var dl = this.Light as DirectionalLight;
+-            if (dl != null)
++            if (this.Light is DirectionalLight dl)
+             {
+                 var arrow = new ArrowVisual3D();
+                 double distance = 10;
+@@ -81,8 +80,7 @@ protected virtual void OnLightChanged()
+                 this.Children.Add(arrow);
+             }
+ 
+-            var sl = this.Light as SpotLight;
+-            if (sl != null)
++            if (this.Light is SpotLight sl)
+             {
+                 var sphere = new SphereVisual3D();
+                 sphere.BeginEdit();
+@@ -100,8 +98,7 @@ protected virtual void OnLightChanged()
+                 this.Children.Add(arrow);
+             }
+ 
+-            var pl = this.Light as PointLight;
+-            if (pl != null)
++            if (this.Light is PointLight pl)
+             {
+                 var sphere = new SphereVisual3D();
+                 sphere.BeginEdit();
+diff --git a/Source/HelixToolkit.Wpf.Shared/Visual3Ds/Composite/ViewCubeVisual3D.cs b/Source/HelixToolkit.Wpf.Shared/Visual3Ds/Composite/ViewCubeVisual3D.cs
+index 8011ac21..6495ead1 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Visual3Ds/Composite/ViewCubeVisual3D.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Visual3Ds/Composite/ViewCubeVisual3D.cs
+@@ -742,8 +742,7 @@ private void FaceMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+ 
+             if (this.Viewport != null)
+             {
+-                var camera = this.Viewport.Camera as ProjectionCamera;
+-                if (camera != null)
++                if (this.Viewport.Camera is ProjectionCamera camera)
+                 {
+                     var target = camera.Position + camera.LookDirection;
+                     double distance = camera.LookDirection.Length;
+diff --git a/Source/HelixToolkit.Wpf.Shared/Visual3Ds/LightSetups/GenericHeadLight.cs b/Source/HelixToolkit.Wpf.Shared/Visual3Ds/LightSetups/GenericHeadLight.cs
+index 26d83b29..901b5e36 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Visual3Ds/LightSetups/GenericHeadLight.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Visual3Ds/LightSetups/GenericHeadLight.cs
+@@ -145,8 +145,7 @@ private void Update()
+                 this.light.Color = this.Color;
+             }
+ 
+-            var projectionCamera = this.camera as ProjectionCamera;
+-            if (projectionCamera != null)
++            if (this.camera is ProjectionCamera projectionCamera)
+             {
+                 var y = projectionCamera.LookDirection;
+                 var x = Vector3D.CrossProduct(projectionCamera.LookDirection, projectionCamera.UpDirection);
+@@ -157,16 +156,12 @@ private void Update()
+                 var target = projectionCamera.Position + projectionCamera.LookDirection;
+                 var lightDirection = target - lightPosition;
+                 lightDirection.Normalize();
+-
+-                var spotLight = this.light as SpotLight;
+-                if (spotLight != null)
++                if (this.light is SpotLight spotLight)
+                 {
+                     spotLight.Position = lightPosition;
+                     spotLight.Direction = lightDirection;
+                 }
+-
+-                var directionalLight = this.light as DirectionalLight;
+-                if (directionalLight != null)
++                if (this.light is DirectionalLight directionalLight)
+                 {
+                     directionalLight.Direction = lightDirection;
+                 }
+diff --git a/Source/HelixToolkit.Wpf.Shared/Visual3Ds/LightSetups/LightSetup.cs b/Source/HelixToolkit.Wpf.Shared/Visual3Ds/LightSetups/LightSetup.cs
+index b173f056..81481a32 100644
+--- a/Source/HelixToolkit.Wpf.Shared/Visual3Ds/LightSetups/LightSetup.cs
++++ b/Source/HelixToolkit.Wpf.Shared/Visual3Ds/LightSetups/LightSetup.cs
+@@ -102,8 +102,7 @@ protected void OnShowLightsChanged()
+             {
+                 foreach (var light in this.lightGroup.Children)
+                 {
+-                    var pl = light as PointLight;
+-                    if (pl != null)
++                    if (light is PointLight pl)
+                     {
+                         var sphere = new SphereVisual3D();
+                         sphere.BeginEdit();
+@@ -114,8 +113,7 @@ protected void OnShowLightsChanged()
+                         this.lightsVisual.Children.Add(sphere);
+                     }
+ 
+-                    var dl = light as DirectionalLight;
+-                    if (dl != null)
++                    if (light is DirectionalLight dl)
+                     {
+                         var dir = dl.Direction;
+                         dir.Normalize();
+@@ -142,8 +140,7 @@ protected void OnShowLightsChanged()
+                         this.lightsVisual.Children.Add(arrow);
+                     }
+ 
+-                    var al = light as AmbientLight;
+-                    if (al != null)
++                    if (light is AmbientLight al)
+                     {
+                         var pos = new Point3D(0, 0, 20);
+                         this.lightsVisual.Children.Add(
+diff --git a/Source/HelixToolkit.Wpf.SharpDX.Shared/Controls/MouseHandlers/VirtualTouchDevice.cs b/Source/HelixToolkit.Wpf.SharpDX.Shared/Controls/MouseHandlers/VirtualTouchDevice.cs
+index fad33d38..f59f8383 100644
+--- a/Source/HelixToolkit.Wpf.SharpDX.Shared/Controls/MouseHandlers/VirtualTouchDevice.cs
++++ b/Source/HelixToolkit.Wpf.SharpDX.Shared/Controls/MouseHandlers/VirtualTouchDevice.cs
+@@ -99,9 +99,8 @@ public override TouchPointCollection GetIntermediateTouchPoints(IInputElement re
+         public override TouchPoint GetTouchPoint(IInputElement relativeTo)
+         {
+             var pt = this.lastPosition;
+-            var relativeVisual = relativeTo as Visual;
+             var rootVisual = this.ActiveSource?.RootVisual;
+-            if (relativeVisual != null && rootVisual != null && rootVisual.IsAncestorOf(relativeVisual))
++            if (relativeTo is Visual relativeVisual && rootVisual != null && rootVisual.IsAncestorOf(relativeVisual))
+             {
+                 pt = rootVisual.TransformToDescendant(relativeVisual).Transform(this.lastPosition);
+             }
+diff --git a/Source/HelixToolkit.Wpf.SharpDX.Shared/Controls/WinformHostExtend.cs b/Source/HelixToolkit.Wpf.SharpDX.Shared/Controls/WinformHostExtend.cs
+index d5ab6a7e..7e96ebe0 100644
+--- a/Source/HelixToolkit.Wpf.SharpDX.Shared/Controls/WinformHostExtend.cs
++++ b/Source/HelixToolkit.Wpf.SharpDX.Shared/Controls/WinformHostExtend.cs
+@@ -55,8 +55,7 @@ public WinformHostExtend()
+ 
+             private void OnChildChanged(object sender, ChildChangedEventArgs childChangedEventArgs)
+             {
+-                var previousChild = childChangedEventArgs.PreviousChild as Control;
+-                if (previousChild != null)
++                if (childChangedEventArgs.PreviousChild is Control previousChild)
+                 {
+                     previousChild.MouseDown -= OnMouseDown;
+                     previousChild.MouseWheel -= OnMouseWheel;
+diff --git a/Source/HelixToolkit.Wpf.SharpDX.Shared/Model/Elements3D/AbstractElements3D/Element3D.cs b/Source/HelixToolkit.Wpf.SharpDX.Shared/Model/Elements3D/AbstractElements3D/Element3D.cs
+index aec9d38b..3e1af7cb 100644
+--- a/Source/HelixToolkit.Wpf.SharpDX.Shared/Model/Elements3D/AbstractElements3D/Element3D.cs
++++ b/Source/HelixToolkit.Wpf.SharpDX.Shared/Model/Elements3D/AbstractElements3D/Element3D.cs
+@@ -246,8 +246,7 @@ private void Node_MouseDown(object sender, SceneNodeMouseDownArgs e)
+                 var parent = Media.VisualTreeHelper.GetParent(obj);
+                 while (parent != null)
+                 {
+-                    var typed = parent as T;
+-                    if (typed != null)
++                    if (parent is T typed)
+                     {
+                         return typed;
+                     }
+diff --git a/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/Exporter.cs b/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/Exporter.cs
+index b508c40c..6caafe0a 100644
+--- a/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/Exporter.cs
++++ b/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/Exporter.cs
+@@ -69,11 +69,11 @@ public abstract class Exporter : IExporter, IDisposable
+         /// </param>
+         private static void Traverse<T>(SceneNode model, Action<T, Transform3D> action) where T : SceneNode
+         {
+-            if (model is T)
++            if (model is T t)
+             {
+                 if (model.WrapperSource is Element3D m)
+                 {
+-                    action((T)model, m.Transform);
++                    action(t, m.Transform);
+                 }
+             }
+             foreach (var element in model.Items)
+diff --git a/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/ObjExporter.cs b/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/ObjExporter.cs
+index 946f295e..da0fae05 100644
+--- a/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/ObjExporter.cs
++++ b/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/ObjExporter.cs
+@@ -132,7 +132,7 @@ public ObjExporter(string outputFileName, string comment)
+ 
+             if (!string.IsNullOrEmpty(comment))
+             {
+-                this.writer.WriteLine(string.Format("# {0}", comment));
++                this.writer.WriteLine($"# {comment}");
+             }
+ 
+             this.writer.WriteLine("mtllib ./" + mtlFilename);
+@@ -165,18 +165,18 @@ protected override void ExportModel(MeshNode model, Transform3D transform)
+                 {
+                     transform = Transform3D.Identity;
+                 }
+-                this.writer.WriteLine(string.Format("o object{0}", this.objectNo++));
+-                this.writer.WriteLine(string.Format("g group{0}", this.groupNo++));
++                this.writer.WriteLine($"o object{this.objectNo++}");
++                this.writer.WriteLine($"g group{this.groupNo++}");
+ 
+                 if (this.exportedMaterials.ContainsKey(model.Material))
+                 {
+                     string matName = this.exportedMaterials[model.Material];
+-                    this.writer.WriteLine(string.Format("usemtl {0}", matName));
++                    this.writer.WriteLine($"usemtl {matName}");
+                 }
+                 else
+                 {
+-                    string matName = string.Format("mat{0}", this.matNo++);
+-                    this.writer.WriteLine(string.Format("usemtl {0}", matName));
++                    string matName = $"mat{this.matNo++}";
++                    this.writer.WriteLine($"usemtl {matName}");
+                     this.ExportMaterial(matName, model.Material);
+                     this.exportedMaterials.Add(model.Material, matName);
+                 }
+@@ -239,7 +239,7 @@ public void ExportMesh(MeshGeometry3D m, Matrix t)
+                             this.SwitchYZ ? -p.Y : p.Z));
+                 }
+ 
+-                this.writer.WriteLine(string.Format("# {0} vertices", index));
++                this.writer.WriteLine($"# {index} vertices");
+             }
+ 
+             if (m.TextureCoordinates != null)
+@@ -251,7 +251,7 @@ public void ExportMesh(MeshGeometry3D m, Matrix t)
+                     this.writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "vt {0} {1}", vt.X, 1 - vt.Y));
+                 }
+ 
+-                this.writer.WriteLine(string.Format("# {0} texture coordinates", index));
++                this.writer.WriteLine($"# {index} texture coordinates");
+             }
+ 
+             if (m.Normals != null && ExportNormals)
+@@ -264,7 +264,7 @@ public void ExportMesh(MeshGeometry3D m, Matrix t)
+                         string.Format(CultureInfo.InvariantCulture, "vn {0} {1} {2}", vn.X, vn.Y, vn.Z));
+                 }
+ 
+-                this.writer.WriteLine(string.Format("# {0} normals", index));
++                this.writer.WriteLine($"# {index} normals");
+             }
+ 
+             Func<int, string> formatIndices = i0 =>
+@@ -273,17 +273,17 @@ public void ExportMesh(MeshGeometry3D m, Matrix t)
+                 bool hasNormalIndex = normalIndexMap.ContainsKey(i0);
+                 if (hasTextureIndex && hasNormalIndex)
+                 {
+-                    return string.Format("{0}/{1}/{2}", vertexIndexMap[i0], textureIndexMap[i0], normalIndexMap[i0]);
++                    return $"{vertexIndexMap[i0]}/{textureIndexMap[i0]}/{normalIndexMap[i0]}";
+                 }
+ 
+                 if (hasTextureIndex)
+                 {
+-                    return string.Format("{0}/{1}", vertexIndexMap[i0], textureIndexMap[i0]);
++                    return $"{vertexIndexMap[i0]}/{textureIndexMap[i0]}";
+                 }
+ 
+                 if (hasNormalIndex)
+                 {
+-                    return string.Format("{0}//{1}", vertexIndexMap[i0], normalIndexMap[i0]);
++                    return $"{vertexIndexMap[i0]}//{normalIndexMap[i0]}";
+                 }
+ 
+                 return vertexIndexMap[i0].ToString();
+@@ -300,7 +300,7 @@ public void ExportMesh(MeshGeometry3D m, Matrix t)
+                     this.writer.WriteLine("f {0} {1} {2}", formatIndices(i0), formatIndices(i1), formatIndices(i2));
+                 }
+ 
+-                this.writer.WriteLine(string.Format("# {0} faces", m.Indices.Count / 3));
++                this.writer.WriteLine($"# {m.Indices.Count / 3} faces");
+             }
+ 
+             this.writer.WriteLine();
+@@ -317,14 +317,14 @@ public void ExportMesh(MeshGeometry3D m, Matrix t)
+         /// </param>
+         private void ExportMaterial(string matName, MaterialCore material)
+         {
+-            this.mwriter.WriteLine(string.Format("newmtl {0}", matName));
++            this.mwriter.WriteLine($"newmtl {matName}");
+             var pm = material as PhongMaterialCore;
+ 
+             if (pm != null)
+             {
+                 if (pm.DiffuseMap == null)
+                 {
+-                    this.mwriter.WriteLine(string.Format("Kd {0}", this.ToColorString(pm.DiffuseColor)));
++                    this.mwriter.WriteLine($"Kd {this.ToColorString(pm.DiffuseColor)}");
+ 
+                     if (this.UseDissolveForTransparency)
+                     {
+@@ -346,7 +346,7 @@ private void ExportMaterial(string matName, MaterialCore material)
+ 
+                     // create .png bitmap file for the brush
+                     RenderBrush(texturePath, pm.DiffuseMap.CompressedStream);
+-                    this.mwriter.WriteLine(string.Format("map_Ka {0}", textureFilename));
++                    this.mwriter.WriteLine($"map_Ka {textureFilename}");
+                 }
+             }
+ 
+@@ -360,8 +360,7 @@ private void ExportMaterial(string matName, MaterialCore material)
+             if (pm != null)
+             {
+                 this.mwriter.WriteLine(
+-                    string.Format(
+-                        "Ks {0}", this.ToColorString(pm.DiffuseMap == null ? pm.SpecularColor : new Color4(0.2f, 0.2f, 0.2f, 1.0f))));
++                    $"Ks {this.ToColorString(pm.DiffuseMap == null ? pm.SpecularColor : new Color4(0.2f, 0.2f, 0.2f, 1.0f))}");
+ 
+                 // Illumination model 2
+                 // This is a diffuse and specular illumination model using Lambertian
+@@ -377,13 +376,13 @@ private void ExportMaterial(string matName, MaterialCore material)
+             }
+ 
+             // roughness
+-            this.mwriter.WriteLine(string.Format("Ns {0}", 2));
++            this.mwriter.WriteLine($"Ns {2}");
+ 
+             // Optical density (index of refraction)
+-            this.mwriter.WriteLine(string.Format("Ni {0}", 1));
++            this.mwriter.WriteLine($"Ni {1}");
+ 
+             // Transmission filter
+-            this.mwriter.WriteLine(string.Format("Tf {0} {1} {2}", 1, 1, 1));
++            this.mwriter.WriteLine($"Tf {1} {1} {1}");
+ 
+             // Illumination model
+             // Illumination    Properties that are turned on in the
+@@ -403,7 +402,7 @@ private void ExportMaterial(string matName, MaterialCore material)
+             // 9		Transparency: Glass on
+             // Reflection: Ray trace off
+             // 10		Casts shadows onto invisible surfaces
+-            this.mwriter.WriteLine(string.Format("illum {0}", illum));
++            this.mwriter.WriteLine($"illum {illum}");
+         }
+ 
+         /// <summary>
+diff --git a/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/TypeConverter.cs b/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/TypeConverter.cs
+index 55408561..17697ed7 100644
+--- a/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/TypeConverter.cs
++++ b/Source/HelixToolkit.Wpf.SharpDX.Shared/Utilities/TypeConverter.cs
+@@ -52,9 +52,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                     throw GetConvertFromException(value);
+                 }
+ 
+-                var source = value as string;
+-
+-                if (source != null)
++                if (value is string source)
+                 {
+                     return Vector2Collection.Parse(source);
+                 }
+@@ -85,9 +83,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                     throw GetConvertFromException(value);
+                 }
+ 
+-                var source = value as string;
+-
+-                if (source != null)
++                if (value is string source)
+                 {
+                     return Vector3Collection.Parse(source);
+                 }
+@@ -118,9 +114,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                     throw GetConvertFromException(value);
+                 }
+ 
+-                var source = value as string;
+-
+-                if (source != null)
++                if (value is string source)
+                 {
+                     return IntCollection.Parse(source);
+                 }
+@@ -151,9 +145,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                     throw GetConvertFromException(value);
+                 }
+ 
+-                var source = value as string;
+-
+-                if (source != null)
++                if (value is string source)
+                 {
+                     return Color4Collection.Parse(source);
+                 }
+@@ -218,7 +210,7 @@ public override object ConvertTo(ITypeDescriptorContext context, CultureInfo cul
+                     if (destinationType == typeof(string))
+                     {
+                    
+-                        var str = string.Format("{0},{1},{2},{3}", val.R, val.G, val.B, val.A);
++                        var str = $"{val.R},{val.G},{val.B},{val.A}";
+                         return str;
+                     }
+                     else if(destinationType == typeof(System.Windows.Media.Color))
+@@ -261,9 +253,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                 }
+                 else
+                 {
+-                    var source = value as string;
+-
+-                    if (source != null)
++                    if (value is string source)
+                     {
+                         var sepChar = TokenizerHelper.GetNumericListSeparator(CultureInfo.InvariantCulture);
+                         if (source.Contains(sepChar.ToString()))
+@@ -301,7 +291,7 @@ public override object ConvertTo(ITypeDescriptorContext context, CultureInfo cul
+                     }
+                     else if (destinationType == typeof(string))
+                     {                    
+-                        var str = string.Format("{0},{1},{2},{3}", val.Red, val.Green, val.Blue, val.Alpha);
++                        var str = $"{val.Red},{val.Green},{val.Blue},{val.Alpha}";
+                         return str;
+                     }
+                 }
+@@ -346,9 +336,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                 }
+                 else
+                 {
+-                    var source = value as string;
+-
+-                    if (source != null)
++                    if (value is string source)
+                     {
+                         var th = new TokenizerHelper(source, CultureInfo.InvariantCulture);
+                         var result = new Vector2(
+@@ -375,7 +363,7 @@ public override object ConvertTo(ITypeDescriptorContext context, CultureInfo cul
+                     }
+                     else if (destinationType == typeof(string))
+                     {
+-                        var str = string.Format("{0},{1}", val.X, val.Y);
++                        var str = $"{val.X},{val.Y}";
+                         return str;
+                     }
+                 }
+@@ -421,9 +409,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                 }
+                 else
+                 {
+-                    var source = value as string;
+-
+-                    if (source != null)
++                    if (value is string source)
+                     {
+                         var th = new TokenizerHelper(source, CultureInfo.InvariantCulture);
+                         var result = new Vector3(
+@@ -453,7 +439,7 @@ public override object ConvertTo(ITypeDescriptorContext context, CultureInfo cul
+                     }
+                     else if (destinationType == typeof(string))
+                     {                    
+-                        var str = string.Format("{0},{1},{2}", val.X, val.Y, val.Z);
++                        var str = $"{val.X},{val.Y},{val.Z}";
+                         return str;
+                     }
+                 }
+@@ -470,9 +456,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                     throw GetConvertFromException(value);
+                 }
+ 
+-                var source = value as string;
+-
+-                if (source != null)
++                if (value is string source)
+                 {
+                     var th = new TokenizerHelper(source, CultureInfo.InvariantCulture);
+                     var result = new Vector4(
+@@ -491,7 +475,7 @@ public override object ConvertTo(ITypeDescriptorContext context, CultureInfo cul
+                 if (destinationType == typeof(string) && value is Vector4)
+                 {
+                     var val = (Vector4)value;
+-                    var str = string.Format("{0},{1},{2},{3}", val.X, val.Y, val.Z, val.W);
++                    var str = $"{val.X},{val.Y},{val.Z},{val.W}";
+                     return str;
+                 }
+ 
+@@ -508,9 +492,7 @@ public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo c
+                     throw GetConvertFromException(value);
+                 }
+ 
+-                var source = value as string;
+-
+-                if (source != null)
++                if (value is string source)
+                 {
+                     var th = new TokenizerHelper(source, CultureInfo.InvariantCulture);
+                     var result = new Quaternion(
+@@ -528,7 +510,7 @@ public override object ConvertTo(ITypeDescriptorContext context, CultureInfo cul
+             {
+                 if (destinationType == typeof(string) && value is Quaternion val)
+                 {
+-                    var str = string.Format("{0},{1},{2},{3}", val.X, val.Y, val.Z, val.W);
++                    var str = $"{val.X},{val.Y},{val.Z},{val.W}";
+                     return str;
+                 }
+ 
+diff --git a/Source/HelixToolkit.Wpf.Tests/CrossThreadTestRunner.cs b/Source/HelixToolkit.Wpf.Tests/CrossThreadTestRunner.cs
+index ddbfddb7..81aa3ff2 100644
+--- a/Source/HelixToolkit.Wpf.Tests/CrossThreadTestRunner.cs
++++ b/Source/HelixToolkit.Wpf.Tests/CrossThreadTestRunner.cs
+@@ -65,10 +65,7 @@ public static void RunInSTAThrowException(Action action)
+         private static void ThrowExceptionPreservingStack(Exception exception)
+         {
+             var remoteStackTraceString = typeof(Exception).GetField("_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic);
+-            if (remoteStackTraceString != null)
+-            {
+-                remoteStackTraceString.SetValue(exception, exception.StackTrace + Environment.NewLine);
+-            }
++            remoteStackTraceString?.SetValue(exception, exception.StackTrace + Environment.NewLine);
+ 
+             throw exception;
+         }
+diff --git a/Source/HelixToolkit.Wpf.Tests/Exporters/ExporterTests.cs b/Source/HelixToolkit.Wpf.Tests/Exporters/ExporterTests.cs
+index 970d5491..4d85804c 100644
+--- a/Source/HelixToolkit.Wpf.Tests/Exporters/ExporterTests.cs
++++ b/Source/HelixToolkit.Wpf.Tests/Exporters/ExporterTests.cs
+@@ -134,7 +134,7 @@ protected string Validate(string path, XmlSchemaSet sc)
+                         return null;
+                     }
+ 
+-                    return string.Format("Errors: {0}, Warnings: {1}", errors, warnings);
++                    return $"Errors: {errors}, Warnings: {warnings}";
+                     /*
+                     catch (XmlSchemaException e)
+                     {

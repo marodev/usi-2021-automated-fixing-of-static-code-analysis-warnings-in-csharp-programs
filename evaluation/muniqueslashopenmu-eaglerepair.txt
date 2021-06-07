@@ -1,0 +1,27 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: MUnique.OpenMU.DataModel
+    #1 Path: D:\a\1\s\src\DataModel\Configuration\GameServerDefinition.cs, Line: 54, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: MUnique.OpenMU.GameLogic
+    #2 Path: D:\a\1\s\src\GameLogic\BucketAreaOfInterestManager.cs, Line: 112, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+--- Rules Summary ---
+R9: 1
+R8: 1
+
+--- Summary ---
+Fixed ReSharper issues: 2
+Fixed SonarQube issues: 0
+Total fixed issues: 2
+
+Finished in: 23 s
+
+No errors reported.
+

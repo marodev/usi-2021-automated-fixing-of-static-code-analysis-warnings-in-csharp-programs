@@ -1,0 +1,637 @@
+diff --git a/src/MiNET/MiNET.Client/BedrockTraceHandler.cs b/src/MiNET/MiNET.Client/BedrockTraceHandler.cs
+index fed6c649..01629713 100644
+--- a/src/MiNET/MiNET.Client/BedrockTraceHandler.cs
++++ b/src/MiNET/MiNET.Client/BedrockTraceHandler.cs
+@@ -654,8 +654,7 @@ namespace MiNET.Client
+ 
+ 			foreach (Recipe recipe in message.recipes)
+ 			{
+-				var shapelessRecipe = recipe as ShapelessRecipe;
+-				if (shapelessRecipe != null)
++				if (recipe is ShapelessRecipe shapelessRecipe)
+ 				{
+ 					writer.WriteLine($"new ShapelessRecipe(");
+ 					writer.Indent++;
+@@ -684,7 +683,6 @@ namespace MiNET.Client
+ 					continue;
+ 				}
+ 
+-				var shapedRecipe = recipe as ShapedRecipe;
+ 				//if (shapedRecipe != null && Client._recipeToSend == null)
+ 				//{
+ 				//	if (shapedRecipe.Result.Id == 5 && shapedRecipe.Result.Count == 4 && shapedRecipe.Result.Metadata == 0)
+@@ -694,7 +692,7 @@ namespace MiNET.Client
+ 				//	}
+ 				//}
+ 
+-				if (shapedRecipe != null)
++				if (recipe is ShapedRecipe shapedRecipe)
+ 				{
+ 					writer.WriteLine($"new ShapedRecipe({shapedRecipe.Width}, {shapedRecipe.Height},");
+ 					writer.Indent++;
+@@ -724,15 +722,13 @@ namespace MiNET.Client
+ 					continue;
+ 				}
+ 
+-				var smeltingRecipe = recipe as SmeltingRecipe;
+-				if (smeltingRecipe != null)
++				if (recipe is SmeltingRecipe smeltingRecipe)
+ 				{
+ 					writer.WriteLine($"new SmeltingRecipe(new Item({smeltingRecipe.Result.Id}, {smeltingRecipe.Result.Metadata}, {smeltingRecipe.Result.Count}), new Item({smeltingRecipe.Input.Id}, {smeltingRecipe.Input.Metadata}), \"{smeltingRecipe.Block}\"),");
+ 					continue;
+ 				}
+ 
+-				var multiRecipe = recipe as MultiRecipe;
+-				if (multiRecipe != null)
++				if (recipe is MultiRecipe multiRecipe)
+ 				{
+ 					writer.WriteLine($"new MultiRecipe() {{ Id = new UUID(\"{recipe.Id}\"), UniqueId = {multiRecipe.UniqueId} }}, // {recipe.Id}");
+ 					continue;
+diff --git a/src/MiNET/MiNET.Client/ObjectDumper.cs b/src/MiNET/MiNET.Client/ObjectDumper.cs
+index d1dfbd95..181fd538 100644
+--- a/src/MiNET/MiNET.Client/ObjectDumper.cs
++++ b/src/MiNET/MiNET.Client/ObjectDumper.cs
+@@ -194,9 +194,9 @@ namespace MiNET.Client
+ 			{
+ 				Write("null");
+ 			}
+-			else if (o is DateTime)
++			else if (o is DateTime dateTime)
+ 			{
+-				Write(((DateTime) o).ToShortDateString());
++				Write(dateTime.ToShortDateString());
+ 			}
+ 			else if (o is ValueType || o is string)
+ 			{
+diff --git a/src/MiNET/MiNET.Test/GenerateBlocksTests.cs b/src/MiNET/MiNET.Test/GenerateBlocksTests.cs
+index 80b17f87..e4b9e5dc 100644
+--- a/src/MiNET/MiNET.Test/GenerateBlocksTests.cs
++++ b/src/MiNET/MiNET.Test/GenerateBlocksTests.cs
+@@ -141,8 +141,8 @@ namespace MiNET.Test
+ 			{
+ 				if (stateContainer.States.Count > 0)
+ 				{
+-					if (stateContainer.States.Count(s => s.Name.Contains("direction")) > 0) blocksWithStates.Add(stateContainer.Name);
+-					if (stateContainer.States.Count(s => s.Name.Contains("face")) > 0) blocksWithStates.Add(stateContainer.Name);
++					if (stateContainer.States.Any(s => s.Name.Contains("direction"))) blocksWithStates.Add(stateContainer.Name);
++					if (stateContainer.States.Any(s => s.Name.Contains("face"))) blocksWithStates.Add(stateContainer.Name);
+ 				}
+ 			}
+ 
+diff --git a/src/MiNET/MiNET.Test/Streaming/RecyclableMemoryStream.cs b/src/MiNET/MiNET.Test/Streaming/RecyclableMemoryStream.cs
+index 20064844..48930430 100644
+--- a/src/MiNET/MiNET.Test/Streaming/RecyclableMemoryStream.cs
++++ b/src/MiNET/MiNET.Test/Streaming/RecyclableMemoryStream.cs
+@@ -400,7 +400,7 @@ namespace MiNET.Test.Streaming
+ 
+ 		public override string ToString()
+ 		{
+-			return string.Format("Id = {0}, Tag = {1}, Length = {2:N0} bytes", (object) this.Id, (object) this.Tag, (object) this.Length);
++			return $"Id = {(object)this.Id}, Tag = {(object)this.Tag}, Length = {(object)this.Length:N0} bytes";
+ 		}
+ 
+ 		public override void WriteByte(byte value)
+@@ -502,7 +502,7 @@ namespace MiNET.Test.Streaming
+ 		private void CheckDisposed()
+ 		{
+ 			if (this.Disposed)
+-				throw new ObjectDisposedException(string.Format("The stream with Id {0} and Tag {1} is disposed.", (object) this.id, (object) this.tag));
++				throw new ObjectDisposedException($"The stream with Id {(object)this.id} and Tag {(object)this.tag} is disposed.");
+ 		}
+ 
+ 		private int InternalRead(byte[] buffer, int offset, int count, int fromPosition)
+diff --git a/src/MiNET/MiNET.Test/Streaming/RecyclableMemoryStreamManager.cs b/src/MiNET/MiNET.Test/Streaming/RecyclableMemoryStreamManager.cs
+index 697292d7..f18e15b7 100644
+--- a/src/MiNET/MiNET.Test/Streaming/RecyclableMemoryStreamManager.cs
++++ b/src/MiNET/MiNET.Test/Streaming/RecyclableMemoryStreamManager.cs
+@@ -74,7 +74,7 @@ namespace MiNET.Test.Streaming
+ 			this.MaximumBufferSize = maximumBufferSize;
+ 			this.UseExponentialLargeBuffer = useExponentialLargeBuffer;
+ 			if (!this.IsLargeBufferSize(maximumBufferSize))
+-				throw new ArgumentException(string.Format("maximumBufferSize is not {0} of largeBufferMultiple", this.UseExponentialLargeBuffer ? (object) "an exponential" : (object) "a multiple"), nameof(maximumBufferSize));
++				throw new ArgumentException($"maximumBufferSize is not {(this.UseExponentialLargeBuffer ? (object)"an exponential" : (object)"a multiple")} of largeBufferMultiple", nameof(maximumBufferSize));
+ 			this.smallPool = new ConcurrentStack<byte[]>();
+ 			int length = useExponentialLargeBuffer ? (int) Math.Log((double) (maximumBufferSize / largeBufferMultiple), 2.0) + 1 : maximumBufferSize / largeBufferMultiple;
+ 			this.largeBufferInUseSize = new long[length + 1];
+@@ -245,7 +245,7 @@ namespace MiNET.Test.Streaming
+ 			if (buffer == null)
+ 				throw new ArgumentNullException(nameof(buffer));
+ 			if (!this.IsLargeBufferSize(buffer.Length))
+-				throw new ArgumentException(string.Format("buffer did not originate from this memory manager. The size is not {0} of ", this.UseExponentialLargeBuffer ? (object) "an exponential" : (object) "a multiple") + (object) this.LargeBufferMultiple);
++				throw new ArgumentException($"buffer did not originate from this memory manager. The size is not {(this.UseExponentialLargeBuffer ? (object)"an exponential" : (object)"a multiple")} of " + (object) this.LargeBufferMultiple);
+ 			int index = this.GetPoolIndex(buffer.Length);
+ 			if (index < this.largePools.Length)
+ 			{
+diff --git a/src/MiNET/MiNET/Enchantment.cs b/src/MiNET/MiNET/Enchantment.cs
+index 9cb564b9..f5ea345d 100644
+--- a/src/MiNET/MiNET/Enchantment.cs
++++ b/src/MiNET/MiNET/Enchantment.cs
+@@ -390,7 +390,7 @@ namespace MiNET
+ 			}
+ 
+ 			// enchantments
+-			enchants = enchants.GroupBy(p => p.Id).Select(grp => grp.FirstOrDefault()).Where(e => e != null && e.Levels.Count(l => l.MinLevel <= level && l.MaxLevel > level) > 0).ToList();
++			enchants = enchants.GroupBy(p => p.Id).Select(grp => grp.FirstOrDefault()).Where(e => e != null && e.Levels.Any(l => l.MinLevel <= level && l.MaxLevel > level)).ToList();
+ 			foreach (Enchant enchant in enchants)
+ 			{
+ 				enchant.Level = enchant.Levels.OrderByDescending(l => l.MaxLevel).First(l => l.MinLevel <= level && l.MaxLevel > level).Level;
+diff --git a/src/MiNET/MiNET/Entities/EntitySpawnManager.cs b/src/MiNET/MiNET/Entities/EntitySpawnManager.cs
+index c77c9c56..0d4a6a34 100644
+--- a/src/MiNET/MiNET/Entities/EntitySpawnManager.cs
++++ b/src/MiNET/MiNET/Entities/EntitySpawnManager.cs
+@@ -128,7 +128,7 @@ namespace MiNET.Entities
+ 			{
+ 				if (!entity.Value.CanDespawn) continue;
+ 
+-				if (Level.Players.Count(player => player.Value.IsSpawned && Vector3.Distance(entity.Value.KnownPosition, player.Value.KnownPosition) < 128) == 0)
++				if (!Level.Players.Any(player => player.Value.IsSpawned && Vector3.Distance(entity.Value.KnownPosition, player.Value.KnownPosition) < 128))
+ 				{
+ 					if (Log.IsDebugEnabled)
+ 						Log.Debug($"Despawned entity because no players within 128 blocks distance");
+@@ -142,7 +142,7 @@ namespace MiNET.Entities
+ 		{
+ 			if (Level.Dimension != Dimension.Overworld) return;
+ 
+-			if (Level.Players.Count(player => player.Value.IsSpawned && Vector3.Distance(packCoord, player.Value.KnownPosition) < 24) != 0)
++			if (Level.Players.Any(player => player.Value.IsSpawned && Vector3.Distance(packCoord, player.Value.KnownPosition) < 24))
+ 			{
+ 				//if (Log.IsDebugEnabled)
+ 				//	Log.Debug($"Can't spawn entity because players within 24 blocks distance: {blockCoordinates}");
+diff --git a/src/MiNET/MiNET/Entities/Mob.cs b/src/MiNET/MiNET/Entities/Mob.cs
+index 9df638a6..023d5bd5 100644
+--- a/src/MiNET/MiNET/Entities/Mob.cs
++++ b/src/MiNET/MiNET/Entities/Mob.cs
+@@ -151,7 +151,7 @@ namespace MiNET.Entities
+ 			bool noPlayersWithin32 = false;
+ 			if (Level.EnableChunkTicking && DespawnIfNotSeenPlayer)
+ 			{
+-				if (Level.Players.Count(player => player.Value.IsSpawned && Vector3.Distance(KnownPosition, player.Value.KnownPosition) < 128) == 0)
++				if (!Level.Players.Any(player => player.Value.IsSpawned && Vector3.Distance(KnownPosition, player.Value.KnownPosition) < 128))
+ 				{
+ 					if (Log.IsDebugEnabled)
+ 						Log.Debug($"Despawn because didn't see any players within 128 blocks.");
+@@ -161,7 +161,7 @@ namespace MiNET.Entities
+ 				}
+ 				if (DateTime.UtcNow - LastSeenPlayerTimer > TimeSpan.FromSeconds(30))
+ 				{
+-					if (Level.Players.Count(player => player.Value.IsSpawned && Vector3.Distance(KnownPosition, player.Value.KnownPosition) < 32) == 0)
++					if (!Level.Players.Any(player => player.Value.IsSpawned && Vector3.Distance(KnownPosition, player.Value.KnownPosition) < 32))
+ 					{
+ 						if (Level.Random.Next(800) == 0)
+ 						{
+diff --git a/src/MiNET/MiNET/Entities/Projectiles/Projectile.cs b/src/MiNET/MiNET/Entities/Projectiles/Projectile.cs
+index 4605082e..3b5a52c4 100644
+--- a/src/MiNET/MiNET/Entities/Projectiles/Projectile.cs
++++ b/src/MiNET/MiNET/Entities/Projectiles/Projectile.cs
+@@ -134,9 +134,7 @@ namespace MiNET.Entities.Projectiles
+ 					damage = damage + ((PowerLevel + 1) * 0.25);
+ 				}
+ 
+-				Player player = entityCollided as Player;
+-
+-				if (player != null)
++				if (entityCollided is Player player)
+ 				{
+ 					damage = player.DamageCalculator.CalculatePlayerDamage(this, player, null, damage, DamageCause.Projectile);
+ 					player.LastAttackTarget = entityCollided;
+diff --git a/src/MiNET/MiNET/HealthManager.cs b/src/MiNET/MiNET/HealthManager.cs
+index e7ea895e..51e6aa69 100644
+--- a/src/MiNET/MiNET/HealthManager.cs
++++ b/src/MiNET/MiNET/HealthManager.cs
+@@ -114,10 +114,7 @@ namespace MiNET
+ 			if (Health > MaxHealth) Health = MaxHealth;
+ 
+ 			var player = Entity as Player;
+-			if (player != null)
+-			{
+-				player.SendUpdateAttributes();
+-			}
++			player?.SendUpdateAttributes();
+ 		}
+ 
+ 		public virtual void TakeHit(Entity source, int damage = 1, DamageCause cause = DamageCause.Unknown)
+@@ -264,10 +261,7 @@ namespace MiNET
+ 			}
+ 
+ 			var player = Entity as Player;
+-			if (player != null)
+-			{
+-				player.SendUpdateAttributes();
+-			}
++			player?.SendUpdateAttributes();
+ 
+ 			Entity.BroadcastEntityEvent();
+ 
+diff --git a/src/MiNET/MiNET/Items/ItemFactory.cs b/src/MiNET/MiNET/Items/ItemFactory.cs
+index a371d895..00fc5cc8 100644
+--- a/src/MiNET/MiNET/Items/ItemFactory.cs
++++ b/src/MiNET/MiNET/Items/ItemFactory.cs
+@@ -83,8 +83,7 @@ namespace MiNET.Items
+ 
+ 				if (name.Equals("itemblock"))
+ 				{
+-					ItemBlock itemBlock = item as ItemBlock;
+-					if (itemBlock != null)
++					if (item is ItemBlock itemBlock)
+ 					{
+ 						Block block = itemBlock.Block;
+ 						name = block?.GetType().Name.ToLowerInvariant();
+diff --git a/src/MiNET/MiNET/Net/McpeAvailableCommands.cs b/src/MiNET/MiNET/Net/McpeAvailableCommands.cs
+index f678e1b8..de5e7ca9 100644
+--- a/src/MiNET/MiNET/Net/McpeAvailableCommands.cs
++++ b/src/MiNET/MiNET/Net/McpeAvailableCommands.cs
+@@ -50,7 +50,7 @@ namespace MiNET.Net
+ 					stringValues.Add(str);
+ 				}
+ 			}
+-			int stringValuesCount = stringValues.Count();
++			int stringValuesCount = stringValues.Count;
+ 
+ 			{
+ 				uint count = ReadUnsignedVarInt();
+diff --git a/src/MiNET/MiNET/Net/Packet.cs b/src/MiNET/MiNET/Net/Packet.cs
+index 8684c46a..687ac999 100644
+--- a/src/MiNET/MiNET/Net/Packet.cs
++++ b/src/MiNET/MiNET/Net/Packet.cs
+@@ -767,8 +767,7 @@ namespace MiNET.Net
+ 
+ 			for (byte i = 0; i < metadata.Count; i++)
+ 			{
+-				MetadataInt slot = metadata[i] as MetadataInt;
+-				if (slot != null)
++				if (metadata[i] is MetadataInt slot)
+ 				{
+ 					WriteUnsignedVarInt((uint) slot.Value);
+ 				}
+@@ -1654,10 +1653,7 @@ namespace MiNET.Net
+ 
+ 		public void Write(MetadataDictionary metadata)
+ 		{
+-			if (metadata != null)
+-			{
+-				metadata.WriteTo(_writer);
+-			}
++			metadata?.WriteTo(_writer);
+ 		}
+ 
+ 		public MetadataDictionary ReadMetadataDictionary()
+@@ -1751,20 +1747,20 @@ namespace MiNET.Net
+ 			foreach (var rule in gameRules)
+ 			{
+ 				Write(rule.Name.ToLower());
+-				if (rule is GameRule<bool>)
++				if (rule is GameRule<bool> bools)
+ 				{
+ 					Write((byte) 1);
+-					Write(((GameRule<bool>) rule).Value);
++					Write(bools.Value);
+ 				}
+-				else if (rule is GameRule<int>)
++				else if (rule is GameRule<int> ints)
+ 				{
+ 					Write((byte) 2);
+-					WriteVarInt(((GameRule<int>) rule).Value);
++					WriteVarInt(ints.Value);
+ 				}
+-				else if (rule is GameRule<float>)
++				else if (rule is GameRule<float> floats)
+ 				{
+ 					Write((byte) 3);
+-					Write(((GameRule<float>) rule).Value);
++					Write(floats.Value);
+ 				}
+ 			}
+ 		}
+diff --git a/src/MiNET/MiNET/Player.cs b/src/MiNET/MiNET/Player.cs
+index 2cba28d1..47c60f29 100644
+--- a/src/MiNET/MiNET/Player.cs
++++ b/src/MiNET/MiNET/Player.cs
+@@ -595,8 +595,8 @@ namespace MiNET
+ 				case PlayerAction.StopSleeping:
+ 				{
+ 					IsSleeping = false;
+-					Bed bed = Level.GetBlock(SpawnPosition) as Bed;
+-					if (bed != null)
++
++					if (Level.GetBlock(SpawnPosition) is Bed bed)
+ 					{
+ 						bed.SetOccupied(Level, false);
+ 					}
+@@ -1858,7 +1858,7 @@ namespace MiNET
+ 					}
+ 					else
+ 					{
+-						Log.Warn(string.Format("Disconnected player {0}/{1} from level <{3}>, reason: {2}", Username, EndPoint.Address, reason, levelId));
++						Log.Warn($"Disconnected player {Username}/{EndPoint.Address} from level <{reason}>, reason: {levelId}");
+ 					}
+ 
+ 					CleanCache();
+@@ -2383,8 +2383,7 @@ namespace MiNET
+ 
+ 			LastAttackTarget = target;
+ 
+-			Player player = target as Player;
+-			if (player != null)
++			if (target is Player player)
+ 			{
+ 				double damage = DamageCalculator.CalculateItemDamage(this, itemInHand, player);
+ 
+diff --git a/src/MiNET/MiNET/Plugins/PluginManager.cs b/src/MiNET/MiNET/Plugins/PluginManager.cs
+index 13533293..19d57890 100644
+--- a/src/MiNET/MiNET/Plugins/PluginManager.cs
++++ b/src/MiNET/MiNET/Plugins/PluginManager.cs
+@@ -124,8 +124,7 @@ namespace MiNET.Plugins
+ 
+ 									if (type.IsDefined(typeof(PluginAttribute), true))
+ 									{
+-										PluginAttribute pluginAttribute = Attribute.GetCustomAttribute(type, typeof(PluginAttribute), true) as PluginAttribute;
+-										if (pluginAttribute != null)
++										if (Attribute.GetCustomAttribute(type, typeof(PluginAttribute), true) is PluginAttribute pluginAttribute)
+ 										{
+ 											if (!Config.GetProperty(pluginAttribute.PluginName + ".Enabled", true)) continue;
+ 										}
+@@ -173,8 +172,7 @@ namespace MiNET.Plugins
+ 
+ 			if (type.IsDefined(typeof(PluginAttribute), true))
+ 			{
+-				PluginAttribute pluginAttribute = Attribute.GetCustomAttribute(type, typeof(PluginAttribute), true) as PluginAttribute;
+-				if (pluginAttribute != null)
++				if (Attribute.GetCustomAttribute(type, typeof(PluginAttribute), true) is PluginAttribute pluginAttribute)
+ 				{
+ 					if (!Config.GetProperty(pluginAttribute.PluginName + ".Enabled", true))
+ 						return;
+@@ -262,8 +260,7 @@ namespace MiNET.Plugins
+ 					commandAttribute.Name = method.Name;
+ 				}
+ 
+-				DescriptionAttribute descriptionAttribute = Attribute.GetCustomAttribute(method, typeof(DescriptionAttribute), false) as DescriptionAttribute;
+-				if (descriptionAttribute != null) commandAttribute.Description = descriptionAttribute.Description;
++				if (Attribute.GetCustomAttribute(method, typeof(DescriptionAttribute), false) is DescriptionAttribute descriptionAttribute) commandAttribute.Description = descriptionAttribute.Description;
+ 
+ 				try
+ 				{
+@@ -559,8 +556,7 @@ namespace MiNET.Plugins
+ 			foreach (MethodInfo method in methods)
+ 			{
+ 				{
+-					PacketHandlerAttribute packetHandlerAttribute = Attribute.GetCustomAttribute(method, typeof(PacketHandlerAttribute), false) as PacketHandlerAttribute;
+-					if (packetHandlerAttribute != null)
++					if (Attribute.GetCustomAttribute(method, typeof(PacketHandlerAttribute), false) is PacketHandlerAttribute packetHandlerAttribute)
+ 					{
+ 						ParameterInfo[] parameters = method.GetParameters();
+ 						if (parameters.Length < 1) continue;
+diff --git a/src/MiNET/MiNET/UI/CustomForm.cs b/src/MiNET/MiNET/UI/CustomForm.cs
+index 213cf509..a2ffdd50 100644
+--- a/src/MiNET/MiNET/UI/CustomForm.cs
++++ b/src/MiNET/MiNET/UI/CustomForm.cs
+@@ -57,11 +57,11 @@ namespace MiNET.UI
+ 			for (var i = 0; i < Content.Count; i++)
+ 			{
+ 				var element = Content[i];
+-				if (element is Input) ((Input) element).Value = (string) parsedResult[i];
+-				else if (element is Toggle) ((Toggle) element).Value = (bool) parsedResult[i];
+-				else if (element is Slider) ((Slider) element).Value = (float) (double) parsedResult[i];
+-				else if (element is StepSlider) ((StepSlider) element).Value = (int) (long) parsedResult[i];
+-				else if (element is Dropdown) ((Dropdown) element).Value = (int) (long) parsedResult[i];
++				if (element is Input input) input.Value = (string) parsedResult[i];
++				else if (element is Toggle toggle) toggle.Value = (bool) parsedResult[i];
++				else if (element is Slider slider) slider.Value = (float) (double) parsedResult[i];
++				else if (element is StepSlider stepSlider) stepSlider.Value = (int) (long) parsedResult[i];
++				else if (element is Dropdown dropdown) dropdown.Value = (int) (long) parsedResult[i];
+ 			}
+ 
+ 			Execute(player);
+diff --git a/src/MiNET/MiNET/Utils/DedicatedThreadPool.cs b/src/MiNET/MiNET/Utils/DedicatedThreadPool.cs
+index 85ec5ff8..2edf16be 100644
+--- a/src/MiNET/MiNET/Utils/DedicatedThreadPool.cs
++++ b/src/MiNET/MiNET/Utils/DedicatedThreadPool.cs
+@@ -80,9 +80,9 @@ namespace MiNET.Utils
+ 			ThreadMaxStackSize = threadMaxStackSize;
+ 
+ 			if (deadlockTimeout.HasValue && deadlockTimeout.Value.TotalMilliseconds <= 0)
+-				throw new ArgumentOutOfRangeException("deadlockTimeout", string.Format("deadlockTimeout must be null or at least 1ms. Was {0}.", deadlockTimeout));
++				throw new ArgumentOutOfRangeException("deadlockTimeout", $"deadlockTimeout must be null or at least 1ms. Was {deadlockTimeout}.");
+ 			if (numThreads <= 0)
+-				throw new ArgumentOutOfRangeException("numThreads", string.Format("numThreads must be at least 1. Was {0}", numThreads));
++				throw new ArgumentOutOfRangeException("numThreads", $"numThreads must be at least 1. Was {numThreads}");
+ 		}
+ 
+ 		/// <summary>
+@@ -331,7 +331,7 @@ namespace MiNET.Utils
+ 				thread.IsBackground = pool.Settings.ThreadType == ThreadType.Background;
+ 
+ 				if (pool.Settings.Name != null)
+-					thread.Name = string.Format("{0}_{1}", pool.Settings.Name, workerId);
++					thread.Name = $"{pool.Settings.Name}_{workerId}";
+ 
+ 				if (pool.Settings.ApartmentState != ApartmentState.Unknown)
+ 					thread.SetApartmentState(pool.Settings.ApartmentState);
+diff --git a/src/MiNET/MiNET/Worlds/AnvilWorldProvider.cs b/src/MiNET/MiNET/Worlds/AnvilWorldProvider.cs
+index 47dc080b..74cf8b6d 100644
+--- a/src/MiNET/MiNET/Worlds/AnvilWorldProvider.cs
++++ b/src/MiNET/MiNET/Worlds/AnvilWorldProvider.cs
+@@ -455,8 +455,7 @@ namespace MiNET.Worlds
+ 
+ 					if (chunk.biomeId.Length > 256) throw new Exception();
+ 
+-					NbtTag heights = dataTag["HeightMap"] as NbtIntArray;
+-					if (heights != null)
++					if (dataTag["HeightMap"] is NbtIntArray heights)
+ 					{
+ 						int[] intHeights = heights.IntArrayValue;
+ 						for (int i = 0; i < 256; i++)
+@@ -473,8 +472,7 @@ namespace MiNET.Worlds
+ 
+ 					NbtList entities = dataTag["Entities"] as NbtList;
+ 
+-					NbtList blockEntities = dataTag["TileEntities"] as NbtList;
+-					if (blockEntities != null)
++					if (dataTag["TileEntities"] is NbtList blockEntities)
+ 					{
+ 						foreach (var nbtTag in blockEntities)
+ 						{
+diff --git a/src/MiNET/MiNET/Worlds/BlockLightCalculations.cs b/src/MiNET/MiNET/Worlds/BlockLightCalculations.cs
+index e9b9a1ec..8021b1db 100644
+--- a/src/MiNET/MiNET/Worlds/BlockLightCalculations.cs
++++ b/src/MiNET/MiNET/Worlds/BlockLightCalculations.cs
+@@ -72,8 +72,7 @@ namespace MiNET.Worlds
+ 
+ 		private static ChunkColumn GetChunk(Level level, BlockCoordinates blockCoordinates)
+ 		{
+-			AnvilWorldProvider provider = level.WorldProvider as AnvilWorldProvider;
+-			if (provider != null)
++			if (level.WorldProvider is AnvilWorldProvider provider)
+ 			{
+ 				ChunkColumn chunk;
+ 				provider._chunkCache.TryGetValue((ChunkCoordinates) blockCoordinates, out chunk);
+diff --git a/src/MiNET/MiNET/Worlds/Level.cs b/src/MiNET/MiNET/Worlds/Level.cs
+index 631b3184..bb9c5a68 100644
+--- a/src/MiNET/MiNET/Worlds/Level.cs
++++ b/src/MiNET/MiNET/Worlds/Level.cs
+@@ -1515,8 +1515,7 @@ namespace MiNET.Worlds
+ 
+ 		public ChunkColumn[] GetLoadedChunks()
+ 		{
+-			var cacheProvider = WorldProvider as ICachingWorldProvider;
+-			if (cacheProvider != null)
++			if (WorldProvider is ICachingWorldProvider cacheProvider)
+ 			{
+ 				return cacheProvider.GetCachedChunks();
+ 			}
+diff --git a/src/MiNET/TestPlugin/CoreCommands.cs b/src/MiNET/TestPlugin/CoreCommands.cs
+index 90483715..fd9cc990 100644
+--- a/src/MiNET/TestPlugin/CoreCommands.cs
++++ b/src/MiNET/TestPlugin/CoreCommands.cs
+@@ -771,7 +771,7 @@ namespace TestPlugin
+ 					return nextLevel;
+ 				});
+ 
+-				oldLevel.BroadcastMessage(string.Format("{0} teleported to world {1}.", player.Username, player.Level.LevelId), type: MessageType.Raw);
++				oldLevel.BroadcastMessage($"{player.Username} teleported to world {player.Level.LevelId}.", type: MessageType.Raw);
+ 			}, Context.LevelManager);
+ 		}
+ 
+@@ -821,7 +821,7 @@ namespace TestPlugin
+ 								Context.LevelManager.Levels.Add(nextLevel);
+ 							}
+ 
+-							oldLevel.BroadcastMessage(string.Format("{0} teleported to world {1}.", player.Username, player.Level.LevelId), type: MessageType.Raw);
++							oldLevel.BroadcastMessage($"{player.Username} teleported to world {player.Level.LevelId}.", type: MessageType.Raw);
+ 
+ 							return nextLevel;
+ 						}
+@@ -845,14 +845,14 @@ namespace TestPlugin
+ 		[Command(Name = "vd")]
+ 		public void ViewDistance(Player player)
+ 		{
+-			player.Level.BroadcastMessage(string.Format("Current view distance set to {0}.", player.Level.ViewDistance), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"Current view distance set to {player.Level.ViewDistance}.", type: MessageType.Raw);
+ 		}
+ 
+ 		[Command(Name = "vd")]
+ 		public void ViewDistance(Player player, int viewDistance)
+ 		{
+ 			player.Level.ViewDistance = viewDistance;
+-			player.Level.BroadcastMessage(string.Format("View distance changed to {0}.", player.Level.ViewDistance), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"View distance changed to {player.Level.ViewDistance}.", type: MessageType.Raw);
+ 		}
+ 
+ 		[Command(Name = "twitter")]
+@@ -865,10 +865,10 @@ namespace TestPlugin
+ 		[Command(Name = "pi")]
+ 		public void PlayerInfo(Player player)
+ 		{
+-			player.SendMessage(string.Format("Username={0}", player.Username), type: MessageType.Raw);
+-			player.SendMessage(string.Format("Entity ID={0}", player.EntityId), type: MessageType.Raw);
+-			player.SendMessage(string.Format("Client ID={0}", player.ClientId), type: MessageType.Raw);
+-			player.SendMessage(string.Format("Client ID={0}", player.ClientUuid), type: MessageType.Raw);
++			player.SendMessage($"Username={player.Username}", type: MessageType.Raw);
++			player.SendMessage($"Entity ID={player.EntityId}", type: MessageType.Raw);
++			player.SendMessage($"Client ID={player.ClientId}", type: MessageType.Raw);
++			player.SendMessage($"Client ID={player.ClientUuid}", type: MessageType.Raw);
+ 		}
+ 
+ 		[Command(Name = "pos")]
+@@ -994,7 +994,7 @@ namespace TestPlugin
+ 			SendEquipmentForPlayer(player);
+ 			SendArmorForPlayer(player);
+ 
+-			player.Level.BroadcastMessage(string.Format("Player {0} changed kit.", player.Username), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"Player {player.Username} changed kit.", type: MessageType.Raw);
+ 		}
+ 
+ 		[Command]
+@@ -1039,7 +1039,7 @@ namespace TestPlugin
+ 			SendEquipmentForPlayer(player);
+ 			SendArmorForPlayer(player);
+ 
+-			player.Level.BroadcastMessage(string.Format("Player {0} changed kit.", player.Username), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"Player {player.Username} changed kit.", type: MessageType.Raw);
+ 		}
+ 
+ 		[Command]
+@@ -1062,7 +1062,7 @@ namespace TestPlugin
+ 			SendEquipmentForPlayer(player);
+ 			SendArmorForPlayer(player);
+ 
+-			player.Level.BroadcastMessage(string.Format("Player {0} changed kit.", player.Username), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"Player {player.Username} changed kit.", type: MessageType.Raw);
+ 		}
+ 
+ 
+@@ -1122,7 +1122,7 @@ namespace TestPlugin
+ 			SendEquipmentForPlayer(player);
+ 			SendArmorForPlayer(player);
+ 
+-			player.Level.BroadcastMessage(string.Format("Player {0} changed kit.", player.Username), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"Player {player.Username} changed kit.", type: MessageType.Raw);
+ 		}
+ 
+ 		[Command]
+@@ -1316,7 +1316,7 @@ namespace TestPlugin
+ 			SendEquipmentForPlayer(player);
+ 			SendArmorForPlayer(player);
+ 
+-			player.Level.BroadcastMessage(string.Format("Player {0} changed kit.", player.Username), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"Player {player.Username} changed kit.", type: MessageType.Raw);
+ 		}
+ 
+ 		private void EnchantArmor(PlayerInventory inventory, short enchId, short level)
+diff --git a/src/MiNET/TestPlugin/NiceLobby/NiceLobbyPlugin.cs b/src/MiNET/TestPlugin/NiceLobby/NiceLobbyPlugin.cs
+index e80f2f62..485e620d 100644
+--- a/src/MiNET/TestPlugin/NiceLobby/NiceLobbyPlugin.cs
++++ b/src/MiNET/TestPlugin/NiceLobby/NiceLobbyPlugin.cs
+@@ -866,7 +866,7 @@ namespace TestPlugin.NiceLobby
+ 				AnvilWorldProvider worldProvider = level.WorldProvider as AnvilWorldProvider;
+ 				if (worldProvider == null) return;
+ 
+-				level.BroadcastMessage(string.Format("{0} resets the world!", player.Username), type: MessageType.Raw);
++				level.BroadcastMessage($"{player.Username} resets the world!", type: MessageType.Raw);
+ 
+ 				lock (worldProvider._chunkCache)
+ 				{
+@@ -940,14 +940,14 @@ namespace TestPlugin.NiceLobby
+ 		public void Hide(Player player)
+ 		{
+ 			HidePlayer(player, true);
+-			player.Level.BroadcastMessage(string.Format("Player {0} hides.", player.Username), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"Player {player.Username} hides.", type: MessageType.Raw);
+ 		}
+ 
+ 		[Command]
+ 		public void Unhide(Player player)
+ 		{
+ 			HidePlayer(player, false);
+-			player.Level.BroadcastMessage(string.Format("Player {0} unhides.", player.Username), type: MessageType.Raw);
++			player.Level.BroadcastMessage($"Player {player.Username} unhides.", type: MessageType.Raw);
+ 		}
+ 
+ 		private void HidePlayer(Player player, bool hide)
+diff --git a/src/MiNET/TestPlugin/Pets/PetHealthManager.cs b/src/MiNET/TestPlugin/Pets/PetHealthManager.cs
+index db71f398..809cf097 100644
+--- a/src/MiNET/TestPlugin/Pets/PetHealthManager.cs
++++ b/src/MiNET/TestPlugin/Pets/PetHealthManager.cs
+@@ -49,8 +49,7 @@ namespace TestPlugin.Pets
+ 
+ 			int size = Entity.Level.Random.Next(0, 3); // The size of the hearts
+ 
+-			Pet pet = Entity as Pet;
+-			if (pet != null)
++			if (Entity is Pet pet)
+ 			{
+ 				if (pet.AttackTarget != null) return;
+ 
+diff --git a/src/MiNET/TestPlugin/Pets/PetsPlugin.cs b/src/MiNET/TestPlugin/Pets/PetsPlugin.cs
+index 76ae3870..dc22ca6a 100644
+--- a/src/MiNET/TestPlugin/Pets/PetsPlugin.cs
++++ b/src/MiNET/TestPlugin/Pets/PetsPlugin.cs
+@@ -117,8 +117,7 @@ namespace TestPlugin.Pets
+ 			var entities = player.Level.GetEntites();
+ 			foreach (var entity in entities)
+ 			{
+-				Pet pet = entity as Pet;
+-				if (pet != null && pet.Owner == player)
++				if (entity is Pet pet && pet.Owner == player)
+ 				{
+ 					pet.HealthManager.Kill();
+ 					break;

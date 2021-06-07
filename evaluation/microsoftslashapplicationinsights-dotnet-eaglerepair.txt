@@ -1,0 +1,3221 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Microsoft.ApplicationInsights(net452)
+    #1 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\DataContracts\ExceptionTelemetry.cs, Line: 404, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\CallContextHelpers.cs, Line: 32, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\External\PageViewData.cs, Line: 25, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #4 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\External\PageViewPerfData.cs, Line: 24, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\JsonSerializationWriter.cs, Line: 156, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #6 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\TaskTimerInternal.cs, Line: 114, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #7 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\Telemetry.cs, Line: 19, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #8 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\TelemetryConfigurationFactory.cs, Line: 253, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #9 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\TelemetryConfigurationFactory.cs, Line: 368, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #10 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\TelemetryProcessorChain.cs, Line: 81, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #11 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractor.cs, Line: 526, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #12 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractor.cs, Line: 581, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #13 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\AutocollectedMetricsExtraction\DependencyExtractor\DependencyDurationBucketExtractor.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #14 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\AutocollectedMetricsExtraction\DependencyExtractor\DependencyResultCodeDimensionExtractor.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #15 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\AutocollectedMetricsExtraction\DependencyExtractor\SuccessDimensionExtractor.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #16 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\AutocollectedMetricsExtraction\DependencyExtractor\TargetDimensionExtractor.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #17 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\AutocollectedMetricsExtraction\DependencyExtractor\TypeDimensionExtractor.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #18 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\AutocollectedMetricsExtraction\RequestExtractor\DurationBucketExtractor.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #19 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\AutocollectedMetricsExtraction\RequestExtractor\RequestResponseCodeDimensionExtractor.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #20 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\AutocollectedMetricsExtraction\RequestExtractor\RequestSuccessDimensionExtractor.cs, Line: 18, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #21 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\Implementation\Util.cs, Line: 177, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #22 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\MetricConfiguration.cs, Line: 161, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #23 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\MetricIdentifier.cs, Line: 510, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #24 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Metrics\MetricSeriesConfigurationForMeasurement.cs, Line: 71, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #25 Path: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\TelemetryClient.cs, Line: 502, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: TelemetryChannel(net452)
+    #26 Path: D:\a\1\s\BASE\src\ServerTelemetryChannel\Implementation\ErrorHandlingTransmissionPolicy.cs, Line: 41, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #27 Path: D:\a\1\s\BASE\src\ServerTelemetryChannel\Implementation\ExceptionHandler.cs, Line: 17, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #28 Path: D:\a\1\s\BASE\src\ServerTelemetryChannel\Implementation\PartialSuccessTransmissionPolicy.cs, Line: 38, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #29 Path: D:\a\1\s\BASE\src\ServerTelemetryChannel\Implementation\TaskTimerInternal.cs, Line: 115, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: DependencyCollector(net452)
+    #30 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\HttpCoreDiagnosticSourceListener.cs, Line: 404, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #31 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\HttpDependenciesParsingTelemetryInitializer.cs, Line: 23, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #32 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\AzureSdk\AzureSdkDiagnosticsEventHandler.cs, Line: 103, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #33 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\HttpProcessing.cs, Line: 67, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #34 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\ProfilerSqlCommandProcessing.cs, Line: 36, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #35 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\ProfilerSqlCommandProcessing.cs, Line: 62, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #36 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\ProfilerSqlCommandProcessing.cs, Line: 84, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #37 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\ProfilerSqlConnectionProcessing.cs, Line: 37, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #38 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\ProfilerSqlConnectionProcessing.cs, Line: 55, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #39 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\ProfilerSqlProcessingBase.cs, Line: 424, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #40 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\ProfilerSqlProcessingBase.cs, Line: 430, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: EventCounterCollector
+    #41 Path: D:\a\1\s\WEB\Src\EventCounterCollector\EventCounterCollector\EventCounterListener.cs, Line: 111, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Perf(net452)
+    #42 Path: D:\a\1\s\WEB\Src\PerformanceCollector\PerformanceCollector\Filter.cs, Line: 248, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #43 Path: D:\a\1\s\WEB\Src\PerformanceCollector\PerformanceCollector\Filter.cs, Line: 260, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: WindowsServer(net452)
+    #44 Path: D:\a\1\s\WEB\Src\WindowsServer\WindowsServer\Implementation\MetricManager.cs, Line: 921, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Log4NetAppender(net452)
+    #45 Path: D:\a\1\s\LOGGING\src\Log4NetAppender\ApplicationInsightsAppender.cs, Line: 116, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: NLogTarget(net452)
+    #46 Path: D:\a\1\s\LOGGING\src\NLogTarget\ApplicationInsightsTarget.cs, Line: 74, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Microsoft.ApplicationInsights.AspNetCore(net452)
+    #47 Path: D:\a\1\s\NETCORE\src\Microsoft.ApplicationInsights.AspNetCore\DiagnosticListeners\Implementation\HostingDiagnosticListener.cs, Line: 396, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #48 Path: D:\a\1\s\NETCORE\src\Microsoft.ApplicationInsights.AspNetCore\DiagnosticListeners\Implementation\MvcDiagnosticsListener.cs, Line: 74, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #49 Path: D:\a\1\s\NETCORE\src\Microsoft.ApplicationInsights.AspNetCore\DiagnosticListeners\Implementation\MvcDiagnosticsListener.cs, Line: 74, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #50 Path: D:\a\1\s\NETCORE\src\Microsoft.ApplicationInsights.AspNetCore\Logging\Implementation\ApplicationInsightsLogger.cs, Line: 114, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #51 Path: D:\a\1\s\NETCORE\src\Shared\Implementation\TelemetryConfigurationOptionsSetup.cs, Line: 269, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #52 Path: D:\a\1\s\NETCORE\src\Shared\Implementation\TelemetryConfigurationOptionsSetup.cs, Line: 304, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Microsoft.ApplicationInsights.WorkerService
+    #53 Path: D:\a\1\s\NETCORE\src\Shared\Implementation\TelemetryConfigurationOptionsSetup.cs, Line: 269, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #54 Path: D:\a\1\s\NETCORE\src\Shared\Implementation\TelemetryConfigurationOptionsSetup.cs, Line: 304, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: TelemetryChannel.Nuget.Tests
+    #55 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Nuget.Tests\TelemetryProcessorsTests.cs, Line: 27, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #56 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Nuget.Tests\TelemetryProcessorsTests.cs, Line: 30, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #57 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Nuget.Tests\TelemetryProcessorsTests.cs, Line: 36, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #58 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Nuget.Tests\TelemetryProcessorsTests.cs, Line: 39, Message: ReSharper: ReplaceWithSingleCallToLast. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.ApplicationInsights.AspNetCore.Tests(net46)
+    #59 Path: D:\a\1\s\NETCORE\test\Microsoft.ApplicationInsights.AspNetCore.Tests\Extensions\ApplicationInsightsExtensionsTests\AddApplicationInsightsTelemetryTests.cs, Line: 1493, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #60 Path: D:\a\1\s\NETCORE\test\Microsoft.ApplicationInsights.AspNetCore.Tests\Extensions\ApplicationInsightsExtensionsTests\AddApplicationInsightsTelemetryTests.cs, Line: 1498, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.ApplicationInsights.WorkerService.Tests(netcoreapp2.1)
+    #61 Path: D:\a\1\s\NETCORE\test\Microsoft.ApplicationInsights.WorkerService.Tests\ExtensionsTest.cs, Line: 896, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #62 Path: D:\a\1\s\NETCORE\test\Microsoft.ApplicationInsights.WorkerService.Tests\FunctionalTests.cs, Line: 80, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Microsoft.ApplicationInsights.Tests(net452)
+    #63 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\EnumerableExtensions.cs, Line: 17, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #64 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Extensibility\Implementation\Tracing\HeartbeatTests.cs, Line: 270, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #65 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Extensibility\Implementation\Tracing\HeartbeatTests.cs, Line: 39, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #66 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\ApplicationInsightsTelemetryPipelineTests.cs, Line: 165, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #67 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\ApplicationInsightsTelemetryPipelineTests.cs, Line: 170, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #68 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\ApplicationInsightsTelemetryPipelineTests.cs, Line: 175, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #69 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\ApplicationInsightsTelemetryPipelineTests.cs, Line: 180, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #70 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractorTest.cs, Line: 1111, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #71 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractorTest.cs, Line: 1118, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #72 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractorTest.cs, Line: 1416, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #73 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractorTest.cs, Line: 1423, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #74 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractorTest.cs, Line: 281, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #75 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractorTest.cs, Line: 288, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #76 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractorTest.cs, Line: 657, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #77 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Extensibility\AutocollectedMetricsExtraction\AutocollectedMetricsExtractorTest.cs, Line: 658, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #78 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Implementation\CommonSimpleDataSeriesAggregatorTests.cs, Line: 393, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #79 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Implementation\ConcurrentDatastructures\MultidimensionalCube2Tests.cs, Line: 614, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #80 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\Implementation\ConcurrentDatastructures\MultidimensionalCubeTests.cs, Line: 424, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #81 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\MetricsExamples.cs, Line: 978, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #82 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\MetricsExamples.cs, Line: 987, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #83 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\TestUtility\MetricSeriesConfigurationForTestingAccumulatorBehavior.cs, Line: 43, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #84 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\TestUtility\TestUtil.cs, Line: 109, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #85 Path: D:\a\1\s\BASE\Test\Microsoft.ApplicationInsights.Test\Microsoft.ApplicationInsights.Tests\Metrics\TestUtility\TestUtil.cs, Line: 118, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: DependencyCollector.Tests(net452)
+    #86 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector.Tests\HeaderCollectionManipulationTests.cs, Line: 142, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #87 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector.Tests\Implementation\DesktopDiagnosticSourceHttpProcessingTests.cs, Line: 356, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #88 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector.Tests\Implementation\ProfilerHttpProcessingTest.cs, Line: 415, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #89 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector.Tests\Implementation\ProfilerHttpProcessingTest.cs, Line: 427, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #90 Path: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector.Tests\Implementation\ProfilerHttpProcessingTest.cs, Line: 440, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: TelemetryChannel.Tests(net452)
+    #91 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Tests\AdaptiveSamplingTelemetryProcessorTest.cs, Line: 272, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #92 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Tests\AdaptiveSamplingTelemetryProcessorTest.cs, Line: 273, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #93 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Tests\AdaptiveSamplingTelemetryProcessorTest.cs, Line: 351, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #94 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Tests\AdaptiveSamplingTelemetryProcessorTest.cs, Line: 352, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #95 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Tests\AdaptiveSamplingTelemetryProcessorTest.cs, Line: 499, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #96 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Tests\Implementation\FileSystemTest.cs, Line: 40, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #97 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Tests\Implementation\PlatformFolderTest.cs, Line: 113, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #98 Path: D:\a\1\s\BASE\Test\ServerTelemetryChannel.Test\TelemetryChannel.Tests\Implementation\PlatformFolderTest.cs, Line: 201, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: WindowsServer.Tests(net452)
+    #99 Path: D:\a\1\s\WEB\Src\WindowsServer\WindowsServer.Tests\FirstChanceExceptionStatisticsTelemetryModuleTest.cs, Line: 534, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: FunctionalTests.Utils(net461)
+    #100 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\HttpListenerObservableBase.cs, Line: 22, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #101 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\HttpListenerObservableBase.cs, Line: 32, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #102 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\HttpListenerObservableBase.cs, Line: 34, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #103 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\HttpListenerObservableBase.cs, Line: 39, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #104 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\HttpListenerObservableBase.cs, Line: 41, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #105 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 100, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #106 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 109, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #107 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 117, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #108 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 119, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #109 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 176, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #110 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 178, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #111 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 183, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #112 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 192, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #113 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #114 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 90, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #115 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\InProcessServer.cs, Line: 96, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #116 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\TelemetryTestsBase.cs, Line: 158, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #117 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\TelemetryTestsBase.cs, Line: 166, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #118 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\TelemetryTestsBase.cs, Line: 174, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #119 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\TelemetryTestsBase.cs, Line: 182, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #120 Path: D:\a\1\s\NETCORE\test\FunctionalTests.Utils\TelemetryTestsBase.cs, Line: 190, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Perf.Tests(net452)
+    #121 Path: D:\a\1\s\WEB\Src\PerformanceCollector\Perf.Tests\PerformanceCollectorModuleTests.cs, Line: 162, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #122 Path: D:\a\1\s\WEB\Src\PerformanceCollector\Perf.Tests\PerformanceCollectorModuleTests.cs, Line: 380, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Web
+    #123 Path: D:\a\1\s\WEB\Src\Web\Web\OperationNameTelemetryInitializer.cs, Line: 49, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+--- Rules Summary ---
+R8: 50
+R9: 23
+R4: 22
+R7: 11
+R6: 8
+R2: 5
+R5: 4
+
+--- Summary ---
+Fixed ReSharper issues: 118
+Fixed SonarQube issues: 34
+Total fixed issues: 123
+
+Finished in: 43 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\Implementation\Telemetry.cs
+Description: Error: Unable to create valid SyntaxTree for document: Telemetry.cs. Caught exception: System.ArgumentException: An item with the same key has already been added. Key: if (telemetry is ISupportProperties itemWithProperties || telemetry is ISupportMetrics itemWithMetrics)
+                {
+                    DictionarySerializationWriter extensionSerializationWriter = new DictionarySerializationWriter();
+                    telemetry.Extension.Serialize(extensionSerializationWriter);
+
+                    if (telemetry is ISupportProperties itemWithProperties)
+                    {
+                        Utils.CopyDictionary(extensionSerializationWriter.AccumulatedDictionary, itemWithProperties.Properties);
+                    }
+
+                    if (telemetry is ISupportMetrics itemWithMetrics)
+                    {
+                        Utils.CopyDictionary(extensionSerializationWriter.AccumulatedMeasurements, itemWithMetrics.Metrics);
+                    }
+                }
+   at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+   at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+   at EagleRepair.Ast.Rewriter.UsePatternMatchingRewriterR8.AddLeadingLineFeedToIfStatements(IEnumerable`1 ifStatementChildren) in /Users/martinodermatt/repos/thesis/EagleRepair/EagleRepair/src/EagleRepair.Ast/Rewriter/UsePatternMatchingRewriterR8.cs:line 289
+   at EagleRepair.Ast.Rewriter.UsePatternMatchingRewriterR8.VisitMethodDeclaration(MethodDeclarationSyntax node) in /Users/martinodermatt/repos/thesis/EagleRepair/EagleRepair/src/EagleRepair.Ast/Rewriter/UsePatternMatchingRewriterR8.cs:line 201
+   at Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.Visit(SyntaxNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitListElement[TNode](TNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitList[TNode](SyntaxList`1 list)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitClassDeclaration(ClassDeclarationSyntax node)
+   at Microsoft.CodeAnalysis.CSharp.Syntax.ClassDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.Visit(SyntaxNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitListElement[TNode](TNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitList[TNode](SyntaxList`1 list)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+   at Microsoft.CodeAnalysis.CSharp.Syntax.NamespaceDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.Visit(SyntaxNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitListElement[TNode](TNode node)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitList[TNode](SyntaxList`1 list)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitCompilationUnit(CompilationUnitSyntax node)
+   at Microsoft.CodeAnalysis.CSharp.Syntax.CompilationUnitSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
+   at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.Visit(SyntaxNode node)
+   at EagleRepair.Ast.Engine.VisitNodes(Solution solution, ICollection`1 documents, IList`1 visitors) in /Users/martinodermatt/repos/thesis/EagleRepair/EagleRepair/src/EagleRepair.Ast/Engine.cs:line 107, Message: An item with the same key has already been added. Key: if (telemetry is ISupportProperties itemWithProperties || telemetry is ISupportMetrics itemWithMetrics)
+                {
+                    DictionarySerializationWriter extensionSerializationWriter = new DictionarySerializationWriter();
+                    telemetry.Extension.Serialize(extensionSerializationWriter);
+
+                    if (telemetry is ISupportProperties itemWithProperties)
+                    {
+                        Utils.CopyDictionary(extensionSerializationWriter.AccumulatedDictionary, itemWithProperties.Properties);
+                    }
+
+                    if (telemetry is ISupportMetrics itemWithMetrics)
+                    {
+                        Utils.CopyDictionary(extensionSerializationWriter.AccumulatedMeasurements, itemWithMetrics.Metrics);
+                    }
+                }
+------------------------------------------------------------------------
+---- Original Tree ----
+namespace Microsoft.ApplicationInsights.Extensibility.Implementation
+{
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
+
+    using Microsoft.ApplicationInsights.Channel;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation.External;
+
+    internal static class Telemetry
+    {
+        public static void WriteEnvelopeProperties(this ITelemetry telemetry, ISerializationWriter json)
+        {
+            json.WriteProperty("time", telemetry.Timestamp.UtcDateTime.ToString("o", CultureInfo.InvariantCulture));
+
+            var samplingSupportingTelemetry = telemetry as ISupportSampling;
+
+            if (samplingSupportingTelemetry != null
+                && samplingSupportingTelemetry.SamplingPercentage.HasValue
+                && (samplingSupportingTelemetry.SamplingPercentage.Value > 0.0 + 1.0E-12)
+                && (samplingSupportingTelemetry.SamplingPercentage.Value < 100.0 - 1.0E-12))
+            {
+                json.WriteProperty("sampleRate", samplingSupportingTelemetry.SamplingPercentage.Value);
+            }
+
+            json.WriteProperty("seq", telemetry.Sequence);
+            WriteTelemetryContext(json, telemetry.Context);
+        }
+
+        public static void WriteTelemetryContext(ISerializationWriter json, TelemetryContext context)
+        {
+            if (context != null)
+            {
+                json.WriteProperty("iKey", context.InstrumentationKey);
+                if (context.Flags != 0)
+                {
+                    json.WriteProperty("flags", context.Flags);
+                }
+
+                json.WriteProperty("tags", context.SanitizedTags);
+            }
+        }
+
+        /// <summary>
+        /// Copies GlobalProperties to the target's Properties. 
+        /// This avoids accessing the public accessor GlobalProperties to avoid the penalty of ConcurrentDictionary instantiation.
+        /// </summary> 
+        internal static void CopyGlobalPropertiesIfExist(this ITelemetry telemetry)
+        {
+            if (telemetry.Context.GlobalPropertiesValue != null)
+            {
+                if (telemetry is ISupportProperties telemetryWithProperties)
+                {
+                    Utils.CopyDictionary(source: telemetry.Context.GlobalProperties, target: telemetryWithProperties.Properties);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copies GlobalProperties to the target dictionary.
+        /// This avoids accessing the public accessor GlobalProperties to avoid the penalty of ConcurrentDictionary instantiation.
+        /// </summary>
+        internal static void CopyGlobalPropertiesIfExist(this ITelemetry telemetry, IDictionary<string, string> target)
+        {
+            if (telemetry.Context.GlobalPropertiesValue != null)
+            {
+                Utils.CopyDictionary(telemetry.Context.GlobalProperties, target);
+            }
+        }
+
+        /// <summary>
+        /// Flattens Extension object on ITelemetry if exists into the properties and measurements.
+        /// </summary>        
+        internal static void FlattenIExtensionIfExists(this ITelemetry telemetry)
+        {
+            if (telemetry.Extension != null)
+            {
+                ISupportProperties itemWithProperties = telemetry as ISupportProperties;
+                ISupportMetrics itemWithMetrics = telemetry as ISupportMetrics;
+
+                // Do not serialize if data cannot be stored on the item
+                if (itemWithProperties != null || itemWithMetrics != null)
+                {
+                    DictionarySerializationWriter extensionSerializationWriter = new DictionarySerializationWriter();
+                    telemetry.Extension.Serialize(extensionSerializationWriter);
+
+                    if (itemWithProperties != null)
+                    {
+                        Utils.CopyDictionary(extensionSerializationWriter.AccumulatedDictionary, itemWithProperties.Properties);
+                    }
+
+                    if (itemWithMetrics != null)
+                    {
+                        Utils.CopyDictionary(extensionSerializationWriter.AccumulatedMeasurements, itemWithMetrics.Metrics);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Flattens ITelemetry object into the properties and measurements.
+        /// </summary>        
+        /// <returns>EventData containing flattened ITelemetry object.</returns>
+        internal static EventData FlattenTelemetryIntoEventData(this ITelemetry telemetry)
+        {
+            EventData flatTelemetry = new EventData();
+            DictionarySerializationWriter dictionarySerializationWriter = new DictionarySerializationWriter();
+            telemetry.SerializeData(dictionarySerializationWriter); // Properties and Measurements are covered as part of Data if present
+            Utils.CopyDictionary(dictionarySerializationWriter.AccumulatedDictionary, flatTelemetry.properties);
+            Utils.CopyDictionary(dictionarySerializationWriter.AccumulatedMeasurements, flatTelemetry.measurements);
+            if (telemetry.Context.GlobalPropertiesValue != null)
+            {
+                Utils.CopyDictionary(telemetry.Context.GlobalProperties, flatTelemetry.properties);
+            }
+
+            if (telemetry.Extension != null)
+            {
+                DictionarySerializationWriter extensionSerializationWriter = new DictionarySerializationWriter();
+                telemetry.Extension.Serialize(extensionSerializationWriter); // Extension is supposed to be flattened as well
+                Utils.CopyDictionary(extensionSerializationWriter.AccumulatedDictionary, flatTelemetry.properties);
+                Utils.CopyDictionary(extensionSerializationWriter.AccumulatedMeasurements, flatTelemetry.measurements);
+            }
+
+            return flatTelemetry;
+        }
+
+        /// <summary>
+        /// Inspect if <see cref="ITelemetry"/> Properties contains 'DeveloperMode' and return it's boolean value.
+        /// </summary>
+        private static bool IsDeveloperMode(this ITelemetry telemetry)
+        {
+            if (telemetry is ISupportProperties telemetryWithProperties
+                && telemetryWithProperties != null
+                && telemetryWithProperties.Properties.TryGetValue("DeveloperMode", out string devModeProperty)
+                && bool.TryParse(devModeProperty, out bool isDevMode))
+            {
+                return isDevMode;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Normalize instrumentation key by removing dashes ('-') and making string in the lowercase.
+        /// In case no InstrumentationKey is available just return empty string.
+        /// In case when InstrumentationKey is available return normalized key + dot ('.')
+        /// as a separator between instrumentation key part and telemetry name part.
+        /// </summary>
+        [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "Implementation expects lower case")]
+        private static string NormalizeInstrumentationKey(string instrumentationKey)
+        {
+            if (instrumentationKey.IsNullOrWhiteSpace())
+            {
+                return string.Empty;
+            }
+
+            return instrumentationKey.Replace("-", string.Empty).ToLowerInvariant() + ".";
+        }
+    }
+}
+
+---- Transformed Tree ----
+-
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+
+######################################################################
+
+
+######################################################################
+Nr: 2 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\OperationCorrelationTelemetryInitializer.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+namespace Microsoft.ApplicationInsights.Extensibility
+{
+    using System;
+    using System.Diagnostics;
+
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.Channel;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation;
+
+    /// <summary>
+    /// Telemetry initializer that populates OperationContext for the telemetry item from Activity.
+    /// This initializer is responsible for correlation of telemetry items within the same process.
+    /// </summary>
+    public class OperationCorrelationTelemetryInitializer : ITelemetryInitializer
+    {
+        private const string TracestatePropertyKey = "tracestate";
+
+        /// <summary>
+        /// Initializes/Adds operation context to the existing telemetry item.
+        /// </summary>
+        /// <param name="telemetryItem">Target telemetry item to add operation context.</param>
+        public void Initialize(ITelemetry telemetryItem)
+        {
+            if (telemetryItem == null)
+            {
+                throw new ArgumentNullException(nameof(telemetryItem));
+            }
+
+            var itemOperationContext = telemetryItem.Context.Operation;
+            var telemetryProp = telemetryItem as ISupportProperties;            
+
+            bool isActivityAvailable = false;
+            isActivityAvailable = ActivityExtensions.TryRun(() =>
+            {
+                var currentActivity = Activity.Current;
+                if (currentActivity != null)
+                {
+                    // we are going to set tracestate property on requests and dependencies only
+                    if (currentActivity.IdFormat == ActivityIdFormat.W3C &&
+                        !string.IsNullOrEmpty(currentActivity.TraceStateString) &&
+                        telemetryItem is OperationTelemetry &&
+                        telemetryProp != null &&
+                        !telemetryProp.Properties.ContainsKey(TracestatePropertyKey))
+                    {
+                        telemetryProp.Properties.Add(TracestatePropertyKey, currentActivity.TraceStateString);
+                    }
+
+                    // update proactive sampling decision if Activity is recorded
+                    // sampling processor may change the decision
+                    if (currentActivity.Recorded &&
+                        telemetryItem is ISupportAdvancedSampling supportSamplingTelemetry &&
+                        supportSamplingTelemetry.ProactiveSamplingDecision == SamplingDecision.None)
+                    {
+                        supportSamplingTelemetry.ProactiveSamplingDecision = SamplingDecision.SampledIn;
+                    }
+
+                    if (string.IsNullOrEmpty(itemOperationContext.Id))
+                    {
+                        if (currentActivity.IdFormat == ActivityIdFormat.W3C)
+                        {
+                            // Set OperationID to Activity.TraceId
+                            // itemOperationContext.Id = currentActivity.RootId; // check if this can be used
+                            itemOperationContext.Id = currentActivity.TraceId.ToHexString();
+
+                            if (string.IsNullOrEmpty(itemOperationContext.ParentId))
+                            {
+                                itemOperationContext.ParentId = currentActivity.SpanId.ToHexString();
+                            }
+                        }
+                        else
+                        {
+                            itemOperationContext.Id = currentActivity.RootId;
+
+                            if (string.IsNullOrEmpty(itemOperationContext.ParentId))
+                            {
+                                itemOperationContext.ParentId = currentActivity.Id;
+                            }
+                        }
+
+                        foreach (var baggage in currentActivity.Baggage)
+                        {
+                            if (telemetryProp != null && !telemetryProp.Properties.ContainsKey(baggage.Key))
+                            {
+                                telemetryProp.Properties.Add(baggage);
+                            }
+                        }
+
+                        if (string.IsNullOrEmpty(itemOperationContext.Name))
+                        {
+                            string operationName = currentActivity.GetOperationName();
+                            if (!string.IsNullOrEmpty(operationName))
+                            {
+                                itemOperationContext.Name = operationName;
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (!isActivityAvailable)
+            {
+                if (string.IsNullOrEmpty(itemOperationContext.ParentId) || string.IsNullOrEmpty(itemOperationContext.Id) || string.IsNullOrEmpty(itemOperationContext.Name))
+                {
+                    var parentContext = CallContextHelpers.GetCurrentOperationContext();
+                    if (parentContext != null)
+                    {
+                        if (string.IsNullOrEmpty(itemOperationContext.ParentId)
+                            && !string.IsNullOrEmpty(parentContext.ParentOperationId))
+                        {
+                            itemOperationContext.ParentId = parentContext.ParentOperationId;
+                        }
+
+                        if (string.IsNullOrEmpty(itemOperationContext.Id)
+                            && !string.IsNullOrEmpty(parentContext.RootOperationId))
+                        {
+                            itemOperationContext.Id = parentContext.RootOperationId;
+                        }
+
+                        if (string.IsNullOrEmpty(itemOperationContext.Name)
+                            && !string.IsNullOrEmpty(parentContext.RootOperationName))
+                        {
+                            itemOperationContext.Name = parentContext.RootOperationName;
+                        }
+
+                        if (parentContext.CorrelationContext != null)
+                        {
+                            foreach (var item in parentContext.CorrelationContext)
+                            {
+                                if (telemetryProp != null && !telemetryProp.Properties.ContainsKey(item.Key))
+                                {
+                                    telemetryProp.Properties.Add(item);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+---- Transformed Tree ----
+namespace Microsoft.ApplicationInsights.Extensibility
+{
+    using System;
+    using System.Diagnostics;
+
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.Channel;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation;
+
+    /// <summary>
+    /// Telemetry initializer that populates OperationContext for the telemetry item from Activity.
+    /// This initializer is responsible for correlation of telemetry items within the same process.
+    /// </summary>
+    public class OperationCorrelationTelemetryInitializer : ITelemetryInitializer
+    {
+        private const string TracestatePropertyKey = "tracestate";
+
+        /// <summary>
+        /// Initializes/Adds operation context to the existing telemetry item.
+        /// </summary>
+        /// <param name="telemetryItem">Target telemetry item to add operation context.</param>
+        public void Initialize(ITelemetry telemetryItem)
+        {
+            if (telemetryItem == null)
+            {
+                throw new ArgumentNullException(nameof(telemetryItem));
+            }
+
+            var itemOperationContext = telemetryItem.Context.Operation;
+
+            bool isActivityAvailable = false;
+            isActivityAvailable = ActivityExtensions.TryRun(() =>
+            {
+                var currentActivity = Activity.Current;
+                if (currentActivity != null)
+                {
+                    // we are going to set tracestate property on requests and dependencies only
+                    if (currentActivity.IdFormat == ActivityIdFormat.W3C &&
+                        !string.IsNullOrEmpty(currentActivity.TraceStateString) &&
+                        telemetryItem is OperationTelemetry &&
+                        telemetryItem is ISupportProperties telemetryProp &&
+                        !telemetryProp.Properties.ContainsKey(TracestatePropertyKey))
+                    {
+                        telemetryProp.Properties.Add(TracestatePropertyKey, currentActivity.TraceStateString);
+                    }
+
+                    // update proactive sampling decision if Activity is recorded
+                    // sampling processor may change the decision
+                    if (currentActivity.Recorded &&
+                        telemetryItem is ISupportAdvancedSampling supportSamplingTelemetry &&
+                        supportSamplingTelemetry.ProactiveSamplingDecision == SamplingDecision.None)
+                    {
+                        supportSamplingTelemetry.ProactiveSamplingDecision = SamplingDecision.SampledIn;
+                    }
+
+                    if (string.IsNullOrEmpty(itemOperationContext.Id))
+                    {
+                        if (currentActivity.IdFormat == ActivityIdFormat.W3C)
+                        {
+                            // Set OperationID to Activity.TraceId
+                            // itemOperationContext.Id = currentActivity.RootId; // check if this can be used
+                            itemOperationContext.Id = currentActivity.TraceId.ToHexString();
+
+                            if (string.IsNullOrEmpty(itemOperationContext.ParentId))
+                            {
+                                itemOperationContext.ParentId = currentActivity.SpanId.ToHexString();
+                            }
+                        }
+                        else
+                        {
+                            itemOperationContext.Id = currentActivity.RootId;
+
+                            if (string.IsNullOrEmpty(itemOperationContext.ParentId))
+                            {
+                                itemOperationContext.ParentId = currentActivity.Id;
+                            }
+                        }
+
+                        foreach (var baggage in currentActivity.Baggage)
+                        {
+                            if (telemetryItem is ISupportProperties telemetryProp && !telemetryProp.Properties.ContainsKey(baggage.Key))
+                            {
+                                telemetryProp.Properties.Add(baggage);
+                            }
+                        }
+
+                        if (string.IsNullOrEmpty(itemOperationContext.Name))
+                        {
+                            string operationName = currentActivity.GetOperationName();
+                            if (!string.IsNullOrEmpty(operationName))
+                            {
+                                itemOperationContext.Name = operationName;
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (!isActivityAvailable)
+            {
+                if (string.IsNullOrEmpty(itemOperationContext.ParentId) || string.IsNullOrEmpty(itemOperationContext.Id) || string.IsNullOrEmpty(itemOperationContext.Name))
+                {
+                    var parentContext = CallContextHelpers.GetCurrentOperationContext();
+                    if (parentContext != null)
+                    {
+                        if (string.IsNullOrEmpty(itemOperationContext.ParentId)
+                            && !string.IsNullOrEmpty(parentContext.ParentOperationId))
+                        {
+                            itemOperationContext.ParentId = parentContext.ParentOperationId;
+                        }
+
+                        if (string.IsNullOrEmpty(itemOperationContext.Id)
+                            && !string.IsNullOrEmpty(parentContext.RootOperationId))
+                        {
+                            itemOperationContext.Id = parentContext.RootOperationId;
+                        }
+
+                        if (string.IsNullOrEmpty(itemOperationContext.Name)
+                            && !string.IsNullOrEmpty(parentContext.RootOperationName))
+                        {
+                            itemOperationContext.Name = parentContext.RootOperationName;
+                        }
+
+                        if (parentContext.CorrelationContext != null)
+                        {
+                            foreach (var item in parentContext.CorrelationContext)
+                            {
+                                if (telemetryItem is ISupportProperties telemetryProp && !telemetryProp.Properties.ContainsKey(item.Key))
+                                {
+                                    telemetryProp.Properties.Add(item);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\BASE\src\Microsoft.ApplicationInsights\Extensibility\OperationCorrelationTelemetryInitializer.cs(82,69): error CS0136: A local or parameter named 'telemetryProp' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
+######################################################################
+
+
+######################################################################
+Nr: 3 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\HttpProcessing.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
+    using System.Net;
+
+    using Microsoft.ApplicationInsights.Common;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation.Tracing;
+
+    /// <summary>
+    /// Concrete class with all processing logic to generate RDD data from the callbacks
+    /// received from Profiler instrumentation for HTTP or HTTP EventSource/DiagnosticSource events.   
+    /// </summary>
+    internal abstract class HttpProcessing
+    {
+        protected TelemetryClient telemetryClient;
+        private readonly ApplicationInsightsUrlFilter applicationInsightsUrlFilter;
+        private readonly TelemetryConfiguration configuration;
+        private readonly ICollection<string> correlationDomainExclusionList;
+        private readonly bool setCorrelationHeaders;
+        private readonly bool injectLegacyHeaders;
+        private readonly bool injectRequestIdInW3CMode;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpProcessing"/> class.
+        /// </summary>
+        protected HttpProcessing(TelemetryConfiguration configuration,
+            string sdkVersion, 
+            string agentVersion, 
+            bool setCorrelationHeaders, 
+            ICollection<string> correlationDomainExclusionList, 
+            bool injectLegacyHeaders,
+            bool injectRequestIdInW3CMode)
+        {
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.applicationInsightsUrlFilter = new ApplicationInsightsUrlFilter(configuration);
+            this.telemetryClient = new TelemetryClient(configuration);
+
+            this.correlationDomainExclusionList = correlationDomainExclusionList ?? throw new ArgumentNullException(nameof(correlationDomainExclusionList));
+            this.setCorrelationHeaders = setCorrelationHeaders;
+
+            this.telemetryClient.Context.GetInternalContext().SdkVersion = sdkVersion;
+            if (!string.IsNullOrEmpty(agentVersion))
+            {
+                this.telemetryClient.Context.GetInternalContext().AgentVersion = agentVersion;
+            }
+
+            this.injectLegacyHeaders = injectLegacyHeaders;
+            this.injectRequestIdInW3CMode = injectRequestIdInW3CMode;
+        }
+
+        /// <summary>
+        /// Gets HTTP request url.
+        /// </summary>
+        /// <param name="webRequest">Represents web request.</param>
+        /// <returns>The url if possible otherwise empty string.</returns>
+        internal static Uri GetUrl(WebRequest webRequest)
+        {
+            Uri resource = null;
+            if (webRequest?.RequestUri != null)
+            {
+                resource = webRequest.RequestUri;
+            }
+
+            return resource;
+        }
+        
+        /// <summary>
+        /// Common helper for all Begin Callbacks.
+        /// </summary>
+        /// <param name="thisObj">This object.</param>
+        /// <param name="injectCorrelationHeaders">Flag that enables Request-Id and Correlation-Context headers injection.
+        /// Should be set to true only for profiler and old versions of DiagnosticSource Http hook events.</param>
+        /// <returns>Null object as all context is maintained in this class via weak tables.</returns>
+        internal object OnBegin(object thisObj, bool injectCorrelationHeaders = true)
+        {
+            try
+            {
+                if (thisObj == null)
+                {
+                    DependencyCollectorEventSource.Log.NotExpectedCallback(0, "OnBeginHttp", "thisObj == null");
+                    return null;
+                }
+
+                WebRequest webRequest = thisObj as WebRequest;
+                if (webRequest == null)
+                {
+                    DependencyCollectorEventSource.Log.UnexpectedCallbackParameter("WebRequest");
+                }
+
+                var url = GetUrl(webRequest);
+                if (url == null)
+                {
+                    DependencyCollectorEventSource.Log.NotExpectedCallback(thisObj.GetHashCode(), "OnBeginHttp",
+                        "resourceName is empty");
+                    return null;
+                }
+
+                string httpMethod = webRequest.Method;
+                string resourceName = url.AbsolutePath;
+
+                if (!string.IsNullOrEmpty(httpMethod))
+                {
+                    resourceName = httpMethod + " " + resourceName;
+                }
+
+                DependencyCollectorEventSource.Log.BeginCallbackCalled(thisObj.GetHashCode(), resourceName);
+
+                if (this.applicationInsightsUrlFilter.IsApplicationInsightsUrl(url))
+                {
+                    // Not logging as we will be logging for all outbound AI calls
+                    return null;
+                }
+
+                if (webRequest.Headers[W3C.W3CConstants.TraceParentHeader] != null && Activity.DefaultIdFormat == ActivityIdFormat.W3C)
+                {
+                    DependencyCollectorEventSource.Log.HttpRequestAlreadyInstrumented();
+                    return null;
+                }
+
+                // If the object already exists, don't add again. This happens because either GetResponse or GetRequestStream could
+                // be the starting point for the outbound call.
+                DependencyTelemetry telemetry = null;
+                var telemetryTuple = this.GetTupleForWebDependencies(webRequest);
+                if (telemetryTuple?.Item1 != null)
+                {
+                    DependencyCollectorEventSource.Log.TrackingAnExistingTelemetryItemVerbose();
+                    return null;
+                }
+
+                // Create and initialize a new telemetry object
+                telemetry = ClientServerDependencyTracker.BeginTracking(this.telemetryClient);
+
+                this.AddTupleForWebDependencies(webRequest, telemetry, false);
+
+                if (string.IsNullOrEmpty(telemetry.Context.InstrumentationKey))
+                {
+                    // Instrumentation key is probably empty, because the context has not yet had a chance to associate the requestTelemetry to the telemetry client yet.
+                    // and get they instrumentation key from all possible sources in the process. Let's do that now.
+                    this.telemetryClient.InitializeInstrumentationKey(telemetry);
+                }
+
+                telemetry.Name = resourceName;
+                telemetry.Target = DependencyTargetNameHelper.GetDependencyTargetName(url);
+                telemetry.Type = RemoteDependencyConstants.HTTP;
+                telemetry.Data = url.OriginalString;
+                telemetry.SetOperationDetail(RemoteDependencyConstants.HttpRequestOperationDetailName, webRequest);
+
+                Activity currentActivity = Activity.Current;
+                // Add the source instrumentation key header if collection is enabled, the request host is not in the excluded list and the same header doesn't already exist
+                if (this.setCorrelationHeaders && !this.correlationDomainExclusionList.Contains(url.Host))
+                {
+                    string applicationId = null;
+                    try
+                    {
+                        if (!string.IsNullOrEmpty(telemetry.Context.InstrumentationKey)
+                            && webRequest.Headers.GetNameValueHeaderValue(RequestResponseHeaders.RequestContextHeader,
+                                RequestResponseHeaders.RequestContextCorrelationSourceKey) == null
+                            && (this.configuration.ApplicationIdProvider?.TryGetApplicationId(
+                                    telemetry.Context.InstrumentationKey, out applicationId) ?? false))
+                        {
+                            webRequest.Headers.SetNameValueHeaderValue(RequestResponseHeaders.RequestContextHeader,
+                                RequestResponseHeaders.RequestContextCorrelationSourceKey, applicationId);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        AppMapCorrelationEventSource.Log.SetCrossComponentCorrelationHeaderFailed(
+                            ex.ToInvariantString());
+                    }
+
+                    if (this.injectLegacyHeaders)
+                    {
+                        // Add the root ID
+                        var rootId = telemetry.Context.Operation.Id;
+                        if (!string.IsNullOrEmpty(rootId) &&
+                            webRequest.Headers[RequestResponseHeaders.StandardRootIdHeader] == null)
+                        {
+                            webRequest.Headers.Add(RequestResponseHeaders.StandardRootIdHeader, rootId);
+                        }
+
+                        // Add the parent ID
+                        var parentId = telemetry.Id;
+                        if (!string.IsNullOrEmpty(parentId))
+                        {
+                            if (webRequest.Headers[RequestResponseHeaders.StandardParentIdHeader] == null)
+                            {
+                                webRequest.Headers.Add(RequestResponseHeaders.StandardParentIdHeader, parentId);
+                            }
+                        }
+                    }
+
+                    if (currentActivity != null)
+                    {
+                        // ApplicationInsights only needs to inject W3C, potentially Request-Id and Correlation-Context
+                        // headers for profiler instrumentation.
+                        // in case of Http Desktop DiagnosticSourceListener they are injected in
+                        // DiagnosticSource (with the System.Net.Http.Desktop.HttpRequestOut.Start event)
+                        if (injectCorrelationHeaders)
+                        {
+                            if (currentActivity.IdFormat == ActivityIdFormat.W3C)
+                            {
+                                if (webRequest.Headers[W3C.W3CConstants.TraceParentHeader] == null)
+                                {
+                                    webRequest.Headers.Add(W3C.W3CConstants.TraceParentHeader, currentActivity.Id);
+                                }
+
+                                if (webRequest.Headers[W3C.W3CConstants.TraceStateHeader] == null &&
+                                    !string.IsNullOrEmpty(currentActivity.TraceStateString))
+                                {
+                                    webRequest.Headers.Add(W3C.W3CConstants.TraceStateHeader,
+                                        currentActivity.TraceStateString);
+                                }
+                            }
+                            else
+                            {
+                                // Request-Id format
+                                if (webRequest.Headers[RequestResponseHeaders.RequestIdHeader] == null)
+                                {
+                                    webRequest.Headers.Add(RequestResponseHeaders.RequestIdHeader, telemetry.Id);
+                                }
+                            }
+
+                            InjectCorrelationContext(webRequest.Headers, currentActivity);
+                        }
+                    }
+                }
+
+                // Active bug in .NET Fx diagnostics hook: https://github.com/dotnet/corefx/pull/40777
+                // Application Insights has to inject Request-Id to work it around
+                if (currentActivity?.IdFormat == ActivityIdFormat.W3C)
+                {
+                    // if (this.injectRequestIdInW3CMode)
+                    {
+                        if (webRequest.Headers[RequestResponseHeaders.RequestIdHeader] == null)
+                        {
+                            webRequest.Headers.Add(RequestResponseHeaders.RequestIdHeader, string.Concat('|', telemetry.Context.Operation.Id, '.', telemetry.Id, '.'));
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                DependencyCollectorEventSource.Log.CallbackError(thisObj == null ? 0 : thisObj.GetHashCode(),
+                    "OnBeginHttp", exception);
+            }
+            finally
+            {
+                Activity current = Activity.Current;
+                if (current?.OperationName == ClientServerDependencyTracker.DependencyActivityName)
+                {
+                    current.Stop();
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Common helper for all End Callbacks.
+        /// </summary>
+        /// <param name="request">The HttpWebRequest instance.</param>
+        /// <param name="response">The HttpWebResponse instance.</param>
+        internal void OnEndResponse(object request, object response)
+        {
+            try
+            {
+                if (this.TryGetPendingTelemetry(request, out DependencyTelemetry telemetry))
+                {
+                    if (response is HttpWebResponse responseObj)
+                    {
+                        int statusCode = -1;
+
+                        try
+                        {
+                            statusCode = (int)responseObj.StatusCode;
+                            this.SetTarget(telemetry, responseObj.Headers);
+
+                            // Set the operation details for the response
+                            telemetry.SetOperationDetail(RemoteDependencyConstants.HttpResponseOperationDetailName, responseObj);
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // ObjectDisposedException is expected here in the following sequence: httpWebRequest.GetResponse().Dispose() -> httpWebRequest.GetResponse()
+                            // on the second call to GetResponse() we cannot determine the statusCode.
+                        }
+
+                        SetStatusCode(telemetry, statusCode);
+                    }
+
+                    ClientServerDependencyTracker.EndTracking(this.telemetryClient, telemetry);
+                }
+            }
+            catch (Exception ex)
+            {
+                DependencyCollectorEventSource.Log.CallbackError(request == null ? 0 : request.GetHashCode(), "OnEndResponse", ex);
+            }
+        }
+
+        /// <summary>
+        /// Common helper for all End Callbacks.
+        /// </summary>
+        /// <param name="exception">The exception object if any.</param>
+        /// <param name="request">HttpWebRequest instance.</param>
+        internal void OnEndException(object exception, object request)
+        {
+            try
+            {
+                if (this.TryGetPendingTelemetry(request, out DependencyTelemetry telemetry))
+                {
+                    var webException = exception as WebException;
+
+                    if (webException?.Response is HttpWebResponse responseObj)
+                    {
+                        int statusCode = -1;
+
+                        try
+                        {
+                            statusCode = (int)responseObj.StatusCode;
+                            this.SetTarget(telemetry, responseObj.Headers);
+
+                            // Set the operation details for the response
+                            telemetry.SetOperationDetail(RemoteDependencyConstants.HttpResponseOperationDetailName, responseObj);
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // ObjectDisposedException is expected here in the following sequence: httpWebRequest.GetResponse().Dispose() -> httpWebRequest.GetResponse()
+                            // on the second call to GetResponse() we cannot determine the statusCode.
+                        }
+
+                        SetStatusCode(telemetry, statusCode);
+                    }
+                    else if (exception != null)
+                    {
+                        if (webException != null)
+                        {
+                            telemetry.ResultCode = webException.Status.ToString();
+                        }
+
+                        telemetry.Success = false;
+                    }
+
+                    ClientServerDependencyTracker.EndTracking(this.telemetryClient, telemetry);
+                }
+            }
+            catch (Exception ex)
+            {
+                DependencyCollectorEventSource.Log.CallbackError(request == null ? 0 : request.GetHashCode(), "OnEndException", ex);
+            }
+        }
+
+        /// <summary>
+        /// Common helper for all End Callbacks.
+        /// </summary>
+        /// <param name="request">WebRequest object.</param>
+        /// <param name="statusCode">HttpStatusCode from response.</param>
+        /// <param name="responseHeaders">Response headers.</param>
+        internal void OnEndResponse(object request, object statusCode, object responseHeaders)
+        {
+            try
+            {
+                if (this.TryGetPendingTelemetry(request, out DependencyTelemetry telemetry))
+                {
+                    if (statusCode != null)
+                    {
+                        SetStatusCode(telemetry, (int)statusCode);
+                    }
+
+                    this.SetTarget(telemetry, (WebHeaderCollection)responseHeaders);
+
+                    telemetry.SetOperationDetail(RemoteDependencyConstants.HttpResponseHeadersOperationDetailName, responseHeaders);
+
+                    ClientServerDependencyTracker.EndTracking(this.telemetryClient, telemetry);
+                }
+            }
+            catch (Exception ex)
+            {
+                DependencyCollectorEventSource.Log.CallbackError(request == null ? 0 : request.GetHashCode(), "OnEndResponse", ex);
+            }
+        }
+
+        /// <summary>
+        /// Implemented by the derived class for adding the tuple to its specific cache.
+        /// </summary>
+        /// <param name="webRequest">The request which acts the key.</param>
+        /// <param name="telemetry">The dependency telemetry for the tuple.</param>
+        /// <param name="isCustomCreated">Boolean value that tells if the current telemetry item is being added by the customer or not.</param>
+        protected abstract void AddTupleForWebDependencies(WebRequest webRequest, DependencyTelemetry telemetry, bool isCustomCreated);
+
+        /// <summary>
+        /// Implemented by the derived class for getting the tuple from its specific cache.
+        /// </summary>
+        /// <param name="webRequest">The request which acts as the key.</param>
+        /// <returns>The tuple for the given request.</returns>
+        protected abstract Tuple<DependencyTelemetry, bool> GetTupleForWebDependencies(WebRequest webRequest);
+
+        /// <summary>
+        /// Implemented by the derived class for removing the tuple from its specific cache.
+        /// </summary>
+        /// <param name="webRequest">The request which acts as the key.</param>
+        protected abstract void RemoveTupleForWebDependencies(WebRequest webRequest);
+
+        private static void InjectCorrelationContext(WebHeaderCollection requestHeaders, Activity activity)
+        {
+            if (requestHeaders[RequestResponseHeaders.CorrelationContextHeader] == null && activity.Baggage.Any())
+            {
+                requestHeaders.SetHeaderFromNameValueCollection(RequestResponseHeaders.CorrelationContextHeader, activity.Baggage);
+            }
+        }
+
+        private static void SetStatusCode(DependencyTelemetry telemetry, int statusCode)
+        {
+            telemetry.ResultCode = statusCode > 0 ? statusCode.ToString(CultureInfo.InvariantCulture) : string.Empty;
+            telemetry.Success = (statusCode > 0) && (statusCode < 400);
+        }
+
+        private bool TryGetPendingTelemetry(object request, out DependencyTelemetry telemetry)
+        {
+            telemetry = null;
+            if (request == null)
+            {
+                DependencyCollectorEventSource.Log.NotExpectedCallback(0, "OnBeginHttp", "request == null");
+                return false;
+            }
+
+            DependencyCollectorEventSource.Log.EndCallbackCalled(request.GetHashCode()
+                .ToString(CultureInfo.InvariantCulture));
+
+            WebRequest webRequest = request as WebRequest;
+            if (webRequest == null)
+            {
+                DependencyCollectorEventSource.Log.UnexpectedCallbackParameter("WebRequest");
+                return false;
+            }
+
+            var telemetryTuple = this.GetTupleForWebDependencies(webRequest);
+            if (telemetryTuple == null)
+            {
+                DependencyCollectorEventSource.Log.EndCallbackWithNoBegin(request.GetHashCode()
+                    .ToString(CultureInfo.InvariantCulture));
+                return false;
+            }
+
+            if (telemetryTuple.Item1 == null)
+            {
+                DependencyCollectorEventSource.Log.EndCallbackWithNoBegin(request.GetHashCode()
+                    .ToString(CultureInfo.InvariantCulture));
+                return false;
+            }
+
+            // Not custom created
+            if (!telemetryTuple.Item2)
+            {
+                telemetry = telemetryTuple.Item1;
+                this.RemoveTupleForWebDependencies(webRequest);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void SetTarget(DependencyTelemetry telemetry, WebHeaderCollection responseHeaders)
+        {
+            if (responseHeaders != null)
+            {
+                string targetAppId = null;
+
+                try
+                {
+                    targetAppId = responseHeaders.GetNameValueHeaderValue(
+                        RequestResponseHeaders.RequestContextHeader, 
+                        RequestResponseHeaders.RequestContextCorrelationTargetKey);
+                }
+                catch (Exception ex)
+                {
+                    AppMapCorrelationEventSource.Log.GetCrossComponentCorrelationHeaderFailed(ex.ToInvariantString());
+                }
+
+                string currentComponentAppId = null;
+                if (this.configuration.ApplicationIdProvider?.TryGetApplicationId(telemetry.Context.InstrumentationKey, out currentComponentAppId) ?? false)
+                {
+                    // We only add the cross component correlation key if the key does not remain the current component.
+                    if (!string.IsNullOrEmpty(targetAppId) && targetAppId != currentComponentAppId)
+                    {
+                        telemetry.Type = RemoteDependencyConstants.AI;
+                        telemetry.Target += " | " + targetAppId;
+                    }
+                }
+            }
+        }
+    }
+}
+#endif
+---- Transformed Tree ----
+namespace Microsoft.ApplicationInsights.DependencyCollector.Implementation
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
+    using System.Net;
+
+    using Microsoft.ApplicationInsights.Common;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation.Tracing;
+
+    /// <summary>
+    /// Concrete class with all processing logic to generate RDD data from the callbacks
+    /// received from Profiler instrumentation for HTTP or HTTP EventSource/DiagnosticSource events.   
+    /// </summary>
+    internal abstract class HttpProcessing
+    {
+        protected TelemetryClient telemetryClient;
+        private readonly ApplicationInsightsUrlFilter applicationInsightsUrlFilter;
+        private readonly TelemetryConfiguration configuration;
+        private readonly ICollection<string> correlationDomainExclusionList;
+        private readonly bool setCorrelationHeaders;
+        private readonly bool injectLegacyHeaders;
+        private readonly bool injectRequestIdInW3CMode;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpProcessing"/> class.
+        /// </summary>
+        protected HttpProcessing(TelemetryConfiguration configuration,
+            string sdkVersion, 
+            string agentVersion, 
+            bool setCorrelationHeaders, 
+            ICollection<string> correlationDomainExclusionList, 
+            bool injectLegacyHeaders,
+            bool injectRequestIdInW3CMode)
+        {
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.applicationInsightsUrlFilter = new ApplicationInsightsUrlFilter(configuration);
+            this.telemetryClient = new TelemetryClient(configuration);
+
+            this.correlationDomainExclusionList = correlationDomainExclusionList ?? throw new ArgumentNullException(nameof(correlationDomainExclusionList));
+            this.setCorrelationHeaders = setCorrelationHeaders;
+
+            this.telemetryClient.Context.GetInternalContext().SdkVersion = sdkVersion;
+            if (!string.IsNullOrEmpty(agentVersion))
+            {
+                this.telemetryClient.Context.GetInternalContext().AgentVersion = agentVersion;
+            }
+
+            this.injectLegacyHeaders = injectLegacyHeaders;
+            this.injectRequestIdInW3CMode = injectRequestIdInW3CMode;
+        }
+
+        /// <summary>
+        /// Gets HTTP request url.
+        /// </summary>
+        /// <param name="webRequest">Represents web request.</param>
+        /// <returns>The url if possible otherwise empty string.</returns>
+        internal static Uri GetUrl(WebRequest webRequest)
+        {
+            Uri resource = null;
+            if (webRequest?.RequestUri != null)
+            {
+                resource = webRequest.RequestUri;
+            }
+
+            return resource;
+        }
+        
+        /// <summary>
+        /// Common helper for all Begin Callbacks.
+        /// </summary>
+        /// <param name="thisObj">This object.</param>
+        /// <param name="injectCorrelationHeaders">Flag that enables Request-Id and Correlation-Context headers injection.
+        /// Should be set to true only for profiler and old versions of DiagnosticSource Http hook events.</param>
+        /// <returns>Null object as all context is maintained in this class via weak tables.</returns>
+        internal object OnBegin(object thisObj, bool injectCorrelationHeaders = true)
+        {
+            try
+            {
+                if (thisObj == null)
+                {
+                    DependencyCollectorEventSource.Log.NotExpectedCallback(0, "OnBeginHttp", "thisObj == null");
+                    return null;
+                }
+
+                WebRequest webRequest = thisObj as WebRequest;
+                if (webRequest == null)
+                {
+                    DependencyCollectorEventSource.Log.UnexpectedCallbackParameter("WebRequest");
+                }
+
+                var url = GetUrl(webRequest);
+                if (url == null)
+                {
+                    DependencyCollectorEventSource.Log.NotExpectedCallback(thisObj.GetHashCode(), "OnBeginHttp",
+                        "resourceName is empty");
+                    return null;
+                }
+
+                string httpMethod = webRequest.Method;
+                string resourceName = url.AbsolutePath;
+
+                if (!string.IsNullOrEmpty(httpMethod))
+                {
+                    resourceName = httpMethod + " " + resourceName;
+                }
+
+                DependencyCollectorEventSource.Log.BeginCallbackCalled(thisObj.GetHashCode(), resourceName);
+
+                if (this.applicationInsightsUrlFilter.IsApplicationInsightsUrl(url))
+                {
+                    // Not logging as we will be logging for all outbound AI calls
+                    return null;
+                }
+
+                if (webRequest.Headers[W3C.W3CConstants.TraceParentHeader] != null && Activity.DefaultIdFormat == ActivityIdFormat.W3C)
+                {
+                    DependencyCollectorEventSource.Log.HttpRequestAlreadyInstrumented();
+                    return null;
+                }
+
+                // If the object already exists, don't add again. This happens because either GetResponse or GetRequestStream could
+                // be the starting point for the outbound call.
+                DependencyTelemetry telemetry = null;
+                var telemetryTuple = this.GetTupleForWebDependencies(webRequest);
+                if (telemetryTuple?.Item1 != null)
+                {
+                    DependencyCollectorEventSource.Log.TrackingAnExistingTelemetryItemVerbose();
+                    return null;
+                }
+
+                // Create and initialize a new telemetry object
+                telemetry = ClientServerDependencyTracker.BeginTracking(this.telemetryClient);
+
+                this.AddTupleForWebDependencies(webRequest, telemetry, false);
+
+                if (string.IsNullOrEmpty(telemetry.Context.InstrumentationKey))
+                {
+                    // Instrumentation key is probably empty, because the context has not yet had a chance to associate the requestTelemetry to the telemetry client yet.
+                    // and get they instrumentation key from all possible sources in the process. Let's do that now.
+                    this.telemetryClient.InitializeInstrumentationKey(telemetry);
+                }
+
+                telemetry.Name = resourceName;
+                telemetry.Target = DependencyTargetNameHelper.GetDependencyTargetName(url);
+                telemetry.Type = RemoteDependencyConstants.HTTP;
+                telemetry.Data = url.OriginalString;
+                telemetry.SetOperationDetail(RemoteDependencyConstants.HttpRequestOperationDetailName, webRequest);
+
+                Activity currentActivity = Activity.Current;
+                // Add the source instrumentation key header if collection is enabled, the request host is not in the excluded list and the same header doesn't already exist
+                if (this.setCorrelationHeaders && !this.correlationDomainExclusionList.Contains(url.Host))
+                {
+                    string applicationId = null;
+                    try
+                    {
+                        if (!string.IsNullOrEmpty(telemetry.Context.InstrumentationKey)
+                            && webRequest.Headers.GetNameValueHeaderValue(RequestResponseHeaders.RequestContextHeader,
+                                RequestResponseHeaders.RequestContextCorrelationSourceKey) == null
+                            && (this.configuration.ApplicationIdProvider?.TryGetApplicationId(
+                                    telemetry.Context.InstrumentationKey, out applicationId) ?? false))
+                        {
+                            webRequest.Headers.SetNameValueHeaderValue(RequestResponseHeaders.RequestContextHeader,
+                                RequestResponseHeaders.RequestContextCorrelationSourceKey, applicationId);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        AppMapCorrelationEventSource.Log.SetCrossComponentCorrelationHeaderFailed(
+                            ex.ToInvariantString());
+                    }
+
+                    if (this.injectLegacyHeaders)
+                    {
+                        // Add the root ID
+                        var rootId = telemetry.Context.Operation.Id;
+                        if (!string.IsNullOrEmpty(rootId) &&
+                            webRequest.Headers[RequestResponseHeaders.StandardRootIdHeader] == null)
+                        {
+                            webRequest.Headers.Add(RequestResponseHeaders.StandardRootIdHeader, rootId);
+                        }
+
+                        // Add the parent ID
+                        var parentId = telemetry.Id;
+                        if (!string.IsNullOrEmpty(parentId))
+                        {
+                            if (webRequest.Headers[RequestResponseHeaders.StandardParentIdHeader] == null)
+                            {
+                                webRequest.Headers.Add(RequestResponseHeaders.StandardParentIdHeader, parentId);
+                            }
+                        }
+                    }
+
+                    if (currentActivity != null)
+                    {
+                        // ApplicationInsights only needs to inject W3C, potentially Request-Id and Correlation-Context
+                        // headers for profiler instrumentation.
+                        // in case of Http Desktop DiagnosticSourceListener they are injected in
+                        // DiagnosticSource (with the System.Net.Http.Desktop.HttpRequestOut.Start event)
+                        if (injectCorrelationHeaders)
+                        {
+                            if (currentActivity.IdFormat == ActivityIdFormat.W3C)
+                            {
+                                if (webRequest.Headers[W3C.W3CConstants.TraceParentHeader] == null)
+                                {
+                                    webRequest.Headers.Add(W3C.W3CConstants.TraceParentHeader, currentActivity.Id);
+                                }
+
+                                if (webRequest.Headers[W3C.W3CConstants.TraceStateHeader] == null &&
+                                    !string.IsNullOrEmpty(currentActivity.TraceStateString))
+                                {
+                                    webRequest.Headers.Add(W3C.W3CConstants.TraceStateHeader,
+                                        currentActivity.TraceStateString);
+                                }
+                            }
+                            else
+                            {
+                                // Request-Id format
+                                if (webRequest.Headers[RequestResponseHeaders.RequestIdHeader] == null)
+                                {
+                                    webRequest.Headers.Add(RequestResponseHeaders.RequestIdHeader, telemetry.Id);
+                                }
+                            }
+
+                            InjectCorrelationContext(webRequest.Headers, currentActivity);
+                        }
+                    }
+                }
+
+                // Active bug in .NET Fx diagnostics hook: https://github.com/dotnet/corefx/pull/40777
+                // Application Insights has to inject Request-Id to work it around
+                if (currentActivity?.IdFormat == ActivityIdFormat.W3C)
+                {
+                    // if (this.injectRequestIdInW3CMode)
+                    {
+                        if (webRequest.Headers[RequestResponseHeaders.RequestIdHeader] == null)
+                        {
+                            webRequest.Headers.Add(RequestResponseHeaders.RequestIdHeader, string.Concat('|', telemetry.Context.Operation.Id, '.', telemetry.Id, '.'));
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                DependencyCollectorEventSource.Log.CallbackError(thisObj == null ? 0 : thisObj.GetHashCode(),
+                    "OnBeginHttp", exception);
+            }
+            finally
+            {
+                Activity current = Activity.Current;
+                if (current?.OperationName == ClientServerDependencyTracker.DependencyActivityName)
+                {
+                    current.Stop();
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Common helper for all End Callbacks.
+        /// </summary>
+        /// <param name="request">The HttpWebRequest instance.</param>
+        /// <param name="response">The HttpWebResponse instance.</param>
+        internal void OnEndResponse(object request, object response)
+        {
+            try
+            {
+                if (this.TryGetPendingTelemetry(request, out DependencyTelemetry telemetry))
+                {
+                    if (response is HttpWebResponse responseObj)
+                    {
+                        int statusCode = -1;
+
+                        try
+                        {
+                            statusCode = (int)responseObj.StatusCode;
+                            this.SetTarget(telemetry, responseObj.Headers);
+
+                            // Set the operation details for the response
+                            telemetry.SetOperationDetail(RemoteDependencyConstants.HttpResponseOperationDetailName, responseObj);
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // ObjectDisposedException is expected here in the following sequence: httpWebRequest.GetResponse().Dispose() -> httpWebRequest.GetResponse()
+                            // on the second call to GetResponse() we cannot determine the statusCode.
+                        }
+
+                        SetStatusCode(telemetry, statusCode);
+                    }
+
+                    ClientServerDependencyTracker.EndTracking(this.telemetryClient, telemetry);
+                }
+            }
+            catch (Exception ex)
+            {
+                DependencyCollectorEventSource.Log.CallbackError(request == null ? 0 : request.GetHashCode(), "OnEndResponse", ex);
+            }
+        }
+
+        /// <summary>
+        /// Common helper for all End Callbacks.
+        /// </summary>
+        /// <param name="exception">The exception object if any.</param>
+        /// <param name="request">HttpWebRequest instance.</param>
+        internal void OnEndException(object exception, object request)
+        {
+            try
+            {
+                if (this.TryGetPendingTelemetry(request, out DependencyTelemetry telemetry))
+                {
+
+                    if (webException?.Response is HttpWebResponse responseObj)
+                    {
+                        int statusCode = -1;
+
+                        try
+                        {
+                            statusCode = (int)responseObj.StatusCode;
+                            this.SetTarget(telemetry, responseObj.Headers);
+
+                            // Set the operation details for the response
+                            telemetry.SetOperationDetail(RemoteDependencyConstants.HttpResponseOperationDetailName, responseObj);
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // ObjectDisposedException is expected here in the following sequence: httpWebRequest.GetResponse().Dispose() -> httpWebRequest.GetResponse()
+                            // on the second call to GetResponse() we cannot determine the statusCode.
+                        }
+
+                        SetStatusCode(telemetry, statusCode);
+                    }
+                    else if (exception != null)
+                    {
+                        if (exception is WebException webException)
+                        {
+                            telemetry.ResultCode = webException.Status.ToString();
+                        }
+
+                        telemetry.Success = false;
+                    }
+
+                    ClientServerDependencyTracker.EndTracking(this.telemetryClient, telemetry);
+                }
+            }
+            catch (Exception ex)
+            {
+                DependencyCollectorEventSource.Log.CallbackError(request == null ? 0 : request.GetHashCode(), "OnEndException", ex);
+            }
+        }
+
+        /// <summary>
+        /// Common helper for all End Callbacks.
+        /// </summary>
+        /// <param name="request">WebRequest object.</param>
+        /// <param name="statusCode">HttpStatusCode from response.</param>
+        /// <param name="responseHeaders">Response headers.</param>
+        internal void OnEndResponse(object request, object statusCode, object responseHeaders)
+        {
+            try
+            {
+                if (this.TryGetPendingTelemetry(request, out DependencyTelemetry telemetry))
+                {
+                    if (statusCode != null)
+                    {
+                        SetStatusCode(telemetry, (int)statusCode);
+                    }
+
+                    this.SetTarget(telemetry, (WebHeaderCollection)responseHeaders);
+
+                    telemetry.SetOperationDetail(RemoteDependencyConstants.HttpResponseHeadersOperationDetailName, responseHeaders);
+
+                    ClientServerDependencyTracker.EndTracking(this.telemetryClient, telemetry);
+                }
+            }
+            catch (Exception ex)
+            {
+                DependencyCollectorEventSource.Log.CallbackError(request == null ? 0 : request.GetHashCode(), "OnEndResponse", ex);
+            }
+        }
+
+        /// <summary>
+        /// Implemented by the derived class for adding the tuple to its specific cache.
+        /// </summary>
+        /// <param name="webRequest">The request which acts the key.</param>
+        /// <param name="telemetry">The dependency telemetry for the tuple.</param>
+        /// <param name="isCustomCreated">Boolean value that tells if the current telemetry item is being added by the customer or not.</param>
+        protected abstract void AddTupleForWebDependencies(WebRequest webRequest, DependencyTelemetry telemetry, bool isCustomCreated);
+
+        /// <summary>
+        /// Implemented by the derived class for getting the tuple from its specific cache.
+        /// </summary>
+        /// <param name="webRequest">The request which acts as the key.</param>
+        /// <returns>The tuple for the given request.</returns>
+        protected abstract Tuple<DependencyTelemetry, bool> GetTupleForWebDependencies(WebRequest webRequest);
+
+        /// <summary>
+        /// Implemented by the derived class for removing the tuple from its specific cache.
+        /// </summary>
+        /// <param name="webRequest">The request which acts as the key.</param>
+        protected abstract void RemoveTupleForWebDependencies(WebRequest webRequest);
+
+        private static void InjectCorrelationContext(WebHeaderCollection requestHeaders, Activity activity)
+        {
+            if (requestHeaders[RequestResponseHeaders.CorrelationContextHeader] == null && activity.Baggage.Any())
+            {
+                requestHeaders.SetHeaderFromNameValueCollection(RequestResponseHeaders.CorrelationContextHeader, activity.Baggage);
+            }
+        }
+
+        private static void SetStatusCode(DependencyTelemetry telemetry, int statusCode)
+        {
+            telemetry.ResultCode = statusCode > 0 ? statusCode.ToString(CultureInfo.InvariantCulture) : string.Empty;
+            telemetry.Success = (statusCode > 0) && (statusCode < 400);
+        }
+
+        private bool TryGetPendingTelemetry(object request, out DependencyTelemetry telemetry)
+        {
+            telemetry = null;
+            if (request == null)
+            {
+                DependencyCollectorEventSource.Log.NotExpectedCallback(0, "OnBeginHttp", "request == null");
+                return false;
+            }
+
+            DependencyCollectorEventSource.Log.EndCallbackCalled(request.GetHashCode()
+                .ToString(CultureInfo.InvariantCulture));
+
+            WebRequest webRequest = request as WebRequest;
+            if (webRequest == null)
+            {
+                DependencyCollectorEventSource.Log.UnexpectedCallbackParameter("WebRequest");
+                return false;
+            }
+
+            var telemetryTuple = this.GetTupleForWebDependencies(webRequest);
+            if (telemetryTuple == null)
+            {
+                DependencyCollectorEventSource.Log.EndCallbackWithNoBegin(request.GetHashCode()
+                    .ToString(CultureInfo.InvariantCulture));
+                return false;
+            }
+
+            if (telemetryTuple.Item1 == null)
+            {
+                DependencyCollectorEventSource.Log.EndCallbackWithNoBegin(request.GetHashCode()
+                    .ToString(CultureInfo.InvariantCulture));
+                return false;
+            }
+
+            // Not custom created
+            if (!telemetryTuple.Item2)
+            {
+                telemetry = telemetryTuple.Item1;
+                this.RemoveTupleForWebDependencies(webRequest);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void SetTarget(DependencyTelemetry telemetry, WebHeaderCollection responseHeaders)
+        {
+            if (responseHeaders != null)
+            {
+                string targetAppId = null;
+
+                try
+                {
+                    targetAppId = responseHeaders.GetNameValueHeaderValue(
+                        RequestResponseHeaders.RequestContextHeader, 
+                        RequestResponseHeaders.RequestContextCorrelationTargetKey);
+                }
+                catch (Exception ex)
+                {
+                    AppMapCorrelationEventSource.Log.GetCrossComponentCorrelationHeaderFailed(ex.ToInvariantString());
+                }
+
+                string currentComponentAppId = null;
+                if (this.configuration.ApplicationIdProvider?.TryGetApplicationId(telemetry.Context.InstrumentationKey, out currentComponentAppId) ?? false)
+                {
+                    // We only add the cross component correlation key if the key does not remain the current component.
+                    if (!string.IsNullOrEmpty(targetAppId) && targetAppId != currentComponentAppId)
+                    {
+                        telemetry.Type = RemoteDependencyConstants.AI;
+                        telemetry.Target += " | " + targetAppId;
+                    }
+                }
+            }
+        }
+    }
+}
+#endif
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\WEB\Src\DependencyCollector\DependencyCollector\Implementation\HttpProcessing.cs(319,25): error CS0103: The name 'webException' does not exist in the current context
+######################################################################
+
+
+######################################################################
+Nr: 4 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\WEB\Src\PerformanceCollector\PerformanceCollector\QuickPulseTelemetryProcessor.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+namespace Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.QuickPulse
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using Microsoft.ApplicationInsights.Channel;
+    using Microsoft.ApplicationInsights.Common;
+    using Microsoft.ApplicationInsights.Common.Internal;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility.Filtering;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation.Experimental;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation.Tracing;
+    using Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.Implementation.QuickPulse;
+    using Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.Implementation.QuickPulse.Helpers;
+    using Microsoft.ManagementServices.RealTimeDataProcessing.QuickPulseService;
+
+    /// <summary>
+    /// Extracts QuickPulse data from the telemetry stream.
+    /// </summary>
+    public class QuickPulseTelemetryProcessor : ITelemetryProcessor, ITelemetryModule, IQuickPulseTelemetryProcessor
+    {
+        /// <summary>
+        /// 1.0 - initial release.
+        /// 1.1 - added DocumentStreamId, EventTelemetryDocument, TraceTelemetryDocument.
+        /// </summary>
+        private const string TelemetryDocumentContractVersion = "1.1";
+
+        private const float MaxGlobalTelemetryQuota = 30f * 10f;
+
+        private const float InitialGlobalTelemetryQuota = 3f * 10f;
+
+        private const int MaxFieldLength = 32768;
+
+        private const int MaxPropertyCount = 3;
+
+        private const string SpecialDependencyPropertyName = "ErrorMessage";
+
+        private const string ExceptionMessageSeparator = " <--- ";
+
+        /// <summary>
+        /// An overall, cross-stream quota tracker.
+        /// </summary>
+        private readonly QuickPulseQuotaTracker globalQuotaTracker;
+
+        private IQuickPulseDataAccumulatorManager dataAccumulatorManager = null;
+
+        private Uri currentServiceEndpoint = QuickPulseDefaults.QuickPulseServiceEndpoint;
+
+        private TelemetryConfiguration config = null;
+
+        private bool isCollecting = false;
+
+        private bool disableFullTelemetryItems = false;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuickPulseTelemetryProcessor"/> class.
+        /// </summary>
+        /// <param name="next">The next TelemetryProcessor in the chain.</param>
+        /// <exception cref="ArgumentNullException">Thrown if next is null.</exception>
+        public QuickPulseTelemetryProcessor(ITelemetryProcessor next)
+            : this(next, new Clock())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuickPulseTelemetryProcessor"/> class. Internal constructor for unit tests only.
+        /// </summary>
+        /// <param name="next">The next TelemetryProcessor in the chain.</param>
+        /// <param name="timeProvider">Time provider.</param>
+        /// <param name="maxGlobalTelemetryQuota">Max overall telemetry quota.</param>
+        /// <param name="initialGlobalTelemetryQuota">Initial overall telemetry quota.</param>
+        /// <exception cref="ArgumentNullException">Thrown if next is null.</exception>
+        internal QuickPulseTelemetryProcessor(
+            ITelemetryProcessor next,
+            Clock timeProvider,
+            float? maxGlobalTelemetryQuota = null,
+            float? initialGlobalTelemetryQuota = null)
+        {
+            this.Next = next ?? throw new ArgumentNullException(nameof(next));
+
+            this.RegisterSelfWithQuickPulseTelemetryModule();
+
+            this.globalQuotaTracker = new QuickPulseQuotaTracker(
+                timeProvider,
+                maxGlobalTelemetryQuota ?? MaxGlobalTelemetryQuota,
+                initialGlobalTelemetryQuota ?? InitialGlobalTelemetryQuota);
+        }
+
+        /// <summary>
+        /// Gets or sets an endpoint that is compared against telemetry to remove our requests from customer telemetry.
+        /// </summary>
+        /// <remarks>
+        /// This is set from the QuickPulseTelemetryModule. The value might be changing as we communicate with the service, so this might be updated in flight.
+        /// </remarks>
+        Uri IQuickPulseTelemetryProcessor.ServiceEndpoint
+        {
+            get => Volatile.Read(ref this.currentServiceEndpoint);
+            set => Volatile.Write(ref this.currentServiceEndpoint, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether request properties
+        /// which were disabled via "RequestTrackingTelemetryModule.DisableTrackingProperties" should be evaluated.
+        /// </summary>
+        /// <remarks>This feature is still being evaluated and not recommended for end users.</remarks>
+        internal bool EvaluateDisabledTrackingProperties { get; set; }
+
+        private ITelemetryProcessor Next { get; }
+
+        /// <summary>
+        /// Initialize method is called after all configuration properties have been loaded from the configuration.
+        /// </summary>
+        public void Initialize(TelemetryConfiguration configuration)
+        {
+            /*
+            The configuration that is being passed into this method is the configuration that is the reason
+            why this instance of telemetry processor was created. Regardless of which instrumentation key is passed in,
+            this telemetry processor will only collect for whichever instrumentation key is specified by the module in StartCollection call.
+            */
+
+            this.EvaluateDisabledTrackingProperties = configuration.EvaluateExperimentalFeature(ExperimentalConstants.DeferRequestTrackingProperties);
+
+            this.RegisterSelfWithQuickPulseTelemetryModule();
+        }
+
+        void IQuickPulseTelemetryProcessor.StartCollection(
+            IQuickPulseDataAccumulatorManager accumulatorManager,
+            Uri serviceEndpoint,
+            TelemetryConfiguration configuration,
+            bool disableFullTelemetryItems)
+        {
+            if (this.isCollecting)
+            {
+                throw new InvalidOperationException("Can't start collection while it is already running.");
+            }
+
+            this.dataAccumulatorManager = accumulatorManager;
+            Volatile.Write(ref this.currentServiceEndpoint, serviceEndpoint);
+            this.config = configuration;
+            this.isCollecting = true;
+            this.disableFullTelemetryItems = disableFullTelemetryItems;
+        }
+
+        void IQuickPulseTelemetryProcessor.StopCollection()
+        {
+            this.dataAccumulatorManager = null;
+            this.isCollecting = false;
+        }
+
+        /// <summary>
+        /// Intercepts telemetry items and updates QuickPulse data when needed.
+        /// </summary>
+        /// <param name="telemetry">Telemetry item being tracked by AI.</param>
+        /// <remarks>This method is performance critical since every AI telemetry item goes through it.</remarks>
+        public void Process(ITelemetry telemetry)
+        {
+            bool letTelemetryThrough = true;
+
+            try
+            {
+                // filter out QPS requests from dependencies even when we're not collecting (for Pings)
+                var dependency = telemetry as DependencyTelemetry;
+                Uri localCurrentServiceEndpoint = Volatile.Read(ref this.currentServiceEndpoint);
+                if (localCurrentServiceEndpoint != null && !string.IsNullOrWhiteSpace(dependency?.Target))
+                {
+                    if (dependency.Target.IndexOf(localCurrentServiceEndpoint.Host, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        // this is an HTTP request to QuickPulse service, we don't want to let it through
+                        letTelemetryThrough = false;
+
+                        return;
+                    }
+                }
+
+                if (!this.isCollecting || this.dataAccumulatorManager == null)
+                {
+                    return;
+                }
+
+                this.ProcessTelemetry(telemetry);
+            }
+            catch (Exception e)
+            {
+                // whatever happened up there - we don't want to interrupt the chain of processors
+                QuickPulseEventSource.Log.UnknownErrorEvent(e.ToInvariantString());
+            }
+            finally
+            {
+                if (letTelemetryThrough)
+                {
+                    this.Next.Process(telemetry);
+                }
+            }
+        }
+
+        private static ITelemetryDocument ConvertDependencyToTelemetryDocument(DependencyTelemetry dependencyTelemetry)
+        {
+            ITelemetryDocument telemetryDocument = new DependencyTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                Timestamp = dependencyTelemetry.Timestamp,
+                Name = TruncateValue(dependencyTelemetry.Name),
+                Target = TruncateValue(dependencyTelemetry.Target),
+                Success = dependencyTelemetry.Success,
+                Duration = dependencyTelemetry.Duration,
+                OperationId = TruncateValue(dependencyTelemetry.Context?.Operation?.Id),
+                ResultCode = dependencyTelemetry.ResultCode,
+                CommandName = TruncateValue(dependencyTelemetry.Data),
+                DependencyTypeName = dependencyTelemetry.Type,
+                Properties = GetProperties(dependencyTelemetry, SpecialDependencyPropertyName),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, dependencyTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private static ITelemetryDocument ConvertExceptionToTelemetryDocument(ExceptionTelemetry exceptionTelemetry)
+        {
+            ITelemetryDocument telemetryDocument = new ExceptionTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                SeverityLevel = exceptionTelemetry.SeverityLevel != null ? exceptionTelemetry.SeverityLevel.Value.ToString() : null,
+                Exception = exceptionTelemetry.Exception != null ? TruncateValue(exceptionTelemetry.Exception.ToString()) : null,
+                ExceptionType = exceptionTelemetry.Exception != null ? TruncateValue(exceptionTelemetry.Exception.GetType().FullName) : null,
+                ExceptionMessage = TruncateValue(ExpandExceptionMessage(exceptionTelemetry)),
+                OperationId = TruncateValue(exceptionTelemetry.Context?.Operation?.Id),
+                Properties = GetProperties(exceptionTelemetry),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, exceptionTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private static ITelemetryDocument ConvertEventToTelemetryDocument(EventTelemetry eventTelemetry)
+        {
+            ITelemetryDocument telemetryDocument = new EventTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                Timestamp = eventTelemetry.Timestamp,
+                OperationId = TruncateValue(eventTelemetry.Context?.Operation?.Id),
+                Name = TruncateValue(eventTelemetry.Name),
+                Properties = GetProperties(eventTelemetry),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, eventTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private static ITelemetryDocument ConvertTraceToTelemetryDocument(TraceTelemetry traceTelemetry)
+        {
+            ITelemetryDocument telemetryDocument = new TraceTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                Timestamp = traceTelemetry.Timestamp,
+                Message = TruncateValue(traceTelemetry.Message),
+                SeverityLevel = traceTelemetry.SeverityLevel.ToString(),
+                Properties = GetProperties(traceTelemetry),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, traceTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private static void SetCommonTelemetryDocumentData(ITelemetryDocument telemetryDocument, ITelemetry telemetry)
+        {
+            if (telemetry.Context == null)
+            {
+                return;
+            }
+
+            telemetryDocument.OperationName = TruncateValue(telemetry.Context.Operation?.Name);
+            telemetryDocument.InternalNodeName = TruncateValue(telemetry.Context.GetInternalContext()?.NodeName);
+            telemetryDocument.CloudRoleName = TruncateValue(telemetry.Context.Cloud?.RoleName);
+            telemetryDocument.CloudRoleInstance = TruncateValue(telemetry.Context.Cloud?.RoleInstance);
+        }
+
+        private static string ExpandExceptionMessage(ExceptionTelemetry exceptionTelemetry)
+        {
+            Exception exception = exceptionTelemetry.Exception;
+
+            if (exception == null)
+            {
+                return string.Empty;
+            }
+
+            if (exception.InnerException == null)
+            {
+                // perf optimization for a special case
+                return exception.Message;
+            }
+
+            // use a fake AggregateException to take advantage of Flatten()
+            var nonAggregateExceptions = new AggregateException(exception).Flatten().InnerExceptions;
+
+            var messageHashes = new HashSet<string>();
+            var nonDuplicateMessages = new LinkedList<string>();
+
+            foreach (var ex in nonAggregateExceptions)
+            {
+                foreach (var msg in FlattenMessages(ex))
+                {
+                    if (!messageHashes.Contains(msg))
+                    {
+                        nonDuplicateMessages.AddLast(msg);
+
+                        messageHashes.Add(msg);
+                    }
+                }
+            }
+
+            return string.Join(ExceptionMessageSeparator, nonDuplicateMessages);
+        }
+
+        private static IEnumerable<string> FlattenMessages(Exception exception)
+        {
+            var currentEx = exception;
+            while (currentEx != null)
+            {
+                yield return currentEx.Message;
+
+                currentEx = currentEx.InnerException;
+            }
+        }
+
+        private static bool IsRequestSuccessful(RequestTelemetry request)
+        {
+            string responseCode = request.ResponseCode;
+            bool? success = request.Success;
+
+            if (string.IsNullOrWhiteSpace(responseCode))
+            {
+                return true;
+            }
+
+            if (success != null)
+            {
+                return success.Value;
+            }
+
+            int responseCodeInt;
+            if (int.TryParse(responseCode, NumberStyles.Any, CultureInfo.InvariantCulture, out responseCodeInt))
+            {
+                return (responseCodeInt < 400) || (responseCodeInt == 401);
+            }
+
+            return true;
+        }
+
+        private static string TruncateValue(string value)
+        {
+            if (value != null && value.Length > MaxFieldLength)
+            {
+                value = value.Substring(0, MaxFieldLength);
+            }
+
+            return value;
+        }
+
+        private static KeyValuePair<string, string>[] GetProperties(ISupportProperties telemetry, string specialPropertyName = null)
+        {
+            Dictionary<string, string> properties = null;
+
+            if (telemetry.Properties != null && telemetry.Properties.Count > 0)
+            {
+                properties = new Dictionary<string, string>(MaxPropertyCount + 1);
+
+                foreach (var prop in
+                    telemetry.Properties.Where(p => !string.Equals(p.Key, specialPropertyName, StringComparison.Ordinal)).Take(MaxPropertyCount))
+                {
+                    string truncatedKey = TruncateValue(prop.Key);
+
+                    if (!properties.ContainsKey(truncatedKey))
+                    {
+                        properties.Add(truncatedKey, TruncateValue(prop.Value));
+                    }
+                }
+
+                if (specialPropertyName != null)
+                {
+                    string specialPropertyValue;
+                    if (telemetry.Properties.TryGetValue(specialPropertyName, out specialPropertyValue))
+                    {
+                        properties.Add(TruncateValue(specialPropertyName), TruncateValue(specialPropertyValue));
+                    }
+                }
+            }
+
+            return properties != null ? properties.ToArray() : null;
+        }
+
+        private static void ProcessMetrics<TTelemetry>(
+            CollectionConfigurationAccumulator configurationAccumulatorLocal,
+            IEnumerable<CalculatedMetric<TTelemetry>> metrics,
+            TTelemetry telemetry,
+            out CollectionConfigurationError[] filteringErrors,
+            ref string projectionError)
+        {
+            filteringErrors = ArrayExtensions.Empty<CollectionConfigurationError>();
+
+            foreach (CalculatedMetric<TTelemetry> metric in metrics)
+            {
+                if (metric.CheckFilters(telemetry, out filteringErrors))
+                {
+                    // the telemetry document has passed the filters, count it in and project
+                    try
+                    {
+                        double projection = metric.Project(telemetry);
+
+                        configurationAccumulatorLocal.MetricAccumulators[metric.Id].AddValue(projection);
+                    }
+                    catch (Exception e)
+                    {
+                        // most likely the projection did not result in a value parsable by double.Parse()
+                        projectionError = e.ToString();
+                    }
+                }
+            }
+        }
+
+        private void ProcessTelemetry(ITelemetry telemetry)
+        {
+            // only process items that are going to the instrumentation key that our module is initialized with
+            if (string.IsNullOrWhiteSpace(this.config?.InstrumentationKey)
+                || !string.Equals(telemetry?.Context?.InstrumentationKey, this.config.InstrumentationKey, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var telemetryAsRequest = telemetry as RequestTelemetry;
+            var telemetryAsDependency = telemetry as DependencyTelemetry;
+            var telemetryAsException = telemetry as ExceptionTelemetry;
+            var telemetryAsEvent = telemetry as EventTelemetry;
+            var telemetryAsTrace = telemetry as TraceTelemetry;
+
+            // update aggregates
+            bool? originalRequestTelemetrySuccessValue = null;
+            if (telemetryAsRequest != null)
+            {
+                // special treatment for RequestTelemetry.Success
+                originalRequestTelemetrySuccessValue = telemetryAsRequest.Success;
+                telemetryAsRequest.Success = IsRequestSuccessful(telemetryAsRequest);
+
+                this.UpdateRequestAggregates(telemetryAsRequest);
+            }
+            else if (telemetryAsDependency != null)
+            {
+                this.UpdateDependencyAggregates(telemetryAsDependency);
+            }
+            else if (telemetryAsException != null)
+            {
+                this.UpdateExceptionAggregates();
+            }
+
+            // get a local reference, the accumulator might get swapped out at any time
+            // in case we continue to process this configuration once the accumulator is out, increase the reference count so that this accumulator is not sent out before we're done
+            CollectionConfigurationAccumulator configurationAccumulatorLocal =
+                this.dataAccumulatorManager.CurrentDataAccumulator.CollectionConfigurationAccumulator;
+
+            // if the accumulator is swapped out and a sample is created and sent out - all while between these two lines, this telemetry item gets lost
+            // however, that is not likely to happen
+            configurationAccumulatorLocal.AddRef();
+
+            try
+            {
+                // collect full telemetry items
+                if (!this.disableFullTelemetryItems)
+                {
+                    ITelemetryDocument telemetryDocument = null;
+                    IEnumerable<DocumentStream> documentStreams = configurationAccumulatorLocal.CollectionConfiguration.DocumentStreams;
+
+                    // !!! report runtime errors for filter groups?
+                    CollectionConfigurationError[] groupErrors;
+
+                    if (telemetryAsRequest != null)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsRequest,
+                            documentStreams,
+                            documentStream => documentStream.RequestQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsRequest, out groupErrors),
+                            this.ConvertRequestToTelemetryDocument);
+                    }
+                    else if (telemetryAsDependency != null)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsDependency,
+                            documentStreams,
+                            documentStream => documentStream.DependencyQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsDependency, out groupErrors),
+                            ConvertDependencyToTelemetryDocument);
+                    }
+                    else if (telemetryAsException != null)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsException,
+                            documentStreams,
+                            documentStream => documentStream.ExceptionQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsException, out groupErrors),
+                            ConvertExceptionToTelemetryDocument);
+                    }
+                    else if (telemetryAsEvent != null)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsEvent,
+                            documentStreams,
+                            documentStream => documentStream.EventQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsEvent, out groupErrors),
+                            ConvertEventToTelemetryDocument);
+                    }
+                    else if (telemetryAsTrace != null)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsTrace,
+                            documentStreams,
+                            documentStream => documentStream.TraceQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsTrace, out groupErrors),
+                            ConvertTraceToTelemetryDocument);
+                    }
+
+                    if (telemetryDocument != null)
+                    {
+                        this.dataAccumulatorManager.CurrentDataAccumulator.TelemetryDocuments.Push(telemetryDocument);
+                    }
+
+                    this.dataAccumulatorManager.CurrentDataAccumulator.GlobalDocumentQuotaReached = this.globalQuotaTracker.QuotaExhausted;
+                }
+
+                // collect calculated metrics
+                CollectionConfigurationError[] filteringErrors;
+                string projectionError = null;
+
+                if (telemetryAsRequest != null)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.RequestMetrics,
+                        telemetryAsRequest,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+                else if (telemetryAsDependency != null)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.DependencyMetrics,
+                        telemetryAsDependency,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+                else if (telemetryAsException != null)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.ExceptionMetrics,
+                        telemetryAsException,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+                else if (telemetryAsEvent != null)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.EventMetrics,
+                        telemetryAsEvent,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+                else if (telemetryAsTrace != null)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.TraceMetrics,
+                        telemetryAsTrace,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+
+                // !!! report errors from string[] errors; and string projectionError;
+            }
+            finally
+            {
+                // special treatment for RequestTelemetry.Success - restore the value
+                if (telemetryAsRequest != null)
+                {
+                    telemetryAsRequest.Success = originalRequestTelemetrySuccessValue;
+                }
+
+                configurationAccumulatorLocal.Release();
+            }
+        }
+
+        private ITelemetryDocument ConvertRequestToTelemetryDocument(RequestTelemetry requestTelemetry)
+        {
+            var url = requestTelemetry.Url;
+#if NET452
+            if (this.EvaluateDisabledTrackingProperties && url == null)
+            {
+                try
+                {
+                    // some of the requestTelemetry properties might be deferred by using RequestTrackingTelemetryModule.DisableTrackingProperties.
+                    // evaluate them now
+                    // note: RequestTrackingUtilities.UpdateRequestTelemetryFromRequest is not used here, since not all fields need to be populated
+                    var request = System.Web.HttpContext.Current?.Request;
+                    url = request?.Unvalidated.Url;
+                }
+                catch (Exception e)
+                {
+                    QuickPulseEventSource.Log.UnknownErrorEvent(e.ToInvariantString());
+                }
+            }
+#endif
+
+            ITelemetryDocument telemetryDocument = new RequestTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                Timestamp = requestTelemetry.Timestamp,
+                OperationId = TruncateValue(requestTelemetry.Context?.Operation?.Id),
+                Name = TruncateValue(requestTelemetry.Name),
+                Success = requestTelemetry.Success,
+                Duration = requestTelemetry.Duration,
+                ResponseCode = requestTelemetry.ResponseCode,
+                Url = url,
+                Properties = GetProperties(requestTelemetry),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, requestTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private ITelemetryDocument CreateTelemetryDocument<TTelemetry>(
+            TTelemetry telemetry,
+            IEnumerable<DocumentStream> documentStreams,
+            Func<DocumentStream, QuickPulseQuotaTracker> getQuotaTracker,
+            Func<DocumentStream, bool> checkDocumentStreamFilters,
+            Func<TTelemetry, ITelemetryDocument> convertTelemetryToTelemetryDocument)
+        {
+            // check which document streams are interested in this telemetry
+            ITelemetryDocument telemetryDocument = null;
+            var matchingDocumentStreamIds = new List<string>();
+
+            foreach (DocumentStream matchingDocumentStream in documentStreams.Where(checkDocumentStreamFilters))
+            {
+                // for each interested document stream only let the document through if there's quota available for that stream
+                if (getQuotaTracker(matchingDocumentStream).ApplyQuota())
+                {
+                    // only create the telemetry document once
+                    telemetryDocument = telemetryDocument ?? convertTelemetryToTelemetryDocument(telemetry);
+
+                    matchingDocumentStreamIds.Add(matchingDocumentStream.Id);
+                }
+            }
+
+            if (telemetryDocument != null)
+            {
+                telemetryDocument.DocumentStreamIds = matchingDocumentStreamIds.ToArray();
+
+                // this document will count as 1 towards the global quota regardless of number of streams that are interested in it
+                telemetryDocument = this.globalQuotaTracker.ApplyQuota() ? telemetryDocument : null;
+            }
+
+            return telemetryDocument;
+        }
+
+        private void UpdateExceptionAggregates()
+        {
+            Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIExceptionCount);
+        }
+
+        private void UpdateDependencyAggregates(DependencyTelemetry dependencyTelemetry)
+        {
+            long dependencyCallCountAndDurationInTicks = QuickPulseDataAccumulator.EncodeCountAndDuration(1, dependencyTelemetry.Duration.Ticks);
+
+            Interlocked.Add(
+                ref this.dataAccumulatorManager.CurrentDataAccumulator.AIDependencyCallCountAndDurationInTicks,
+                dependencyCallCountAndDurationInTicks);
+
+            if (dependencyTelemetry.Success == true)
+            {
+                Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIDependencyCallSuccessCount);
+            }
+            else if (dependencyTelemetry.Success == false)
+            {
+                Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIDependencyCallFailureCount);
+            }
+        }
+
+        private void UpdateRequestAggregates(RequestTelemetry requestTelemetry)
+        {
+            long requestCountAndDurationInTicks = QuickPulseDataAccumulator.EncodeCountAndDuration(1, requestTelemetry.Duration.Ticks);
+
+            Interlocked.Add(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIRequestCountAndDurationInTicks, requestCountAndDurationInTicks);
+
+            if (requestTelemetry.Success == true)
+            {
+                Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIRequestSuccessCount);
+            }
+            else
+            {
+                Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIRequestFailureCount);
+            }
+        }
+
+        private void RegisterSelfWithQuickPulseTelemetryModule()
+        {
+            var module = TelemetryModules.Instance.Modules.OfType<QuickPulseTelemetryModule>().SingleOrDefault();
+
+            if (module != null)
+            {
+                module.RegisterTelemetryProcessor(this);
+                Volatile.Write(ref this.currentServiceEndpoint, module.ServiceClient?.CurrentServiceUri ?? QuickPulseDefaults.QuickPulseServiceEndpoint);
+            }
+        }
+    }
+}
+---- Transformed Tree ----
+namespace Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.QuickPulse
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using Microsoft.ApplicationInsights.Channel;
+    using Microsoft.ApplicationInsights.Common;
+    using Microsoft.ApplicationInsights.Common.Internal;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility.Filtering;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation.Experimental;
+    using Microsoft.ApplicationInsights.Extensibility.Implementation.Tracing;
+    using Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.Implementation.QuickPulse;
+    using Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.Implementation.QuickPulse.Helpers;
+    using Microsoft.ManagementServices.RealTimeDataProcessing.QuickPulseService;
+
+    /// <summary>
+    /// Extracts QuickPulse data from the telemetry stream.
+    /// </summary>
+    public class QuickPulseTelemetryProcessor : ITelemetryProcessor, ITelemetryModule, IQuickPulseTelemetryProcessor
+    {
+        /// <summary>
+        /// 1.0 - initial release.
+        /// 1.1 - added DocumentStreamId, EventTelemetryDocument, TraceTelemetryDocument.
+        /// </summary>
+        private const string TelemetryDocumentContractVersion = "1.1";
+
+        private const float MaxGlobalTelemetryQuota = 30f * 10f;
+
+        private const float InitialGlobalTelemetryQuota = 3f * 10f;
+
+        private const int MaxFieldLength = 32768;
+
+        private const int MaxPropertyCount = 3;
+
+        private const string SpecialDependencyPropertyName = "ErrorMessage";
+
+        private const string ExceptionMessageSeparator = " <--- ";
+
+        /// <summary>
+        /// An overall, cross-stream quota tracker.
+        /// </summary>
+        private readonly QuickPulseQuotaTracker globalQuotaTracker;
+
+        private IQuickPulseDataAccumulatorManager dataAccumulatorManager = null;
+
+        private Uri currentServiceEndpoint = QuickPulseDefaults.QuickPulseServiceEndpoint;
+
+        private TelemetryConfiguration config = null;
+
+        private bool isCollecting = false;
+
+        private bool disableFullTelemetryItems = false;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuickPulseTelemetryProcessor"/> class.
+        /// </summary>
+        /// <param name="next">The next TelemetryProcessor in the chain.</param>
+        /// <exception cref="ArgumentNullException">Thrown if next is null.</exception>
+        public QuickPulseTelemetryProcessor(ITelemetryProcessor next)
+            : this(next, new Clock())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuickPulseTelemetryProcessor"/> class. Internal constructor for unit tests only.
+        /// </summary>
+        /// <param name="next">The next TelemetryProcessor in the chain.</param>
+        /// <param name="timeProvider">Time provider.</param>
+        /// <param name="maxGlobalTelemetryQuota">Max overall telemetry quota.</param>
+        /// <param name="initialGlobalTelemetryQuota">Initial overall telemetry quota.</param>
+        /// <exception cref="ArgumentNullException">Thrown if next is null.</exception>
+        internal QuickPulseTelemetryProcessor(
+            ITelemetryProcessor next,
+            Clock timeProvider,
+            float? maxGlobalTelemetryQuota = null,
+            float? initialGlobalTelemetryQuota = null)
+        {
+            this.Next = next ?? throw new ArgumentNullException(nameof(next));
+
+            this.RegisterSelfWithQuickPulseTelemetryModule();
+
+            this.globalQuotaTracker = new QuickPulseQuotaTracker(
+                timeProvider,
+                maxGlobalTelemetryQuota ?? MaxGlobalTelemetryQuota,
+                initialGlobalTelemetryQuota ?? InitialGlobalTelemetryQuota);
+        }
+
+        /// <summary>
+        /// Gets or sets an endpoint that is compared against telemetry to remove our requests from customer telemetry.
+        /// </summary>
+        /// <remarks>
+        /// This is set from the QuickPulseTelemetryModule. The value might be changing as we communicate with the service, so this might be updated in flight.
+        /// </remarks>
+        Uri IQuickPulseTelemetryProcessor.ServiceEndpoint
+        {
+            get => Volatile.Read(ref this.currentServiceEndpoint);
+            set => Volatile.Write(ref this.currentServiceEndpoint, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether request properties
+        /// which were disabled via "RequestTrackingTelemetryModule.DisableTrackingProperties" should be evaluated.
+        /// </summary>
+        /// <remarks>This feature is still being evaluated and not recommended for end users.</remarks>
+        internal bool EvaluateDisabledTrackingProperties { get; set; }
+
+        private ITelemetryProcessor Next { get; }
+
+        /// <summary>
+        /// Initialize method is called after all configuration properties have been loaded from the configuration.
+        /// </summary>
+        public void Initialize(TelemetryConfiguration configuration)
+        {
+            /*
+            The configuration that is being passed into this method is the configuration that is the reason
+            why this instance of telemetry processor was created. Regardless of which instrumentation key is passed in,
+            this telemetry processor will only collect for whichever instrumentation key is specified by the module in StartCollection call.
+            */
+
+            this.EvaluateDisabledTrackingProperties = configuration.EvaluateExperimentalFeature(ExperimentalConstants.DeferRequestTrackingProperties);
+
+            this.RegisterSelfWithQuickPulseTelemetryModule();
+        }
+
+        void IQuickPulseTelemetryProcessor.StartCollection(
+            IQuickPulseDataAccumulatorManager accumulatorManager,
+            Uri serviceEndpoint,
+            TelemetryConfiguration configuration,
+            bool disableFullTelemetryItems)
+        {
+            if (this.isCollecting)
+            {
+                throw new InvalidOperationException("Can't start collection while it is already running.");
+            }
+
+            this.dataAccumulatorManager = accumulatorManager;
+            Volatile.Write(ref this.currentServiceEndpoint, serviceEndpoint);
+            this.config = configuration;
+            this.isCollecting = true;
+            this.disableFullTelemetryItems = disableFullTelemetryItems;
+        }
+
+        void IQuickPulseTelemetryProcessor.StopCollection()
+        {
+            this.dataAccumulatorManager = null;
+            this.isCollecting = false;
+        }
+
+        /// <summary>
+        /// Intercepts telemetry items and updates QuickPulse data when needed.
+        /// </summary>
+        /// <param name="telemetry">Telemetry item being tracked by AI.</param>
+        /// <remarks>This method is performance critical since every AI telemetry item goes through it.</remarks>
+        public void Process(ITelemetry telemetry)
+        {
+            bool letTelemetryThrough = true;
+
+            try
+            {
+                // filter out QPS requests from dependencies even when we're not collecting (for Pings)
+                var dependency = telemetry as DependencyTelemetry;
+                Uri localCurrentServiceEndpoint = Volatile.Read(ref this.currentServiceEndpoint);
+                if (localCurrentServiceEndpoint != null && !string.IsNullOrWhiteSpace(dependency?.Target))
+                {
+                    if (dependency.Target.IndexOf(localCurrentServiceEndpoint.Host, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        // this is an HTTP request to QuickPulse service, we don't want to let it through
+                        letTelemetryThrough = false;
+
+                        return;
+                    }
+                }
+
+                if (!this.isCollecting || this.dataAccumulatorManager == null)
+                {
+                    return;
+                }
+
+                this.ProcessTelemetry(telemetry);
+            }
+            catch (Exception e)
+            {
+                // whatever happened up there - we don't want to interrupt the chain of processors
+                QuickPulseEventSource.Log.UnknownErrorEvent(e.ToInvariantString());
+            }
+            finally
+            {
+                if (letTelemetryThrough)
+                {
+                    this.Next.Process(telemetry);
+                }
+            }
+        }
+
+        private static ITelemetryDocument ConvertDependencyToTelemetryDocument(DependencyTelemetry dependencyTelemetry)
+        {
+            ITelemetryDocument telemetryDocument = new DependencyTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                Timestamp = dependencyTelemetry.Timestamp,
+                Name = TruncateValue(dependencyTelemetry.Name),
+                Target = TruncateValue(dependencyTelemetry.Target),
+                Success = dependencyTelemetry.Success,
+                Duration = dependencyTelemetry.Duration,
+                OperationId = TruncateValue(dependencyTelemetry.Context?.Operation?.Id),
+                ResultCode = dependencyTelemetry.ResultCode,
+                CommandName = TruncateValue(dependencyTelemetry.Data),
+                DependencyTypeName = dependencyTelemetry.Type,
+                Properties = GetProperties(dependencyTelemetry, SpecialDependencyPropertyName),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, dependencyTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private static ITelemetryDocument ConvertExceptionToTelemetryDocument(ExceptionTelemetry exceptionTelemetry)
+        {
+            ITelemetryDocument telemetryDocument = new ExceptionTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                SeverityLevel = exceptionTelemetry.SeverityLevel != null ? exceptionTelemetry.SeverityLevel.Value.ToString() : null,
+                Exception = exceptionTelemetry.Exception != null ? TruncateValue(exceptionTelemetry.Exception.ToString()) : null,
+                ExceptionType = exceptionTelemetry.Exception != null ? TruncateValue(exceptionTelemetry.Exception.GetType().FullName) : null,
+                ExceptionMessage = TruncateValue(ExpandExceptionMessage(exceptionTelemetry)),
+                OperationId = TruncateValue(exceptionTelemetry.Context?.Operation?.Id),
+                Properties = GetProperties(exceptionTelemetry),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, exceptionTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private static ITelemetryDocument ConvertEventToTelemetryDocument(EventTelemetry eventTelemetry)
+        {
+            ITelemetryDocument telemetryDocument = new EventTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                Timestamp = eventTelemetry.Timestamp,
+                OperationId = TruncateValue(eventTelemetry.Context?.Operation?.Id),
+                Name = TruncateValue(eventTelemetry.Name),
+                Properties = GetProperties(eventTelemetry),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, eventTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private static ITelemetryDocument ConvertTraceToTelemetryDocument(TraceTelemetry traceTelemetry)
+        {
+            ITelemetryDocument telemetryDocument = new TraceTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                Timestamp = traceTelemetry.Timestamp,
+                Message = TruncateValue(traceTelemetry.Message),
+                SeverityLevel = traceTelemetry.SeverityLevel.ToString(),
+                Properties = GetProperties(traceTelemetry),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, traceTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private static void SetCommonTelemetryDocumentData(ITelemetryDocument telemetryDocument, ITelemetry telemetry)
+        {
+            if (telemetry.Context == null)
+            {
+                return;
+            }
+
+            telemetryDocument.OperationName = TruncateValue(telemetry.Context.Operation?.Name);
+            telemetryDocument.InternalNodeName = TruncateValue(telemetry.Context.GetInternalContext()?.NodeName);
+            telemetryDocument.CloudRoleName = TruncateValue(telemetry.Context.Cloud?.RoleName);
+            telemetryDocument.CloudRoleInstance = TruncateValue(telemetry.Context.Cloud?.RoleInstance);
+        }
+
+        private static string ExpandExceptionMessage(ExceptionTelemetry exceptionTelemetry)
+        {
+            Exception exception = exceptionTelemetry.Exception;
+
+            if (exception == null)
+            {
+                return string.Empty;
+            }
+
+            if (exception.InnerException == null)
+            {
+                // perf optimization for a special case
+                return exception.Message;
+            }
+
+            // use a fake AggregateException to take advantage of Flatten()
+            var nonAggregateExceptions = new AggregateException(exception).Flatten().InnerExceptions;
+
+            var messageHashes = new HashSet<string>();
+            var nonDuplicateMessages = new LinkedList<string>();
+
+            foreach (var ex in nonAggregateExceptions)
+            {
+                foreach (var msg in FlattenMessages(ex))
+                {
+                    if (!messageHashes.Contains(msg))
+                    {
+                        nonDuplicateMessages.AddLast(msg);
+
+                        messageHashes.Add(msg);
+                    }
+                }
+            }
+
+            return string.Join(ExceptionMessageSeparator, nonDuplicateMessages);
+        }
+
+        private static IEnumerable<string> FlattenMessages(Exception exception)
+        {
+            var currentEx = exception;
+            while (currentEx != null)
+            {
+                yield return currentEx.Message;
+
+                currentEx = currentEx.InnerException;
+            }
+        }
+
+        private static bool IsRequestSuccessful(RequestTelemetry request)
+        {
+            string responseCode = request.ResponseCode;
+            bool? success = request.Success;
+
+            if (string.IsNullOrWhiteSpace(responseCode))
+            {
+                return true;
+            }
+
+            if (success != null)
+            {
+                return success.Value;
+            }
+
+            int responseCodeInt;
+            if (int.TryParse(responseCode, NumberStyles.Any, CultureInfo.InvariantCulture, out responseCodeInt))
+            {
+                return (responseCodeInt < 400) || (responseCodeInt == 401);
+            }
+
+            return true;
+        }
+
+        private static string TruncateValue(string value)
+        {
+            if (value != null && value.Length > MaxFieldLength)
+            {
+                value = value.Substring(0, MaxFieldLength);
+            }
+
+            return value;
+        }
+
+        private static KeyValuePair<string, string>[] GetProperties(ISupportProperties telemetry, string specialPropertyName = null)
+        {
+            Dictionary<string, string> properties = null;
+
+            if (telemetry.Properties != null && telemetry.Properties.Count > 0)
+            {
+                properties = new Dictionary<string, string>(MaxPropertyCount + 1);
+
+                foreach (var prop in
+                    telemetry.Properties.Where(p => !string.Equals(p.Key, specialPropertyName, StringComparison.Ordinal)).Take(MaxPropertyCount))
+                {
+                    string truncatedKey = TruncateValue(prop.Key);
+
+                    if (!properties.ContainsKey(truncatedKey))
+                    {
+                        properties.Add(truncatedKey, TruncateValue(prop.Value));
+                    }
+                }
+
+                if (specialPropertyName != null)
+                {
+                    string specialPropertyValue;
+                    if (telemetry.Properties.TryGetValue(specialPropertyName, out specialPropertyValue))
+                    {
+                        properties.Add(TruncateValue(specialPropertyName), TruncateValue(specialPropertyValue));
+                    }
+                }
+            }
+
+            return properties != null ? properties.ToArray() : null;
+        }
+
+        private static void ProcessMetrics<TTelemetry>(
+            CollectionConfigurationAccumulator configurationAccumulatorLocal,
+            IEnumerable<CalculatedMetric<TTelemetry>> metrics,
+            TTelemetry telemetry,
+            out CollectionConfigurationError[] filteringErrors,
+            ref string projectionError)
+        {
+            filteringErrors = ArrayExtensions.Empty<CollectionConfigurationError>();
+
+            foreach (CalculatedMetric<TTelemetry> metric in metrics)
+            {
+                if (metric.CheckFilters(telemetry, out filteringErrors))
+                {
+                    // the telemetry document has passed the filters, count it in and project
+                    try
+                    {
+                        double projection = metric.Project(telemetry);
+
+                        configurationAccumulatorLocal.MetricAccumulators[metric.Id].AddValue(projection);
+                    }
+                    catch (Exception e)
+                    {
+                        // most likely the projection did not result in a value parsable by double.Parse()
+                        projectionError = e.ToString();
+                    }
+                }
+            }
+        }
+
+        private void ProcessTelemetry(ITelemetry telemetry)
+        {
+            // only process items that are going to the instrumentation key that our module is initialized with
+            if (string.IsNullOrWhiteSpace(this.config?.InstrumentationKey)
+                || !string.Equals(telemetry?.Context?.InstrumentationKey, this.config.InstrumentationKey, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            // update aggregates
+            bool? originalRequestTelemetrySuccessValue = null;
+
+            if (telemetry is RequestTelemetry telemetryAsRequest)
+            {
+                // special treatment for RequestTelemetry.Success
+                originalRequestTelemetrySuccessValue = telemetryAsRequest.Success;
+                telemetryAsRequest.Success = IsRequestSuccessful(telemetryAsRequest);
+
+                this.UpdateRequestAggregates(telemetryAsRequest);
+            }
+            else if (telemetry is DependencyTelemetry telemetryAsDependency)
+            {
+                this.UpdateDependencyAggregates(telemetryAsDependency);
+            }
+            else if (telemetry is ExceptionTelemetry telemetryAsException)
+            {
+                this.UpdateExceptionAggregates();
+            }
+
+            // get a local reference, the accumulator might get swapped out at any time
+            // in case we continue to process this configuration once the accumulator is out, increase the reference count so that this accumulator is not sent out before we're done
+            CollectionConfigurationAccumulator configurationAccumulatorLocal =
+                this.dataAccumulatorManager.CurrentDataAccumulator.CollectionConfigurationAccumulator;
+
+            // if the accumulator is swapped out and a sample is created and sent out - all while between these two lines, this telemetry item gets lost
+            // however, that is not likely to happen
+            configurationAccumulatorLocal.AddRef();
+
+            try
+            {
+                // collect full telemetry items
+                if (!this.disableFullTelemetryItems)
+                {
+                    ITelemetryDocument telemetryDocument = null;
+                    IEnumerable<DocumentStream> documentStreams = configurationAccumulatorLocal.CollectionConfiguration.DocumentStreams;
+
+                    // !!! report runtime errors for filter groups?
+                    CollectionConfigurationError[] groupErrors;
+
+                    if (telemetry is RequestTelemetry telemetryAsRequest)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsRequest,
+                            documentStreams,
+                            documentStream => documentStream.RequestQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsRequest, out groupErrors),
+                            this.ConvertRequestToTelemetryDocument);
+                    }
+                    else if (telemetry is DependencyTelemetry telemetryAsDependency)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsDependency,
+                            documentStreams,
+                            documentStream => documentStream.DependencyQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsDependency, out groupErrors),
+                            ConvertDependencyToTelemetryDocument);
+                    }
+                    else if (telemetry is ExceptionTelemetry telemetryAsException)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsException,
+                            documentStreams,
+                            documentStream => documentStream.ExceptionQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsException, out groupErrors),
+                            ConvertExceptionToTelemetryDocument);
+                    }
+                    else if (telemetry is EventTelemetry telemetryAsEvent)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsEvent,
+                            documentStreams,
+                            documentStream => documentStream.EventQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsEvent, out groupErrors),
+                            ConvertEventToTelemetryDocument);
+                    }
+                    else if (telemetry is TraceTelemetry telemetryAsTrace)
+                    {
+                        telemetryDocument = this.CreateTelemetryDocument(
+                            telemetryAsTrace,
+                            documentStreams,
+                            documentStream => documentStream.TraceQuotaTracker,
+                            documentStream => documentStream.CheckFilters(telemetryAsTrace, out groupErrors),
+                            ConvertTraceToTelemetryDocument);
+                    }
+
+                    if (telemetryDocument != null)
+                    {
+                        this.dataAccumulatorManager.CurrentDataAccumulator.TelemetryDocuments.Push(telemetryDocument);
+                    }
+
+                    this.dataAccumulatorManager.CurrentDataAccumulator.GlobalDocumentQuotaReached = this.globalQuotaTracker.QuotaExhausted;
+                }
+
+                // collect calculated metrics
+                CollectionConfigurationError[] filteringErrors;
+                string projectionError = null;
+
+                if (telemetry is RequestTelemetry telemetryAsRequest)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.RequestMetrics,
+                        telemetryAsRequest,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+                else if (telemetry is DependencyTelemetry telemetryAsDependency)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.DependencyMetrics,
+                        telemetryAsDependency,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+                else if (telemetry is ExceptionTelemetry telemetryAsException)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.ExceptionMetrics,
+                        telemetryAsException,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+                else if (telemetry is EventTelemetry telemetryAsEvent)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.EventMetrics,
+                        telemetryAsEvent,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+                else if (telemetry is TraceTelemetry telemetryAsTrace)
+                {
+                    QuickPulseTelemetryProcessor.ProcessMetrics(
+                        configurationAccumulatorLocal,
+                        configurationAccumulatorLocal.CollectionConfiguration.TraceMetrics,
+                        telemetryAsTrace,
+                        out filteringErrors,
+                        ref projectionError);
+                }
+
+                // !!! report errors from string[] errors; and string projectionError;
+            }
+            finally
+            {
+                // special treatment for RequestTelemetry.Success - restore the value
+                if (telemetry is RequestTelemetry telemetryAsRequest)
+                {
+                    telemetryAsRequest.Success = originalRequestTelemetrySuccessValue;
+                }
+
+                configurationAccumulatorLocal.Release();
+            }
+        }
+
+        private ITelemetryDocument ConvertRequestToTelemetryDocument(RequestTelemetry requestTelemetry)
+        {
+            var url = requestTelemetry.Url;
+#if NET452
+            if (this.EvaluateDisabledTrackingProperties && url == null)
+            {
+                try
+                {
+                    // some of the requestTelemetry properties might be deferred by using RequestTrackingTelemetryModule.DisableTrackingProperties.
+                    // evaluate them now
+                    // note: RequestTrackingUtilities.UpdateRequestTelemetryFromRequest is not used here, since not all fields need to be populated
+                    var request = System.Web.HttpContext.Current?.Request;
+                    url = request?.Unvalidated.Url;
+                }
+                catch (Exception e)
+                {
+                    QuickPulseEventSource.Log.UnknownErrorEvent(e.ToInvariantString());
+                }
+            }
+#endif
+
+            ITelemetryDocument telemetryDocument = new RequestTelemetryDocument()
+            {
+                Id = Guid.NewGuid(),
+                Version = TelemetryDocumentContractVersion,
+                Timestamp = requestTelemetry.Timestamp,
+                OperationId = TruncateValue(requestTelemetry.Context?.Operation?.Id),
+                Name = TruncateValue(requestTelemetry.Name),
+                Success = requestTelemetry.Success,
+                Duration = requestTelemetry.Duration,
+                ResponseCode = requestTelemetry.ResponseCode,
+                Url = url,
+                Properties = GetProperties(requestTelemetry),
+            };
+
+            SetCommonTelemetryDocumentData(telemetryDocument, requestTelemetry);
+
+            return telemetryDocument;
+        }
+
+        private ITelemetryDocument CreateTelemetryDocument<TTelemetry>(
+            TTelemetry telemetry,
+            IEnumerable<DocumentStream> documentStreams,
+            Func<DocumentStream, QuickPulseQuotaTracker> getQuotaTracker,
+            Func<DocumentStream, bool> checkDocumentStreamFilters,
+            Func<TTelemetry, ITelemetryDocument> convertTelemetryToTelemetryDocument)
+        {
+            // check which document streams are interested in this telemetry
+            ITelemetryDocument telemetryDocument = null;
+            var matchingDocumentStreamIds = new List<string>();
+
+            foreach (DocumentStream matchingDocumentStream in documentStreams.Where(checkDocumentStreamFilters))
+            {
+                // for each interested document stream only let the document through if there's quota available for that stream
+                if (getQuotaTracker(matchingDocumentStream).ApplyQuota())
+                {
+                    // only create the telemetry document once
+                    telemetryDocument = telemetryDocument ?? convertTelemetryToTelemetryDocument(telemetry);
+
+                    matchingDocumentStreamIds.Add(matchingDocumentStream.Id);
+                }
+            }
+
+            if (telemetryDocument != null)
+            {
+                telemetryDocument.DocumentStreamIds = matchingDocumentStreamIds.ToArray();
+
+                // this document will count as 1 towards the global quota regardless of number of streams that are interested in it
+                telemetryDocument = this.globalQuotaTracker.ApplyQuota() ? telemetryDocument : null;
+            }
+
+            return telemetryDocument;
+        }
+
+        private void UpdateExceptionAggregates()
+        {
+            Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIExceptionCount);
+        }
+
+        private void UpdateDependencyAggregates(DependencyTelemetry dependencyTelemetry)
+        {
+            long dependencyCallCountAndDurationInTicks = QuickPulseDataAccumulator.EncodeCountAndDuration(1, dependencyTelemetry.Duration.Ticks);
+
+            Interlocked.Add(
+                ref this.dataAccumulatorManager.CurrentDataAccumulator.AIDependencyCallCountAndDurationInTicks,
+                dependencyCallCountAndDurationInTicks);
+
+            if (dependencyTelemetry.Success == true)
+            {
+                Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIDependencyCallSuccessCount);
+            }
+            else if (dependencyTelemetry.Success == false)
+            {
+                Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIDependencyCallFailureCount);
+            }
+        }
+
+        private void UpdateRequestAggregates(RequestTelemetry requestTelemetry)
+        {
+            long requestCountAndDurationInTicks = QuickPulseDataAccumulator.EncodeCountAndDuration(1, requestTelemetry.Duration.Ticks);
+
+            Interlocked.Add(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIRequestCountAndDurationInTicks, requestCountAndDurationInTicks);
+
+            if (requestTelemetry.Success == true)
+            {
+                Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIRequestSuccessCount);
+            }
+            else
+            {
+                Interlocked.Increment(ref this.dataAccumulatorManager.CurrentDataAccumulator.AIRequestFailureCount);
+            }
+        }
+
+        private void RegisterSelfWithQuickPulseTelemetryModule()
+        {
+            var module = TelemetryModules.Instance.Modules.OfType<QuickPulseTelemetryModule>().SingleOrDefault();
+
+            if (module != null)
+            {
+                module.RegisterTelemetryProcessor(this);
+                Volatile.Write(ref this.currentServiceEndpoint, module.ServiceClient?.CurrentServiceUri ?? QuickPulseDefaults.QuickPulseServiceEndpoint);
+            }
+        }
+    }
+}
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\WEB\Src\PerformanceCollector\PerformanceCollector\QuickPulseTelemetryProcessor.cs(480,55): error CS0136: A local or parameter named 'telemetryAsRequest' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter,D:\a\1\s\WEB\Src\PerformanceCollector\PerformanceCollector\QuickPulseTelemetryProcessor.cs(538,51): error CS0136: A local or parameter named 'telemetryAsRequest' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter,D:\a\1\s\WEB\Src\PerformanceCollector\PerformanceCollector\QuickPulseTelemetryProcessor.cs(589,51): error CS0136: A local or parameter named 'telemetryAsRequest' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
+######################################################################
+
+

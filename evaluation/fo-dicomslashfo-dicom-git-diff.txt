@@ -1,0 +1,583 @@
+diff --git a/DICOM/DicomAnonymizer.cs b/DICOM/DicomAnonymizer.cs
+index 8344503..610c6e8 100644
+--- a/DICOM/DicomAnonymizer.cs
++++ b/DICOM/DicomAnonymizer.cs
+@@ -331,8 +331,7 @@ private static void BlankItem(DicomDataset dataset, DicomItem item, bool nonZero
+                 return;
+             }
+ 
+-            var stringElement = item as DicomStringElement;
+-            if (stringElement != null)
++            if (item is DicomStringElement stringElement)
+             {
+                 dataset.AddOrUpdate(tag, string.Empty);
+                 return;
+diff --git a/DICOM/DicomFile.cs b/DICOM/DicomFile.cs
+index 62feef3..0c7556a 100644
+--- a/DICOM/DicomFile.cs
++++ b/DICOM/DicomFile.cs
+@@ -487,7 +487,7 @@ public static bool HasValidHeader(string path)
+         /// </returns>
+         public override string ToString()
+         {
+-            return string.Format("DICOM File [{0}]", this.Format);
++            return $"DICOM File [{this.Format}]";
+         }
+ 
+         /// <summary>
+diff --git a/DICOM/DicomMaskedTag.cs b/DICOM/DicomMaskedTag.cs
+index 717f45e..d4aaad8 100644
+--- a/DICOM/DicomMaskedTag.cs
++++ b/DICOM/DicomMaskedTag.cs
+@@ -65,8 +65,7 @@ public string ToString(string format, IFormatProvider formatProvider)
+         {
+             if (formatProvider != null)
+             {
+-                ICustomFormatter fmt = formatProvider.GetFormat(this.GetType()) as ICustomFormatter;
+-                if (fmt != null) return fmt.Format(format, this, formatProvider);
++                if (formatProvider.GetFormat(this.GetType()) is ICustomFormatter fmt) return fmt.Format(format, this, formatProvider);
+             }
+ 
+             switch (format)
+@@ -94,7 +93,7 @@ public string ToString(string format, IFormatProvider formatProvider)
+                 case "G":
+                 default:
+                     {
+-                        return String.Format("({0},{1})", this.ToString("g", null), this.ToString("e", null));
++                        return $"({this.ToString("g", null)},{this.ToString("e", null)})";
+                     }
+             }
+         }
+diff --git a/DICOM/DicomMatchRules.cs b/DICOM/DicomMatchRules.cs
+index 933d30b..cc9124c 100644
+--- a/DICOM/DicomMatchRules.cs
++++ b/DICOM/DicomMatchRules.cs
+@@ -132,7 +132,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("not {0}", _rule);
++            return $"not {_rule}";
+         }
+ 
+         #endregion
+@@ -167,7 +167,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("{0} exists", _tag);
++            return $"{_tag} exists";
+         }
+ 
+         #endregion
+@@ -202,7 +202,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("{0} is empty", _tag);
++            return $"{_tag} is empty";
+         }
+ 
+         #endregion
+@@ -249,7 +249,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("{0} equals '{1}'", _tag, _value);
++            return $"{_tag} equals '{_value}'";
+         }
+ 
+         #endregion
+@@ -288,7 +288,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("{0} starts with '{1}'", _tag, _value);
++            return $"{_tag} starts with '{_value}'";
+         }
+ 
+         #endregion
+@@ -327,7 +327,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("{0} ends with '{1}'", _tag, _value);
++            return $"{_tag} ends with '{_value}'";
+         }
+ 
+         #endregion
+@@ -366,7 +366,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("{0} contains '{1}'", _tag, _value);
++            return $"{_tag} contains '{_value}'";
+         }
+ 
+         #endregion
+@@ -405,7 +405,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("{0} wildcard match '{1}'", _tag, _pattern);
++            return $"{_tag} wildcard match '{_pattern}'";
+         }
+ 
+         #endregion
+@@ -447,7 +447,7 @@ public bool Match(DicomDataset dataset)
+ 
+         public override string ToString()
+         {
+-            return String.Format("{0} regex match '{1}'", _tag, _pattern);
++            return $"{_tag} regex match '{_pattern}'";
+         }
+ 
+         #endregion
+diff --git a/DICOM/DicomTransformRules.cs b/DICOM/DicomTransformRules.cs
+index 3d903a2..4998807 100644
+--- a/DICOM/DicomTransformRules.cs
++++ b/DICOM/DicomTransformRules.cs
+@@ -113,8 +113,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("[{0}]", _mask);
+-            return String.Format("'{0}' remove", name);
++            string name = $"[{_mask}]";
++            return $"'{name}' remove";
+         }
+ 
+         #endregion
+@@ -153,8 +153,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' set '{1}'", name, _value);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' set '{_value}'";
+         }
+ 
+         #endregion
+@@ -196,8 +196,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _match.Tag, _match.Tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' map '{1}' -> '{2}'", name, _match.Value, _value);
++            string name = $"{_match.Tag} {_match.Tag.DictionaryEntry.Name}";
++            return $"'{name}' map '{_match.Value}' -> '{_value}'";
+         }
+ 
+         #endregion
+@@ -239,9 +239,9 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string sname = String.Format("{0} {1}", _src, _src.DictionaryEntry.Name);
+-            string dname = String.Format("{0} {1}", _dst, _dst.DictionaryEntry.Name);
+-            return String.Format("'{0}' copy to '{1}'", sname, dname);
++            string sname = $"{_src} {_src.DictionaryEntry.Name}";
++            string dname = $"{_dst} {_dst.DictionaryEntry.Name}";
++            return $"'{sname}' copy to '{dname}'";
+         }
+ 
+         #endregion
+@@ -288,8 +288,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' regex '{1}' -> '{2}'", name, _pattern, _replacement);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' regex '{_pattern}' -> '{_replacement}'";
+         }
+ 
+         #endregion
+@@ -332,8 +332,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' prefix '{1}'", name, _prefix);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' prefix '{_prefix}'";
+         }
+ 
+         #endregion
+@@ -376,8 +376,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' append '{1}'", name, _append);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' append '{_append}'";
+         }
+ 
+         #endregion
+@@ -434,8 +434,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' trim '{1}' from {2}", name, _trim, _position.ToString().ToLower());
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' trim '{_trim}' from {_position.ToString().ToLower()}";
+         }
+ 
+         #endregion
+@@ -503,14 +503,10 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
+             if (_trim != null)
+-                return String.Format(
+-                    "'{0}' trim '{1}' from {2}",
+-                    name,
+-                    new string(_trim),
+-                    _position.ToString().ToLower());
+-            else return String.Format("'{0}' trim whitespace from {1}", name, _position.ToString().ToLower());
++                return $"'{name}' trim '{new string (_trim)}' from {_position.ToString().ToLower()}";
++            else return $"'{name}' trim whitespace from {_position.ToString().ToLower()}";
+         }
+ 
+         #endregion
+@@ -558,8 +554,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' pad to {1} with '{2}'", name, _totalLength, _paddingChar);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' pad to {_totalLength} with '{_paddingChar}'";
+         }
+ 
+         #endregion
+@@ -608,8 +604,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' truncate to {1} characters", name, _length);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' truncate to {_length} characters";
+         }
+ 
+         #endregion
+@@ -657,8 +653,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' split on '{1}' and format as '{2}'", name, new string(_seperators), _format);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' split on '{new string (_seperators)}' and format as '{_format}'";
+         }
+ 
+         #endregion
+@@ -698,8 +694,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' to upper case", name);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' to upper case";
+         }
+ 
+         #endregion
+@@ -739,8 +735,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' to lower case", name);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' to lower case";
+         }
+ 
+         #endregion
+@@ -780,8 +776,8 @@ public void Transform(DicomDataset dataset, DicomDataset modifiedAttributesSeque
+ 
+         public override string ToString()
+         {
+-            string name = String.Format("{0} {1}", _tag, _tag.DictionaryEntry.Name);
+-            return String.Format("'{0}' generate UID", name);
++            string name = $"{_tag} {_tag.DictionaryEntry.Name}";
++            return $"'{name}' generate UID";
+         }
+ 
+         #endregion
+diff --git a/DICOM/Imaging/ColorSpace.cs b/DICOM/Imaging/ColorSpace.cs
+index 7567657..60104dc 100644
+--- a/DICOM/Imaging/ColorSpace.cs
++++ b/DICOM/Imaging/ColorSpace.cs
+@@ -38,8 +38,7 @@ public override bool Equals(object obj)
+         {
+             if (obj is null) return false;
+             if (ReferenceEquals(this, obj)) return true;
+-            var other = obj as ColorSpace;
+-            return other != null && Equals(other);
++            return obj is ColorSpace other && Equals(other);
+         }
+ 
+         public override int GetHashCode()
+diff --git a/DICOM/Imaging/Mathematics/Geometry3D.cs b/DICOM/Imaging/Mathematics/Geometry3D.cs
+index bbd651d..d40590d 100644
+--- a/DICOM/Imaging/Mathematics/Geometry3D.cs
++++ b/DICOM/Imaging/Mathematics/Geometry3D.cs
+@@ -204,7 +204,7 @@ public override bool Equals(object obj)
+ 
+         public override string ToString()
+         {
+-            return string.Format("({0}, {1}, {2})", X, Y, Z);
++            return $"({X}, {Y}, {Z})";
+         }
+ 
+         public Vector3D Clone()
+@@ -495,7 +495,7 @@ public override bool Equals(object obj)
+ 
+         public override string ToString()
+         {
+-            return string.Format("({0}, {1}, {2})", X, Y, Z);
++            return $"({X}, {Y}, {Z})";
+         }
+ 
+         #endregion
+diff --git a/DICOM/Imaging/Mathematics/Point2.cs b/DICOM/Imaging/Mathematics/Point2.cs
+index cdd4131..6ec358b 100644
+--- a/DICOM/Imaging/Mathematics/Point2.cs
++++ b/DICOM/Imaging/Mathematics/Point2.cs
+@@ -54,7 +54,7 @@ public override int GetHashCode()
+         /// <returns>String representation</returns>
+         public override string ToString()
+         {
+-            return String.Format("({0},{1})", X, Y);
++            return $"({X},{Y})";
+         }
+ 
+         /// <summary>IComparable interface implementation</summary>
+diff --git a/DICOM/Network/DesktopNetworkListener.cs b/DICOM/Network/DesktopNetworkListener.cs
+index 2ea5931..a71ec8a 100644
+--- a/DICOM/Network/DesktopNetworkListener.cs
++++ b/DICOM/Network/DesktopNetworkListener.cs
+@@ -75,8 +75,7 @@ public void Stop()
+                     cancelSource.Cancel();
+                 }
+ 
+-                var tcpClientTask = awaiter as Task<TcpClient>;
+-                if (tcpClientTask != null)
++                if (awaiter is Task<TcpClient> tcpClientTask)
+                 {
+                     var tcpClient = tcpClientTask.Result;
+                     tcpClient.NoDelay = noDelay;
+diff --git a/DICOM/Network/DesktopNetworkManager.cs b/DICOM/Network/DesktopNetworkManager.cs
+index 2c3c69c..411a4fd 100644
+--- a/DICOM/Network/DesktopNetworkManager.cs
++++ b/DICOM/Network/DesktopNetworkManager.cs
+@@ -68,8 +68,7 @@ protected internal override INetworkStream CreateNetworkStreamImpl(string host,
+         /// <inheritdoc />
+         protected internal override bool IsSocketExceptionImpl(Exception exception, out int errorCode, out string errorDescriptor)
+         {
+-            var socketEx = exception as SocketException;
+-            if (socketEx != null)
++            if (exception is SocketException socketEx)
+             {
+ #if NETSTANDARD
+                 errorCode = (int)socketEx.SocketErrorCode;
+diff --git a/DICOM/Network/DicomService.cs b/DICOM/Network/DicomService.cs
+index c57f692..a447a6e 100644
+--- a/DICOM/Network/DicomService.cs
++++ b/DICOM/Network/DicomService.cs
+@@ -1114,9 +1114,7 @@ internal async Task SendNextMessageAsync()
+                         break;
+                     }
+ 
+-                    if (Association.MaxAsyncOpsInvoked > 0
+-                        && _pending.Count(req => req.Type != DicomCommandField.CGetRequest && req.Type != DicomCommandField.NActionRequest)
+-                        >= Association.MaxAsyncOpsInvoked)
++                    if (Association.MaxAsyncOpsInvoked > 0 && _pending.Count(req => req.Type != DicomCommandField.CGetRequest && req.Type != DicomCommandField.NActionRequest) >= Association.MaxAsyncOpsInvoked)
+                     {
+                         break;
+                     }
+diff --git a/DICOM/Network/DicomStatus.cs b/DICOM/Network/DicomStatus.cs
+index f5189bd..80847a4 100644
+--- a/DICOM/Network/DicomStatus.cs
++++ b/DICOM/Network/DicomStatus.cs
+@@ -104,7 +104,7 @@ public DicomStatus(string code, DicomState status, string desc, string comment)
+         /// <param name="status">The status.</param>
+         /// <param name="comment">The comment.</param>
+         public DicomStatus(DicomStatus status, string comment)
+-            : this(string.Format("{0:x4}", status.Code), status.State, status.Description, comment)
++            : this($"{status.Code:x4}", status.State, status.Description, comment)
+         {
+         }
+ 
+diff --git a/DICOM/Printing/FilmBox.cs b/DICOM/Printing/FilmBox.cs
+index a372286..07e751b 100644
+--- a/DICOM/Printing/FilmBox.cs
++++ b/DICOM/Printing/FilmBox.cs
+@@ -565,7 +565,7 @@ private void CreateImageBox()
+             }
+ 
+             DicomUID sopInstance = new DicomUID(
+-                string.Format("{0}.{1}", SOPInstanceUID.UID, BasicImageBoxes.Count + 1),
++                $"{SOPInstanceUID.UID}.{BasicImageBoxes.Count + 1}",
+                 SOPInstanceUID.Name,
+                 SOPInstanceUID.Type);
+ 
+diff --git a/DICOM/Printing/FilmBoxExtensions.cs b/DICOM/Printing/FilmBoxExtensions.cs
+index c1aceb6..fba8d3d 100644
+--- a/DICOM/Printing/FilmBoxExtensions.cs
++++ b/DICOM/Printing/FilmBoxExtensions.cs
+@@ -86,7 +86,7 @@ public static void Print(this FilmBox filmBox, Graphics graphics, Rectangle marg
+                 if (boxes == null)
+                 {
+                     throw new InvalidOperationException(
+-                        string.Format("ImageDisplayFormat {0} invalid", filmBox.ImageDisplayFormat));
++                        $"ImageDisplayFormat {filmBox.ImageDisplayFormat} invalid");
+                 }
+ 
+                 for (var i = 0; i < filmBox.BasicImageBoxes.Count; i++)
+diff --git a/DICOM/Printing/FilmSession.cs b/DICOM/Printing/FilmSession.cs
+index 5d75462..d1ead95 100644
+--- a/DICOM/Printing/FilmSession.cs
++++ b/DICOM/Printing/FilmSession.cs
+@@ -259,7 +259,7 @@ public PresentationLut CreatePresentationLut(DicomUID sopInstance, DicomDataset
+             if (uid == null || uid.UID == string.Empty)
+             {
+                 uid = new DicomUID(
+-                    string.Format("{0}.{1}", SOPInstanceUID.UID, BasicFilmBoxes.Count + 1),
++                    $"{SOPInstanceUID.UID}.{BasicFilmBoxes.Count + 1}",
+                     SOPInstanceUID.Name,
+                     SOPInstanceUID.Type);
+             }
+diff --git a/DICOM/Printing/ImageBoxExtensions.cs b/DICOM/Printing/ImageBoxExtensions.cs
+index 8944434..717beda 100644
+--- a/DICOM/Printing/ImageBoxExtensions.cs
++++ b/DICOM/Printing/ImageBoxExtensions.cs
+@@ -56,10 +56,7 @@ public static void Print(this ImageBox imageBox, Graphics graphics, RectF box, i
+                 }
+                 finally
+                 {
+-                    if (bitmap != null)
+-                    {
+-                        bitmap.Dispose();
+-                    }
++                    bitmap?.Dispose();
+                 }
+             }
+ 
+diff --git a/DICOM/Serialization/DicomXML.cs b/DICOM/Serialization/DicomXML.cs
+index b97c03d..c07f718 100644
+--- a/DICOM/Serialization/DicomXML.cs
++++ b/DICOM/Serialization/DicomXML.cs
+@@ -64,9 +64,9 @@ private static void DicomDatasetToXml(StringBuilder xmlOutput, DicomDataset data
+         {
+             foreach (var item in dataset)
+             {
+-                if (item is DicomElement)
++                if (item is DicomElement dicomElement)
+                 {
+-                    DicomElementToXml(xmlOutput, (DicomElement)item);
++                    DicomElementToXml(xmlOutput, dicomElement);
+                 }
+                 else if (item is DicomSequence)
+                 {
+diff --git a/DICOM/StructuredReport/DicomCodeItem.cs b/DICOM/StructuredReport/DicomCodeItem.cs
+index cab8292..5f60ee4 100644
+--- a/DICOM/StructuredReport/DicomCodeItem.cs
++++ b/DICOM/StructuredReport/DicomCodeItem.cs
+@@ -73,8 +73,8 @@ public override int GetHashCode()
+ 
+         public override string ToString()
+         {
+-            if (!String.IsNullOrEmpty(Version)) return String.Format("({0},{1}:{2},\"{3}\")", Value, Scheme, Version, Meaning);
+-            return String.Format("({0},{1},\"{2}\")", Value, Scheme, Meaning);
++            if (!String.IsNullOrEmpty(Version)) return $"({Value},{Scheme}:{Version},\"{Meaning}\")";
++            return $"({Value},{Scheme},\"{Meaning}\")";
+         }
+     }
+ }
+diff --git a/DICOM/StructuredReport/DicomContentItem.cs b/DICOM/StructuredReport/DicomContentItem.cs
+index 61f6358..573ef7a 100644
+--- a/DICOM/StructuredReport/DicomContentItem.cs
++++ b/DICOM/StructuredReport/DicomContentItem.cs
+@@ -509,15 +509,12 @@ public override string ToString()
+             var s = Dataset.GetValueOrDefault(DicomTag.RelationshipType, 0, String.Empty);
+             if (!String.IsNullOrEmpty(s)) s += " ";
+             else s = String.Empty;
+-            if (Code != null) s += String.Format("{0} {1}", Code.ToString(), Dataset.GetSingleValueOrDefault(DicomTag.ValueType, "UNKNOWN"));
++            if (Code != null) s += $"{Code.ToString()} {Dataset.GetSingleValueOrDefault(DicomTag.ValueType, "UNKNOWN")}";
+             else
+-                s += String.Format(
+-                    "{0} {1}",
+-                    "(no code provided)",
+-                    Dataset.GetValueOrDefault(DicomTag.ValueType, 0, "UNKNOWN"));
++                s += $"{"(no code provided)"} {Dataset.GetValueOrDefault(DicomTag.ValueType, 0, "UNKNOWN")}";
+             try
+             {
+-                s += String.Format(" [{0}]", Get<string>());
++                s += $" [{Get<string>()}]";
+             }
+             catch
+             {
+diff --git a/Tests/Desktop/Network/Client/DicomClientTest.cs b/Tests/Desktop/Network/Client/DicomClientTest.cs
+index d3ec0d0..a36dff4 100644
+--- a/Tests/Desktop/Network/Client/DicomClientTest.cs
++++ b/Tests/Desktop/Network/Client/DicomClientTest.cs
+@@ -1294,7 +1294,7 @@ public async Task OnCStoreRequest_AfterCGet_ShouldTrigger()
+ 
+                 AllResponsesShouldHaveSucceeded(responses);
+ 
+-                Assert.Equal(numberOfRequests, responses.Count());
++                Assert.Equal(numberOfRequests, responses.Count);
+ 
+                 Assert.Equal(expectedNumberOfAssociations, server.Providers.Count());
+ 
+diff --git a/Tools/DICOM Dump/MainForm.cs b/Tools/DICOM Dump/MainForm.cs
+index 25d4f27..bb8b970 100644
+--- a/Tools/DICOM Dump/MainForm.cs	
++++ b/Tools/DICOM Dump/MainForm.cs	
+@@ -196,11 +196,7 @@ public void OnBeginWalk()
+ 
+             public bool OnElement(DicomElement element)
+             {
+-                var tag = string.Format(
+-                    "{0}{1}  {2}",
+-                    Indent,
+-                    element.Tag.ToString().ToUpperInvariant(),
+-                    element.Tag.DictionaryEntry.Name);
++                var tag = $"{Indent}{element.Tag.ToString().ToUpperInvariant()}  {element.Tag.DictionaryEntry.Name}";
+ 
+                 string value = "<large value not displayed>";
+                 if (element.Length <= 2048) value = string.Join("\\", element.Get<string[]>());
+@@ -225,11 +221,7 @@ public Task<bool> OnElementAsync(DicomElement element)
+ 
+             public bool OnBeginSequence(DicomSequence sequence)
+             {
+-                var tag = string.Format(
+-                    "{0}{1}  {2}",
+-                    Indent,
+-                    sequence.Tag.ToString().ToUpperInvariant(),
+-                    sequence.Tag.DictionaryEntry.Name);
++                var tag = $"{Indent}{sequence.Tag.ToString().ToUpperInvariant()}  {sequence.Tag.DictionaryEntry.Name}";
+ 
+                 Form.AddItem(tag, "SQ", string.Empty, string.Empty);
+ 
+@@ -261,11 +253,7 @@ public bool OnEndSequence()
+ 
+             public bool OnBeginFragment(DicomFragmentSequence fragment)
+             {
+-                var tag = string.Format(
+-                    "{0}{1}  {2}",
+-                    Indent,
+-                    fragment.Tag.ToString().ToUpperInvariant(),
+-                    fragment.Tag.DictionaryEntry.Name);
++                var tag = $"{Indent}{fragment.Tag.ToString().ToUpperInvariant()}  {fragment.Tag.DictionaryEntry.Name}";
+ 
+                 Form.AddItem(tag, fragment.ValueRepresentation.Code, string.Empty, string.Empty);
+ 

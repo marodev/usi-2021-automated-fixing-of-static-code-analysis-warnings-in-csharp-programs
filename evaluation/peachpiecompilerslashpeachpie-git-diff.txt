@@ -1,0 +1,1720 @@
+diff --git a/src/Peachpie.CodeAnalysis/CodeGen/CodeGenerator.Emit.cs b/src/Peachpie.CodeAnalysis/CodeGen/CodeGenerator.Emit.cs
+index 521e6bb4e..1f4c6de55 100644
+--- a/src/Peachpie.CodeAnalysis/CodeGen/CodeGenerator.Emit.cs
++++ b/src/Peachpie.CodeAnalysis/CodeGen/CodeGenerator.Emit.cs
+@@ -1402,7 +1402,7 @@ internal TypeSymbol LoadTargetInstance(BoundExpression thisExpr, MethodSymbol me
+ 
+                             var dummyctor =
+                                 (MethodSymbol)(targetType as IPhpTypeSymbol)?.InstanceConstructorFieldsOnly ??    // .ctor that only initializes fields with default values
+-                                targetType.InstanceConstructors.Where(m => !m.IsPhpHidden && m.Parameters.All(p => p.IsImplicitlyDeclared)).FirstOrDefault();   // implicit ctor
++                                targetType.InstanceConstructors.FirstOrDefault(m => !m.IsPhpHidden && m.Parameters.All(p => p.IsImplicitlyDeclared));   // implicit ctor
+ 
+                             if (dummyctor != null)
+                             {
+@@ -3483,9 +3483,9 @@ public TypeSymbol EmitLoadConstant(object value, TypeSymbol targetOpt = null, bo
+                 Builder.EmitDoubleConstant(d);
+                 return CoreTypes.Double;
+             }
+-            else if (value is float)
++            else if (value is float f)
+             {
+-                Builder.EmitSingleConstant((float)value);
++                Builder.EmitSingleConstant(f);
+                 return DeclaringCompilation.GetSpecialType(SpecialType.System_Single);
+             }
+             else if (value is uint)
+@@ -3514,7 +3514,7 @@ public TypeSymbol EmitLoadConstant(object value, TypeSymbol targetOpt = null, bo
+                 _il.EmitLongConstant(unchecked((long)ul));
+                 return DeclaringCompilation.GetSpecialType(SpecialType.System_UInt64);
+             }
+-            else if (value is char)
++            else if (value is char c)
+             {
+                 switch (targetOpt.GetSpecialTypeSafe())
+                 {
+@@ -3523,7 +3523,7 @@ public TypeSymbol EmitLoadConstant(object value, TypeSymbol targetOpt = null, bo
+                         return targetOpt;
+                 }
+ 
+-                Builder.EmitCharConstant((char)value);
++                Builder.EmitCharConstant(c);
+                 return DeclaringCompilation.GetSpecialType(SpecialType.System_Char);
+             }
+             else
+diff --git a/src/Peachpie.CodeAnalysis/CodeGen/CodeGenerator.cs b/src/Peachpie.CodeAnalysis/CodeGen/CodeGenerator.cs
+index 73867f7e0..3cefaecbf 100644
+--- a/src/Peachpie.CodeAnalysis/CodeGen/CodeGenerator.cs
++++ b/src/Peachpie.CodeAnalysis/CodeGen/CodeGenerator.cs
+@@ -112,10 +112,7 @@ public void ContinueWith(BoundBlock block)
+ 
+                     if (_blocks == null || _blocks.Count == 0 || _blocks.Comparer.Compare(block, _blocks.First()) < 0)
+                     {
+-                        if (_blocks != null)
+-                        {
+-                            _blocks.Remove(block);
+-                        }
++                        _blocks?.Remove(block);
+ 
+                         // continue with the block
+                         _codegen.GenerateBlock(block);
+diff --git a/src/Peachpie.CodeAnalysis/CodeGen/Graph/BoundEdge.cs b/src/Peachpie.CodeAnalysis/CodeGen/Graph/BoundEdge.cs
+index 9f9f0d85e..a61868407 100644
+--- a/src/Peachpie.CodeAnalysis/CodeGen/Graph/BoundEdge.cs
++++ b/src/Peachpie.CodeAnalysis/CodeGen/Graph/BoundEdge.cs
+@@ -1121,7 +1121,7 @@ internal override void Generate(CodeGenerator cg)
+         // TODO: move to helpers
+         static ConstantValue Int32Constant(object value)
+         {
+-            if (value is int) return ConstantValue.Create((int)value);
++            if (value is int i) return ConstantValue.Create(i);
+             if (value is long) return ConstantValue.Create((int)(long)value);
+             if (value is double) return ConstantValue.Create((int)(double)value);
+ 
+diff --git a/src/Peachpie.CodeAnalysis/CodeGen/Graph/BoundExpression.cs b/src/Peachpie.CodeAnalysis/CodeGen/Graph/BoundExpression.cs
+index fc1af6409..6d8e4eaf3 100644
+--- a/src/Peachpie.CodeAnalysis/CodeGen/Graph/BoundExpression.cs
++++ b/src/Peachpie.CodeAnalysis/CodeGen/Graph/BoundExpression.cs
+@@ -3033,10 +3033,9 @@ private TypeSymbol EmitNewClass(CodeGenerator cg)
+                     // context.Create<T>(caller, params)
+                     var create_t = cg.CoreTypes.Context.Symbol.GetMembers("Create")
+                         .OfType<MethodSymbol>()
+-                        .Where(s => s.Arity == 1 && s.ParameterCount == 2 &&
++                        .Single(s => s.Arity == 1 && s.ParameterCount == 2 &&
+                             s.Parameters[1].IsParams &&
+                             SpecialParameterSymbol.IsCallerClassParameter(s.Parameters[0]))
+-                        .Single()
+                         .Construct(_typeref.Type);
+ 
+                     cg.EmitLoadContext();               // Context
+@@ -3050,11 +3049,11 @@ private TypeSymbol EmitNewClass(CodeGenerator cg)
+                     // ctx.Create(caller, PhpTypeInfo, params)
+                     var create = cg.CoreTypes.Context.Symbol.GetMembers("Create")
+                         .OfType<MethodSymbol>()
+-                        .Where(s => s.Arity == 0 && s.ParameterCount == 3 &&
++                        .Single(s => s.Arity == 0 && s.ParameterCount == 3 &&
+                             s.Parameters[1].Type == cg.CoreTypes.PhpTypeInfo &&
+                             s.Parameters[2].IsParams && ((ArrayTypeSymbol)s.Parameters[2].Type).ElementType == cg.CoreTypes.PhpValue &&
+                             SpecialParameterSymbol.IsCallerClassParameter(s.Parameters[0]))
+-                        .Single();
++;
+ 
+                     cg.EmitLoadContext();               // Context
+                     cg.EmitCallerTypeHandle();          // RuntimeTypeHandle
+diff --git a/src/Peachpie.CodeAnalysis/CodeGen/Symbols/SourceTypeSymbol.cs b/src/Peachpie.CodeAnalysis/CodeGen/Symbols/SourceTypeSymbol.cs
+index 947bf33b8..d59e2b7db 100644
+--- a/src/Peachpie.CodeAnalysis/CodeGen/Symbols/SourceTypeSymbol.cs
++++ b/src/Peachpie.CodeAnalysis/CodeGen/Symbols/SourceTypeSymbol.cs
+@@ -414,17 +414,15 @@ void EmitTraitInstanceInit(CodeGenerator cg, SynthesizedPhpCtorSymbol ctor, Trai
+             var tctor = t.Symbol.InstanceConstructors[0];
+             Debug.Assert(tctor.ParameterCount == 2);
+             Debug.Assert(tctor.Parameters[0].Type == cg.CoreTypes.Context);
+-            //Debug.Assert(tctor.Parameters[1].Type == TSelfParameter);
+-
+-            // using trait in trait?
+-            var ctort = ctor as SynthesizedPhpTraitCtorSymbol;
++            //Debug.Assert(tctor.Parameters[1].Type == TSelfParameter);            // using trait in trait?
+ 
+             //
+             instancePlace.EmitStorePrepare(cg.Builder);
+             // Context:
+             cg.EmitLoadContext();
++
+             // this:
+-            if (ctort != null) ctort.ThisParameter.EmitLoad(cg.Builder);    // this is passed from caller
++            if (ctor is SynthesizedPhpTraitCtorSymbol ctort) ctort.ThisParameter.EmitLoad(cg.Builder);    // this is passed from caller
+             else cg.EmitThis();
+             // new T<TSelf>(...)
+             cg.EmitCall(ILOpCode.Newobj, tctor);
+diff --git a/src/Peachpie.CodeAnalysis/Compilation/PhpCompilation.Types.cs b/src/Peachpie.CodeAnalysis/Compilation/PhpCompilation.Types.cs
+index ab30c3445..08acad124 100644
+--- a/src/Peachpie.CodeAnalysis/Compilation/PhpCompilation.Types.cs
++++ b/src/Peachpie.CodeAnalysis/Compilation/PhpCompilation.Types.cs
+@@ -628,8 +628,8 @@ protected override INamedTypeSymbol CommonGetTypeByMetadataName(string metadataN
+         {
+             return ProbingAssemblies
+                     .Select(a => a.GetTypeByMetadataName(metadataName))
+-                    .Where(a => a != null)
+-                    .FirstOrDefault();
++                    .FirstOrDefault(a => a != null)
++;
+         }
+ 
+         /// <summary>
+diff --git a/src/Peachpie.CodeAnalysis/DocumentationComments/CommentIdResolver.cs b/src/Peachpie.CodeAnalysis/DocumentationComments/CommentIdResolver.cs
+index 50f73b7e0..dbede67b8 100644
+--- a/src/Peachpie.CodeAnalysis/DocumentationComments/CommentIdResolver.cs
++++ b/src/Peachpie.CodeAnalysis/DocumentationComments/CommentIdResolver.cs
+@@ -13,9 +13,9 @@ internal static class CommentIdResolver
+     {
+         public static string GetId(Symbol symbol)
+         {
+-            if (symbol is MethodSymbol) return GetId((MethodSymbol)symbol);
+-            if (symbol is TypeSymbol) return GetId((TypeSymbol)symbol);
+-            if (symbol is FieldSymbol) return GetId((FieldSymbol)symbol);
++            if (symbol is MethodSymbol methodSymbol) return GetId(methodSymbol);
++            if (symbol is TypeSymbol typeSymbol) return GetId(typeSymbol);
++            if (symbol is FieldSymbol fieldSymbol) return GetId(fieldSymbol);
+ 
+             return null;
+         }
+@@ -30,9 +30,8 @@ static string TypeId(TypeSymbol type)
+         {
+             string id;
+ 
+-            if (type is ArrayTypeSymbol)
++            if (type is ArrayTypeSymbol arrtype)
+             {
+-                var arrtype = (ArrayTypeSymbol)type;
+                 id = TypeId(arrtype.ElementType) + "[]";  // TODO: MDSize
+             }
+             else if (type.IsTypeParameter())
+diff --git a/src/Peachpie.CodeAnalysis/DocumentationComments/DocumentationCommentCompiler.cs b/src/Peachpie.CodeAnalysis/DocumentationComments/DocumentationCommentCompiler.cs
+index 9766d29d1..39e3a9b32 100644
+--- a/src/Peachpie.CodeAnalysis/DocumentationComments/DocumentationCommentCompiler.cs
++++ b/src/Peachpie.CodeAnalysis/DocumentationComments/DocumentationCommentCompiler.cs
+@@ -290,7 +290,7 @@ void WriteType(SourceTypeSymbol type)
+ 
+                             if (!string.IsNullOrEmpty(vartag.TypeNames))
+                             {
+-                                value = string.Format("<value>{0}</value>", XmlEncode(vartag.TypeNames));
++                                value = $"<value>{XmlEncode(vartag.TypeNames)}</value>";
+                             }
+                         }
+                     }
+diff --git a/src/Peachpie.CodeAnalysis/Emitter/Model/PEModuleBuilder.cs b/src/Peachpie.CodeAnalysis/Emitter/Model/PEModuleBuilder.cs
+index 5f0ee8c73..3851ce910 100644
+--- a/src/Peachpie.CodeAnalysis/Emitter/Model/PEModuleBuilder.cs
++++ b/src/Peachpie.CodeAnalysis/Emitter/Model/PEModuleBuilder.cs
+@@ -789,8 +789,7 @@ static void VisitTopLevelType(Cci.TypeReferenceIndexer noPiaIndexer, Cci.INamesp
+ 
+         public override bool IsPlatformType(Cci.ITypeReference typeRef, Cci.PlatformType platformType)
+         {
+-            var namedType = typeRef as PENamedTypeSymbol;
+-            if (namedType != null)
++            if (typeRef is PENamedTypeSymbol namedType)
+             {
+                 if (platformType == Cci.PlatformType.SystemType)
+                 {
+diff --git a/src/Peachpie.CodeAnalysis/FlowAnalysis/AnalysisWalker.cs b/src/Peachpie.CodeAnalysis/FlowAnalysis/AnalysisWalker.cs
+index a9f007458..0d6be071f 100644
+--- a/src/Peachpie.CodeAnalysis/FlowAnalysis/AnalysisWalker.cs
++++ b/src/Peachpie.CodeAnalysis/FlowAnalysis/AnalysisWalker.cs
+@@ -173,9 +173,9 @@ internal bool VisitCondition(BoundExpression condition, ConditionBranch branch)
+ 
+             if (branch != ConditionBranch.AnyResult)
+             {
+-                if (condition is BoundBinaryEx)
++                if (condition is BoundBinaryEx boundBinaryEx)
+                 {
+-                    Visit((BoundBinaryEx)condition, branch);
++                    Visit(boundBinaryEx, branch);
+                     return true;
+                 }
+                 if (condition is BoundUnaryEx unaryEx)
+@@ -183,19 +183,19 @@ internal bool VisitCondition(BoundExpression condition, ConditionBranch branch)
+                     Visit(unaryEx, branch);
+                     return true;
+                 }
+-                if (condition is BoundGlobalFunctionCall)
++                if (condition is BoundGlobalFunctionCall boundGlobalFunctionCall)
+                 {
+-                    VisitGlobalFunctionCall((BoundGlobalFunctionCall)condition, branch);
++                    VisitGlobalFunctionCall(boundGlobalFunctionCall, branch);
+                     return true;
+                 }
+-                if (condition is BoundInstanceOfEx)
++                if (condition is BoundInstanceOfEx boundInstanceOfEx)
+                 {
+-                    Visit((BoundInstanceOfEx)condition, branch);
++                    Visit(boundInstanceOfEx, branch);
+                     return true;
+                 }
+-                if (condition is BoundIsSetEx)
++                if (condition is BoundIsSetEx boundIsSetEx)
+                 {
+-                    Visit((BoundIsSetEx)condition, branch);
++                    Visit(boundIsSetEx, branch);
+                     return true;
+                 }
+                 //if (condition is EmptyEx)
+diff --git a/src/Peachpie.CodeAnalysis/FlowAnalysis/ExpressionAnalysis.cs b/src/Peachpie.CodeAnalysis/FlowAnalysis/ExpressionAnalysis.cs
+index c3a9b2090..9d6b91579 100644
+--- a/src/Peachpie.CodeAnalysis/FlowAnalysis/ExpressionAnalysis.cs
++++ b/src/Peachpie.CodeAnalysis/FlowAnalysis/ExpressionAnalysis.cs
+@@ -2356,7 +2356,7 @@ public override T VisitFieldRef(BoundFieldRef x)
+                                     x.ResultType = field.Type;
+                                     return default;
+                                 }
+-                                else if (srcf != null && srcf.FieldAccessorProperty != null && srcf.FieldAccessorProperty.IsAccessible(TypeCtx.SelfType))
++                                else if (srcf?.FieldAccessorProperty != null && srcf.FieldAccessorProperty.IsAccessible(TypeCtx.SelfType))
+                                 {
+                                     member = srcf.FieldAccessorProperty; // use the wrapping property that is accessible from current context
+                                     // -> continue
+diff --git a/src/Peachpie.CodeAnalysis/FlowAnalysis/PHPDoc.cs b/src/Peachpie.CodeAnalysis/FlowAnalysis/PHPDoc.cs
+index b02022b0c..e26cc722d 100644
+--- a/src/Peachpie.CodeAnalysis/FlowAnalysis/PHPDoc.cs
++++ b/src/Peachpie.CodeAnalysis/FlowAnalysis/PHPDoc.cs
+@@ -183,8 +183,7 @@ public static PHPDocBlock.ParamTag GetParamTag(PHPDocBlock phpdoc, int paramInde
+                 var elements = phpdoc.Elements;
+                 foreach (var element in elements)
+                 {
+-                    var ptag = element as PHPDocBlock.ParamTag;
+-                    if (ptag != null)
++                    if (element is PHPDocBlock.ParamTag ptag)
+                     {
+                         if (string.IsNullOrEmpty(ptag.VariableName))
+                         {
+diff --git a/src/Peachpie.CodeAnalysis/Semantics/Model/GlobalSymbolProvider.cs b/src/Peachpie.CodeAnalysis/Semantics/Model/GlobalSymbolProvider.cs
+index 10cb4448c..a19b8161f 100644
+--- a/src/Peachpie.CodeAnalysis/Semantics/Model/GlobalSymbolProvider.cs
++++ b/src/Peachpie.CodeAnalysis/Semantics/Model/GlobalSymbolProvider.cs
+@@ -388,7 +388,7 @@ public IPhpValue ResolveConstant(string name)
+             foreach (var container in ExtensionContainers)
+             {
+                 // container.Constant
+-                var match = container.GetMembers(name).Where(IsGlobalConstant).SingleOrDefault();
++                var match = container.GetMembers(name).SingleOrDefault(IsGlobalConstant);
+                 if (match is IPhpValue phpv) // != null
+                 {
+                     return phpv;
+diff --git a/src/Peachpie.CodeAnalysis/Semantics/SemanticsBinder.cs b/src/Peachpie.CodeAnalysis/Semantics/SemanticsBinder.cs
+index ce58722e1..ac60d37a7 100644
+--- a/src/Peachpie.CodeAnalysis/Semantics/SemanticsBinder.cs
++++ b/src/Peachpie.CodeAnalysis/Semantics/SemanticsBinder.cs
+@@ -511,41 +511,41 @@ protected BoundExpression BindExpressionCore(AST.Expression expr, BoundAccess ac
+         {
+             Debug.Assert(expr != null);
+ 
+-            if (expr is AST.Literal) return BindLiteral((AST.Literal)expr).WithAccess(access);
+-            if (expr is AST.ConstantUse) return BindConstUse((AST.ConstantUse)expr).WithAccess(access);
+-            if (expr is AST.VarLikeConstructUse)
++            if (expr is AST.Literal literal) return BindLiteral(literal).WithAccess(access);
++            if (expr is AST.ConstantUse constantUse) return BindConstUse(constantUse).WithAccess(access);
++            if (expr is AST.VarLikeConstructUse varLikeConstructUse)
+             {
+-                if (((AST.VarLikeConstructUse)expr).IsNullSafeObjectOperation)
++                if (varLikeConstructUse.IsNullSafeObjectOperation)
+                 {
+                     Diagnostics.Add(GetLocation(expr), Errors.ErrorCode.ERR_NotYetImplemented, $"null-safe object operator");
+                 }
+ 
+-                if (expr is AST.SimpleVarUse) return BindSimpleVarUse((AST.SimpleVarUse)expr, access);
+-                if (expr is AST.FunctionCall) return BindFunctionCall((AST.FunctionCall)expr).WithAccess(access);
+-                if (expr is AST.NewEx) return BindNew((AST.NewEx)expr, access);
+-                if (expr is AST.ArrayEx) return BindArrayEx((AST.ArrayEx)expr, access);
+-                if (expr is AST.ItemUse) return BindItemUse((AST.ItemUse)expr, access);
+-                if (expr is AST.StaticFieldUse) return BindFieldUse((AST.StaticFieldUse)expr, access);
+-            }
+-            if (expr is AST.BinaryEx) return BindBinaryEx((AST.BinaryEx)expr).WithAccess(access);
+-            if (expr is AST.AssignEx) return BindAssignEx((AST.AssignEx)expr, access);
+-            if (expr is AST.UnaryEx) return BindUnaryEx((AST.UnaryEx)expr, access).WithAccess(access);
+-            if (expr is AST.IncDecEx) return BindIncDec((AST.IncDecEx)expr).WithAccess(access);
+-            if (expr is AST.ConditionalEx) return BindConditionalEx((AST.ConditionalEx)expr, access).WithAccess(access);
+-            if (expr is AST.ConcatEx) return BindConcatEx((AST.ConcatEx)expr).WithAccess(access);
+-            if (expr is AST.IncludingEx) return BindIncludeEx((AST.IncludingEx)expr).WithAccess(access);
+-            if (expr is AST.InstanceOfEx) return BindInstanceOfEx((AST.InstanceOfEx)expr).WithAccess(access);
+-            if (expr is AST.PseudoConstUse) return BindPseudoConst((AST.PseudoConstUse)expr).WithAccess(access);
+-            if (expr is AST.IssetEx) return BindIsSet((AST.IssetEx)expr).WithAccess(access);
+-            if (expr is AST.ExitEx) return BindExitEx((AST.ExitEx)expr).WithAccess(access);
++                if (expr is AST.SimpleVarUse simpleVarUse) return BindSimpleVarUse(simpleVarUse, access);
++                if (expr is AST.FunctionCall functionCall) return BindFunctionCall(functionCall).WithAccess(access);
++                if (expr is AST.NewEx newEx) return BindNew(newEx, access);
++                if (expr is AST.ArrayEx arrayEx) return BindArrayEx(arrayEx, access);
++                if (expr is AST.ItemUse itemUse) return BindItemUse(itemUse, access);
++                if (expr is AST.StaticFieldUse staticFieldUse) return BindFieldUse(staticFieldUse, access);
++            }
++            if (expr is AST.BinaryEx binaryEx) return BindBinaryEx(binaryEx).WithAccess(access);
++            if (expr is AST.AssignEx assignEx) return BindAssignEx(assignEx, access);
++            if (expr is AST.UnaryEx unaryEx) return BindUnaryEx(unaryEx, access).WithAccess(access);
++            if (expr is AST.IncDecEx incDecEx) return BindIncDec(incDecEx).WithAccess(access);
++            if (expr is AST.ConditionalEx conditionalEx) return BindConditionalEx(conditionalEx, access).WithAccess(access);
++            if (expr is AST.ConcatEx concatEx) return BindConcatEx(concatEx).WithAccess(access);
++            if (expr is AST.IncludingEx includingEx) return BindIncludeEx(includingEx).WithAccess(access);
++            if (expr is AST.InstanceOfEx instanceOfEx) return BindInstanceOfEx(instanceOfEx).WithAccess(access);
++            if (expr is AST.PseudoConstUse pseudoConstUse) return BindPseudoConst(pseudoConstUse).WithAccess(access);
++            if (expr is AST.IssetEx issetEx) return BindIsSet(issetEx).WithAccess(access);
++            if (expr is AST.ExitEx exitEx) return BindExitEx(exitEx).WithAccess(access);
+             if (expr is AST.ThrowEx throwEx) return new BoundThrowExpression(BindExpression(throwEx.Expression, BoundAccess.Read));
+-            if (expr is AST.EmptyEx) return BindIsEmptyEx((AST.EmptyEx)expr).WithAccess(access);
+-            if (expr is AST.LambdaFunctionExpr) return BindLambda((AST.LambdaFunctionExpr)expr).WithAccess(access);
+-            if (expr is AST.EvalEx) return BindEval((AST.EvalEx)expr).WithAccess(access);
+-            if (expr is AST.YieldEx) return BindYieldEx((AST.YieldEx)expr, access).WithAccess(access);
+-            if (expr is AST.YieldFromEx) return BindYieldFromEx((AST.YieldFromEx)expr, access).WithAccess(access);
+-            if (expr is AST.ShellEx) return BindShellEx((AST.ShellEx)expr).WithAccess(access);
+-            if (expr is AST.MatchEx) return BindMatchEx((AST.MatchEx)expr, access);
++            if (expr is AST.EmptyEx emptyEx) return BindIsEmptyEx(emptyEx).WithAccess(access);
++            if (expr is AST.LambdaFunctionExpr lambdaFunctionExpr) return BindLambda(lambdaFunctionExpr).WithAccess(access);
++            if (expr is AST.EvalEx evalEx) return BindEval(evalEx).WithAccess(access);
++            if (expr is AST.YieldEx yieldEx) return BindYieldEx(yieldEx, access).WithAccess(access);
++            if (expr is AST.YieldFromEx yieldFromEx) return BindYieldFromEx(yieldFromEx, access).WithAccess(access);
++            if (expr is AST.ShellEx shellEx) return BindShellEx(shellEx).WithAccess(access);
++            if (expr is AST.MatchEx matchEx) return BindMatchEx(matchEx, access);
+ 
+             //
+             Diagnostics.Add(GetLocation(expr), Errors.ErrorCode.ERR_NotYetImplemented, $"Expression of type '{expr.GetType().Name}'");
+@@ -603,14 +603,13 @@ protected BoundExpression BindEval(AST.EvalEx expr)
+ 
+         protected BoundExpression BindConstUse(AST.ConstantUse x)
+         {
+-            if (x is AST.GlobalConstUse)
++            if (x is AST.GlobalConstUse globalConstUse)
+             {
+-                return BindGlobalConstUse((AST.GlobalConstUse)x);
++                return BindGlobalConstUse(globalConstUse);
+             }
+ 
+-            if (x is AST.ClassConstUse)
++            if (x is AST.ClassConstUse cx)
+             {
+-                var cx = (AST.ClassConstUse)x;
+                 var typeref = BindTypeRef(cx.TargetType, objectTypeInfoSemantic: true);
+ 
+                 if (cx.Name.Equals("class"))   // pseudo class constant
+@@ -791,12 +790,12 @@ protected BoundExpression BindFunctionCall(AST.FunctionCall x, BoundExpression b
+ 
+             BoundRoutineCall result;
+ 
+-            if (x is AST.DirectFcnCall)
++            if (x is AST.DirectFcnCall directFcnCall)
+             {
+                 // func(...)
+                 // $x->func(...)
+ 
+-                var fname = ((AST.DirectFcnCall)x).FullName;
++                var fname = directFcnCall.FullName;
+ 
+                 if (boundTarget == null)
+                 {
+@@ -829,12 +828,12 @@ protected BoundExpression BindFunctionCall(AST.FunctionCall x, BoundExpression b
+                     result = new BoundInstanceFunctionCall(boundTarget, fname.Name, BindArguments(x.CallSignature.Parameters));
+                 }
+             }
+-            else if (x is AST.IndirectFcnCall)
++            else if (x is AST.IndirectFcnCall indirectFcnCall)
+             {
+                 // $func(...)
+                 // $x->$func(...)
+ 
+-                var nameExpr = BindExpression(((AST.IndirectFcnCall)x).NameExpr);
++                var nameExpr = BindExpression(indirectFcnCall.NameExpr);
+                 if (boundTarget == null)
+                 {
+                     result = new BoundGlobalFunctionCall(nameExpr, BindArguments(x.CallSignature.Parameters));
+@@ -1188,14 +1187,12 @@ protected BoundExpression BindFieldUse(AST.StaticFieldUse x, BoundAccess access)
+             var typeref = BindTypeRef(x.TargetType, objectTypeInfoSemantic: true);
+             BoundVariableName varname;
+ 
+-            if (x is AST.DirectStFldUse)
++            if (x is AST.DirectStFldUse dx)
+             {
+-                var dx = (AST.DirectStFldUse)x;
+                 varname = new BoundVariableName(dx.PropertyName);
+             }
+-            else if (x is AST.IndirectStFldUse)
++            else if (x is AST.IndirectStFldUse ix)
+             {
+-                var ix = (AST.IndirectStFldUse)x;
+                 var fieldNameExpr = BindExpression(ix.FieldNameExpr, BoundAccess.Read);
+ 
+                 varname = new BoundVariableName(fieldNameExpr);
+diff --git a/src/Peachpie.CodeAnalysis/Semantics/TypeRefExtension.cs b/src/Peachpie.CodeAnalysis/Semantics/TypeRefExtension.cs
+index 083a16f74..c74fd8eee 100644
+--- a/src/Peachpie.CodeAnalysis/Semantics/TypeRefExtension.cs
++++ b/src/Peachpie.CodeAnalysis/Semantics/TypeRefExtension.cs
+@@ -29,8 +29,7 @@ public static bool IsNullable(this TypeRef tref)
+         /// </summary>
+         public static bool IsNullClass(this TypeRef tref)
+         {
+-            var ct = (tref is TranslatedTypeRef tr ? tr.OriginalType : tref) as ClassTypeRef;
+-            return ct != null && ct.ClassName == QualifiedName.Null;
++            return (tref is TranslatedTypeRef tr ? tr.OriginalType : tref)is ClassTypeRef ct && ct.ClassName == QualifiedName.Null;
+         }
+ 
+         /// <summary>
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/CustomModifier.cs b/src/Peachpie.CodeAnalysis/Symbols/CustomModifier.cs
+index 862dd76dd..10dabb74d 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/CustomModifier.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/CustomModifier.cs
+@@ -88,9 +88,7 @@ public override bool Equals(object obj)
+                     return true;
+                 }
+ 
+-                OptionalCustomModifier other = obj as OptionalCustomModifier;
+-
+-                return other != null && other.modifier.Equals(this.modifier);
++                return obj is OptionalCustomModifier other && other.modifier.Equals(this.modifier);
+             }
+         }
+ 
+@@ -120,9 +118,7 @@ public override bool Equals(object obj)
+                     return true;
+                 }
+ 
+-                RequiredCustomModifier other = obj as RequiredCustomModifier;
+-
+-                return other != null && other.modifier.Equals(this.modifier);
++                return obj is RequiredCustomModifier other && other.modifier.Equals(this.modifier);
+             }
+         }
+     }
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/PE/PENamedTypeSymbol.cs b/src/Peachpie.CodeAnalysis/Symbols/PE/PENamedTypeSymbol.cs
+index 188cd2896..7ce722caa 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/PE/PENamedTypeSymbol.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/PE/PENamedTypeSymbol.cs
+@@ -107,7 +107,7 @@ public IFieldSymbol RuntimeFieldsStore
+         /// <summary>
+         /// Optional. A <c>.ctor</c> that ensures the initialization of the class without calling the type PHP constructor.
+         /// </summary>
+-        public IMethodSymbol InstanceConstructorFieldsOnly => InstanceConstructors.Where(ctor => ctor.IsInitFieldsOnly).SingleOrDefault();
++        public IMethodSymbol InstanceConstructorFieldsOnly => InstanceConstructors.SingleOrDefault(ctor => ctor.IsInitFieldsOnly);
+ 
+         public abstract bool IsTrait { get; }
+ 
+@@ -1264,10 +1264,7 @@ private void LoadMembers()
+                 }
+             }
+ 
+-            if (members != null)
+-            {
+-                members.Free();
+-            }
++            members?.Free();
+         }
+ 
+         private IEnumerable<PENamedTypeSymbol> CreateNestedTypes()
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/Php/PhpRoutineSymbolExtensions.cs b/src/Peachpie.CodeAnalysis/Symbols/Php/PhpRoutineSymbolExtensions.cs
+index 6a5b93b02..7937979c9 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/Php/PhpRoutineSymbolExtensions.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/Php/PhpRoutineSymbolExtensions.cs
+@@ -115,13 +115,12 @@ public static TypeRefMask GetResultType(this IPhpValue symbol, TypeRefContext ct
+ 
+             TypeSymbol t;
+ 
+-            if (symbol is FieldSymbol)
++            if (symbol is FieldSymbol fieldSymbol)
+             {
+-                t = ((FieldSymbol)symbol).Type;
++                t = fieldSymbol.Type;
+             }
+-            else if (symbol is MethodSymbol)
++            else if (symbol is MethodSymbol m)
+             {
+-                var m = (MethodSymbol)symbol;
+                 var r = symbol as SourceRoutineSymbol;
+ 
+                 // if the method is generator use ConstructClrReturnType analysis for return type
+@@ -141,9 +140,9 @@ public static TypeRefMask GetResultType(this IPhpValue symbol, TypeRefContext ct
+                     t = m.ReturnType;
+                 }
+             }
+-            else if (symbol is PropertySymbol)
++            else if (symbol is PropertySymbol propertySymbol)
+             {
+-                t = ((PropertySymbol)symbol).Type;
++                t = propertySymbol.Type;
+             }
+             else if (symbol is SourceParameterSymbol ps)
+             {
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/Php/PhpTypeSymbolExtensions.cs b/src/Peachpie.CodeAnalysis/Symbols/Php/PhpTypeSymbolExtensions.cs
+index b2973e1c4..a582153c6 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/Php/PhpTypeSymbolExtensions.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/Php/PhpTypeSymbolExtensions.cs
+@@ -18,7 +18,7 @@ public static NamedTypeSymbol TryGetStaticsHolder(this INamedTypeSymbol t)
+             if (t is SourceTypeSymbol srct) return (NamedTypeSymbol)srct.StaticsContainer;
+ 
+             // a nested class `_statics`:
+-            return (NamedTypeSymbol)t.GetTypeMembers(WellKnownPchpNames.StaticsHolderClassName).Where(IsStaticsContainer).SingleOrDefault();
++            return (NamedTypeSymbol)t.GetTypeMembers(WellKnownPchpNames.StaticsHolderClassName).SingleOrDefault(IsStaticsContainer);
+         }
+ 
+         public static bool IsStaticsContainer(this INamedTypeSymbol t)
+@@ -63,13 +63,13 @@ static FieldSymbol GetStaticField(INamedTypeSymbol t, string name)
+             if (statics != null)
+             {
+                 // __statics.FIELD
+-                field = statics.GetMembers(name).OfType<FieldSymbol>().Where(f => !f.IsReadOnly).SingleOrDefault();
++                field = statics.GetMembers(name).OfType<FieldSymbol>().SingleOrDefault(f => !f.IsReadOnly);
+             }
+ 
+             // static FIELD
+             if (field == null)
+             {
+-                field = t.GetMembers(name).OfType<FieldSymbol>().Where(f => !f.IsConst && f.IsStatic).SingleOrDefault();
++                field = t.GetMembers(name).OfType<FieldSymbol>().SingleOrDefault(f => !f.IsConst && f.IsStatic);
+             }
+ 
+             //
+@@ -84,13 +84,13 @@ static FieldSymbol GetClassConstant(INamedTypeSymbol t, string name)
+             if (statics != null)
+             {
+                 // readonly __statics.CONSTANT
+-                field = statics.GetMembers(name).OfType<FieldSymbol>().Where(f => f.IsReadOnly || f.IsConst).SingleOrDefault();
++                field = statics.GetMembers(name).OfType<FieldSymbol>().SingleOrDefault(f => f.IsReadOnly || f.IsConst);
+             }
+ 
+             // const CONSTANT
+             if (field == null)
+             {
+-                field = t.GetMembers(name).OfType<FieldSymbol>().Where(f => f.IsConst).SingleOrDefault();
++                field = t.GetMembers(name).OfType<FieldSymbol>().SingleOrDefault(f => f.IsConst);
+             }
+ 
+             //
+@@ -106,13 +106,13 @@ public static Symbol ResolveInstanceProperty(this INamedTypeSymbol type, string
+ 
+             for (var t = type; t != null; t = t.BaseType)
+             {
+-                candidate = t.GetMembers(name).OfType<FieldSymbol>().Where(f => !f.IsConst && !f.IsPhpStatic()).SingleOrDefault();
++                candidate = t.GetMembers(name).OfType<FieldSymbol>().SingleOrDefault(f => !f.IsConst && !f.IsPhpStatic());
+                 if (candidate != null)
+                 {
+                     return candidate;
+                 }
+ 
+-                candidate = t.GetMembers(name).OfType<PropertySymbol>().Where(p => !p.IsStatic).SingleOrDefault();
++                candidate = t.GetMembers(name).OfType<PropertySymbol>().SingleOrDefault(p => !p.IsStatic);
+                 if (candidate != null)
+                 {
+                     return candidate;
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/Source/SourceFunctionSymbol.cs b/src/Peachpie.CodeAnalysis/Symbols/Source/SourceFunctionSymbol.cs
+index a9a7a2eed..17cec621c 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/Source/SourceFunctionSymbol.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/Source/SourceFunctionSymbol.cs
+@@ -134,7 +134,7 @@ public override string MetadataName
+                 if (IsConditional)
+                 {
+                     // ?order
+-                    name += "?" + _file.Functions.TakeWhile(f => f != this).Where(f => f.QualifiedName == this.QualifiedName).Count().ToString();   // index of this function within functions with the same name
++                    name += "?" + _file.Functions.TakeWhile(f => f != this).Count(f => f.QualifiedName == this.QualifiedName).ToString();   // index of this function within functions with the same name
+                 }
+ 
+                 return name;
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/Source/SourceTypeSymbol.cs b/src/Peachpie.CodeAnalysis/Symbols/Source/SourceTypeSymbol.cs
+index 3e3faaa8f..9f28f692e 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/Source/SourceTypeSymbol.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/Source/SourceTypeSymbol.cs
+@@ -1181,8 +1181,8 @@ MethodSymbol TryGetMagicToString()
+ 
+             return GetMembersByPhpName(Devsense.PHP.Syntax.Name.SpecialMethodNames.Tostring.Value)
+                 .OfType<MethodSymbol>()
+-                .Where(m => !m.IsStatic)
+-                .SingleOrDefault();
++                .SingleOrDefault(m => !m.IsStatic)
++;
+         }
+ 
+         bool HasMagicToString()
+@@ -1207,8 +1207,8 @@ MethodSymbol TryGetMagicInvoke()
+ 
+             return GetMembersByPhpName(Devsense.PHP.Syntax.Name.SpecialMethodNames.Invoke.Value)
+                 .OfType<MethodSymbol>()
+-                .Where(m => !m.IsStatic)
+-                .SingleOrDefault();
++                .SingleOrDefault(m => !m.IsStatic)
++;
+         }
+ 
+         /// <summary>
+@@ -1224,8 +1224,8 @@ MethodSymbol TryGetDestruct()
+ 
+             return GetMembersByPhpName(Devsense.PHP.Syntax.Name.SpecialMethodNames.Destruct.Value)
+                 .OfType<MethodSymbol>()
+-                .Where(m => !m.IsStatic)
+-                .SingleOrDefault();
++                .SingleOrDefault(m => !m.IsStatic)
++;
+         }
+ 
+         internal override bool HasTypeArgumentsCustomModifiers => false;
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/SpecialParameterSymbol.cs b/src/Peachpie.CodeAnalysis/Symbols/SpecialParameterSymbol.cs
+index 899e9be2c..9649a5199 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/SpecialParameterSymbol.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/SpecialParameterSymbol.cs
+@@ -77,8 +77,7 @@ public SpecialParameterSymbol(MethodSymbol symbol, object type, string name, int
+         /// which is always first and of type <c>Pchp.Core.Context</c>.
+         /// </summary>
+         public static bool IsContextParameter(ParameterSymbol p)
+-            => p != null &&
+-                p.DeclaringCompilation != null
++            => p?.DeclaringCompilation != null
+                 ? p.Type == p.DeclaringCompilation.CoreTypes.Context.Symbol
+                 : p.Type != null
+                     ? (p.Type.Name == "Context" && p.Type.ContainingAssembly.IsPeachpieCorLibrary)
+@@ -108,14 +107,14 @@ public static bool IsImportValueParameter(ParameterSymbol p, out ImportValueAttr
+         /// This parameter provides late static bound type, of type <c>PhpTypeInfo</c>.
+         /// </summary>
+         public static bool IsLateStaticParameter(ParameterSymbol p)
+-            => p != null && p.Type != null && p.Type.MetadataName == "PhpTypeInfo" && !(p is SourceParameterSymbol) && p.Name == StaticTypeName; // TODO: && namespace == Pchp.Core.
++            => p?.Type != null && p.Type.MetadataName == "PhpTypeInfo" && !(p is SourceParameterSymbol) && p.Name == StaticTypeName; // TODO: && namespace == Pchp.Core.
+ 
+         /// <summary>
+         /// Determines whether given parameter is a special self parameter.
+         /// This parameter provides self type, of type <c>RuntimeTypeHandle</c>.
+         /// </summary>
+         public static bool IsSelfParameter(ParameterSymbol p)
+-            => p != null && p.Type != null && p.Type.MetadataName == "RuntimeTypeHandle" && !(p is SourceParameterSymbol) && p.Name == SelfName;
++            => p?.Type != null && p.Type.MetadataName == "RuntimeTypeHandle" && !(p is SourceParameterSymbol) && p.Name == SelfName;
+ 
+         public override bool IsImplicitlyDeclared => true;
+ 
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/Synthesized/SynthesizedCtorSymbol.cs b/src/Peachpie.CodeAnalysis/Symbols/Synthesized/SynthesizedCtorSymbol.cs
+index 78a3d59b6..f5caa323c 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/Synthesized/SynthesizedCtorSymbol.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/Synthesized/SynthesizedCtorSymbol.cs
+@@ -334,7 +334,7 @@ public SynthesizedPhpTraitCtorSymbol(SourceTraitTypeSymbol containingType)
+ 
+         protected override IEnumerable<ParameterSymbol> CreateParameters(IEnumerable<ParameterSymbol> baseparams)
+         {
+-            Debug.Assert(baseparams.Count() == 0);
++            Debug.Assert(!baseparams.Any());
+ 
+             int index = 0;
+ 
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/TypeSymbolExtensions.cs b/src/Peachpie.CodeAnalysis/Symbols/TypeSymbolExtensions.cs
+index 5befe4527..f3a853dbd 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/TypeSymbolExtensions.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/TypeSymbolExtensions.cs
+@@ -46,7 +46,7 @@ public static TypeSymbol ExpectValid(this TypeSymbol actual)
+ 
+         public static bool IsTraitType(this TypeSymbol type)
+         {
+-            return type != null && type.OriginalDefinition is IPhpTypeSymbol phpt && phpt.IsTrait;
++            return type?.OriginalDefinition is IPhpTypeSymbol phpt && phpt.IsTrait;
+         }
+ 
+         /// <summary>
+diff --git a/src/Peachpie.CodeAnalysis/Symbols/TypedConstantExtensions.cs b/src/Peachpie.CodeAnalysis/Symbols/TypedConstantExtensions.cs
+index b0d25b452..d9cdf8852 100644
+--- a/src/Peachpie.CodeAnalysis/Symbols/TypedConstantExtensions.cs
++++ b/src/Peachpie.CodeAnalysis/Symbols/TypedConstantExtensions.cs
+@@ -90,10 +90,7 @@ private static string DisplayUnsignedEnumConstant(TypedConstant constant, Specia
+                     // Do we have an exact matching enum field
+                     if (memberValue == constantToDecode)
+                     {
+-                        if (pooledBuilder != null)
+-                        {
+-                            pooledBuilder.Free();
+-                        }
++                        pooledBuilder?.Free();
+ 
+                         return typeName + "." + field.Name;
+                     }
+@@ -163,10 +160,7 @@ private static string DisplaySignedEnumConstant(TypedConstant constant, SpecialT
+                     // Do we have an exact matching enum field
+                     if (memberValue == constantToDecode)
+                     {
+-                        if (pooledBuilder != null)
+-                        {
+-                            pooledBuilder.Free();
+-                        }
++                        pooledBuilder?.Free();
+ 
+                         return typeName + "." + field.Name;
+                     }
+diff --git a/src/Peachpie.CodeAnalysis/Utilities/AstUtils.cs b/src/Peachpie.CodeAnalysis/Utilities/AstUtils.cs
+index 725e188cf..3f252d62b 100644
+--- a/src/Peachpie.CodeAnalysis/Utilities/AstUtils.cs
++++ b/src/Peachpie.CodeAnalysis/Utilities/AstUtils.cs
+@@ -247,7 +247,7 @@ public static Microsoft.CodeAnalysis.Text.TextSpan ToTextSpan(this Devsense.PHP.
+         /// </summary>
+         public static Microsoft.CodeAnalysis.Text.TextSpan GetTextSpan(this BoundExpression expression)
+         {
+-            return expression != null && expression.PhpSyntax != null
++            return expression?.PhpSyntax != null
+                 ? expression.PhpSyntax.Span.ToTextSpan()
+                 : default;
+         }
+diff --git a/src/Peachpie.CodeAnalysis/Utilities/ExceptionUtilities.cs b/src/Peachpie.CodeAnalysis/Utilities/ExceptionUtilities.cs
+index 6eac90874..560e90434 100644
+--- a/src/Peachpie.CodeAnalysis/Utilities/ExceptionUtilities.cs
++++ b/src/Peachpie.CodeAnalysis/Utilities/ExceptionUtilities.cs
+@@ -89,7 +89,7 @@ public static ArgumentNullException ArgumentNull()
+ 
+         public static InvalidOperationException UnexpectedValue(object o)
+         {
+-            string output = string.Format("Unexpected value '{0}' of type '{1}'", o, (o != null) ? o.GetType().FullName : "<unknown>");
++            string output = $"Unexpected value '{o}' of type '{((o != null) ? o.GetType().FullName : "<unknown>")}'";
+             Debug.Assert(false, output);
+ 
+             // We do not throw from here because we don't want all Watson reports to be bucketed to this call.
+diff --git a/src/Peachpie.CodeAnalysis/Utilities/NameUtils.cs b/src/Peachpie.CodeAnalysis/Utilities/NameUtils.cs
+index 0fd815534..176772565 100644
+--- a/src/Peachpie.CodeAnalysis/Utilities/NameUtils.cs
++++ b/src/Peachpie.CodeAnalysis/Utilities/NameUtils.cs
+@@ -32,9 +32,9 @@ public static QualifiedName MakeQualifiedName(Name name, NamespaceDecl ns)
+         /// <returns>Qualified name of the type.</returns>
+         public static QualifiedName MakeQualifiedName(this TypeDecl type)
+         {
+-            if (type is AnonymousTypeDecl)
++            if (type is AnonymousTypeDecl anonymousTypeDecl)
+             {
+-                return ((AnonymousTypeDecl)type).GetAnonymousTypeQualifiedName();
++                return anonymousTypeDecl.GetAnonymousTypeQualifiedName();
+             }
+             else
+             {
+diff --git a/src/Peachpie.Library.Graphics/Exif.cs b/src/Peachpie.Library.Graphics/Exif.cs
+index 600654ed0..d4f11ce46 100644
+--- a/src/Peachpie.Library.Graphics/Exif.cs
++++ b/src/Peachpie.Library.Graphics/Exif.cs
+@@ -130,9 +130,8 @@ static PhpValue ExifValueToPhpValue(object value)
+         {
+             if (value != null)
+             {
+-                if (value is Array)
++                if (value is Array arr)
+                 {
+-                    var arr = (Array)value;
+                     var phparr = new PhpArray(arr.Length);
+ 
+                     for (int i = 0; i < arr.Length; i++)
+@@ -171,15 +170,15 @@ static bool TryAsDouble(object value, out double dval)
+         {
+             dval = 0.0;
+ 
+-            if (value is float)
++            if (value is float f)
+             {
+-                dval = (float)value;
++                dval = f;
+                 return true;
+             }
+ 
+-            if (value is double)
++            if (value is double d)
+             {
+-                dval = (double)value;
++                dval = d;
+                 return true;
+             }
+ 
+@@ -190,45 +189,45 @@ static bool TryAsLong(object value, out long ival)
+         {
+             ival = 0;
+ 
+-            if (value is int)
++            if (value is int i)
+             {
+-                ival = (int)value;
++                ival = i;
+                 return true;
+             }
+ 
+-            if (value is long)
++            if (value is long l)
+             {
+-                ival = (long)value;
++                ival = l;
+                 return true;
+             }
+ 
+-            if (value is uint)
++            if (value is uint ui)
+             {
+-                ival = (uint)value;
++                ival = ui;
+                 return true;
+             }
+ 
+-            if (value is byte)
++            if (value is byte b)
+             {
+-                ival = (byte)value;
++                ival = b;
+                 return true;
+             }
+ 
+-            if (value is sbyte)
++            if (value is sbyte sb)
+             {
+-                ival = (sbyte)value;
++                ival = sb;
+                 return true;
+             }
+ 
+-            if (value is short)
++            if (value is short sh)
+             {
+-                ival = (short)value;
++                ival = sh;
+                 return true;
+             }
+ 
+-            if (value is ushort)
++            if (value is ushort us)
+             {
+-                ival = (ushort)value;
++                ival = us;
+                 return true;
+             }
+ 
+diff --git a/src/Peachpie.Library.Graphics/PhpGdImageResource.cs b/src/Peachpie.Library.Graphics/PhpGdImageResource.cs
+index 93524ebf3..1b497a916 100644
+--- a/src/Peachpie.Library.Graphics/PhpGdImageResource.cs
++++ b/src/Peachpie.Library.Graphics/PhpGdImageResource.cs
+@@ -123,8 +123,7 @@ protected override void FreeManaged()
+         /// <exception cref="PhpException">Warning when resource is not valid <see cref="PhpGdImageResource"/>.</exception>
+         internal static PhpGdImageResource ValidImage(PhpResource handle)
+         {
+-            var result = handle as PhpGdImageResource;
+-            if (result != null && result.IsValid && result._image != null)
++            if (handle is PhpGdImageResource result && result.IsValid && result._image != null)
+             {
+                 return result;
+             }
+diff --git a/src/Peachpie.Library.Graphics/PhpImage.cs b/src/Peachpie.Library.Graphics/PhpImage.cs
+index 2094531f7..cf8bc8a7e 100644
+--- a/src/Peachpie.Library.Graphics/PhpImage.cs
++++ b/src/Peachpie.Library.Graphics/PhpImage.cs
+@@ -1314,7 +1314,7 @@ public static PhpArray iptcparse(byte[] iptcblock)
+                     break;
+ 
+                 // snprintf(key, sizeof(key), "%d#%03d", (unsigned int) dataset, (unsigned int) recnum);
+-                string key = string.Format("{0}#{1}", dataset, recnum.ToString("D3"));
++                string key = $"{dataset}#{recnum.ToString("D3")}";
+ 
+                 // create result array lazily:
+                 if (result == null)
+diff --git a/src/Peachpie.Library.MsSql/PhpSqlDbProcedure.cs b/src/Peachpie.Library.MsSql/PhpSqlDbProcedure.cs
+index 8ad8f966d..89a365baf 100644
+--- a/src/Peachpie.Library.MsSql/PhpSqlDbProcedure.cs
++++ b/src/Peachpie.Library.MsSql/PhpSqlDbProcedure.cs
+@@ -46,8 +46,7 @@ public PhpSqlDbProcedure(ConnectionResource/*!*/ connection, string/*!*/ procedu
+ 
+ 		internal static PhpSqlDbProcedure ValidProcedure(PhpResource handle)
+ 		{
+-			PhpSqlDbProcedure result = handle as PhpSqlDbProcedure;
+-			if (result != null && result.IsValid) return result;
++			if (handle is PhpSqlDbProcedure result && result.IsValid) return result;
+ 
+ 			PhpException.Throw(PhpError.Warning, Resources.invalid_stored_procedure_resource);
+ 			return null;
+diff --git a/src/Peachpie.Library.MsSql/PhpSqlDbResult.cs b/src/Peachpie.Library.MsSql/PhpSqlDbResult.cs
+index 9bfaf1ec4..0cc0de35f 100644
+--- a/src/Peachpie.Library.MsSql/PhpSqlDbResult.cs
++++ b/src/Peachpie.Library.MsSql/PhpSqlDbResult.cs
+@@ -37,8 +37,7 @@ public PhpSqlDbResult(ConnectionResource/*!*/ connection, IDataReader/*!*/ reade
+ 
+         internal static PhpSqlDbResult ValidResult(PhpResource handle)
+         {
+-            var result = handle as PhpSqlDbResult;
+-            if (result != null && result.IsValid) return result;
++            if (handle is PhpSqlDbResult result && result.IsValid) return result;
+ 
+             PhpException.Throw(PhpError.Warning, Resources.invalid_result_resource);
+             return null;
+@@ -101,81 +100,81 @@ protected override object[] GetValues(string[] dataTypes, bool convertTypes)
+         /// <returns>PHP value.</returns>
+         public static object ConvertDbValue(object dbValue)
+         {
+-            if (dbValue is SqlInt32)
++            if (dbValue is SqlInt32 sqlInt32)
+             {
+                 if (dbValue.Equals(SqlInt32.Null)) return null;
+-                else return ((SqlInt32)dbValue).Value;
++                else return sqlInt32.Value;
+             }
+-            if (dbValue is SqlInt16)
++            if (dbValue is SqlInt16 sqlInt16)
+             {
+                 if (dbValue.Equals(SqlInt16.Null)) return null;
+-                else return System.Convert.ToInt32(((SqlInt16)dbValue).Value);
++                else return System.Convert.ToInt32(sqlInt16.Value);
+             }
+-            if (dbValue is SqlBoolean)
++            if (dbValue is SqlBoolean sqlBoolean)
+             {
+                 if (dbValue.Equals(SqlBoolean.Null)) return null;
+-                else return ((SqlBoolean)dbValue).Value ? 1 : 0;
++                else return sqlBoolean.Value ? 1 : 0;
+             }
+-            if (dbValue is SqlString)
++            if (dbValue is SqlString sqlString)
+             {
+                 if (dbValue.Equals(SqlString.Null)) return null;
+-                else return ((SqlString)dbValue).Value;
++                else return sqlString.Value;
+             }
+ 
+             // TODO: check the format of conversion. Is it culture dependent?
+-            if (dbValue is SqlDateTime)
++            if (dbValue is SqlDateTime sqlDateTime)
+             {
+                 if (dbValue.Equals(SqlDateTime.Null)) return null;
+-                else return ((SqlDateTime)dbValue).Value.ToString("yyyy-MM-dd HH:mm:ss");
++                else return sqlDateTime.Value.ToString("yyyy-MM-dd HH:mm:ss");
+             }
+ 
+-            if (dbValue is SqlDouble)
++            if (dbValue is SqlDouble sqlDouble)
+             {
+                 if (dbValue.Equals(SqlDouble.Null)) return null;
+-                else return ((SqlDouble)dbValue).Value;
++                else return sqlDouble.Value;
+             }
+ 
+-            if (dbValue is SqlInt64)
++            if (dbValue is SqlInt64 sqlInt64)
+             {
+                 if (dbValue.Equals(SqlInt64.Null)) return null;
+-                else return ((SqlInt64)dbValue).Value.ToString();
++                else return sqlInt64.Value.ToString();
+             }
+ 
+-            if (dbValue is SqlBinary)
++            if (dbValue is SqlBinary sqlBinary)
+             {
+                 if (dbValue.Equals(SqlBinary.Null)) return null;
+-                else return new PhpString(((SqlBinary)dbValue).Value);
++                else return new PhpString(sqlBinary.Value);
+             }
+ 
+-            if (dbValue is SqlDecimal)
++            if (dbValue is SqlDecimal sqlDecimal)
+             {
+                 if (dbValue.Equals(SqlDecimal.Null)) return null;
+-                else return ((SqlDecimal)dbValue).Value.ToString();
++                else return sqlDecimal.Value.ToString();
+             }
+ 
+             // TODO: beware of overflow
+-            if (dbValue is SqlMoney)
++            if (dbValue is SqlMoney sqlMoney)
+             {
+                 if (dbValue.Equals(SqlMoney.Null)) return null;
+-                else return System.Convert.ToDouble(((SqlMoney)dbValue).Value);
++                else return System.Convert.ToDouble(sqlMoney.Value);
+             }
+ 
+-            if (dbValue is SqlSingle)
++            if (dbValue is SqlSingle sqlSingle)
+             {
+                 if (dbValue.Equals(SqlSingle.Null)) return null;
+-                else return System.Convert.ToDouble(((SqlSingle)dbValue).Value);
++                else return System.Convert.ToDouble(sqlSingle.Value);
+             }
+ 
+-            if (dbValue is SqlByte)
++            if (dbValue is SqlByte sqlByte)
+             {
+                 if (dbValue.Equals(SqlByte.Null)) return null;
+-                else return System.Convert.ToInt32(((SqlByte)dbValue).Value);
++                else return System.Convert.ToInt32(sqlByte.Value);
+             }
+ 
+-            if (dbValue is SqlGuid)
++            if (dbValue is SqlGuid sqlGuid)
+             {
+                 if (dbValue.Equals(SqlGuid.Null)) return null;
+-                else return new PhpString(((SqlGuid)dbValue).ToByteArray());
++                else return new PhpString(sqlGuid.ToByteArray());
+             }
+ 
+             Debug.Fail(null);
+diff --git a/src/Peachpie.Library.MySql/MySql.Functions.cs b/src/Peachpie.Library.MySql/MySql.Functions.cs
+index fcab9be19..eaaae8dca 100644
+--- a/src/Peachpie.Library.MySql/MySql.Functions.cs
++++ b/src/Peachpie.Library.MySql/MySql.Functions.cs
+@@ -566,7 +566,7 @@ public static stdClass mysql_fetch_object(PhpResource resultHandle)
+         public static int mysql_affected_rows(Context ctx, PhpResource linkIdentifier = null)
+         {
+             var connection = ValidConnection(ctx, linkIdentifier);
+-            if (connection == null || connection.LastException != null) return -1;
++            if (connection?.LastException != null) return -1;
+ 
+             return connection.LastAffectedRows;
+         }
+diff --git a/src/Peachpie.Library.MySql/MySqli/mysqli.cs b/src/Peachpie.Library.MySql/MySqli/mysqli.cs
+index 65d5d6464..a564a9421 100644
+--- a/src/Peachpie.Library.MySql/MySqli/mysqli.cs
++++ b/src/Peachpie.Library.MySql/MySqli/mysqli.cs
+@@ -394,10 +394,7 @@ public bool set_charset(string charset)
+ 
+             // set the charset:
+             var result = Connection.ExecuteCommand("SET NAMES " + charset, CommandType.Text, false, null, true);
+-            if (result != null)
+-            {
+-                result.Dispose();
+-            }
++            result?.Dispose();
+ 
+             // success if there were no errors:
+             return Connection.LastException == null;
+diff --git a/src/Peachpie.Library.Network/CURLConstants.cs b/src/Peachpie.Library.Network/CURLConstants.cs
+index 66dddcd5d..236085de3 100644
+--- a/src/Peachpie.Library.Network/CURLConstants.cs
++++ b/src/Peachpie.Library.Network/CURLConstants.cs
+@@ -553,8 +553,7 @@ static PhpStream TryProcessMethodFromStream(PhpValue value, bool readable = fals
+         {
+             if (Operators.IsSet(value))
+             {
+-                var stream = value.AsObject() as PhpStream;
+-                if (stream != null && (readable ? stream.CanRead : stream.CanWrite))
++                if (value.AsObject() is PhpStream stream && (readable ? stream.CanRead : stream.CanWrite))
+                 {
+                     return stream;
+                 }
+diff --git a/src/Peachpie.Library.Network/CURLFunctions.cs b/src/Peachpie.Library.Network/CURLFunctions.cs
+index 4943f77e1..8b12019e0 100644
+--- a/src/Peachpie.Library.Network/CURLFunctions.cs
++++ b/src/Peachpie.Library.Network/CURLFunctions.cs
+@@ -167,7 +167,7 @@ public static int curl_errno(CURLResource ch)
+         /// </summary>
+         public static string curl_error(CURLResource ch)
+         {
+-            if (ch != null && ch.Result != null)
++            if (ch?.Result != null)
+             {
+                 var err = ch.Result.ErrorCode;
+                 if (err != CurlErrors.CURLE_OK)
+@@ -528,11 +528,7 @@ static byte[] GetMultipartFormData(Context ctx, PhpArray postParameters, string
+                 if (param.CurrentValue.AsObject() is CURLFile fileToUpload)
+                 {
+                     // Add just the first part of this param, since we will write the file data directly to the Stream
+-                    string header = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n",
+-                        boundary,
+-                        param.CurrentKey.ToString(),
+-                        string.IsNullOrEmpty(fileToUpload.postname) ? fileToUpload.name : fileToUpload.postname,
+-                        string.IsNullOrEmpty(fileToUpload.mime) ? "application/octet-stream" : fileToUpload.mime);
++                    string header = $"--{boundary}\r\nContent-Disposition: form-data; name=\"{param.CurrentKey.ToString()}\"; filename=\"{(string.IsNullOrEmpty(fileToUpload.postname) ? fileToUpload.name : fileToUpload.postname)}\"\r\nContent-Type: {(string.IsNullOrEmpty(fileToUpload.mime) ? "application/octet-stream" : fileToUpload.mime)}\r\n\r\n";
+ 
+                     formDataStream.Write(encoding.GetBytes(header));
+ 
+@@ -541,9 +537,7 @@ static byte[] GetMultipartFormData(Context ctx, PhpArray postParameters, string
+                 }
+                 else
+                 {
+-                    string postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n",
+-                        boundary,
+-                        param.CurrentKey.ToString());
++                    string postData = $"--{boundary}\r\nContent-Disposition: form-data; name=\"{param.CurrentKey.ToString()}\"\r\n\r\n";
+ 
+                     formDataStream.Write(encoding.GetBytes(postData));
+                     formDataStream.Write(param.CurrentValue.ToBytes(ctx));
+diff --git a/src/Peachpie.Library.XmlDom/DOMXPath.cs b/src/Peachpie.Library.XmlDom/DOMXPath.cs
+index 529aafaa6..9a761ef59 100644
+--- a/src/Peachpie.Library.XmlDom/DOMXPath.cs
++++ b/src/Peachpie.Library.XmlDom/DOMXPath.cs
+@@ -183,8 +183,7 @@ public PhpValue evaluate(string expr, DOMNode contextnode = null, bool registerN
+             }
+ 
+             // the result can be bool, double, string, or iterator
+-            XPathNodeIterator iterator = result as XPathNodeIterator;
+-            if (iterator != null)
++            if (result is XPathNodeIterator iterator)
+             {
+                 return PhpValue.FromClass(IteratorToList(iterator));
+             }
+@@ -245,8 +244,7 @@ private DOMNodeList IteratorToList(XPathNodeIterator iterator)
+ 
+             while (iterator.MoveNext())
+             {
+-                IHasXmlNode has_node = iterator.Current as IHasXmlNode;
+-                if (has_node != null)
++                if (iterator.Current is IHasXmlNode has_node)
+                 {
+                     var node = DOMNode.Create(has_node.GetNode());
+                     if (node != null) list.AppendNode(node);
+diff --git a/src/Peachpie.Library.XmlDom/SimpleXml.cs b/src/Peachpie.Library.XmlDom/SimpleXml.cs
+index 7d6db5970..2169f2670 100644
+--- a/src/Peachpie.Library.XmlDom/SimpleXml.cs
++++ b/src/Peachpie.Library.XmlDom/SimpleXml.cs
+@@ -1318,8 +1318,7 @@ public PhpArray xpath(string path)
+             // add the returned nodes to the resulting array
+             while (iterator.MoveNext())
+             {
+-                XmlNode node = iterator.Current.UnderlyingObject as XmlNode;
+-                if (node != null)
++                if (iterator.Current.UnderlyingObject is XmlNode node)
+                 {
+                     switch (node.NodeType)
+                     {
+diff --git a/src/Peachpie.Library.XmlDom/XsltProcessor.cs b/src/Peachpie.Library.XmlDom/XsltProcessor.cs
+index 9de4769da..1c78bb7fb 100644
+--- a/src/Peachpie.Library.XmlDom/XsltProcessor.cs
++++ b/src/Peachpie.Library.XmlDom/XsltProcessor.cs
+@@ -448,12 +448,10 @@ internal static class XsltConvertor
+         public static PhpValue DotNetToPhp(object arg)
+         {
+             // Result Tree Fragment (XSLT) / Node (XPath)
+-            XPathNavigator nav = arg as XPathNavigator;
+-            if (nav != null) return PhpValue.FromClass(DOMNode.Create(nav.UnderlyingObject as XmlNode));
++            if (arg is XPathNavigator nav) return PhpValue.FromClass(DOMNode.Create(nav.UnderlyingObject as XmlNode));
+ 
+             // Node Set (XPath) - XPathNavigator[]
+-            XPathNavigator[] navs = arg as XPathNavigator[];
+-            if (navs != null)
++            if (arg is XPathNavigator[] navs)
+             {
+                 PhpArray array = new PhpArray(navs.Length);
+ 
+@@ -467,8 +465,7 @@ public static PhpValue DotNetToPhp(object arg)
+             }
+ 
+             // Node Set (XPath) - XPathNodeIterator
+-            XPathNodeIterator iter = arg as XPathNodeIterator;
+-            if (iter != null)
++            if (arg is XPathNodeIterator iter)
+             {
+                 PhpArray array = new PhpArray();
+ 
+@@ -498,12 +495,10 @@ public static PhpValue DotNetToPhp(object arg)
+             // Node* (XPath)
+             if (arg.IsObject)
+             {
+-                var node = arg.Object as DOMNode;
+-                if (node != null) return node.XmlNode.CreateNavigator();
++                if (arg.Object is DOMNode node) return node.XmlNode.CreateNavigator();
+ 
+                 // Node Set (XPath), Result Tree Fragment (XSLT)
+-                DOMNodeList list = arg.Object as DOMNodeList;
+-                if (list != null)
++                if (arg.Object is DOMNodeList list)
+                 {
+                     XPathNavigator[] navs = new XPathNavigator[list.length];
+ 
+@@ -532,12 +527,10 @@ public static PhpValue DotNetToPhp(object arg)
+             if (arg.IsObject)
+             {
+                 // Node* (XPath)
+-                var node = arg.Object as DOMNode;
+-                if (node != null) return node.XmlNode.Value;
++                if (arg.Object is DOMNode node) return node.XmlNode.Value;
+ 
+                 // Node Set (XPath), Result Tree Fragment (XSLT)
+-                DOMNodeList list = arg.Object as DOMNodeList;
+-                if (list != null)
++                if (arg.Object is DOMNodeList list)
+                 {
+                     if (list.length == 0) return String.Empty;
+                     return list.item(0).XmlNode.Value;
+diff --git a/src/Peachpie.Library/DateTime/DateTime.cs b/src/Peachpie.Library/DateTime/DateTime.cs
+index 40c6c14c8..587654131 100644
+--- a/src/Peachpie.Library/DateTime/DateTime.cs
++++ b/src/Peachpie.Library/DateTime/DateTime.cs
+@@ -411,7 +411,7 @@ public virtual DateTime setDate(int year, int month, int day)
+             }
+             catch (ArgumentOutOfRangeException e)
+             {
+-                throw new ArgumentOutOfRangeException(string.Format("The date {0}-{1}-{2} is not valid.", year, month, day), e);
++                throw new ArgumentOutOfRangeException($"The date {year}-{month}-{day} is not valid.", e);
+             }
+ 
+             return this;
+@@ -470,7 +470,7 @@ public virtual DateTime setTime(int hour, int minute, int second)
+             }
+             catch (ArgumentOutOfRangeException e)
+             {
+-                throw new ArgumentOutOfRangeException(string.Format("The time {0}:{1}:{2} is not valid.", hour, minute, second), e);
++                throw new ArgumentOutOfRangeException($"The time {hour}:{minute}:{second} is not valid.", e);
+             }
+ 
+             return this;
+diff --git a/src/Peachpie.Library/DateTime/DateTimeFunctions.cs b/src/Peachpie.Library/DateTime/DateTimeFunctions.cs
+index 4cdeb27b7..946b05b70 100644
+--- a/src/Peachpie.Library/DateTime/DateTimeFunctions.cs
++++ b/src/Peachpie.Library/DateTime/DateTimeFunctions.cs
+@@ -1574,13 +1574,13 @@ static PhpArray AsArray(Context ctx, DateInfo dateinfo, DateTimeErrors errors)
+             //[fraction] => 0.5
+             result["fraction"] = dateinfo.have_time != 0 ? (PhpValue)dateinfo.f : 0;
+             //[warning_count] => 0
+-            result["warning_count"] = errors != null && errors.Warnings != null ? errors.Warnings.Count : 0;
++            result["warning_count"] = errors?.Warnings != null ? errors.Warnings.Count : 0;
+             //[warnings] => Array()
+-            result["warnings"] = errors != null && errors.Warnings != null ? new PhpArray(errors.Warnings) : PhpArray.NewEmpty();
++            result["warnings"] = errors?.Warnings != null ? new PhpArray(errors.Warnings) : PhpArray.NewEmpty();
+             //[error_count] => 0
+-            result["error_count"] = errors != null && errors.Errors != null ? errors.Errors.Count : 0;
++            result["error_count"] = errors?.Errors != null ? errors.Errors.Count : 0;
+             //[errors] => Array()
+-            result["errors"] = errors != null && errors.Errors != null ? new PhpArray(errors.Errors) : PhpArray.NewEmpty();
++            result["errors"] = errors?.Errors != null ? new PhpArray(errors.Errors) : PhpArray.NewEmpty();
+             //[is_localtime] => 
+             result["is_localtime"] = dateinfo.have_zone != 0; // ???
+ 
+diff --git a/src/Peachpie.Library/LibXml.cs b/src/Peachpie.Library/LibXml.cs
+index 4b9aacaf0..feb41d259 100644
+--- a/src/Peachpie.Library/LibXml.cs
++++ b/src/Peachpie.Library/LibXml.cs
+@@ -49,9 +49,9 @@ internal LibXMLError(int level, int code, int line, int column, string message,
+         public override string ToString()
+         {
+             if (this.file != null)
+-                return string.Format("LibXml {4} ({0}): {1} in {2}, line: {3}", this.code, this.message, this.file, this.line, this.LevelString);
++                return $"LibXml {this.code} ({this.message}): {this.file} in {this.line}, line: {this.LevelString}";
+             else
+-                return string.Format("LibXml {3} ({0}): {1} in Entity, line: {2}", this.code, this.message, this.line, this.LevelString);
++                return $"LibXml {this.code} ({this.message}): {this.line} in Entity, line: {this.LevelString}";
+         }
+     }
+ 
+diff --git a/src/Peachpie.Library/Mail.cs b/src/Peachpie.Library/Mail.cs
+index afc49bd49..bf927b232 100644
+--- a/src/Peachpie.Library/Mail.cs
++++ b/src/Peachpie.Library/Mail.cs
+@@ -669,7 +669,7 @@ private void Reset()
+                 foreach (var headerIndex in headerHashtable.Values)
+                 {
+                     var header = headerList[headerIndex];
+-                    ret.Add(string.Format("{0}: {1}", header.Key, header.Value));
++                    ret.Add($"{header.Key}: {header.Value}");
+                 }
+ 
+                 ret.Add("");
+@@ -723,13 +723,13 @@ private bool Ack(string expected1)
+             private bool Ack(string expected1, string expected2)
+             {
+                 return Ack(expected1, expected2,
+-                    (line) => ThrowExpectedResponseHelper(line, string.Format("{0} or {1}", expected1, expected2)));
++                    (line) => ThrowExpectedResponseHelper(line, $"{expected1} or {expected2}"));
+             }
+ 
+             private void ThrowExpectedResponseHelper(string givenResponse, string expectedStr)
+             {
+                 Reset();
+-                throw new RawSmtpException(string.Format("Expected response {0}, '{1}' given.", expectedStr, givenResponse));
++                throw new RawSmtpException($"Expected response {expectedStr}, '{givenResponse}' given.");
+             }
+ 
+             private bool Ack(string expected1, string expected2, Action<string>/*!*/fail)
+diff --git a/src/Peachpie.Library/Options.cs b/src/Peachpie.Library/Options.cs
+index 7ff9af4fa..744349069 100644
+--- a/src/Peachpie.Library/Options.cs
++++ b/src/Peachpie.Library/Options.cs
+@@ -458,7 +458,7 @@ public static PhpArray FormatOptionState(IniFlags flags, PhpValue defaultValue,
+ 		/// <remarks>Options already contained in <paramref name="result"/> are overwritten.</remarks>
+ 		internal static PhpArray GetAllOptionStates(Context ctx, string extension, PhpArray result)
+         {
+-            Debug.Assert(ctx != null && ctx.Configuration != null);
++            Debug.Assert(ctx?.Configuration != null);
+             Debug.Assert(result != null);
+ 
+             foreach (var opt in DumpOptions(ctx, extension))
+diff --git a/src/Peachpie.Library/Parsers/GPPG.cs b/src/Peachpie.Library/Parsers/GPPG.cs
+index f9ebecade..19535d810 100644
+--- a/src/Peachpie.Library/Parsers/GPPG.cs
++++ b/src/Peachpie.Library/Parsers/GPPG.cs
+@@ -592,7 +592,7 @@ protected string CharToString(char ch)
+ 				case '\t': return @"'\t'";
+ 				case '\v': return @"'\v'";
+ 				case '\0': return @"'\0'";
+-				default: return string.Format("'{0}'", ch);
++				default: return $"'{ch}'";
+ 			}
+ 		}
+ 	}
+diff --git a/src/Peachpie.Library/Phar/PharExtensions.cs b/src/Peachpie.Library/Phar/PharExtensions.cs
+index ac51ab804..da3214457 100644
+--- a/src/Peachpie.Library/Phar/PharExtensions.cs
++++ b/src/Peachpie.Library/Phar/PharExtensions.cs
+@@ -117,8 +117,8 @@ public static string PharEntryRelativePath(string pharFile, ReadOnlySpan<char> p
+         /// <returns>The attribute or <c>null</c>.</returns>
+         public static PharAttribute GetPharAttribute(Type pharEntryScriptType)
+         {
+-            var attrs = pharEntryScriptType.GetCustomAttributes(typeof(PharAttribute), inherit: false) as Attribute[]; // faster
+-            return attrs != null && attrs.Length != 0
++ // faster
++            return pharEntryScriptType.GetCustomAttributes(typeof(PharAttribute), inherit: false) is Attribute[] attrs && attrs.Length != 0
+                 ? (PharAttribute)attrs[0]
+                 : null;
+         }
+@@ -186,7 +186,7 @@ public static CachedPhar AliasToPharFile(Context ctx, string alias)
+         /// </summary>
+         public static string GetResourceContent(CachedPhar phar, ReadOnlySpan<char> entryName)
+         {
+-            if (phar != null && phar.Resources != null)
++            if (phar?.Resources != null)
+             {
+                 // TODO: the resource should be embedded as Stream
+                 // return value may change from string to Stream
+diff --git a/src/Peachpie.Library/Reflection/ReflectionMethod.cs b/src/Peachpie.Library/Reflection/ReflectionMethod.cs
+index ec1038f20..3aa54709b 100644
+--- a/src/Peachpie.Library/Reflection/ReflectionMethod.cs
++++ b/src/Peachpie.Library/Reflection/ReflectionMethod.cs
+@@ -86,7 +86,7 @@ public void __construct(Context ctx, PhpValue @class, string name)
+             }
+             else
+             {
+-                throw new ReflectionException(string.Format("Invalid method name '{0}'", @class.ToString(ctx)));
++                throw new ReflectionException($"Invalid method name '{@class.ToString(ctx)}'");
+             }
+ 
+             // get the real declaring type from routine:
+diff --git a/src/Peachpie.Library/Serialization.Json.cs b/src/Peachpie.Library/Serialization.Json.cs
+index 0bc899f3e..c654c25c7 100644
+--- a/src/Peachpie.Library/Serialization.Json.cs
++++ b/src/Peachpie.Library/Serialization.Json.cs
+@@ -501,9 +501,9 @@ public override void Accept(PhpArray array)
+ 
+                 public override void AcceptObject(object obj)
+                 {
+-                    if (obj is JsonSerializable)
++                    if (obj is JsonSerializable jsonSerializable)
+                     {
+-                        var data = ((JsonSerializable)obj).jsonSerialize();
++                        var data = jsonSerializable.jsonSerialize();
+                         if ((obj = data.AsObject()) == null)
+                         {
+                             data.Accept(this);
+diff --git a/src/Peachpie.Library/Serialization.cs b/src/Peachpie.Library/Serialization.cs
+index d1a8613ba..3cdf121ba 100644
+--- a/src/Peachpie.Library/Serialization.cs
++++ b/src/Peachpie.Library/Serialization.cs
+@@ -1134,10 +1134,7 @@ object ParseObject(bool serializable)
+                         {
+                             // __wakeup
+                             var __wakeup = tinfo.RuntimeMethods[TypeMethods.MagicMethods.__wakeup];
+-                            if (__wakeup != null)
+-                            {
+-                                __wakeup.Invoke(_ctx, obj);
+-                            }
++                            __wakeup?.Invoke(_ctx, obj);
+                         }
+                     }
+ 
+diff --git a/src/Peachpie.Library/Session.cs b/src/Peachpie.Library/Session.cs
+index 9f084c424..842bc9616 100644
+--- a/src/Peachpie.Library/Session.cs
++++ b/src/Peachpie.Library/Session.cs
+@@ -697,7 +697,7 @@ public static string session_id(Context ctx, string newid = null)
+             string id = string.Empty;
+ 
+             var webctx = GetHttpPhpContext(ctx);
+-            if (webctx != null && webctx.SessionHandler != null)
++            if (webctx?.SessionHandler != null)
+             {
+                 if (webctx.SessionState != PhpSessionState.Closed || newid != null)
+                 {
+diff --git a/src/Peachpie.Library/Spl/Datastructures.cs b/src/Peachpie.Library/Spl/Datastructures.cs
+index ba421083c..d8b246cd3 100644
+--- a/src/Peachpie.Library/Spl/Datastructures.cs
++++ b/src/Peachpie.Library/Spl/Datastructures.cs
+@@ -330,7 +330,7 @@ public virtual void add(PhpValue index, PhpValue newval)
+             {
+                 _baseList.AddFirst(newval);
+             }
+-            else if (indexval == _baseList.Count())
++            else if (indexval == _baseList.Count)
+             {
+                 _baseList.AddLast(newval);
+             }
+diff --git a/src/Peachpie.Library/Streams/NativeStream.cs b/src/Peachpie.Library/Streams/NativeStream.cs
+index a1672dab9..d9ff9a39a 100644
+--- a/src/Peachpie.Library/Streams/NativeStream.cs
++++ b/src/Peachpie.Library/Streams/NativeStream.cs
+@@ -39,10 +39,7 @@ protected override void FreeManaged()
+             {
+             }
+ 
+-            if (Wrapper != null)    //Can be php://output
+-            {
+-                Wrapper.Dispose();
+-            }
++            Wrapper?.Dispose();
+ 
+             stream = null;
+         }
+diff --git a/src/Peachpie.Library/Streams/PhpStream.cs b/src/Peachpie.Library/Streams/PhpStream.cs
+index 547d060a9..136a43fc9 100644
+--- a/src/Peachpie.Library/Streams/PhpStream.cs
++++ b/src/Peachpie.Library/Streams/PhpStream.cs
+@@ -283,7 +283,7 @@ public static bool ResolvePath(Context ctx, ref string path, out StreamWrapper w
+                 Debug.Assert(
+                     path.IndexOf(Path.AltDirectorySeparatorChar) == -1 ||
+                     (Path.AltDirectorySeparatorChar == Path.DirectorySeparatorChar),    // on Mono, so ignore it
+-                    string.Format("'{0}' should not contain '{1}' char.", path, Path.AltDirectorySeparatorChar));
++                    $"'{path}' should not contain '{Path.AltDirectorySeparatorChar}' char.");
+ 
+                 // The file wrapper expects an absolute path w/o the scheme, others expect the scheme://url.
+                 if (scheme != FileStreamWrapper.scheme)
+diff --git a/src/Peachpie.Library/Streams/StreamContext.cs b/src/Peachpie.Library/Streams/StreamContext.cs
+index 54df9939c..9eba6e918 100644
+--- a/src/Peachpie.Library/Streams/StreamContext.cs
++++ b/src/Peachpie.Library/Streams/StreamContext.cs
+@@ -91,8 +91,7 @@ public static StreamContext GetValid(PhpResource resource, bool allowNull = fals
+                 return StreamContext.Default;
+ 
+             // try to cast to StreamContext
+-            var result = resource as StreamContext;
+-            if (result != null /* TODO: Why is default context disposed? && result.IsValid*/)
++            if (resource is StreamContext result /* TODO: Why is default context disposed? && result.IsValid*/)
+                 return result;
+ 
+             PhpException.Throw(PhpError.Warning, Resources.LibResources.invalid_context_resource);
+diff --git a/src/Peachpie.Library/Streams/Streams.cs b/src/Peachpie.Library/Streams/Streams.cs
+index 5ef9e9a48..c4c7cff6f 100644
+--- a/src/Peachpie.Library/Streams/Streams.cs
++++ b/src/Peachpie.Library/Streams/Streams.cs
+@@ -91,8 +91,7 @@ private static StreamContext FromResource(PhpResource stream_or_context, bool cr
+             if ((stream_or_context != null) && (stream_or_context.IsValid))
+             {
+                 // Get the context out of the stream
+-                PhpStream stream = stream_or_context as PhpStream;
+-                if (stream != null)
++                if (stream_or_context is PhpStream stream)
+                 {
+                     Debug.Assert(stream.Context != null);
+                     stream_or_context = stream.Context;
+diff --git a/src/Peachpie.Library/Variables.cs b/src/Peachpie.Library/Variables.cs
+index 9ec2c20da..43efd7081 100644
+--- a/src/Peachpie.Library/Variables.cs
++++ b/src/Peachpie.Library/Variables.cs
+@@ -216,15 +216,13 @@ public static long count(PhpValue variable, int mode = COUNT_NORMAL)
+             else if (variable.IsObject)
+             {
+                 // PHP Countable
+-                var countable = variable.Object as Spl.Countable;
+-                if (countable != null)
++                if (variable.Object is Spl.Countable countable)
+                 {
+                     return countable.count();
+                 }
+ 
+                 // CLR ICollection
+-                var collection = variable.Object as System.Collections.ICollection;
+-                if (collection != null)
++                if (variable.Object is System.Collections.ICollection collection)
+                 {
+                     return collection.Count;
+                 }
+diff --git a/src/Peachpie.Library/zip.cs b/src/Peachpie.Library/zip.cs
+index 8d21d8cb0..fa95a2bac 100644
+--- a/src/Peachpie.Library/zip.cs
++++ b/src/Peachpie.Library/zip.cs
+@@ -49,10 +49,7 @@ internal ZipEntryResource(ZipArchiveEntry entry)
+ 
+         protected override void FreeManaged()
+         {
+-            if (DataStream != null)
+-            {
+-                DataStream.Dispose();
+-            }
++            DataStream?.Dispose();
+ 
+             base.FreeManaged();
+         }
+diff --git a/src/Peachpie.Library/zlib.cs b/src/Peachpie.Library/zlib.cs
+index 8bee682bb..f12b9a40f 100644
+--- a/src/Peachpie.Library/zlib.cs
++++ b/src/Peachpie.Library/zlib.cs
+@@ -119,7 +119,7 @@ public static PhpString gzdeflate(byte[] data, int level = -1)
+         {
+             if (level < -1 || level > 9)
+             {
+-                PhpException.Throw(PhpError.Warning, String.Format("compression level ({0}) must be within -1..9", level));
++                PhpException.Throw(PhpError.Warning, $"compression level ({level}) must be within -1..9");
+                 return default(PhpString);
+             }
+ 
+@@ -309,7 +309,7 @@ public static PhpString gzcompress(byte[] data, int level = -1)
+         {
+             if ((level < -1) || (level > 9))
+             {
+-                PhpException.Throw(PhpError.Warning, String.Format("compression level ({0}) must be within -1..9", level));
++                PhpException.Throw(PhpError.Warning, $"compression level ({level}) must be within -1..9");
+                 return default(PhpString);
+             }
+ 
+@@ -365,7 +365,7 @@ public static PhpString gzuncompress(byte[] data, int length = 0)
+         {
+             if (length < 0)
+             {
+-                PhpException.Throw(PhpError.Warning, String.Format("length {0} must be greater or equal zero", length));
++                PhpException.Throw(PhpError.Warning, $"length {length} must be greater or equal zero");
+                 return default(PhpString);
+             }
+ 
+diff --git a/src/Peachpie.NET.Sdk/SimpleJSON/SimpleJSON.cs b/src/Peachpie.NET.Sdk/SimpleJSON/SimpleJSON.cs
+index 98fd37cf5..2243cc838 100644
+--- a/src/Peachpie.NET.Sdk/SimpleJSON/SimpleJSON.cs
++++ b/src/Peachpie.NET.Sdk/SimpleJSON/SimpleJSON.cs
+@@ -694,10 +694,7 @@ void TokenAppend(char ch)
+                             goto default;
+                         }
+                         stack.Push(new JSONObject() { Location = new Location { Start = CurrentPosition(), } });
+-                        if (ctx != null)
+-                        {
+-                            ctx.Add(TokenName, stack.Peek());
+-                        }
++                        ctx?.Add(TokenName, stack.Peek());
+                         TokenName = "";
+                         TokenReset();
+                         ctx = stack.Peek();
+@@ -710,10 +707,7 @@ void TokenAppend(char ch)
+                         }
+ 
+                         stack.Push(new JSONArray() { Location = new Location { Start = CurrentPosition(), } });
+-                        if (ctx != null)
+-                        {
+-                            ctx.Add(TokenName, stack.Peek());
+-                        }
++                        ctx?.Add(TokenName, stack.Peek());
+                         TokenName = "";
+                         TokenReset();
+                         ctx = stack.Peek();
+@@ -1043,7 +1037,7 @@ public override JSONNode Remove(JSONNode aNode)
+         {
+             try
+             {
+-                var item = _dict.Where(k => k.Value == aNode).First();
++                var item = _dict.First(k => k.Value == aNode);
+                 _dict.Remove(item.Key);
+                 return aNode;
+             }
+@@ -1133,11 +1127,11 @@ public override bool Equals(object obj)
+         {
+             if (base.Equals(obj))
+                 return true;
+-            string s = obj as string;
+-            if (s != null)
++
++            if (obj is string s)
+                 return _data == s;
+-            JSONString s2 = obj as JSONString;
+-            if (s2 != null)
++
++            if (obj is JSONString s2)
+                 return _data == s2._data;
+             return false;
+         }
+@@ -1207,8 +1201,8 @@ public override bool Equals(object obj)
+                 return false;
+             if (base.Equals(obj))
+                 return true;
+-            JSONNumber s2 = obj as JSONNumber;
+-            if (s2 != null)
++
++            if (obj is JSONNumber s2)
+                 return _data == s2._data;
+             if (IsNumeric(obj))
+                 return Convert.ToDouble(obj) == _data;
+diff --git a/src/Peachpie.RequestHandler/Session/AspNetSessionHelpers.cs b/src/Peachpie.RequestHandler/Session/AspNetSessionHelpers.cs
+index 5b0519336..64b246553 100644
+--- a/src/Peachpie.RequestHandler/Session/AspNetSessionHelpers.cs
++++ b/src/Peachpie.RequestHandler/Session/AspNetSessionHelpers.cs
+@@ -32,10 +32,7 @@ public static void SetContainer(this HttpSessionState state, IHttpSessionState c
+         {
+             Debug.Assert(s_HttpSessionState_container != null, "HttpSessionState._container missing!");
+ 
+-            if (s_HttpSessionState_container != null)
+-            {
+-                s_HttpSessionState_container.SetValue(state, container ?? throw new ArgumentNullException(nameof(container)));
+-            }
++            s_HttpSessionState_container?.SetValue(state, container ?? throw new ArgumentNullException(nameof(container)));
+         }
+ 
+         /// <summary>Field <see cref="HttpSessionStateContainer"/>.<c>_sessionItems</c>.</summary>
+@@ -89,8 +86,7 @@ public static string GetConfigCookieName()
+         {
+             if (s_SessionIDManager_config != null)
+             {
+-                var section = s_SessionIDManager_config.GetValue(null) as System.Web.Configuration.SessionStateSection;
+-                if (section != null)
++                if (s_SessionIDManager_config.GetValue(null) is System.Web.Configuration.SessionStateSection section)
+                 {
+                     return section.CookieName;
+                 }
+diff --git a/src/Peachpie.Runtime/Comparison.cs b/src/Peachpie.Runtime/Comparison.cs
+index 2a5ff85aa..470e3ff54 100644
+--- a/src/Peachpie.Runtime/Comparison.cs
++++ b/src/Peachpie.Runtime/Comparison.cs
+@@ -224,7 +224,7 @@ public static int Compare(object x, PhpValue y)
+             Debug.Assert(x != null);
+ 
+             if (x.Equals(y.Object)) return 0;
+-            if (x is IPhpComparable) return ((IPhpComparable)x).Compare(y);
++            if (x is IPhpComparable iPhpComparable) return iPhpComparable.Compare(y);
+             if (y.Object is IPhpComparable) return -((IPhpComparable)y.Object).Compare(PhpValue.FromClass(x));
+             if (x is decimal xd) return Compare((double)xd, y);
+ 
+diff --git a/src/Peachpie.Runtime/Context.cs b/src/Peachpie.Runtime/Context.cs
+index e59103b46..ef038702e 100644
+--- a/src/Peachpie.Runtime/Context.cs
++++ b/src/Peachpie.Runtime/Context.cs
+@@ -245,7 +245,7 @@ public static void AddScriptReference(Assembly assembly)
+                     if (t.IsAbstract && t.IsSealed)// => static
+                     {
+                         var sattr = ReflectionUtils.GetScriptAttribute(t);
+-                        if (sattr != null && sattr.Path != null && t.GetCustomAttribute<PharAttribute>() == null)
++                        if (sattr?.Path != null && t.GetCustomAttribute<PharAttribute>() == null)
+                         {
+                             var info = ScriptsMap.DeclareScript(sattr.Path, ScriptInfo.CreateMain(t));
+ 
+@@ -750,10 +750,7 @@ public virtual void RegisterDisposable(IDisposable obj)
+ 
+         public virtual void UnregisterDisposable(IDisposable obj)
+         {
+-            if (_lazyDisposables != null)
+-            {
+-                _lazyDisposables.Remove(obj);
+-            }
++            _lazyDisposables?.Remove(obj);
+         }
+ 
+         void ProcessDisposables()
+diff --git a/src/Peachpie.Runtime/Conversions.cs b/src/Peachpie.Runtime/Conversions.cs
+index 14c080b9b..9de9b1690 100644
+--- a/src/Peachpie.Runtime/Conversions.cs
++++ b/src/Peachpie.Runtime/Conversions.cs
+@@ -305,15 +305,15 @@ public static PhpArray ClassToArray(object obj)
+                 {
+                     return ToArray(conv);
+                 }
+-                else if (obj is Array)
++                else if (obj is Array array)
+                 {
+                     // [] -> array
+-                    return new PhpArray((Array)obj);
++                    return new PhpArray(array);
+                 }
+-                else if (obj is System.Collections.IEnumerable)
++                else if (obj is System.Collections.IEnumerable iEnumerable)
+                 {
+                     // the same behavior as foreach for CLR enumerators
+-                    return PhpArray.Create(Operators.GetForeachEnumerator((System.Collections.IEnumerable)obj));
++                    return PhpArray.Create(Operators.GetForeachEnumerator(iEnumerable));
+                 }
+                 else
+                 {
+@@ -370,8 +370,7 @@ public static PhpString ToPhpString(this PhpValue value, Context ctx)
+         /// <returns>New instance of <see cref="stdClass"/> with runtime fields filled from given array.</returns>
+         public static object ToClass(IPhpArray array)
+         {
+-            var convertible = array as IPhpConvertible;
+-            if (convertible != null)
++            if (array is IPhpConvertible convertible)
+             {
+                 return convertible.ToClass();
+             }
+diff --git a/src/Peachpie.Runtime/Reflection/PhpStackTrace.cs b/src/Peachpie.Runtime/Reflection/PhpStackTrace.cs
+index 432de490b..b6836119a 100644
+--- a/src/Peachpie.Runtime/Reflection/PhpStackTrace.cs
++++ b/src/Peachpie.Runtime/Reflection/PhpStackTrace.cs
+@@ -432,11 +432,7 @@ public PhpStackFrame(StackFrame clrframe)
+ 
+         public override string ToString()
+         {
+-            return string.Format("{0}:({1},{2}): {3}{4}",
+-                FileName ?? "<unknown>",
+-                Line, Column,
+-                RoutineName,
+-                RoutineParameters);
++            return $"{FileName ?? "<unknown>"}:({Line},{Column}): {RoutineName}{RoutineParameters}";
+         }
+     }
+ }
+diff --git a/src/Peachpie.Runtime/Reflection/ReflectionUtils.cs b/src/Peachpie.Runtime/Reflection/ReflectionUtils.cs
+index ea4fec9dd..7ad1e8b74 100644
+--- a/src/Peachpie.Runtime/Reflection/ReflectionUtils.cs
++++ b/src/Peachpie.Runtime/Reflection/ReflectionUtils.cs
+@@ -222,8 +222,8 @@ public static bool IsUserRoutine(this MethodBase method)
+         /// <returns>The attribute or <c>null</c>.</returns>
+         public static ScriptAttribute GetScriptAttribute(Type scriptType)
+         {
+-            var attrs = scriptType.GetCustomAttributes(typeof(ScriptAttribute), inherit: false) as Attribute[]; // faster
+-            return attrs != null && attrs.Length != 0
++ // faster
++            return scriptType.GetCustomAttributes(typeof(ScriptAttribute), inherit: false) is Attribute[] attrs && attrs.Length != 0
+                 ? (ScriptAttribute)attrs[0]
+                 : null;
+         }

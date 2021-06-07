@@ -1,0 +1,33 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: BTCPayServer
+    #1 Path: D:\a\1\s\BTCPayServer\Controllers\HomeController.cs, Line: 65, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #2 Path: D:\a\1\s\BTCPayServer\Controllers\HomeController.cs, Line: 81, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: D:\a\1\s\BTCPayServer\Controllers\StoresController.cs, Line: 954, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #4 Path: D:\a\1\s\BTCPayServer\Extensions.cs, Line: 258, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #5 Path: D:\a\1\s\BTCPayServer\Extensions\ControllerBaseExtensions.cs, Line: 44, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #6 Path: D:\a\1\s\BTCPayServer\HostedServices\CssThemeManager.cs, Line: 98, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #7 Path: D:\a\1\s\BTCPayServer\HostedServices\CssThemeManager.cs, Line: 98, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #8 Path: D:\a\1\s\BTCPayServer\JsonConverters\DateTimeMilliJsonConverter.cs, Line: 48, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #9 Path: D:\a\1\s\BTCPayServer\Payments\Bitcoin\NBXplorerListener.cs, Line: 160, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #10 Path: D:\a\1\s\BTCPayServer\Services\Stores\StoreRepository.cs, Line: 122, Message: ReSharper: ReplaceWithSingleCallToAny. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+--- Rules Summary ---
+R8: 5
+R4: 3
+R3: 1
+R5: 1
+
+--- Summary ---
+Fixed ReSharper issues: 10
+Fixed SonarQube issues: 5
+Total fixed issues: 10
+
+Finished in: 23 s
+
+No errors reported.
+

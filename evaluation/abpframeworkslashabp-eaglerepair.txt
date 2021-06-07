@@ -1,0 +1,61 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Volo.Abp.Validation
+    #1 Path: D:\a\1\s\framework\src\Volo.Abp.Validation\Volo\Abp\Validation\StringValues\NumericValueValidator.cs, Line: 39, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+Project: Volo.Abp.Threading
+    #2 Path: D:\a\1\s\framework\src\Volo.Abp.Threading\Volo\Abp\Threading\AmbientDataContextAmbientScopeProvider.cs, Line: 66, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Volo.Abp.Ddd.Domain
+    #3 Path: D:\a\1\s\framework\src\Volo.Abp.Ddd.Domain\Volo\Abp\Domain\Repositories\RepositoryExtensions.cs, Line: 27, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #4 Path: D:\a\1\s\framework\src\Volo.Abp.Ddd.Domain\Volo\Abp\Domain\Repositories\RepositoryExtensions.cs, Line: 43, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo.Tests
+    #5 Path: D:\a\1\s\framework\test\Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.Demo.Tests\Volo\Abp\AspNetCore\Mvc\UI\Bootstrap\Demo\AbpAspNetCoreMvcUiBootstrapDemoTestBase.cs, Line: 21, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Volo.Abp.AspNetCore.Mvc.UI.Bundling
+    #6 Path: D:\a\1\s\framework\src\Volo.Abp.AspNetCore.Mvc.UI.Bundling\Volo\Abp\AspNetCore\Mvc\UI\Bundling\TagHelpers\AbpBundleItemTagHelperService.cs, Line: 22, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Volo.Abp.BackgroundWorkers.Quartz
+    #7 Path: D:\a\1\s\framework\src\Volo.Abp.BackgroundWorkers.Quartz\Volo\Abp\BackgroundWorkers\Quartz\QuartzBackgroundWorkerAdapter.cs, Line: 78, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Demo
+    #8 Path: D:\a\1\s\framework\src\Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Demo\Views\Components\Themes\Shared\TagHelpers\AbpComponentDemoSectionTagHelper.cs, Line: 123, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Volo.Abp.ObjectExtending
+    #9 Path: D:\a\1\s\framework\src\Volo.Abp.ObjectExtending\Volo\Abp\ObjectExtending\Modularity\ExtensionPropertyConfigurationExtensions.cs, Line: 23, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+--- Rules Summary ---
+R8: 4
+R7: 2
+R5: 1
+R9: 1
+R3: 1
+
+--- Summary ---
+Fixed ReSharper issues: 9
+Fixed SonarQube issues: 2
+Total fixed issues: 9
+
+Finished in: 1 min 6 s
+
+No errors reported.
+

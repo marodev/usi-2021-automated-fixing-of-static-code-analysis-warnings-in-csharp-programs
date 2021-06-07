@@ -1,0 +1,92 @@
+diff --git a/src/TaglibSharp/CombinedTag.cs b/src/TaglibSharp/CombinedTag.cs
+index 99706cb..6bd4e25 100644
+--- a/src/TaglibSharp/CombinedTag.cs
++++ b/src/TaglibSharp/CombinedTag.cs
+@@ -628,7 +628,7 @@ protected void ClearTags ()
+ 
+ 					string value = tag.TitleSort;
+ 
+-					if (value != null && value.Length > 0)
++					if (!string.IsNullOrEmpty(value))
+ 						return value;
+ 				}
+ 
+@@ -667,7 +667,7 @@ protected void ClearTags ()
+ 
+ 					string value = tag.AlbumSort;
+ 
+-					if (value != null && value.Length > 0)
++					if (!string.IsNullOrEmpty(value))
+ 						return value;
+ 				}
+ 
+diff --git a/src/TaglibSharp/IFD/IFDStructure.cs b/src/TaglibSharp/IFD/IFDStructure.cs
+index ac20dd7..bc6007c 100644
+--- a/src/TaglibSharp/IFD/IFDStructure.cs
++++ b/src/TaglibSharp/IFD/IFDStructure.cs
+@@ -246,7 +246,7 @@ public string GetStringValue (int directory, ushort entry_tag)
+ 		{
+ 			var entry = GetEntry (directory, entry_tag);
+ 
+-			if (entry != null && entry is ByteIFDEntry)
++			if (entry is ByteIFDEntry)
+ 				return (entry as ByteIFDEntry).Value;
+ 
+ 			return null;
+diff --git a/src/TaglibSharp/Matroska/File.cs b/src/TaglibSharp/Matroska/File.cs
+index 3a7896b..79bed54 100644
+--- a/src/TaglibSharp/Matroska/File.cs
++++ b/src/TaglibSharp/Matroska/File.cs
+@@ -1342,7 +1342,7 @@ EBMLelement CreateAttachments ()
+ 
+ 			foreach (var attach in tags.Attachments) {
+ 				// Write AttachedFile content
+-				if (attach != null && attach.Data != null && attach.Data.Count > 0) {
++				if (attach?.Data != null && attach.Data.Count > 0) {
+ 					// Try to keep the type info in the filename (more important than the Filename)
+ 					attach.SetFilenameFromType ();
+ 
+diff --git a/src/TaglibSharp/Matroska/Tag.cs b/src/TaglibSharp/Matroska/Tag.cs
+index 0fc3f7d..70b1adb 100644
+--- a/src/TaglibSharp/Matroska/Tag.cs
++++ b/src/TaglibSharp/Matroska/Tag.cs
+@@ -1265,8 +1265,8 @@ uint GetUint (string key, string subkey = null, bool recu = false)
+ 			set {
+ 				if (value == null) {
+ 					Tags.Attachments = null;
+-				} else if (value is Attachment[]) {
+-					Tags.Attachments = (Attachment[])value;
++				} else if (value is Attachment[] Attachments) {
++					Tags.Attachments = Attachments;
+ 				} else {
+ 					var attach = new Attachment[value.Length];
+ 					for (int i = 0; i < attach.Length; i++) {
+diff --git a/src/TaglibSharp/Mpeg4/AppleTag.cs b/src/TaglibSharp/Mpeg4/AppleTag.cs
+index 937975c..512a23c 100644
+--- a/src/TaglibSharp/Mpeg4/AppleTag.cs
++++ b/src/TaglibSharp/Mpeg4/AppleTag.cs
+@@ -533,8 +533,7 @@ AppleAnnotationBox GetParentDashBox (string meanstring, string namestring)
+ 		internal static ReadOnlyByteVector FixId (ByteVector id)
+ 		{
+ 			if (id.Count == 4) {
+-				var roid = id as ReadOnlyByteVector;
+-				if (roid != null)
++				if (id is ReadOnlyByteVector roid)
+ 					return roid;
+ 
+ 				return new ReadOnlyByteVector (id);
+diff --git a/src/TaglibSharp/Riff/AviStream.cs b/src/TaglibSharp/Riff/AviStream.cs
+index b9eaf94..d54f3e0 100644
+--- a/src/TaglibSharp/Riff/AviStream.cs
++++ b/src/TaglibSharp/Riff/AviStream.cs
+@@ -119,9 +119,7 @@ public static AviStream ParseStreamList (ByteVector data)
+ 						stream = new AviVideoStream (stream_header);
+ 					else if (stream_header.Type == "auds")
+ 						stream = new AviAudioStream (stream_header);
+-				} else if (stream != null) {
+-					stream.ParseItem (id, data, pos + 8, block_length);
+-				}
++				} else stream?.ParseItem(id, data, pos + 8, block_length);
+ 
+ 				pos += block_length + 8;
+ 			}

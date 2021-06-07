@@ -1,0 +1,254 @@
+diff --git a/src/Numerics.Tests/ComplexTests/Complex32Test.TextHandling.cs b/src/Numerics.Tests/ComplexTests/Complex32Test.TextHandling.cs
+index 6d9e4b8f..66f1948b 100644
+--- a/src/Numerics.Tests/ComplexTests/Complex32Test.TextHandling.cs
++++ b/src/Numerics.Tests/ComplexTests/Complex32Test.TextHandling.cs
+@@ -92,11 +92,11 @@ public void CanFormatComplexToStringWithCulture(string cultureName, string numbe
+             Assert.AreEqual("(" + nan + ", " + nan + ")", Complex32.NaN.ToString(provider));
+             Assert.AreEqual("(" + infinity + ", " + infinity + ")", Complex32.PositiveInfinity.ToString(provider));
+             Assert.AreEqual("(0, 0)", Complex32.Zero.ToString(provider));
+-            Assert.AreEqual("(" + String.Format("{0}", number) + ", 0)", new Complex32(1.1f, 0.0f).ToString(provider));
+-            Assert.AreEqual("(" + String.Format("-{0}", number) + ", 0)", new Complex32(-1.1f, 0f).ToString(provider));
+-            Assert.AreEqual("(0, " + String.Format("-{0}", number) + ")", new Complex32(0.0f, -1.1f).ToString(provider));
+-            Assert.AreEqual("(0, " + String.Format("{0}", number) + ")", new Complex32(0.0f, 1.1f).ToString(provider));
+-            Assert.AreEqual("(" + String.Format("{0}", number) + ", " + String.Format("{0}", number) + ")", new Complex32(1.1f, 1.1f).ToString(provider));
++            Assert.AreEqual("(" + $"{number}" + ", 0)", new Complex32(1.1f, 0.0f).ToString(provider));
++            Assert.AreEqual("(" + $"-{number}" + ", 0)", new Complex32(-1.1f, 0f).ToString(provider));
++            Assert.AreEqual("(0, " + $"-{number}" + ")", new Complex32(0.0f, -1.1f).ToString(provider));
++            Assert.AreEqual("(0, " + $"{number}" + ")", new Complex32(0.0f, 1.1f).ToString(provider));
++            Assert.AreEqual("(" + $"{number}" + ", " + $"{number}" + ")", new Complex32(1.1f, 1.1f).ToString(provider));
+         }
+ 
+         /// <summary>
+@@ -107,9 +107,9 @@ public void CanFormatComplexToStringWithFormat()
+         {
+             Assert.AreEqual("(0, 0)", String.Format("{0:G}", Complex32.Zero));
+             Assert.AreEqual("(1, 2)", String.Format("{0:G}", new Complex32(1, 2)));
+-            Assert.AreEqual("(001, 002)", String.Format("{0:000;minus 000;zero}", new Complex32(1, 2)));
+-            Assert.AreEqual("(zero, minus 002)", String.Format("{0:000;minus 000;zero}", new Complex32(0, -2)));
+-            Assert.AreEqual("(zero, zero)", String.Format("{0:000;minus 000;zero}", Complex32.Zero));
++            Assert.AreEqual("(001, 002)", $"{new Complex32(1, 2):000;minus 000;zero}");
++            Assert.AreEqual("(zero, minus 002)", $"{new Complex32(0, -2):000;minus 000;zero}");
++            Assert.AreEqual("(zero, zero)", $"{Complex32.Zero:000;minus 000;zero}");
+ 
+             Assert.AreEqual("(0, 0)", Complex32.Zero.ToString("G"));
+             Assert.AreEqual("(1, 2)", new Complex32(1, 2).ToString("G"));
+diff --git a/src/Numerics.Tests/DistributionTests/Discrete/NegativeBinomialTests.cs b/src/Numerics.Tests/DistributionTests/Discrete/NegativeBinomialTests.cs
+index 5744fb9f..f879f7fd 100644
+--- a/src/Numerics.Tests/DistributionTests/Discrete/NegativeBinomialTests.cs
++++ b/src/Numerics.Tests/DistributionTests/Discrete/NegativeBinomialTests.cs
+@@ -81,7 +81,7 @@ public void ValidateToString()
+         {
+             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+             var d = new NegativeBinomial(1.0, 0.3);
+-            Assert.AreEqual(String.Format("NegativeBinomial(R = {0}, P = {1})", d.R, d.P), d.ToString());
++            Assert.AreEqual($"NegativeBinomial(R = {d.R}, P = {d.P})", d.ToString());
+         }
+ 
+         /// <summary>
+diff --git a/src/Numerics.Tests/DistributionTests/Discrete/PoissonTests.cs b/src/Numerics.Tests/DistributionTests/Discrete/PoissonTests.cs
+index 185867ab..43ea290c 100644
+--- a/src/Numerics.Tests/DistributionTests/Discrete/PoissonTests.cs
++++ b/src/Numerics.Tests/DistributionTests/Discrete/PoissonTests.cs
+@@ -73,7 +73,7 @@ public void ValidateToString()
+         {
+             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+             var d = new Poisson(0.3);
+-            Assert.AreEqual(String.Format("Poisson(λ = {0})", 0.3), d.ToString());
++            Assert.AreEqual($"Poisson(λ = {0.3})", d.ToString());
+         }
+ 
+         /// <summary>
+diff --git a/src/Numerics.Tests/PolynomialTests.cs b/src/Numerics.Tests/PolynomialTests.cs
+index 8b82dcec..6a4fdd49 100644
+--- a/src/Numerics.Tests/PolynomialTests.cs
++++ b/src/Numerics.Tests/PolynomialTests.cs
+@@ -106,7 +106,7 @@ public void AddTest()
+             {
+                 for (int j = 0; j < 5; j++)
+                 {
+-                    var msg = String.Format("At i={0}, j={1}", i, j);
++                    var msg = $"At i={i}, j={j}";
+                     var n = Math.Max(i, j) + 1;
+                     var tgt = new double[n];
+                     tgt[i] += 1;
+@@ -140,7 +140,7 @@ public void SubtractTest()
+             {
+                 for (int j = 0; j < 5; j++)
+                 {
+-                    var msg = String.Format("At i={0}, j={1}", i, j);
++                    var msg = $"At i={i}, j={j}";
+                     var n = Math.Max(i, j) + 1;
+                     var tgt = new double[n];
+                     tgt[i] += 1;
+@@ -174,7 +174,7 @@ public void MultiplyTest()
+             {
+                 for (int j = 0; j < 5; j++)
+                 {
+-                    var msg = String.Format("At i={0}, j={1}", i, j);
++                    var msg = $"At i={i}, j={j}";
+                     var n = i + j + 1;
+                     var tgt = new double[n];
+                     tgt[i + j] += 1;
+@@ -288,7 +288,7 @@ public void DivideLongTest()
+             {
+                 for (int j = 0; j < 5; j++)
+                 {
+-                    var msg = String.Format("At i={0}, j={1}", i, j);
++                    var msg = $"At i={i}, j={j}";
+                     var ci = new double[i + 2];
+                     var cj = new double[j + 2];
+                     ci[ci.Length - 1] = 2;
+@@ -360,7 +360,7 @@ static void TestRootsEqual(double[] x, List<Complex> eIn)
+             Assert.AreEqual(e.Length, r.Length, "Length mismatch");
+             for (int k = 0; k < r.Length; k++)
+             {
+-                var msg = String.Format("At k={0}", k);
++                var msg = $"At k={k}";
+                 Assert.AreEqual(e[k].Real, r[k].Real, tol, msg);
+                 Assert.AreEqual(e[k].Imaginary, r[k].Imaginary, tol, msg);
+             }
+diff --git a/src/Numerics.Tests/Random/RandomTests.cs b/src/Numerics.Tests/Random/RandomTests.cs
+index a95c88d0..b35df53c 100644
+--- a/src/Numerics.Tests/Random/RandomTests.cs
++++ b/src/Numerics.Tests/Random/RandomTests.cs
+@@ -79,10 +79,7 @@ public void Sample()
+             Assert.IsTrue(sum <= (N/2.0) + (.05*N));
+ 
+             var disposable = random as IDisposable;
+-            if (disposable != null)
+-            {
+-                disposable.Dispose();
+-            }
++            disposable?.Dispose();
+         }
+ 
+ 		/// <summary>
+@@ -97,15 +94,12 @@ public void Boundaries()
+             {
+                 var j = N;
+                 var next = random.Next(i, j);
+-                Assert.IsTrue(next >= i, string.Format("Value {0} is smaller than lower bound {1}", next, i));
+-                Assert.IsTrue(next < j, string.Format("Value {0} is larger or equal to upper bound {1}", next, j));
++                Assert.IsTrue(next >= i, $"Value {next} is smaller than lower bound {i}");
++                Assert.IsTrue(next < j, $"Value {next} is larger or equal to upper bound {j}");
+             }
+ 
+             var disposable = random as IDisposable;
+-            if (disposable != null)
+-            {
+-                disposable.Dispose();
+-            }
++            disposable?.Dispose();
+         }
+ 
+         [Test]
+diff --git a/src/Numerics.Tests/StatisticsTests/StatTestData.cs b/src/Numerics.Tests/StatisticsTests/StatTestData.cs
+index 0fd7a80e..e24e0c5b 100644
+--- a/src/Numerics.Tests/StatisticsTests/StatTestData.cs
++++ b/src/Numerics.Tests/StatisticsTests/StatTestData.cs
+@@ -90,7 +90,7 @@ public StatTestData(string file)
+                 while (line != null)
+                 {
+                     line = line.Trim();
+-                    if (!line.Equals(string.Empty))
++                    if (!string.IsNullOrEmpty(line))
+                     {
+                         list.Add(double.Parse(line, CultureInfo.InvariantCulture));
+                     }
+diff --git a/src/Numerics/LinearAlgebra/Complex32/SparseMatrix.cs b/src/Numerics/LinearAlgebra/Complex32/SparseMatrix.cs
+index 7816511b..25931f1b 100644
+--- a/src/Numerics/LinearAlgebra/Complex32/SparseMatrix.cs
++++ b/src/Numerics/LinearAlgebra/Complex32/SparseMatrix.cs
+@@ -1534,7 +1534,7 @@ public override bool IsHermitian()
+ 
+         public override string ToTypeString()
+         {
+-            return string.Format("SparseMatrix {0}x{1}-Complex32 {2:P2} Filled", RowCount, ColumnCount, NonZerosCount / (RowCount * (double)ColumnCount));
++            return $"SparseMatrix {RowCount}x{ColumnCount}-Complex32 {NonZerosCount / (RowCount * (double)ColumnCount):P2} Filled";
+         }
+     }
+ }
+diff --git a/src/Numerics/Optimization/NonlinearMinimizerBase.cs b/src/Numerics/Optimization/NonlinearMinimizerBase.cs
+index 94206596..8a6c0a1e 100644
+--- a/src/Numerics/Optimization/NonlinearMinimizerBase.cs
++++ b/src/Numerics/Optimization/NonlinearMinimizerBase.cs
+@@ -58,7 +58,7 @@ protected static void ValidateBounds(Vector<double> parameters, Vector<double> l
+                 throw new ArgumentNullException("parameters");
+             }
+ 
+-            if (lowerBound != null && lowerBound.Count(x => double.IsInfinity(x) || double.IsNaN(x)) > 0)
++            if (lowerBound != null && lowerBound.Any(x => double.IsInfinity(x) || double.IsNaN(x)))
+             {
+                 throw new ArgumentException("The lower bounds must be finite.");
+             }
+@@ -68,7 +68,7 @@ protected static void ValidateBounds(Vector<double> parameters, Vector<double> l
+             }
+             LowerBound = lowerBound;
+ 
+-            if (upperBound != null && upperBound.Count(x => double.IsInfinity(x) || double.IsNaN(x)) > 0)
++            if (upperBound != null && upperBound.Any(x => double.IsInfinity(x) || double.IsNaN(x)))
+             {
+                 throw new ArgumentException("The upper bounds must be finite.");
+             }
+@@ -78,7 +78,7 @@ protected static void ValidateBounds(Vector<double> parameters, Vector<double> l
+             }
+             UpperBound = upperBound;
+ 
+-            if (scales != null && scales.Count(x => double.IsInfinity(x) || double.IsNaN(x) || x == 0) > 0)
++            if (scales != null && scales.Any(x => double.IsInfinity(x) || double.IsNaN(x) || x == 0))
+             {
+                 throw new ArgumentException("The scales must be finite.");
+             }
+@@ -86,7 +86,7 @@ protected static void ValidateBounds(Vector<double> parameters, Vector<double> l
+             {
+                 throw new ArgumentException("The scales can't have different size from the parameters.");
+             }
+-            if (scales != null && scales.Count(x => x < 0) > 0)
++            if (scales != null && scales.Any(x => x < 0))
+             {
+                 scales.PointwiseAbs();
+             }
+diff --git a/src/Numerics/Optimization/ObjectiveFunctions/NonlinearObjectiveFunction.cs b/src/Numerics/Optimization/ObjectiveFunctions/NonlinearObjectiveFunction.cs
+index a892069d..03b736bf 100644
+--- a/src/Numerics/Optimization/ObjectiveFunctions/NonlinearObjectiveFunction.cs
++++ b/src/Numerics/Optimization/ObjectiveFunctions/NonlinearObjectiveFunction.cs
+@@ -201,7 +201,7 @@ public void SetObserved(Vector<double> observedX, Vector<double> observedY, Vect
+             {
+                 throw new ArgumentException("The weightings can't have different from observations.");
+             }
+-            if (weights != null && weights.Count(x => double.IsInfinity(x) || double.IsNaN(x)) > 0)
++            if (weights != null && weights.Any(x => double.IsInfinity(x) || double.IsNaN(x)))
+             {
+                 throw new ArgumentException("The weightings are not well-defined.");
+             }
+@@ -209,7 +209,7 @@ public void SetObserved(Vector<double> observedX, Vector<double> observedY, Vect
+             {
+                 throw new ArgumentException("All the weightings can't be zero.");
+             }
+-            if (weights != null && weights.Count(x => x < 0) > 0)
++            if (weights != null && weights.Any(x => x < 0))
+             {
+                 weights = weights.PointwiseAbs();
+             }
+@@ -253,7 +253,7 @@ public void EvaluateAt(Vector<double> parameters)
+             {
+                 throw new ArgumentNullException("parameters");
+             }
+-            if (parameters.Count(p => double.IsNaN(p) || double.IsInfinity(p)) > 0)
++            if (parameters.Any(p => double.IsNaN(p) || double.IsInfinity(p)))
+             {
+                 throw new ArgumentException("The parameters must be finite.");
+             }
+diff --git a/src/Numerics/Providers/SparseSolver/Mkl/MklSparseSolverProvider.cs b/src/Numerics/Providers/SparseSolver/Mkl/MklSparseSolverProvider.cs
+index 84e92b5a..d5b41ce3 100644
+--- a/src/Numerics/Providers/SparseSolver/Mkl/MklSparseSolverProvider.cs
++++ b/src/Numerics/Providers/SparseSolver/Mkl/MklSparseSolverProvider.cs
+@@ -48,7 +48,7 @@ public override void InitializeVerify()
+             sparseSolverMinor = SafeNativeMethods.query_capability((int)ProviderCapability.SparseSolverMinor);
+             if (!(sparseSolverMajor == 1 && sparseSolverMinor >= 0))
+             {
+-                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting sparse solver v1 but provider implements v{0}.", sparseSolverMajor));
++                throw new NotSupportedException($"MKL Native Provider not compatible. Expecting sparse solver v1 but provider implements v{sparseSolverMajor}.");
+             }
+         }
+ 

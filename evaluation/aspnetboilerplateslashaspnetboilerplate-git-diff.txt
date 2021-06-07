@@ -1,0 +1,654 @@
+diff --git a/src/Abp.Dapper/Dapper/Filters/Action/CreationAuditDapperActionFilter.cs b/src/Abp.Dapper/Dapper/Filters/Action/CreationAuditDapperActionFilter.cs
+index 3ab7fc5db..d697aabbf 100644
+--- a/src/Abp.Dapper/Dapper/Filters/Action/CreationAuditDapperActionFilter.cs
++++ b/src/Abp.Dapper/Dapper/Filters/Action/CreationAuditDapperActionFilter.cs
+@@ -22,8 +22,7 @@ namespace Abp.Dapper.Filters.Action
+ 
+             CheckAndSetId(entity);
+ 
+-            var entityWithCreationTime = entity as IHasCreationTime;
+-            if (entityWithCreationTime != null)
++            if (entity is IHasCreationTime entityWithCreationTime)
+             {
+                 if (entityWithCreationTime.CreationTime == default(DateTime))
+                 {
+diff --git a/src/Abp.Dapper/Dapper/Filters/Action/DapperActionFilterBase.cs b/src/Abp.Dapper/Dapper/Filters/Action/DapperActionFilterBase.cs
+index 2aaf43155..a9d4c34b6 100644
+--- a/src/Abp.Dapper/Dapper/Filters/Action/DapperActionFilterBase.cs
++++ b/src/Abp.Dapper/Dapper/Filters/Action/DapperActionFilterBase.cs
+@@ -35,8 +35,7 @@ namespace Abp.Dapper.Filters.Action
+ 
+         protected virtual void CheckAndSetId(object entityAsObj)
+         {
+-            var entity = entityAsObj as IEntity<Guid>;
+-            if (entity != null && entity.Id == Guid.Empty)
++            if (entityAsObj is IEntity<Guid> entity && entity.Id == Guid.Empty)
+             {
+                 Type entityType = entityAsObj.GetType();
+                 PropertyInfo idProperty = entityType.GetProperty("Id");
+diff --git a/src/Abp.EntityFramework.Common/DbContextTypeMatcher.cs b/src/Abp.EntityFramework.Common/DbContextTypeMatcher.cs
+index ccdd2bc5f..d462dc215 100644
+--- a/src/Abp.EntityFramework.Common/DbContextTypeMatcher.cs
++++ b/src/Abp.EntityFramework.Common/DbContextTypeMatcher.cs
+@@ -129,12 +129,7 @@ namespace Abp.EntityFramework
+                 return filteredTypes[0];
+             }
+ 
+-            throw new AbpException(string.Format(
+-                "Found more than one concrete type for given DbContext Type ({0}) define MultiTenancySideAttribute with {1}. Found types: {2}.",
+-                sourceDbContextType,
+-                tenancySide,
+-                dbContextTypes.Select(c => c.AssemblyQualifiedName).JoinAsString(", ")
+-                ));
++            throw new AbpException($"Found more than one concrete type for given DbContext Type ({sourceDbContextType}) define MultiTenancySideAttribute with {tenancySide}. Found types: {dbContextTypes.Select(c => c.AssemblyQualifiedName).JoinAsString(", ")}.");
+         }
+ 
+         private static void AddWithBaseTypes(Type dbContextType, List<Type> types)
+diff --git a/src/Abp.EntityFramework/EntityFramework/AbpDbContext.cs b/src/Abp.EntityFramework/EntityFramework/AbpDbContext.cs
+index e2a538372..a64de438c 100644
+--- a/src/Abp.EntityFramework/EntityFramework/AbpDbContext.cs
++++ b/src/Abp.EntityFramework/EntityFramework/AbpDbContext.cs
+@@ -388,8 +388,7 @@ namespace Abp.EntityFramework
+         protected virtual void CheckAndSetId(object entityAsObj)
+         {
+             //Set GUID Ids
+-            var entity = entityAsObj as IEntity<Guid>;
+-            if (entity != null && entity.Id == Guid.Empty)
++            if (entityAsObj is IEntity<Guid> entity && entity.Id == Guid.Empty)
+             {
+                 var entityType = ObjectContext.GetObjectType(entityAsObj.GetType());
+                 var idIdPropertyName = GetIdPropertyName(entityType);
+diff --git a/src/Abp.EntityFramework/EntityFramework/Repositories/EfRepositoryExtensions.cs b/src/Abp.EntityFramework/EntityFramework/Repositories/EfRepositoryExtensions.cs
+index 7e7781cee..5a34425ec 100644
+--- a/src/Abp.EntityFramework/EntityFramework/Repositories/EfRepositoryExtensions.cs
++++ b/src/Abp.EntityFramework/EntityFramework/Repositories/EfRepositoryExtensions.cs
+@@ -11,8 +11,7 @@ namespace Abp.EntityFramework.Repositories
+         public static DbContext GetDbContext<TEntity, TPrimaryKey>(this IRepository<TEntity, TPrimaryKey> repository)
+             where TEntity : class, IEntity<TPrimaryKey>
+         {
+-            var repositoryWithDbContext = ProxyHelper.UnProxy(repository) as IRepositoryWithDbContext;
+-            if (repositoryWithDbContext != null)
++            if (ProxyHelper.UnProxy(repository) is IRepositoryWithDbContext repositoryWithDbContext)
+             {
+                 return repositoryWithDbContext.GetDbContext();
+             }
+diff --git a/src/Abp.EntityFrameworkCore/EntityFrameworkCore/AbpDbContext.cs b/src/Abp.EntityFrameworkCore/EntityFrameworkCore/AbpDbContext.cs
+index 0c8adce56..73dbf8900 100644
+--- a/src/Abp.EntityFrameworkCore/EntityFrameworkCore/AbpDbContext.cs
++++ b/src/Abp.EntityFrameworkCore/EntityFrameworkCore/AbpDbContext.cs
+@@ -376,8 +376,7 @@ namespace Abp.EntityFrameworkCore
+         protected virtual void CheckAndSetId(EntityEntry entry)
+         {
+             //Set GUID Ids
+-            var entity = entry.Entity as IEntity<Guid>;
+-            if (entity != null && entity.Id == Guid.Empty)
++            if (entry.Entity is IEntity<Guid> entity && entity.Id == Guid.Empty)
+             {
+                 var idPropertyEntry = entry.Property("Id");
+ 
+diff --git a/src/Abp.EntityFrameworkCore/EntityFrameworkCore/Repositories/EfCoreRepositoryExtensions.cs b/src/Abp.EntityFrameworkCore/EntityFrameworkCore/Repositories/EfCoreRepositoryExtensions.cs
+index 58872cb47..20604f07b 100644
+--- a/src/Abp.EntityFrameworkCore/EntityFrameworkCore/Repositories/EfCoreRepositoryExtensions.cs
++++ b/src/Abp.EntityFrameworkCore/EntityFrameworkCore/Repositories/EfCoreRepositoryExtensions.cs
+@@ -11,8 +11,7 @@ namespace Abp.EntityFrameworkCore.Repositories
+         public static DbContext GetDbContext<TEntity, TPrimaryKey>(this IRepository<TEntity, TPrimaryKey> repository)
+             where TEntity : class, IEntity<TPrimaryKey>
+         {
+-            var repositoryWithDbContext = ProxyHelper.UnProxy(repository) as IRepositoryWithDbContext;
+-            if (repositoryWithDbContext != null)
++            if (ProxyHelper.UnProxy(repository) is IRepositoryWithDbContext repositoryWithDbContext)
+             {
+                 return repositoryWithDbContext.GetDbContext();
+             }
+diff --git a/src/Abp.MailKit/EmailExtensions.cs b/src/Abp.MailKit/EmailExtensions.cs
+index d759e0f85..34127b989 100644
+--- a/src/Abp.MailKit/EmailExtensions.cs
++++ b/src/Abp.MailKit/EmailExtensions.cs
+@@ -192,7 +192,6 @@ namespace Abp.MailKit
+         {
+             var mimeType = item.ContentType.ToString();
+             var contentType = ContentType.Parse(mimeType);
+-            var attachment = item as Attachment;
+             MimePart part;
+ 
+             if (contentType.MediaType.Equals("text", StringComparison.OrdinalIgnoreCase))
+@@ -207,7 +206,7 @@ namespace Abp.MailKit
+                 part = new MimePart(contentType);
+             }
+ 
+-            if (attachment != null)
++            if (item is Attachment attachment)
+             {
+                 var disposition = attachment.ContentDisposition.ToString();
+                 part.ContentDisposition = ContentDisposition.Parse(disposition);
+diff --git a/src/Abp.NHibernate/NHibernate/Uow/NhUnitOfWork.cs b/src/Abp.NHibernate/NHibernate/Uow/NhUnitOfWork.cs
+index 8a6a78dad..3e277224b 100644
+--- a/src/Abp.NHibernate/NHibernate/Uow/NhUnitOfWork.cs
++++ b/src/Abp.NHibernate/NHibernate/Uow/NhUnitOfWork.cs
+@@ -116,10 +116,7 @@ namespace Abp.NHibernate.Uow
+         protected override void CompleteUow()
+         {
+             SaveChanges();
+-            if (_transaction != null)
+-            {
+-                _transaction.Commit();
+-            }
++            _transaction?.Commit();
+         }
+ 
+         protected override async Task CompleteUowAsync()
+diff --git a/src/Abp.NHibernate/NHibernate/Uow/NhUnitOfWorkFilterExecuter.cs b/src/Abp.NHibernate/NHibernate/Uow/NhUnitOfWorkFilterExecuter.cs
+index 9bab43559..b845cf421 100644
+--- a/src/Abp.NHibernate/NHibernate/Uow/NhUnitOfWorkFilterExecuter.cs
++++ b/src/Abp.NHibernate/NHibernate/Uow/NhUnitOfWorkFilterExecuter.cs
+@@ -32,10 +32,7 @@ namespace Abp.NHibernate.Uow
+             }
+ 
+             var filter = session.GetEnabledFilter(filterName);
+-            if (filter != null)
+-            {
+-                filter.SetParameter(parameterName, value);
+-            }
++            filter?.SetParameter(parameterName, value);
+         }
+     }
+ }
+diff --git a/src/Abp.Web.Api/WebApi/Controllers/ApiExplorer/AbpApiExplorer.cs b/src/Abp.Web.Api/WebApi/Controllers/ApiExplorer/AbpApiExplorer.cs
+index 95f468140..37ce535cd 100644
+--- a/src/Abp.Web.Api/WebApi/Controllers/ApiExplorer/AbpApiExplorer.cs
++++ b/src/Abp.Web.Api/WebApi/Controllers/ApiExplorer/AbpApiExplorer.cs
+@@ -242,8 +242,7 @@ namespace Abp.WebApi.Controllers.ApiExplorer
+                 throw new ArgumentNullException(nameof(parameterBinding));
+             }
+ 
+-            IValueProviderParameterBinding valueProviderParameterBinding = parameterBinding as IValueProviderParameterBinding;
+-            if (valueProviderParameterBinding != null)
++            if (parameterBinding is IValueProviderParameterBinding valueProviderParameterBinding)
+             {
+                 IEnumerable<ValueProviderFactory> valueProviderFactories = valueProviderParameterBinding.ValueProviderFactories;
+                 if (valueProviderFactories.Any() && valueProviderFactories.All(factory => factory is IUriValueProviderFactory))
+diff --git a/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Scripting/TypeScript/TypeScriptDefinitionProxyGenerator.cs b/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Scripting/TypeScript/TypeScriptDefinitionProxyGenerator.cs
+index 28b079be8..f5dfeef99 100644
+--- a/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Scripting/TypeScript/TypeScriptDefinitionProxyGenerator.cs
++++ b/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Scripting/TypeScript/TypeScriptDefinitionProxyGenerator.cs
+@@ -39,9 +39,9 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+                 var returnType = TypeScriptHelper.GetTypeContractName(methodInfo.Method.ReturnType, newTypes);
+                 this.AddNewTypesIfRequired(newTypes.ToArray());
+                 if (returnType == "void")
+-                    script.AppendLine(string.Format("            {0} ({1}): abp.IPromise; ", methodInfo.ActionName.ToCamelCase(), GetMethodInputParameter(methodInfo.Method)));
++                    script.AppendLine($"            {methodInfo.ActionName.ToCamelCase()} ({GetMethodInputParameter(methodInfo.Method)}): abp.IPromise; ");
+                 else
+-                    script.AppendLine(string.Format("            {0} ({1}): abp.IGenericPromise<{2}>; ", methodInfo.ActionName.ToCamelCase(), GetMethodInputParameter(methodInfo.Method), returnType));
++                    script.AppendLine($"            {methodInfo.ActionName.ToCamelCase()} ({GetMethodInputParameter(methodInfo.Method)}): abp.IGenericPromise<{returnType}>; ");
+ 
+             }
+ 
+@@ -70,7 +70,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+             List<Type> newTypes = new List<Type>();
+             foreach (var parameter in methodInfo.GetParameters())
+             {
+-                script.Append(string.Format("{0} : {1},", parameter.Name.ToCamelCase(), TypeScriptHelper.GetTypeContractName(parameter.ParameterType,newTypes)));
++                script.Append($"{parameter.Name.ToCamelCase()} : {TypeScriptHelper.GetTypeContractName(parameter.ParameterType, newTypes)},");
+             }
+             this.AddNewTypesIfRequired(newTypes.ToArray());
+             script.Append("httpParams?: any");
+@@ -115,7 +115,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+             myscript.AppendLine("         {");
+             foreach (var property in type.GetProperties())
+             {
+-                myscript.AppendLine(string.Format("{0} : {1} ;", property.Name.ToCamelCase(),TypeScriptHelper.GetTypeContractName(property.PropertyType,newTypes)));
++                myscript.AppendLine($"{property.Name.ToCamelCase()} : {TypeScriptHelper.GetTypeContractName(property.PropertyType, newTypes)} ;");
+             }
+             this.AddNewTypesIfRequired(newTypes.ToArray());
+             myscript.AppendLine("         }");
+@@ -125,7 +125,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+         {
+             if (type == typeof(Task))
+                 return false;
+-            if (_typesToBeDone.Count(z => z.FullName == type.FullName) == 0 && !TypeScriptHelper.IsIgnorantType(type) && !TypeScriptHelper.IsBasicType(type) && _doneTypes.Count(z => z.FullName == type.FullName) == 0)
++            if (!_typesToBeDone.Any(z => z.FullName == type.FullName) && !TypeScriptHelper.IsIgnorantType(type) && !TypeScriptHelper.IsBasicType(type) && !_doneTypes.Any(z => z.FullName == type.FullName))
+                 return true;
+             return false;
+         }
+diff --git a/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Scripting/TypeScript/TypeScriptServiceProxyGenerator.cs b/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Scripting/TypeScript/TypeScriptServiceProxyGenerator.cs
+index 3b30ad588..079285eac 100644
+--- a/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Scripting/TypeScript/TypeScriptServiceProxyGenerator.cs
++++ b/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Scripting/TypeScript/TypeScriptServiceProxyGenerator.cs
+@@ -45,8 +45,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+                 this.AddNewTypesIfRequired(newTypes.ToArray());
+                 if (returnType == "void")
+                 {
+-                    script.AppendLine(string.Format("           public {0} = function ({1}): abp.IPromise ",
+-                        methodInfo.ActionName.ToCamelCase(), GetMethodInputParameter(methodInfo.Method)));
++                    script.AppendLine($"           public {methodInfo.ActionName.ToCamelCase()} = function ({GetMethodInputParameter(methodInfo.Method)}): abp.IPromise ");
+                     script.AppendLine("{");
+                     script.AppendLine("                    var self = this;");
+                     script.AppendLine("                    return self.$http(angular.extend({");
+@@ -73,8 +72,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+ 
+                 else
+                 {
+-                    script.AppendLine(string.Format("           public {0} = function ({1}): abp.IGenericPromise<{2}> ", methodInfo.ActionName.ToCamelCase(), 
+-                        GetMethodInputParameter(methodInfo.Method), returnType));
++                    script.AppendLine($"           public {methodInfo.ActionName.ToCamelCase()} = function ({GetMethodInputParameter(methodInfo.Method)}): abp.IGenericPromise<{returnType}> ");
+                     script.AppendLine("{");
+                     script.AppendLine("                    var self = this;");
+                     script.AppendLine("                    return self.$http(angular.extend({");
+@@ -121,7 +119,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+             List<Type> newTypes = new List<Type>();
+             foreach (var parameter in methodInfo.GetParameters())
+             {
+-                script.Append(string.Format("{0} : {1},", parameter.Name.ToCamelCase(), TypeScriptHelper.GetTypeContractName(parameter.ParameterType, newTypes)));
++                script.Append($"{parameter.Name.ToCamelCase()} : {TypeScriptHelper.GetTypeContractName(parameter.ParameterType, newTypes)},");
+             }
+             script.Append("httpParams?: any");
+             this.AddNewTypesIfRequired(newTypes.ToArray());
+@@ -157,7 +155,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+             myscript.AppendLine("         {");
+             foreach (var property in type.GetProperties())
+             {
+-                myscript.AppendLine(string.Format("{0} : {1} ;", property.Name.ToCamelCase(), TypeScriptHelper.GetTypeContractName(property.PropertyType, newTypes)));
++                myscript.AppendLine($"{property.Name.ToCamelCase()} : {TypeScriptHelper.GetTypeContractName(property.PropertyType, newTypes)} ;");
+             }
+             this.AddNewTypesIfRequired(newTypes.ToArray());
+             myscript.AppendLine("         }");
+@@ -190,7 +188,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Scripting.TypeScript
+         {
+             if (type == typeof(Task))
+                 return false;
+-            if (_typesToBeDone.Count(z => z.FullName == type.FullName) == 0 && !TypeScriptHelper.IsIgnorantType(type) && !TypeScriptHelper.IsBasicType(type) && _doneTypes.Count(z => z.FullName == type.FullName) == 0)
++            if (!_typesToBeDone.Any(z => z.FullName == type.FullName) && !TypeScriptHelper.IsIgnorantType(type) && !TypeScriptHelper.IsBasicType(type) && !_doneTypes.Any(z => z.FullName == type.FullName))
+                 return true;
+             return false;
+         }
+diff --git a/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Selectors/DynamicHttpActionDescriptor.cs b/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Selectors/DynamicHttpActionDescriptor.cs
+index 034d033f2..0e4083706 100644
+--- a/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Selectors/DynamicHttpActionDescriptor.cs
++++ b/src/Abp.Web.Api/WebApi/Controllers/Dynamic/Selectors/DynamicHttpActionDescriptor.cs
+@@ -22,8 +22,7 @@ namespace Abp.WebApi.Controllers.Dynamic.Selectors
+             int idx = 0;
+             for (int i = 0; i < max; i++)
+             {
+-                T attr = objects[i] as T;
+-                if (attr != null)
++                if (objects[i] is T attr)
+                 {
+                     list.Add(attr);
+                     idx++;
+diff --git a/src/Abp.Zero.Common/Auditing/AuditLog.cs b/src/Abp.Zero.Common/Auditing/AuditLog.cs
+index da9acaeba..83e801457 100644
+--- a/src/Abp.Zero.Common/Auditing/AuditLog.cs
++++ b/src/Abp.Zero.Common/Auditing/AuditLog.cs
+@@ -175,10 +175,7 @@ namespace Abp.Auditing
+ 
+         public override string ToString()
+         {
+-            return string.Format(
+-                "AUDIT LOG: {0}.{1} is executed by user {2} in {3} ms from {4} IP address.",
+-                ServiceName, MethodName, UserId, ExecutionDuration, ClientIpAddress
+-            );
++            return $"AUDIT LOG: {ServiceName}.{MethodName} is executed by user {UserId} in {ExecutionDuration} ms from {ClientIpAddress} IP address.";
+         }
+ 
+         /// <summary>
+diff --git a/src/Abp.Zero/Authorization/Users/AbpUserManager.cs b/src/Abp.Zero/Authorization/Users/AbpUserManager.cs
+index 87bbbcb01..cd614ad91 100644
+--- a/src/Abp.Zero/Authorization/Users/AbpUserManager.cs
++++ b/src/Abp.Zero/Authorization/Users/AbpUserManager.cs
+@@ -600,7 +600,7 @@ namespace Abp.Authorization.Users
+             var maxCount = await _organizationUnitSettings.GetMaxUserMembershipCountAsync(tenantId);
+             if (requestedCount > maxCount)
+             {
+-                throw new AbpException(string.Format("Can not set more than {0} organization unit for a user!", maxCount));
++                throw new AbpException($"Can not set more than {maxCount} organization unit for a user!");
+             }
+         }
+ 
+diff --git a/src/Abp/Application/Features/Feature.cs b/src/Abp/Application/Features/Feature.cs
+index f687e5f41..7a4400571 100644
+--- a/src/Abp/Application/Features/Feature.cs
++++ b/src/Abp/Application/Features/Feature.cs
+@@ -122,7 +122,7 @@ namespace Abp.Application.Features
+ 
+         public override string ToString()
+         {
+-            return string.Format("[Feature: {0}]", Name);
++            return $"[Feature: {Name}]";
+         }
+     }
+ }
+diff --git a/src/Abp/Application/Navigation/UserNavigationManager.cs b/src/Abp/Application/Navigation/UserNavigationManager.cs
+index 80fa75458..5b5f11acb 100644
+--- a/src/Abp/Application/Navigation/UserNavigationManager.cs
++++ b/src/Abp/Application/Navigation/UserNavigationManager.cs
+@@ -82,7 +82,7 @@ namespace Abp.Application.Navigation
+                     }
+ 
+                     if (menuItemDefinition.FeatureDependency != null &&
+-                        (AbpSession.MultiTenancySide == MultiTenancySides.Tenant || (user != null && user.TenantId != null)) &&
++                        (AbpSession.MultiTenancySide == MultiTenancySides.Tenant || (user?.TenantId != null)) &&
+                         !(await menuItemDefinition.FeatureDependency.IsSatisfiedAsync(featureDependencyContext)))
+                     {
+                         continue;
+diff --git a/src/Abp/Application/Services/CrudAppServiceBase.cs b/src/Abp/Application/Services/CrudAppServiceBase.cs
+index 9133006c8..000392a48 100644
+--- a/src/Abp/Application/Services/CrudAppServiceBase.cs
++++ b/src/Abp/Application/Services/CrudAppServiceBase.cs
+@@ -44,8 +44,7 @@ namespace Abp.Application.Services
+         protected virtual IQueryable<TEntity> ApplySorting(IQueryable<TEntity> query, TGetAllInput input)
+         {
+             //Try to sort query if available
+-            var sortInput = input as ISortedResultRequest;
+-            if (sortInput != null)
++            if (input is ISortedResultRequest sortInput)
+             {
+                 if (!sortInput.Sorting.IsNullOrWhiteSpace())
+                 {
+@@ -71,15 +70,13 @@ namespace Abp.Application.Services
+         protected virtual IQueryable<TEntity> ApplyPaging(IQueryable<TEntity> query, TGetAllInput input)
+         {
+             //Try to use paging if available
+-            var pagedInput = input as IPagedResultRequest;
+-            if (pagedInput != null)
++            if (input is IPagedResultRequest pagedInput)
+             {
+                 return query.PageBy(pagedInput);
+             }
+ 
+             //Try to limit query result if available
+-            var limitedInput = input as ILimitedResultRequest;
+-            if (limitedInput != null)
++            if (input is ILimitedResultRequest limitedInput)
+             {
+                 return query.Take(limitedInput.MaxResultCount);
+             }
+diff --git a/src/Abp/Authorization/Permission.cs b/src/Abp/Authorization/Permission.cs
+index 9a8220e72..c80021b6b 100644
+--- a/src/Abp/Authorization/Permission.cs
++++ b/src/Abp/Authorization/Permission.cs
+@@ -127,7 +127,7 @@ namespace Abp.Authorization
+ 
+         public override string ToString()
+         {
+-            return string.Format("[Permission: {0}]", Name);
++            return $"[Permission: {Name}]";
+         }
+     }
+ }
+diff --git a/src/Abp/Domain/Entities/Caching/EntityCacheBase.cs b/src/Abp/Domain/Entities/Caching/EntityCacheBase.cs
+index 517e39666..21052f407 100755
+--- a/src/Abp/Domain/Entities/Caching/EntityCacheBase.cs
++++ b/src/Abp/Domain/Entities/Caching/EntityCacheBase.cs
+@@ -58,11 +58,7 @@ namespace Abp.Domain.Entities.Caching
+             if (ObjectMapper is NullObjectMapper)
+             {
+                 throw new AbpException(
+-                    string.Format(
+-                        "MapToCacheItem method should be overridden or IObjectMapper should be implemented in order to map {0} to {1}",
+-                        typeof (TEntity),
+-                        typeof (TCacheItem)
+-                        )
++                    $"MapToCacheItem method should be overridden or IObjectMapper should be implemented in order to map {typeof(TEntity)} to {typeof(TCacheItem)}"
+                     );
+             }
+ 
+diff --git a/src/Abp/Domain/Entities/Entity.cs b/src/Abp/Domain/Entities/Entity.cs
+index 7069d1d16..93d0243e2 100644
+--- a/src/Abp/Domain/Entities/Entity.cs
++++ b/src/Abp/Domain/Entities/Entity.cs
+@@ -55,7 +55,7 @@ namespace Abp.Domain.Entities
+         /// <inheritdoc/>
+         public virtual bool EntityEquals(object obj)
+         {
+-            if (obj == null || !(obj is Entity<TPrimaryKey>))
++            if (!(obj is Entity<TPrimaryKey>))
+             {
+                 return false;
+             }
+diff --git a/src/Abp/Domain/Repositories/RepositoryExtensions.cs b/src/Abp/Domain/Repositories/RepositoryExtensions.cs
+index 5e0aa25a5..2399afaf7 100644
+--- a/src/Abp/Domain/Repositories/RepositoryExtensions.cs
++++ b/src/Abp/Domain/Repositories/RepositoryExtensions.cs
+@@ -25,8 +25,7 @@ namespace Abp.Domain.Repositories
+             where TEntity : class, IEntity<TPrimaryKey>
+             where TProperty : class
+         {
+-            var repo = ProxyHelper.UnProxy(repository) as ISupportsExplicitLoading<TEntity, TPrimaryKey>;
+-            if (repo != null)
++            if (ProxyHelper.UnProxy(repository) is ISupportsExplicitLoading<TEntity, TPrimaryKey> repo)
+             {
+                 await repo.EnsureCollectionLoadedAsync(entity, collectionExpression, cancellationToken);
+             }
+@@ -42,10 +41,7 @@ namespace Abp.Domain.Repositories
+             where TProperty : class
+         {
+             var repo = ProxyHelper.UnProxy(repository) as ISupportsExplicitLoading<TEntity, TPrimaryKey>;
+-            if (repo != null)
+-            {
+-                repo.EnsureCollectionLoaded(entity, collectionExpression, cancellationToken);
+-            }
++            repo?.EnsureCollectionLoaded(entity, collectionExpression, cancellationToken);
+         }
+ 
+         public static async Task EnsurePropertyLoadedAsync<TEntity, TPrimaryKey, TProperty>(
+@@ -57,8 +53,7 @@ namespace Abp.Domain.Repositories
+             where TEntity : class, IEntity<TPrimaryKey>
+             where TProperty : class
+         {
+-            var repo = ProxyHelper.UnProxy(repository) as ISupportsExplicitLoading<TEntity, TPrimaryKey>;
+-            if (repo != null)
++            if (ProxyHelper.UnProxy(repository) is ISupportsExplicitLoading<TEntity, TPrimaryKey> repo)
+             {
+                 await repo.EnsurePropertyLoadedAsync(entity, propertyExpression, cancellationToken);
+             }
+@@ -74,17 +69,13 @@ namespace Abp.Domain.Repositories
+             where TProperty : class
+         {
+             var repo = ProxyHelper.UnProxy(repository) as ISupportsExplicitLoading<TEntity, TPrimaryKey>;
+-            if (repo != null)
+-            {
+-                repo.EnsurePropertyLoaded(entity, propertyExpression, cancellationToken);
+-            }
++            repo?.EnsurePropertyLoaded(entity, propertyExpression, cancellationToken);
+         }
+ 
+         public static IIocResolver GetIocResolver<TEntity, TPrimaryKey>(this IRepository<TEntity, TPrimaryKey> repository)
+             where TEntity : class, IEntity<TPrimaryKey>
+         {
+-            var repo = ProxyHelper.UnProxy(repository) as AbpRepositoryBase<TEntity, TPrimaryKey>;
+-            if (repo != null)
++            if (ProxyHelper.UnProxy(repository) is AbpRepositoryBase<TEntity, TPrimaryKey> repo)
+             {
+                 return repo.IocResolver;
+             }
+diff --git a/src/Abp/Json/JsonSerializationHelper.cs b/src/Abp/Json/JsonSerializationHelper.cs
+index 640b625db..ab71974c7 100644
+--- a/src/Abp/Json/JsonSerializationHelper.cs
++++ b/src/Abp/Json/JsonSerializationHelper.cs
+@@ -27,12 +27,7 @@ namespace Abp.Json
+         {
+             var serialized = obj.ToJsonString();
+ 
+-            return string.Format(
+-                "{0}{1}{2}",
+-                type.AssemblyQualifiedName,
+-                TypeSeperator,
+-                serialized
+-                );
++            return $"{type.AssemblyQualifiedName}{TypeSeperator}{serialized}";
+         }
+ 
+         /// <summary>
+diff --git a/src/Abp/Localization/LocalizableString.cs b/src/Abp/Localization/LocalizableString.cs
+index 4901969f6..ccb5b8094 100644
+--- a/src/Abp/Localization/LocalizableString.cs
++++ b/src/Abp/Localization/LocalizableString.cs
+@@ -57,7 +57,7 @@ namespace Abp.Localization
+ 
+         public override string ToString()
+         {
+-            return string.Format("[LocalizableString: {0}, {1}]", Name, SourceName);
++            return $"[LocalizableString: {Name}, {SourceName}]";
+         }
+     }
+ }
+diff --git a/src/Abp/Localization/LocalizationManager.cs b/src/Abp/Localization/LocalizationManager.cs
+index a31567e90..c4f890b78 100644
+--- a/src/Abp/Localization/LocalizationManager.cs
++++ b/src/Abp/Localization/LocalizationManager.cs
+@@ -47,7 +47,7 @@ namespace Abp.Localization
+                 return;
+             }
+ 
+-            Logger.Debug(string.Format("Initializing {0} localization sources.", _configuration.Sources.Count));
++            Logger.Debug($"Initializing {_configuration.Sources.Count} localization sources.");
+             foreach (var source in _configuration.Sources)
+             {
+                 if (_sources.ContainsKey(source.Name))
+diff --git a/src/Abp/Runtime/Remoting/DataContextAmbientScopeProvider.cs b/src/Abp/Runtime/Remoting/DataContextAmbientScopeProvider.cs
+index f420d4d80..edc9d4334 100644
+--- a/src/Abp/Runtime/Remoting/DataContextAmbientScopeProvider.cs
++++ b/src/Abp/Runtime/Remoting/DataContextAmbientScopeProvider.cs
+@@ -61,8 +61,7 @@ namespace Abp.Runtime.Remoting
+ 
+         private ScopeItem GetCurrentItem(string contextKey)
+         {
+-            var objKey = _dataContext.GetData(contextKey) as string;
+-            return objKey != null ? ScopeDictionary.GetOrDefault(objKey) : null;
++            return _dataContext.GetData(contextKey) is string objKey ? ScopeDictionary.GetOrDefault(objKey) : null;
+         }
+ 
+         private class ScopeItem
+diff --git a/src/Abp/Runtime/Serialization/BinarySerializationHelper.cs b/src/Abp/Runtime/Serialization/BinarySerializationHelper.cs
+index d1410d1aa..e8e239760 100644
+--- a/src/Abp/Runtime/Serialization/BinarySerializationHelper.cs
++++ b/src/Abp/Runtime/Serialization/BinarySerializationHelper.cs
+@@ -119,7 +119,7 @@ namespace Abp.Runtime.Serialization
+                     }
+                 }
+ 
+-                return Type.GetType(string.Format("{0}, {1}", typeName, assemblyName));
++                return Type.GetType($"{typeName}, {assemblyName}");
+             }
+         }
+     }
+diff --git a/src/Abp/Runtime/Validation/NumericValueValidator.cs b/src/Abp/Runtime/Validation/NumericValueValidator.cs
+index e8a89cb5a..d5fdfcadb 100644
+--- a/src/Abp/Runtime/Validation/NumericValueValidator.cs
++++ b/src/Abp/Runtime/Validation/NumericValueValidator.cs
+@@ -37,9 +37,9 @@ namespace Abp.Runtime.Validation
+                 return false;
+             }
+ 
+-            if (value is int)
++            if (value is int i)
+             {
+-                return IsValidInternal((int)value);
++                return IsValidInternal(i);
+             }
+ 
+             if (value is string)
+diff --git a/src/Abp/Timing/DateTimeRange.cs b/src/Abp/Timing/DateTimeRange.cs
+index d3ab8d723..672d348e9 100644
+--- a/src/Abp/Timing/DateTimeRange.cs
++++ b/src/Abp/Timing/DateTimeRange.cs
+@@ -240,7 +240,7 @@ namespace Abp.Timing
+         /// <returns>A <see cref="System.String"/> that represents the current <see cref="DateTimeRange"/>.</returns>
+         public override string ToString()
+         {
+-            return string.Format("[{0} - {1}]", StartTime, EndTime);
++            return $"[{StartTime} - {EndTime}]";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/src/Abp/Timing/Timezone/TimezoneHelper.cs b/src/Abp/Timing/Timezone/TimezoneHelper.cs
+index 1c389d937..be929c4a4 100644
+--- a/src/Abp/Timing/Timezone/TimezoneHelper.cs
++++ b/src/Abp/Timing/Timezone/TimezoneHelper.cs
+@@ -65,7 +65,7 @@ namespace Abp.Timing.Timezone
+                 return IanaTimeZoneMappings[ianaTimezoneId];
+             }
+ 
+-            throw new Exception(string.Format("Unable to map {0} to windows timezone.", ianaTimezoneId));
++            throw new Exception($"Unable to map {ianaTimezoneId} to windows timezone.");
+         }
+ 
+         /// <summary>
+diff --git a/src/Abp/UserIdentifier.cs b/src/Abp/UserIdentifier.cs
+index ac3d23697..dffab35f0 100644
+--- a/src/Abp/UserIdentifier.cs
++++ b/src/Abp/UserIdentifier.cs
+@@ -92,7 +92,7 @@ namespace Abp
+ 
+         public override bool Equals(object obj)
+         {
+-            if (obj == null || !(obj is UserIdentifier))
++            if (!(obj is UserIdentifier))
+             {
+                 return false;
+             }
+diff --git a/test/Abp.TestBase.SampleApplication.Tests/People/PersonRepository_Tests_For_EntityChangeEvents.cs b/test/Abp.TestBase.SampleApplication.Tests/People/PersonRepository_Tests_For_EntityChangeEvents.cs
+index fdaddd01a..851780b46 100644
+--- a/test/Abp.TestBase.SampleApplication.Tests/People/PersonRepository_Tests_For_EntityChangeEvents.cs
++++ b/test/Abp.TestBase.SampleApplication.Tests/People/PersonRepository_Tests_For_EntityChangeEvents.cs
+@@ -277,7 +277,7 @@ namespace Abp.TestBase.SampleApplication.Tests.People
+             var person = await _personRepository.InsertAsync(new Person { Name = "Tuana", ContactListId = 1 });
+             person.IsTransient().ShouldBeFalse();
+ 
+-            var text = string.Format("{0} is being created with Id = {1}!", person.Name, person.Id);
++            var text = $"{person.Name} is being created with Id = {person.Id}!";
+             UsingDbContext(context =>
+             {
+                 var message = context.Messages.FirstOrDefault(m => m.Text == text && m.TenantId == PersonHandler.FakeTenantId);
+@@ -291,7 +291,7 @@ namespace Abp.TestBase.SampleApplication.Tests.People
+             var person = await _personRepository.InsertAsync(new Person { Name = "Tuana", ContactListId = 1 });
+             person.IsTransient().ShouldBeFalse();
+ 
+-            var text = string.Format("{0} is created with Id = {1}!", person.Name, person.Id);
++            var text = $"{person.Name} is created with Id = {person.Id}!";
+             UsingDbContext(context =>
+             {
+                 var message = context.Messages.FirstOrDefault(m => m.Text == text && m.TenantId == PersonHandler.FakeTenantId);
+@@ -312,12 +312,12 @@ namespace Abp.TestBase.SampleApplication.Tests.People
+ 
+             public void HandleEvent(EntityCreatingEventData<Person> eventData)
+             {
+-                _messageRepository.Insert(new Message(FakeTenantId, string.Format("{0} is being created with Id = {1}!", eventData.Entity.Name, eventData.Entity.Id)));
++                _messageRepository.Insert(new Message(FakeTenantId, $"{eventData.Entity.Name} is being created with Id = {eventData.Entity.Id}!"));
+             }
+ 
+             public void HandleEvent(EntityCreatedEventData<Person> eventData)
+             {
+-                _messageRepository.Insert(new Message(FakeTenantId, string.Format("{0} is created with Id = {1}!", eventData.Entity.Name, eventData.Entity.Id)));
++                _messageRepository.Insert(new Message(FakeTenantId, $"{eventData.Entity.Name} is created with Id = {eventData.Entity.Id}!"));
+             }
+         }
+     }
+diff --git a/test/Abp.Zero.SampleApp/Users/User.cs b/test/Abp.Zero.SampleApp/Users/User.cs
+index 566c92bba..4ff403247 100644
+--- a/test/Abp.Zero.SampleApp/Users/User.cs
++++ b/test/Abp.Zero.SampleApp/Users/User.cs
+@@ -6,7 +6,7 @@ namespace Abp.Zero.SampleApp.Users
+     {
+         public override string ToString()
+         {
+-            return string.Format("[User {0}] {1}", Id, UserName);
++            return $"[User {Id}] {UserName}";
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/test/Abp.ZeroCore.SampleApp/Core/User.cs b/test/Abp.ZeroCore.SampleApp/Core/User.cs
+index 77392ce8d..21150825b 100644
+--- a/test/Abp.ZeroCore.SampleApp/Core/User.cs
++++ b/test/Abp.ZeroCore.SampleApp/Core/User.cs
+@@ -6,7 +6,7 @@ namespace Abp.ZeroCore.SampleApp.Core
+     {
+         public override string ToString()
+         {
+-            return string.Format("[User {0}] {1}", Id, UserName);
++            return $"[User {Id}] {UserName}";
+         }
+ 
+         public static User CreateTenantAdminUser(int tenantId, string emailAddress)

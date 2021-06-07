@@ -1,0 +1,27 @@
+diff --git a/src/DataModel/Configuration/GameServerDefinition.cs b/src/DataModel/Configuration/GameServerDefinition.cs
+index ee8e34a9..2726107d 100644
+--- a/src/DataModel/Configuration/GameServerDefinition.cs
++++ b/src/DataModel/Configuration/GameServerDefinition.cs
+@@ -51,7 +51,7 @@ namespace MUnique.OpenMU.DataModel.Configuration
+         /// <inheritdoc/>
+         public override string ToString()
+         {
+-            return string.Format("[GameServerDefinition ServerID={0}, Description={1}]", this.ServerID, this.Description);
++            return $"[GameServerDefinition ServerID={this.ServerID}, Description={this.Description}]";
+         }
+     }
+ }
+diff --git a/src/GameLogic/BucketAreaOfInterestManager.cs b/src/GameLogic/BucketAreaOfInterestManager.cs
+index a893c502..1b1a1bfb 100644
+--- a/src/GameLogic/BucketAreaOfInterestManager.cs
++++ b/src/GameLogic/BucketAreaOfInterestManager.cs
+@@ -108,8 +108,7 @@ namespace MUnique.OpenMU.GameLogic
+                 }
+             }
+ 
+-            var observingPlayer = obj as IBucketMapObserver;
+-            if (differentBucket && observingPlayer != null)
++            if (differentBucket && obj is IBucketMapObserver observingPlayer)
+             {
+                 this.UpdateObservingBuckets(target, observingPlayer);
+             }

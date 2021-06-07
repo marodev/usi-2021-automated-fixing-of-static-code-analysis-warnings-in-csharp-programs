@@ -1,0 +1,225 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Abp
+    #1 Path: D:\a\1\s\src\Abp\Application\Features\Feature.cs, Line: 125, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: D:\a\1\s\src\Abp\Application\Navigation\UserNavigationManager.cs, Line: 85, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #3 Path: D:\a\1\s\src\Abp\Application\Services\CrudAppServiceBase.cs, Line: 48, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #4 Path: D:\a\1\s\src\Abp\Application\Services\CrudAppServiceBase.cs, Line: 75, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #5 Path: D:\a\1\s\src\Abp\Application\Services\CrudAppServiceBase.cs, Line: 82, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #6 Path: D:\a\1\s\src\Abp\Authorization\Permission.cs, Line: 130, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #7 Path: D:\a\1\s\src\Abp\Domain\Entities\Caching\EntityCacheBase.cs, Line: 61, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #8 Path: D:\a\1\s\src\Abp\Domain\Entities\Entity.cs, Line: 58, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #9 Path: D:\a\1\s\src\Abp\Domain\Repositories\RepositoryExtensions.cs, Line: 29, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #10 Path: D:\a\1\s\src\Abp\Domain\Repositories\RepositoryExtensions.cs, Line: 45, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #11 Path: D:\a\1\s\src\Abp\Domain\Repositories\RepositoryExtensions.cs, Line: 58, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #12 Path: D:\a\1\s\src\Abp\Domain\Repositories\RepositoryExtensions.cs, Line: 77, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #13 Path: D:\a\1\s\src\Abp\Domain\Repositories\RepositoryExtensions.cs, Line: 81, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #14 Path: D:\a\1\s\src\Abp\Json\JsonSerializationHelper.cs, Line: 30, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #15 Path: D:\a\1\s\src\Abp\Localization\LocalizableString.cs, Line: 60, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #16 Path: D:\a\1\s\src\Abp\Localization\LocalizationManager.cs, Line: 50, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #17 Path: D:\a\1\s\src\Abp\Runtime\Remoting\DataContextAmbientScopeProvider.cs, Line: 65, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #18 Path: D:\a\1\s\src\Abp\Runtime\Serialization\BinarySerializationHelper.cs, Line: 122, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\src\Abp\Runtime\Validation\NumericValueValidator.cs, Line: 40, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #20 Path: D:\a\1\s\src\Abp\Timing\DateTimeRange.cs, Line: 243, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\src\Abp\Timing\Timezone\TimezoneHelper.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #22 Path: D:\a\1\s\src\Abp\UserIdentifier.cs, Line: 95, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Abp.EntityFramework(net461)
+    #23 Path: D:\a\1\s\src\Abp.EntityFramework\EntityFramework\AbpDbContext.cs, Line: 392, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #24 Path: D:\a\1\s\src\Abp.EntityFramework\EntityFramework\Repositories\EfRepositoryExtensions.cs, Line: 15, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Abp.NHibernate
+    #25 Path: D:\a\1\s\src\Abp.NHibernate\NHibernate\Uow\NhUnitOfWork.cs, Line: 119, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #26 Path: D:\a\1\s\src\Abp.NHibernate\NHibernate\Uow\NhUnitOfWorkFilterExecuter.cs, Line: 35, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Abp.TestBase.SampleApplication.Tests
+    #27 Path: D:\a\1\s\test\Abp.TestBase.SampleApplication.Tests\People\PersonRepository_Tests_For_EntityChangeEvents.cs, Line: 280, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #28 Path: D:\a\1\s\test\Abp.TestBase.SampleApplication.Tests\People\PersonRepository_Tests_For_EntityChangeEvents.cs, Line: 294, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\test\Abp.TestBase.SampleApplication.Tests\People\PersonRepository_Tests_For_EntityChangeEvents.cs, Line: 315, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\test\Abp.TestBase.SampleApplication.Tests\People\PersonRepository_Tests_For_EntityChangeEvents.cs, Line: 320, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Abp.Web.Api
+    #31 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\ApiExplorer\AbpApiExplorer.cs, Line: 246, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #32 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptDefinitionProxyGenerator.cs, Line: 118, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptDefinitionProxyGenerator.cs, Line: 128, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #34 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptDefinitionProxyGenerator.cs, Line: 128, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #35 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptDefinitionProxyGenerator.cs, Line: 42, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #36 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptDefinitionProxyGenerator.cs, Line: 44, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptDefinitionProxyGenerator.cs, Line: 73, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptServiceProxyGenerator.cs, Line: 124, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptServiceProxyGenerator.cs, Line: 160, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptServiceProxyGenerator.cs, Line: 193, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #41 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptServiceProxyGenerator.cs, Line: 193, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #42 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptServiceProxyGenerator.cs, Line: 48, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Scripting\TypeScript\TypeScriptServiceProxyGenerator.cs, Line: 76, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #44 Path: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\Dynamic\Selectors\DynamicHttpActionDescriptor.cs, Line: 26, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Abp.EntityFrameworkCore
+    #45 Path: D:\a\1\s\src\Abp.EntityFrameworkCore\EntityFrameworkCore\AbpDbContext.cs, Line: 380, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #46 Path: D:\a\1\s\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Repositories\EfCoreRepositoryExtensions.cs, Line: 15, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Abp.EntityFramework.Common
+    #47 Path: D:\a\1\s\src\Abp.EntityFramework.Common\DbContextTypeMatcher.cs, Line: 132, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Abp.Dapper
+    #48 Path: D:\a\1\s\src\Abp.Dapper\Dapper\Filters\Action\CreationAuditDapperActionFilter.cs, Line: 26, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #49 Path: D:\a\1\s\src\Abp.Dapper\Dapper\Filters\Action\DapperActionFilterBase.cs, Line: 39, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Abp.MailKit
+    #50 Path: D:\a\1\s\src\Abp.MailKit\EmailExtensions.cs, Line: 210, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Abp.Zero
+    #51 Path: D:\a\1\s\src\Abp.Zero\Authorization\Users\AbpUserManager.cs, Line: 603, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Abp.Zero.Common
+    #52 Path: D:\a\1\s\src\Abp.Zero.Common\Auditing\AuditLog.cs, Line: 178, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Abp.Zero.SampleApp
+    #53 Path: D:\a\1\s\test\Abp.Zero.SampleApp\Users\User.cs, Line: 9, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Abp.ZeroCore.SampleApp
+    #54 Path: D:\a\1\s\test\Abp.ZeroCore.SampleApp\Core\User.cs, Line: 9, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+--- Rules Summary ---
+R9: 26
+R8: 16
+R7: 4
+R6: 4
+R3: 2
+R2: 1
+R5: 1
+
+--- Summary ---
+Fixed ReSharper issues: 53
+Fixed SonarQube issues: 7
+Total fixed issues: 54
+
+Finished in: 44 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\HttpActionDescriptorHelper.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System.Linq;
+using System.Web.Http.Controllers;
+using Abp.Collections.Extensions;
+using Abp.Web.Models;
+
+namespace Abp.WebApi.Controllers
+{
+    internal static class HttpActionDescriptorHelper
+    {
+        public static WrapResultAttribute GetWrapResultAttributeOrNull(HttpActionDescriptor actionDescriptor)
+        {
+            if (actionDescriptor == null)
+            {
+                return null;
+            }
+
+            //Try to get for dynamic APIs (dynamic web api actions always define __AbpDynamicApiDontWrapResultAttribute)
+            var wrapAttr = actionDescriptor.Properties.GetOrDefault("__AbpDynamicApiDontWrapResultAttribute") as WrapResultAttribute;
+            if (wrapAttr != null)
+            {
+                return wrapAttr;
+            }
+
+            //Get for the action
+            wrapAttr = actionDescriptor.GetCustomAttributes<WrapResultAttribute>(true).FirstOrDefault();
+            if (wrapAttr != null)
+            {
+                return wrapAttr;
+            }
+
+            //Get for the controller
+            wrapAttr = actionDescriptor.ControllerDescriptor.GetCustomAttributes<WrapResultAttribute>(true).FirstOrDefault();
+            if (wrapAttr != null)
+            {
+                return wrapAttr;
+            }
+
+            //Not found
+            return null;
+        }
+    }
+}
+---- Transformed Tree ----
+using System.Linq;
+using System.Web.Http.Controllers;
+using Abp.Collections.Extensions;
+using Abp.Web.Models;
+
+namespace Abp.WebApi.Controllers
+{
+    internal static class HttpActionDescriptorHelper
+    {
+        public static WrapResultAttribute GetWrapResultAttributeOrNull(HttpActionDescriptor actionDescriptor)
+        {
+            if (actionDescriptor == null)
+            {
+                return null;
+            }
+
+            //Try to get for dynamic APIs (dynamic web api actions always define __AbpDynamicApiDontWrapResultAttribute)
+            if (actionDescriptor.Properties.GetOrDefault("__AbpDynamicApiDontWrapResultAttribute") is WrapResultAttribute wrapAttr)
+            {
+                return wrapAttr;
+            }
+
+            //Get for the action
+            wrapAttr = actionDescriptor.GetCustomAttributes<WrapResultAttribute>(true).FirstOrDefault();
+
+            if (actionDescriptor.Properties.GetOrDefault("__AbpDynamicApiDontWrapResultAttribute") is WrapResultAttribute wrapAttr)
+            {
+                return wrapAttr;
+            }
+
+            //Get for the controller
+            wrapAttr = actionDescriptor.ControllerDescriptor.GetCustomAttributes<WrapResultAttribute>(true).FirstOrDefault();
+
+            if (actionDescriptor.Properties.GetOrDefault("__AbpDynamicApiDontWrapResultAttribute") is WrapResultAttribute wrapAttr)
+            {
+                return wrapAttr;
+            }
+
+            //Not found
+            return null;
+        }
+    }
+}
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\HttpActionDescriptorHelper.cs(26,123): error CS0128: A local variable or function named 'wrapAttr' is already defined in this scope,D:\a\1\s\src\Abp.Web.Api\WebApi\Controllers\HttpActionDescriptorHelper.cs(34,123): error CS0128: A local variable or function named 'wrapAttr' is already defined in this scope
+######################################################################
+
+

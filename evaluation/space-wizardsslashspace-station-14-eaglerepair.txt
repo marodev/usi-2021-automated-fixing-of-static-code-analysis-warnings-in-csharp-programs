@@ -1,0 +1,3040 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Content.Shared
+    #1 Path: D:\a\1\s\Content.Shared\GameObjects\Components\Body\SharedBodyComponent.cs, Line: 161, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #2 Path: D:\a\1\s\Content.Shared\GameObjects\Components\Body\SharedBodyComponent.cs, Line: 169, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #3 Path: D:\a\1\s\Content.Shared\GameObjects\Components\Pulling\SharedPullableComponent.cs, Line: 322, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #4 Path: D:\a\1\s\Content.Shared\GameObjects\Components\Pulling\SharedPullableComponent.cs, Line: 328, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: Content.Server
+    #5 Path: D:\a\1\s\Content.Server\Administration\Commands\Rejuvenate.cs, Line: 33, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #6 Path: D:\a\1\s\Content.Server\Atmos\Reactions\PlasmaFireReaction.cs, Line: 70, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #7 Path: D:\a\1\s\Content.Server\Atmos\Reactions\TritiumFireReaction.cs, Line: 61, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #8 Path: D:\a\1\s\Content.Server\GameObjects\Components\Atmos\Piping\GasFilterComponent.cs, Line: 159, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #9 Path: D:\a\1\s\Content.Server\GameObjects\Components\Atmos\Piping\GasFilterComponent.cs, Line: 160, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #10 Path: D:\a\1\s\Content.Server\GameObjects\Components\Atmos\Piping\GasFilterComponent.cs, Line: 161, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #11 Path: D:\a\1\s\Content.Server\GameObjects\Components\Atmos\Piping\Pumps\BasePumpComponent.cs, Line: 117, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #12 Path: D:\a\1\s\Content.Server\GameObjects\Components\Atmos\Piping\Pumps\BasePumpComponent.cs, Line: 118, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #13 Path: D:\a\1\s\Content.Server\GameObjects\Components\Body\Surgery\BiologicalSurgeryDataComponent.cs, Line: 181, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #14 Path: D:\a\1\s\Content.Server\GameObjects\Components\Body\Surgery\BiologicalSurgeryDataComponent.cs, Line: 182, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #15 Path: D:\a\1\s\Content.Server\GameObjects\Components\Doors\AirlockComponent.cs, Line: 197, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #16 Path: D:\a\1\s\Content.Server\GameObjects\Components\Doors\AirlockComponent.cs, Line: 281, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #17 Path: D:\a\1\s\Content.Server\GameObjects\Components\GUI\InventoryComponent.cs, Line: 607, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Content.Client
+    #18 Path: D:\a\1\s\Content.Client\GameObjects\Components\Storage\ClientStorageComponent.cs, Line: 303, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #19 Path: D:\a\1\s\Content.Client\GameObjects\Components\Storage\ClientStorageComponent.cs, Line: 308, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #20 Path: D:\a\1\s\Content.Client\GameObjects\Components\Watercloset\ToiletVisualizer.cs, Line: 17, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #21 Path: D:\a\1\s\Content.Client\Graphics\Overlays\SingularityOverlay.cs, Line: 38, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: Lidgren.Network
+    #22 Path: D:\a\1\s\RobustToolbox\Lidgren.Network\Lidgren.Network\Lidgren.Network\NetConnection.Latency.cs, Line: 124, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #23 Path: D:\a\1\s\RobustToolbox\Lidgren.Network\Lidgren.Network\Lidgren.Network\NetUnreliableSenderChannel.cs, Line: 67, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #24 Path: D:\a\1\s\RobustToolbox\Lidgren.Network\Lidgren.Network\Lidgren.Network\Platform\PlatformWin32.cs, Line: 117, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #25 Path: D:\a\1\s\RobustToolbox\Lidgren.Network\Lidgren.Network\Lidgren.Network\Platform\PlatformWin32.cs, Line: 52, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+    #26 Path: D:\a\1\s\RobustToolbox\Lidgren.Network\Lidgren.Network\Lidgren.Network\Platform\PlatformWin32.cs, Line: 82, Message: https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Robust.Client
+    #27 Path: D:\a\1\s\RobustToolbox\Robust.Client\Console\Commands\HelpCommands.cs, Line: 36, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Robust.Shared
+    #28 Path: D:\a\1\s\RobustToolbox\Robust.Shared\IoC\DependencyCollection.cs, Line: 66, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: D:\a\1\s\RobustToolbox\Robust.Shared\IoC\Exceptions\UnregisteredDependencyException.cs, Line: 29, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #30 Path: D:\a\1\s\RobustToolbox\Robust.Shared\Utility\YamlHelpers.cs, Line: 54, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #31 Path: D:\a\1\s\RobustToolbox\Robust.Shared\Utility\YamlHelpers.cs, Line: 68, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: D:\a\1\s\RobustToolbox\Robust.Shared\Utility\YamlHelpers.cs, Line: 82, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #33 Path: D:\a\1\s\RobustToolbox\Robust.Shared\Utility\YamlHelpers.cs, Line: 97, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: NetSerializer
+    #34 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Helpers.cs, Line: 109, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #35 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Helpers.cs, Line: 158, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #36 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 131, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #37 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 174, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #38 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 180, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #39 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 183, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #40 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 186, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #41 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 362, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #42 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 403, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #43 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 429, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #44 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\Serializer.cs, Line: 525, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #45 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\TypeDictionary.cs, Line: 88, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #46 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\TypeDictionary.cs, Line: 96, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #47 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\TypeSerializers\ArraySerializer.cs, Line: 26, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #48 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\TypeSerializers\GenericSerializer.cs, Line: 25, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #49 Path: D:\a\1\s\RobustToolbox\NetSerializer\NetSerializer\TypeSerializers\GenericSerializer.cs, Line: 28, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Robust.Client.NameGenerator
+    #50 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\Ast\Intrinsics.cs, Line: 158, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #51 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\IL\CheckingIlEmitter.cs, Line: 117, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #52 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\IL\CheckingIlEmitter.cs, Line: 121, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #53 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\IL\CheckingIlEmitter.cs, Line: 144, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #54 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\IL\CheckingIlEmitter.cs, Line: 149, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Robust.Client.Injectors
+    #55 Path: D:\a\1\s\RobustToolbox\Robust.Client.Injectors\XamlCompiler.cs, Line: 290, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #56 Path: D:\a\1\s\RobustToolbox\Robust.Client.Injectors\XamlCompiler.cs, Line: 66, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: System.Net.HttpListener
+    #57 Path: D:\a\1\s\RobustToolbox\ManagedHttpListener\src\System\Net\Managed\HttpConnection.cs, Line: 458, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #58 Path: D:\a\1\s\RobustToolbox\ManagedHttpListener\src\System\Net\Managed\HttpConnection.cs, Line: 460, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #59 Path: D:\a\1\s\RobustToolbox\ManagedHttpListener\src\System\Net\Managed\HttpEndPointListener.cs, Line: 1, Message: ReSharper: Use 'String.IsNullOrEmpty'. See https://www.jetbrains.com/help/resharper/ReplaceWithStringIsNullOrEmpty.html / SonarQube: "string.IsNullOrEmpty" should be used. See https://rules.sonarsource.com/csharp/RSPEC-3256
+    #60 Path: D:\a\1\s\RobustToolbox\ManagedHttpListener\src\System\Net\Managed\HttpListener.Managed.cs, Line: 212, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #61 Path: D:\a\1\s\RobustToolbox\ManagedHttpListener\src\System\Net\Managed\HttpListenerRequest.Managed.cs, Line: 200, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: XamlX
+    #62 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\Ast\Intrinsics.cs, Line: 158, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #63 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\IL\CheckingIlEmitter.cs, Line: 117, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #64 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\IL\CheckingIlEmitter.cs, Line: 121, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #65 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\IL\CheckingIlEmitter.cs, Line: 144, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #66 Path: D:\a\1\s\RobustToolbox\XamlX\src\XamlX\IL\CheckingIlEmitter.cs, Line: 149, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Content.Tools
+    #67 Path: D:\a\1\s\Content.Tools\Merger.cs, Line: 308, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+--- Rules Summary ---
+R9: 26
+R8: 14
+R6: 7
+R7: 5
+R4: 5
+R5: 5
+R2: 4
+R10: 1
+
+--- Summary ---
+Fixed ReSharper issues: 63
+Fixed SonarQube issues: 18
+Total fixed issues: 67
+
+Finished in: 33 s
+
+######################################################################
+Nr: 1 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\Content.Server\Administration\Commands\BanCommand.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Text;
+using Content.Server.Database;
+using Content.Shared.Administration;
+using Robust.Server.Player;
+using Robust.Shared.Console;
+using Robust.Shared.IoC;
+
+#nullable enable
+
+namespace Content.Server.Administration.Commands
+{
+    [AdminCommand(AdminFlags.Ban)]
+    public sealed class BanCommand : IConsoleCommand
+    {
+        public string Command => "ban";
+        public string Description => "Bans somebody";
+        public string Help => $"Usage: {Command} <name or user ID> <reason> [duration in minutes, leave out or 0 for permanent ban]";
+
+        public async void Execute(IConsoleShell shell, string argStr, string[] args)
+        {
+            var player = shell.Player as IPlayerSession;
+            var plyMgr = IoCManager.Resolve<IPlayerManager>();
+            var locator = IoCManager.Resolve<IPlayerLocator>();
+            var dbMan = IoCManager.Resolve<IServerDbManager>();
+
+            string target;
+            string reason;
+            uint minutes;
+
+            switch (args.Length)
+            {
+                case 2:
+                    target = args[0];
+                    reason = args[1];
+                    minutes = 0;
+                    break;
+                case 3:
+                    target = args[0];
+                    reason = args[1];
+
+                    if (!uint.TryParse(args[2], out minutes))
+                    {
+                        shell.WriteLine($"{args[2]} is not a valid amount of minutes.\n{Help}");
+                        return;
+                    }
+
+                    break;
+                default:
+                    shell.WriteLine($"Invalid amount of arguments.{Help}");
+                    return;
+            }
+
+            var resolvedUid = await locator.LookupIdByNameOrIdAsync(target);
+            if (resolvedUid == null)
+            {
+                shell.WriteError("Unable to find a player with that name.");
+                return;
+            }
+
+            var targetUid = resolvedUid.Value;
+
+            if (player != null && player.UserId == targetUid)
+            {
+                shell.WriteLine("You can't ban yourself!");
+                return;
+            }
+
+            DateTimeOffset? expires = null;
+            if (minutes > 0)
+            {
+                expires = DateTimeOffset.Now + TimeSpan.FromMinutes(minutes);
+            }
+
+            await dbMan.AddServerBanAsync(new ServerBanDef(null, targetUid, null, DateTimeOffset.Now, expires, reason, player?.UserId, null));
+
+            var response = new StringBuilder($"Banned {target} with reason \"{reason}\"");
+
+            response.Append(expires == null ?
+                " permanently."
+                : $" until {expires.ToString()}");
+
+            shell.WriteLine(response.ToString());
+
+            if (plyMgr.TryGetSessionById(targetUid, out var targetPlayer))
+            {
+                targetPlayer.ConnectedClient.Disconnect("You've been banned. Tough shit.");
+            }
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Text;
+using Content.Server.Database;
+using Content.Shared.Administration;
+using Robust.Server.Player;
+using Robust.Shared.Console;
+using Robust.Shared.IoC;
+
+#nullable enable
+
+namespace Content.Server.Administration.Commands
+{
+    [AdminCommand(AdminFlags.Ban)]
+    public sealed class BanCommand : IConsoleCommand
+    {
+        public string Command => "ban";
+        public string Description => "Bans somebody";
+        public string Help => $"Usage: {Command} <name or user ID> <reason> [duration in minutes, leave out or 0 for permanent ban]";
+
+        public async void Execute(IConsoleShell shell, string argStr, string[] args)
+        {
+            var plyMgr = IoCManager.Resolve<IPlayerManager>();
+            var locator = IoCManager.Resolve<IPlayerLocator>();
+            var dbMan = IoCManager.Resolve<IServerDbManager>();
+
+            string target;
+            string reason;
+            uint minutes;
+
+            switch (args.Length)
+            {
+                case 2:
+                    target = args[0];
+                    reason = args[1];
+                    minutes = 0;
+                    break;
+                case 3:
+                    target = args[0];
+                    reason = args[1];
+
+                    if (!uint.TryParse(args[2], out minutes))
+                    {
+                        shell.WriteLine($"{args[2]} is not a valid amount of minutes.\n{Help}");
+                        return;
+                    }
+
+                    break;
+                default:
+                    shell.WriteLine($"Invalid amount of arguments.{Help}");
+                    return;
+            }
+
+            var resolvedUid = await locator.LookupIdByNameOrIdAsync(target);
+            if (resolvedUid == null)
+            {
+                shell.WriteError("Unable to find a player with that name.");
+                return;
+            }
+
+            var targetUid = resolvedUid.Value;
+
+            if (shell.Player is IPlayerSession player && player.UserId == targetUid)
+            {
+                shell.WriteLine("You can't ban yourself!");
+                return;
+            }
+
+            DateTimeOffset? expires = null;
+            if (minutes > 0)
+            {
+                expires = DateTimeOffset.Now + TimeSpan.FromMinutes(minutes);
+            }
+
+            await dbMan.AddServerBanAsync(new ServerBanDef(null, targetUid, null, DateTimeOffset.Now, expires, reason, player?.UserId, null));
+
+            var response = new StringBuilder($"Banned {target} with reason \"{reason}\"");
+
+            response.Append(expires == null ?
+                " permanently."
+                : $" until {expires.ToString()}");
+
+            shell.WriteLine(response.ToString());
+
+            if (plyMgr.TryGetSessionById(targetUid, out var targetPlayer))
+            {
+                targetPlayer.ConnectedClient.Disconnect("You've been banned. Tough shit.");
+            }
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\Content.Server\Administration\Commands\BanCommand.cs(74,120): error CS0165: Use of unassigned local variable 'player'
+######################################################################
+
+
+######################################################################
+Nr: 2 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\Content.Server\Commands\Objectives\ListObjectivesCommand.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System.Linq;
+using Content.Server.Administration;
+using Content.Server.Players;
+using Content.Shared.Administration;
+using Robust.Server.Player;
+using Robust.Shared.Console;
+using Robust.Shared.IoC;
+
+namespace Content.Server.Commands.Objectives
+{
+    [AdminCommand(AdminFlags.Admin)]
+    public class ListObjectivesCommand : IConsoleCommand
+    {
+        public string Command => "lsobjectives";
+        public string Description => "Lists all objectives in a players mind.";
+        public string Help => "lsobjectives [<username>]";
+        public void Execute(IConsoleShell shell, string argStr, string[] args)
+        {
+            var player = shell.Player as IPlayerSession;
+            IPlayerData? data;
+            if (args.Length == 0 && player != null)
+            {
+                data = player.Data;
+            }
+            else if (player == null || !IoCManager.Resolve<IPlayerManager>().TryGetPlayerDataByUsername(args[0], out data))
+            {
+                shell.WriteLine("Can't find the playerdata.");
+                return;
+            }
+
+            var mind = data.ContentData()?.Mind;
+            if (mind == null)
+            {
+                shell.WriteLine("Can't find the mind.");
+                return;
+            }
+
+            shell.WriteLine($"Objectives for player {data.UserId}:");
+            var objectives = mind.AllObjectives.ToList();
+            if (objectives.Count == 0)
+            {
+                shell.WriteLine("None.");
+            }
+            for (var i = 0; i < objectives.Count; i++)
+            {
+                shell.WriteLine($"- [{i}] {objectives[i]}");
+            }
+
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System.Linq;
+using Content.Server.Administration;
+using Content.Server.Players;
+using Content.Shared.Administration;
+using Robust.Server.Player;
+using Robust.Shared.Console;
+using Robust.Shared.IoC;
+
+namespace Content.Server.Commands.Objectives
+{
+    [AdminCommand(AdminFlags.Admin)]
+    public class ListObjectivesCommand : IConsoleCommand
+    {
+        public string Command => "lsobjectives";
+        public string Description => "Lists all objectives in a players mind.";
+        public string Help => "lsobjectives [<username>]";
+        public void Execute(IConsoleShell shell, string argStr, string[] args)
+        {
+            IPlayerData? data;
+
+            if (args.Length == 0 && shell.Player is IPlayerSession player)
+            {
+                data = player.Data;
+            }
+            else if (player == null || !IoCManager.Resolve<IPlayerManager>().TryGetPlayerDataByUsername(args[0], out data))
+            {
+                shell.WriteLine("Can't find the playerdata.");
+                return;
+            }
+
+            var mind = data.ContentData()?.Mind;
+            if (mind == null)
+            {
+                shell.WriteLine("Can't find the mind.");
+                return;
+            }
+
+            shell.WriteLine($"Objectives for player {data.UserId}:");
+            var objectives = mind.AllObjectives.ToList();
+            if (objectives.Count == 0)
+            {
+                shell.WriteLine("None.");
+            }
+            for (var i = 0; i < objectives.Count; i++)
+            {
+                shell.WriteLine($"- [{i}] {objectives[i]}");
+            }
+
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\Content.Server\Commands\Objectives\ListObjectivesCommand.cs(26,22): error CS0165: Use of unassigned local variable 'player'
+######################################################################
+
+
+######################################################################
+Nr: 3 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\Content.Server\GameObjects\EntitySystems\AI\Steering\AiSteeringSystem.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Content.Server.GameObjects.Components.Access;
+using Content.Server.GameObjects.Components.Movement;
+using Content.Server.GameObjects.EntitySystems.AI.Pathfinding;
+using Content.Server.GameObjects.EntitySystems.AI.Pathfinding.Pathfinders;
+using Content.Server.GameObjects.EntitySystems.JobQueues;
+using Content.Shared.GameObjects.EntitySystems.ActionBlocker;
+using Content.Shared.Utility;
+using Robust.Shared.GameObjects;
+using Robust.Shared.IoC;
+using Robust.Shared.Map;
+using Robust.Shared.Maths;
+using Robust.Shared.Physics;
+using Robust.Shared.Timing;
+using Robust.Shared.Utility;
+using Robust.Shared.ViewVariables;
+
+namespace Content.Server.GameObjects.EntitySystems.AI.Steering
+{
+    public sealed class AiSteeringSystem : EntitySystem
+    {
+        // http://www.red3d.com/cwr/papers/1999/gdc99steer.html for a steering overview
+        [Dependency] private readonly IMapManager _mapManager = default!;
+        [Dependency] private readonly IPauseManager _pauseManager = default!;
+
+        private PathfindingSystem _pathfindingSystem;
+
+        /// <summary>
+        /// Whether we try to avoid non-blocking physics objects
+        /// </summary>
+        [ViewVariables(VVAccess.ReadWrite)]
+        public bool CollisionAvoidanceEnabled { get; set; } = true;
+
+        /// <summary>
+        /// How close we need to get to the center of each tile
+        /// </summary>
+        private const float TileTolerance = 0.8f;
+
+        /// <summary>
+        ///     How long to wait between checks (if necessary).
+        /// </summary>
+        private const float InRangeUnobstructedCooldown = 0.25f;
+
+        private Dictionary<IEntity, IAiSteeringRequest> RunningAgents => _agentLists[_listIndex];
+
+        // We'll cycle the running list every tick as all we're doing is getting a vector2 for the
+        // agent's steering. Should help a lot given this is the most expensive operator by far.
+        // The AI will keep moving, it's just it'll keep moving in its existing direction.
+        // If we change to 20/30 TPS you might want to change this but for now it's fine
+        private readonly List<Dictionary<IEntity, IAiSteeringRequest>> _agentLists = new(AgentListCount);
+        private const int AgentListCount = 2;
+        private int _listIndex;
+
+        // Cache nextGrid
+        private readonly Dictionary<IEntity, EntityCoordinates> _nextGrid = new();
+
+        /// <summary>
+        /// Current live paths for AI
+        /// </summary>
+        private readonly Dictionary<IEntity, Queue<TileRef>> _paths = new();
+
+        /// <summary>
+        /// Pathfinding request jobs we're waiting on
+        /// </summary>
+        private readonly Dictionary<IEntity, (CancellationTokenSource CancelToken, Job<Queue<TileRef>> Job)> _pathfindingRequests =
+            new();
+
+        /// <summary>
+        /// Keep track of how long we've been in 1 position and re-path if it's been too long
+        /// </summary>
+        private readonly Dictionary<IEntity, int> _stuckCounter = new();
+
+        /// <summary>
+        /// Get a fixed position for the target entity; if they move then re-path
+        /// </summary>
+        private readonly Dictionary<IEntity, EntityCoordinates> _entityTargetPosition = new();
+
+        // Anti-Stuck
+        // Given the collision avoidance can lead to twitching need to store a reference position and check if we've been near this too long
+        private readonly Dictionary<IEntity, EntityCoordinates> _stuckPositions = new();
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            _pathfindingSystem = Get<PathfindingSystem>();
+
+            for (var i = 0; i < AgentListCount; i++)
+            {
+                _agentLists.Add(new Dictionary<IEntity, IAiSteeringRequest>());
+            }
+        }
+
+        /// <summary>
+        /// Adds the AI to the steering system to move towards a specific target
+        /// </summary>
+        /// We'll add it to the movement list that has the least number of agents
+        /// <param name="entity"></param>
+        /// <param name="steeringRequest"></param>
+        public void Register(IEntity entity, IAiSteeringRequest steeringRequest)
+        {
+            var lowestListCount = 1000;
+            var lowestListIndex = 0;
+
+            for (var i = 0; i < _agentLists.Count; i++)
+            {
+                var agentList = _agentLists[i];
+                // Register shouldn't be called twice; if it is then someone dun fucked up
+                DebugTools.Assert(!agentList.ContainsKey(entity));
+
+                if (agentList.Count < lowestListCount)
+                {
+                    lowestListCount = agentList.Count;
+                    lowestListIndex = i;
+                }
+            }
+
+            _agentLists[lowestListIndex].Add(entity, steeringRequest);
+        }
+
+        /// <summary>
+        /// Stops the steering behavior for the AI and cleans up
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public void Unregister(IEntity entity)
+        {
+            if (entity.TryGetComponent(out AiControllerComponent controller))
+            {
+                controller.VelocityDir = Vector2.Zero;
+            }
+
+            if (_pathfindingRequests.TryGetValue(entity, out var request))
+            {
+                switch (request.Job.Status)
+                {
+                    case JobStatus.Pending:
+                    case JobStatus.Finished:
+                        break;
+                    case JobStatus.Running:
+                    case JobStatus.Paused:
+                    case JobStatus.Waiting:
+                        request.CancelToken.Cancel();
+                        break;
+                }
+
+                switch (request.Job.Exception)
+                {
+                    case null:
+                        break;
+                    default:
+                        throw request.Job.Exception;
+                }
+                _pathfindingRequests.Remove(entity);
+            }
+
+            if (_paths.ContainsKey(entity))
+            {
+                _paths.Remove(entity);
+            }
+
+            if (_nextGrid.ContainsKey(entity))
+            {
+                _nextGrid.Remove(entity);
+            }
+
+            if (_stuckCounter.ContainsKey(entity))
+            {
+                _stuckCounter.Remove(entity);
+            }
+
+            if (_entityTargetPosition.ContainsKey(entity))
+            {
+                _entityTargetPosition.Remove(entity);
+            }
+
+            foreach (var agentList in _agentLists)
+            {
+                if (agentList.ContainsKey(entity))
+                {
+                    agentList.Remove(entity);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Is the entity currently registered for steering?
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool IsRegistered(IEntity entity)
+        {
+            foreach (var agentList in _agentLists)
+            {
+                if (agentList.ContainsKey(entity))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public override void Update(float frameTime)
+        {
+            base.Update(frameTime);
+
+            foreach (var (agent, steering) in RunningAgents)
+            {
+                // Yeah look it's not true frametime but good enough.
+                var result = Steer(agent, steering, frameTime * RunningAgents.Count);
+                steering.Status = result;
+
+                switch (result)
+                {
+                    case SteeringStatus.Pending:
+                        break;
+                    case SteeringStatus.NoPath:
+                        Unregister(agent);
+                        break;
+                    case SteeringStatus.Arrived:
+                        Unregister(agent);
+                        break;
+                    case SteeringStatus.Moving:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            _listIndex = (_listIndex + 1) % _agentLists.Count;
+        }
+
+        /// <summary>
+        /// Go through each steerer and combine their vectors
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="steeringRequest"></param>
+        /// <param name="frameTime"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private SteeringStatus Steer(IEntity entity, IAiSteeringRequest steeringRequest, float frameTime)
+        {
+            // Main optimisation to be done below is the redundant calls and adding more variables
+            if (entity.Deleted || !entity.TryGetComponent(out AiControllerComponent controller) || !ActionBlockerSystem.CanMove(entity))
+            {
+                return SteeringStatus.NoPath;
+            }
+
+            var entitySteering = steeringRequest as EntityTargetSteeringRequest;
+
+            if (entitySteering != null && entitySteering.Target.Deleted)
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.NoPath;
+            }
+
+            if (_pauseManager.IsGridPaused(entity.Transform.GridID))
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.Pending;
+            }
+
+            // Validation
+            // Check if we can even arrive -> Currently only samegrid movement supported
+            if (entity.Transform.GridID != steeringRequest.TargetGrid.GetGridId(EntityManager))
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.NoPath;
+            }
+
+            // Check if we have arrived
+            var targetDistance = (entity.Transform.MapPosition.Position - steeringRequest.TargetMap.Position).Length;
+            steeringRequest.TimeUntilInteractionCheck -= frameTime;
+
+            if (targetDistance <= steeringRequest.ArrivalDistance && steeringRequest.TimeUntilInteractionCheck <= 0.0f)
+            {
+                if (!steeringRequest.RequiresInRangeUnobstructed ||
+                    entity.InRangeUnobstructed(steeringRequest.TargetMap, steeringRequest.ArrivalDistance, popup: true))
+                {
+                    // TODO: Need cruder LOS checks for ranged weaps
+                    controller.VelocityDir = Vector2.Zero;
+                    return SteeringStatus.Arrived;
+                }
+
+                steeringRequest.TimeUntilInteractionCheck = InRangeUnobstructedCooldown;
+                // Welp, we'll keep on moving.
+            }
+
+            // If we're really close don't swiggity swoogity back and forth and just wait for the interaction check maybe?
+            if (steeringRequest.TimeUntilInteractionCheck > 0.0f && targetDistance <= 0.1f)
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.Moving;
+            }
+
+            // Handle pathfinding job
+            // If we still have an existing path then keep following that until the new path arrives
+            if (_pathfindingRequests.TryGetValue(entity, out var pathRequest) && pathRequest.Job.Status == JobStatus.Finished)
+            {
+                switch (pathRequest.Job.Exception)
+                {
+                    case null:
+                        break;
+                    // Currently nothing should be cancelling these except external factors
+                    case TaskCanceledException _:
+                        controller.VelocityDir = Vector2.Zero;
+                        return SteeringStatus.NoPath;
+                    default:
+                        throw pathRequest.Job.Exception;
+                }
+                // No actual path
+                var path = _pathfindingRequests[entity].Job.Result;
+                if (path == null || path.Count == 0)
+                {
+                    controller.VelocityDir = Vector2.Zero;
+                    return SteeringStatus.NoPath;
+                }
+
+                // If we're closer to next tile then we don't want to walk backwards to our tile's center
+                UpdatePath(entity, path);
+
+                // If we're targeting entity get a fixed tile; if they move from it then re-path (at least til we get a better solution)
+                if (entitySteering != null)
+                {
+                    _entityTargetPosition[entity] = entitySteering.TargetGrid;
+                }
+
+                // Move next tick
+                return SteeringStatus.Pending;
+            }
+
+            // Check if we even have a path to follow
+            // If the route's empty we could be close and may not need a re-path so we won't check if it is
+            if (!_paths.ContainsKey(entity) && !_pathfindingRequests.ContainsKey(entity) && targetDistance > 1.5f)
+            {
+                controller.VelocityDir = Vector2.Zero;
+                RequestPath(entity, steeringRequest);
+                return SteeringStatus.Pending;
+            }
+
+            var ignoredCollision = new List<IEntity>();
+            // Check if the target entity has moved - If so then re-path
+            // TODO: Patch the path from the target's position back towards us, stopping if it ever intersects the current path
+            // Probably need a separate "PatchPath" job
+            if (entitySteering != null)
+            {
+                // Check if target's moved too far
+                if (_entityTargetPosition.TryGetValue(entity, out var targetGrid) &&
+                    (entitySteering.TargetGrid.Position - targetGrid.Position).Length >= entitySteering.TargetMaxMove)
+                {
+                    // We'll just repath and keep following the existing one until we get a new one
+                    RequestPath(entity, steeringRequest);
+                }
+
+                ignoredCollision.Add(entitySteering.Target);
+            }
+
+            HandleStuck(entity);
+
+            // TODO: Probably need a dedicated queuing solver (doorway congestion FML)
+            // Get the target grid (either next tile or target itself) and pass it in to the steering behaviors
+            // If there's nowhere to go then just stop and wait
+            var nextGrid = NextGrid(entity, steeringRequest);
+            if (!nextGrid.HasValue)
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.NoPath;
+            }
+
+            // Validate that we can even get to the next grid (could probably just check if we can use nextTile if we're not near the target grid)
+            if (!_pathfindingSystem.CanTraverse(entity, nextGrid.Value))
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.NoPath;
+            }
+
+            // Now we can /finally/ move
+            var movementVector = Vector2.Zero;
+
+            // Originally I tried using interface steerers but ehhh each one kind of needs to do its own thing
+            // Plus there's not much point putting these in a separate class
+            // Each one just adds onto the final vector
+            movementVector += Seek(entity, nextGrid.Value);
+            if (CollisionAvoidanceEnabled)
+            {
+                movementVector += CollisionAvoidance(entity, movementVector, ignoredCollision);
+            }
+            // Group behaviors would also go here e.g. separation, cohesion, alignment
+
+            // Move towards it
+            DebugTools.Assert(movementVector != new Vector2(float.NaN, float.NaN));
+            controller.VelocityDir = movementVector.Normalized;
+            return SteeringStatus.Moving;
+        }
+
+        /// <summary>
+        /// Get a new job from the pathfindingsystem
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="steeringRequest"></param>
+        private void RequestPath(IEntity entity, IAiSteeringRequest steeringRequest)
+        {
+            if (_pathfindingRequests.ContainsKey(entity))
+            {
+                return;
+            }
+
+            var cancelToken = new CancellationTokenSource();
+            var gridManager = _mapManager.GetGrid(entity.Transform.GridID);
+            var startTile = gridManager.GetTileRef(entity.Transform.Coordinates);
+            var endTile = gridManager.GetTileRef(steeringRequest.TargetGrid);
+            var collisionMask = 0;
+            if (entity.TryGetComponent(out IPhysBody physics))
+            {
+                collisionMask = physics.CollisionMask;
+            }
+
+            var access = AccessReader.FindAccessTags(entity);
+
+            var job = _pathfindingSystem.RequestPath(new PathfindingArgs(
+                entity.Uid,
+                access,
+                collisionMask,
+                startTile,
+                endTile,
+                steeringRequest.PathfindingProximity
+            ), cancelToken.Token);
+            _pathfindingRequests.Add(entity, (cancelToken, job));
+        }
+
+        /// <summary>
+        /// Given the pathfinding is timesliced we need to trim the first few(?) tiles so we don't walk backwards
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="path"></param>
+        private void UpdatePath(IEntity entity, Queue<TileRef> path)
+        {
+            _pathfindingRequests.Remove(entity);
+
+            var entityTile = _mapManager.GetGrid(entity.Transform.GridID).GetTileRef(entity.Transform.Coordinates);
+            var tile = path.Dequeue();
+            var closestDistance = PathfindingHelpers.OctileDistance(entityTile, tile);
+
+            for (var i = 0; i < path.Count; i++)
+            {
+                tile = path.Peek();
+                var distance = PathfindingHelpers.OctileDistance(entityTile, tile);
+                if (distance < closestDistance)
+                {
+                    path.Dequeue();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            _paths[entity] = path;
+        }
+
+        /// <summary>
+        /// Get the next tile as EntityCoordinates
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="steeringRequest"></param>
+        /// <returns></returns>
+        private EntityCoordinates? NextGrid(IEntity entity, IAiSteeringRequest steeringRequest)
+        {
+            // Remove the cached grid
+            if (!_paths.ContainsKey(entity) && _nextGrid.ContainsKey(entity))
+            {
+                _nextGrid.Remove(entity);
+            }
+
+            // If no tiles left just move towards the target (if we're close)
+            if (!_paths.ContainsKey(entity) || _paths[entity].Count == 0)
+            {
+                if ((steeringRequest.TargetGrid.Position - entity.Transform.Coordinates.Position).Length <= 2.0f)
+                {
+                    return steeringRequest.TargetGrid;
+                }
+
+                // Too far so we need a re-path
+                return null;
+            }
+
+            if (!_nextGrid.TryGetValue(entity, out var nextGrid) ||
+                (nextGrid.Position - entity.Transform.Coordinates.Position).Length <= TileTolerance)
+            {
+                UpdateGridCache(entity);
+                nextGrid = _nextGrid[entity];
+            }
+
+            DebugTools.Assert(nextGrid != default);
+            return nextGrid;
+        }
+
+        /// <summary>
+        /// Rather than converting TileRef to EntityCoordinates over and over we'll just cache it
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="dequeue"></param>
+        private void UpdateGridCache(IEntity entity, bool dequeue = true)
+        {
+            if (_paths[entity].Count == 0) return;
+            var nextTile = dequeue ? _paths[entity].Dequeue() : _paths[entity].Peek();
+            var nextGrid = _mapManager.GetGrid(entity.Transform.GridID).GridTileToLocal(nextTile.GridIndices);
+            _nextGrid[entity] = nextGrid;
+        }
+
+        /// <summary>
+        /// Check if we've been near our last EntityCoordinates too long and try to fix it
+        /// </summary>
+        /// <param name="entity"></param>
+        private void HandleStuck(IEntity entity)
+        {
+            if (!_stuckPositions.TryGetValue(entity, out var stuckPosition))
+            {
+                _stuckPositions[entity] = entity.Transform.Coordinates;
+                _stuckCounter[entity] = 0;
+                return;
+            }
+
+            if ((entity.Transform.Coordinates.Position - stuckPosition.Position).Length <= 1.0f)
+            {
+                _stuckCounter.TryGetValue(entity, out var stuckCount);
+                _stuckCounter[entity] = stuckCount + 1;
+            }
+            else
+            {
+                // No longer stuck
+                _stuckPositions[entity] = entity.Transform.Coordinates;
+                _stuckCounter[entity] = 0;
+                return;
+            }
+
+            // Should probably be time-based
+            if (_stuckCounter[entity] < 30)
+            {
+                return;
+            }
+
+            // Okay now we're stuck
+            _paths.Remove(entity);
+            _stuckCounter[entity] = 0;
+        }
+
+        #region Steering
+        /// <summary>
+        /// Move straight to target position
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        private Vector2 Seek(IEntity entity, EntityCoordinates grid)
+        {
+            // is-even much
+            var entityPos = entity.Transform.Coordinates;
+            return entityPos == grid
+                ? Vector2.Zero
+                : (grid.Position - entityPos.Position).Normalized;
+        }
+
+        /// <summary>
+        /// Like Seek but slows down when within distance
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="grid"></param>
+        /// <param name="slowingDistance"></param>
+        /// <returns></returns>
+        private Vector2 Arrival(IEntity entity, EntityCoordinates grid, float slowingDistance = 1.0f)
+        {
+            var entityPos = entity.Transform.Coordinates;
+            DebugTools.Assert(slowingDistance > 0.0f);
+            if (entityPos == grid)
+            {
+                return Vector2.Zero;
+            }
+            var targetDiff = grid.Position - entityPos.Position;
+            var rampedSpeed = targetDiff.Length / slowingDistance;
+            return targetDiff.Normalized * MathF.Min(1.0f, rampedSpeed);
+        }
+
+        /// <summary>
+        /// Like Seek but predicts target's future position
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        private Vector2 Pursuit(IEntity entity, IEntity target)
+        {
+            var entityPos = entity.Transform.Coordinates;
+            var targetPos = target.Transform.Coordinates;
+            if (entityPos == targetPos)
+            {
+                return Vector2.Zero;
+            }
+
+            if (target.TryGetComponent(out IPhysBody physics))
+            {
+                var targetDistance = (targetPos.Position - entityPos.Position);
+                targetPos = targetPos.Offset(physics.LinearVelocity * targetDistance);
+            }
+
+            return (targetPos.Position - entityPos.Position).Normalized;
+        }
+
+        /// <summary>
+        /// Checks for non-anchored physics objects that can block us
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="direction">entity's travel direction</param>
+        /// <param name="ignoredTargets"></param>
+        /// <returns></returns>
+        private Vector2 CollisionAvoidance(IEntity entity, Vector2 direction, ICollection<IEntity> ignoredTargets)
+        {
+            if (direction == Vector2.Zero || !entity.TryGetComponent(out IPhysBody physics))
+            {
+                return Vector2.Zero;
+            }
+
+            // We'll check tile-by-tile
+            // Rewriting this frequently so not many comments as they'll go stale
+            // I realise this is bad so please rewrite it ;-;
+            var entityCollisionMask = physics.CollisionMask;
+            var avoidanceVector = Vector2.Zero;
+            var checkTiles = new HashSet<TileRef>();
+            var avoidTiles = new HashSet<TileRef>();
+            var entityGridCoords = entity.Transform.Coordinates;
+            var grid = _mapManager.GetGrid(entity.Transform.GridID);
+            var currentTile = grid.GetTileRef(entityGridCoords);
+            var halfwayTile = grid.GetTileRef(entityGridCoords.Offset(direction / 2));
+            var nextTile = grid.GetTileRef(entityGridCoords.Offset(direction));
+
+            checkTiles.Add(currentTile);
+            checkTiles.Add(halfwayTile);
+            checkTiles.Add(nextTile);
+
+            // Handling corners with collision avoidance is a real bitch
+            // TBH collision avoidance in general that doesn't run like arse is a real bitch
+            foreach (var tile in checkTiles)
+            {
+                var node = _pathfindingSystem.GetNode(tile);
+                // Assume the immovables have already been checked
+                foreach (var (physicsEntity, layer) in node.PhysicsLayers)
+                {
+                    // Ignore myself / my target if applicable / if my mask doesn't collide
+                    if (physicsEntity == entity || ignoredTargets.Contains(physicsEntity) || (entityCollisionMask & layer) == 0) continue;
+                    // God there's so many ways to do this
+                    // err for now we'll just assume the first entity is the center and just add a vector for it
+
+                    //Pathfinding updates are deferred so this may not be done yet.
+                    if (physicsEntity.Deleted) continue;
+
+                    // if we're moving in the same direction then ignore
+                    // So if 2 entities are moving towards each other and both detect a collision they'll both move in the same direction
+                    // i.e. towards the right
+                    if (physicsEntity.TryGetComponent(out IPhysBody otherPhysics) &&
+                        Vector2.Dot(otherPhysics.LinearVelocity, direction) > 0)
+                    {
+                        continue;
+                    }
+
+                    var centerGrid = physicsEntity.Transform.Coordinates;
+                    // Check how close we are to center of tile and get the inverse; if we're closer this is stronger
+                    var additionalVector = (centerGrid.Position - entityGridCoords.Position);
+                    var distance = additionalVector.Length;
+                    // If we're too far no point, if we're close then cap it at the normalized vector
+                    distance = MathHelper.Clamp(2.5f - distance, 0.0f, 1.0f);
+                    additionalVector = new Angle(90 * distance).RotateVec(additionalVector);
+                    avoidanceVector += additionalVector;
+                    // if we do need to avoid that means we'll have to lookahead for the next tile
+                    avoidTiles.Add(tile);
+                    break;
+                }
+            }
+
+            // Dis ugly
+            if (_paths.TryGetValue(entity, out var path))
+            {
+                if (path.Count > 0)
+                {
+                    var checkTile = path.Peek();
+                    for (var i = 0; i < Math.Min(path.Count, avoidTiles.Count); i++)
+                    {
+                        if (avoidTiles.Contains(checkTile))
+                        {
+                            checkTile = path.Dequeue();
+                        }
+                    }
+
+                    UpdateGridCache(entity, false);
+                }
+            }
+
+            return avoidanceVector == Vector2.Zero ? avoidanceVector : avoidanceVector.Normalized;
+        }
+        #endregion
+    }
+
+    public enum SteeringStatus
+    {
+        Pending,
+        NoPath,
+        Arrived,
+        Moving,
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Content.Server.GameObjects.Components.Access;
+using Content.Server.GameObjects.Components.Movement;
+using Content.Server.GameObjects.EntitySystems.AI.Pathfinding;
+using Content.Server.GameObjects.EntitySystems.AI.Pathfinding.Pathfinders;
+using Content.Server.GameObjects.EntitySystems.JobQueues;
+using Content.Shared.GameObjects.EntitySystems.ActionBlocker;
+using Content.Shared.Utility;
+using Robust.Shared.GameObjects;
+using Robust.Shared.IoC;
+using Robust.Shared.Map;
+using Robust.Shared.Maths;
+using Robust.Shared.Physics;
+using Robust.Shared.Timing;
+using Robust.Shared.Utility;
+using Robust.Shared.ViewVariables;
+
+namespace Content.Server.GameObjects.EntitySystems.AI.Steering
+{
+    public sealed class AiSteeringSystem : EntitySystem
+    {
+        // http://www.red3d.com/cwr/papers/1999/gdc99steer.html for a steering overview
+        [Dependency] private readonly IMapManager _mapManager = default!;
+        [Dependency] private readonly IPauseManager _pauseManager = default!;
+
+        private PathfindingSystem _pathfindingSystem;
+
+        /// <summary>
+        /// Whether we try to avoid non-blocking physics objects
+        /// </summary>
+        [ViewVariables(VVAccess.ReadWrite)]
+        public bool CollisionAvoidanceEnabled { get; set; } = true;
+
+        /// <summary>
+        /// How close we need to get to the center of each tile
+        /// </summary>
+        private const float TileTolerance = 0.8f;
+
+        /// <summary>
+        ///     How long to wait between checks (if necessary).
+        /// </summary>
+        private const float InRangeUnobstructedCooldown = 0.25f;
+
+        private Dictionary<IEntity, IAiSteeringRequest> RunningAgents => _agentLists[_listIndex];
+
+        // We'll cycle the running list every tick as all we're doing is getting a vector2 for the
+        // agent's steering. Should help a lot given this is the most expensive operator by far.
+        // The AI will keep moving, it's just it'll keep moving in its existing direction.
+        // If we change to 20/30 TPS you might want to change this but for now it's fine
+        private readonly List<Dictionary<IEntity, IAiSteeringRequest>> _agentLists = new(AgentListCount);
+        private const int AgentListCount = 2;
+        private int _listIndex;
+
+        // Cache nextGrid
+        private readonly Dictionary<IEntity, EntityCoordinates> _nextGrid = new();
+
+        /// <summary>
+        /// Current live paths for AI
+        /// </summary>
+        private readonly Dictionary<IEntity, Queue<TileRef>> _paths = new();
+
+        /// <summary>
+        /// Pathfinding request jobs we're waiting on
+        /// </summary>
+        private readonly Dictionary<IEntity, (CancellationTokenSource CancelToken, Job<Queue<TileRef>> Job)> _pathfindingRequests =
+            new();
+
+        /// <summary>
+        /// Keep track of how long we've been in 1 position and re-path if it's been too long
+        /// </summary>
+        private readonly Dictionary<IEntity, int> _stuckCounter = new();
+
+        /// <summary>
+        /// Get a fixed position for the target entity; if they move then re-path
+        /// </summary>
+        private readonly Dictionary<IEntity, EntityCoordinates> _entityTargetPosition = new();
+
+        // Anti-Stuck
+        // Given the collision avoidance can lead to twitching need to store a reference position and check if we've been near this too long
+        private readonly Dictionary<IEntity, EntityCoordinates> _stuckPositions = new();
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            _pathfindingSystem = Get<PathfindingSystem>();
+
+            for (var i = 0; i < AgentListCount; i++)
+            {
+                _agentLists.Add(new Dictionary<IEntity, IAiSteeringRequest>());
+            }
+        }
+
+        /// <summary>
+        /// Adds the AI to the steering system to move towards a specific target
+        /// </summary>
+        /// We'll add it to the movement list that has the least number of agents
+        /// <param name="entity"></param>
+        /// <param name="steeringRequest"></param>
+        public void Register(IEntity entity, IAiSteeringRequest steeringRequest)
+        {
+            var lowestListCount = 1000;
+            var lowestListIndex = 0;
+
+            for (var i = 0; i < _agentLists.Count; i++)
+            {
+                var agentList = _agentLists[i];
+                // Register shouldn't be called twice; if it is then someone dun fucked up
+                DebugTools.Assert(!agentList.ContainsKey(entity));
+
+                if (agentList.Count < lowestListCount)
+                {
+                    lowestListCount = agentList.Count;
+                    lowestListIndex = i;
+                }
+            }
+
+            _agentLists[lowestListIndex].Add(entity, steeringRequest);
+        }
+
+        /// <summary>
+        /// Stops the steering behavior for the AI and cleans up
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public void Unregister(IEntity entity)
+        {
+            if (entity.TryGetComponent(out AiControllerComponent controller))
+            {
+                controller.VelocityDir = Vector2.Zero;
+            }
+
+            if (_pathfindingRequests.TryGetValue(entity, out var request))
+            {
+                switch (request.Job.Status)
+                {
+                    case JobStatus.Pending:
+                    case JobStatus.Finished:
+                        break;
+                    case JobStatus.Running:
+                    case JobStatus.Paused:
+                    case JobStatus.Waiting:
+                        request.CancelToken.Cancel();
+                        break;
+                }
+
+                switch (request.Job.Exception)
+                {
+                    case null:
+                        break;
+                    default:
+                        throw request.Job.Exception;
+                }
+                _pathfindingRequests.Remove(entity);
+            }
+
+            if (_paths.ContainsKey(entity))
+            {
+                _paths.Remove(entity);
+            }
+
+            if (_nextGrid.ContainsKey(entity))
+            {
+                _nextGrid.Remove(entity);
+            }
+
+            if (_stuckCounter.ContainsKey(entity))
+            {
+                _stuckCounter.Remove(entity);
+            }
+
+            if (_entityTargetPosition.ContainsKey(entity))
+            {
+                _entityTargetPosition.Remove(entity);
+            }
+
+            foreach (var agentList in _agentLists)
+            {
+                if (agentList.ContainsKey(entity))
+                {
+                    agentList.Remove(entity);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Is the entity currently registered for steering?
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool IsRegistered(IEntity entity)
+        {
+            foreach (var agentList in _agentLists)
+            {
+                if (agentList.ContainsKey(entity))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public override void Update(float frameTime)
+        {
+            base.Update(frameTime);
+
+            foreach (var (agent, steering) in RunningAgents)
+            {
+                // Yeah look it's not true frametime but good enough.
+                var result = Steer(agent, steering, frameTime * RunningAgents.Count);
+                steering.Status = result;
+
+                switch (result)
+                {
+                    case SteeringStatus.Pending:
+                        break;
+                    case SteeringStatus.NoPath:
+                        Unregister(agent);
+                        break;
+                    case SteeringStatus.Arrived:
+                        Unregister(agent);
+                        break;
+                    case SteeringStatus.Moving:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            _listIndex = (_listIndex + 1) % _agentLists.Count;
+        }
+
+        /// <summary>
+        /// Go through each steerer and combine their vectors
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="steeringRequest"></param>
+        /// <param name="frameTime"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private SteeringStatus Steer(IEntity entity, IAiSteeringRequest steeringRequest, float frameTime)
+        {
+            // Main optimisation to be done below is the redundant calls and adding more variables
+            if (entity.Deleted || !entity.TryGetComponent(out AiControllerComponent controller) || !ActionBlockerSystem.CanMove(entity))
+            {
+                return SteeringStatus.NoPath;
+            }
+
+            if (steeringRequest is EntityTargetSteeringRequest entitySteering && entitySteering.Target.Deleted)
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.NoPath;
+            }
+
+            if (_pauseManager.IsGridPaused(entity.Transform.GridID))
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.Pending;
+            }
+
+            // Validation
+            // Check if we can even arrive -> Currently only samegrid movement supported
+            if (entity.Transform.GridID != steeringRequest.TargetGrid.GetGridId(EntityManager))
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.NoPath;
+            }
+
+            // Check if we have arrived
+            var targetDistance = (entity.Transform.MapPosition.Position - steeringRequest.TargetMap.Position).Length;
+            steeringRequest.TimeUntilInteractionCheck -= frameTime;
+
+            if (targetDistance <= steeringRequest.ArrivalDistance && steeringRequest.TimeUntilInteractionCheck <= 0.0f)
+            {
+                if (!steeringRequest.RequiresInRangeUnobstructed ||
+                    entity.InRangeUnobstructed(steeringRequest.TargetMap, steeringRequest.ArrivalDistance, popup: true))
+                {
+                    // TODO: Need cruder LOS checks for ranged weaps
+                    controller.VelocityDir = Vector2.Zero;
+                    return SteeringStatus.Arrived;
+                }
+
+                steeringRequest.TimeUntilInteractionCheck = InRangeUnobstructedCooldown;
+                // Welp, we'll keep on moving.
+            }
+
+            // If we're really close don't swiggity swoogity back and forth and just wait for the interaction check maybe?
+            if (steeringRequest.TimeUntilInteractionCheck > 0.0f && targetDistance <= 0.1f)
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.Moving;
+            }
+
+            // Handle pathfinding job
+            // If we still have an existing path then keep following that until the new path arrives
+            if (_pathfindingRequests.TryGetValue(entity, out var pathRequest) && pathRequest.Job.Status == JobStatus.Finished)
+            {
+                switch (pathRequest.Job.Exception)
+                {
+                    case null:
+                        break;
+                    // Currently nothing should be cancelling these except external factors
+                    case TaskCanceledException _:
+                        controller.VelocityDir = Vector2.Zero;
+                        return SteeringStatus.NoPath;
+                    default:
+                        throw pathRequest.Job.Exception;
+                }
+                // No actual path
+                var path = _pathfindingRequests[entity].Job.Result;
+                if (path == null || path.Count == 0)
+                {
+                    controller.VelocityDir = Vector2.Zero;
+                    return SteeringStatus.NoPath;
+                }
+
+                // If we're closer to next tile then we don't want to walk backwards to our tile's center
+                UpdatePath(entity, path);
+
+                // If we're targeting entity get a fixed tile; if they move from it then re-path (at least til we get a better solution)
+                if (steeringRequest is EntityTargetSteeringRequest entitySteering)
+                {
+                    _entityTargetPosition[entity] = entitySteering.TargetGrid;
+                }
+
+                // Move next tick
+                return SteeringStatus.Pending;
+            }
+
+            // Check if we even have a path to follow
+            // If the route's empty we could be close and may not need a re-path so we won't check if it is
+            if (!_paths.ContainsKey(entity) && !_pathfindingRequests.ContainsKey(entity) && targetDistance > 1.5f)
+            {
+                controller.VelocityDir = Vector2.Zero;
+                RequestPath(entity, steeringRequest);
+                return SteeringStatus.Pending;
+            }
+
+            var ignoredCollision = new List<IEntity>();
+
+            // Check if the target entity has moved - If so then re-path
+            // TODO: Patch the path from the target's position back towards us, stopping if it ever intersects the current path
+            // Probably need a separate "PatchPath" job
+            if (steeringRequest is EntityTargetSteeringRequest entitySteering)
+            {
+                // Check if target's moved too far
+                if (_entityTargetPosition.TryGetValue(entity, out var targetGrid) &&
+                    (entitySteering.TargetGrid.Position - targetGrid.Position).Length >= entitySteering.TargetMaxMove)
+                {
+                    // We'll just repath and keep following the existing one until we get a new one
+                    RequestPath(entity, steeringRequest);
+                }
+
+                ignoredCollision.Add(entitySteering.Target);
+            }
+
+            HandleStuck(entity);
+
+            // TODO: Probably need a dedicated queuing solver (doorway congestion FML)
+            // Get the target grid (either next tile or target itself) and pass it in to the steering behaviors
+            // If there's nowhere to go then just stop and wait
+            var nextGrid = NextGrid(entity, steeringRequest);
+            if (!nextGrid.HasValue)
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.NoPath;
+            }
+
+            // Validate that we can even get to the next grid (could probably just check if we can use nextTile if we're not near the target grid)
+            if (!_pathfindingSystem.CanTraverse(entity, nextGrid.Value))
+            {
+                controller.VelocityDir = Vector2.Zero;
+                return SteeringStatus.NoPath;
+            }
+
+            // Now we can /finally/ move
+            var movementVector = Vector2.Zero;
+
+            // Originally I tried using interface steerers but ehhh each one kind of needs to do its own thing
+            // Plus there's not much point putting these in a separate class
+            // Each one just adds onto the final vector
+            movementVector += Seek(entity, nextGrid.Value);
+            if (CollisionAvoidanceEnabled)
+            {
+                movementVector += CollisionAvoidance(entity, movementVector, ignoredCollision);
+            }
+            // Group behaviors would also go here e.g. separation, cohesion, alignment
+
+            // Move towards it
+            DebugTools.Assert(movementVector != new Vector2(float.NaN, float.NaN));
+            controller.VelocityDir = movementVector.Normalized;
+            return SteeringStatus.Moving;
+        }
+
+        /// <summary>
+        /// Get a new job from the pathfindingsystem
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="steeringRequest"></param>
+        private void RequestPath(IEntity entity, IAiSteeringRequest steeringRequest)
+        {
+            if (_pathfindingRequests.ContainsKey(entity))
+            {
+                return;
+            }
+
+            var cancelToken = new CancellationTokenSource();
+            var gridManager = _mapManager.GetGrid(entity.Transform.GridID);
+            var startTile = gridManager.GetTileRef(entity.Transform.Coordinates);
+            var endTile = gridManager.GetTileRef(steeringRequest.TargetGrid);
+            var collisionMask = 0;
+            if (entity.TryGetComponent(out IPhysBody physics))
+            {
+                collisionMask = physics.CollisionMask;
+            }
+
+            var access = AccessReader.FindAccessTags(entity);
+
+            var job = _pathfindingSystem.RequestPath(new PathfindingArgs(
+                entity.Uid,
+                access,
+                collisionMask,
+                startTile,
+                endTile,
+                steeringRequest.PathfindingProximity
+            ), cancelToken.Token);
+            _pathfindingRequests.Add(entity, (cancelToken, job));
+        }
+
+        /// <summary>
+        /// Given the pathfinding is timesliced we need to trim the first few(?) tiles so we don't walk backwards
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="path"></param>
+        private void UpdatePath(IEntity entity, Queue<TileRef> path)
+        {
+            _pathfindingRequests.Remove(entity);
+
+            var entityTile = _mapManager.GetGrid(entity.Transform.GridID).GetTileRef(entity.Transform.Coordinates);
+            var tile = path.Dequeue();
+            var closestDistance = PathfindingHelpers.OctileDistance(entityTile, tile);
+
+            for (var i = 0; i < path.Count; i++)
+            {
+                tile = path.Peek();
+                var distance = PathfindingHelpers.OctileDistance(entityTile, tile);
+                if (distance < closestDistance)
+                {
+                    path.Dequeue();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            _paths[entity] = path;
+        }
+
+        /// <summary>
+        /// Get the next tile as EntityCoordinates
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="steeringRequest"></param>
+        /// <returns></returns>
+        private EntityCoordinates? NextGrid(IEntity entity, IAiSteeringRequest steeringRequest)
+        {
+            // Remove the cached grid
+            if (!_paths.ContainsKey(entity) && _nextGrid.ContainsKey(entity))
+            {
+                _nextGrid.Remove(entity);
+            }
+
+            // If no tiles left just move towards the target (if we're close)
+            if (!_paths.ContainsKey(entity) || _paths[entity].Count == 0)
+            {
+                if ((steeringRequest.TargetGrid.Position - entity.Transform.Coordinates.Position).Length <= 2.0f)
+                {
+                    return steeringRequest.TargetGrid;
+                }
+
+                // Too far so we need a re-path
+                return null;
+            }
+
+            if (!_nextGrid.TryGetValue(entity, out var nextGrid) ||
+                (nextGrid.Position - entity.Transform.Coordinates.Position).Length <= TileTolerance)
+            {
+                UpdateGridCache(entity);
+                nextGrid = _nextGrid[entity];
+            }
+
+            DebugTools.Assert(nextGrid != default);
+            return nextGrid;
+        }
+
+        /// <summary>
+        /// Rather than converting TileRef to EntityCoordinates over and over we'll just cache it
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="dequeue"></param>
+        private void UpdateGridCache(IEntity entity, bool dequeue = true)
+        {
+            if (_paths[entity].Count == 0) return;
+            var nextTile = dequeue ? _paths[entity].Dequeue() : _paths[entity].Peek();
+            var nextGrid = _mapManager.GetGrid(entity.Transform.GridID).GridTileToLocal(nextTile.GridIndices);
+            _nextGrid[entity] = nextGrid;
+        }
+
+        /// <summary>
+        /// Check if we've been near our last EntityCoordinates too long and try to fix it
+        /// </summary>
+        /// <param name="entity"></param>
+        private void HandleStuck(IEntity entity)
+        {
+            if (!_stuckPositions.TryGetValue(entity, out var stuckPosition))
+            {
+                _stuckPositions[entity] = entity.Transform.Coordinates;
+                _stuckCounter[entity] = 0;
+                return;
+            }
+
+            if ((entity.Transform.Coordinates.Position - stuckPosition.Position).Length <= 1.0f)
+            {
+                _stuckCounter.TryGetValue(entity, out var stuckCount);
+                _stuckCounter[entity] = stuckCount + 1;
+            }
+            else
+            {
+                // No longer stuck
+                _stuckPositions[entity] = entity.Transform.Coordinates;
+                _stuckCounter[entity] = 0;
+                return;
+            }
+
+            // Should probably be time-based
+            if (_stuckCounter[entity] < 30)
+            {
+                return;
+            }
+
+            // Okay now we're stuck
+            _paths.Remove(entity);
+            _stuckCounter[entity] = 0;
+        }
+
+        #region Steering
+        /// <summary>
+        /// Move straight to target position
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        private Vector2 Seek(IEntity entity, EntityCoordinates grid)
+        {
+            // is-even much
+            var entityPos = entity.Transform.Coordinates;
+            return entityPos == grid
+                ? Vector2.Zero
+                : (grid.Position - entityPos.Position).Normalized;
+        }
+
+        /// <summary>
+        /// Like Seek but slows down when within distance
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="grid"></param>
+        /// <param name="slowingDistance"></param>
+        /// <returns></returns>
+        private Vector2 Arrival(IEntity entity, EntityCoordinates grid, float slowingDistance = 1.0f)
+        {
+            var entityPos = entity.Transform.Coordinates;
+            DebugTools.Assert(slowingDistance > 0.0f);
+            if (entityPos == grid)
+            {
+                return Vector2.Zero;
+            }
+            var targetDiff = grid.Position - entityPos.Position;
+            var rampedSpeed = targetDiff.Length / slowingDistance;
+            return targetDiff.Normalized * MathF.Min(1.0f, rampedSpeed);
+        }
+
+        /// <summary>
+        /// Like Seek but predicts target's future position
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        private Vector2 Pursuit(IEntity entity, IEntity target)
+        {
+            var entityPos = entity.Transform.Coordinates;
+            var targetPos = target.Transform.Coordinates;
+            if (entityPos == targetPos)
+            {
+                return Vector2.Zero;
+            }
+
+            if (target.TryGetComponent(out IPhysBody physics))
+            {
+                var targetDistance = (targetPos.Position - entityPos.Position);
+                targetPos = targetPos.Offset(physics.LinearVelocity * targetDistance);
+            }
+
+            return (targetPos.Position - entityPos.Position).Normalized;
+        }
+
+        /// <summary>
+        /// Checks for non-anchored physics objects that can block us
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="direction">entity's travel direction</param>
+        /// <param name="ignoredTargets"></param>
+        /// <returns></returns>
+        private Vector2 CollisionAvoidance(IEntity entity, Vector2 direction, ICollection<IEntity> ignoredTargets)
+        {
+            if (direction == Vector2.Zero || !entity.TryGetComponent(out IPhysBody physics))
+            {
+                return Vector2.Zero;
+            }
+
+            // We'll check tile-by-tile
+            // Rewriting this frequently so not many comments as they'll go stale
+            // I realise this is bad so please rewrite it ;-;
+            var entityCollisionMask = physics.CollisionMask;
+            var avoidanceVector = Vector2.Zero;
+            var checkTiles = new HashSet<TileRef>();
+            var avoidTiles = new HashSet<TileRef>();
+            var entityGridCoords = entity.Transform.Coordinates;
+            var grid = _mapManager.GetGrid(entity.Transform.GridID);
+            var currentTile = grid.GetTileRef(entityGridCoords);
+            var halfwayTile = grid.GetTileRef(entityGridCoords.Offset(direction / 2));
+            var nextTile = grid.GetTileRef(entityGridCoords.Offset(direction));
+
+            checkTiles.Add(currentTile);
+            checkTiles.Add(halfwayTile);
+            checkTiles.Add(nextTile);
+
+            // Handling corners with collision avoidance is a real bitch
+            // TBH collision avoidance in general that doesn't run like arse is a real bitch
+            foreach (var tile in checkTiles)
+            {
+                var node = _pathfindingSystem.GetNode(tile);
+                // Assume the immovables have already been checked
+                foreach (var (physicsEntity, layer) in node.PhysicsLayers)
+                {
+                    // Ignore myself / my target if applicable / if my mask doesn't collide
+                    if (physicsEntity == entity || ignoredTargets.Contains(physicsEntity) || (entityCollisionMask & layer) == 0) continue;
+                    // God there's so many ways to do this
+                    // err for now we'll just assume the first entity is the center and just add a vector for it
+
+                    //Pathfinding updates are deferred so this may not be done yet.
+                    if (physicsEntity.Deleted) continue;
+
+                    // if we're moving in the same direction then ignore
+                    // So if 2 entities are moving towards each other and both detect a collision they'll both move in the same direction
+                    // i.e. towards the right
+                    if (physicsEntity.TryGetComponent(out IPhysBody otherPhysics) &&
+                        Vector2.Dot(otherPhysics.LinearVelocity, direction) > 0)
+                    {
+                        continue;
+                    }
+
+                    var centerGrid = physicsEntity.Transform.Coordinates;
+                    // Check how close we are to center of tile and get the inverse; if we're closer this is stronger
+                    var additionalVector = (centerGrid.Position - entityGridCoords.Position);
+                    var distance = additionalVector.Length;
+                    // If we're too far no point, if we're close then cap it at the normalized vector
+                    distance = MathHelper.Clamp(2.5f - distance, 0.0f, 1.0f);
+                    additionalVector = new Angle(90 * distance).RotateVec(additionalVector);
+                    avoidanceVector += additionalVector;
+                    // if we do need to avoid that means we'll have to lookahead for the next tile
+                    avoidTiles.Add(tile);
+                    break;
+                }
+            }
+
+            // Dis ugly
+            if (_paths.TryGetValue(entity, out var path))
+            {
+                if (path.Count > 0)
+                {
+                    var checkTile = path.Peek();
+                    for (var i = 0; i < Math.Min(path.Count, avoidTiles.Count); i++)
+                    {
+                        if (avoidTiles.Contains(checkTile))
+                        {
+                            checkTile = path.Dequeue();
+                        }
+                    }
+
+                    UpdateGridCache(entity, false);
+                }
+            }
+
+            return avoidanceVector == Vector2.Zero ? avoidanceVector : avoidanceVector.Normalized;
+        }
+        #endregion
+    }
+
+    public enum SteeringStatus
+    {
+        Pending,
+        NoPath,
+        Arrived,
+        Moving,
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\Content.Server\GameObjects\EntitySystems\AI\Steering\AiSteeringSystem.cs(325,68): error CS0136: A local or parameter named 'entitySteering' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter,D:\a\1\s\Content.Server\GameObjects\EntitySystems\AI\Steering\AiSteeringSystem.cs(348,64): error CS0128: A local variable or function named 'entitySteering' is already defined in this scope,D:\a\1\s\Content.Server\GameObjects\EntitySystems\AI\Steering\AiSteeringSystem.cs(352,22): error CS0165: Use of unassigned local variable 'entitySteering'
+######################################################################
+
+
+######################################################################
+Nr: 4 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\RobustToolbox\Robust.Client.Injectors\XamlCompiler.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Microsoft.Build.Framework;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
+using Mono.Cecil.Rocks;
+using Pidgin;
+using XamlX;
+using XamlX.Ast;
+using XamlX.Emit;
+using XamlX.IL;
+using XamlX.Parsers;
+using XamlX.Transform;
+using XamlX.TypeSystem;
+
+namespace Robust.Build.Tasks
+{
+    /// <summary>
+    /// Based on https://github.com/AvaloniaUI/Avalonia/blob/c85fa2b9977d251a31886c2534613b4730fbaeaf/src/Avalonia.Build.Tasks/XamlCompilerTaskExecutor.cs
+    /// Adjusted for our UI-Framework
+    /// </summary>
+    public partial class XamlCompiler
+    {
+        public static (bool success, bool writtentofile) Compile(IBuildEngine engine, string input, string[] references,
+            string projectDirectory, string output, string strongNameKey)
+        {
+            var typeSystem = new CecilTypeSystem(references
+                .Where(r => !r.ToLowerInvariant().EndsWith("robust.build.tasks.dll"))
+                .Concat(new[] { input }), input);
+
+            var asm = typeSystem.TargetAssemblyDefinition;
+
+            if (asm.MainModule.GetType("CompiledRobustXaml", "XamlIlContext") != null)
+            {
+                // If this type exists, the assembly has already been processed by us.
+                // Do not run again, it would corrupt the file.
+                // This *shouldn't* be possible due to Inputs/Outputs dependencies in the build system,
+                // but better safe than sorry eh?
+                engine.LogWarningEvent(new BuildWarningEventArgs("XAMLIL", "", "", 0, 0, 0, 0, "Ran twice on same assembly file; ignoring.", "", ""));
+                return (true, false);
+            }
+
+            var compileRes = CompileCore(engine, typeSystem);
+            if (compileRes == null)
+                return (true, false);
+            if (compileRes == false)
+                return (false, false);
+
+            var writerParameters = new WriterParameters { WriteSymbols = asm.MainModule.HasSymbols };
+            if (!string.IsNullOrWhiteSpace(strongNameKey))
+                writerParameters.StrongNameKeyBlob = File.ReadAllBytes(strongNameKey);
+
+            asm.Write(output, writerParameters);
+
+            return (true, true);
+
+        }
+
+        static bool? CompileCore(IBuildEngine engine, CecilTypeSystem typeSystem)
+        {
+            var asm = typeSystem.TargetAssemblyDefinition;
+            var embrsc = new EmbeddedResources(asm);
+
+            if (!embrsc.Resources.Any(CheckXamlName))
+                // Nothing to do
+                return null;
+
+            var xamlLanguage = new XamlLanguageTypeMappings(typeSystem)
+            {
+                XmlnsAttributes =
+                {
+                    typeSystem.GetType("Avalonia.Metadata.XmlnsDefinitionAttribute"),
+
+                },
+                ContentAttributes =
+                {
+                    typeSystem.GetType("Robust.Client.UserInterface.XAML.ContentAttribute")
+                },
+                UsableDuringInitializationAttributes =
+                {
+                    typeSystem.GetType("Robust.Client.UserInterface.XAML.UsableDuringInitializationAttribute")
+                },
+                DeferredContentPropertyAttributes =
+                {
+                    typeSystem.GetType("Robust.Client.UserInterface.XAML.DeferredContentAttribute")
+                },
+                RootObjectProvider = typeSystem.GetType("Robust.Client.UserInterface.XAML.ITestRootObjectProvider"),
+                UriContextProvider = typeSystem.GetType("Robust.Client.UserInterface.XAML.ITestUriContext"),
+                ProvideValueTarget = typeSystem.GetType("Robust.Client.UserInterface.XAML.ITestProvideValueTarget"),
+            };
+            var emitConfig = new XamlLanguageEmitMappings<IXamlILEmitter, XamlILNodeEmitResult>
+            {
+                ContextTypeBuilderCallback = (b,c) => EmitNameScopeField(xamlLanguage, typeSystem, b, c)
+            };
+
+            var transformerconfig = new TransformerConfiguration(
+                typeSystem,
+                typeSystem.TargetAssembly,
+                xamlLanguage,
+                XamlXmlnsMappings.Resolve(typeSystem, xamlLanguage), CustomValueConverter);
+
+            var contextDef = new TypeDefinition("CompiledRobustXaml", "XamlIlContext",
+                TypeAttributes.Class, asm.MainModule.TypeSystem.Object);
+            asm.MainModule.Types.Add(contextDef);
+            var contextClass = XamlILContextDefinition.GenerateContextClass(typeSystem.CreateTypeBuilder(contextDef), typeSystem,
+                xamlLanguage, emitConfig);
+
+            var compiler =
+                new RobustXamlILCompiler(transformerconfig, emitConfig, true);
+
+            var loaderDispatcherDef = new TypeDefinition("CompiledRobustXaml", "!XamlLoader",
+                TypeAttributes.Class, asm.MainModule.TypeSystem.Object);
+
+            var loaderDispatcherMethod = new MethodDefinition("TryLoad",
+                MethodAttributes.Static | MethodAttributes.Public,
+                asm.MainModule.TypeSystem.Object)
+            {
+                Parameters = {new ParameterDefinition(asm.MainModule.TypeSystem.String)}
+            };
+            loaderDispatcherDef.Methods.Add(loaderDispatcherMethod);
+            asm.MainModule.Types.Add(loaderDispatcherDef);
+
+            var stringEquals = asm.MainModule.ImportReference(asm.MainModule.TypeSystem.String.Resolve().Methods.First(
+                m =>
+                    m.IsStatic && m.Name == "Equals" && m.Parameters.Count == 2 &&
+                    m.ReturnType.FullName == "System.Boolean"
+                    && m.Parameters[0].ParameterType.FullName == "System.String"
+                    && m.Parameters[1].ParameterType.FullName == "System.String"));
+
+            bool CompileGroup(IResourceGroup group)
+            {
+                var typeDef = new TypeDefinition("CompiledRobustXaml", "!" + group.Name, TypeAttributes.Class,
+                    asm.MainModule.TypeSystem.Object);
+
+                //typeDef.CustomAttributes.Add(new CustomAttribute(ed));
+                asm.MainModule.Types.Add(typeDef);
+                var builder = typeSystem.CreateTypeBuilder(typeDef);
+
+                foreach (var res in group.Resources.Where(CheckXamlName))
+                {
+                    try
+                    {
+                        engine.LogMessage($"XAMLIL: {res.Name} -> {res.Uri}", MessageImportance.Low);
+
+                        var xaml = new StreamReader(new MemoryStream(res.FileContents)).ReadToEnd();
+                        var parsed = XDocumentXamlParser.Parse(xaml);
+
+                        var initialRoot = (XamlAstObjectNode) parsed.Root;
+
+                        var classDirective = initialRoot.Children.OfType<XamlAstXmlDirective>()
+                            .FirstOrDefault(d => d.Namespace == XamlNamespaces.Xaml2006 && d.Name == "Class");
+                        string classname;
+                        if (classDirective != null && classDirective.Values[0] is XamlAstTextNode tn)
+                        {
+                            classname = tn.Text;
+                        }
+                        else
+                        {
+                            classname = res.Name.Replace(".xaml","");
+                        }
+
+                        var classType = typeSystem.TargetAssembly.FindType(classname);
+                        if (classType == null)
+                            throw new Exception($"Unable to find type '{classname}'");
+
+                        compiler.Transform(parsed);
+
+                        var populateName = $"Populate:{res.Name}";
+                        var buildName = $"Build:{res.Name}";
+
+                        var classTypeDefinition = typeSystem.GetTypeReference(classType).Resolve();
+
+                        var populateBuilder = typeSystem.CreateTypeBuilder(classTypeDefinition);
+
+                        compiler.Compile(parsed, contextClass,
+                            compiler.DefinePopulateMethod(populateBuilder, parsed, populateName,
+                                classTypeDefinition == null),
+                            compiler.DefineBuildMethod(builder, parsed, buildName, true),
+                            null,
+                            (closureName, closureBaseType) =>
+                                populateBuilder.DefineSubType(closureBaseType, closureName, false),
+                            res.Uri, res
+                        );
+
+                        //add compiled populate method
+                        var compiledPopulateMethod = typeSystem.GetTypeReference(populateBuilder).Resolve().Methods
+                            .First(m => m.Name == populateName);
+
+                        const string TrampolineName = "!XamlIlPopulateTrampoline";
+                        var trampoline = new MethodDefinition(TrampolineName,
+                            MethodAttributes.Static | MethodAttributes.Private, asm.MainModule.TypeSystem.Void);
+                        trampoline.Parameters.Add(new ParameterDefinition(classTypeDefinition));
+                        classTypeDefinition.Methods.Add(trampoline);
+
+                        trampoline.Body.Instructions.Add(Instruction.Create(OpCodes.Ldnull));
+                        trampoline.Body.Instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
+                        trampoline.Body.Instructions.Add(Instruction.Create(OpCodes.Call, compiledPopulateMethod));
+                        trampoline.Body.Instructions.Add(Instruction.Create(OpCodes.Ret));
+
+                        var foundXamlLoader = false;
+                        // Find RobustXamlLoader.Load(this) and replace it with !XamlIlPopulateTrampoline(this)
+                        foreach (var method in classTypeDefinition.Methods
+                            .Where(m => !m.Attributes.HasFlag(MethodAttributes.Static)))
+                        {
+                            var i = method.Body.Instructions;
+                            for (var c = 1; c < i.Count; c++)
+                            {
+                                if (i[c].OpCode == OpCodes.Call)
+                                {
+                                    var op = i[c].Operand as MethodReference;
+
+                                    if (op != null
+                                        && op.Name == TrampolineName)
+                                    {
+                                        foundXamlLoader = true;
+                                        break;
+                                    }
+
+                                    if (op != null
+                                        && op.Name == "Load"
+                                        && op.Parameters.Count == 1
+                                        && op.Parameters[0].ParameterType.FullName == "System.Object"
+                                        && op.DeclaringType.FullName == "Robust.Client.UserInterface.XAML.RobustXamlLoader")
+                                    {
+                                        if (MatchThisCall(i, c - 1))
+                                        {
+                                            i[c].Operand = trampoline;
+                                            foundXamlLoader = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!foundXamlLoader)
+                        {
+                            var ctors = classTypeDefinition.GetConstructors()
+                                .Where(c => !c.IsStatic).ToList();
+                            // We can inject xaml loader into default constructor
+                            if (ctors.Count == 1 && ctors[0].Body.Instructions.Count(o => o.OpCode != OpCodes.Nop) == 3)
+                            {
+                                var i = ctors[0].Body.Instructions;
+                                var retIdx = i.IndexOf(i.Last(x => x.OpCode == OpCodes.Ret));
+                                i.Insert(retIdx, Instruction.Create(OpCodes.Call, trampoline));
+                                i.Insert(retIdx, Instruction.Create(OpCodes.Ldarg_0));
+                            }
+                            else
+                            {
+                                throw new InvalidProgramException(
+                                    $"No call to RobustXamlLoader.Load(this) call found anywhere in the type {classType.FullName} and type seems to have custom constructors.");
+                            }
+                        }
+
+                        //add compiled build method
+                        var compiledBuildMethod = typeSystem.GetTypeReference(builder).Resolve().Methods
+                            .First(m => m.Name == buildName);
+                        var parameterlessCtor = classTypeDefinition.GetConstructors()
+                            .FirstOrDefault(c => c.IsPublic && !c.IsStatic && !c.HasParameters);
+
+                        if (compiledBuildMethod != null && parameterlessCtor != null)
+                        {
+                            var i = loaderDispatcherMethod.Body.Instructions;
+                            var nop = Instruction.Create(OpCodes.Nop);
+                            i.Add(Instruction.Create(OpCodes.Ldarg_0));
+                            i.Add(Instruction.Create(OpCodes.Ldstr, res.Uri));
+                            i.Add(Instruction.Create(OpCodes.Call, stringEquals));
+                            i.Add(Instruction.Create(OpCodes.Brfalse, nop));
+                            if (parameterlessCtor != null)
+                                i.Add(Instruction.Create(OpCodes.Newobj, parameterlessCtor));
+                            else
+                            {
+                                i.Add(Instruction.Create(OpCodes.Call, compiledBuildMethod));
+                            }
+
+                            i.Add(Instruction.Create(OpCodes.Ret));
+                            i.Add(nop);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        engine.LogWarningEvent(new BuildWarningEventArgs("XAMLIL", "", res.Uri, 0, 0, 0, 0,
+                            e.ToString(), "", "CompileRobustXaml"));
+                    }
+                }
+                return true;
+            }
+
+            if (embrsc.Resources.Any(CheckXamlName))
+            {
+                if (!CompileGroup(embrsc))
+                    return false;
+            }
+
+            loaderDispatcherMethod.Body.Instructions.Add(Instruction.Create(OpCodes.Ldnull));
+            loaderDispatcherMethod.Body.Instructions.Add(Instruction.Create(OpCodes.Ret));
+            return true;
+        }
+
+        private static bool CustomValueConverter(
+            AstTransformationContext context,
+            IXamlAstValueNode node,
+            IXamlType type,
+            out IXamlAstValueNode result)
+        {
+            if (!(node is XamlAstTextNode textNode))
+            {
+                result = null;
+                return false;
+            }
+
+            var text = textNode.Text;
+            var types = context.GetRobustTypes();
+
+            if (type.Equals(types.Vector2))
+            {
+                var foo = MathParsing.Single2.Parse(text);
+
+                if (!foo.Success)
+                    throw new XamlLoadException($"Unable to parse \"{text}\" as a Vector2", node);
+
+                var (x, y) = foo.Value;
+
+                result = new RXamlSingleVecLikeConstAstNode(
+                    node,
+                    types.Vector2, types.Vector2ConstructorFull,
+                    types.Single, new[] {x, y});
+                return true;
+            }
+
+            if (type.Equals(types.Thickness))
+            {
+                var foo = MathParsing.Thickness.Parse(text);
+
+                if (!foo.Success)
+                    throw new XamlLoadException($"Unable to parse \"{text}\" as a Thickness", node);
+
+                var val = foo.Value;
+                float[] full;
+                if (val.Length == 1)
+                {
+                    var u = val[0];
+                    full = new[] {u, u, u, u};
+                }
+                else if (val.Length == 2)
+                {
+                    var h = val[0];
+                    var v = val[1];
+                    full = new[] {h, v, h, v};
+                }
+                else // 4
+                {
+                    full = val;
+                }
+
+                result = new RXamlSingleVecLikeConstAstNode(
+                    node,
+                    types.Thickness, types.ThicknessConstructorFull,
+                    types.Single, full);
+                return true;
+            }
+
+            if (type.Equals(types.Thickness))
+            {
+                var foo = MathParsing.Thickness.Parse(text);
+
+                if (!foo.Success)
+                    throw new XamlLoadException($"Unable to parse \"{text}\" as a Thickness", node);
+
+                var val = foo.Value;
+                float[] full;
+                if (val.Length == 1)
+                {
+                    var u = val[0];
+                    full = new[] {u, u, u, u};
+                }
+                else if (val.Length == 2)
+                {
+                    var h = val[0];
+                    var v = val[1];
+                    full = new[] {h, v, h, v};
+                }
+                else // 4
+                {
+                    full = val;
+                }
+
+                result = new RXamlSingleVecLikeConstAstNode(
+                    node,
+                    types.Thickness, types.ThicknessConstructorFull,
+                    types.Single, full);
+                return true;
+            }
+
+            if (type.Equals(types.Color))
+            {
+                // TODO: Interpret these colors at XAML compile time instead of at runtime.
+                result = new RXamlColorAstNode(node, types, text);
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
+        public const string ContextNameScopeFieldName = "RobustNameScope";
+
+        private static void EmitNameScopeField(XamlLanguageTypeMappings xamlLanguage, CecilTypeSystem typeSystem, IXamlTypeBuilder<IXamlILEmitter> typeBuilder, IXamlILEmitter constructor)
+        {
+            var nameScopeType = typeSystem.FindType("Robust.Client.UserInterface.XAML.NameScope");
+            var field = typeBuilder.DefineField(nameScopeType,
+                ContextNameScopeFieldName, true, false);
+            constructor
+                .Ldarg_0()
+                .Newobj(nameScopeType.GetConstructor())
+                .Stfld(field);
+        }
+    }
+
+    interface IResource : IFileSource
+    {
+        string Uri { get; }
+        string Name { get; }
+        void Remove();
+
+    }
+
+    interface IResourceGroup
+    {
+        string Name { get; }
+        IEnumerable<IResource> Resources { get; }
+    }
+}
+
+---- Transformed Tree ----
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Microsoft.Build.Framework;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
+using Mono.Cecil.Rocks;
+using Pidgin;
+using XamlX;
+using XamlX.Ast;
+using XamlX.Emit;
+using XamlX.IL;
+using XamlX.Parsers;
+using XamlX.Transform;
+using XamlX.TypeSystem;
+
+namespace Robust.Build.Tasks
+{
+    /// <summary>
+    /// Based on https://github.com/AvaloniaUI/Avalonia/blob/c85fa2b9977d251a31886c2534613b4730fbaeaf/src/Avalonia.Build.Tasks/XamlCompilerTaskExecutor.cs
+    /// Adjusted for our UI-Framework
+    /// </summary>
+    public partial class XamlCompiler
+    {
+        public static (bool success, bool writtentofile) Compile(IBuildEngine engine, string input, string[] references,
+            string projectDirectory, string output, string strongNameKey)
+        {
+            var typeSystem = new CecilTypeSystem(references
+                .Where(r => !r.ToLowerInvariant().EndsWith("robust.build.tasks.dll"))
+                .Concat(new[] { input }), input);
+
+            var asm = typeSystem.TargetAssemblyDefinition;
+
+            if (asm.MainModule.GetType("CompiledRobustXaml", "XamlIlContext") != null)
+            {
+                // If this type exists, the assembly has already been processed by us.
+                // Do not run again, it would corrupt the file.
+                // This *shouldn't* be possible due to Inputs/Outputs dependencies in the build system,
+                // but better safe than sorry eh?
+                engine.LogWarningEvent(new BuildWarningEventArgs("XAMLIL", "", "", 0, 0, 0, 0, "Ran twice on same assembly file; ignoring.", "", ""));
+                return (true, false);
+            }
+
+            var compileRes = CompileCore(engine, typeSystem);
+            if (compileRes == null)
+                return (true, false);
+            if (compileRes == false)
+                return (false, false);
+
+            var writerParameters = new WriterParameters { WriteSymbols = asm.MainModule.HasSymbols };
+            if (!string.IsNullOrWhiteSpace(strongNameKey))
+                writerParameters.StrongNameKeyBlob = File.ReadAllBytes(strongNameKey);
+
+            asm.Write(output, writerParameters);
+
+            return (true, true);
+
+        }
+
+        static bool? CompileCore(IBuildEngine engine, CecilTypeSystem typeSystem)
+        {
+            var asm = typeSystem.TargetAssemblyDefinition;
+            var embrsc = new EmbeddedResources(asm);
+
+            if (!embrsc.Resources.Any(CheckXamlName))
+                // Nothing to do
+                return null;
+
+            var xamlLanguage = new XamlLanguageTypeMappings(typeSystem)
+            {
+                XmlnsAttributes =
+                {
+                    typeSystem.GetType("Avalonia.Metadata.XmlnsDefinitionAttribute"),
+
+                },
+                ContentAttributes =
+                {
+                    typeSystem.GetType("Robust.Client.UserInterface.XAML.ContentAttribute")
+                },
+                UsableDuringInitializationAttributes =
+                {
+                    typeSystem.GetType("Robust.Client.UserInterface.XAML.UsableDuringInitializationAttribute")
+                },
+                DeferredContentPropertyAttributes =
+                {
+                    typeSystem.GetType("Robust.Client.UserInterface.XAML.DeferredContentAttribute")
+                },
+                RootObjectProvider = typeSystem.GetType("Robust.Client.UserInterface.XAML.ITestRootObjectProvider"),
+                UriContextProvider = typeSystem.GetType("Robust.Client.UserInterface.XAML.ITestUriContext"),
+                ProvideValueTarget = typeSystem.GetType("Robust.Client.UserInterface.XAML.ITestProvideValueTarget"),
+            };
+            var emitConfig = new XamlLanguageEmitMappings<IXamlILEmitter, XamlILNodeEmitResult>
+            {
+                ContextTypeBuilderCallback = (b,c) => EmitNameScopeField(xamlLanguage, typeSystem, b, c)
+            };
+
+            var transformerconfig = new TransformerConfiguration(
+                typeSystem,
+                typeSystem.TargetAssembly,
+                xamlLanguage,
+                XamlXmlnsMappings.Resolve(typeSystem, xamlLanguage), CustomValueConverter);
+
+            var contextDef = new TypeDefinition("CompiledRobustXaml", "XamlIlContext",
+                TypeAttributes.Class, asm.MainModule.TypeSystem.Object);
+            asm.MainModule.Types.Add(contextDef);
+            var contextClass = XamlILContextDefinition.GenerateContextClass(typeSystem.CreateTypeBuilder(contextDef), typeSystem,
+                xamlLanguage, emitConfig);
+
+            var compiler =
+                new RobustXamlILCompiler(transformerconfig, emitConfig, true);
+
+            var loaderDispatcherDef = new TypeDefinition("CompiledRobustXaml", "!XamlLoader",
+                TypeAttributes.Class, asm.MainModule.TypeSystem.Object);
+
+            var loaderDispatcherMethod = new MethodDefinition("TryLoad",
+                MethodAttributes.Static | MethodAttributes.Public,
+                asm.MainModule.TypeSystem.Object)
+            {
+                Parameters = {new ParameterDefinition(asm.MainModule.TypeSystem.String)}
+            };
+            loaderDispatcherDef.Methods.Add(loaderDispatcherMethod);
+            asm.MainModule.Types.Add(loaderDispatcherDef);
+
+            var stringEquals = asm.MainModule.ImportReference(asm.MainModule.TypeSystem.String.Resolve().Methods.First(
+                m =>
+                    m.IsStatic && m.Name == "Equals" && m.Parameters.Count == 2 &&
+                    m.ReturnType.FullName == "System.Boolean"
+                    && m.Parameters[0].ParameterType.FullName == "System.String"
+                    && m.Parameters[1].ParameterType.FullName == "System.String"));
+
+            bool CompileGroup(IResourceGroup group)
+            {
+                var typeDef = new TypeDefinition("CompiledRobustXaml", "!" + group.Name, TypeAttributes.Class,
+                    asm.MainModule.TypeSystem.Object);
+
+                //typeDef.CustomAttributes.Add(new CustomAttribute(ed));
+                asm.MainModule.Types.Add(typeDef);
+                var builder = typeSystem.CreateTypeBuilder(typeDef);
+
+                foreach (var res in group.Resources.Where(CheckXamlName))
+                {
+                    try
+                    {
+                        engine.LogMessage($"XAMLIL: {res.Name} -> {res.Uri}", MessageImportance.Low);
+
+                        var xaml = new StreamReader(new MemoryStream(res.FileContents)).ReadToEnd();
+                        var parsed = XDocumentXamlParser.Parse(xaml);
+
+                        var initialRoot = (XamlAstObjectNode) parsed.Root;
+
+                        var classDirective = initialRoot.Children.OfType<XamlAstXmlDirective>()
+                            .FirstOrDefault(d => d.Namespace == XamlNamespaces.Xaml2006 && d.Name == "Class");
+                        string classname;
+                        if (classDirective != null && classDirective.Values[0] is XamlAstTextNode tn)
+                        {
+                            classname = tn.Text;
+                        }
+                        else
+                        {
+                            classname = res.Name.Replace(".xaml","");
+                        }
+
+                        var classType = typeSystem.TargetAssembly.FindType(classname);
+                        if (classType == null)
+                            throw new Exception($"Unable to find type '{classname}'");
+
+                        compiler.Transform(parsed);
+
+                        var populateName = $"Populate:{res.Name}";
+                        var buildName = $"Build:{res.Name}";
+
+                        var classTypeDefinition = typeSystem.GetTypeReference(classType).Resolve();
+
+                        var populateBuilder = typeSystem.CreateTypeBuilder(classTypeDefinition);
+
+                        compiler.Compile(parsed, contextClass,
+                            compiler.DefinePopulateMethod(populateBuilder, parsed, populateName,
+                                classTypeDefinition == null),
+                            compiler.DefineBuildMethod(builder, parsed, buildName, true),
+                            null,
+                            (closureName, closureBaseType) =>
+                                populateBuilder.DefineSubType(closureBaseType, closureName, false),
+                            res.Uri, res
+                        );
+
+                        //add compiled populate method
+                        var compiledPopulateMethod = typeSystem.GetTypeReference(populateBuilder).Resolve().Methods
+                            .First(m => m.Name == populateName);
+
+                        const string TrampolineName = "!XamlIlPopulateTrampoline";
+                        var trampoline = new MethodDefinition(TrampolineName,
+                            MethodAttributes.Static | MethodAttributes.Private, asm.MainModule.TypeSystem.Void);
+                        trampoline.Parameters.Add(new ParameterDefinition(classTypeDefinition));
+                        classTypeDefinition.Methods.Add(trampoline);
+
+                        trampoline.Body.Instructions.Add(Instruction.Create(OpCodes.Ldnull));
+                        trampoline.Body.Instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
+                        trampoline.Body.Instructions.Add(Instruction.Create(OpCodes.Call, compiledPopulateMethod));
+                        trampoline.Body.Instructions.Add(Instruction.Create(OpCodes.Ret));
+
+                        var foundXamlLoader = false;
+                        // Find RobustXamlLoader.Load(this) and replace it with !XamlIlPopulateTrampoline(this)
+                        foreach (var method in classTypeDefinition.Methods
+                            .Where(m => !m.Attributes.HasFlag(MethodAttributes.Static)))
+                        {
+                            var i = method.Body.Instructions;
+                            for (var c = 1; c < i.Count; c++)
+                            {
+                                if (i[c].OpCode == OpCodes.Call)
+                                {
+                                    if (i[c].Operand is MethodReference op
+                                        && op.Name == TrampolineName)
+                                    {
+                                        foundXamlLoader = true;
+                                        break;
+                                    }
+
+                                    if (i[c].Operand is MethodReference op
+                                        && op.Name == "Load"
+                                        && op.Parameters.Count == 1
+                                        && op.Parameters[0].ParameterType.FullName == "System.Object"
+                                        && op.DeclaringType.FullName == "Robust.Client.UserInterface.XAML.RobustXamlLoader")
+                                    {
+                                        if (MatchThisCall(i, c - 1))
+                                        {
+                                            i[c].Operand = trampoline;
+                                            foundXamlLoader = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!foundXamlLoader)
+                        {
+                            var ctors = classTypeDefinition.GetConstructors()
+                                .Where(c => !c.IsStatic).ToList();
+                            // We can inject xaml loader into default constructor
+                            if (ctors.Count == 1 && ctors[0].Body.Instructions.Count(o => o.OpCode != OpCodes.Nop) == 3)
+                            {
+                                var i = ctors[0].Body.Instructions;
+                                var retIdx = i.IndexOf(i.Last(x => x.OpCode == OpCodes.Ret));
+                                i.Insert(retIdx, Instruction.Create(OpCodes.Call, trampoline));
+                                i.Insert(retIdx, Instruction.Create(OpCodes.Ldarg_0));
+                            }
+                            else
+                            {
+                                throw new InvalidProgramException(
+                                    $"No call to RobustXamlLoader.Load(this) call found anywhere in the type {classType.FullName} and type seems to have custom constructors.");
+                            }
+                        }
+
+                        //add compiled build method
+                        var compiledBuildMethod = typeSystem.GetTypeReference(builder).Resolve().Methods
+                            .First(m => m.Name == buildName);
+                        var parameterlessCtor = classTypeDefinition.GetConstructors()
+                            .FirstOrDefault(c => c.IsPublic && !c.IsStatic && !c.HasParameters);
+
+                        if (compiledBuildMethod != null && parameterlessCtor != null)
+                        {
+                            var i = loaderDispatcherMethod.Body.Instructions;
+                            var nop = Instruction.Create(OpCodes.Nop);
+                            i.Add(Instruction.Create(OpCodes.Ldarg_0));
+                            i.Add(Instruction.Create(OpCodes.Ldstr, res.Uri));
+                            i.Add(Instruction.Create(OpCodes.Call, stringEquals));
+                            i.Add(Instruction.Create(OpCodes.Brfalse, nop));
+                            if (parameterlessCtor != null)
+                                i.Add(Instruction.Create(OpCodes.Newobj, parameterlessCtor));
+                            else
+                            {
+                                i.Add(Instruction.Create(OpCodes.Call, compiledBuildMethod));
+                            }
+
+                            i.Add(Instruction.Create(OpCodes.Ret));
+                            i.Add(nop);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        engine.LogWarningEvent(new BuildWarningEventArgs("XAMLIL", "", res.Uri, 0, 0, 0, 0,
+                            e.ToString(), "", "CompileRobustXaml"));
+                    }
+                }
+                return true;
+            }
+
+            if (embrsc.Resources.Any(CheckXamlName))
+            {
+                if (!CompileGroup(embrsc))
+                    return false;
+            }
+
+            loaderDispatcherMethod.Body.Instructions.Add(Instruction.Create(OpCodes.Ldnull));
+            loaderDispatcherMethod.Body.Instructions.Add(Instruction.Create(OpCodes.Ret));
+            return true;
+        }
+
+        private static bool CustomValueConverter(
+            AstTransformationContext context,
+            IXamlAstValueNode node,
+            IXamlType type,
+            out IXamlAstValueNode result)
+        {
+            if (!(node is XamlAstTextNode textNode))
+            {
+                result = null;
+                return false;
+            }
+
+            var text = textNode.Text;
+            var types = context.GetRobustTypes();
+
+            if (type.Equals(types.Vector2))
+            {
+                var foo = MathParsing.Single2.Parse(text);
+
+                if (!foo.Success)
+                    throw new XamlLoadException($"Unable to parse \"{text}\" as a Vector2", node);
+
+                var (x, y) = foo.Value;
+
+                result = new RXamlSingleVecLikeConstAstNode(
+                    node,
+                    types.Vector2, types.Vector2ConstructorFull,
+                    types.Single, new[] {x, y});
+                return true;
+            }
+
+            if (type.Equals(types.Thickness))
+            {
+                var foo = MathParsing.Thickness.Parse(text);
+
+                if (!foo.Success)
+                    throw new XamlLoadException($"Unable to parse \"{text}\" as a Thickness", node);
+
+                var val = foo.Value;
+                float[] full;
+                if (val.Length == 1)
+                {
+                    var u = val[0];
+                    full = new[] {u, u, u, u};
+                }
+                else if (val.Length == 2)
+                {
+                    var h = val[0];
+                    var v = val[1];
+                    full = new[] {h, v, h, v};
+                }
+                else // 4
+                {
+                    full = val;
+                }
+
+                result = new RXamlSingleVecLikeConstAstNode(
+                    node,
+                    types.Thickness, types.ThicknessConstructorFull,
+                    types.Single, full);
+                return true;
+            }
+
+            if (type.Equals(types.Thickness))
+            {
+                var foo = MathParsing.Thickness.Parse(text);
+
+                if (!foo.Success)
+                    throw new XamlLoadException($"Unable to parse \"{text}\" as a Thickness", node);
+
+                var val = foo.Value;
+                float[] full;
+                if (val.Length == 1)
+                {
+                    var u = val[0];
+                    full = new[] {u, u, u, u};
+                }
+                else if (val.Length == 2)
+                {
+                    var h = val[0];
+                    var v = val[1];
+                    full = new[] {h, v, h, v};
+                }
+                else // 4
+                {
+                    full = val;
+                }
+
+                result = new RXamlSingleVecLikeConstAstNode(
+                    node,
+                    types.Thickness, types.ThicknessConstructorFull,
+                    types.Single, full);
+                return true;
+            }
+
+            if (type.Equals(types.Color))
+            {
+                // TODO: Interpret these colors at XAML compile time instead of at runtime.
+                result = new RXamlColorAstNode(node, types, text);
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
+        public const string ContextNameScopeFieldName = "RobustNameScope";
+
+        private static void EmitNameScopeField(XamlLanguageTypeMappings xamlLanguage, CecilTypeSystem typeSystem, IXamlTypeBuilder<IXamlILEmitter> typeBuilder, IXamlILEmitter constructor)
+        {
+            var nameScopeType = typeSystem.FindType("Robust.Client.UserInterface.XAML.NameScope");
+            var field = typeBuilder.DefineField(nameScopeType,
+                ContextNameScopeFieldName, true, false);
+            constructor
+                .Ldarg_0()
+                .Newobj(nameScopeType.GetConstructor())
+                .Stfld(field);
+        }
+    }
+
+    interface IResource : IFileSource
+    {
+        string Uri { get; }
+        string Name { get; }
+        void Remove();
+
+    }
+
+    interface IResourceGroup
+    {
+        string Name { get; }
+        IEnumerable<IResource> Resources { get; }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\RobustToolbox\Robust.Client.Injectors\XamlCompiler.cs(219,73): error CS0128: A local variable or function named 'op' is already defined in this scope,D:\a\1\s\RobustToolbox\Robust.Client.Injectors\XamlCompiler.cs(220,44): error CS0165: Use of unassigned local variable 'op'
+######################################################################
+
+
+######################################################################
+Nr: 5 - UsePatternMatchingRewriterR8
+Filepath: D:\a\1\s\RobustToolbox\ManagedHttpListener\Common\src\System\Net\CaseInsensitiveAscii.cs
+Description: Error: The created Syntax Tree is semantically incorrect.
+------------------------------------------------------------------------
+---- Original Tree ----
+using System.Collections;
+
+namespace System.Net
+{
+    internal class CaseInsensitiveAscii : IEqualityComparer, IComparer
+    {
+        // ASCII char ToLower table
+        internal static readonly CaseInsensitiveAscii StaticInstance = new CaseInsensitiveAscii();
+        internal static ReadOnlySpan<byte> AsciiToLower => new byte[] {
+              0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
+             10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
+             20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
+             30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
+             40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
+             50,  51,  52,  53,  54,  55,  56,  57,  58,  59,
+             60,  61,  62,  63,  64,  97,  98,  99, 100, 101,
+            102, 103, 104, 105, 106, 107, 108, 109, 110, 111,
+            112, 113, 114, 115, 116, 117, 118, 119, 120, 121,
+            122,  91,  92,  93,  94,  95,  96,  97,  98,  99,
+            100, 101, 102, 103, 104, 105, 106, 107, 108, 109,
+            110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
+            120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
+            130, 131, 132, 133, 134, 135, 136, 137, 138, 139,
+            140, 141, 142, 143, 144, 145, 146, 147, 148, 149,
+            150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
+            160, 161, 162, 163, 164, 165, 166, 167, 168, 169,
+            170, 171, 172, 173, 174, 175, 176, 177, 178, 179,
+            180, 181, 182, 183, 184, 185, 186, 187, 188, 189,
+            190, 191, 192, 193, 194, 195, 196, 197, 198, 199,
+            200, 201, 202, 203, 204, 205, 206, 207, 208, 209,
+            210, 211, 212, 213, 214, 215, 216, 217, 218, 219,
+            220, 221, 222, 223, 224, 225, 226, 227, 228, 229,
+            230, 231, 232, 233, 234, 235, 236, 237, 238, 239,
+            240, 241, 242, 243, 244, 245, 246, 247, 248, 249,
+            250, 251, 252, 253, 254, 255
+        };
+
+        // ASCII string case insensitive hash function
+        public int GetHashCode(object myObject)
+        {
+            string? myString = myObject as string;
+            if (myString == null)
+            {
+                return 0;
+            }
+            int myHashCode = myString.Length;
+            if (myHashCode == 0)
+            {
+                return 0;
+            }
+            myHashCode ^= AsciiToLower[(byte)myString[0]] << 24 ^ AsciiToLower[(byte)myString[myHashCode - 1]] << 16;
+            return myHashCode;
+        }
+
+        // ASCII string case insensitive comparer
+        public int Compare(object? firstObject, object? secondObject)
+        {
+            string? firstString = firstObject as string;
+            string? secondString = secondObject as string;
+            if (firstString == null)
+            {
+                return secondString == null ? 0 : -1;
+            }
+            if (secondString == null)
+            {
+                return 1;
+            }
+            int result = firstString.Length - secondString.Length;
+            int comparisons = result > 0 ? secondString.Length : firstString.Length;
+            int difference, index = 0;
+            while (index < comparisons)
+            {
+                difference = (int)(AsciiToLower[firstString[index]] - AsciiToLower[secondString[index]]);
+                if (difference != 0)
+                {
+                    result = difference;
+                    break;
+                }
+                index++;
+            }
+            return result;
+        }
+
+        // ASCII string case insensitive hash function
+        private int FastGetHashCode(string myString)
+        {
+            int myHashCode = myString.Length;
+            if (myHashCode != 0)
+            {
+                myHashCode ^= AsciiToLower[(byte)myString[0]] << 24 ^ AsciiToLower[(byte)myString[myHashCode - 1]] << 16;
+            }
+            return myHashCode;
+        }
+
+        // ASCII string case insensitive comparer
+        public new bool Equals(object? firstObject, object? secondObject)
+        {
+            string? firstString = firstObject as string;
+            string? secondString = secondObject as string;
+            if (firstString == null)
+            {
+                return secondString == null;
+            }
+            if (secondString != null)
+            {
+                int index = firstString.Length;
+                if (index == secondString.Length)
+                {
+                    if (FastGetHashCode(firstString) == FastGetHashCode(secondString))
+                    {
+                        while (index > 0)
+                        {
+                            index--;
+                            if (AsciiToLower[firstString[index]] != AsciiToLower[secondString[index]])
+                            {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+}
+
+---- Transformed Tree ----
+using System.Collections;
+
+namespace System.Net
+{
+    internal class CaseInsensitiveAscii : IEqualityComparer, IComparer
+    {
+        // ASCII char ToLower table
+        internal static readonly CaseInsensitiveAscii StaticInstance = new CaseInsensitiveAscii();
+        internal static ReadOnlySpan<byte> AsciiToLower => new byte[] {
+              0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
+             10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
+             20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
+             30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
+             40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
+             50,  51,  52,  53,  54,  55,  56,  57,  58,  59,
+             60,  61,  62,  63,  64,  97,  98,  99, 100, 101,
+            102, 103, 104, 105, 106, 107, 108, 109, 110, 111,
+            112, 113, 114, 115, 116, 117, 118, 119, 120, 121,
+            122,  91,  92,  93,  94,  95,  96,  97,  98,  99,
+            100, 101, 102, 103, 104, 105, 106, 107, 108, 109,
+            110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
+            120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
+            130, 131, 132, 133, 134, 135, 136, 137, 138, 139,
+            140, 141, 142, 143, 144, 145, 146, 147, 148, 149,
+            150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
+            160, 161, 162, 163, 164, 165, 166, 167, 168, 169,
+            170, 171, 172, 173, 174, 175, 176, 177, 178, 179,
+            180, 181, 182, 183, 184, 185, 186, 187, 188, 189,
+            190, 191, 192, 193, 194, 195, 196, 197, 198, 199,
+            200, 201, 202, 203, 204, 205, 206, 207, 208, 209,
+            210, 211, 212, 213, 214, 215, 216, 217, 218, 219,
+            220, 221, 222, 223, 224, 225, 226, 227, 228, 229,
+            230, 231, 232, 233, 234, 235, 236, 237, 238, 239,
+            240, 241, 242, 243, 244, 245, 246, 247, 248, 249,
+            250, 251, 252, 253, 254, 255
+        };
+
+        // ASCII string case insensitive hash function
+        public int GetHashCode(object myObject)
+        {
+            string? myString = myObject as string;
+            if (myString == null)
+            {
+                return 0;
+            }
+            int myHashCode = myString.Length;
+            if (myHashCode == 0)
+            {
+                return 0;
+            }
+            myHashCode ^= AsciiToLower[(byte)myString[0]] << 24 ^ AsciiToLower[(byte)myString[myHashCode - 1]] << 16;
+            return myHashCode;
+        }
+
+        // ASCII string case insensitive comparer
+        public int Compare(object? firstObject, object? secondObject)
+        {
+            string? firstString = firstObject as string;
+            string? secondString = secondObject as string;
+            if (firstString == null)
+            {
+                return secondString == null ? 0 : -1;
+            }
+            if (secondString == null)
+            {
+                return 1;
+            }
+            int result = firstString.Length - secondString.Length;
+            int comparisons = result > 0 ? secondString.Length : firstString.Length;
+            int difference, index = 0;
+            while (index < comparisons)
+            {
+                difference = (int)(AsciiToLower[firstString[index]] - AsciiToLower[secondString[index]]);
+                if (difference != 0)
+                {
+                    result = difference;
+                    break;
+                }
+                index++;
+            }
+            return result;
+        }
+
+        // ASCII string case insensitive hash function
+        private int FastGetHashCode(string myString)
+        {
+            int myHashCode = myString.Length;
+            if (myHashCode != 0)
+            {
+                myHashCode ^= AsciiToLower[(byte)myString[0]] << 24 ^ AsciiToLower[(byte)myString[myHashCode - 1]] << 16;
+            }
+            return myHashCode;
+        }
+
+        // ASCII string case insensitive comparer
+        public new bool Equals(object? firstObject, object? secondObject)
+        {
+            string? firstString = firstObject as string;
+            if (firstString == null)
+            {
+                return secondString == null;
+            }
+
+            if (secondObject is string secondString)
+            {
+                int index = firstString.Length;
+                if (index == secondString.Length)
+                {
+                    if (FastGetHashCode(firstString) == FastGetHashCode(secondString))
+                    {
+                        while (index > 0)
+                        {
+                            index--;
+                            if (AsciiToLower[firstString[index]] != AsciiToLower[secondString[index]])
+                            {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+}
+
+---- Semantic diagnostics *before* transformation ----
+
+---- Semantic diagnostics *after* transformation ----
+D:\a\1\s\RobustToolbox\ManagedHttpListener\Common\src\System\Net\CaseInsensitiveAscii.cs(105,24): error CS0841: Cannot use local variable 'secondString' before it is declared
+######################################################################
+
+

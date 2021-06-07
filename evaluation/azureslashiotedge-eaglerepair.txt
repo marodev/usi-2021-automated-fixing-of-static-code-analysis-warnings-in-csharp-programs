@@ -1,0 +1,172 @@
+Found the following rules to apply: UseMethodAnyRewriterR6, MergeSequentialChecksRewriterR2, NullChecksShouldNotBeUsedWithIsRewriterR3, SimplifyLinqRewriterR4, TypeCheckAndCastRewriterR5, UseNullPropagationRewriterR7, UsePatternMatchingRewriterR8, UseStringInterpolationRewriterR9, UseStringIsNullOrEmptyRewriterR10
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Util
+    #1 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2018_06_28/generatedCode/HttpWorkloadClient.cs, Line: 1423, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #2 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2018_06_28/generatedCode/HttpWorkloadClient.cs, Line: 769, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #3 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2018_06_28/generatedCode/HttpWorkloadClient.cs, Line: 776, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #4 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2019_01_30/generatedCode/HttpWorkloadClient.cs, Line: 1422, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #5 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2019_01_30/generatedCode/HttpWorkloadClient.cs, Line: 768, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #6 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/edged/version_2019_01_30/generatedCode/HttpWorkloadClient.cs, Line: 775, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #7 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/ExceptionEx.cs, Line: 33, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #8 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/JsonEx.cs, Line: 231, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #9 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/JsonEx.cs, Line: 232, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #10 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/JsonEx.cs, Line: 260, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #11 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/JsonEx.cs, Line: 267, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #12 Path: /home/vsts/work/1/s/edge-util/src/Microsoft.Azure.Devices.Edge.Util/TimeSpanEx.cs, Line: 17, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Agent.Core.Test
+    #13 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/OrderedPlanRunnerTest.cs, Line: 138, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #14 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/OrderedPlanRunnerTest.cs, Line: 146, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #15 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Core.Test/planners/HealthRestartPlannerTest.cs, Line: 490, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Agent.Docker
+    #16 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerConfig.cs, Line: 181, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #17 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Docker/DockerReportedConfig.cs, Line: 80, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test
+    #18 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test/ModuleIdentityLifecycleManagerTest.cs, Line: 144, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #19 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test/ModuleIdentityLifecycleManagerTest.cs, Line: 191, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #20 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.IoTHub.Test/ModuleIdentityLifecycleManagerTest.cs, Line: 329, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Storage.Test
+    #21 Path: /home/vsts/work/1/s/edge-util/test/Microsoft.Azure.Devices.Edge.Storage.Test/DbStoreProviderWithBackupRestoreTest.cs, Line: 256, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #22 Path: /home/vsts/work/1/s/edge-util/test/Microsoft.Azure.Devices.Edge.Storage.Test/DbStoreProviderWithBackupRestoreTest.cs, Line: 256, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Agent.Edgelet
+    #23 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2018_06_28/generatedCode/EdgeletHttpClient.cs, Line: 1398, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #24 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2018_06_28/generatedCode/EdgeletHttpClient.cs, Line: 1405, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #25 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2018_06_28/generatedCode/EdgeletHttpClient.cs, Line: 2301, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #26 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_01_30/generatedCode/EdgeletHttpClient.cs, Line: 1619, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #27 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_01_30/generatedCode/EdgeletHttpClient.cs, Line: 1630, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #28 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_01_30/generatedCode/EdgeletHttpClient.cs, Line: 2006, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #29 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_10_22/generatedCode/EdgeletHttpClient.cs, Line: 1700, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #30 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_10_22/generatedCode/EdgeletHttpClient.cs, Line: 1711, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #31 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_10_22/generatedCode/EdgeletHttpClient.cs, Line: 2087, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #32 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_11_05/generatedCode/EdgeletHttpClient.cs, Line: 1529, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #33 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_11_05/generatedCode/EdgeletHttpClient.cs, Line: 1540, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #34 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2019_11_05/generatedCode/EdgeletHttpClient.cs, Line: 1836, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+    #35 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2020_07_07/generatedCode/EdgeletHttpClient.cs, Line: 1623, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #36 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2020_07_07/generatedCode/EdgeletHttpClient.cs, Line: 1636, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #37 Path: /home/vsts/work/1/s/edge-agent/src/Microsoft.Azure.Devices.Edge.Agent.Edgelet/version_2020_07_07/generatedCode/EdgeletHttpClient.cs, Line: 1998, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test
+    #38 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 203, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #39 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 206, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #40 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 207, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #41 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 208, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #42 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 209, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #43 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 210, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #44 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 211, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #45 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 212, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #46 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 213, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #47 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 214, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #48 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 218, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #49 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 219, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #50 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 220, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #51 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 221, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #52 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 223, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #53 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 224, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #54 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 228, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #55 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 229, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #56 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 230, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #57 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 231, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #58 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 233, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #59 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 234, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #60 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 238, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #61 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 239, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #62 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 240, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #63 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 241, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #64 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 243, Message: ReSharper: ReplaceWithSingleCallToFirst. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #65 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/commands/CreateOrUpdateCommandTest.cs, Line: 244, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #66 Path: /home/vsts/work/1/s/edge-agent/test/Microsoft.Azure.Devices.Edge.Agent.Edgelet.Test/ModuleIdentityLifecycleManagerTest.cs, Line: 90, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: TestResultCoordinator
+    #67 Path: /home/vsts/work/1/s/test/modules/TestResultCoordinator/Reports/EdgeHubRestartTest/EdgeHubRestartStatistics.cs, Line: 68, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #68 Path: /home/vsts/work/1/s/test/modules/TestResultCoordinator/Reports/EdgeHubRestartTest/EdgeHubRestartStatistics.cs, Line: 72, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.Azure.Devices.Edge.ModuleUtil
+    #69 Path: /home/vsts/work/1/s/test/modules/ModuleLib/AnalyzerClient.cs, Line: 192, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #70 Path: /home/vsts/work/1/s/test/modules/ModuleLib/AnalyzerClient.cs, Line: 202, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #71 Path: /home/vsts/work/1/s/test/modules/ModuleLib/TestResultReportingClient.cs, Line: 193, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+    #72 Path: /home/vsts/work/1/s/test/modules/ModuleLib/TestResultReportingClient.cs, Line: 203, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+    #73 Path: /home/vsts/work/1/s/test/modules/ModuleLib/TestResultReportingClient.cs, Line: 256, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: TestAnalyzer
+    #74 Path: /home/vsts/work/1/s/test/modules/TestAnalyzer/AggregateCloudOperationReport.cs, Line: 65, Message: ReSharper: ReplaceWithSingleCallToCount. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Hub.Core
+    #75 Path: /home/vsts/work/1/s/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.Core/ServiceIdentityTree.cs, Line: 248, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #76 Path: /home/vsts/work/1/s/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.Core/ServiceIdentityTree.cs, Line: 289, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter
+    #77 Path: /home/vsts/work/1/s/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/brokerConnection/MqttBrokerConnector.cs, Line: 401, Message: ReSharper: ReplaceWithSingleCallToFirstOrDefault. / SonarQube "IEnumerable" LINQs should be simplified. See https://rules.sonarsource.com/csharp/RSPEC-2971
+    #78 Path: /home/vsts/work/1/s/edge-hub/core/src/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter/upstream/BrokeredCloudProxyDispatcher.cs, Line: 435, Message: ReSharper: Convert 'as' expression type check and the following null check into pattern matching. See https://www.jetbrains.com/help/resharper/UsePatternMatching.html
+
+
+
+Project: Microsoft.Azure.Devices.Routing.Core
+    #79 Path: /home/vsts/work/1/s/edge-hub/core/src/Microsoft.Azure.Devices.Routing.Core/messageSources/MessageSourceExtensions.cs, Line: 6, Message: SonarQube: Null checks should not be used with "is". See https://rules.sonarsource.com/csharp/RSPEC-4201 / ReSharper: Merge sequential checks in && or || expressions. See https://www.jetbrains.com/help/resharper/MergeSequentialChecks.html
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Hub.E2E.Test
+    #80 Path: /home/vsts/work/1/s/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/BackupAndRestoreTest.cs, Line: 117, Message: ReSharper: Use '.Any()' to test whether this IEnumerable is empty or not. See ReSharper/UseMethodAny.0.html / SonarQube: "Any()" should be used to test for emptiness. See https://rules.sonarsource.com/csharp/RSPEC-1155
+    #81 Path: /home/vsts/work/1/s/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.E2E.Test/EdgeToDeviceMethodTest.cs, Line: 118, Message: ReSharper: Use string interpolation expression. See https://www.jetbrains.com/help/resharper/UseStringInterpolation.html
+
+
+
+Project: Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test
+    #82 Path: /home/vsts/work/1/s/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/DirectMethodHandlerTest.cs, Line: 192, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #83 Path: /home/vsts/work/1/s/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/SubscriptionChangeHandlerTest.cs, Line: 373, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #84 Path: /home/vsts/work/1/s/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TelemetryHandlerTest.cs, Line: 221, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+    #85 Path: /home/vsts/work/1/s/edge-hub/core/test/Microsoft.Azure.Devices.Edge.Hub.MqttBrokerAdapter.Test/TwinHandlerTest.cs, Line: 328, Message: ReSharper: Replace if statement with null-propagating code. See https://www.jetbrains.com/help/resharper/UseNullPropagation.html
+
+
+
+Project: jsoncanonicalizer
+    #86 Path: /home/vsts/work/1/s/edge-util/src/jsoncanonicalizer/JsonCanonicalizer.cs, Line: 145, Message: ReSharper: Type check and casts can be merged. See https://www.jetbrains.com/help/resharper/MergeCastWithTypeCheck.html / SonarQube: Duplicate casts should not be made. See https://rules.sonarsource.com/csharp/RSPEC-3247
+
+
+
+--- Rules Summary ---
+R4: 38
+R9: 16
+R5: 11
+R8: 10
+R6: 6
+R7: 4
+R3: 1
+
+--- Summary ---
+Fixed ReSharper issues: 86
+Fixed SonarQube issues: 56
+Total fixed issues: 86
+
+Finished in: 38 s
+
+No errors reported.
+

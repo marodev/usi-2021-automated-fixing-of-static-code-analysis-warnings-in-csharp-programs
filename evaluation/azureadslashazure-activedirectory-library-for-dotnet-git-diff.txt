@@ -1,0 +1,245 @@
+diff --git a/src/client/Microsoft.Identity.Client/Cache/Items/MsalItemWithAdditionalFields.cs b/src/client/Microsoft.Identity.Client/Cache/Items/MsalItemWithAdditionalFields.cs
+index 086c7f37..61963b2f 100644
+--- a/src/client/Microsoft.Identity.Client/Cache/Items/MsalItemWithAdditionalFields.cs
++++ b/src/client/Microsoft.Identity.Client/Cache/Items/MsalItemWithAdditionalFields.cs
+@@ -50,8 +50,7 @@ namespace Microsoft.Identity.Client.Cache.Items
+             }
+             else
+             {
+-                string asString = asObj as string;
+-                if (asString != null)
++                if (asObj is string asString)
+                 {
+                     shouldSetValue = filter(asString);
+                 }
+diff --git a/src/client/Microsoft.Identity.Client/Platforms/Android/Broker/AndroidBrokerHelper.cs b/src/client/Microsoft.Identity.Client/Platforms/Android/Broker/AndroidBrokerHelper.cs
+index 4a948cd8..d949bc7a 100644
+--- a/src/client/Microsoft.Identity.Client/Platforms/Android/Broker/AndroidBrokerHelper.cs
++++ b/src/client/Microsoft.Identity.Client/Platforms/Android/Broker/AndroidBrokerHelper.cs
+@@ -217,7 +217,7 @@ namespace Microsoft.Identity.Client.Platforms.Android.Broker
+                 PackageInfo info = Application.Context.PackageManager.GetPackageInfo(packageName,
+                     PackageInfoFlags.Signatures);
+ #pragma warning disable CS0618 // Type or member is obsolete - https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/issues/1854
+-                if (info != null && info.Signatures != null && info.Signatures.Count > 0)
++                if (info?.Signatures != null && info.Signatures.Count > 0)
+                 {
+                     Signature signature = info.Signatures[0];
+                     MessageDigest md = MessageDigest.GetInstance("SHA");
+diff --git a/src/client/Microsoft.Identity.Client/Platforms/Features/WamBroker/AadPlugin.cs b/src/client/Microsoft.Identity.Client/Platforms/Features/WamBroker/AadPlugin.cs
+index dbf34c3a..6ac0717e 100644
+--- a/src/client/Microsoft.Identity.Client/Platforms/Features/WamBroker/AadPlugin.cs
++++ b/src/client/Microsoft.Identity.Client/Platforms/Features/WamBroker/AadPlugin.cs
+@@ -89,7 +89,7 @@ namespace Microsoft.Identity.Client.Platforms.Features.WamBroker
+ 
+                 var msalAccounts = (await Task.WhenAll(msalAccountTasks).ConfigureAwait(false)).Where(a => a != null).ToList();
+ 
+-                _logger.Info($"[WAM AAD Provider] GetAccountsAsync converted {msalAccounts.Count()} accounts from {wamAccounts.Count} WAM accounts");
++                _logger.Info($"[WAM AAD Provider] GetAccountsAsync converted {msalAccounts.Count} accounts from {wamAccounts.Count} WAM accounts");
+                 return msalAccounts;
+             }
+ 
+diff --git a/src/client/Microsoft.Identity.Client/Platforms/Features/WebView2WebUi/WebView2WebUi.cs b/src/client/Microsoft.Identity.Client/Platforms/Features/WebView2WebUi/WebView2WebUi.cs
+index ee0092f0..85cae93f 100644
+--- a/src/client/Microsoft.Identity.Client/Platforms/Features/WebView2WebUi/WebView2WebUi.cs
++++ b/src/client/Microsoft.Identity.Client/Platforms/Features/WebView2WebUi/WebView2WebUi.cs
+@@ -85,9 +85,9 @@ namespace Microsoft.Identity.Client.Platforms.Features.WebView2WebUi
+                             Exception innerException = ae.InnerExceptions[0];
+ 
+                             // In MTA case, AggregateException is two layer deep, so checking the InnerException for that.
+-                            if (innerException is AggregateException)
++                            if (innerException is AggregateException aggregateException)
+                             {
+-                                innerException = ((AggregateException)innerException).InnerExceptions[0];
++                                innerException = aggregateException.InnerExceptions[0];
+                             }
+ 
+                             throw innerException;
+diff --git a/src/client/Microsoft.Identity.Client/Platforms/Features/WebView2WebUi/WinFormsPanelWithWebView2.cs b/src/client/Microsoft.Identity.Client/Platforms/Features/WebView2WebUi/WinFormsPanelWithWebView2.cs
+index 3d7a0b56..f9e03dfa 100644
+--- a/src/client/Microsoft.Identity.Client/Platforms/Features/WebView2WebUi/WinFormsPanelWithWebView2.cs
++++ b/src/client/Microsoft.Identity.Client/Platforms/Features/WebView2WebUi/WinFormsPanelWithWebView2.cs
+@@ -49,9 +49,9 @@ namespace Microsoft.Identity.Client.Platforms.Features.WebView2WebUi
+             {
+                 _ownerWindow = null;
+             }
+-            else if (ownerWindow is IWin32Window)
++            else if (ownerWindow is IWin32Window iWin32Window)
+             {
+-                _ownerWindow = (IWin32Window)ownerWindow;
++                _ownerWindow = iWin32Window;
+             }
+             else if (ownerWindow is IntPtr ptr && ptr != IntPtr.Zero)
+             {
+@@ -123,7 +123,7 @@ namespace Microsoft.Identity.Client.Platforms.Features.WebView2WebUi
+         private void InvokeHandlingOwnerWindow(Action action)
+         {
+             // We only support WindowsForms (since our dialog is winforms based)
+-            if (_ownerWindow != null && _ownerWindow is Control winFormsControl)
++            if (_ownerWindow is Control winFormsControl)
+             {
+                 winFormsControl.Invoke(action);
+             }
+diff --git a/src/client/Microsoft.Identity.Client/json/Serialization/DefaultContractResolver.cs b/src/client/Microsoft.Identity.Client/json/Serialization/DefaultContractResolver.cs
+index bf2eacaf..63f61f46 100644
+--- a/src/client/Microsoft.Identity.Client/json/Serialization/DefaultContractResolver.cs
++++ b/src/client/Microsoft.Identity.Client/json/Serialization/DefaultContractResolver.cs
+@@ -1445,10 +1445,9 @@ namespace Microsoft.Identity.Json.Serialization
+ #if HAVE_DATA_CONTRACTS
+             DataContractAttribute dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(declaringType);
+ 
+-            MemberInfo memberInfo = attributeProvider as MemberInfo;
+-
+             DataMemberAttribute dataMemberAttribute;
+-            if (dataContractAttribute != null && memberInfo != null)
++
++            if (dataContractAttribute != null && attributeProvider is MemberInfo memberInfo)
+             {
+                 dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute((MemberInfo)memberInfo);
+             }
+diff --git a/tests/Microsoft.Identity.Test.Integration.netfx/HeadlessTests/ConfidentialClientIntegrationTests.cs b/tests/Microsoft.Identity.Test.Integration.netfx/HeadlessTests/ConfidentialClientIntegrationTests.cs
+index d5401295..e2635bc0 100644
+--- a/tests/Microsoft.Identity.Test.Integration.netfx/HeadlessTests/ConfidentialClientIntegrationTests.cs
++++ b/tests/Microsoft.Identity.Test.Integration.netfx/HeadlessTests/ConfidentialClientIntegrationTests.cs
+@@ -307,7 +307,7 @@ namespace Microsoft.Identity.Test.Integration.HeadlessTests
+             var jsonToken = handler.ReadJwtToken(((ConfidentialClientApplication)confidentialApp).ClientCredential.CachedAssertion);
+ 
+             //checked if additional claim is in signed assertion
+-            var validClaim = claims.Where(x => x.Key == jsonToken.Claims.FirstOrDefault().Type && x.Value == jsonToken.Claims.FirstOrDefault().Value).FirstOrDefault();
++            var validClaim = claims.FirstOrDefault(x => x.Key == jsonToken.Claims.FirstOrDefault().Type && x.Value == jsonToken.Claims.FirstOrDefault().Value);
+             Assert.IsNotNull(validClaim);
+ 
+             MsalAssert.AssertAuthResult(authResult);
+@@ -367,7 +367,7 @@ namespace Microsoft.Identity.Test.Integration.HeadlessTests
+             {
+                 foreach (Claim assertionClaim in jsonToken.Claims)
+                 {
+-                    var validClaim = claims.Where(x => x.Key == assertionClaim.Type && x.Value == assertionClaim.Value).FirstOrDefault();
++                    var validClaim = claims.FirstOrDefault(x => x.Key == assertionClaim.Type && x.Value == assertionClaim.Value);
+                     Assert.IsNotNull(validClaim);
+                 }
+             }
+diff --git a/tests/Microsoft.Identity.Test.Unit/BrokerTests/WamAadPluginTests.cs b/tests/Microsoft.Identity.Test.Unit/BrokerTests/WamAadPluginTests.cs
+index 207c0f6d..5a3db63e 100644
+--- a/tests/Microsoft.Identity.Test.Unit/BrokerTests/WamAadPluginTests.cs
++++ b/tests/Microsoft.Identity.Test.Unit/BrokerTests/WamAadPluginTests.cs
+@@ -74,7 +74,7 @@ namespace Microsoft.Identity.Test.Unit.BrokerTests
+                     _instanceDiscoveryManager).ConfigureAwait(false);
+ 
+                 // Assert
+-                Assert.AreEqual(0, accounts.Count());
++                Assert.AreEqual(0, accounts.Count);
+             }
+         }
+ 
+@@ -98,7 +98,7 @@ namespace Microsoft.Identity.Test.Unit.BrokerTests
+                     _instanceDiscoveryManager).ConfigureAwait(false);
+ 
+                 // Assert
+-                Assert.AreEqual(0, accounts.Count());
++                Assert.AreEqual(0, accounts.Count);
+ 
+             }
+         }
+@@ -137,7 +137,7 @@ namespace Microsoft.Identity.Test.Unit.BrokerTests
+                     _instanceDiscoveryManager).ConfigureAwait(false);
+ 
+                 // Assert
+-                Assert.AreEqual(0, accounts.Count(), "The only WAM account has an authority which is not in the aliases of the input authority, so it is not returned."); 
++                Assert.AreEqual(0, accounts.Count, "The only WAM account has an authority which is not in the aliases of the input authority, so it is not returned."); 
+             }
+         }
+ 
+@@ -177,7 +177,7 @@ namespace Microsoft.Identity.Test.Unit.BrokerTests
+                     _instanceDiscoveryManager).ConfigureAwait(false);
+ 
+                 // Assert
+-                Assert.AreEqual(1, accounts.Count());
++                Assert.AreEqual(1, accounts.Count);
+                 Assert.AreEqual(TestConstants.HomeAccountId, accounts.Single().HomeAccountId.Identifier);
+             }
+         }
+@@ -223,7 +223,7 @@ namespace Microsoft.Identity.Test.Unit.BrokerTests
+                     _instanceDiscoveryManager).ConfigureAwait(false);
+ 
+                 // Assert
+-                Assert.AreEqual(1, accounts.Count());
++                Assert.AreEqual(1, accounts.Count);
+                 Assert.AreEqual("Id_From_ESTS", accounts.Single().HomeAccountId.Identifier);
+             }
+         }
+@@ -270,7 +270,7 @@ namespace Microsoft.Identity.Test.Unit.BrokerTests
+                     _instanceDiscoveryManager).ConfigureAwait(false);
+ 
+                 // Assert
+-                Assert.AreEqual(0, accounts.Count(), "If silent web request fails, do not return WAM accoutn as the home account id cannot be trusted");                
++                Assert.AreEqual(0, accounts.Count, "If silent web request fails, do not return WAM accoutn as the home account id cannot be trusted");                
+             }
+         }
+ 
+@@ -317,7 +317,7 @@ namespace Microsoft.Identity.Test.Unit.BrokerTests
+                     _instanceDiscoveryManager).ConfigureAwait(false);
+ 
+                 // Assert
+-                Assert.AreEqual(1, accounts.Count());
++                Assert.AreEqual(1, accounts.Count);
+                 Assert.AreEqual("Id_From_ESTS", accounts.Single().HomeAccountId.Identifier);
+             }
+         }
+diff --git a/tests/Microsoft.Identity.Test.Unit/PublicApiTests/ConfidentialClientApplicationTests.cs b/tests/Microsoft.Identity.Test.Unit/PublicApiTests/ConfidentialClientApplicationTests.cs
+index 44c5003d..835b69e0 100644
+--- a/tests/Microsoft.Identity.Test.Unit/PublicApiTests/ConfidentialClientApplicationTests.cs
++++ b/tests/Microsoft.Identity.Test.Unit/PublicApiTests/ConfidentialClientApplicationTests.cs
+@@ -522,8 +522,8 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
+                 var jsonToken = handler.ReadJwtToken(((ConfidentialClientApplication)app).ClientCredential.CachedAssertion);
+                 var claims = jsonToken.Claims;
+                 //checked if additional claim is in signed assertion
+-                var audclaim = TestConstants.s_clientAssertionClaims.Where(x => x.Key == "aud").FirstOrDefault();
+-                var validClaim = claims.Where(x => x.Type == audclaim.Key && x.Value == audclaim.Value).FirstOrDefault();
++                var audclaim = TestConstants.s_clientAssertionClaims.FirstOrDefault(x => x.Key == "aud");
++                var validClaim = claims.FirstOrDefault(x => x.Type == audclaim.Key && x.Value == audclaim.Value);
+                 Assert.IsNotNull(validClaim);
+             }
+         }
+diff --git a/tests/Microsoft.Identity.Test.Unit/TelemetryTests/ErrorStoreTests.cs b/tests/Microsoft.Identity.Test.Unit/TelemetryTests/ErrorStoreTests.cs
+index aed97bb6..cb5ac88a 100644
+--- a/tests/Microsoft.Identity.Test.Unit/TelemetryTests/ErrorStoreTests.cs
++++ b/tests/Microsoft.Identity.Test.Unit/TelemetryTests/ErrorStoreTests.cs
+@@ -72,7 +72,7 @@ namespace Microsoft.Identity.Test.Unit.TelemetryTests
+ 
+             var errors = _errorStore.GetEventsForUpload().ToList();
+ 
+-            Assert.AreEqual(2, errors.Count());
++            Assert.AreEqual(2, errors.Count);
+         }
+ 
+         [TestMethod]
+@@ -84,11 +84,11 @@ namespace Microsoft.Identity.Test.Unit.TelemetryTests
+ 
+             _errorStore.ReportError(anyErrorMessage, anyErrorType, anyErrorSeverity);
+             var errors = _errorStore.GetEventsForUpload().ToList();
+-            Assert.AreEqual(1, errors.Count());
++            Assert.AreEqual(1, errors.Count);
+ 
+             _errorStore.ReportError(anyErrorMessage, anyErrorType, anyErrorSeverity);
+             errors = _errorStore.GetEventsForUpload().ToList();
+-            Assert.AreEqual(1, errors.Count());
++            Assert.AreEqual(1, errors.Count);
+         }
+     }
+ }
+diff --git a/tests/devapps/DesktopTestApp/MainForm.cs b/tests/devapps/DesktopTestApp/MainForm.cs
+index 5d8d4fdd..00f1b27b 100644
+--- a/tests/devapps/DesktopTestApp/MainForm.cs
++++ b/tests/devapps/DesktopTestApp/MainForm.cs
+@@ -323,9 +323,9 @@ namespace DesktopTestApp
+                     exception.ErrorCode,
+                     exception.Message);
+ 
+-                if (exception is MsalServiceException)
++                if (exception is MsalServiceException msalServiceException)
+                 {
+-                    output += string.Format(CultureInfo.InvariantCulture, "Status Code - {0}" + Environment.NewLine, ((MsalServiceException)exception).StatusCode);
++                    output += string.Format(CultureInfo.InvariantCulture, "Status Code - {0}" + Environment.NewLine, msalServiceException.StatusCode);
+                     output += string.Format(CultureInfo.InvariantCulture, "Claims - {0}" + Environment.NewLine, ((MsalServiceException)exception).Claims);
+                     output += string.Format(CultureInfo.InvariantCulture, "Raw Response - {0}" + Environment.NewLine, ((MsalServiceException)exception).ResponseBody);
+                 }

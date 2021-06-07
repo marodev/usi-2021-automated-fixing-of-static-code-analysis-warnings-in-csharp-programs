@@ -1,0 +1,1261 @@
+diff --git a/NBitcoin.Altcoins/HashX11/Extensions/Converters.cs b/NBitcoin.Altcoins/HashX11/Extensions/Converters.cs
+index ed3d214fe..05847dd2a 100644
+--- a/NBitcoin.Altcoins/HashX11/Extensions/Converters.cs
++++ b/NBitcoin.Altcoins/HashX11/Extensions/Converters.cs
+@@ -10,34 +10,34 @@ namespace NBitcoin.Altcoins.HashX11
+         {
+             if (a_in is byte)
+                 return new byte[] { (byte)a_in };
+-            else if (a_in is short)
+-                return BitConverter.GetBytes((short)a_in);
+-            else if (a_in is ushort)
+-                return BitConverter.GetBytes((ushort)a_in);
+-            else if (a_in is char)
+-                return BitConverter.GetBytes((char)a_in);
+-            else if (a_in is int)
+-                return BitConverter.GetBytes((int)a_in);
+-            else if (a_in is uint)
+-                return BitConverter.GetBytes((uint)a_in);
+-            else if (a_in is long)
+-                return BitConverter.GetBytes((long)a_in);
+-            else if (a_in is ulong)
+-                return BitConverter.GetBytes((ulong)a_in);
+-            else if (a_in is float)
+-                return BitConverter.GetBytes((float)a_in);
+-            else if (a_in is double)
+-                return BitConverter.GetBytes((double)a_in);
+-            else if (a_in is string)
+-                return ConvertStringToBytes((string)a_in);
+-            else if (a_in is byte[])
+-                return (byte[])((byte[])a_in).Clone();
++            else if (a_in is short sh)
++                return BitConverter.GetBytes(sh);
++            else if (a_in is ushort us)
++                return BitConverter.GetBytes(us);
++            else if (a_in is char c)
++                return BitConverter.GetBytes(c);
++            else if (a_in is int i)
++                return BitConverter.GetBytes(i);
++            else if (a_in is uint ui)
++                return BitConverter.GetBytes(ui);
++            else if (a_in is long l)
++                return BitConverter.GetBytes(l);
++            else if (a_in is ulong ul)
++                return BitConverter.GetBytes(ul);
++            else if (a_in is float f)
++                return BitConverter.GetBytes(f);
++            else if (a_in is double d)
++                return BitConverter.GetBytes(d);
++            else if (a_in is string s)
++                return ConvertStringToBytes(s);
++            else if (a_in is byte[] bytes)
++                return (byte[])bytes.Clone();
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(short))
+                 return ConvertShortsToBytes((short[])a_in);
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(ushort))
+                 return ConvertUShortsToBytes((ushort[])a_in);
+-            else if (a_in is char[])
+-                return ConvertCharsToBytes((char[])a_in);
++            else if (a_in is char[] chars)
++                return ConvertCharsToBytes(chars);
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(int))
+                 return ConvertIntsToBytes((int[])a_in);
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(uint))
+@@ -46,10 +46,10 @@ namespace NBitcoin.Altcoins.HashX11
+                 return ConvertLongsToBytes((long[])a_in);
+             else if (a_in.GetType().IsArray && a_in.GetType().GetElementType() == typeof(ulong))
+                 return ConvertULongsToBytes((ulong[])a_in);
+-            else if (a_in is float[])
+-                return ConvertFloatsToBytes((float[])a_in);
+-            else if (a_in is double[])
+-                return ConvertDoublesToBytes((double[])a_in);
++            else if (a_in is float[] floats)
++                return ConvertFloatsToBytes(floats);
++            else if (a_in is double[] doubles)
++                return ConvertDoublesToBytes(doubles);
+             else
+                 throw new ArgumentException();
+         }
+diff --git a/NBitcoin.Altcoins/HashX11/Hash.cs b/NBitcoin.Altcoins/HashX11/Hash.cs
+index fdc160edc..84870cabd 100644
+--- a/NBitcoin.Altcoins/HashX11/Hash.cs
++++ b/NBitcoin.Altcoins/HashX11/Hash.cs
+@@ -48,36 +48,36 @@ namespace NBitcoin.Altcoins.HashX11
+ 
+         public virtual HashResult ComputeObject(object a_data)
+         {
+-            if (a_data is byte)
+-                return ComputeByte((byte)a_data);
+-            else if (a_data is short)
+-                return ComputeShort((short)a_data);
+-            else if (a_data is ushort)
+-                return ComputeUShort((ushort)a_data);
+-            else if (a_data is char)
+-                return ComputeChar((char)a_data);
+-            else if (a_data is int)
+-                return ComputeInt((int)a_data);
+-            else if (a_data is uint)
+-                return ComputeUInt((uint)a_data);
+-            else if (a_data is long)
+-                return ComputeLong((long)a_data);
+-            else if (a_data is ulong)
+-                return ComputeULong((ulong)a_data);
+-            else if (a_data is float)
+-                return ComputeFloat((float)a_data);
+-            else if (a_data is double)
+-                return ComputeDouble((double)a_data);
+-            else if (a_data is string)
+-                return ComputeString((string)a_data);
+-            else if (a_data is byte[])
+-                return ComputeBytes((byte[])a_data);
++            if (a_data is byte b)
++                return ComputeByte(b);
++            else if (a_data is short sh)
++                return ComputeShort(sh);
++            else if (a_data is ushort us)
++                return ComputeUShort(us);
++            else if (a_data is char c)
++                return ComputeChar(c);
++            else if (a_data is int i)
++                return ComputeInt(i);
++            else if (a_data is uint ui)
++                return ComputeUInt(ui);
++            else if (a_data is long l)
++                return ComputeLong(l);
++            else if (a_data is ulong ul)
++                return ComputeULong(ul);
++            else if (a_data is float f)
++                return ComputeFloat(f);
++            else if (a_data is double d)
++                return ComputeDouble(d);
++            else if (a_data is string s)
++                return ComputeString(s);
++            else if (a_data is byte[] bytes)
++                return ComputeBytes(bytes);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(short))
+                 return ComputeShorts((short[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(ushort))
+                 return ComputeUShorts((ushort[])a_data);
+-            else if (a_data is char[])
+-                return ComputeChars((char[])a_data);
++            else if (a_data is char[] chars)
++                return ComputeChars(chars);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(int))
+                 return ComputeInts((int[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(uint))
+@@ -86,10 +86,10 @@ namespace NBitcoin.Altcoins.HashX11
+                 return ComputeLongs((long[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(ulong))
+                 return ComputeULongs((ulong[])a_data);
+-            else if (a_data is float[])
+-                return ComputeFloats((float[])a_data);
+-            else if (a_data is double[])
+-                return ComputeDoubles((double[])a_data);
++            else if (a_data is float[] floats)
++                return ComputeFloats(floats);
++            else if (a_data is double[] doubles)
++                return ComputeDoubles(doubles);
+             else
+                 throw new ArgumentException();
+         }
+@@ -210,36 +210,36 @@ namespace NBitcoin.Altcoins.HashX11
+ 
+         public void TransformObject(object a_data)
+         {
+-            if (a_data is byte)
+-                TransformByte((byte)a_data);
+-            else if (a_data is short)
+-                TransformShort((short)a_data);
+-            else if (a_data is ushort)
+-                TransformUShort((ushort)a_data);
+-            else if (a_data is char)
+-                TransformChar((char)a_data);
+-            else if (a_data is int)
+-                TransformInt((int)a_data);
+-            else if (a_data is uint)
+-                TransformUInt((uint)a_data);
+-            else if (a_data is long)
+-                TransformLong((long)a_data);
+-            else if (a_data is ulong)
+-                TransformULong((ulong)a_data);
+-            else if (a_data is float)
+-                TransformFloat((float)a_data);
+-            else if (a_data is double)
+-                TransformDouble((double)a_data);
+-            else if (a_data is string)
+-                TransformString((string)a_data);
+-            else if (a_data is byte[])
+-                TransformBytes((byte[])a_data);
++            if (a_data is byte b)
++                TransformByte(b);
++            else if (a_data is short sh)
++                TransformShort(sh);
++            else if (a_data is ushort us)
++                TransformUShort(us);
++            else if (a_data is char c)
++                TransformChar(c);
++            else if (a_data is int i)
++                TransformInt(i);
++            else if (a_data is uint ui)
++                TransformUInt(ui);
++            else if (a_data is long l)
++                TransformLong(l);
++            else if (a_data is ulong ul)
++                TransformULong(ul);
++            else if (a_data is float f)
++                TransformFloat(f);
++            else if (a_data is double d)
++                TransformDouble(d);
++            else if (a_data is string s)
++                TransformString(s);
++            else if (a_data is byte[] bytes)
++                TransformBytes(bytes);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(short))
+                 TransformShorts((short[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(ushort))
+                 TransformUShorts((ushort[])a_data);
+-            else if (a_data is char[])
+-                TransformChars((char[])a_data);
++            else if (a_data is char[] chars)
++                TransformChars(chars);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(int))
+                 TransformInts((int[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(uint))
+@@ -248,10 +248,10 @@ namespace NBitcoin.Altcoins.HashX11
+                 TransformLongs((long[])a_data);
+             else if (a_data.GetType().IsArray && a_data.GetType().GetElementType() == typeof(ulong))
+                 TransformULongs((ulong[])a_data);
+-            else if (a_data is float[])
+-                TransformFloats((float[])a_data);
+-            else if (a_data is double[])
+-                TransformDoubles((double[])a_data);
++            else if (a_data is float[] floats)
++                TransformFloats(floats);
++            else if (a_data is double[] doubles)
++                TransformDoubles(doubles);
+             else
+                 throw new ArgumentException();
+         }
+diff --git a/NBitcoin.Altcoins/HashX11/HashBuffer.cs b/NBitcoin.Altcoins/HashX11/HashBuffer.cs
+index 37d6d9a3b..8a794577a 100644
+--- a/NBitcoin.Altcoins/HashX11/HashBuffer.cs
++++ b/NBitcoin.Altcoins/HashX11/HashBuffer.cs
+@@ -121,7 +121,7 @@ namespace NBitcoin.Altcoins.HashX11
+ 
+         public override string ToString()
+         {
+-            return String.Format("HashBuffer, Legth: {0}, Pos: {1}, IsEmpty: {2}", Length, Pos, IsEmpty);
++            return $"HashBuffer, Legth: {Length}, Pos: {Pos}, IsEmpty: {IsEmpty}";
+         }
+     }
+ }
+diff --git a/NBitcoin.Tests/Generators/Utils.cs b/NBitcoin.Tests/Generators/Utils.cs
+index 1211295c9..5a25a9836 100644
+--- a/NBitcoin.Tests/Generators/Utils.cs
++++ b/NBitcoin.Tests/Generators/Utils.cs
+@@ -10,7 +10,7 @@ namespace NBitcoin.Tests.Generators
+ 	{
+ 		internal static Dictionary<T, U> DictionaryFromList<T, U>(List<T> keys, List<U> values)
+ 		{
+-			Assert.Equal(keys.Count(), values.Count());
++			Assert.Equal(keys.Count, values.Count);
+ 			var dict = new Dictionary<T, U>();
+ 			foreach (var kv in keys.Zip(values, (k, v) => Tuple.Create(k, v)))
+ 				dict.Add(kv.Item1, kv.Item2);
+diff --git a/NBitcoin.Tests/PropertyTest/KeyTest.cs b/NBitcoin.Tests/PropertyTest/KeyTest.cs
+index 59cf917f1..34c7984ca 100644
+--- a/NBitcoin.Tests/PropertyTest/KeyTest.cs
++++ b/NBitcoin.Tests/PropertyTest/KeyTest.cs
+@@ -29,7 +29,7 @@ namespace NBitcoin.Tests.PropertyTest
+ 		[Trait("PropertyTest", "Verification")]
+ 		public bool ShouldNotGenerateSameKey(List<Key> keys)
+ 		{
+-			return keys.Distinct().Count() == keys.Count();
++			return keys.Distinct().Count() == keys.Count;
+ 		}
+ 
+ 	}
+diff --git a/NBitcoin.Tests/key_tests.cs b/NBitcoin.Tests/key_tests.cs
+index 8bd5e05c9..a8194069d 100644
+--- a/NBitcoin.Tests/key_tests.cs
++++ b/NBitcoin.Tests/key_tests.cs
+@@ -219,7 +219,7 @@ namespace NBitcoin.Tests
+ 
+ 			for (int n = 0; n < 16; n++)
+ 			{
+-				string strMsg = String.Format("Very secret message {0}: 11", n);
++				string strMsg = $"Very secret message {n}: 11";
+ 				if (n == 10)
+ 				{
+ 					//Test one long message
+diff --git a/NBitcoin.Tests/sample_tests.cs b/NBitcoin.Tests/sample_tests.cs
+index b50b6113f..e34f5cbe7 100644
+--- a/NBitcoin.Tests/sample_tests.cs
++++ b/NBitcoin.Tests/sample_tests.cs
+@@ -162,7 +162,7 @@ namespace NBitcoin.Tests
+ 				{
+ 					var id = await rpc.SendToAddressAsync(kra.Address, Money.Coins(1));
+ 					var tx = await rpc.GetRawTransactionAsync(id);
+-					return tx.Outputs.AsCoins().Where(o => o.ScriptPubKey == kra.Address.ScriptPubKey).Single();
++					return tx.Outputs.AsCoins().Single(o => o.ScriptPubKey == kra.Address.ScriptPubKey);
+ 				}).Select(t => t.Result).ToArray();
+ 
+ 
+diff --git a/NBitcoin.Tests/transaction_tests.cs b/NBitcoin.Tests/transaction_tests.cs
+index e99427cb6..33ebff5df 100644
+--- a/NBitcoin.Tests/transaction_tests.cs
++++ b/NBitcoin.Tests/transaction_tests.cs
+@@ -3640,7 +3640,7 @@ namespace NBitcoin.Tests
+ 							}
+ 							else if (flag == SigHash.Single)
+ 							{
+-								var index = txx.Inputs.Select((txin, i) => txin.PrevOut == signedCoin.Outpoint ? i : -1).Where(ii => ii != -1).FirstOrDefault();
++								var index = txx.Inputs.Select((txin, i) => txin.PrevOut == signedCoin.Outpoint ? i : -1).FirstOrDefault(ii => ii != -1);
+ 								foreach (var coin in knownCoins)
+ 								{
+ 									txx.Outputs.Add(new TxOut(coin.Amount, new Script(OpcodeType.OP_TRUE)));
+diff --git a/NBitcoin/BIP32/ExtKey.cs b/NBitcoin/BIP32/ExtKey.cs
+index c5899cd09..7ba9756dd 100644
+--- a/NBitcoin/BIP32/ExtKey.cs
++++ b/NBitcoin/BIP32/ExtKey.cs
+@@ -146,7 +146,7 @@ namespace NBitcoin
+ 			if (fingerprint == null)
+ 				throw new ArgumentNullException(nameof(fingerprint));
+ 			if (chainCode.Length != ChainCodeLength)
+-				throw new ArgumentException(string.Format("The chain code must be {0} bytes.", ChainCodeLength), "chainCode");
++				throw new ArgumentException($"The chain code must be {ChainCodeLength} bytes.", "chainCode");
+ 			this.key = key;
+ 			this.nDepth = depth;
+ 			this.nChild = child;
+@@ -168,9 +168,9 @@ namespace NBitcoin
+ 			if (fingerprint == null)
+ 				throw new ArgumentNullException(nameof(fingerprint));
+ 			if (fingerprint.Length != 4)
+-				throw new ArgumentException(string.Format("The fingerprint must be {0} bytes.", 4), "fingerprint");
++				throw new ArgumentException($"The fingerprint must be {4} bytes.", "fingerprint");
+ 			if (chainCode.Length != ChainCodeLength)
+-				throw new ArgumentException(string.Format("The chain code must be {0} bytes.", ChainCodeLength), "chainCode");
++				throw new ArgumentException($"The chain code must be {ChainCodeLength} bytes.", "chainCode");
+ 			this.key = key;
+ 			this.nDepth = depth;
+ 			this.nChild = child;
+@@ -189,7 +189,7 @@ namespace NBitcoin
+ 			if (chainCode == null)
+ 				throw new ArgumentNullException(nameof(chainCode));
+ 			if (chainCode.Length != ChainCodeLength)
+-				throw new ArgumentException(string.Format("The chain code must be {0} bytes.", ChainCodeLength), "chainCode");
++				throw new ArgumentException($"The chain code must be {ChainCodeLength} bytes.", "chainCode");
+ 			this.key = masterKey;
+ 			Buffer.BlockCopy(chainCode, 0, vchChainCode, 0, ChainCodeLength);
+ 		}
+diff --git a/NBitcoin/BIP32/ExtPubKey.cs b/NBitcoin/BIP32/ExtPubKey.cs
+index 59f66fedf..ec4e43ea5 100644
+--- a/NBitcoin/BIP32/ExtPubKey.cs
++++ b/NBitcoin/BIP32/ExtPubKey.cs
+@@ -117,7 +117,7 @@ namespace NBitcoin
+ 			if (chainCode == null)
+ 				throw new ArgumentNullException(nameof(chainCode));
+ 			if (chainCode.Length != ChainCodeLength)
+-				throw new ArgumentException(string.Format("The chain code must be {0} bytes.", ChainCodeLength), "chainCode");
++				throw new ArgumentException($"The chain code must be {ChainCodeLength} bytes.", "chainCode");
+ 			this.pubkey = pubkey;
+ 			this.nDepth = depth;
+ 			this.nChild = child;
+@@ -132,7 +132,7 @@ namespace NBitcoin
+ 			if (chainCode == null)
+ 				throw new ArgumentNullException(nameof(chainCode));
+ 			if (chainCode.Length != ChainCodeLength)
+-				throw new ArgumentException(string.Format("The chain code must be {0} bytes.", ChainCodeLength), "chainCode");
++				throw new ArgumentException($"The chain code must be {ChainCodeLength} bytes.", "chainCode");
+ 			this.pubkey = masterKey;
+ 			Buffer.BlockCopy(chainCode, 0, vchChainCode, 0, ChainCodeLength);
+ 		}
+diff --git a/NBitcoin/BIP32/KeyPath.cs b/NBitcoin/BIP32/KeyPath.cs
+index 349ba3448..4a9f49758 100644
+--- a/NBitcoin/BIP32/KeyPath.cs
++++ b/NBitcoin/BIP32/KeyPath.cs
+@@ -99,7 +99,7 @@ namespace NBitcoin
+ 		}
+ 
+ 		public byte[] ToBytes() =>
+-			Indexes.Count() == 0 ? new byte[0] : Indexes.Select(i => Utils.ToBytes(i, true)).Aggregate((a, b) => a.Concat(b)).ToArray();
++!Indexes.Any()? new byte[0] : Indexes.Select(i => Utils.ToBytes(i, true)).Aggregate((a, b) => a.Concat(b)).ToArray();
+ 
+ 		private static bool TryParseCore(string i, out uint index)
+ 		{
+diff --git a/NBitcoin/BIP38/BitcoinPassphraseCode.cs b/NBitcoin/BIP38/BitcoinPassphraseCode.cs
+index bfd543d76..fb1bd7e11 100644
+--- a/NBitcoin/BIP38/BitcoinPassphraseCode.cs
++++ b/NBitcoin/BIP38/BitcoinPassphraseCode.cs
+@@ -129,8 +129,7 @@ namespace NBitcoin
+ 
+ 		public override bool Equals(object obj)
+ 		{
+-			LotSequence item = obj as LotSequence;
+-			return item != null && Id.Equals(item.Id);
++			return obj is LotSequence item && Id.Equals(item.Id);
+ 		}
+ 		public static bool operator ==(LotSequence a, LotSequence b)
+ 		{
+diff --git a/NBitcoin/BouncyCastle/asn1/Asn1InputStream.cs b/NBitcoin/BouncyCastle/asn1/Asn1InputStream.cs
+index df78e0f76..f8a905e53 100644
+--- a/NBitcoin/BouncyCastle/asn1/Asn1InputStream.cs
++++ b/NBitcoin/BouncyCastle/asn1/Asn1InputStream.cs
+@@ -20,13 +20,12 @@ namespace NBitcoin.BouncyCastle.Asn1
+ 
+ 		internal static int FindLimit(Stream input)
+ 		{
+-			if (input is LimitedInputStream)
++			if (input is LimitedInputStream limitedInputStream)
+ 			{
+-				return ((LimitedInputStream)input).GetRemaining();
++				return limitedInputStream.GetRemaining();
+ 			}
+-			else if (input is MemoryStream)
++			else if (input is MemoryStream mem)
+ 			{
+-				MemoryStream mem = (MemoryStream)input;
+ 				return (int)(mem.Length - mem.Position);
+ 			}
+ 
+diff --git a/NBitcoin/BouncyCastle/asn1/Asn1Sequence.cs b/NBitcoin/BouncyCastle/asn1/Asn1Sequence.cs
+index 279ae1f37..9cdb023cc 100644
+--- a/NBitcoin/BouncyCastle/asn1/Asn1Sequence.cs
++++ b/NBitcoin/BouncyCastle/asn1/Asn1Sequence.cs
+@@ -24,24 +24,24 @@ namespace NBitcoin.BouncyCastle.Asn1
+ 			{
+ 				return (Asn1Sequence)obj;
+ 			}
+-			else if (obj is Asn1SequenceParser)
++			else if (obj is Asn1SequenceParser asn1SequenceParser)
+ 			{
+-				return Asn1Sequence.GetInstance(((Asn1SequenceParser)obj).ToAsn1Object());
++				return Asn1Sequence.GetInstance(asn1SequenceParser.ToAsn1Object());
+ 			}
+-			else if (obj is byte[])
++			else if (obj is byte[] bytes)
+ 			{
+ 				try
+ 				{
+-					return Asn1Sequence.GetInstance(FromByteArray((byte[])obj));
++					return Asn1Sequence.GetInstance(FromByteArray(bytes));
+ 				}
+ 				catch (IOException e)
+ 				{
+ 					throw new ArgumentException("failed to construct sequence from byte[]: " + e.Message);
+ 				}
+ 			}
+-			else if (obj is Asn1Encodable)
++			else if (obj is Asn1Encodable asn1Encodable)
+ 			{
+-				Asn1Object primitive = ((Asn1Encodable)obj).ToAsn1Object();
++				Asn1Object primitive = asn1Encodable.ToAsn1Object();
+ 
+ 				if (primitive is Asn1Sequence)
+ 				{
+@@ -90,8 +90,8 @@ namespace NBitcoin.BouncyCastle.Asn1
+ 
+ 				Asn1Encodable obj = outer[index++];
+ 
+-				if (obj is Asn1Sequence)
+-					return ((Asn1Sequence)obj).Parser;
++				if (obj is Asn1Sequence asn1Sequence)
++					return asn1Sequence.Parser;
+ 
+ 				// NB: Asn1OctetString implements Asn1OctetStringParser directly
+ 				//				if (obj is Asn1OctetString)
+diff --git a/NBitcoin/BouncyCastle/asn1/DerOutputStream.cs b/NBitcoin/BouncyCastle/asn1/DerOutputStream.cs
+index 1a7e50ef5..0f5433142 100644
+--- a/NBitcoin/BouncyCastle/asn1/DerOutputStream.cs
++++ b/NBitcoin/BouncyCastle/asn1/DerOutputStream.cs
+@@ -128,13 +128,13 @@ namespace NBitcoin.BouncyCastle.Asn1
+ 			{
+ 				WriteNull();
+ 			}
+-			else if (obj is Asn1Object)
++			else if (obj is Asn1Object asn1Object)
+ 			{
+-				((Asn1Object)obj).Encode(this);
++				asn1Object.Encode(this);
+ 			}
+-			else if (obj is Asn1Encodable)
++			else if (obj is Asn1Encodable asn1Encodable)
+ 			{
+-				((Asn1Encodable)obj).ToAsn1Object().Encode(this);
++				asn1Encodable.ToAsn1Object().Encode(this);
+ 			}
+ 			else
+ 			{
+diff --git a/NBitcoin/BouncyCastle/crypto/modes/CbcBlockCipher.cs b/NBitcoin/BouncyCastle/crypto/modes/CbcBlockCipher.cs
+index 4c449175a..5ecab64ad 100644
+--- a/NBitcoin/BouncyCastle/crypto/modes/CbcBlockCipher.cs
++++ b/NBitcoin/BouncyCastle/crypto/modes/CbcBlockCipher.cs
+@@ -93,9 +93,8 @@ namespace NBitcoin.BouncyCastle.Crypto.Modes
+ 
+ 			this.encrypting = forEncryption;
+ 
+-			if (parameters is ParametersWithIV)
++			if (parameters is ParametersWithIV ivParam)
+ 			{
+-				ParametersWithIV ivParam = (ParametersWithIV)parameters;
+ 				byte[] iv = ivParam.GetIV();
+ 
+ 				if (iv.Length != blockSize)
+diff --git a/NBitcoin/BouncyCastle/math/ec/ECAlgorithms.cs b/NBitcoin/BouncyCastle/math/ec/ECAlgorithms.cs
+index 6dc4ce172..87e139567 100644
+--- a/NBitcoin/BouncyCastle/math/ec/ECAlgorithms.cs
++++ b/NBitcoin/BouncyCastle/math/ec/ECAlgorithms.cs
+@@ -55,8 +55,7 @@ namespace NBitcoin.BouncyCastle.Math.EC
+ 				imported[i] = ImportPoint(c, ps[i]);
+ 			}
+ 
+-			GlvEndomorphism glvEndomorphism = c.GetEndomorphism() as GlvEndomorphism;
+-			if (glvEndomorphism != null)
++			if (c.GetEndomorphism() is GlvEndomorphism glvEndomorphism)
+ 			{
+ 				return ValidatePoint(ImplSumOfMultipliesGlv(imported, ks, glvEndomorphism));
+ 			}
+@@ -71,15 +70,13 @@ namespace NBitcoin.BouncyCastle.Math.EC
+ 
+ 			// Point multiplication for Koblitz curves (using WTNAF) beats Shamir's trick
+ 			{
+-				AbstractF2mCurve f2mCurve = cp as AbstractF2mCurve;
+-				if (f2mCurve != null && f2mCurve.IsKoblitz)
++				if (cp is AbstractF2mCurve f2mCurve && f2mCurve.IsKoblitz)
+ 				{
+ 					return ValidatePoint(P.Multiply(a).Add(Q.Multiply(b)));
+ 				}
+ 			}
+ 
+-			GlvEndomorphism glvEndomorphism = cp.GetEndomorphism() as GlvEndomorphism;
+-			if (glvEndomorphism != null)
++			if (cp.GetEndomorphism() is GlvEndomorphism glvEndomorphism)
+ 			{
+ 				return ValidatePoint(
+ 					ImplSumOfMultipliesGlv(new ECPoint[] { P, Q }, new BigInteger[] { a, b }, glvEndomorphism));
+diff --git a/NBitcoin/BouncyCastle/math/ec/ECCurve.cs b/NBitcoin/BouncyCastle/math/ec/ECCurve.cs
+index 72f894fef..869634367 100644
+--- a/NBitcoin/BouncyCastle/math/ec/ECCurve.cs
++++ b/NBitcoin/BouncyCastle/math/ec/ECCurve.cs
+@@ -148,8 +148,7 @@ namespace NBitcoin.BouncyCastle.Math.EC
+ 
+ 		protected virtual ECMultiplier CreateDefaultMultiplier()
+ 		{
+-			GlvEndomorphism glvEndomorphism = m_endomorphism as GlvEndomorphism;
+-			if (glvEndomorphism != null)
++			if (m_endomorphism is GlvEndomorphism glvEndomorphism)
+ 			{
+ 				return new GlvMultiplier(this, glvEndomorphism);
+ 			}
+diff --git a/NBitcoin/BouncyCastle/math/ec/multiplier/WTauNafMultiplier.cs b/NBitcoin/BouncyCastle/math/ec/multiplier/WTauNafMultiplier.cs
+index 5a28973fa..2c6692ef8 100644
+--- a/NBitcoin/BouncyCastle/math/ec/multiplier/WTauNafMultiplier.cs
++++ b/NBitcoin/BouncyCastle/math/ec/multiplier/WTauNafMultiplier.cs
+@@ -77,7 +77,7 @@ namespace NBitcoin.BouncyCastle.Math.EC.Multiplier
+ 			sbyte a = (sbyte)curve.A.ToBigInteger().IntValue;
+ 
+ 			AbstractF2mPoint[] pu;
+-			if ((preCompInfo == null) || !(preCompInfo is WTauNafPreCompInfo))
++			if (!(preCompInfo is WTauNafPreCompInfo))
+ 			{
+ 				pu = Tnaf.GetPreComp(p, a);
+ 
+diff --git a/NBitcoin/BuilderExtensions/P2PKHBuilderExtension.cs b/NBitcoin/BuilderExtensions/P2PKHBuilderExtension.cs
+index bed509448..6c73eb1af 100644
+--- a/NBitcoin/BuilderExtensions/P2PKHBuilderExtension.cs
++++ b/NBitcoin/BuilderExtensions/P2PKHBuilderExtension.cs
+@@ -16,7 +16,7 @@ namespace NBitcoin.BuilderExtensions
+ 		public override bool CanDeduceScriptPubKey(Script scriptSig)
+ 		{
+ 			var para = PayToPubkeyHashTemplate.Instance.ExtractScriptSigParameters(scriptSig);
+-			return para != null && para.PublicKey != null;
++			return para?.PublicKey != null;
+ 		}
+ 
+ 		public override bool CanEstimateScriptSigSize(Script scriptPubKey)
+diff --git a/NBitcoin/Coin.cs b/NBitcoin/Coin.cs
+index c44e23e98..11e6ffb24 100644
+--- a/NBitcoin/Coin.cs
++++ b/NBitcoin/Coin.cs
+@@ -468,8 +468,8 @@ namespace NBitcoin
+ 		{
+ 			if (redeemScript == null)
+ 				throw new ArgumentNullException(nameof(redeemScript));
+-			var scriptCoin = this as ScriptCoin;
+-			if (scriptCoin != null)
++
++			if (this is ScriptCoin scriptCoin)
+ 				return scriptCoin;
+ 			if (!ScriptCoin.IsCoherent(TxOut.ScriptPubKey, redeemScript, out var error))
+ 				throw new ArgumentException(paramName: nameof(redeemScript), message: error);
+@@ -480,8 +480,8 @@ namespace NBitcoin
+ 		{
+ 			if (redeemScript == null)
+ 				throw new ArgumentNullException(nameof(redeemScript));
+-			var scriptCoin = this as ScriptCoin;
+-			if (scriptCoin != null)
++
++			if (this is ScriptCoin scriptCoin)
+ 				return scriptCoin;
+ 			if (!ScriptCoin.IsCoherent(TxOut.ScriptPubKey, redeemScript, out var error))
+ 				return null;
+diff --git a/NBitcoin/FeeRate.cs b/NBitcoin/FeeRate.cs
+index a97c14137..cfb7b5e54 100644
+--- a/NBitcoin/FeeRate.cs
++++ b/NBitcoin/FeeRate.cs
+@@ -100,7 +100,7 @@ namespace NBitcoin
+ 
+ 		public override string ToString()
+ 		{
+-			return String.Format("{0} Sat/B", SatoshiPerByte.ToString(System.Globalization.CultureInfo.InvariantCulture));
++			return $"{SatoshiPerByte.ToString(System.Globalization.CultureInfo.InvariantCulture)} Sat/B";
+ 		}
+ 
+ 		#region IEquatable<FeeRate> Members
+@@ -125,8 +125,8 @@ namespace NBitcoin
+ 		{
+ 			if (obj is null)
+ 				return 1;
+-			var m = obj as FeeRate;
+-			if (m != null)
++
++			if (obj is FeeRate m)
+ 				return _FeePerK.CompareTo(m._FeePerK);
+ #if !NETCORE
+ 			return _FeePerK.CompareTo(obj);
+diff --git a/NBitcoin/JsonConverters/AssetIdJsonConverter.cs b/NBitcoin/JsonConverters/AssetIdJsonConverter.cs
+index f0111a290..026b97325 100644
+--- a/NBitcoin/JsonConverters/AssetIdJsonConverter.cs
++++ b/NBitcoin/JsonConverters/AssetIdJsonConverter.cs
+@@ -47,8 +47,7 @@ namespace NBitcoin.JsonConverters
+ 
+ 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+ 		{
+-			var assetId = value as AssetId;
+-			if (assetId != null)
++			if (value is AssetId assetId)
+ 			{
+ 				writer.WriteValue(assetId.ToString(Network));
+ 			}
+diff --git a/NBitcoin/JsonConverters/BitcoinStringJsonConverter.cs b/NBitcoin/JsonConverters/BitcoinStringJsonConverter.cs
+index 7df93805d..b3f9f479a 100644
+--- a/NBitcoin/JsonConverters/BitcoinStringJsonConverter.cs
++++ b/NBitcoin/JsonConverters/BitcoinStringJsonConverter.cs
+@@ -53,8 +53,7 @@ namespace NBitcoin.JsonConverters
+ 
+ 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+ 		{
+-			var base58 = value as IBitcoinString;
+-			if (base58 != null)
++			if (value is IBitcoinString base58)
+ 			{
+ 				writer.WriteValue(value.ToString());
+ 			}
+diff --git a/NBitcoin/JsonConverters/DateTimeToUnixTimeConverter.cs b/NBitcoin/JsonConverters/DateTimeToUnixTimeConverter.cs
+index 0ea0ebcdb..9ad0cdcf6 100644
+--- a/NBitcoin/JsonConverters/DateTimeToUnixTimeConverter.cs
++++ b/NBitcoin/JsonConverters/DateTimeToUnixTimeConverter.cs
+@@ -39,8 +39,8 @@ namespace NBitcoin.JsonConverters
+ 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+ 		{
+ 			DateTime time;
+-			if (value is DateTime)
+-				time = (DateTime)value;
++			if (value is DateTime dateTime)
++				time = dateTime;
+ 			else
+ 				time = ((DateTimeOffset)value).UtcDateTime;
+ 
+diff --git a/NBitcoin/JsonConverters/ScriptJsonConverter.cs b/NBitcoin/JsonConverters/ScriptJsonConverter.cs
+index 428529357..82506a94f 100644
+--- a/NBitcoin/JsonConverters/ScriptJsonConverter.cs
++++ b/NBitcoin/JsonConverters/ScriptJsonConverter.cs
+@@ -41,10 +41,10 @@ namespace NBitcoin.JsonConverters
+ 		{
+ 			if (value != null)
+ 			{
+-				if (value is Script)
+-					writer.WriteValue(Encoders.Hex.EncodeData(((Script)value).ToBytes(false)));
+-				if (value is WitScript)
+-					writer.WriteValue(Encoders.Hex.EncodeData(((WitScript)value).ToBytes()));
++				if (value is Script script)
++					writer.WriteValue(Encoders.Hex.EncodeData(script.ToBytes(false)));
++				if (value is WitScript witScript)
++					writer.WriteValue(Encoders.Hex.EncodeData(witScript.ToBytes()));
+ 			}
+ 		}
+ 	}
+diff --git a/NBitcoin/JsonConverters/SignatureJsonConverter.cs b/NBitcoin/JsonConverters/SignatureJsonConverter.cs
+index 69949bea5..af4f7af38 100644
+--- a/NBitcoin/JsonConverters/SignatureJsonConverter.cs
++++ b/NBitcoin/JsonConverters/SignatureJsonConverter.cs
+@@ -45,10 +45,10 @@ namespace NBitcoin.JsonConverters
+ 		{
+ 			if (value != null)
+ 			{
+-				if (value is ECDSASignature)
+-					writer.WriteValue(Encoders.Hex.EncodeData(((ECDSASignature)value).ToDER()));
+-				if (value is TransactionSignature)
+-					writer.WriteValue(Encoders.Hex.EncodeData(((TransactionSignature)value).ToBytes()));
++				if (value is ECDSASignature eCDSASignature)
++					writer.WriteValue(Encoders.Hex.EncodeData(eCDSASignature.ToDER()));
++				if (value is TransactionSignature transactionSignature)
++					writer.WriteValue(Encoders.Hex.EncodeData(transactionSignature.ToBytes()));
+ 			}
+ 		}
+ 	}
+diff --git a/NBitcoin/JsonConverters/TxDestinationJsonConverter.cs b/NBitcoin/JsonConverters/TxDestinationJsonConverter.cs
+index 9edc3e2e8..d89e15612 100644
+--- a/NBitcoin/JsonConverters/TxDestinationJsonConverter.cs
++++ b/NBitcoin/JsonConverters/TxDestinationJsonConverter.cs
+@@ -51,14 +51,14 @@ namespace NBitcoin.JsonConverters
+ 		{
+ 			if (value != null)
+ 			{
+-				if (value is KeyId)
+-					writer.WriteValue(Encoders.Hex.EncodeData(((KeyId)value).ToBytes()));
+-				if (value is ScriptId)
+-					writer.WriteValue(Encoders.Hex.EncodeData(((ScriptId)value).ToBytes()));
+-				if (value is WitKeyId)
+-					writer.WriteValue(Encoders.Hex.EncodeData(((WitKeyId)value).ToBytes()));
+-				if (value is WitScriptId)
+-					writer.WriteValue(Encoders.Hex.EncodeData(((WitScriptId)value).ToBytes()));
++				if (value is KeyId keyId)
++					writer.WriteValue(Encoders.Hex.EncodeData(keyId.ToBytes()));
++				if (value is ScriptId scriptId)
++					writer.WriteValue(Encoders.Hex.EncodeData(scriptId.ToBytes()));
++				if (value is WitKeyId witKeyId)
++					writer.WriteValue(Encoders.Hex.EncodeData(witKeyId.ToBytes()));
++				if (value is WitScriptId witScriptId)
++					writer.WriteValue(Encoders.Hex.EncodeData(witScriptId.ToBytes()));
+ 			}
+ 		}
+ 	}
+diff --git a/NBitcoin/Money.cs b/NBitcoin/Money.cs
+index fb8c4c3f6..5ebcdef22 100644
+--- a/NBitcoin/Money.cs
++++ b/NBitcoin/Money.cs
+@@ -112,8 +112,7 @@ namespace NBitcoin
+ 
+ 		private void AppendMoney(IMoney money)
+ 		{
+-			var moneyBag = money as MoneyBag;
+-			if (moneyBag != null)
++			if (money is MoneyBag moneyBag)
+ 			{
+ 				AppendMoney(moneyBag);
+ 				return;
+@@ -205,7 +204,7 @@ namespace NBitcoin
+ 			if (assetId is null)
+ 				return this.OfType<Money>().FirstOrDefault() ?? Money.Zero;
+ 			else
+-				return this.OfType<AssetMoney>().Where(a => a.Id == assetId).FirstOrDefault() ?? new AssetMoney(assetId, 0);
++				return this.OfType<AssetMoney>().FirstOrDefault(a => a.Id == assetId)?? new AssetMoney(assetId, 0);
+ 		}
+ 
+ 		public override string ToString()
+@@ -520,8 +519,8 @@ namespace NBitcoin
+ 		{
+ 			if (obj is null)
+ 				return 1;
+-			Money m = obj as Money;
+-			if (m != null)
++
++			if (obj is Money m)
+ 				return _Satoshis.CompareTo(m._Satoshis);
+ #if !NETSTANDARD1X
+ 			return _Satoshis.CompareTo(obj);
+diff --git a/NBitcoin/OpenAsset/AssetMoney.cs b/NBitcoin/OpenAsset/AssetMoney.cs
+index 48314da95..dada99a3e 100644
+--- a/NBitcoin/OpenAsset/AssetMoney.cs
++++ b/NBitcoin/OpenAsset/AssetMoney.cs
+@@ -197,8 +197,8 @@ namespace NBitcoin.OpenAsset
+ 		{
+ 			if (obj == null)
+ 				return 1;
+-			AssetMoney m = obj as AssetMoney;
+-			if (m != null)
++
++			if (obj is AssetMoney m)
+ 				return _Quantity.CompareTo(m.Quantity);
+ #if !NETSTANDARD1X
+ 			return _Quantity.CompareTo(obj);
+@@ -338,7 +338,7 @@ namespace NBitcoin.OpenAsset
+ 
+ 		public override string ToString()
+ 		{
+-			return String.Format("{0}-{1}", Quantity, Id);
++			return $"{Quantity}-{Id}";
+ 		}
+ 
+ 		public static AssetMoney Min(AssetMoney a, AssetMoney b)
+diff --git a/NBitcoin/OpenAsset/BitcoinColoredAddress.cs b/NBitcoin/OpenAsset/BitcoinColoredAddress.cs
+index 88e7d04ee..fa0540046 100644
+--- a/NBitcoin/OpenAsset/BitcoinColoredAddress.cs
++++ b/NBitcoin/OpenAsset/BitcoinColoredAddress.cs
+@@ -22,9 +22,8 @@ namespace NBitcoin
+ 
+ 		private static byte[] Build(BitcoinAddress address)
+ 		{
+-			if (address is IBase58Data)
++			if (address is IBase58Data b58)
+ 			{
+-				var b58 = (IBase58Data)address;
+ 				var version = address.Network.GetVersionBytes(b58.Type, true);
+ 				var data = address.Network.NetworkStringParser.GetBase58CheckEncoder().DecodeData(b58.ToString()).Skip(version.Length).ToArray();
+ 				return version.Concat(data).ToArray();
+diff --git a/NBitcoin/Payment/WindowsCertificateServiceProvider.cs b/NBitcoin/Payment/WindowsCertificateServiceProvider.cs
+index 2f68558da..01c3874dc 100644
+--- a/NBitcoin/Payment/WindowsCertificateServiceProvider.cs
++++ b/NBitcoin/Payment/WindowsCertificateServiceProvider.cs
+@@ -79,19 +79,19 @@ namespace NBitcoin.Payment
+ 
+ 			public byte[] Sign(object certificate, byte[] hash, string hashOID)
+ 			{
+-				if (certificate is byte[])
+-					return Sign((byte[])certificate, hash, hashOID);
+-				if (certificate is X509Certificate2)
+-					return Sign((X509Certificate2)certificate, hash, hashOID);
++				if (certificate is byte[] bytes)
++					return Sign(bytes, hash, hashOID);
++				if (certificate is X509Certificate2 x509Certificate2)
++					return Sign(x509Certificate2, hash, hashOID);
+ 				throw new NotSupportedException("Certificate object's type is not supported");
+ 			}
+ 
+ 			public byte[] StripPrivateKey(object certificate)
+ 			{
+-				if (certificate is byte[])
+-					return StripPrivateKey((byte[])certificate);
+-				if (certificate is X509Certificate2)
+-					return StripPrivateKey((X509Certificate2)certificate);
++				if (certificate is byte[] bytes)
++					return StripPrivateKey(bytes);
++				if (certificate is X509Certificate2 x509Certificate2)
++					return StripPrivateKey(x509Certificate2);
+ 				throw new NotSupportedException("Certificate object's type is not supported");
+ 			}
+ 
+diff --git a/NBitcoin/Protocol/Behaviors/BroadcastTransactionBehavior.cs b/NBitcoin/Protocol/Behaviors/BroadcastTransactionBehavior.cs
+index 8f980a9ae..bf28831b4 100644
+--- a/NBitcoin/Protocol/Behaviors/BroadcastTransactionBehavior.cs
++++ b/NBitcoin/Protocol/Behaviors/BroadcastTransactionBehavior.cs
+@@ -310,8 +310,7 @@ namespace NBitcoin.Protocol.Behaviors
+ 
+ 		void AttachedNode_MessageReceived(Node node, IncomingMessage message)
+ 		{
+-			InvPayload invPayload = message.Message.Payload as InvPayload;
+-			if (invPayload != null)
++			if (message.Message.Payload is InvPayload invPayload)
+ 			{
+ 
+ 				foreach (var hash in invPayload.Where(i => i.Type == InventoryType.MSG_TX).Select(i => i.Hash))
+@@ -326,8 +325,8 @@ namespace NBitcoin.Protocol.Behaviors
+ 					}
+ 				}
+ 			}
+-			RejectPayload reject = message.Message.Payload as RejectPayload;
+-			if (reject != null && reject.Message == "tx")
++
++			if (message.Message.Payload is RejectPayload reject && reject.Message == "tx")
+ 			{
+ 				var tx = GetTransaction(reject.Hash, true);
+ 				if (tx != null)
+@@ -339,9 +338,8 @@ namespace NBitcoin.Protocol.Behaviors
+ 				}
+ 
+ 			}
+-
+-			GetDataPayload getData = message.Message.Payload as GetDataPayload;
+-			if (getData != null)
++
++			if (message.Message.Payload is GetDataPayload getData)
+ 			{
+ 				foreach (var inventory in getData.Inventory.Where(i => i.Type == InventoryType.MSG_TX))
+ 				{
+@@ -357,9 +355,8 @@ namespace NBitcoin.Protocol.Behaviors
+ 					}
+ 				}
+ 			}
+-
+-			PongPayload pong = message.Message.Payload as PongPayload;
+-			if (pong != null)
++
++			if (message.Message.Payload is PongPayload pong)
+ 			{
+ 				var tx = GetTransaction(pong.Nonce, true);
+ 				if (tx != null)
+diff --git a/NBitcoin/Protocol/Behaviors/ChainBehavior.cs b/NBitcoin/Protocol/Behaviors/ChainBehavior.cs
+index 2c0c13c8d..e0fb8c915 100644
+--- a/NBitcoin/Protocol/Behaviors/ChainBehavior.cs
++++ b/NBitcoin/Protocol/Behaviors/ChainBehavior.cs
+@@ -112,8 +112,7 @@ namespace NBitcoin.Protocol.Behaviors
+ 
+ 		void Intercept(IncomingMessage message, Action act)
+ 		{
+-			var inv = message.Message.Payload as InvPayload;
+-			if (inv != null)
++			if (message.Message.Payload is InvPayload inv)
+ 			{
+ 				if (inv.Inventory.Any(i => ((i.Type & InventoryType.MSG_BLOCK) != 0) && !Chain.Contains(i.Hash)))
+ 				{
+@@ -122,9 +121,7 @@ namespace NBitcoin.Protocol.Behaviors
+ 						TrySync();
+ 				}
+ 			}
+-
+-			var getheaders = message.Message.Payload as GetHeadersPayload;
+-			if (getheaders != null && CanRespondToGetHeaders && !StripHeader)
++			if (message.Message.Payload is GetHeadersPayload getheaders && CanRespondToGetHeaders && !StripHeader)
+ 			{
+ 				HeadersPayload headers = new HeadersPayload();
+ 				var highestPow = SharedState.HighestValidatedPoW;
+@@ -150,10 +147,9 @@ namespace NBitcoin.Protocol.Behaviors
+ 				}
+ 				AttachedNode.SendMessageAsync(headers);
+ 			}
+-
+-			var newheaders = message.Message.Payload as HeadersPayload;
+ 			var pendingTipBefore = GetPendingTipOrChainTip();
+-			if (newheaders != null && CanSync)
++
++			if (message.Message.Payload is HeadersPayload newheaders && CanSync)
+ 			{
+ 				var tip = GetPendingTipOrChainTip();
+ 				foreach (var header in newheaders.Headers)
+diff --git a/NBitcoin/Protocol/Behaviors/PingPongBehavior.cs b/NBitcoin/Protocol/Behaviors/PingPongBehavior.cs
+index 0b705b845..47a36abab 100644
+--- a/NBitcoin/Protocol/Behaviors/PingPongBehavior.cs
++++ b/NBitcoin/Protocol/Behaviors/PingPongBehavior.cs
+@@ -160,16 +160,15 @@ namespace NBitcoin.Protocol.Behaviors
+ 		{
+ 			if (!PingVersion())
+ 				return;
+-			var ping = message.Message.Payload as PingPayload;
+-			if (ping != null && Mode.HasFlag(PingPongMode.RespondPong))
++
++			if (message.Message.Payload is PingPayload ping && Mode.HasFlag(PingPongMode.RespondPong))
+ 			{
+ 				node.SendMessageAsync(new PongPayload()
+ 				{
+ 					Nonce = ping.Nonce
+ 				});
+ 			}
+-			var pong = message.Message.Payload as PongPayload;
+-			if (pong != null &&
++			if (message.Message.Payload is PongPayload pong &&
+ 				Mode.HasFlag(PingPongMode.SendPing) &&
+ 				_CurrentPing != null &&
+ 				_CurrentPing.Nonce == pong.Nonce)
+diff --git a/NBitcoin/Protocol/Message.cs b/NBitcoin/Protocol/Message.cs
+index 8179ecee9..778496d4f 100644
+--- a/NBitcoin/Protocol/Message.cs
++++ b/NBitcoin/Protocol/Message.cs
+@@ -159,7 +159,7 @@ namespace NBitcoin.Protocol
+ 
+ 		public override string ToString()
+ 		{
+-			return String.Format("{0} : {1}", Command, Payload);
++			return $"{Command} : {Payload}";
+ 		}
+ 
+ #if !NOSOCKET
+diff --git a/NBitcoin/Protocol/Node.cs b/NBitcoin/Protocol/Node.cs
+index ae7c76107..c5cace7bf 100644
+--- a/NBitcoin/Protocol/Node.cs
++++ b/NBitcoin/Protocol/Node.cs
+@@ -1043,9 +1043,9 @@ namespace NBitcoin.Protocol
+ 
+ 				SendMessageAsync(MyVersion);
+ 				var payload = listener.ReceivePayload<Payload>(cancellationToken);
+-				if (payload is RejectPayload)
++				if (payload is RejectPayload rejectPayload)
+ 				{
+-					throw new ProtocolException("Handshake rejected : " + ((RejectPayload)payload).Reason);
++					throw new ProtocolException("Handshake rejected : " + rejectPayload.Reason);
+ 				}
+ 				var version = (VersionPayload)payload;
+ 				_PeerVersion = version;
+@@ -1224,7 +1224,7 @@ namespace NBitcoin.Protocol
+ 
+ 		public override string ToString()
+ 		{
+-			return String.Format("{0} ({1})", State, Peer.Endpoint);
++			return $"{State} ({Peer.Endpoint})";
+ 		}
+ 
+ 		private Socket Socket
+diff --git a/NBitcoin/RPC/RPCClient.Wallet.cs b/NBitcoin/RPC/RPCClient.Wallet.cs
+index ae184e60a..87ce21d80 100644
+--- a/NBitcoin/RPC/RPCClient.Wallet.cs
++++ b/NBitcoin/RPC/RPCClient.Wallet.cs
+@@ -979,9 +979,9 @@ namespace NBitcoin.RPC
+ 			var response = new SignRawTransactionResponse();
+ 			response.SignedTransaction = ParseTxHex(result.Result["hex"].Value<string>());
+ 			response.Complete = result.Result["complete"].Value<bool>();
+-			var errors = result.Result["errors"] as JArray;
+ 			var errorList = new List<SignRawTransactionResponse.ScriptError>();
+-			if (errors != null)
++
++			if (result.Result["errors"] is JArray errors)
+ 			{
+ 				foreach (var error in errors)
+ 				{
+@@ -1045,9 +1045,9 @@ namespace NBitcoin.RPC
+ 			var response = new SignRawTransactionResponse();
+ 			response.SignedTransaction = ParseTxHex(result.Result["hex"].Value<string>());
+ 			response.Complete = result.Result["complete"].Value<bool>();
+-			var errors = result.Result["errors"] as JArray;
+ 			var errorList = new List<SignRawTransactionResponse.ScriptError>();
+-			if (errors != null)
++
++			if (result.Result["errors"] is JArray errors)
+ 			{
+ 				foreach (var error in errors)
+ 				{
+diff --git a/NBitcoin/RPC/RPCClient.cs b/NBitcoin/RPC/RPCClient.cs
+index 336970dc2..4716ec249 100644
+--- a/NBitcoin/RPC/RPCClient.cs
++++ b/NBitcoin/RPC/RPCClient.cs
+@@ -1855,9 +1855,8 @@ namespace NBitcoin.RPC
+ 				throw new ArgumentNullException(nameof(blockHash));
+ 
+ 			var resp = SendCommand(RPCOperations.getblock, blockHash);
+-
+-			var tx = resp.Result["tx"] as JArray;
+-			if (tx != null)
++
++			if (resp.Result["tx"] is JArray tx)
+ 			{
+ 				foreach (var item in tx)
+ 				{
+diff --git a/NBitcoin/RPC/RPCRequest.cs b/NBitcoin/RPC/RPCRequest.cs
+index 072dd4e04..42a5fa6fa 100644
+--- a/NBitcoin/RPC/RPCRequest.cs
++++ b/NBitcoin/RPC/RPCRequest.cs
+@@ -101,9 +101,9 @@ namespace NBitcoin.RPC
+ 
+ 		private void WriteValue(JsonTextWriter writer, object obj)
+ 		{
+-			if (obj is JToken)
++			if (obj is JToken jToken)
+ 			{
+-				((JToken)obj).WriteTo(writer);
++				jToken.WriteTo(writer);
+ 			}
+ 			else if (obj is Array)
+ 			{
+diff --git a/NBitcoin/ScriptEvaluationContext.cs b/NBitcoin/ScriptEvaluationContext.cs
+index 125054e32..b1c82a4e3 100644
+--- a/NBitcoin/ScriptEvaluationContext.cs
++++ b/NBitcoin/ScriptEvaluationContext.cs
+@@ -217,7 +217,7 @@ namespace NBitcoin
+ 			}
+ 			public override bool Equals(object obj)
+ 			{
+-				if (obj == null || !(obj is CScriptNum))
++				if (!(obj is CScriptNum))
+ 					return false;
+ 				CScriptNum item = (CScriptNum)obj;
+ 				return m_value == item.m_value;
+diff --git a/NBitcoin/ScriptReader.cs b/NBitcoin/ScriptReader.cs
+index 368a6a292..7511a4213 100644
+--- a/NBitcoin/ScriptReader.cs
++++ b/NBitcoin/ScriptReader.cs
+@@ -521,7 +521,7 @@ namespace NBitcoin
+ 			}
+ 			else if (Name == "OP_UNKNOWN")
+ 			{
+-				return Name + "(" + string.Format("0x{0:x2}", (byte)Code) + ")";
++				return Name + "(" + $"0x{(byte)Code:x2}" + ")";
+ 			}
+ 			else
+ 			{
+diff --git a/NBitcoin/Scripting/Parser/Parse.cs b/NBitcoin/Scripting/Parser/Parse.cs
+index cd1c9a8ca..c6dfa53c5 100644
+--- a/NBitcoin/Scripting/Parser/Parse.cs
++++ b/NBitcoin/Scripting/Parser/Parse.cs
+@@ -328,7 +328,7 @@ namespace NBitcoin.Scripting.Parser
+ 				s.Rest.AtEnd ? s : ParserResult<TToken, T>.Failure(
+ 					s.Rest,
+ 					new[] { "end of input" },
+-					string.Format("unexpected '{0}'", s.Rest.GetCurrent())
++					$"unexpected '{s.Rest.GetCurrent()}'"
+ 				)
+ 			);
+ 		}
+@@ -366,7 +366,7 @@ namespace NBitcoin.Scripting.Parser
+ 			return i => parser(i).IfSuccess(s =>
+ 				predicate(s.Value) ? s : ParserResult<TToken, T>.Failure(i,
+ 					new string[0],
+-					string.Format("Unexpected {0}.", s.Value)
++					$"Unexpected {s.Value}."
+ 					)
+ 				);
+ 		}
+diff --git a/NBitcoin/Scripting/Parser/ParserResult.cs b/NBitcoin/Scripting/Parser/ParserResult.cs
+index dacff8dbd..66f333345 100644
+--- a/NBitcoin/Scripting/Parser/ParserResult.cs
++++ b/NBitcoin/Scripting/Parser/ParserResult.cs
+@@ -54,14 +54,14 @@ namespace NBitcoin.Scripting.Parser
+ 		public override string ToString()
+ 		{
+ 			if (IsSuccess)
+-				return string.Format("Successful parsing of {0}.", Value);
++				return $"Successful parsing of {Value}.";
+ 
+ 			var expMsg = "";
+ 
+ 			if (Expected.Any())
+ 				expMsg = " expected " + Expected.Aggregate((e1, e2) => e1 + " or " + e2);
+ 
+-			return string.Format("Parsing failure: {0};{1} ({2});", Description, expMsg, Rest);
++			return $"Parsing failure: {Description};{expMsg} ({Rest});";
+ 		}
+ 	}
+ }
+\ No newline at end of file
+diff --git a/NBitcoin/Scripting/ScriptToken.cs b/NBitcoin/Scripting/ScriptToken.cs
+index a3b465869..f91161884 100644
+--- a/NBitcoin/Scripting/ScriptToken.cs
++++ b/NBitcoin/Scripting/ScriptToken.cs
+@@ -269,8 +269,7 @@ namespace NBitcoin.Scripting
+ 
+ 		public sealed override bool Equals(object obj)
+ 		{
+-			ScriptToken token = obj as ScriptToken;
+-			if (token != null)
++			if (obj is ScriptToken token)
+ 			{
+ 				return Equals(token);
+ 			}
+diff --git a/NBitcoin/TransactionBuilder.cs b/NBitcoin/TransactionBuilder.cs
+index ef884aa83..f2bf397b3 100644
+--- a/NBitcoin/TransactionBuilder.cs
++++ b/NBitcoin/TransactionBuilder.cs
+@@ -1334,7 +1334,7 @@ namespace NBitcoin
+ 				var marker = ctx.GetColorMarker(true);
+ 				if (ctx.IssuanceCoin == null)
+ 				{
+-					var issuance = ctx.Group.CoinsOfType<IssuanceCoin>().Where(i => i.AssetId == asset.Id).FirstOrDefault();
++					var issuance = ctx.Group.CoinsOfType<IssuanceCoin>().FirstOrDefault(i => i.AssetId == asset.Id);
+ 					if (issuance == null)
+ 						throw new InvalidOperationException("No issuance coin for emitting asset found");
+ 					ctx.IssuanceCoin = issuance;
+@@ -2002,8 +2002,8 @@ namespace NBitcoin
+ 		public ICoin? FindSignableCoin(TxIn txIn)
+ 		{
+ 			var coin = FindCoin(txIn.PrevOut);
+-			if (coin is IColoredCoin)
+-				coin = ((IColoredCoin)coin).Bearer;
++			if (coin is IColoredCoin iColoredCoin)
++				coin = iColoredCoin.Bearer;
+ 			if (coin == null || coin is ScriptCoin || coin is StealthCoin)
+ 				return coin;
+ 
+@@ -2015,11 +2015,11 @@ namespace NBitcoin
+ 					redeem = _ScriptPubKeyToRedeem.TryGet(redeem);
+ 				if (redeem == null)
+ 				{
+-					if (hash is WitScriptId)
+-						redeem = PayToWitScriptHashTemplate.Instance.ExtractWitScriptParameters(txIn.WitScript, (WitScriptId)hash);
+-					if (hash is ScriptId)
++					if (hash is WitScriptId witScriptId)
++						redeem = PayToWitScriptHashTemplate.Instance.ExtractWitScriptParameters(txIn.WitScript, witScriptId);
++					if (hash is ScriptId scriptId)
+ 					{
+-						var parameters = PayToScriptHashTemplate.Instance.ExtractScriptSigParameters(txIn.ScriptSig, (ScriptId)hash);
++						var parameters = PayToScriptHashTemplate.Instance.ExtractScriptSigParameters(txIn.ScriptSig, scriptId);
+ 						if (parameters != null)
+ 						{
+ 							redeem = parameters.RedeemScript;
+@@ -2272,14 +2272,13 @@ namespace NBitcoin
+ 
+ 		private void EstimateScriptSigSize(ICoin coin, ref int witSize, ref int baseSize)
+ 		{
+-			if (coin is IColoredCoin)
+-				coin = ((IColoredCoin)coin).Bearer;
++			if (coin is IColoredCoin iColoredCoin)
++				coin = iColoredCoin.Bearer;
+ 
+ 			int p2shPushRedeemSize = 0;
+ 			int segwitPushRedeemSize = 0;
+-			if (coin is ScriptCoin)
++			if (coin is ScriptCoin scriptCoin)
+ 			{
+-				var scriptCoin = (ScriptCoin)coin;
+ 				var p2sh = scriptCoin.GetP2SHRedeem();
+ 				if (p2sh != null)
+ 				{
+@@ -2387,13 +2386,13 @@ namespace NBitcoin
+ 			var scriptSig = CreateScriptSig(ctx, coin, txIn);
+ 			if (scriptSig == null)
+ 				return;
+-			ScriptCoin? scriptCoin = coin as ScriptCoin;
+ 
+ 			Script? signatures = null;
+ 			if (!coin.IsMalleable)
+ 			{
+ 				signatures = txIn.WitScript;
+-				if (scriptCoin != null)
++
++				if (coin is ScriptCoin scriptCoin)
+ 				{
+ 					if (scriptCoin.IsP2SH)
+ 						txIn.ScriptSig = Script.Empty;
+@@ -2404,7 +2403,8 @@ namespace NBitcoin
+ 			else
+ 			{
+ 				signatures = txIn.ScriptSig;
+-				if (scriptCoin != null && scriptCoin.RedeemType == RedeemType.P2SH)
++
++				if (coin is ScriptCoin scriptCoin && scriptCoin.RedeemType == RedeemType.P2SH)
+ 					signatures = RemoveRedeem(signatures);
+ 			}
+ 
+@@ -2414,7 +2414,8 @@ namespace NBitcoin
+ 			if (!coin.IsMalleable)
+ 			{
+ 				txIn.WitScript = signatures;
+-				if (scriptCoin != null)
++
++				if (coin is ScriptCoin scriptCoin)
+ 				{
+ 					if (scriptCoin.IsP2SH)
+ 						txIn.ScriptSig = new Script(Op.GetPushOp(scriptCoin.GetP2SHRedeem().ToBytes(true)));
+@@ -2425,7 +2426,8 @@ namespace NBitcoin
+ 			else
+ 			{
+ 				txIn.ScriptSig = signatures;
+-				if (scriptCoin != null && scriptCoin.RedeemType == RedeemType.P2SH)
++
++				if (coin is ScriptCoin scriptCoin && scriptCoin.RedeemType == RedeemType.P2SH)
+ 				{
+ 					txIn.ScriptSig = input.ScriptSig + Op.GetPushOp(scriptCoin.GetP2SHRedeem().ToBytes(true));
+ 				}
+diff --git a/NBitcoin/Utils.cs b/NBitcoin/Utils.cs
+index b3a25ebee..5684d4105 100644
+--- a/NBitcoin/Utils.cs
++++ b/NBitcoin/Utils.cs
+@@ -190,9 +190,8 @@ namespace NBitcoin
+ 				throw new ArgumentNullException(nameof(obj));
+ 			if (obj.Network == network)
+ 				return obj;
+-			if (obj is IBase58Data)
++			if (obj is IBase58Data b58)
+ 			{
+-				var b58 = (IBase58Data)obj;
+ 				if (b58.Type != Base58Type.COLORED_ADDRESS)
+ 				{
+ 
+@@ -209,9 +208,8 @@ namespace NBitcoin
+ 					return (T)(object)address.ToColoredAddress();
+ 				}
+ 			}
+-			else if (obj is IBech32Data)
++			else if (obj is IBech32Data b32)
+ 			{
+-				var b32 = (IBech32Data)obj;
+ 				var encoder = b32.Network.GetBech32Encoder(b32.Type, true);
+ 				byte wit;
+ 				var data = encoder.Decode(b32.ToString(), out wit);

@@ -1,0 +1,29 @@
+diff --git a/source/Nuke.Common/ChangeLog/ChangeLogTasks.cs b/source/Nuke.Common/ChangeLog/ChangeLogTasks.cs
+index 71bf94df..cd006ec5 100644
+--- a/source/Nuke.Common/ChangeLog/ChangeLogTasks.cs
++++ b/source/Nuke.Common/ChangeLog/ChangeLogTasks.cs
+@@ -82,7 +82,7 @@ namespace Nuke.Common.ChangeLog
+                 return new ChangeLog(changelogFile, unreleased.First(), releaseNotes);
+             }
+ 
+-            ControlFlow.Assert(releaseNotes.Count(x => !x.Unreleased) >= 1, "Changelog should have at lease one released version section.");
++            ControlFlow.Assert(releaseNotes.Any(x => !x.Unreleased), "Changelog should have at lease one released version section.");
+             return new ChangeLog(changelogFile, releaseNotes);
+         }
+ 
+diff --git a/source/Nuke.Common/Tools/Twitter/TwitterTasks.cs b/source/Nuke.Common/Tools/Twitter/TwitterTasks.cs
+index a7fe0bc1..0467f51f 100644
+--- a/source/Nuke.Common/Tools/Twitter/TwitterTasks.cs
++++ b/source/Nuke.Common/Tools/Twitter/TwitterTasks.cs
+@@ -86,10 +86,7 @@ namespace Nuke.Common.Tools.Twitter
+ 
+         private static string GetOAuthHeader(Dictionary<string, string> data)
+         {
+-            return string.Format("OAuth {0}",
+-                data.Where(x => x.Key.StartsWith("oauth_"))
+-                    .Select(x => $"{Uri.EscapeDataString(x.Key)}={Uri.EscapeDataString(x.Value).DoubleQuote()}")
+-                    .JoinComma());
++            return $"OAuth {data.Where(x => x.Key.StartsWith("oauth_")).Select(x => $"{Uri.EscapeDataString(x.Key)}={Uri.EscapeDataString(x.Value).DoubleQuote()}").JoinComma()}";
+         }
+ 
+         private static string GetErrorFromBody(string response)
